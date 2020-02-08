@@ -1,0 +1,17 @@
+@import '../../../styles/default.scss';
+
+.error input,
+.error textarea {
+  border-color: $error-color;
+}
+.error-msg {
+  color: $error-color;
+  line-height: 20px;
+}
+.required::after {
+  content: '*';
+  color: $error-color;
+  position: absolute;
+  left: 0;
+  top: 0;
+}

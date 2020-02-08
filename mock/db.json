@@ -1,0 +1,1178 @@
+{
+  "approval_statistics": {},
+  "attendance_individualStatistics": { "normal": "0", "count": "19" },
+  "task_finishedTaskStatistics": {},
+  "task_statistics": [
+    { "status": "1", "count": 1 },
+    { "status": "3", "count": 1 }
+  ],
+  "approval_details": [
+    {
+      "id": 134,
+      "approvalItemType": "会议室审批",
+      "status": "待审批",
+      "currentPersonLiable": "sr行政管理员",
+      "createBy": "麻花藤",
+      "createTime": "2020/01/03"
+    },
+    {
+      "id": 131,
+      "approvalItemType": "会议室审批",
+      "status": "待审批",
+      "currentPersonLiable": "zzh",
+      "createBy": "麻花藤",
+      "createTime": "2020/01/03"
+    },
+    {
+      "id": 130,
+      "approvalItemType": "会议室审批",
+      "status": "待提交",
+      "currentPersonLiable": "zzh",
+      "createBy": "麻花藤",
+      "createTime": "2020/01/03"
+    },
+    {
+      "id": 120,
+      "approvalItemType": "会议室审批",
+      "status": "待审批",
+      "currentPersonLiable": "zzh",
+      "createBy": "麻花藤",
+      "createTime": "2020/01/03"
+    },
+    {
+      "id": 119,
+      "approvalItemType": "请假审批",
+      "status": "待审批",
+      "currentPersonLiable": "喽啰",
+      "createBy": "麻花藤",
+      "createTime": "2020/01/03"
+    },
+    {
+      "id": 118,
+      "approvalItemType": "物资审批",
+      "status": "待审批",
+      "currentPersonLiable": "zzh",
+      "createBy": "麻花藤",
+      "createTime": "2020/01/03"
+    },
+    {
+      "id": 117,
+      "approvalItemType": "物资审批",
+      "status": "待审批",
+      "currentPersonLiable": "zzh",
+      "createBy": "麻花藤",
+      "createTime": "2020/01/03"
+    },
+    {
+      "id": 116,
+      "approvalItemType": "物资审批",
+      "status": "待审批",
+      "currentPersonLiable": "zzh",
+      "createBy": "麻花藤",
+      "createTime": "2020/01/03"
+    },
+    {
+      "id": 111,
+      "approvalItemType": "会议室审批",
+      "status": "待审批",
+      "currentPersonLiable": "zzh",
+      "createBy": "麻花藤",
+      "createTime": "2020/01/03"
+    },
+    {
+      "id": 110,
+      "approvalItemType": "会议室审批",
+      "status": "待审批",
+      "currentPersonLiable": "zzh",
+      "createBy": "麻花藤",
+      "createTime": "2020/01/03"
+    },
+    {
+      "id": 109,
+      "approvalItemType": "会议室审批",
+      "status": "待审批",
+      "currentPersonLiable": "zzh",
+      "createBy": "麻花藤",
+      "createTime": "2020/01/03"
+    },
+    {
+      "id": 108,
+      "approvalItemType": "会议室审批",
+      "status": "待提交",
+      "currentPersonLiable": "zzh",
+      "createBy": "麻花藤",
+      "createTime": "2020/01/03"
+    },
+    {
+      "id": 107,
+      "approvalItemType": "会议室审批",
+      "status": "待提交",
+      "currentPersonLiable": "zzh",
+      "createBy": "麻花藤",
+      "createTime": "2020/01/03"
+    },
+    {
+      "id": 105,
+      "approvalItemType": "请假审批",
+      "status": "待审批",
+      "currentPersonLiable": "喽啰",
+      "createBy": "麻花藤",
+      "createTime": "2020/01/03"
+    },
+    {
+      "id": 100,
+      "approvalItemType": "请假审批",
+      "status": "待提交",
+      "currentPersonLiable": "喽啰",
+      "createBy": "麻花藤",
+      "createTime": "2020/01/03"
+    },
+    {
+      "id": 99,
+      "approvalItemType": "请假审批",
+      "status": "待审批",
+      "currentPersonLiable": "喽啰",
+      "createBy": "麻花藤",
+      "createTime": "2020/01/03"
+    },
+    {
+      "id": 98,
+      "approvalItemType": "物资审批",
+      "status": "待提交",
+      "currentPersonLiable": "zzh",
+      "createBy": "麻花藤",
+      "createTime": "2020/01/03"
+    },
+    {
+      "id": 97,
+      "approvalItemType": "请假审批",
+      "status": "待审批",
+      "currentPersonLiable": "喽啰",
+      "createBy": "麻花藤",
+      "createTime": "2020/01/03"
+    },
+    {
+      "id": 96,
+      "approvalItemType": "请假审批",
+      "status": "待审批",
+      "currentPersonLiable": "zzh",
+      "createBy": "麻花藤",
+      "createTime": "2020/01/03"
+    },
+    {
+      "id": 95,
+      "approvalItemType": "请假审批",
+      "status": "待审批",
+      "currentPersonLiable": "喽啰",
+      "createBy": "麻花藤",
+      "createTime": "2020/01/03"
+    },
+    {
+      "id": 94,
+      "approvalItemType": "物资审批",
+      "status": "待审批",
+      "currentPersonLiable": "zzh",
+      "createBy": "麻花藤",
+      "createTime": "2020/01/03"
+    },
+    {
+      "id": 93,
+      "approvalItemType": "物资审批",
+      "status": "待提交",
+      "currentPersonLiable": "zzh",
+      "createBy": "麻花藤",
+      "createTime": "2020/01/03"
+    },
+    {
+      "id": 91,
+      "approvalItemType": "会议室审批",
+      "status": "待审批",
+      "currentPersonLiable": "zzh",
+      "createBy": "麻花藤",
+      "createTime": "2020/01/03"
+    },
+    {
+      "id": 88,
+      "approvalItemType": "加班审批",
+      "status": "待提交",
+      "currentPersonLiable": "zzh",
+      "createBy": "麻花藤",
+      "createTime": "2020/01/03"
+    },
+    {
+      "id": 86,
+      "approvalItemType": "考勤异常审批",
+      "status": "待审批",
+      "currentPersonLiable": "zzh",
+      "createBy": "麻花藤",
+      "createTime": "2020/01/03"
+    },
+    {
+      "id": 83,
+      "approvalItemType": "请假审批",
+      "status": "待提交",
+      "currentPersonLiable": "孙锐导入用户1",
+      "createBy": "麻花藤",
+      "createTime": "2020/01/03"
+    },
+    {
+      "id": 80,
+      "approvalItemType": "考勤异常审批",
+      "status": "待提交",
+      "currentPersonLiable": "zzh",
+      "createBy": "麻花藤",
+      "createTime": "2020/01/03"
+    },
+    {
+      "id": 77,
+      "approvalItemType": "考勤异常审批",
+      "status": "待审批",
+      "currentPersonLiable": "zzh",
+      "createBy": "麻花藤",
+      "createTime": "2020/01/03"
+    },
+    {
+      "id": 76,
+      "approvalItemType": "物资审批",
+      "status": "待审批",
+      "currentPersonLiable": "zzh",
+      "createBy": "麻花藤",
+      "createTime": "2020/01/03"
+    },
+    {
+      "id": 75,
+      "approvalItemType": "请假审批",
+      "status": "待提交",
+      "currentPersonLiable": "喽啰",
+      "createBy": "麻花藤",
+      "createTime": "2020/01/03"
+    },
+    {
+      "id": 74,
+      "approvalItemType": "请假审批",
+      "status": "待提交",
+      "currentPersonLiable": "喽啰",
+      "createBy": "麻花藤",
+      "createTime": "2020/01/03"
+    },
+    {
+      "id": 70,
+      "approvalItemType": "物资审批",
+      "status": "待审批",
+      "currentPersonLiable": "zzh",
+      "createBy": "麻花藤",
+      "createTime": "2020/01/03"
+    },
+    {
+      "id": 66,
+      "approvalItemType": "加班审批",
+      "status": "待审批",
+      "currentPersonLiable": "喽啰",
+      "createBy": "麻花藤",
+      "createTime": "2020/01/03"
+    },
+    {
+      "id": 65,
+      "approvalItemType": "请假审批",
+      "status": "待审批",
+      "currentPersonLiable": "喽啰",
+      "createBy": "麻花藤",
+      "createTime": "2020/01/03"
+    },
+    {
+      "id": 64,
+      "approvalItemType": "请假审批",
+      "status": "待审批",
+      "currentPersonLiable": "孙锐导入用户5",
+      "createBy": "麻花藤",
+      "createTime": "2020/01/03"
+    },
+    {
+      "id": 63,
+      "approvalItemType": "请假审批",
+      "status": "待审批",
+      "currentPersonLiable": "孙锐导入用户4",
+      "createBy": "麻花藤",
+      "createTime": "2020/01/03"
+    },
+    {
+      "id": 62,
+      "approvalItemType": "请假审批",
+      "status": "待审批",
+      "currentPersonLiable": "孙锐导入用户5",
+      "createBy": "麻花藤",
+      "createTime": "2020/01/03"
+    },
+    {
+      "id": 61,
+      "approvalItemType": "会议室审批",
+      "status": "待审批",
+      "currentPersonLiable": "zzh",
+      "createBy": "麻花藤",
+      "createTime": "2020/01/03"
+    },
+    {
+      "id": 60,
+      "approvalItemType": "加班审批",
+      "status": "待审批",
+      "currentPersonLiable": "喽啰",
+      "createBy": "麻花藤",
+      "createTime": "2020/01/03"
+    },
+    {
+      "id": 59,
+      "approvalItemType": "加班审批",
+      "status": "待审批",
+      "currentPersonLiable": "喽啰",
+      "createBy": "麻花藤",
+      "createTime": "2020/01/03"
+    },
+    {
+      "id": 58,
+      "approvalItemType": "加班审批",
+      "status": "待审批",
+      "currentPersonLiable": "孙锐导入用户4",
+      "createBy": "麻花藤",
+      "createTime": "2020/01/03"
+    },
+    {
+      "id": 57,
+      "approvalItemType": "加班审批",
+      "status": "待审批",
+      "currentPersonLiable": "孙锐导入用户4",
+      "createBy": "麻花藤",
+      "createTime": "2020/01/03"
+    },
+    {
+      "id": 55,
+      "approvalItemType": "考勤异常审批",
+      "status": "待审批",
+      "currentPersonLiable": "zzh",
+      "createBy": "麻花藤",
+      "createTime": "2020/01/02"
+    },
+    {
+      "id": 52,
+      "approvalItemType": "会议室审批",
+      "status": "待审批",
+      "currentPersonLiable": "zzh",
+      "createBy": "麻花藤",
+      "createTime": "2020/01/02"
+    },
+    {
+      "id": 51,
+      "approvalItemType": "会议室审批",
+      "status": "待审批",
+      "currentPersonLiable": "zzh",
+      "createBy": "麻花藤",
+      "createTime": "2020/01/02"
+    },
+    {
+      "id": 50,
+      "approvalItemType": "会议室审批",
+      "status": "待审批",
+      "currentPersonLiable": "zzh",
+      "createBy": "麻花藤",
+      "createTime": "2020/01/02"
+    },
+    {
+      "id": 41,
+      "approvalItemType": "考勤异常审批",
+      "status": "待提交",
+      "currentPersonLiable": "zzh",
+      "createBy": "麻花藤",
+      "createTime": "2020/01/02"
+    },
+    {
+      "id": 40,
+      "approvalItemType": "请假审批",
+      "status": "待审批",
+      "currentPersonLiable": "孙锐导入用户5",
+      "createBy": "麻花藤",
+      "createTime": "2020/01/02"
+    },
+    {
+      "id": 39,
+      "approvalItemType": "请假审批",
+      "status": "待审批",
+      "currentPersonLiable": "孙锐导入用户5",
+      "createBy": "麻花藤",
+      "createTime": "2020/01/02"
+    },
+    {
+      "id": 38,
+      "approvalItemType": "请假审批",
+      "status": "待审批",
+      "currentPersonLiable": "孙锐导入用户6",
+      "createBy": "麻花藤",
+      "createTime": "2020/01/02"
+    },
+    {
+      "id": 37,
+      "approvalItemType": "请假审批",
+      "status": "待审批",
+      "currentPersonLiable": "孙锐导入用户5",
+      "createBy": "麻花藤",
+      "createTime": "2020/01/02"
+    },
+    {
+      "id": 36,
+      "approvalItemType": "请假审批",
+      "status": "待审批",
+      "currentPersonLiable": "孙锐导入用户5",
+      "createBy": "麻花藤",
+      "createTime": "2020/01/02"
+    },
+    {
+      "id": 35,
+      "approvalItemType": "请假审批",
+      "status": "待审批",
+      "currentPersonLiable": "孙锐导入用户6",
+      "createBy": "麻花藤",
+      "createTime": "2020/01/02"
+    },
+    {
+      "id": 34,
+      "approvalItemType": "考勤异常审批",
+      "status": "待审批",
+      "currentPersonLiable": "zzh",
+      "createBy": "麻花藤",
+      "createTime": "2020/01/02"
+    },
+    {
+      "id": 33,
+      "approvalItemType": "加班审批",
+      "status": "已审批",
+      "currentPersonLiable": "喽啰",
+      "createBy": "麻花藤",
+      "createTime": "2020/01/02"
+    },
+    {
+      "id": 32,
+      "approvalItemType": "加班审批",
+      "status": "待提交",
+      "currentPersonLiable": "喽啰",
+      "createBy": "麻花藤",
+      "createTime": "2020/01/02"
+    },
+    {
+      "id": 31,
+      "approvalItemType": "会议室审批",
+      "status": "已审批",
+      "currentPersonLiable": "麻花藤",
+      "createBy": "麻花藤",
+      "createTime": "2020/01/02"
+    },
+    {
+      "id": 30,
+      "approvalItemType": "考勤异常审批",
+      "status": "待审批",
+      "currentPersonLiable": "zzh",
+      "createBy": "麻花藤",
+      "createTime": "2020/01/02"
+    },
+    {
+      "id": 29,
+      "approvalItemType": "考勤异常审批",
+      "status": "待审批",
+      "currentPersonLiable": "zzh",
+      "createBy": "麻花藤",
+      "createTime": "2020/01/02"
+    },
+    {
+      "id": 28,
+      "approvalItemType": "会议室审批",
+      "status": "已审批",
+      "currentPersonLiable": "麻花藤",
+      "createBy": "麻花藤",
+      "createTime": "2020/01/02"
+    },
+    {
+      "id": 26,
+      "approvalItemType": "会议室审批",
+      "status": "已审批",
+      "currentPersonLiable": "麻花藤",
+      "createBy": "麻花藤",
+      "createTime": "2020/01/02"
+    },
+    {
+      "id": 25,
+      "approvalItemType": "会议室审批",
+      "status": "待提交",
+      "currentPersonLiable": "zzh",
+      "createBy": "麻花藤",
+      "createTime": "2020/01/02"
+    },
+    {
+      "id": 8,
+      "approvalItemType": "考勤异常审批",
+      "status": "待提交",
+      "currentPersonLiable": "zzh",
+      "createBy": "麻花藤",
+      "createTime": "2020/01/02"
+    },
+    {
+      "id": 7,
+      "approvalItemType": "考勤异常审批",
+      "status": "待审批",
+      "currentPersonLiable": "zzh",
+      "createBy": "麻花藤",
+      "createTime": "2020/01/02"
+    },
+    {
+      "id": 6,
+      "approvalItemType": "加班审批",
+      "status": "待审批",
+      "currentPersonLiable": null,
+      "createBy": "麻花藤",
+      "createTime": "2020/01/02"
+    },
+    {
+      "id": 5,
+      "approvalItemType": "请假审批",
+      "status": "待审批",
+      "currentPersonLiable": "麻花藤",
+      "createBy": "麻花藤",
+      "createTime": "2020/01/02"
+    },
+    {
+      "id": 4,
+      "approvalItemType": "请假审批",
+      "status": "待审批",
+      "currentPersonLiable": "麻花藤",
+      "createBy": "麻花藤",
+      "createTime": "2020/01/02"
+    },
+    {
+      "id": 2,
+      "approvalItemType": "会议室审批",
+      "status": "待提交",
+      "currentPersonLiable": "zzh",
+      "createBy": "麻花藤",
+      "createTime": "2020/01/02"
+    }
+  ],
+  "task_describing": [
+    {
+      "id": 5,
+      "content": "rw",
+      "progress": 29,
+      "priority": 1,
+      "status": 1,
+      "projectId": 1,
+      "startTime": "2020/01/03 15:42",
+      "endTime": "2020/01/03 15:43",
+      "deadline": "2020/01/03 15:42",
+      "remark": "123",
+      "personLiableId": 1,
+      "progressUpdateTime": "2020/01/03 15:43",
+      "projectName": "test",
+      "personLiableName": "麻花藤",
+      "progressPercent": null
+    },
+    {
+      "id": 2,
+      "content": "123",
+      "progress": 100,
+      "priority": 3,
+      "status": 3,
+      "projectId": 1,
+      "startTime": "2020/01/02 13:04",
+      "endTime": "2020/01/03 16:27",
+      "deadline": "2020/01/02 13:04",
+      "remark": "12",
+      "personLiableId": 1,
+      "progressUpdateTime": "2020/01/03 16:27",
+      "projectName": "test",
+      "personLiableName": "麻花藤",
+      "progressPercent": null
+    },
+    {
+      "id": 3,
+      "content": "123",
+      "progress": 100,
+      "priority": 3,
+      "status": 3,
+      "projectId": 1,
+      "startTime": "2020/01/02 13:04",
+      "endTime": "2020/01/03 16:27",
+      "deadline": "2020/01/02 13:04",
+      "remark": "12",
+      "personLiableId": 1,
+      "progressUpdateTime": "2020/01/03 16:27",
+      "projectName": "test",
+      "personLiableName": "麻花藤",
+      "progressPercent": null
+    },
+    {
+      "id": 6,
+      "content": "123",
+      "progress": 100,
+      "priority": 3,
+      "status": 3,
+      "projectId": 1,
+      "startTime": "2020/01/02 13:04",
+      "endTime": "2020/01/03 16:27",
+      "deadline": "2020/01/02 13:04",
+      "remark": "12",
+      "personLiableId": 1,
+      "progressUpdateTime": "2020/01/03 16:27",
+      "projectName": "test",
+      "personLiableName": "麻花藤",
+      "progressPercent": null
+    },
+    {
+      "id": 7,
+      "content": "123",
+      "progress": 100,
+      "priority": 3,
+      "status": 3,
+      "projectId": 1,
+      "startTime": "2020/01/02 13:04",
+      "endTime": "2020/01/03 16:27",
+      "deadline": "2020/01/02 13:04",
+      "remark": "12",
+      "personLiableId": 1,
+      "progressUpdateTime": "2020/01/03 16:27",
+      "projectName": "test",
+      "personLiableName": "麻花藤",
+      "progressPercent": null
+    },
+    {
+      "id": 9,
+      "content": "123",
+      "progress": 100,
+      "priority": 3,
+      "status": 3,
+      "projectId": 1,
+      "startTime": "2020/01/02 13:04",
+      "endTime": "2020/01/03 16:27",
+      "deadline": "2020/01/02 13:04",
+      "remark": "12",
+      "personLiableId": 1,
+      "progressUpdateTime": "2020/01/03 16:27",
+      "projectName": "test",
+      "personLiableName": "麻花藤",
+      "progressPercent": null
+    },
+    {
+      "id": 11,
+      "content": "123",
+      "progress": 100,
+      "priority": 3,
+      "status": 3,
+      "projectId": 1,
+      "startTime": "2020/01/02 13:04",
+      "endTime": "2020/01/03 16:27",
+      "deadline": "2020/01/02 13:04",
+      "remark": "12",
+      "personLiableId": 1,
+      "progressUpdateTime": "2020/01/03 16:27",
+      "projectName": "test",
+      "personLiableName": "麻花藤",
+      "progressPercent": null
+    },
+    {
+      "id": 12,
+      "content": "123",
+      "progress": 100,
+      "priority": 3,
+      "status": 3,
+      "projectId": 1,
+      "startTime": "2020/01/02 13:04",
+      "endTime": "2020/01/03 16:27",
+      "deadline": "2020/01/02 13:04",
+      "remark": "12",
+      "personLiableId": 1,
+      "progressUpdateTime": "2020/01/03 16:27",
+      "projectName": "test",
+      "personLiableName": "麻花藤",
+      "progressPercent": null
+    },
+    {
+      "id": 14,
+      "content": "123",
+      "progress": 100,
+      "priority": 3,
+      "status": 3,
+      "projectId": 1,
+      "startTime": "2020/01/02 13:04",
+      "endTime": "2020/01/03 16:27",
+      "deadline": "2020/01/02 13:04",
+      "remark": "12",
+      "personLiableId": 1,
+      "progressUpdateTime": "2020/01/03 16:27",
+      "projectName": "test",
+      "personLiableName": "麻花藤",
+      "progressPercent": null
+    }
+  ],
+  "overtime_individualStatistics": [
+    { "date": "2020/01/04", "count": 0.0 },
+    { "date": "2020/01/05", "count": 0.0 },
+    { "date": "2020/01/06", "count": 0.0 },
+    { "date": "2020/01/07", "count": 0.0 },
+    { "date": "2020/01/08", "count": 0.0 },
+    { "date": "2020/01/09", "count": 0.0 },
+    { "date": "2020/01/10", "count": 0.0 }
+  ],
+  "employee_describing": [
+    {
+      "id": 1,
+      "status": "进行中",
+      "content": "employee_describing",
+      "priority": "优先级",
+      "progress": "进度",
+      "startTime": "2019/09/10 10:34",
+      "deadline": "截止时间",
+      "updateTime": "更新时间",
+      "project": "项目名称",
+      "remark": "备注"
+    }
+  ],
+  "employee_deleting": {},
+  "employee_updating": {},
+  "employee_detail": {},
+  "employee_administrativeApprover": [
+    { "id": 3, "name": "zzh" },
+    { "id": 43, "name": "sr行政管理员" }
+  ],
+  "employee_allApprover": [
+    { "id": 2, "name": "喽啰" },
+    { "id": 3, "name": "zzh" },
+    { "id": 11, "name": "孙锐导入用户1" },
+    { "id": 12, "name": "孙锐导入用户2" },
+    { "id": 13, "name": "孙锐导入用户3" },
+    { "id": 14, "name": "孙锐导入用户4" },
+    { "id": 15, "name": "孙锐导入用户5" },
+    { "id": 16, "name": "孙锐导入用户6" },
+    { "id": 17, "name": "孙锐导入用户7" },
+    { "id": 18, "name": "孙锐导入用户8" },
+    { "id": 19, "name": "孙锐导入用户9" },
+    { "id": 20, "name": "孙锐导入用户10" },
+    { "id": 21, "name": "孙锐导入用户11" },
+    { "id": 22, "name": "孙锐导入用户12" },
+    { "id": 23, "name": "孙锐导入用户13" },
+    { "id": 24, "name": "孙锐导入用户14" },
+    { "id": 25, "name": "孙锐导入用户15" },
+    { "id": 26, "name": "孙锐导入用户16" },
+    { "id": 27, "name": "孙锐导入用户17" },
+    { "id": 28, "name": "孙锐导入用户18" },
+    { "id": 29, "name": "孙锐导入用户19" },
+    { "id": 30, "name": "孙锐导入用户20" },
+    { "id": 31, "name": "孙锐导入用户21" },
+    { "id": 32, "name": "孙锐导入用户22" },
+    { "id": 33, "name": "孙锐导入用户23" },
+    { "id": 34, "name": "孙锐导入用户24" },
+    { "id": 35, "name": "孙锐导入用户25" },
+    { "id": 1, "name": "麻花藤" },
+    { "id": 41, "name": "sr人事管理员" },
+    { "id": 43, "name": "sr行政管理员" },
+    { "id": 45, "name": "刘丽" },
+    { "id": 5, "name": "孙锐测试账号" }
+  ],
+  "employee_changePassword": {},
+  "resource_employee_describing": [
+    {
+      "id": 1,
+      "status": "进行中",
+      "content": "resoucr_employee_describing",
+      "priority": "优先级",
+      "progress": "进度",
+      "startTime": "2019/09/10 10:34",
+      "deadline": "截止时间",
+      "updateTime": "更新时间",
+      "project": "项目名称",
+      "remark": "备注"
+    }
+  ],
+  "tasks": [
+    {
+      "id": 1,
+      "status": "进行中",
+      "content": "任务内容",
+      "priority": "优先级",
+      "progress": "进度",
+      "startTime": "2019/09/10 10:34",
+      "deadline": "截止时间",
+      "updateTime": "更新时间",
+      "project": "项目名称",
+      "remark": "备注"
+    },
+    {
+      "id": 2,
+      "status": "进行中",
+      "content": "任务内容",
+      "priority": "优先级",
+      "progress": "进度",
+      "startTime": "开始时间",
+      "deadline": "截止时间",
+      "updateTime": "更新时间",
+      "project": "项目名称",
+      "remark": "备注"
+    },
+    {
+      "id": 3,
+      "status": "进行中",
+      "content": "任务内容",
+      "priority": "优先级",
+      "progress": "进度",
+      "startTime": "开始时间",
+      "deadline": "截止时间",
+      "updateTime": "更新时间",
+      "project": "项目名称",
+      "remark": "备注"
+    }
+  ],
+  "project_describing": [
+    {
+      "id": 1,
+      "name": "项目1",
+      "identificationNumber": 123,
+      "address": "New York No. 1 Lake Park",
+      "title": "developer",
+      "telephone": "18109048353",
+      "email": "nanfs@foxmail.com"
+    },
+    {
+      "id": 2,
+      "name": "项目2",
+      "identificationNumber": 124,
+      "address": "New York No. 1 Lake Park",
+      "title": "developer",
+      "telephone": "18109048353",
+      "email": "nanfs@foxmail.com"
+    },
+    {
+      "id": 3,
+      "name": "项目3",
+      "identificationNumber": 125,
+      "address": "New York No. 1 Lake Park",
+      "tags": ["nice", "developer"]
+    },
+    {
+      "id": 4,
+      "key": 4,
+      "name": "John Brown",
+      "age": 32,
+      "address": "New York No. 1 Lake Park",
+      "tags": ["nice", "developer"]
+    },
+    {
+      "id": 5,
+      "key": 5,
+      "name": "John Brown",
+      "age": 32,
+      "address": "New York No. 1 Lake Park",
+      "tags": ["nice", "developer"]
+    }
+  ],
+  "workflow": [
+    {
+      "id": 1,
+      "key": 1,
+      "type": "请假审批",
+      "applicantName": "whm",
+      "status": "待提交",
+      "currentPersonLiableName": "whm",
+      "leaveStartTime": "2019/12/09 09:10",
+      "leaveEndTime": "2019/12/09 17:10",
+      "reasonForLeave": "哈哈哈",
+      "file": "",
+      "projectName": "sss",
+      "otStartTime": "2019/12/09 09:10",
+      "otEndTime": "2019/12/09 17:10",
+      "reasonForOt": "dsaww"
+    },
+    {
+      "id": 2,
+      "key": 2,
+      "type": "请假审批",
+      "applicantName": "whm",
+      "status": "待审批",
+      "currentPersonLiableName": "whm",
+      "leaveStartTime": "2019/12/09 09:10",
+      "leaveEndTime": "2019/12/09 17:10",
+      "reasonForLeave": "哈哈哈",
+      "file": "",
+      "projectName": "sss",
+      "otStartTime": "2019/12/09 09:10",
+      "otEndTime": "2019/12/09 17:10",
+      "reasonForOt": "dsaww"
+    },
+    {
+      "id": 3,
+      "key": 3,
+      "type": "请假审批",
+      "applicantName": "whm",
+      "status": "已审批",
+      "currentPersonLiableName": "whm",
+      "leaveStartTime": "2019/12/09 09:10",
+      "leaveEndTime": "2019/12/09 17:10",
+      "reasonForLeave": "哈哈哈",
+      "file": "",
+      "projectName": "sss",
+      "otStartTime": "2019/12/09 09:10",
+      "otEndTime": "2019/12/09 17:10",
+      "reasonForOt": "dsaww"
+    },
+    {
+      "type": "1",
+      "employeeId": "222",
+      "id": 4
+    }
+  ],
+  "approvalList": [
+    {
+      "value": 1,
+      "label": "铅笔"
+    },
+    {
+      "value": 2,
+      "label": "纸"
+    },
+    {
+      "value": 3,
+      "label": "本子"
+    }
+  ],
+  "staffs": [
+    {
+      "id": 1,
+      "name": "John Brown",
+      "identificationNumber": 123,
+      "address": "New York No. 1 Lake Park",
+      "title": "developer",
+      "telephone": "18109048353",
+      "email": "nanfs@foxmail.com"
+    },
+    {
+      "id": 2,
+      "name": "John Brown2",
+      "identificationNumber": 124,
+      "address": "New York No. 1 Lake Park",
+      "title": "developer",
+      "telephone": "18109048353",
+      "email": "nanfs@foxmail.com"
+    },
+    {
+      "id": 3,
+      "name": "John Brown3",
+      "identificationNumber": 125,
+      "address": "New York No. 1 Lake Park",
+      "title": "developer",
+      "telephone": "18109048353",
+      "email": "nanfs@foxmail.com"
+    }
+  ],
+  "reports": [
+    {
+      "id": 1,
+      "content": "John Brown",
+      "identificationNumber": 123,
+      "address": "New York No. 1 Lake Park",
+      "title": "developer",
+      "telephone": "18109048353",
+      "email": "nanfs@foxmail.com"
+    },
+    {
+      "id": 2,
+      "content": "John Brown2",
+      "identificationNumber": 124,
+      "address": "New York No. 1 Lake Park",
+      "title": "developer",
+      "telephone": "18109048353",
+      "email": "nanfs@foxmail.com"
+    },
+    {
+      "id": 3,
+      "content": "John Brown3",
+      "identificationNumber": 125,
+      "address": "New York No. 1 Lake Park",
+      "title": "developer",
+      "telephone": "18109048353",
+      "email": "nanfs@foxmail.com"
+    }
+  ],
+  "roles": [
+    {
+      "id": "1",
+      "name": "设计"
+    },
+    {
+      "id": "2",
+      "name": "开发"
+    }
+  ],
+  "departments": [
+    {
+      "id": "1",
+      "name": "研发部"
+    },
+    {
+      "id": "2",
+      "name": "设计部"
+    }
+  ],
+  "meeting": [
+    {
+      "status": "1",
+      "scheduleStartTime": "2019-12-19 10:00",
+      "scheduleEndTime": "2019-12-19 11:00",
+      "applicantName": "aaa",
+      "telephone": "123455",
+      "meetingTopic": "AAA"
+    },
+    {
+      "status": "2",
+      "scheduleStartTime": "2019-12-19 16:00",
+      "scheduleEndTime": "2019-12-19 17:12",
+      "applicantName": "aaa",
+      "telephone": "123455",
+      "meetingTopic": "AAA"
+    },
+    {
+      "status": "0",
+      "scheduleStartTime": "2019-12-13 16:00",
+      "scheduleEndTime": "2019-12-13 17:12",
+      "applicantName": "aaa",
+      "telephone": "123455",
+      "meetingTopic": "AAA"
+    },
+    {
+      "status": "0",
+      "scheduleStartTime": "2019-12-25 16:00",
+      "scheduleEndTime": "2019-12-25 17:12",
+      "applicantName": "aaa",
+      "telephone": "123455",
+      "meetingTopic": "AAA"
+    }
+  ],
+  "meetinglist": [
+    {
+      "id": "1",
+      "name": "会议室1"
+    },
+    {
+      "id": "2",
+      "name": "会议室2"
+    },
+    {
+      "id": "3",
+      "name": "会议室3"
+    }
+  ],
+  "administrativeApprover": [
+    {
+      "id": "1",
+      "name": "aaa"
+    },
+    {
+      "id": "2",
+      "name": "bbb"
+    }
+  ],
+  "allApprover": [
+    {
+      "id": "1",
+      "name": "aaa"
+    },
+    {
+      "id": "2",
+      "name": "bbb"
+    },
+    {
+      "id": "3",
+      "name": "ccc"
+    }
+  ],
+  "attendanceList": [
+    {
+      "attendanceDate": "2019-12-01",
+      "signInTime": "9:00",
+      "signOutTime": "10:00",
+      "id": "2019-12-01",
+      "status": "正常"
+    },
+    {
+      "attendanceDate": "2019-12-02",
+      "signInTime": "9:00",
+      "signOutTime": "10:00",
+      "id": "2019-12-02",
+      "status": "正常"
+    },
+    {
+      "attendanceDate": "2019-12-03",
+      "signInTime": "9:00",
+      "signOutTime": "17:30",
+      "id": "2019-12-03",
+      "status": "异常"
+    },
+    {
+      "attendanceDate": "2019-12-04",
+      "signInTime": "9:00",
+      "signOutTime": "",
+      "id": "2019-12-03",
+      "status": "异常"
+    }
+  ],
+  "exceptionList": [
+    {
+      "key": "124",
+      "type": "事假",
+      "startTime": "9:00",
+      "endTime": "10:00",
+      "status": "已审批"
+    },
+    {
+      "key": "1232",
+      "type": "异常",
+      "startTime": "9:00",
+      "endTime": "10:00",
+      "status": "待审批"
+    }
+  ],
+  "assets": [
+    {
+      "id": 1,
+      "name": "项目1",
+      "identificationNumber": 123,
+      "address": "New York No. 1 Lake Park",
+      "title": "developer",
+      "telephone": "18109048353",
+      "email": "nanfs@foxmail.com"
+    },
+    {
+      "id": 2,
+      "name": "项目2",
+      "identificationNumber": 124,
+      "address": "New York No. 1 Lake Park",
+      "title": "developer",
+      "telephone": "18109048353",
+      "email": "nanfs@foxmail.com"
+    },
+    {
+      "id": 3,
+      "name": "项目3",
+      "identificationNumber": 125,
+      "address": "New York No. 1 Lake Park",
+      "tags": ["nice", "developer"]
+    },
+    {
+      "id": 4,
+      "key": 4,
+      "name": "John Brown",
+      "age": 32,
+      "address": "New York No. 1 Lake Park",
+      "tags": ["nice", "developer"]
+    },
+    {
+      "id": 5,
+      "key": 5,
+      "name": "John Brown",
+      "age": 32,
+      "address": "New York No. 1 Lake Park",
+      "tags": ["nice", "developer"]
+    }
+  ]
+}

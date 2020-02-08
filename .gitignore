@@ -1,0 +1,25 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+**/node_modules
+scripts/webpack.config.dev.js
+
+#mock
+# **/db.json
+
+.idea
+yarn.lock
+package-lock.json
+*bak
+
+# visual studio code
+.history
+*.log
+functions/*
+.temp/**
+
+# production
+/dist
+**/dll
+.cache
+/.vscode

@@ -1,0 +1,39 @@
+{
+  "presets": [
+    [
+      "env",
+      {
+        "modules": false,
+        "targets": {
+          "browsers": [
+            "ie 9"
+          ]
+        }
+      }
+    ],
+    "react"
+  ],
+  "plugins": [
+    [
+      "import",
+      {
+        "libraryName": "antd",
+        "libraryDirectory": "lib",
+        "style": "css"
+      },
+      "ant"
+    ],
+    "transform-object-rest-spread",
+    "syntax-dynamic-import",
+    "transform-class-properties",
+    "transform-react-remove-prop-types"
+  ],
+  "env": {
+    "test": {
+      "presets": [
+        "env",
+        "react"
+      ]
+    }
+  }
+}

@@ -1,0 +1,195 @@
+@import './core/color.scss';
+@import './core/animation.scss';
+@import './core/mixin.scss';
+@import './theme.scss';
+// -------- Colors -----------
+$primary-color: $blue-6 !default;
+$info-color: $blue-6 !default;
+$success-color: $green-6 !default;
+$warning-color: $orange-6 !default;
+$error-color: $red-6 !default;
+$white: #fff;
+$black: #000;
+
+// --------- Variant ------------
+$primary-0: mix(white, $primary-color, 85);
+$primary-1: mix(white, $primary-color, 35);
+$primary-2: mix(white, $primary-color, 25);
+$primary-3: mix(white, $primary-color, 15);
+$primary-4: mix(white, $primary-color, 5);
+$primary-5: mix(black, $primary-color, 5);
+$primary-6: mix(black, $primary-color, 15);
+$primary-7: mix(black, $primary-color, 25);
+$primary-8: mix(black, $primary-color, 35);
+$primary-9: mix(black, $primary-color, 45);
+
+$gray-1: hsl(0, 0, 98%);
+$gray-2: hsl(0, 0, 95%);
+$gray-3: hsl(0, 0, 70%);
+$gray-4: hsl(0, 0, 80%);
+$gray-5: hsl(0, 0, 70%);
+$gray-6: hsl(0, 0, 60%);
+$gray-7: hsl(0, 0, 50%);
+$gray-8: hsl(0, 0, 40%);
+$gray-9: hsl(0, 0, 30%);
+
+// -------- Background ----------
+$body-background: #fff;
+$component-background: #fff;
+$font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC',
+  'Hiragino Sans GB', 'Microsoft YaHei', 'Helvetica Neue', Helvetica, Arial,
+  sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+$code-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier,
+  monospace; //unused
+
+//  -------- Base Scaffolding Variables
+$text-color: rgba(0, 0, 0, 0.85);
+$text-color-secondary: rgba(0, 0, 0, 0.65);
+$text-color-warning: $yellow-7;
+$text-color-danger: $red-7;
+$text-color-inverse: $white;
+$text-no-active-bg: $gray-9;
+$placeholder-color: $gray-7;
+
+$font-size-base: 14px;
+$font-size-lg: $font-size-base + 2px;
+$font-size-sm: 12px;
+
+$heading-1-size: ceil($font-size-base * 2.71);
+$heading-2-size: ceil($font-size-base * 2.14);
+$heading-3-size: ceil($font-size-base * 1.71);
+$heading-4-size: ceil($font-size-base * 1.42);
+$line-height-base: 1.5;
+
+// -------- Padding ---------
+$padding-lg: 24px; // containers
+$padding-md: 16px; // small containers and buttons
+$padding-sm: 12px; // Form controls and items
+$padding-xs: 8px; // small items
+
+// vertical padding for all form controls
+$control-padding-horizontal: $padding-sm;
+$control-padding-horizontal-sm: $padding-xs;
+
+$border-radius-base: 4px !default;
+$border-radius-sm: 2px !default;
+
+// -------- Link---------
+$link-color: $text-color;
+$link-hover-color: $primary-2;
+$link-active-color: $primary-color;
+$link-decoration: none;
+$link-hover-decoration: none;
+
+// -------- Animation---------
+$ease-base-out: cubic-bezier(0.7, 0.3, 0.1, 1);
+$ease-base-in: cubic-bezier(0.9, 0, 0.3, 0.7);
+$ease-out: cubic-bezier(0.215, 0.61, 0.355, 1);
+$ease-in: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+$ease-in-out: cubic-bezier(0.645, 0.045, 0.355, 1);
+$ease-out-back: cubic-bezier(0.12, 0.4, 0.29, 1.46);
+$ease-in-back: cubic-bezier(0.71, -0.46, 0.88, 0.6);
+$ease-in-out-back: cubic-bezier(0.71, -0.46, 0.29, 1.46);
+$ease-out-circ: cubic-bezier(0.08, 0.82, 0.17, 1);
+$ease-in-circ: cubic-bezier(0.6, 0.04, 0.98, 0.34);
+$ease-in-out-circ: cubic-bezier(0.78, 0.14, 0.15, 0.86);
+$ease-out-quint: cubic-bezier(0.23, 1, 0.32, 1);
+$ease-in-quint: cubic-bezier(0.755, 0.05, 0.855, 0.06);
+$ease-in-out-quint: cubic-bezier(0.86, 0, 0.07, 1);
+$ease-in-out-quick: cubic-bezier(0.78, 0.14, 0.15, 0.86);
+
+// -------- Border color---------
+$border-color-deep: hsl(0, 0, 80%); // base border outline a component
+$border-color-base: hsl(0, 0, 91%); // base border outline a component
+$border-color-light: hsl(0, 0, 95%); // split border inside a component
+$border-color-inverse: $white;
+$border-width-base: 1px; // width of the border for a component
+$border-style-base: solid; // style of a components border
+
+$background-color-base: hsl(0, 0, 96%);
+$background-color-light: hsl(0, 0, 98%);
+
+// -------- Disabled state---------
+$disabled-color: rgba($black, 0.25);
+$disabled-bg: $background-color-base;
+$disabled-color-dark: rgba($white, 0.35);
+
+// -------- Shadow color---------
+$shadow-color: rgba(0, 0, 0, 0.15);
+$shadow-color-inverse: $component-background;
+$shadow-1-up: 0 -2px 8px $shadow-color;
+$shadow-1-down: 0 2px 8px $shadow-color;
+$shadow-1-left: -2px 0 8px $shadow-color;
+$shadow-1-right: 2px 0 8px $shadow-color;
+$shadow-2: 0 4px 12px $shadow-color;
+$box-shadow-base: $shadow-1-down;
+// -------- Button---------
+$btn-font-weight: 400;
+$btn-border-radius-base: $border-radius-base;
+$btn-border-radius-sm: $border-radius-base;
+$btn-border-width: $border-width-base;
+$btn-border-style: $border-style-base;
+
+$btn-shadow: 0 2px 0 rgba(0, 0, 0, 0.015);
+$btn-primary-shadow: 0 2px 0 rgba(0, 0, 0, 0.045);
+$btn-text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.12);
+
+$btn-font-size: $font-size-base;
+$btn-font-size-sm: $btn-font-size;
+$btn-font-size-lg: $font-size-lg;
+$btn-padding-base: 0 $padding-md - 1px;
+$btn-padding-sm: 0 $padding-xs -1;
+$btn-padding-lg: $btn-padding-base;
+
+$btn-height-base: 32px;
+$btn-height-lg: 40px;
+$btn-height-sm: 24px;
+
+$btn-default-color: $text-color;
+$btn-default-bg: $white;
+$btn-default-border: $border-color-base;
+
+$btn-primary-color: $white;
+$btn-primary-bg: $primary-color;
+
+$btn-danger-color: $error-color;
+$btn-danger-bg: $gray-5;
+$btn-danger-border: $border-color-base;
+
+$btn-disable-color: $disabled-color;
+$btn-disable-bg: $disabled-bg;
+$btn-disable-border: $border-color-base;
+
+$btn-color: $text-color;
+$btn-border-color: $border-color-base;
+
+// Button disabled
+$btn-disabled-color: $disabled-color;
+$btn-disabled-bg: $disabled-bg;
+$btn-disabled-border: $border-color-base;
+
+// -------- Modal---------
+$modal-header-font-size: $font-size-lg;
+$modal-header-line-height: $line-height-base;
+
+// Input
+// ---
+$input-height-base: 32px !default;
+$input-height-lg: 40px !default;
+$input-height-sm: 24px !default;
+$input-padding-horizontal: $control-padding-horizontal - 1px;
+$input-padding-horizontal-base: $input-padding-horizontal;
+$input-padding-horizontal-sm: $control-padding-horizontal-sm - 1px;
+$input-padding-horizontal-lg: $input-padding-horizontal;
+$input-padding-vertical-base: 4px;
+$input-padding-vertical-sm: 1px;
+$input-padding-vertical-lg: 6px;
+$input-placeholder-color: hsv(0, 0, 75%);
+$input-color: $text-color;
+$input-border-color: $border-color-base;
+$input-bg: $component-background;
+$input-number-handler-active-bg: #f4f4f4;
+$input-addon-bg: $background-color-light;
+$input-hover-border-color: $primary-color;
+$input-disabled-bg: $disabled-bg;
+$input-outline-offset: 0 0;

@@ -1,0 +1,25 @@
+body {
+  min-width: 400px;
+}
+.wrap {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: auto;
+  background: #f0f2f5;
+  text-align: center;
+  padding-top: 20vh;
+  h3 {
+    position: relative;
+    top: 2px;
+    color: rgba(0, 0, 0, 0.85);
+    font-weight: 600;
+    font-size: 33px;
+    font-family: Avenir, Helvetica Neue, Arial, Helvetica, sans-seri;
+  }
+  .login-form {
+    width: 368px;
+    margin: 0 auto;
+    text-align: left;
+  }
+}

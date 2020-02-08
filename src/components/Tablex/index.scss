@@ -1,0 +1,21 @@
+.pagination-wrapper {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  text-align: center;
+  line-height: 27px;
+  font-size: 14px;
+
+  .search-button {
+    width: 25px;
+    height: 22px;
+    vertical-align: super;
+    margin-right: 8px;
+    .anticon {
+      transform: scale(0.6);
+      vertical-align: initial;
+    }
+  }
+  .ant-pagination {
+    display: inline-block;
+  }
+}

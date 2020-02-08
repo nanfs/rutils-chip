@@ -15,7 +15,7 @@ export default {
     logout: action$ =>
       action$.map(() => {
         setUserToLocal({})
-        return push('/admin/login')
+        return push('/login')
       }),
     // TODO 是否开启强制登录
     getUserInfo: action$ =>

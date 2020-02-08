@@ -19,7 +19,7 @@ export default ({ history, app }) => {
               path={path}
               authority={authority}
               component={component}
-              redirectPath="/admin/login"
+              redirectPath="/dashboard"
               RouteProps={other}
             />
           )

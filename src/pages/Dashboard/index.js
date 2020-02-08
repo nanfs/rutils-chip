@@ -1,6 +1,5 @@
 import React from 'react'
-import { Typography, Tabs } from 'antd'
-import MyIcon from '@/components/MyIcon'
+import { Tabs } from 'antd'
 import TabpanTablex from './chip/TabpanTablex'
 import TabpanFormx from './chip/TabpanFormx'
 import TabpanModalx from './chip/TabpanModalx'
@@ -10,10 +9,6 @@ class Dashboard extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <Typography.Text className="page-title">
-          <MyIcon type="tasks" component="svg" />
-          Dashboard
-        </Typography.Text>
         <Tabs tabPosition="left">
           <TabPane tab="表格demo" key="tablbx">
             <TabpanTablex />

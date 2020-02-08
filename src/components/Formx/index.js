@@ -25,9 +25,9 @@ class Formx extends React.Component {
   }
 
   render() {
-    const { children } = this.props
+    const { children, className, style } = this.props
     return (
-      <Form onSubmit={this.handleSubmit}>
+      <Form onSubmit={this.handleSubmit} className={className} style={style}>
         {React.Children.map(children, child => {
           if (child.type.name === 'FormItem' && child.props.prop) {
             const {

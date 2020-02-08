@@ -32,7 +32,7 @@ function RouteView({ routes: routerArr, renderRoute: RenderRoute }) {
         }
         return <RenderRoute key={route.path} {...routeProps} />
       })}
-      <Redirect to="/work/task" />
+      <Redirect to="/dashboard" />
     </Switch>
   )
 }

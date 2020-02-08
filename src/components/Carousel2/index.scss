@@ -1,0 +1,58 @@
+.d-carousel2 {
+  position: relative;
+  overflow: hidden;
+  min-width: 100px;
+
+  &-wrapper {
+    position: relative;
+    top: 0;
+    transition: 300ms top ease-in;
+  }
+
+  &-item {
+    min-width: 100px;
+    float: left;
+  }
+
+  &-dots {
+    display: none;
+  }
+
+  &-dot {
+    background: #ccc;
+    background-clip: content-box;
+    padding-bottom: 4px;
+    padding-top: 4px;
+    cursor: pointer;
+    transition: all ease 0.3s;
+
+    &:last-child {
+      padding-bottom: 0;
+    }
+
+    &:hover,
+    &.active {
+      background-clip: content-box;
+      background-color: #116ec1;
+    }
+
+    &:hover {
+      padding-bottom: 2px;
+      padding-top: 2px;
+      background: #1890ff;
+    }
+  }
+
+  &.has-dots {
+    padding-right: 8px;
+  }
+
+  &.has-dots>&-dots {
+    position: absolute;
+    display: block;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    width: 8px;
+  }
+}

@@ -2,6 +2,7 @@ import React from 'react'
 import { Table, Pagination, Button } from 'antd'
 import { wrapResponse } from '@/utils/tool'
 import './index.scss'
+import TableWrap, { BarLeft, BarRight, ToolBar } from './TableWrap'
 // TODO 页码渲染问题
 const tableCfg_init = {
   data: [],
@@ -251,5 +252,5 @@ class Tablex extends React.Component {
     )
   }
 }
-
+export { TableWrap, ToolBar, BarLeft, BarRight }
 export default Tablex

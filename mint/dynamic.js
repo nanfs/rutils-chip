@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Spin } from 'antd'
 
 const cached = {}
 function registerModel(app, model) {
@@ -9,7 +10,11 @@ function registerModel(app, model) {
   }
 }
 
-let defaultLoadingComponent = () => null
+let defaultLoadingComponent = () => (
+  <div style={{ paddingTop: 100, textAlign: 'center' }}>
+    <Spin size="large" />
+  </div>
+)
 
 function asyncComponent(config) {
   const { resolve } = config

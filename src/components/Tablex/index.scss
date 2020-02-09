@@ -19,3 +19,11 @@
     display: inline-block;
   }
 }
+.table-tool {
+  .bar-right {
+    display: flex;
+    justify-content: flex-end;
+    text-align: right;
+    align-items: center;
+  }
+}

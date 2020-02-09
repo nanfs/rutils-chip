@@ -8,7 +8,7 @@ const middlewares = jsonServer.defaults()
 const router = jsonServer.router(path.resolve(__dirname, './db.json'))
 router.render = (req, res) => {
   const dataRes = res.locals.data
-  if (Array.isArray(dataRes) && req.url.indexOf('describing') !== -1) {
+  if (Array.isArray(dataRes)) {
     res.jsonp({
       data: {
         total: dataRes.length,

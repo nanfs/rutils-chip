@@ -60,7 +60,24 @@ body {
 }
 //content
 .ant-layout-content {
-  margin: 20px;
-  background: white;
-  padding: 10px 20px;
+  position: relative;
+  .table-wrap {
+    padding: 10px 20px;
+    margin: 20px;
+    background: white;
+  }
+  .ant-drawer-open {
+    width: 100% !important;
+  }
+  .ant-drawer-right.ant-drawer-open .ant-drawer-content-wrapper {
+    box-shadow: none;
+    min-height: 80vh;
+  }
+}
+
+//drawerx
+.drawerx {
+  .option-bar {
+    background: red;
+  }
 }

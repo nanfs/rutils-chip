@@ -1,22 +1,20 @@
 <!DOCTYPE html>
 <html lang="cn">
-
-<head>
-    <meta charset="utf-8">
-    <title>成都OA管理系统</title>
+  <head>
+    <meta charset="utf-8" />
+    <title>桌面管理平台</title>
     <style>
-        #app {
-            height: 100%
-        }
+      #app {
+        height: 100%;
+      }
     </style>
-</head>
+  </head>
 
-<body>
+  <body>
     <div class="app" id="app"></div>
     <% for(var i = 0; i < htmlWebpackPlugin.options.dlls.length;i++){%>
     <script src="<%=htmlWebpackPlugin.options.dlls[i] %>"></script>
     <%}%>
-  <!-- <%= '<script src="'+ htmlWebpackPlugin.options.mapConfig +'"></script>' %> -->
-</body>
-
+    <!-- <%= '<script src="'+ htmlWebpackPlugin.options.mapConfig +'"></script>' %> -->
+  </body>
 </html>

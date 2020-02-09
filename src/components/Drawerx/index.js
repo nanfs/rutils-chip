@@ -1,18 +1,8 @@
 import React from 'react'
-import { Modal, Button, notification, message } from 'antd'
+import { Drawer, Col, Row, Button, notification, message } from 'antd'
 import { wrapResponse } from '@/utils/tool'
 
-const ModalCfg_init = {
-  forceRender: true,
-  destroyOnClose: true,
-  loading: false,
-  okText: '确定',
-  cancelText: '取消'
-}
-export function createModalCfg(myCfg) {
-  return Object.assign(ModalCfg_init, myCfg)
-}
-class Modalx extends React.Component {
+class Drawerx extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -31,10 +21,18 @@ class Modalx extends React.Component {
     })
   }
 
+  hide = () => {
+    this.setState({
+      show: false
+    })
+  }
+
   onClose = () => {
     this.setState({
       show: false
     })
+    const { onClose } = this.props
+    onClose && onClose()
   }
 
   // TODO 修改处理方式
@@ -83,38 +81,54 @@ class Modalx extends React.Component {
     return false
   }
 
+  renderOption() {
+    if (this.hasFormx()) {
+      return (
+        <Row className="option-wrap">
+          <Col span={4} push={20}>
+            <Button key="back" onClick={this.onClose}>
+              取消
+            </Button>
+            <Button
+              key="submit"
+              type="primary"
+              loading={this.submitting}
+              onClick={this.submit}
+            >
+              确定
+            </Button>
+          </Col>
+        </Row>
+      )
+    }
+    return undefined
+  }
+
   render() {
     const { submitting } = this.state
-    const { modalCfg, title } = this.props
+    const { title } = this.props
     const setFormRef = ref => {
       this.formRef = ref
     }
     return (
-      <Modal
-        {...modalCfg}
+      <Drawer
+        closable={false}
+        getContainer={false}
+        mask={false}
+        width={'100%'}
+        placement="right"
         visible={this.state.show}
-        onCancel={this.onClose}
-        onOk={this.onOk}
-        title={title || modalCfg.title}
-        footer={[
-          <Button key="back" onClick={this.onClose}>
-            {modalCfg.cancelText}
-          </Button>,
-          <Button
-            key="submit"
-            type="primary"
-            loading={submitting}
-            onClick={this.submit}
-          >
-            {modalCfg.okText}
-          </Button>
-        ]}
+        onClose={this.onClose}
+        title={title}
+        style={{ position: 'absolute' }}
+        className="drawerx"
       >
         {this.hasFormx()
           ? React.cloneElement(this.props.children, { onRef: setFormRef })
           : this.props.children}
-      </Modal>
+        {this.renderOption()}
+      </Drawer>
     )
   }
 }
-export default Modalx
+export default Drawerx

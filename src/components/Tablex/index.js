@@ -35,6 +35,7 @@ class Tablex extends React.Component {
   constructor(props) {
     super(props)
     const { selection, paging } = this.props.tableCfg
+    console.log(paging)
     this.state = {
       loading: false,
       selection: selection || [],
@@ -176,7 +177,10 @@ class Tablex extends React.Component {
 
   showTotal = () => {
     const { total, size } = this.state.paging
-    const totalPage = Math.floor(total / size) + 1
+    const totalPage =
+      total % size === 0
+        ? Math.floor(total / size)
+        : Math.floor(total / size) + 1
     return `共 ${totalPage} 页 / ${total} 条记录`
   }
 

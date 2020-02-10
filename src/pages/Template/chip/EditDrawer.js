@@ -23,18 +23,18 @@ export default class EditDrawer extends React.Component {
         onRef={ref => {
           this.drawer = ref
         }}
+        onOk={values => {
+          templateApi.updateTem(values)
+          return false
+        }}
       >
-        <Title slot="基础设置"></Title>
         <Formx
           initValues={initValues}
           onRef={ref => {
             this.formx = ref
           }}
-          onSubmit={values => {
-            templateApi.updateTem(values)
-            return false
-          }}
         >
+          <Title slot="基础设置"></Title>
           <Form.Item prop="name" label="模板名称" required>
             <Input name="name" placeholder="模板名称" />
           </Form.Item>
@@ -55,7 +55,7 @@ export default class EditDrawer extends React.Component {
               placeholder="描述"
             />
           </Form.Item>
-          <Form.Item
+          {/* <Form.Item
             wrapperCol={{
               xs: { span: 24, offset: 0 },
               sm: { span: 10, offset: 3 }
@@ -65,7 +65,7 @@ export default class EditDrawer extends React.Component {
               保存
             </Button>
             <Button onClick={this.cancelEdit}>取消</Button>
-          </Form.Item>
+          </Form.Item> */}
         </Formx>
       </Drawerx>
     )

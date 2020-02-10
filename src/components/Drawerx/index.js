@@ -104,8 +104,16 @@ class Drawerx extends React.Component {
     return undefined
   }
 
+  renderContent(setFormRef) {
+    if (this.state.show) {
+      return this.hasFormx()
+        ? React.cloneElement(this.props.children, { onRef: setFormRef })
+        : this.props.children
+    }
+    return undefined
+  }
+
   render() {
-    const { submitting } = this.state
     const { title } = this.props
     const setFormRef = ref => {
       this.formRef = ref
@@ -123,9 +131,7 @@ class Drawerx extends React.Component {
         style={{ position: 'absolute' }}
         className="drawerx"
       >
-        {this.hasFormx()
-          ? React.cloneElement(this.props.children, { onRef: setFormRef })
-          : this.props.children}
+        {this.renderContent(setFormRef)}
         {this.renderOption()}
       </Drawer>
     )

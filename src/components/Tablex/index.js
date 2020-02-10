@@ -92,7 +92,6 @@ class Tablex extends React.Component {
 
   loadData = (tableCfg, showLoading = true) => {
     return new Promise(resolve => {
-      console.log(tableCfg)
       this.beforeLoad(tableCfg, showLoading).then(requestData => {
         tableCfg
           .apiMethod(requestData)

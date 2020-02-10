@@ -83,6 +83,15 @@ class Modalx extends React.Component {
     return false
   }
 
+  renderContent(setFormRef) {
+    if (this.state.show) {
+      return this.hasFormx()
+        ? React.cloneElement(this.props.children, { onRef: setFormRef })
+        : this.props.children
+    }
+    return undefined
+  }
+
   render() {
     const { submitting } = this.state
     const { modalCfg, title } = this.props
@@ -110,9 +119,7 @@ class Modalx extends React.Component {
           </Button>
         ]}
       >
-        {this.hasFormx()
-          ? React.cloneElement(this.props.children, { onRef: setFormRef })
-          : this.props.children}
+        {this.renderContent(setFormRef)}
       </Modal>
     )
   }

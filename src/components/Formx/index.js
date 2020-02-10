@@ -16,8 +16,9 @@ class Formx extends React.Component {
   componentDidMount() {
     const { initValues, onRef, form } = this.props
     onRef && onRef(this)
+    console.log('mout', initValues)
+
     // TODO 检查不生效
-    // form.setFieldsInitialValue(initValues)
     form.setFieldsValue(initValues)
   }
 

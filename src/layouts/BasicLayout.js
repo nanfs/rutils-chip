@@ -3,6 +3,7 @@ import { ConfigProvider, Layout } from 'antd'
 import zhCN from 'antd/es/locale/zh_CN'
 import moment from 'moment' // 设置antd时间控件显示为中文
 import 'moment/locale/zh-cn'
+import { connect } from 'react-redux'
 import RouteView from '@/components/RouteView'
 import { AuthorizedRoute } from '@/components/Authorized'
 import './base.scss'
@@ -14,15 +15,20 @@ const { Content, Footer } = Layout
 
 moment.locale('zh-cn')
 
-export default class BasicLayout extends React.Component {
+class BasicLayout extends React.Component {
   render() {
+    const { location, isSideFold, dispatch } = this.props
+
     return (
-      // const { routes, dispatch } = props
       <ConfigProvider locale={zhCN}>
         <Layout style={{ minHeight: '100vh' }}>
           <Header />
           <Layout>
-            <Sider path={this.props.location.pathname} />
+            <Sider
+              path={location.pathname}
+              collapsed={isSideFold}
+              dispatch={dispatch}
+            />
             <Layout>
               <Content>
                 <RouteView
@@ -51,3 +57,9 @@ export default class BasicLayout extends React.Component {
     )
   }
 }
+export default connect(({ app }) => {
+  const { isSideFold } = app
+  return {
+    isSideFold
+  }
+})(BasicLayout)

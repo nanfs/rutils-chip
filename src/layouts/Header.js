@@ -6,7 +6,9 @@ export default class Header extends React.Component {
   render() {
     return (
       <Layout.Header className="header">
-        <div className="logo">安全虚拟桌面管理</div>
+        <div className="logo">
+          <span className="text">安全虚拟桌面管理</span>
+        </div>
         <Menu mode="horizontal">
           <Menu.Item key="username">
             <span>

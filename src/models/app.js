@@ -8,9 +8,17 @@ export default {
   namespace: 'app',
   state: {
     username: null,
+    isSideFold: false,
     identificationNumber: null
   },
-  reducers: {},
+  reducers: {
+    toggleSideFold: state => {
+      return {
+        ...state,
+        isSideFold: !state.isSideFold
+      }
+    }
+  },
   epics: {
     logout: action$ =>
       action$.map(() => {

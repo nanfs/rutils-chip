@@ -5,43 +5,33 @@ body {
 .mr10 {
   margin-right: 10px;
 }
-// Sider
-.sider {
-  background: white;
-  .trigger {
-    width: 100%;
-    background: #fefefe;
-    border: none;
-    border-bottom: 1px solid #ddd;
-  }
-  .ant-menu {
-    background: transparent;
-    border-right: none;
-  }
-  .ant-menu-item > a {
-    display: inline-block;
-  }
-  .ant-menu-inline-collapsed {
-    .ant-menu-item > a {
-      display: none;
-    }
-  }
-}
 // header
 .header {
   background-color: $primary-color;
   color: white;
+  height: 55px;
+  padding: 0 20px;
   .logo {
-    width: 120px;
-    height: 31px;
-    background: rgba(255, 255, 255, 0.2);
-    margin: 16px 28px 16px 0;
+    width: 214px;
+    height: 55px;
+    background: url('../assets/logo-white.png') no-repeat center;
+    padding-left: 200px;
     float: left;
+    .text {
+      background: url('../assets/logo-title.png') no-repeat center;
+      text-indent: -9999px;
+      overflow: hidden;
+      width: 300px;
+      height: 55px;
+      display: inline-block;
+    }
   }
   .ant-menu {
     float: right;
-    line-height: 64px;
+    line-height: 55px;
     color: white;
+    width: auto;
+    min-width: 360px;
     background: transparent;
     .ant-menu-item {
       padding: 3px;
@@ -58,6 +48,47 @@ body {
     display: inline-block;
   }
 }
+// Sider
+.sider {
+  background: white;
+  .trigger {
+    width: 100%;
+    background: #fefefe;
+    border: none;
+    border-bottom: 1px solid #ddd;
+  }
+  .ant-menu {
+    background: transparent;
+    border-right: none;
+
+    .ant-menu-item {
+      height: 50px;
+      line-height: 50px;
+      margin: 0px;
+      a {
+        display: inline-block;
+        font-size: 16px;
+      }
+      &::after {
+        display: none;
+      }
+    }
+
+    &:not(.ant-menu-horizontal) .ant-menu-item-selected {
+      background: #bbd0e5;
+    }
+  }
+  .ant-menu-inline-collapsed {
+    .ant-menu-item > .text {
+      visibility: hidden;
+    }
+  }
+  .trigger {
+    height: 50px;
+    line-height: 50px;
+  }
+}
+
 //content
 .ant-layout-content {
   position: relative;

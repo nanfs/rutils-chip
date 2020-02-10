@@ -6,21 +6,16 @@ import menuConfig from '*/menu'
 const { SubMenu } = Menu
 
 export default class Sider extends React.Component {
-  state = {
-    collapsed: false
-  }
-
-  onCollapse = collapsed => {
-    console.log(collapsed)
-    this.setState({ collapsed: !this.state.collapsed })
+  onCollapse = () => {
+    this.props.dispatch({ type: 'app/toggleSideFold' })
   }
 
   renderMenuItem(item) {
     return (
       <Menu.Item key={item.path}>
-        <Icon type={item.icon} />
         <NavLink to={item.path}>
-          <span>{item.title}</span>
+          <Icon type={item.icon} />
+          <span className="text">{item.title}</span>
         </NavLink>
       </Menu.Item>
     )
@@ -51,10 +46,11 @@ export default class Sider extends React.Component {
   render() {
     return (
       <Layout.Sider
+        width={190}
         className="sider"
         collapsible
         trigger={null}
-        collapsed={this.state.collapsed}
+        collapsed={this.props.collapsed}
       >
         <Button onClick={this.onCollapse} className="trigger" type="link">
           <Icon type="user"></Icon>

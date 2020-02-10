@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, DatePicker } from 'antd'
+import { Button, DatePicker, notification, message } from 'antd'
 import Tablex, {
   createTableCfg,
   TableWrap,
@@ -11,6 +11,7 @@ import InnerPath from '@/components/InnerPath'
 import SelectSearch from '@/components/SelectSearch'
 import { columns, apiMethod } from './chip/TableCfg'
 import produce from 'immer'
+import vmlogsApi from '@/services/vmlogs'
 
 const { RangePicker } = DatePicker
 
@@ -52,6 +53,23 @@ export default class Vmlog extends React.Component {
     )
   }
 
+  deleteLogs = () => {
+    const ids = this.tablex.getSelection()
+    vmlogsApi
+      .delete({ ids })
+      .then(res => {
+        if (res.success) {
+          notification.success({ title: '删除成功' })
+          this.tablex.refresh(this.state.tableCfg)
+        } else {
+          message.error(res.message || '删除失败')
+        }
+      })
+      .catch(errors => {
+        console.log(errors)
+      })
+  }
+
   render() {
     const searchOptions = [{ label: '名称', value: 'name' }]
     return (
@@ -60,7 +78,7 @@ export default class Vmlog extends React.Component {
         <TableWrap>
           <ToolBar>
             <BarLeft span={10}>
-              <Button>删除</Button>
+              <Button onClick={this.deleteLogs}>删除</Button>
             </BarLeft>
             <BarRight span={14}>
               <RangePicker onChange={this.selectDate}></RangePicker>

@@ -1,6 +1,17 @@
 import React from 'react'
 import { Form } from 'antd'
 
+const formItemLayout = {
+  labelCol: {
+    xs: { span: 24 },
+    sm: { span: 3 }
+  },
+  wrapperCol: {
+    xs: { span: 24 },
+    sm: { span: 10 }
+  }
+}
+
 class Formx extends React.Component {
   componentDidMount() {
     const { initValues, onRef, form } = this.props
@@ -27,7 +38,12 @@ class Formx extends React.Component {
   render() {
     const { children, className, style } = this.props
     return (
-      <Form onSubmit={this.handleSubmit} className={className} style={style}>
+      <Form
+        {...formItemLayout}
+        onSubmit={this.handleSubmit}
+        className={className}
+        style={style}
+      >
         {React.Children.map(children, child => {
           if (child.type.name === 'FormItem' && child.props.prop) {
             const {

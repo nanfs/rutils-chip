@@ -75,7 +75,9 @@ export default class Template extends React.Component {
         <TableWrap>
           <ToolBar>
             <BarLeft>
-              <Button onClick={this.delTem}>删除模板</Button>
+              <Button onClick={this.delTem} style={{ marginRight: '10px' }}>
+                删除模板
+              </Button>
               <Button onClick={this.editTem}>编辑模板</Button>
             </BarLeft>
           </ToolBar>

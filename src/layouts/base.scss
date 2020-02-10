@@ -125,7 +125,8 @@ body {
       .ant-calendar-picker-input {
         height: 37px;
         border-radius: $border-radius-base;
-        width: 240px;
+        width: 260px;
+        text-align: left;
       }
     }
 
@@ -134,16 +135,16 @@ body {
       margin-left: 30px;
       border-radius: $border-radius-base;
       border: 1px solid $btn-border-color;
+      display: inline-flex;
       .ant-input,
       .ant-select-selection {
         border: none;
       }
       .ant-select {
-        float: left;
+        flex: 1;
       }
       .ant-input-search {
-        float: right;
-        width: auto;
+        flex: auto;
       }
       .ant-btn {
         background-color: transparent;

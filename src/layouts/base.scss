@@ -94,8 +94,55 @@ body {
   position: relative;
   .table-wrap {
     padding: 10px 20px;
-    margin: 20px;
+    margin: 0px 20px;
     background: white;
+    .ant-table-thead > tr > th {
+      background-color: #e1e2e7;
+      color: #6d6e6d;
+      font-size: 16px;
+      font-weight: normal;
+      padding: 10px;
+      border-right: 1px solid $btn-border-color;
+    }
+    .ant-table-thead > tr:first-child > th:first-child,
+    .ant-table-thead > tr:first-child > th:last-child {
+      border-radius: 0;
+    }
+    .ant-table-thead > tr:first-child > th:last-child {
+      border-right: none;
+    }
+  }
+  .table-tool {
+    padding: 10px 0px 15px 0px;
+    .ant-btn {
+      padding: 0px 30px;
+      background-color: #efefef;
+      border-radius: $border-radius-base;
+      height: 35px;
+      line-height: 35px;
+    }
+    .ant-calendar-picker {
+      .ant-calendar-picker-input {
+        height: 37px;
+        border-radius: $border-radius-base;
+      }
+    }
+
+    .select-search {
+      width: 350px;
+      margin-left: 30px;
+      border-radius: $border-radius-base;
+      border: 1px solid $btn-border-color;
+      .ant-input,
+      .ant-select-selection {
+        border: none;
+      }
+      .ant-btn {
+        background-color: transparent;
+        border: none;
+        color: #333;
+      }
+    }
   }
   .ant-drawer-open {
     width: 100% !important;
@@ -111,4 +158,14 @@ body {
   .option-bar {
     background: red;
   }
+}
+
+//Compontent
+// InnerPath
+.inner-path {
+  padding-left: 20px;
+  font-size: 18px;
+  font-weight: bold;
+  height: 50px;
+  line-height: 50px;
 }

@@ -100,13 +100,13 @@ server.use((req, res, next) => {
   // 对于语义化接口类型，转成 'GET' 请求。
   // 通过拼接body里面参数，在前端显示传入参数
   req.method = 'GET'
-  // const { body, url } = req
-  // const query = Object.keys(body)
-  //   .map(key => `${key}=${body[key]}`)
-  //   .join('&')
+  const { body } = req
+  const query = Object.keys(body)
+    .map(key => `${key}=${body[key]}`)
+    .join('&')
 
   // req.url = query ? `${url}?${query}` : url
-  // console.log(req.url)
+  console.log('query', query)
 
   // isAuthorized是你自定义的一个判断请求是否权限合法的方法
   if (isAuthorized(req)) {

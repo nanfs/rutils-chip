@@ -28,7 +28,7 @@ const tableCfg_init = {
 }
 
 export function createTableCfg(myCfg) {
-  return Object.assign(tableCfg_init, myCfg)
+  return { ...tableCfg_init, ...myCfg }
 }
 // tablex 中加载状态 。searchs  selection 都有外部维护
 class Tablex extends React.Component {

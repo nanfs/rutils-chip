@@ -8,7 +8,7 @@ import Tablex, {
 } from '@/components/Tablex'
 import SelectSearch from '@/components/SelectSearch'
 import { columnsSave, apiMethodSave } from './TableCfgSave'
-import resourceApi from '@/services/resource'
+import produce from 'immer'
 
 export default class Resource extends React.Component {
   state = {
@@ -16,9 +16,24 @@ export default class Resource extends React.Component {
       columns: columnsSave,
       apiMethod: apiMethodSave,
       expandedRowRender: false,
+      hasRowSelection: false,
       paging: { size: 5 },
       pageSizeOptions: ['5', '10']
     })
+  }
+
+  search = (key, value) => {
+    const searchs = {}
+    searchs[key] = value
+    this.setState(
+      produce(draft => {
+        draft.tableCfgCompute.searchs = {
+          ...draft.tableCfgCompute.searchs,
+          ...searchs
+        }
+      }),
+      () => this.tablexCompute.refresh(this.state.tableCfgCompute)
+    )
   }
 
   render() {
@@ -29,9 +44,7 @@ export default class Resource extends React.Component {
             <BarLeft>
               <SelectSearch
                 options={[{ label: '名称', value: 'name' }]}
-                onSearch={(searchKey, value) => {
-                  console.log(searchKey, value)
-                }}
+                onSearch={this.search}
               ></SelectSearch>
             </BarLeft>
           </ToolBar>

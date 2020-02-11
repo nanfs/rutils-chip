@@ -179,7 +179,6 @@ body {
   line-height: 50px;
 }
 
-
 //detail
 .dms-detail-section {
   padding-bottom: 40px;
@@ -195,7 +194,19 @@ body {
 
 .dms-detail-value {
   text-align: center;
-  overflow: hidden; 
+  overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap; 
+  white-space: nowrap;
+}
+
+//进度条progress
+.ant-progress-show-info .ant-progress-outer {
+  margin-right: 0 !important;
+  padding-right: 0 !important;
+}
+.ant-progress-text {
+  position: relative;
+  width: 100% !important;
+  margin-left: -100% !important;
+  text-align: center !important;
 }

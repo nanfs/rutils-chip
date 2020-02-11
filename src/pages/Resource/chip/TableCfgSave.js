@@ -1,19 +1,30 @@
 import React from 'react'
 import resourceApi from '@/services/resource'
-import { Icon } from 'antd'
+import { Icon, Progress } from 'antd'
 import styles from '../index.m.scss'
 
 export const columnsSave = [
   {
     title: '状态',
-    dataIndex: 'status'
-  },
-  {
-    title: '存储域名称',
-    dataIndex: 'name',
+    dataIndex: 'status',
+    filters: [
+      {
+        text: '1',
+        value: '1'
+      },
+      {
+        text: '3',
+        value: '3'
+      }
+    ],
+    onFilter: (value, record) => record.status == value,
     render: text => {
       return <div className={styles.vmBg}>{text}</div>
     }
+  },
+  {
+    title: '存储域名称',
+    dataIndex: 'name'
   },
   {
     title: '类型',
@@ -21,9 +32,16 @@ export const columnsSave = [
   },
   {
     title: '使用情况',
-    dataIndex: 'used',
+    dataIndex: 'usage',
+    width: '20%',
     render: (text, record) => {
-      return `${record.datacenterName}/${record.clusterName}`
+      return (
+        <Progress
+          strokeWidth={16}
+          percent={record.used / record.total}
+          format={() => `${record.used}G/${record.total}G`}
+        ></Progress>
+      )
     }
   },
   {

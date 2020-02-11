@@ -178,3 +178,24 @@ body {
   height: 50px;
   line-height: 50px;
 }
+
+
+//detail
+.dms-detail-section {
+  padding-bottom: 40px;
+}
+
+.dms-detail-row {
+  margin-top: 10px;
+}
+
+.dms-detail-label {
+  text-align: right;
+}
+
+.dms-detail-value {
+  text-align: center;
+  overflow: hidden; 
+  text-overflow: ellipsis;
+  white-space: nowrap; 
+}

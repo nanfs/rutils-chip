@@ -1,5 +1,5 @@
-import terminalApi from '@/services/terminal'
 // TODO antd 样式加载问题
+// eslint-disable-next-line import/prefer-default-export
 export const detailUserColumns = [
   {
     title: '姓名',
@@ -14,4 +14,3 @@ export const detailUserColumns = [
     dataIndex: 'content'
   }
 ]
-export const detailUserApiMethod = terminalApi.list

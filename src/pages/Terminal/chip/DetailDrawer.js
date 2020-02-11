@@ -1,22 +1,12 @@
 import React from 'react'
-import { Row, Col, Tooltip } from 'antd'
+import { Row, Col, Tooltip, Table } from 'antd'
 import Drawerx from '@/components/Drawerx'
-import Tablex, { createTableCfg } from '@/components/Tablex'
-import { detailUserColumns, detailUserApiMethod } from './DetailUserTableCfg'
-import {
-  detailSafepolicyColumns,
-  detailSafepolicyApiMethod
-} from './DetailSafepolicyTableCfg'
-import {
-  detailAdmitpolicyColumns,
-  detailAdmitpolicyApiMethod
-} from './DetailAdmitpolicyTableCfg'
-import {
-  detailUseTimeColumns,
-  detailUseTimeApiMethod
-} from './DetailUseTimeTableCfg'
-
 import Title from '@/components/Title'
+import { detailUserColumns } from './DetailUserTableCfg'
+import { detailSafepolicyColumns } from './DetailSafepolicyTableCfg'
+import { detailAdmitpolicyColumns } from './DetailAdmitpolicyTableCfg'
+import { detailUseTimeColumns } from './DetailUseTimeTableCfg'
+import DetailUseStatisticsChart from './DetailUseStatisticsChart'
 
 export default class AddDrawer extends React.Component {
   componentDidMount() {
@@ -24,38 +14,31 @@ export default class AddDrawer extends React.Component {
   }
 
   state = {
-    userTableCfg: createTableCfg({
+    /* userTableCfg: createTableCfg({
+      data: this.props.initValues.owner,
       columns: detailUserColumns,
-      apiMethod: detailUserApiMethod,
-      searchs: { id: this.props.initValues.id },
       hasPaging: false,
       hasRowSelection: false
     }),
     safepolicyTableCfg: createTableCfg({
       columns: detailSafepolicyColumns,
-      apiMethod: detailSafepolicyApiMethod,
-      searchs: { id: this.props.initValues.id },
       hasPaging: false,
       hasRowSelection: false
     }),
     admitpolicyTableCfg: createTableCfg({
       columns: detailAdmitpolicyColumns,
-      apiMethod: detailAdmitpolicyApiMethod,
-      searchs: { id: this.props.initValues.id },
       hasPaging: false,
       hasRowSelection: false
     }),
     usetimeTableCfg: createTableCfg({
       columns: detailUseTimeColumns,
-      apiMethod: detailUseTimeApiMethod,
-      searchs: { id: this.props.initValues.id },
       hasPaging: false,
       hasRowSelection: false
-    })
+    }) */
   }
 
   render() {
-    const { initValues } = this.props
+    const { initValues, initChartValue } = this.props
     return (
       <Drawerx
         onRef={ref => {
@@ -170,39 +153,39 @@ export default class AddDrawer extends React.Component {
         </div>
         <div className="dms-detail-section">
           <Title slot="所属用户"></Title>
-          <Tablex
-            onRef={ref => {
-              this.tablex = ref
-            }}
-            tableCfg={this.state.userTableCfg}
+          <Table
+            columns={detailUserColumns}
+            dataSource={initValues.owner}
+            pagination={false}
           />
         </div>
         <div className="dms-detail-section">
           <Title slot="安全策略"></Title>
-          <Tablex
-            onRef={ref => {
-              this.tablex = ref
-            }}
-            tableCfg={this.state.safepolicyTableCfg}
+          <Table
+            columns={detailSafepolicyColumns}
+            dataSource={initValues.safePolicys}
+            pagination={false}
           />
         </div>
         <div className="dms-detail-section">
           <Title slot="准入策略"></Title>
-          <Tablex
-            onRef={ref => {
-              this.tablex = ref
-            }}
-            tableCfg={this.state.admitpolicyTableCfg}
+          <Table
+            columns={detailAdmitpolicyColumns}
+            dataSource={initValues.admitPolicys}
+            pagination={false}
           />
         </div>
         <div className="dms-detail-section">
           <Title slot="使用时间"></Title>
-          <Tablex
-            onRef={ref => {
-              this.tablex = ref
-            }}
-            tableCfg={this.state.usetimeTableCfg}
+          <Table
+            columns={detailUseTimeColumns}
+            dataSource={initValues.owner}
+            pagination={false}
           />
+        </div>
+        <div className="dms-detail-section">
+          <Title slot="使用统计"></Title>
+          <DetailUseStatisticsChart dataSource={initChartValue} />
         </div>
       </Drawerx>
     )

@@ -37,7 +37,7 @@ export const columns = [
   {
     title: '安全策略',
     dataIndex: 'safepolicy',
-    render: (text, record) => (
+    render: text => (
       <span className="table-action">
         {text ? <Icon type="check" /> : <Icon type="close" />}
       </span>
@@ -46,7 +46,7 @@ export const columns = [
   {
     title: '准入策略',
     dataIndex: 'admitpolicy',
-    render: (text, record) => (
+    render: text => (
       <span className="table-action">
         {text ? <Icon type="check" /> : <Icon type="close" />}
       </span>
@@ -55,7 +55,7 @@ export const columns = [
   {
     title: '分配用户',
     dataIndex: 'authorizationUserName',
-    render: (text, record) => (
+    render: text => (
       <span className="table-action">
         {text ? <Icon type="check" /> : <Icon type="close" />}
       </span>

@@ -1,6 +1,4 @@
-import React from 'react'
-import terminalApi from '@/services/terminal'
-import { Icon, Popover } from 'antd'
+/* eslint-disable import/prefer-default-export */
 // TODO antd 样式加载问题
 export const detailUseTimeColumns = [
   {
@@ -12,4 +10,3 @@ export const detailUseTimeColumns = [
     dataIndex: 'offlinetime'
   }
 ]
-export const detailUseTimeApiMethod = terminalApi.list

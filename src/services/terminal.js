@@ -21,5 +21,17 @@ export default {
       url: '/task/updating',
       data: qs.stringify(data)
     })
+  },
+  terminalsdetail(data) {
+    return axios({
+      url: '/terminalsdetail',
+      data: qs.stringify(data)
+    })
+  },
+  terminalsusagedetail(data) {
+    return axios({
+      url: '/terminalsusagedetail',
+      data: qs.stringify(data)
+    })
   }
 }

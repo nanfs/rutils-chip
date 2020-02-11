@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, message } from 'antd'
+import { Button, message, notification } from 'antd'
 import Tablex, {
   createTableCfg,
   TableWrap,
@@ -13,7 +13,7 @@ import DetailDrawer from './chip/DetailDrawer'
 import InnerPath from '@/components/InnerPath'
 import { columns, apiMethod } from './chip/TableCfg'
 import './index.scss'
-import Item from 'antd/lib/list/Item'
+import terminalApi from '@/services/terminal'
 
 export default class Desktop extends React.Component {
   state = {
@@ -56,21 +56,28 @@ export default class Desktop extends React.Component {
   }
 
   detailTerminal = () => {
-    let selectTem = {}
-    if (this.tablex.getSelection().length === 1) {
-      this.tablex.getData().forEach(item => {
-        if (item.id === this.tablex.getSelection()[0]) {
-          selectTem = item
+    const ids = this.tablex.getSelection()
+    terminalApi
+      .terminalsdetail({ ids })
+      .then(res => {
+        if (res.success) {
+          this.setState({ inner: '编辑模板', initValues: res.data })
+          terminalApi.terminalsusagedetail({ ids }).then(result => {
+            if (result.success) {
+              this.setState({ initChartValue: result.data.list })
+              this.detailDrawer.drawer.show()
+              this.currentDrawer = this.detailDrawer
+            } else {
+              message.error(res.message || '查询失败')
+            }
+          })
+        } else {
+          message.error(res.message || '查询失败')
         }
       })
-      this.setState(
-        { inner: '编辑模板', initValues: selectTem },
-        this.detailDrawer.drawer.show()
-      )
-      this.currentDrawer = this.detailDrawer
-    } else {
-      message.warning('请选择一条数据进行编辑！')
-    }
+      .catch(errors => {
+        console.log(errors)
+      })
   }
 
   render() {
@@ -118,6 +125,7 @@ export default class Desktop extends React.Component {
               this.detailDrawer = ref
             }}
             initValues={this.state.initValues}
+            initChartValue={this.state.initChartValue}
           />
         </TableWrap>
       </React.Fragment>

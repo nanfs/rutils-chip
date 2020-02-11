@@ -1,5 +1,5 @@
-import terminalApi from '@/services/terminal'
 // TODO antd 样式加载问题
+// eslint-disable-next-line import/prefer-default-export
 export const detailSafepolicyColumns = [
   {
     title: '名称',
@@ -10,4 +10,3 @@ export const detailSafepolicyColumns = [
     dataIndex: 'description'
   }
 ]
-export const detailSafepolicyApiMethod = terminalApi.list

@@ -4,7 +4,6 @@ import Drawerx from '@/components/Drawerx'
 import Formx from '@/components/Formx'
 import Title from '@/components/Title'
 // import SliderNumber from '@/components/SliderNumber'
-import terminalApi from '@/services/terminal'
 
 const { Option } = Select
 const { TextArea } = Input

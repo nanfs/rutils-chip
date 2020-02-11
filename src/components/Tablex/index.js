@@ -34,11 +34,11 @@ export function createTableCfg(myCfg) {
 class Tablex extends React.Component {
   constructor(props) {
     super(props)
-    const { selection, paging } = this.props.tableCfg
-    console.log(paging)
+    const { paging } = this.props.tableCfg
     this.state = {
       loading: false,
-      selection: selection || [],
+      selection: [],
+      selectData: [],
       paging: {
         size: (paging && paging.size) || 10,
         current: 1,

@@ -64,7 +64,13 @@ class Drawerx extends React.Component {
     })
     if (form && onOk) {
       // 使用回调
-      onOk(form.getFieldsValue())
+      form
+        .validateFieldsAndScroll((errors, values) => {
+          if (!errors) {
+            onOk(values)
+          }
+        })
+        .catch(err => console.log(err))
     } else {
       onOk && onOk()
     }

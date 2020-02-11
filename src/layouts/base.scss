@@ -96,6 +96,7 @@ body {
     padding: 10px 20px;
     margin: 0px 20px;
     background: white;
+    // max-height: 50vh;
     .ant-table-thead > tr > th {
       background-color: #e1e2e7;
       color: #6d6e6d;
@@ -153,31 +154,10 @@ body {
       }
     }
   }
-  .ant-drawer-open {
-    width: 100% !important;
-  }
-  .ant-drawer-right.ant-drawer-open .ant-drawer-content-wrapper {
-    box-shadow: none;
-    min-height: 80vh;
-  }
-}
-
-//drawerx
-.drawerx {
-  .option-bar {
-    background: red;
-  }
 }
 
 //Compontent
 // InnerPath
-.inner-path {
-  padding-left: 20px;
-  font-size: 18px;
-  font-weight: bold;
-  height: 50px;
-  line-height: 50px;
-}
 
 //detail
 .dms-detail-section {

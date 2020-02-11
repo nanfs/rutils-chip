@@ -1,0 +1,16 @@
+.inner-path {
+  padding-left: 20px;
+  font-size: 18px;
+  font-weight: bold;
+  height: 50px;
+  line-height: 50px;
+}
+.has-inner {
+  .btn {
+    margin-right: 15px;
+  }
+  .location-text {
+    font-size: 12px;
+    font-weight: normal;
+  }
+}

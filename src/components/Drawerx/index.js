@@ -1,6 +1,7 @@
 import React from 'react'
 import { Drawer, Col, Row, Button, notification, message } from 'antd'
 import { wrapResponse } from '@/utils/tool'
+import './index.scss'
 
 class Drawerx extends React.Component {
   constructor(props) {
@@ -19,18 +20,23 @@ class Drawerx extends React.Component {
     this.setState({
       show: true
     })
+    document.body.style.maxHeight = '100vh'
+    document.body.style.overflow = 'hidden'
+    document.querySelector('.table-wrap').style.maxHeight =
+      'calc(100vh - 105px)'
+    document.querySelector('.table-wrap').style.overflow = 'hidden'
   }
 
   hide = () => {
     this.setState({
       show: false
     })
+    document.body.style = ''
+    document.querySelector('.table-wrap').style = ''
   }
 
   onClose = () => {
-    this.setState({
-      show: false
-    })
+    this.hide()
     const { onClose } = this.props
     onClose && onClose()
   }
@@ -128,7 +134,7 @@ class Drawerx extends React.Component {
       <Drawer
         closable={false}
         getContainer={false}
-        mask={false}
+        // mask={false}
         width={'100%'}
         placement="right"
         visible={this.state.show}
@@ -136,6 +142,7 @@ class Drawerx extends React.Component {
         title={title}
         style={{ position: 'absolute' }}
         className="drawerx"
+        afterVisibleChange={this.afterVisibleChange}
       >
         {this.renderContent(setFormRef)}
         {this.renderOption()}

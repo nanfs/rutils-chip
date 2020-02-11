@@ -4,11 +4,11 @@ import { Form } from 'antd'
 const formItemLayout = {
   labelCol: {
     xs: { span: 24 },
-    sm: { span: 3 }
+    sm: { span: 5, pull: 1 }
   },
   wrapperCol: {
     xs: { span: 24 },
-    sm: { span: 10 }
+    sm: { span: 8 }
   }
 }
 
@@ -16,8 +16,6 @@ class Formx extends React.Component {
   componentDidMount() {
     const { initValues, onRef, form } = this.props
     onRef && onRef(this)
-    console.log('mout', initValues)
-
     // TODO 检查不生效
     form.setFieldsValue(initValues)
   }
@@ -38,9 +36,10 @@ class Formx extends React.Component {
 
   render() {
     const { children, className, style } = this.props
+    const formLayout = this.props.formItemLayout || formItemLayout
     return (
       <Form
-        {...formItemLayout}
+        {...formLayout}
         onSubmit={this.handleSubmit}
         className={className}
         style={style}

@@ -1,0 +1,32 @@
+.ant-drawer {
+  &-open {
+    width: 100% !important;
+    .ant-drawer-mask {
+      background-color: white;
+    }
+  }
+  &-body {
+    padding: 0px 24px 20px 24px;
+  }
+  &-content {
+    width: 100%;
+    height: calc(100vh - 105px);
+    &--wrapper {
+      box-shadow: none;
+      min-height: 80vh;
+    }
+  }
+  .option-wrap {
+    background: #f3f6ff;
+    position: absolute;
+    width: 100%;
+    right: 0;
+    bottom: 0;
+    height: 80px;
+    line-height: 80px;
+    border-top: 1px solid #99ccfe;
+    .ant-btn {
+      margin-right: 20px;
+    }
+  }
+}

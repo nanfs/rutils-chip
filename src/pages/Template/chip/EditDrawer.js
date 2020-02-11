@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form, Input, Button } from 'antd'
+import { Form, Input } from 'antd'
 import Drawerx from '@/components/Drawerx'
 import Formx from '@/components/Formx'
 import Title from '@/components/Title'
@@ -55,17 +55,6 @@ export default class EditDrawer extends React.Component {
               placeholder="描述"
             />
           </Form.Item>
-          {/* <Form.Item
-            wrapperCol={{
-              xs: { span: 24, offset: 0 },
-              sm: { span: 10, offset: 3 }
-            }}
-          >
-            <Button type="primary" htmlType="submit">
-              保存
-            </Button>
-            <Button onClick={this.cancelEdit}>取消</Button>
-          </Form.Item> */}
         </Formx>
       </Drawerx>
     )

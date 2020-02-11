@@ -163,6 +163,10 @@ class Tablex extends React.Component {
     return this.state.selection
   }
 
+  getSelectData = () => {
+    return this.state.selects
+  }
+
   getData = () => {
     return this.state.data
   }
@@ -170,7 +174,8 @@ class Tablex extends React.Component {
   onSelectChange = (selectKeys, selects) => {
     const { onSelectChange } = this.props
     this.setState({
-      selection: selectKeys
+      selection: selectKeys,
+      selects
     })
     onSelectChange && onSelectChange(selectKeys, selects)
   }

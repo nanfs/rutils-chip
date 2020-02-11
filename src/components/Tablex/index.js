@@ -17,6 +17,8 @@ const tableCfg_init = {
   // 选填，设置表格数据请求参数
   searchs: {},
 
+  // 选填，设置表格是否可选择，默认可选
+  hasRowSelection: true,
   // 选填，设置表格选择，一般为空数组
   selection: [],
   // 是否显示页码 默认显示
@@ -221,7 +223,8 @@ class Tablex extends React.Component {
       columns,
       rowKey,
       expandedRowRender,
-      pageSizeOptions
+      pageSizeOptions,
+      hasRowSelection
     } = this.props.tableCfg
     const { total, size, current } = paging
     const rowSelection = {
@@ -231,7 +234,7 @@ class Tablex extends React.Component {
     return (
       <React.Fragment>
         <Table
-          rowSelection={rowSelection}
+          rowSelection={hasRowSelection ? rowSelection : null}
           columns={columns}
           dataSource={data}
           rowKey={rowKey}

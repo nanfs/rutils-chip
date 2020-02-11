@@ -1,7 +1,16 @@
 import React from 'react'
-import styles from './index.m.scss'
+import './index.scss'
 
+export function Diliver(props) {
+  const { heigth } = props
+  return (
+    <div
+      className="drawer-form-diliver"
+      style={{ height: heigth || '15px' }}
+    ></div>
+  )
+}
 export default function Title(props) {
   const { slot } = props
-  return <p className={styles.title}>{slot}</p>
+  return <p className="drawer-form-title">{slot}</p>
 }

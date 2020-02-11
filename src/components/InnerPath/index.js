@@ -1,5 +1,6 @@
 import React from 'react'
 import { Button } from 'antd'
+import './index.scss'
 
 export default function InnerPath(props) {
   const { inner, location, onBack } = props
@@ -8,9 +9,7 @@ export default function InnerPath(props) {
   }
   return (
     <div className="inner-path has-inner">
-      <Button onClick={onBack} icon="user">
-        back
-      </Button>
+      <Button onClick={onBack} icon="left" />
       <span className="inner-text">{inner}</span>
       <span className="location-text">&gt; {location}</span>
     </div>

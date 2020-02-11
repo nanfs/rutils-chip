@@ -5,6 +5,9 @@
       background-color: white;
     }
   }
+  &-body {
+    padding: 0px 24px 20px 24px;
+  }
   &-content {
     width: 100%;
     height: calc(100vh - 105px);

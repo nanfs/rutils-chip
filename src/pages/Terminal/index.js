@@ -9,6 +9,7 @@ import Tablex, {
 } from '@/components/Tablex'
 import AddDrawer from './chip/AddDrawer'
 import EditDrawer from './chip/EditDrawer'
+import DetailDrawer from './chip/DetailDrawer'
 import InnerPath from '@/components/InnerPath'
 import { columns, apiMethod } from './chip/TableCfg'
 import './index.scss'
@@ -54,6 +55,24 @@ export default class Desktop extends React.Component {
     }
   }
 
+  detailTerminal = () => {
+    let selectTem = {}
+    if (this.tablex.getSelection().length === 1) {
+      this.tablex.getData().forEach(item => {
+        if (item.id === this.tablex.getSelection()[0]) {
+          selectTem = item
+        }
+      })
+      this.setState(
+        { inner: '编辑模板', initValues: selectTem },
+        this.detailDrawer.drawer.show()
+      )
+      this.currentDrawer = this.detailDrawer
+    } else {
+      message.warning('请选择一条数据进行编辑！')
+    }
+  }
+
   render() {
     return (
       <React.Fragment>
@@ -70,6 +89,7 @@ export default class Desktop extends React.Component {
               <Button onClick={this.newTerminal}>允许接入</Button>
               <Button onClick={this.newTerminal}>开机</Button>
               <Button onClick={this.newTerminal}>关机</Button>
+              <Button onClick={this.detailTerminal}>关机</Button>
               {/* <Button onClick={this.newTerminal}>操作</Button> */}
             </BarLeft>
             <BarRight>
@@ -90,6 +110,12 @@ export default class Desktop extends React.Component {
           <EditDrawer
             onRef={ref => {
               this.editDrawer = ref
+            }}
+            initValues={this.state.initValues}
+          />
+          <DetailDrawer
+            onRef={ref => {
+              this.detailDrawer = ref
             }}
             initValues={this.state.initValues}
           />

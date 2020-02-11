@@ -2,7 +2,7 @@ import React from 'react'
 import { Row, Col } from 'antd'
 import Drawerx from '@/components/Drawerx'
 import Formx from '@/components/Formx'
-
+import Title from '@/components/Title'
 
 export default class AddDrawer extends React.Component {
   componentDidMount() {
@@ -20,8 +20,12 @@ export default class AddDrawer extends React.Component {
           console.log(values)
         }}
       >
-        
-          
+        <Formx
+          onSubmit={values => {
+            console.log(values)
+            return false
+          }}
+        ></Formx>
       </Drawerx>
     )
   }

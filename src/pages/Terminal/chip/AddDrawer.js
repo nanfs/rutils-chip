@@ -2,6 +2,7 @@ import React from 'react'
 import { Form, Input, Icon, Slider, InputNumber, Row, Col, Select } from 'antd'
 import Drawerx from '@/components/Drawerx'
 import Formx from '@/components/Formx'
+import Title from '@/components/Title'
 
 const { Option } = Select
 const { TextArea } = Input
@@ -31,15 +32,19 @@ export default class AddDrawer extends React.Component {
         }}
         onOk={values => {
           console.log(values)
-          console.log(this.drawer)
+          console.log(this)
         }}
       >
         <Formx
+          onRef={ref => {
+            this.form = ref
+          }}
           onSubmit={values => {
             console.log(values)
             return false
           }}
         >
+          <Title slot="基础设置"></Title>
           <Form.Item
             prop="name"
             label="终端名称"

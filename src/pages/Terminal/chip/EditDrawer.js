@@ -1,9 +1,9 @@
 import React from 'react'
-import { Form, Input, Select } from 'antd'
+import { Form, Input, Slider, InputNumber, Row, Col, Select } from 'antd'
 import Drawerx from '@/components/Drawerx'
 import Formx from '@/components/Formx'
 import Title from '@/components/Title'
-import SliderNumber from '@/components/SliderNumber'
+// import SliderNumber from '@/components/SliderNumber'
 import terminalApi from '@/services/terminal'
 
 const { Option } = Select
@@ -22,10 +22,6 @@ export default class EditDrawer extends React.Component {
     inputValue: 1
   }
 
-  state = {
-    inputValue: 1
-  }
-
   onChange = value => {
     this.setState({
       inputValue: value
@@ -34,6 +30,7 @@ export default class EditDrawer extends React.Component {
 
   render() {
     const { initValues } = this.props
+    const { inputValue } = this.state
     return (
       <Drawerx
         onRef={ref => {
@@ -72,7 +69,26 @@ export default class EditDrawer extends React.Component {
               }
             ]}
           >
-            <SliderNumber inputValue={'1'} />
+            <Row>
+              <Col span={18}>
+                <Slider
+                  min={1}
+                  max={20}
+                  onChange={this.onChange}
+                  value={typeof inputValue === 'number' ? inputValue : 0}
+                />
+              </Col>
+              <Col span={4}>
+                <InputNumber
+                  min={1}
+                  max={20}
+                  style={{ marginLeft: 16 }}
+                  value={inputValue}
+                  onChange={this.onChange}
+                />
+              </Col>
+            </Row>
+            {/* <SliderNumber inputValue={'1'} /> */}
           </Form.Item>
           <Form.Item
             prop="location"

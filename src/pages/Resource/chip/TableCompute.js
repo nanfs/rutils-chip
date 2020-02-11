@@ -39,22 +39,24 @@ export default class Resource extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <TableWrap>
-          <ToolBar>
-            <BarLeft>
-              <SelectSearch
-                options={[{ label: '名称', value: 'name' }]}
-                onSearch={this.search}
-              ></SelectSearch>
-            </BarLeft>
-          </ToolBar>
-          <Tablex
-            onRef={ref => {
-              this.tablexCompute = ref
-            }}
-            tableCfg={this.state.tableCfgCompute}
-          />
-        </TableWrap>
+        <div style={{ marginBottom: '26px' }}>
+          <TableWrap>
+            <ToolBar>
+              <BarLeft>
+                <SelectSearch
+                  options={[{ label: '名称', value: 'name' }]}
+                  onSearch={this.search}
+                ></SelectSearch>
+              </BarLeft>
+            </ToolBar>
+            <Tablex
+              onRef={ref => {
+                this.tablexCompute = ref
+              }}
+              tableCfg={this.state.tableCfgCompute}
+            />
+          </TableWrap>
+        </div>
       </React.Fragment>
     )
   }

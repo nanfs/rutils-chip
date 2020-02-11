@@ -6,20 +6,58 @@ body {
   flex-direction: column;
   height: 100vh;
   overflow: auto;
-  background: #f0f2f5;
+  background: url(../../assets/login-bg.jpg) no-repeat;
   text-align: center;
-  padding-top: 20vh;
-  h3 {
-    position: relative;
-    top: 2px;
-    color: rgba(0, 0, 0, 0.85);
-    font-weight: 600;
-    font-size: 33px;
-    font-family: Avenir, Helvetica Neue, Arial, Helvetica, sans-seri;
-  }
-  .login-form {
-    width: 368px;
+  padding-top: 8vh;
+
+  .content {
+    width: 1640px;
     margin: 0 auto;
-    text-align: left;
+    .content-left {
+      float: left;
+      img {
+        width: 940px;
+        height: 840px;
+      }
+    }
+    .content-right {
+      position: relative;
+      width: 700px;
+      height: 840px;
+      float: right;
+      background: #fff;
+
+      .login-title {
+        margin-top: 120px;
+        font-size: 32px;
+        font-weight: bold;
+      }
+
+      .login-form {
+        width: 368px;
+        margin: 30px auto;
+
+        .login-form-button {
+          width: 100%;
+        }
+      }
+
+      .company-info {
+        position: absolute;
+        width: 350px;
+        bottom: 25px;
+        left: 50%;
+        transform: translateX(-50%);
+        color: #bbb;
+
+        .company-logo {
+          display: inline-block;
+          width: 139px;
+          height: 24px;
+          margin-bottom: 5px;
+          background: url(../../assets/logo.png) no-repeat;
+        }
+      }
+    }
   }
 }

@@ -7,7 +7,6 @@ import Tablex, {
   BarLeft,
   BarRight
 } from '@/components/Tablex'
-import AddDrawer from './chip/AddDrawer'
 import EditDrawer from './chip/EditDrawer'
 import DetailDrawer from './chip/DetailDrawer'
 import InnerPath from '@/components/InnerPath'
@@ -15,7 +14,7 @@ import { columns, apiMethod } from './chip/TableCfg'
 import './index.scss'
 import terminalApi from '@/services/terminal'
 
-export default class Desktop extends React.Component {
+export default class Termina extends React.Component {
   state = {
     tableCfg: createTableCfg({
       columns,
@@ -30,11 +29,6 @@ export default class Desktop extends React.Component {
   onBack = () => {
     this.setState({ inner: undefined })
     this.currentDrawer.drawer.hide()
-  }
-
-  newTerminal = () => {
-    this.setState({ inner: '新建终端' }, this.addDrawer.drawer.show())
-    this.currentDrawer = this.addDrawer
   }
 
   editTerminal = () => {
@@ -61,7 +55,7 @@ export default class Desktop extends React.Component {
       .terminalsdetail({ ids })
       .then(res => {
         if (res.success) {
-          this.setState({ inner: '编辑模板', initValues: res.data })
+          this.setState({ inner: '查看详情', initValues: res.data })
           terminalApi.terminalsusagedetail({ ids }).then(result => {
             if (result.success) {
               this.setState({ initChartValue: result.data.list })
@@ -80,6 +74,69 @@ export default class Desktop extends React.Component {
       })
   }
 
+  onTerminal = () => {
+    const ids = this.tablex.getSelection()
+    if (ids.length > 0) {
+      terminalApi
+        .onTerminal({ ids })
+        .then(res => {
+          if (res.success) {
+            notification.success({ title: '开机成功' })
+            this.tablex.refresh(this.state.tableCfg)
+          } else {
+            message.error(res.message || '开机失败')
+          }
+        })
+        .catch(errors => {
+          console.log(errors)
+        })
+    } else {
+      message.warning('请选择要开机的终端！')
+    }
+  }
+
+  offTerminal = () => {
+    const ids = this.tablex.getSelection()
+    if (ids.length > 0) {
+      terminalApi
+        .onTerminal({ ids })
+        .then(res => {
+          if (res.success) {
+            notification.success({ title: '关机成功' })
+            this.tablex.refresh(this.state.tableCfg)
+          } else {
+            message.error(res.message || '关机失败')
+          }
+        })
+        .catch(errors => {
+          console.log(errors)
+        })
+    } else {
+      message.warning('请选择要关机的终端！')
+    }
+  }
+
+  admitAccessTerminal = () => {
+    const ids = this.tablex.getSelection()
+    if (ids.length > 0) {
+      terminalApi
+        .onTerminal({ ids })
+        .then(res => {
+          if (res.success) {
+            notification.success({ title: '接入成功' })
+            this.tablex.refresh(this.state.tableCfg)
+          } else {
+            message.error(res.message || '接入失败')
+          }
+        })
+        .catch(errors => {
+          console.log(errors)
+        })
+    } else {
+      message.warning('请选择允许接入的终端！')
+    }
+  }
+
   render() {
     return (
       <React.Fragment>
@@ -91,12 +148,11 @@ export default class Desktop extends React.Component {
         <TableWrap>
           <ToolBar>
             <BarLeft>
-              <Button onClick={this.newTerminal}>新建</Button>
               <Button onClick={this.editTerminal}>编辑</Button>
-              <Button onClick={this.newTerminal}>允许接入</Button>
-              <Button onClick={this.newTerminal}>开机</Button>
-              <Button onClick={this.newTerminal}>关机</Button>
-              <Button onClick={this.detailTerminal}>关机</Button>
+              <Button onClick={this.admitAccessTerminal}>允许接入</Button>
+              <Button onClick={this.onTerminal}>开机</Button>
+              <Button onClick={this.offTerminal}>关机</Button>
+              <Button onClick={this.detailTerminal}>查看详情</Button>
               {/* <Button onClick={this.newTerminal}>操作</Button> */}
             </BarLeft>
             <BarRight>
@@ -108,11 +164,6 @@ export default class Desktop extends React.Component {
               this.tablex = ref
             }}
             tableCfg={this.state.tableCfg}
-          />
-          <AddDrawer
-            onRef={ref => {
-              this.addDrawer = ref
-            }}
           />
           <EditDrawer
             onRef={ref => {

@@ -30,7 +30,6 @@ const cols = {
 
 export default function DetailUseStatisticsChart(props) {
   const { dataSource } = props
-  console.log(dataSource)
   return (
     <Chart
       height={250}

@@ -9,16 +9,30 @@ export default {
       data: qs.stringify(data)
     })
   },
-  add(data) {
+  edit(data) {
     return axios({
-      url: '/task/creating',
+      url: '/updating',
+      data: qs.stringify(data)
+    })
+  },
+  onTerminal(data) {
+    return axios({
+      url: '/onTerminal',
       method: 'post',
       data: qs.stringify(data)
     })
   },
-  edit(data) {
+  offTerminal(data) {
     return axios({
-      url: '/task/updating',
+      url: '/onTerminal',
+      method: 'post',
+      data: qs.stringify(data)
+    })
+  },
+  admitAccessTerminal(data) {
+    return axios({
+      url: '/onTerminal',
+      method: 'post',
       data: qs.stringify(data)
     })
   },

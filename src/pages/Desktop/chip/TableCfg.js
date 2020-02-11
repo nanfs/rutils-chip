@@ -1,9 +1,11 @@
-import tclogsApi from '@/services/tclogs'
+import desktopsApi from '@/services/desktops'
+import React from 'react'
+import { Icon } from 'antd'
 // TODO antd 样式加载问题
 export const columns = [
   {
-    title: '级别',
-    dataIndex: 'severity',
+    title: '状态',
+    dataIndex: 'status',
     filters: [
       {
         text: '1',
@@ -17,28 +19,65 @@ export const columns = [
     onFilter: (value, record) => record.severity === value
   },
   {
-    title: '时间',
-    dataIndex: 'datetime'
+    title: '基本信息',
+    dataIndex: 'name',
+    render: (text, record) => {
+      return `${record.os} ${record.name}`
+    }
   },
   {
-    title: '信息',
-    dataIndex: 'content'
+    title: 'IP',
+    dataIndex: 'ip'
   },
   {
-    title: '序列号',
-    dataIndex: 'sn'
+    title: '主机',
+    dataIndex: 'hostName'
   },
   {
-    title: '终端IP',
-    dataIndex: 'vip'
+    title: '数据中心/集群',
+    dataIndex: 'datacenterName',
+    render: (text, record) => {
+      return `${record.datacenterName}/${record.clusterName}`
+    }
   },
   {
-    title: '用户',
-    dataIndex: 'username'
+    title: '已分配用户',
+    dataIndex: 'assignedUsers'
   },
   {
-    title: '用户IP',
-    dataIndex: 'userIp'
+    title: '控制台',
+    dataIndex: 'isConsole',
+    render: (text, record) => {
+      const consoleContent = record.consoleUserName ? (
+        <div>
+          <Icon type="linked" />
+          <span>已连接</span>{' '}
+        </div>
+      ) : (
+        <div>
+          <Icon type="unlinked" />
+          <span>未连接</span>
+        </div>
+      )
+      return consoleContent
+    }
+  },
+  {
+    title: '本次运行时长',
+    key: 'onlineTime',
+    dataIndex: 'i'
+  },
+  {
+    title: 'CPU',
+    dataIndex: 'cpuUsageRate'
+  },
+  {
+    title: '内存',
+    dataIndex: 'memoryUsageRate'
+  },
+  {
+    title: '网络',
+    dataIndex: 'networkUsageRate'
   }
 ]
-export const apiMethod = tclogsApi.list
+export const apiMethod = desktopsApi.list

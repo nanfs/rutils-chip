@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form, Input, Radio, InputNumber, Row, Col } from 'antd'
+import { Form, Input, InputNumber } from 'antd'
 import Drawerx from '@/components/Drawerx'
 import Formx from '@/components/Formx'
 import Title, { Diliver } from '@/components/Title'
@@ -8,7 +8,7 @@ import { usbOptions, memoryOptions, cpuOptions } from '@/utils/formOptions'
 
 const { TextArea } = Input
 
-export default class AddDrawer extends React.Component {
+export default class EditDrawer extends React.Component {
   componentDidMount() {
     this.props.onRef && this.props.onRef(this)
   }
@@ -35,6 +35,7 @@ export default class AddDrawer extends React.Component {
   }
 
   render() {
+    const { initValues } = this.props
     return (
       <Drawerx
         onRef={ref => {
@@ -44,7 +45,7 @@ export default class AddDrawer extends React.Component {
           console.log(values)
         }}
       >
-        <Formx>
+        <Formx initValues={initValues}>
           <Title slot="基础设置"></Title>
           <Form.Item prop="name" label="桌面名称">
             <Input placeholder="桌面名称" />

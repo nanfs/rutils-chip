@@ -2,10 +2,11 @@ import React from 'react'
 import { Form, Input, InputNumber } from 'antd'
 import Drawerx from '@/components/Drawerx'
 import Formx from '@/components/Formx'
-import Title, { Diliver } from '@/components/Title'
+import Title from '@/components/Title'
 import Radiox from '@/components/Radiox'
-import { usbOptions, memoryOptions, cpuOptions } from '@/utils/formOptions'
-import desktopsApi from '@/services/desktops'
+import Selectx from '@/components/Selectx'
+import { usbOptions, manageTypeOptions } from '@/utils/formOptions'
+import poolsApi from '@/services/pools'
 
 const { TextArea } = Input
 
@@ -13,17 +14,17 @@ export default class AddDrawer extends React.Component {
   componentDidMount() {
     this.props.onRef && this.props.onRef(this)
     this.getTemplate()
-    this.getNetwork()
+    this.getCluster()
   }
 
   state = {
     templateOption: [],
-    networkOption: []
+    clusterOptions: []
   }
 
   getTemplate = () => {
     // axios获取数据
-    desktopsApi
+    poolsApi
       .getTemplate()
       .then(res => {
         if (res.success) {
@@ -39,28 +40,28 @@ export default class AddDrawer extends React.Component {
       .catch(err => console.log(err))
   }
 
-  getNetwork = () => {
+  getCluster = () => {
     // axios获取数据
-    desktopsApi
-      .getTemplate()
+    poolsApi
+      .getCluster()
       .then(res => {
         if (res.success) {
-          const networkOption = [
-            { label: '网络一', value: '1' },
-            { label: '网络二', value: '2' },
-            { label: '网络三', value: '3' },
-            { label: '网络四', value: '4' }
+          const clusterOptions = [
+            { label: '集群一', value: '1' },
+            { label: '集群二', value: '2' },
+            { label: '集群三', value: '3' },
+            { label: '集群四', value: '4' }
           ]
-          this.setState({ networkOption })
+          this.setState({ clusterOptions })
         }
       })
       .catch(err => console.log(err))
   }
 
-  addVm = values => {
+  addPool = values => {
     // TODO 是否是新增 删除 还是直接 传入桌面是单个还是批量
-    desktopsApi
-      .addVm({ data: values })
+    poolsApi
+      .addPool({ data: values })
       .then(res => {
         this.drawer.afterSubmit(res)
       })
@@ -75,11 +76,11 @@ export default class AddDrawer extends React.Component {
         onRef={ref => {
           this.drawer = ref
         }}
-        onOk={this.addVm}
+        onOk={this.addPool}
       >
         <Formx>
           <Title slot="基础设置"></Title>
-          <Form.Item prop="name" label="桌面名称">
+          <Form.Item prop="name" label="桌面池名称">
             <Input placeholder="桌面名称" />
           </Form.Item>
           <Form.Item prop="template" label="模板">
@@ -88,40 +89,23 @@ export default class AddDrawer extends React.Component {
               onRefresh={this.getTemplate}
             />
           </Form.Item>
+          <Form.Item prop="cluster" label="集群">
+            <Selectx options={this.state.clusterOptions} />
+          </Form.Item>
+          <Form.Item prop="manageType" label="管理类型">
+            <Radiox options={manageTypeOptions} />
+          </Form.Item>
           <Form.Item prop="usbNum" label="USB数量">
             <Radiox options={usbOptions} />
-          </Form.Item>
-          <Form.Item
-            prop="cpuCore"
-            label="CPU"
-            wrapperCol={{ sm: { span: 12 } }}
-          >
-            <Radiox options={cpuOptions} />
-          </Form.Item>
-          <Form.Item
-            prop="cpuNum"
-            wrapperCol={{ sm: { span: 12 } }}
-            className="extend-col"
-            style={{ marginTop: '-64px', marginLeft: '65%' }}
-          >
-            <InputNumber placeholder="" />
-          </Form.Item>
-          <Form.Item prop="memory" label="内存">
-            <Radiox options={memoryOptions} />
           </Form.Item>
           <Form.Item prop="desktopNum" label="创建数量">
             <InputNumber placeholder="" />
           </Form.Item>
+          <Form.Item prop="prestartNum" label="预启动数量">
+            <InputNumber placeholder="" />
+          </Form.Item>
           <Form.Item prop="description" label="描述">
             <TextArea placeholder="" />
-          </Form.Item>
-          <Diliver />
-          <Title slot="网络设置"></Title>
-          <Form.Item prop="network" label="网络">
-            <Radiox
-              options={this.state.networkOption}
-              onRefresh={this.getNetwork}
-            />
           </Form.Item>
         </Formx>
       </Drawerx>

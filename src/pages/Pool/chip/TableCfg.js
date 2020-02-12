@@ -1,8 +1,51 @@
-import desktopsApi from '@/services/desktops'
+import poolsApi from '@/services/pools'
 import React from 'react'
 import { Icon, Progress } from 'antd'
 // TODO antd 样式加载问题
 export const columns = [
+  {
+    title: '状态',
+    dataIndex: 'name'
+  },
+  {
+    title: '管理类型',
+    dataIndex: 'manageType',
+    filters: [
+      {
+        text: '1',
+        value: '1'
+      },
+      {
+        text: '3',
+        value: '3'
+      }
+    ],
+    onFilter: (value, record) => record.severity === value
+  },
+  {
+    title: '模板',
+    dataIndex: 'templateName'
+  },
+  {
+    title: '正在运行',
+    dataIndex: 'runDesktopNum'
+  },
+  {
+    title: '预启动',
+    dataIndex: 'prestartNum'
+  },
+  {
+    title: '桌面总数',
+    dataIndex: 'desktopNum'
+  },
+  {
+    title: '描述',
+    dataIndex: 'description'
+  }
+]
+export const apiMethod = poolsApi.list
+
+export const vmColumns = [
   {
     title: '状态',
     dataIndex: 'status',
@@ -26,26 +69,24 @@ export const columns = [
     }
   },
   {
-    title: 'IP',
-    dataIndex: 'ip'
-  },
-  {
     title: '主机',
     dataIndex: 'hostName'
   },
   {
-    title: '数据中心/集群',
-    dataIndex: 'datacenterName',
-    render: (text, record) => {
-      return `${record.datacenterName}/${record.clusterName}`
-    }
+    title: 'IP',
+    dataIndex: 'ip'
+  },
+  {
+    title: '上线时间',
+    key: 'onlineTime',
+    dataIndex: 'onlineTime'
   },
   {
     title: '已分配用户',
     dataIndex: 'assignedUsers'
   },
   {
-    title: '控制台',
+    title: '控制台状态',
     dataIndex: 'isConsole',
     render: (text, record) => {
       const consoleContent = record.consoleUserName ? (
@@ -62,17 +103,16 @@ export const columns = [
       return consoleContent
     }
   },
-  {
-    title: '本次运行时长',
-    key: 'onlineTime',
-    dataIndex: 'onlineTime'
-  },
+
   {
     title: 'CPU',
     dataIndex: 'cpuUsageRate',
     render: (text, record) => {
       return (
-        <Progress strokeWidth={16} percent={record.cpuUsageRate}></Progress>
+        <Progress
+          strokeWidth={16}
+          percent={record.cpuUsageRate || 0}
+        ></Progress>
       )
     }
   },
@@ -81,7 +121,10 @@ export const columns = [
     dataIndex: 'memoryUsageRate',
     render: (text, record) => {
       return (
-        <Progress strokeWidth={16} percent={record.memoryUsageRate}></Progress>
+        <Progress
+          strokeWidth={16}
+          percent={record.memoryUsageRate || 0}
+        ></Progress>
       )
     }
   },
@@ -90,9 +133,12 @@ export const columns = [
     dataIndex: 'networkUsageRate',
     render: (text, record) => {
       return (
-        <Progress strokeWidth={16} percent={record.networkUsageRate}></Progress>
+        <Progress
+          strokeWidth={16}
+          percent={record.networkUsageRate || 0}
+        ></Progress>
       )
     }
   }
 ]
-export const apiMethod = desktopsApi.list
+export const vmApiMethod = poolsApi.vmList

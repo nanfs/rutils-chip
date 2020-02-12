@@ -1,19 +1,20 @@
 import React from 'react'
-import { Radio, Button } from 'antd'
+import { Select, Button } from 'antd'
 
-export default class MyRadio extends React.Component {
+const { Option } = Select
+export default class Selectx extends React.Component {
   render() {
     const { className, options = [], onRefresh } = this.props
     return (
-      <Radio.Group className={className}>
+      <Select className={className}>
         {!options.length && <span>暂无数据</span>}
         {options.map(item => (
-          <Radio.Button value={item.value} key={item.value}>
+          <Option value={item.value} key={item.value} disabled={item.disabled}>
             {item.label}
-          </Radio.Button>
+          </Option>
         ))}
         {onRefresh && <Button onClick={onRefresh} icon="refresh"></Button>}
-      </Radio.Group>
+      </Select>
     )
   }
 }

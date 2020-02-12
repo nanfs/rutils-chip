@@ -75,6 +75,16 @@ export default class Desktop extends React.Component {
       })
   }
 
+  turnOn = () => {
+    const ids = this.state.tableCfg.selection
+    this.sendOrder(ids, 'turnOn')
+  }
+
+  turnOff = () => {
+    const ids = this.state.tableCfg.selection
+    this.sendOrder(ids, 'turnOff')
+  }
+
   onSelectChange = (selection, selectData) => {
     this.setState({
       tableCfg: { ...this.state.tableCfg, selection, selectData }
@@ -106,7 +116,7 @@ export default class Desktop extends React.Component {
 
   editVm = () => {
     this.setState(
-      { inner: '编辑桌面', initValues: this.state.selectData[0] },
+      { inner: '编辑桌面', initValues: this.state.tableCfg.selectData[0] },
       this.editDrawer.drawer.show()
     )
     this.currentDrawer = this.editDrawer
@@ -192,7 +202,15 @@ export default class Desktop extends React.Component {
               >
                 编辑桌面
               </Button>
-              <Button onClick={this.setUser}>分配用户</Button>
+              <Button
+                onClick={this.setUser}
+                disabled={
+                  !this.state.tableCfg.selection ||
+                  this.state.tableCfg.selection.length !== 1
+                }
+              >
+                分配用户
+              </Button>
 
               <Dropdown overlay={moreButton}>
                 <Button>

@@ -242,6 +242,7 @@ class Tablex extends React.Component {
           loading={loading}
           pagination={false}
           expandedRowRender={expandedRowRender}
+          onRow={this.props.onRow}
         />
         <div className="pagination-wrapper">
           <Button

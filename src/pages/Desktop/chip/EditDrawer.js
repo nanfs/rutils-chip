@@ -3,7 +3,7 @@ import { Form, Input, InputNumber } from 'antd'
 import Drawerx from '@/components/Drawerx'
 import Formx from '@/components/Formx'
 import Title, { Diliver } from '@/components/Title'
-import MyRadio from '@/components/MyRadio'
+import Radiox from '@/components/Radiox'
 import { usbOptions, memoryOptions, cpuOptions } from '@/utils/formOptions'
 import desktopsApi from '@/services/desktops'
 
@@ -84,20 +84,20 @@ export default class EditDrawer extends React.Component {
             <Input placeholder="桌面名称" />
           </Form.Item>
           <Form.Item prop="template" label="模板">
-            <MyRadio
+            <Radiox
               options={this.state.templateOption}
               onRefresh={this.getTemplate}
             />
           </Form.Item>
           <Form.Item prop="usbNum" label="USB数量">
-            <MyRadio options={usbOptions} />
+            <Radiox options={usbOptions} />
           </Form.Item>
           <Form.Item
             prop="cpuCore"
             label="CPU"
             wrapperCol={{ sm: { span: 12 } }}
           >
-            <MyRadio options={cpuOptions} />
+            <Radiox options={cpuOptions} />
           </Form.Item>
           <Form.Item
             prop="cpuNum"
@@ -108,7 +108,7 @@ export default class EditDrawer extends React.Component {
             <InputNumber placeholder="" />
           </Form.Item>
           <Form.Item prop="memory" label="内存">
-            <MyRadio options={memoryOptions} />
+            <Radiox options={memoryOptions} />
           </Form.Item>
           <Form.Item prop="desktopNum" label="创建数量">
             <InputNumber placeholder="" />
@@ -119,7 +119,7 @@ export default class EditDrawer extends React.Component {
           <Diliver />
           <Title slot="网络设置"></Title>
           <Form.Item prop="network" label="桌面名称">
-            <MyRadio
+            <Radiox
               options={this.state.networkOption}
               onRefresh={this.getNetwork}
             />

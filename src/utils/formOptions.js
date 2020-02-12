@@ -20,3 +20,8 @@ export const cpuOptions = [
   { label: '24核', value: '24' },
   { label: '32核', value: '32' }
 ]
+
+export const manageTypeOptions = [
+  { label: '手动', value: '1' },
+  { label: '自动', value: '2' }
+]

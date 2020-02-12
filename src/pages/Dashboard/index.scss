@@ -1,0 +1,73 @@
+p {
+  margin-bottom: 0;
+}
+.dashboard-wrap {
+  position: relative;
+  margin: 20px;
+  height: 100%;
+
+  .dashboard-charts {
+    //background-color: #fff;
+    height: 100%;
+    margin-right: 470px;
+
+    .dashboard-chart-wrap {
+      height: 470px;
+      border-top: 5px solid #1b68b3;
+
+      .dashboard-chart-title {
+        padding: 10px;
+        background-color: #fff;
+      }
+
+      .dashboard-chart {
+        background-color: #fff;
+      }
+      .dashboard-donutchart {
+        padding-bottom: 20px;
+        margin-bottom: 5px;
+      }
+    }
+
+  }
+
+  .dashboard-tclog{
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 450px;
+    height: 100%;
+    background-color: #fff;
+
+    .dashboard-tclog-title {
+      padding: 10px 12px;
+
+      .dashboard-tclog-title-text {
+        margin-left: 20px;
+        font-size: 16px;
+        font-weight: bold;
+      }
+
+      .dashboard-tclog-title-more {
+        float: right;
+        margin-right: 20px;
+      }
+    }
+
+    .ant-list-item {
+      padding: 12px 15px;
+    }
+
+    .ant-list-item:nth-child(odd) {
+      background:#f6f6f7;
+    }
+    .ant-list-item:nth-child(even) {
+      background:#fff;
+    }
+
+    .ant-list-item-meta-description {
+      padding-left: 16px;
+      color: #4b4b4b;
+    }
+  }
+}

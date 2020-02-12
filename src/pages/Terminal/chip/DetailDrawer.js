@@ -8,7 +8,7 @@ import { detailAdmitpolicyColumns } from './DetailAdmitpolicyTableCfg'
 import { detailUseTimeColumns } from './DetailUseTimeTableCfg'
 import DetailUseStatisticsChart from './DetailUseStatisticsChart'
 
-export default class AddDrawer extends React.Component {
+export default class DetailDrawer extends React.Component {
   componentDidMount() {
     this.props.onRef && this.props.onRef(this)
   }

@@ -15,6 +15,28 @@ import './index.scss'
 import terminalApi from '@/services/terminal'
 
 export default class Termina extends React.Component {
+  constructor(props) {
+    super(props)
+    columns.push({
+      title: '操作',
+      dataIndex: 'opration',
+      className: 'opration',
+      render: (text, record) => (
+        <div>
+          <Button
+            onClick={this.sendOrder.bind(this, record.id, 'turnOn')}
+            icon="user"
+          />
+          <Button
+            onClick={this.sendOrder.bind(this, record.id, 'turnOff')}
+            icon="user"
+          />
+          <Button onClick={this.detailVm}>详情</Button>
+        </div>
+      )
+    })
+  }
+
   state = {
     tableCfg: createTableCfg({
       columns,
@@ -24,6 +46,10 @@ export default class Termina extends React.Component {
     }),
     innerPath: undefined,
     initValues: {}
+  }
+
+  sendOrder = (id, order) => {
+    console.log('sendOrder', id, order)
   }
 
   onBack = () => {
@@ -160,6 +186,7 @@ export default class Termina extends React.Component {
             onRef={ref => {
               this.tablex = ref
             }}
+            className="no-select-bg"
             tableCfg={this.state.tableCfg}
             onSelectChange={(selection, selectData) => {
               this.setState({ selection, selectData })

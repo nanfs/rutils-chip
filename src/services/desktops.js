@@ -17,11 +17,46 @@ export default {
       params: data
     })
   },
-  createVm(data) {
+  setUser(data) {
+    return axios({
+      url: '/desktops',
+      method: 'get',
+      params: data
+    })
+  },
+  addVm(data) {
     return axios({
       url: '/desktops',
       method: 'post',
       data: qs.stringify(data)
+    })
+  },
+  editVm(data) {
+    return axios({
+      url: '/desktops',
+      method: 'post',
+      data: qs.stringify(data)
+    })
+  },
+  getTemplate(data) {
+    return axios({
+      url: '/desktops',
+      method: 'get',
+      params: data
+    })
+  },
+  sendOrder(data) {
+    return axios({
+      url: '/desktops',
+      method: 'get',
+      params: data
+    })
+  },
+  getNetwork(data) {
+    return axios({
+      url: '/desktops',
+      method: 'get',
+      params: data
     })
   }
 }

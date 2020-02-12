@@ -59,26 +59,34 @@ export default class DetailDrawer extends React.Component {
       >
         <Title slot="基础设置"></Title>
         <Row>
-          <Col>桌面名称：</Col>
-          <Col>{data.name}</Col>
-          <Col>数据中心：</Col>
-          <Col>{data.datacenter}</Col>
-          <Col>模板</Col>
-          <Col>{data.template}</Col>
-          <Col>集群：</Col>
-          <Col>{data.cluster}</Col>
-          <Col>USB个数：</Col>
-          <Col>{data.usbNumb}</Col>
-          <Col>CPU：</Col>
-          <Col>{data.cpu}</Col>
-          <Col>ID：</Col>
-          <Col>{data.id}</Col>
-          <Col>内存：</Col>
-          <Col>{data.memory}</Col>
-          <Col>描述：</Col>
-          <Col>{data.description}</Col>
-          <Col>IP：</Col>
-          <Col>{data.ip}</Col>
+          <Col span={3}>桌面名称：</Col>
+          <Col span={8}>{data.name}</Col>
+          <Col span={3}>数据中心：</Col>
+          <Col span={8}>{data.datacenter}</Col>
+        </Row>
+        <Row>
+          <Col span={3}>模板</Col>
+          <Col span={8}>{data.template}</Col>
+          <Col span={3}>集群：</Col>
+          <Col span={8}>{data.cluster}</Col>
+        </Row>
+        <Row>
+          <Col span={3}>USB个数：</Col>
+          <Col span={8}>{data.usbNumb}</Col>
+          <Col span={3}>CPU：</Col>
+          <Col span={8}>{data.cpu}</Col>
+        </Row>
+        <Row>
+          <Col span={3}>ID：</Col>
+          <Col span={8}>{data.id}</Col>
+          <Col span={3}>内存：</Col>
+          <Col span={8}>{data.memory}</Col>
+        </Row>
+        <Row>
+          <Col span={3}>描述：</Col>
+          <Col span={8}>{data.description}</Col>
+          <Col span={3}>IP：</Col>
+          <Col span={8}>{data.ip}</Col>
         </Row>
         <Diliver />
         <Title slot="所属用户"></Title>

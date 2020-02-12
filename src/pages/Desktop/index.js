@@ -59,7 +59,25 @@ export default class Desktop extends React.Component {
   }
 
   sendOrder = (id, order) => {
-    console.log('sendOrder', id, order)
+    let ids = []
+    if (!Array.isArray(id)) {
+      ids.push(id)
+    } else {
+      ids = [...id]
+    }
+    desktopsApi
+      .sendOrder({ ids, order })
+      .then(res => {
+        if (res.success) {
+          notification.success({ title: '操作成功' })
+          this.tablex.refresh(this.state.tableCfg)
+        } else {
+          message.error(res.message || '操作失败')
+        }
+      })
+      .catch(errors => {
+        console.log(errors)
+      })
   }
 
   onSelectChange = (selection, selectData) => {
@@ -171,7 +189,7 @@ export default class Desktop extends React.Component {
               <Button onClick={this.turnOff}>关机</Button>
               <Dropdown overlay={moreButton}>
                 <Button>
-                  Button <Icon type="down" />
+                  更多操作 <Icon type="down" />
                 </Button>
               </Dropdown>
             </BarLeft>
@@ -211,6 +229,7 @@ export default class Desktop extends React.Component {
             onRef={ref => {
               this.setUserDrawer = ref
             }}
+            selection={this.state.tableCfg.selection}
           />
         </TableWrap>
       </React.Fragment>

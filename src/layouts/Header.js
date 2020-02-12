@@ -1,6 +1,8 @@
 import React from 'react'
+import { push } from 'react-router-redux'
 import { Icon, Layout, Menu } from 'antd'
 import { USER } from '@/utils/auth'
+import { setUserToLocal } from '../components/Authorized'
 
 export default class Header extends React.Component {
   render() {
@@ -45,7 +47,9 @@ export default class Header extends React.Component {
           <Menu.Item
             key="logout"
             onClick={() => {
-              console.log('系统设置')
+              console.log('用户已注销')
+              setUserToLocal({})
+              return push('/login')
             }}
           >
             <Icon type="logout" />

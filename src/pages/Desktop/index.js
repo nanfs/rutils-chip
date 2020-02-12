@@ -20,27 +20,26 @@ import { columns, apiMethod } from './chip/TableCfg'
 import './index.scss'
 
 export default class Desktop extends React.Component {
-  constructor(props) {
-    super(props)
-    columns.push({
-      title: '操作',
-      dataIndex: 'opration',
-      className: 'opration',
-      render: (text, record) => (
-        <div>
-          <Button
-            onClick={this.sendOrder.bind(this, record.id, 'turnOn')}
-            icon="user"
-          />
-          <Button
-            onClick={this.sendOrder.bind(this, record.id, 'turnOff')}
-            icon="user"
-          />
-          <Button onClick={this.detailVm}>详情</Button>
-        </div>
-      )
-    })
+  options = {
+    title: '操作',
+    dataIndex: 'opration',
+    className: 'opration',
+    render: (text, record) => (
+      <div>
+        <Button
+          onClick={this.sendOrder.bind(this, record.id, 'turnOn')}
+          icon="user"
+        />
+        <Button
+          onClick={this.sendOrder.bind(this, record.id, 'turnOff')}
+          icon="user"
+        />
+        <Button onClick={this.detailVm}>详情</Button>
+      </div>
+    )
   }
+
+  columnsArr = [...columns, this.options]
 
   state = {
     tableCfg: createTableCfg({

@@ -1727,9 +1727,9 @@
       "clusterId": "7d8890c2-1dee-47be-9c02-ade1af2778c7",
       "clusterName": "bjm",
       "datacenterName": "bjm",
-      "cpuUsageRate": null,
-      "memoryUsageRate": null,
-      "networkUsageRate": null,
+      "cpuUsageRate": 12,
+      "memoryUsageRate": 15,
+      "networkUsageRate": 100,
       "assignedUsers": ""
     },
     {

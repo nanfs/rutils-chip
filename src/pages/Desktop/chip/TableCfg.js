@@ -72,7 +72,10 @@ export const columns = [
     dataIndex: 'cpuUsageRate',
     render: (text, record) => {
       return (
-        <Progress strokeWidth={16} percent={record.cpuUsageRate}></Progress>
+        <Progress
+          strokeWidth={16}
+          percent={record.cpuUsageRate || 0}
+        ></Progress>
       )
     }
   },
@@ -81,7 +84,10 @@ export const columns = [
     dataIndex: 'memoryUsageRate',
     render: (text, record) => {
       return (
-        <Progress strokeWidth={16} percent={record.memoryUsageRate}></Progress>
+        <Progress
+          strokeWidth={16}
+          percent={record.memoryUsageRate || 0}
+        ></Progress>
       )
     }
   },
@@ -90,7 +96,10 @@ export const columns = [
     dataIndex: 'networkUsageRate',
     render: (text, record) => {
       return (
-        <Progress strokeWidth={16} percent={record.networkUsageRate}></Progress>
+        <Progress
+          strokeWidth={16}
+          percent={record.networkUsageRate || 0}
+        ></Progress>
       )
     }
   }

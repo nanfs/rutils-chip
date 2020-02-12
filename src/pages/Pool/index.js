@@ -20,26 +20,25 @@ import { columns, apiMethod, vmColumns, vmApiMethod } from './chip/TableCfg'
 import './index.scss'
 
 export default class Pool extends React.Component {
-  constructor(props) {
-    super(props)
-    vmColumns.push({
-      title: '操作',
-      dataIndex: 'opration',
-      className: 'opration',
-      render: (text, record) => (
-        <div>
-          <Button
-            onClick={this.sendOrder.bind(this, record.id, 'turnOn')}
-            icon="user"
-          />
-          <Button
-            onClick={this.sendOrder.bind(this, record.id, 'turnOff')}
-            icon="user"
-          />
-        </div>
-      )
-    })
+  opration = {
+    title: '操作',
+    dataIndex: 'opration',
+    className: 'opration',
+    render: (text, record) => (
+      <div>
+        <Button
+          onClick={this.sendOrder.bind(this, record.id, 'turnOn')}
+          icon="user"
+        />
+        <Button
+          onClick={this.sendOrder.bind(this, record.id, 'turnOff')}
+          icon="user"
+        />
+      </div>
+    )
   }
+
+  vmColumnsArr = [...vmColumns, this.opration]
 
   state = {
     tableCfg: createTableCfg({
@@ -49,7 +48,7 @@ export default class Pool extends React.Component {
       pageSizeOptions: ['5', '10']
     }),
     vmTableCfg: createTableCfg({
-      columns: vmColumns,
+      columns: this.vmColumnsArr,
       apiMethod: vmApiMethod,
       paging: { size: 5 },
       pageSizeOptions: ['5', '10']

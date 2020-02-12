@@ -707,7 +707,7 @@
       "location": "",
       "gateWay": "192.168.128.1",
       "version": "3.1.0",
-      "autoLockTime": 0,
+      "autoLockTime": 10,
       "loginWay": 2,
       "bondKey": "",
       "secretWord": "0",

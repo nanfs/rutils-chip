@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form, Input, Icon, Slider, InputNumber, Row, Col, Select } from 'antd'
+import { Form, Input, Slider, InputNumber, Row, Col, Select } from 'antd'
 import Drawerx from '@/components/Drawerx'
 import Formx from '@/components/Formx'
 import Title from '@/components/Title'

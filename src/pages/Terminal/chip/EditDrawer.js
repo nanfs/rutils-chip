@@ -13,29 +13,41 @@ export default class EditDrawer extends React.Component {
     this.props.onRef && this.props.onRef(this)
   }
 
+  componentDidUpdate(prevProps) {
+    if (
+      prevProps.initValues.autoLockTime !== this.props.initValues.autoLockTime
+    ) {
+      this.setState({
+        autoLockTime: this.props.initValues.autoLockTime
+      })
+    }
+  }
+
   cancelEdit = () => {
     this.formx.props.form.resetFields()
   }
 
   state = {
-    inputValue: 1
+    autoLockTime: 1
   }
 
   onChange = value => {
     this.setState({
-      inputValue: value
+      autoLockTime: value
     })
   }
 
   render() {
     const { initValues } = this.props
-    const { inputValue } = this.state
+    console.log(initValues)
+    const { autoLockTime } = this.state
     return (
       <Drawerx
         onRef={ref => {
           this.drawer = ref
         }}
         onOk={values => {
+          // values.autoLockTime = autoLockTime
           console.log(values)
           return false
         }}
@@ -74,7 +86,7 @@ export default class EditDrawer extends React.Component {
                   min={1}
                   max={20}
                   onChange={this.onChange}
-                  value={typeof inputValue === 'number' ? inputValue : 0}
+                  value={typeof autoLockTime === 'number' ? autoLockTime : 1}
                 />
               </Col>
               <Col span={4}>
@@ -82,12 +94,12 @@ export default class EditDrawer extends React.Component {
                   min={1}
                   max={20}
                   style={{ marginLeft: 16 }}
-                  value={inputValue}
+                  value={autoLockTime}
                   onChange={this.onChange}
                 />
               </Col>
             </Row>
-            {/* <SliderNumber inputValue={'1'} /> */}
+            {/* <SliderNumber autoLockTime={'1'} /> */}
           </Form.Item>
           <Form.Item
             prop="location"

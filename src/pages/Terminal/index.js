@@ -32,21 +32,11 @@ export default class Termina extends React.Component {
   }
 
   editTerminal = () => {
-    let selectTem = {}
-    if (this.tablex.getSelection().length === 1) {
-      this.tablex.getData().forEach(item => {
-        if (item.id === this.tablex.getSelection()[0]) {
-          selectTem = item
-        }
-      })
-      this.setState(
-        { inner: '编辑模板', initValues: selectTem },
-        this.editDrawer.drawer.show()
-      )
-      this.currentDrawer = this.editDrawer
-    } else {
-      message.warning('请选择一条数据进行编辑！')
-    }
+    this.setState(
+      { inner: '编辑终端', initValues: this.state.selectData[0] },
+      this.editDrawer.drawer.show()
+    )
+    this.currentDrawer = this.editDrawer
   }
 
   detailTerminal = () => {
@@ -148,7 +138,14 @@ export default class Termina extends React.Component {
         <TableWrap>
           <ToolBar>
             <BarLeft>
-              <Button onClick={this.editTerminal}>编辑</Button>
+              <Button
+                onClick={this.editTerminal}
+                disabled={
+                  !this.state.selection || this.state.selection.length !== 1
+                }
+              >
+                编辑
+              </Button>
               <Button onClick={this.admitAccessTerminal}>允许接入</Button>
               <Button onClick={this.onTerminal}>开机</Button>
               <Button onClick={this.offTerminal}>关机</Button>
@@ -164,6 +161,9 @@ export default class Termina extends React.Component {
               this.tablex = ref
             }}
             tableCfg={this.state.tableCfg}
+            onSelectChange={(selection, selectData) => {
+              this.setState({ selection, selectData })
+            }}
           />
           <EditDrawer
             onRef={ref => {

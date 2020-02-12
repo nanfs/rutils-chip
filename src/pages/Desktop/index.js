@@ -59,12 +59,7 @@ export default class Desktop extends React.Component {
   }
 
   sendOrder = (id, order) => {
-    let ids = []
-    if (!Array.isArray(id)) {
-      ids.push(id)
-    } else {
-      ids = [...id]
-    }
+    const ids = !Array.isArray(id) ? [id] : [...id]
     desktopsApi
       .sendOrder({ ids, order })
       .then(res => {
@@ -92,7 +87,8 @@ export default class Desktop extends React.Component {
   }
 
   deleteVm = () => {
-    const { selection: ids } = this.state.tableCfg
+    const { selection: id } = this.state.tableCfg
+    const ids = !Array.isArray(id) ? [id] : [...id]
     desktopsApi
       .delete({ ids })
       .then(res => {
@@ -146,20 +142,33 @@ export default class Desktop extends React.Component {
       <Menu>
         <Menu.Item
           key="1"
-          onClick={(a, b) => {
-            console.log(a, b)
-          }}
+          onClick={this.deleteVm}
+          disabled={
+            !this.state.tableCfg.selection ||
+            !this.state.tableCfg.selection.length
+          }
         >
-          <Icon type="user" />
-          断电
-        </Menu.Item>
-        <Menu.Item key="2">
-          <Icon type="user" />
-          编辑
-        </Menu.Item>
-        <Menu.Item key="3">
-          <Icon type="user" />
           删除
+        </Menu.Item>
+        <Menu.Item
+          key="2"
+          onClick={this.turnOn}
+          disabled={
+            !this.state.tableCfg.selection ||
+            !this.state.tableCfg.selection.length
+          }
+        >
+          开机
+        </Menu.Item>
+        <Menu.Item
+          key="3"
+          onClick={this.turnOff}
+          disabled={
+            !this.state.tableCfg.selection ||
+            !this.state.tableCfg.selection.length
+          }
+        >
+          关机
         </Menu.Item>
       </Menu>
     )
@@ -184,9 +193,7 @@ export default class Desktop extends React.Component {
                 编辑桌面
               </Button>
               <Button onClick={this.setUser}>分配用户</Button>
-              <Button onClick={this.deleteVm}>删除</Button>
-              <Button onClick={this.turnOn}>开机</Button>
-              <Button onClick={this.turnOff}>关机</Button>
+
               <Dropdown overlay={moreButton}>
                 <Button>
                   更多操作 <Icon type="down" />

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, message } from 'antd'
+import { Button } from 'antd'
 import Tablex, {
   createTableCfg,
   TableWrap,
@@ -10,6 +10,7 @@ import Tablex, {
 import AddDrawer from './chip/AddDrawer'
 import EditDrawer from './chip/EditDrawer'
 import DetailDrawer from './chip/DetailDrawer'
+import SetUserDrawer from './chip/SetUserDrawer'
 import InnerPath from '@/components/InnerPath'
 import SelectSearch from '@/components/SelectSearch'
 import produce from 'immer'
@@ -34,8 +35,10 @@ export default class Desktop extends React.Component {
     this.currentDrawer.drawer.hide()
   }
 
-  componentDidMount() {
-    this.createVm()
+  onSelectChange = (selection, selectData) => {
+    this.setState({
+      tableCfg: { ...this.state.tableCfg, selection, selectData }
+    })
   }
 
   createVm = () => {
@@ -51,22 +54,21 @@ export default class Desktop extends React.Component {
     this.currentDrawer = this.editDrawer
   }
 
-  detailTerminal = () => {
-    let selectTem = {}
-    if (this.tablex.getSelection().length === 1) {
-      this.tablex.getData().forEach(item => {
-        if (item.id === this.tablex.getSelection()[0]) {
-          selectTem = item
-        }
-      })
-      this.setState(
-        { inner: '编辑模板', initValues: selectTem },
-        this.detailDrawer.drawer.show()
-      )
-      this.currentDrawer = this.detailDrawer
-    } else {
-      message.warning('请选择一条数据进行编辑！')
-    }
+  detailVm = () => {
+    this.setState(
+      { inner: '编辑桌面', data: this.state.selectData[0] },
+      this.detailDrawer.drawer.show()
+    )
+    this.currentDrawer = this.detailDrawer
+  }
+
+  setUser = () => {
+    this.setState({ inner: '分配用户' }, this.setUserDrawer.drawer.show())
+    this.currentDrawer = this.setUserDrawer
+  }
+
+  componentDidMount() {
+    this.setUser()
   }
 
   search = (key, value) => {
@@ -98,13 +100,23 @@ export default class Desktop extends React.Component {
               <Button onClick={this.createVm}>创建桌面</Button>
               <Button
                 disabled={
-                  !this.state.selection || this.state.selection.length !== 1
+                  !this.state.tableCfg.selection ||
+                  this.state.tableCfg.selection.length !== 1
                 }
                 onClick={this.editVm}
               >
                 编辑桌面
               </Button>
-              <Button onClick={this.setUsers}>分配用户</Button>
+              <Button
+                disabled={
+                  !this.state.tableCfg.selection ||
+                  this.state.tableCfg.selection.length !== 1
+                }
+                onClick={this.detailVm}
+              >
+                详情
+              </Button>
+              <Button onClick={this.setUser}>分配用户</Button>
               <Button onClick={this.turnOn}>开机</Button>
               <Button onClick={this.turnOff}>关机</Button>
             </BarLeft>
@@ -120,9 +132,7 @@ export default class Desktop extends React.Component {
               this.tablex = ref
             }}
             tableCfg={this.state.tableCfg}
-            onSelectChange={(selection, selectData) => {
-              this.setState({ selection, selectData })
-            }}
+            onSelectChange={this.onSelectChange}
           />
           <AddDrawer
             onRef={ref => {
@@ -140,6 +150,11 @@ export default class Desktop extends React.Component {
               this.detailDrawer = ref
             }}
             initValues={this.state.initValues}
+          />
+          <SetUserDrawer
+            onRef={ref => {
+              this.setUserDrawer = ref
+            }}
           />
         </TableWrap>
       </React.Fragment>

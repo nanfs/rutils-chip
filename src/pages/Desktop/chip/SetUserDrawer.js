@@ -58,6 +58,10 @@ export default class SetUserDrawer extends React.Component {
     ))
   }
 
+  setUser = () => {
+    console.log(this.state.tableCfg.selection)
+  }
+
   render() {
     const searchOptions = [{ label: '名称', value: 'name' }]
     return (
@@ -65,9 +69,7 @@ export default class SetUserDrawer extends React.Component {
         onRef={ref => {
           this.drawer = ref
         }}
-        onOk={values => {
-          console.log(values)
-        }}
+        onOk={this.setUser}
       >
         <Formx>
           <TableWrap>

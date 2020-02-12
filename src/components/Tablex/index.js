@@ -234,6 +234,7 @@ class Tablex extends React.Component {
     return (
       <React.Fragment>
         <Table
+          className={this.props.className}
           rowSelection={hasRowSelection ? rowSelection : null}
           columns={columns}
           dataSource={data}

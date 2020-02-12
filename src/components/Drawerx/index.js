@@ -43,6 +43,7 @@ class Drawerx extends React.Component {
 
   // TODO 修改处理方式
   afterSubmit = res => {
+    console.log('afterSubmit', res)
     return new Promise(resolve => {
       wrapResponse(res)
         .then(() => {

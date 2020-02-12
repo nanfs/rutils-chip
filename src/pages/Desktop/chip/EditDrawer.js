@@ -5,33 +5,68 @@ import Formx from '@/components/Formx'
 import Title, { Diliver } from '@/components/Title'
 import MyRadio from '@/components/MyRadio'
 import { usbOptions, memoryOptions, cpuOptions } from '@/utils/formOptions'
+import desktopsApi from '@/services/desktops'
 
 const { TextArea } = Input
 
 export default class EditDrawer extends React.Component {
   componentDidMount() {
     this.props.onRef && this.props.onRef(this)
+    this.getTemplate()
+    this.getNetwork()
   }
 
-  renderTemplate = () => {
+  state = {
+    templateOption: [],
+    networkOption: []
+  }
+
+  getTemplate = () => {
     // axios获取数据
-    const options = [
-      { label: '模板一', value: '1' },
-      { label: '模板二', value: '2' },
-      { label: '模板三', value: '3' },
-      { label: '模板四', value: '4' }
-    ]
-    return <MyRadio options={options} />
+    desktopsApi
+      .getTemplate()
+      .then(res => {
+        if (res.success) {
+          const templateOption = [
+            { label: '模板一', value: '1' },
+            { label: '模板二', value: '2' },
+            { label: '模板三', value: '3' },
+            { label: '模板四', value: '4' }
+          ]
+          this.setState({ templateOption })
+        }
+      })
+      .catch(err => console.log(err))
   }
 
-  renderNetWork = () => {
-    const options = [
-      { label: '网络一', value: '1' },
-      { label: '网络二', value: '2' },
-      { label: '网络三', value: '3' },
-      { label: '网络四', value: '4' }
-    ]
-    return <MyRadio options={options} />
+  getNetwork = () => {
+    // axios获取数据
+    desktopsApi
+      .getTemplate()
+      .then(res => {
+        if (res.success) {
+          const networkOption = [
+            { label: '网络一', value: '1' },
+            { label: '网络二', value: '2' },
+            { label: '网络三', value: '3' },
+            { label: '网络四', value: '4' }
+          ]
+          this.setState({ networkOption })
+        }
+      })
+      .catch(err => console.log(err))
+  }
+
+  editVm = values => {
+    // TODO 是否是新增 删除 还是直接 传入桌面是单个还是批量
+    desktopsApi
+      .editVm({ data: values })
+      .then(res => {
+        this.drawer.afterSubmit(res)
+      })
+      .catch(errors => {
+        console.log(errors)
+      })
   }
 
   render() {
@@ -41,9 +76,7 @@ export default class EditDrawer extends React.Component {
         onRef={ref => {
           this.drawer = ref
         }}
-        onOk={values => {
-          console.log(values)
-        }}
+        onOk={this.editVm}
       >
         <Formx initValues={initValues}>
           <Title slot="基础设置"></Title>
@@ -51,7 +84,10 @@ export default class EditDrawer extends React.Component {
             <Input placeholder="桌面名称" />
           </Form.Item>
           <Form.Item prop="template" label="模板">
-            {this.renderTemplate()}
+            <MyRadio
+              options={this.state.templateOption}
+              onRefresh={this.getTemplate}
+            />
           </Form.Item>
           <Form.Item prop="usbNum" label="USB数量">
             <MyRadio options={usbOptions} />
@@ -83,7 +119,10 @@ export default class EditDrawer extends React.Component {
           <Diliver />
           <Title slot="网络设置"></Title>
           <Form.Item prop="network" label="桌面名称">
-            {this.renderNetWork()}
+            <MyRadio
+              options={this.state.networkOption}
+              onRefresh={this.getNetwork}
+            />
           </Form.Item>
         </Formx>
       </Drawerx>

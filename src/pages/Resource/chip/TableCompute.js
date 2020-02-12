@@ -1,5 +1,4 @@
 import React from 'react'
-import { message } from 'antd'
 import Tablex, {
   createTableCfg,
   TableWrap,
@@ -8,6 +7,7 @@ import Tablex, {
 } from '@/components/Tablex'
 import SelectSearch from '@/components/SelectSearch'
 import { columnsCompute, apiMethodCompute } from './TableCfgCompute'
+import TitleInfo from '@/components/Title/TitleInfo'
 import produce from 'immer'
 
 export default class Resource extends React.Component {
@@ -41,6 +41,7 @@ export default class Resource extends React.Component {
       <React.Fragment>
         <div style={{ marginBottom: '26px' }}>
           <TableWrap>
+            <TitleInfo slot="计算资源" />
             <ToolBar>
               <BarLeft>
                 <SelectSearch

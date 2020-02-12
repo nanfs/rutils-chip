@@ -7,6 +7,7 @@ import Tablex, {
   BarLeft
 } from '@/components/Tablex'
 import SelectSearch from '@/components/SelectSearch'
+import TitleInfo from '@/components/Title/TitleInfo'
 import { columnsSave, apiMethodSave } from './TableCfgSave'
 import produce from 'immer'
 
@@ -40,6 +41,7 @@ export default class Resource extends React.Component {
     return (
       <React.Fragment>
         <TableWrap>
+          <TitleInfo slot="存储资源" />
           <ToolBar>
             <BarLeft>
               <SelectSearch

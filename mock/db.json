@@ -2595,12 +2595,17 @@
       "description": "daf0-测试安全策略描述的dafd的显示-001testfortheterminaldisplay",
       "boundTcNum": 1,
       "usbsupport": "83br3mVGRjU=",
-      "isUsagePeripherals": "0",
+      "isUsagePeripherals": "1",
       "usbs": [
         {
           "name": "q1",
           "pid": "2222",
           "vid": "3233"
+        },
+        {
+          "name": "234",
+          "pid": "222wqewe2",
+          "vid": "323wqreq3"
         }
       ]
     },

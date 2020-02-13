@@ -68,9 +68,9 @@ class Formx extends React.Component {
               rules
             })(
               React.cloneElement(child.props.children, {
-                onChange: () => {
+                onChange: e => {
                   const { onChange } = child.props.children.props
-                  onChange && onChange(value, values)
+                  onChange && onChange(value, values, e)
                 }
               })
             )

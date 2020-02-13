@@ -95,6 +95,7 @@ export default class Desktop extends React.Component {
             onRef={ref => {
               this.addDrawer = ref
             }}
+            initValues={{ type: 'week', name: 'test' }}
           />
           <EditDrawer
             onRef={ref => {

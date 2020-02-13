@@ -9,22 +9,23 @@ import '../index.scss'
 
 const { TextArea } = Input
 
-class AddDrawer extends React.Component {
+export default class AddDrawer extends React.Component {
   state = {
-    type: 'week'
+    current: 'day'
   }
 
   componentDidMount() {
     this.props.onRef && this.props.onRef(this)
   }
 
-  onChange = e => {
-    console.log(e)
-    this.setState({ type: e })
+  // TODO 表单取值
+  onChange = (value, values, e) => {
+    const type = e.target.value
+    console.log('onchange', type)
+    this.setState({ current: type })
   }
 
   render() {
-    const { getFieldDecorator, getFieldValue } = this.props.form
     const radioOptions = [
       { label: '按周', value: 'week' },
       { label: '按天', value: 'day' }
@@ -47,10 +48,9 @@ class AddDrawer extends React.Component {
         }}
         onOk={values => {
           console.log(values)
-          console.log(getFieldValue('date'), getFieldValue('weeks'))
         }}
       >
-        <Formx>
+        <Formx initValues={this.props.initValues}>
           <Title slot="基础设置"></Title>
           <Form.Item prop="name" required label="终端名称">
             <Input name="name" placeholder="终端名称" />
@@ -73,14 +73,10 @@ class AddDrawer extends React.Component {
             />
           </Form.Item>
           <Form.Item required label="准入时间" className="time-wrap">
-            {
-              {
-                day: getFieldDecorator('weeks')(
-                  <Selectx options={weekOptions} mode="multiple" />
-                ),
-                week: getFieldDecorator('date')(<DatePicker />)
-              }[this.state.type]
-            }
+            {this.state.current === 'day' && (
+              <Selectx options={weekOptions} mode="multiple" />
+            )}
+            {this.state.current === 'week' && <DatePicker />}
           </Form.Item>
           <Form.Item
             prop="startTime"
@@ -103,7 +99,3 @@ class AddDrawer extends React.Component {
     )
   }
 }
-
-const WrappedAddDrawer = Form.create()(AddDrawer)
-
-export default WrappedAddDrawer

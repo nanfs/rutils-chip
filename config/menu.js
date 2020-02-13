@@ -49,6 +49,12 @@ const menu = [
     authority: 'admin,security'
   },
   {
+    title: '用户管理',
+    icon: 'user',
+    path: '/user',
+    authority: 'admin,security'
+  },
+  {
     title: '系统日志',
     icon: 'user',
     path: '/log',

@@ -84,6 +84,14 @@ function getRouterConfig(app) {
           })
         },
         {
+          path: '/user',
+          component: dynamic({
+            app,
+            models: () => [import('../src/models/dashboard')],
+            component: () => import('../src/pages/User/index')
+          })
+        },
+        {
           path: '/vmlog',
           component: dynamic({
             app,

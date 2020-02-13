@@ -14,6 +14,7 @@ class Drawerx extends React.Component {
 
   componentDidMount() {
     this.props.onRef && this.props.onRef(this)
+    this.form = (this.formRef && this.formRef.props.form) || undefined
   }
 
   show = () => {
@@ -43,7 +44,6 @@ class Drawerx extends React.Component {
 
   // TODO 修改处理方式
   afterSubmit = res => {
-    console.log('afterSubmit', res)
     return new Promise(resolve => {
       wrapResponse(res)
         .then(() => {
@@ -118,12 +118,14 @@ class Drawerx extends React.Component {
   }
 
   renderContent(setFormRef) {
-    if (this.state.show) {
-      return this.hasFormx()
-        ? React.cloneElement(this.props.children, { onRef: setFormRef })
-        : this.props.children
-    }
-    return undefined
+    // if (this.state.show) {
+    return this.hasFormx()
+      ? React.cloneElement(this.props.children, {
+          onRef: setFormRef
+        })
+      : this.props.children
+    // }
+    // return undefined
   }
 
   render() {
@@ -135,7 +137,6 @@ class Drawerx extends React.Component {
       <Drawer
         closable={false}
         getContainer={false}
-        // mask={false}
         width={'100%'}
         placement="right"
         visible={this.state.show}

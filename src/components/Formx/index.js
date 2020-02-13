@@ -20,6 +20,16 @@ class Formx extends React.Component {
     form.setFieldsValue(initValues)
   }
 
+  shouldComponentUpdate(nextProps) {
+    // 应该使用这个方法，重新设置initValues
+    if (this.props.initValues === nextProps.initValues) {
+      return false
+    }
+    const { form } = this.props
+    form.setFieldsValue(nextProps.initValues)
+    return true
+  }
+
   handleSubmit = e => {
     e.preventDefault()
     const { onSubmit, form } = this.props

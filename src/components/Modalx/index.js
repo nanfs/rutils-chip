@@ -23,6 +23,7 @@ class Modalx extends React.Component {
 
   componentDidMount() {
     this.props.onRef && this.props.onRef(this)
+    this.form = (this.formRef && this.formRef.props.form) || undefined
   }
 
   show = () => {
@@ -90,12 +91,12 @@ class Modalx extends React.Component {
   }
 
   renderContent(setFormRef) {
-    if (this.state.show) {
-      return this.hasFormx()
-        ? React.cloneElement(this.props.children, { onRef: setFormRef })
-        : this.props.children
-    }
-    return undefined
+    // if (this.state.show) {
+    return this.hasFormx()
+      ? React.cloneElement(this.props.children, { onRef: setFormRef })
+      : this.props.children
+    // }
+    // return undefined
   }
 
   render() {

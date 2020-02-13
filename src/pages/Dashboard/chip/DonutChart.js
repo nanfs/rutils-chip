@@ -54,13 +54,14 @@ export default class DonutChart extends React.Component {
           data={dv}
           scale={cols}
           padding="auto"
+          // forceFit={true}
           className="dashboard-chart dashboard-donutchart"
         >
           <Coord type={'theta'} radius={0.9} innerRadius={0.8} />
           <Axis name="count" />
           <Legend
             position="right-center"
-            offsetX={10}
+            offsetX={50}
             offsetY={10}
             textStyle={{
               fill: '#404040', // 文本的颜色

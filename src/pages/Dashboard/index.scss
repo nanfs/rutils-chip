@@ -21,10 +21,19 @@ p {
       }
 
       .dashboard-chart {
+        width: 100%;
         background-color: #fff;
       }
+      .dashboard-linechart {
+        height: 180px;
+        padding: 0 50px 20px 40px;
+
+        canvas {
+          margin-top: -25px;
+        }
+      }
       .dashboard-donutchart {
-        padding-bottom: 20px;
+        padding: 20px 100px 20px 20px;
         margin-bottom: 5px;
       }
     }

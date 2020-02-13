@@ -41,7 +41,7 @@ class Dashboard extends React.Component {
               <Col span={12} style={{ paddingRight: 20, marginBottom: 20 }}>
                 <div className="dashboard-chart-wrap">
                   <div className="dashboard-chart-title">
-                    <TitleInfo slot="桌面" />
+                    <TitleInfo slot="桌面" more="更多&gt;" />
                   </div>
                   <DonutChart
                     guideTitle="桌面统计"
@@ -51,13 +51,43 @@ class Dashboard extends React.Component {
                   <LineChart lineChartData={[]} />
                 </div>
               </Col>
-              <Col span={12} className="dashboard-chart-wrap"></Col>
+              <Col span={12} className="dashboard-chart-wrap">
+                <div className="dashboard-chart-title">
+                  <TitleInfo slot="桌面池" more="更多&gt;" />
+                </div>
+                <DonutChart
+                  guideTitle="桌面池统计"
+                  dataSum="300"
+                  DonutChartData={[]}
+                />
+                <LineChart lineChartData={[]} />
+              </Col>
             </Row>
             <Row>
               <Col span={12} style={{ paddingRight: 20 }}>
-                <div className="dashboard-chart-wrap"></div>
+                <div className="dashboard-chart-wrap">
+                  <div className="dashboard-chart-title">
+                    <TitleInfo slot="终端" more="更多&gt;" />
+                  </div>
+                  <DonutChart
+                    guideTitle="终端统计"
+                    dataSum="300"
+                    DonutChartData={[]}
+                  />
+                  <LineChart lineChartData={[]} />
+                </div>
               </Col>
-              <Col span={12} className="dashboard-chart-wrap"></Col>
+              <Col span={12} className="dashboard-chart-wrap">
+                <div className="dashboard-chart-title">
+                  <TitleInfo slot="用户" more="更多&gt;" />
+                </div>
+                <DonutChart
+                  guideTitle="用户统计"
+                  dataSum="300"
+                  DonutChartData={[]}
+                />
+                <LineChart lineChartData={[]} />
+              </Col>
             </Row>
           </div>
           <div className="dashboard-tclog">

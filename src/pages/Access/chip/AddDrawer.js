@@ -16,6 +16,7 @@ export default class AddDrawer extends React.Component {
 
   componentDidMount() {
     this.props.onRef && this.props.onRef(this)
+    this.setState({ current: this.drawer.form.getFieldValue('type') })
   }
 
   // TODO 表单取值

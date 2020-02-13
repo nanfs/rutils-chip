@@ -16,7 +16,7 @@ export default {
       data: qs.stringify(data)
     })
   },
-  edit(data) {
+  update(data) {
     return axios({
       url: '/task/updating',
       data: qs.stringify(data)

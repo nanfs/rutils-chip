@@ -9,7 +9,7 @@ import '../index.scss'
 const { TextArea } = Input
 let id = 1000
 
-class AddDrawer extends React.Component {
+class EditDrawer extends React.Component {
   componentDidMount() {
     this.props.onRef && this.props.onRef(this)
   }
@@ -170,6 +170,6 @@ class AddDrawer extends React.Component {
   }
 }
 
-const WrappedAddDrawer = Form.create()(AddDrawer)
+const WrappedEditDrawer = Form.create()(EditDrawer)
 
-export default WrappedAddDrawer
+export default WrappedEditDrawer

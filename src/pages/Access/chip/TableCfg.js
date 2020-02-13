@@ -3,19 +3,26 @@ import accessApi from '@/services/access'
 export const columns = [
   {
     title: '名称',
-    dataIndex: 'datetime'
+    dataIndex: 'name'
   },
   {
     title: '日期',
-    dataIndex: 'content'
+    dataIndex: 'date',
+    render: (text, record) => {
+      return record.admitInterval[0].date
+    }
   },
   {
     title: '时间',
-    dataIndex: 'sn'
+    dataIndex: 'time',
+    width: 120,
+    render: (text, record) => {
+      return `${record.admitInterval[0].startTime} - ${record.admitInterval[0].endTime}`
+    }
   },
   {
     title: '描述',
-    dataIndex: 'vip'
+    dataIndex: 'description'
   }
 ]
 export const apiMethod = accessApi.list

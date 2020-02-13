@@ -176,7 +176,6 @@ export default class Termina extends React.Component {
               <Button onClick={this.onTerminal}>开机</Button>
               <Button onClick={this.offTerminal}>关机</Button>
               <Button onClick={this.detailTerminal}>查看详情</Button>
-              {/* <Button onClick={this.newTerminal}>操作</Button> */}
             </BarLeft>
             <BarRight>
               <Button>删除</Button>

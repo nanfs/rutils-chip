@@ -70,37 +70,22 @@ export const columns = [
   {
     title: 'CPU',
     dataIndex: 'cpuUsageRate',
-    render: (text, record) => {
-      return (
-        <Progress
-          strokeWidth={16}
-          percent={record.cpuUsageRate || 0}
-        ></Progress>
-      )
+    render: text => {
+      return <Progress strokeWidth={16} percent={text || 0}></Progress>
     }
   },
   {
     title: '内存',
     dataIndex: 'memoryUsageRate',
-    render: (text, record) => {
-      return (
-        <Progress
-          strokeWidth={16}
-          percent={record.memoryUsageRate || 0}
-        ></Progress>
-      )
+    render: text => {
+      return <Progress strokeWidth={16} percent={text || 0}></Progress>
     }
   },
   {
     title: '网络',
     dataIndex: 'networkUsageRate',
-    render: (text, record) => {
-      return (
-        <Progress
-          strokeWidth={16}
-          percent={record.networkUsageRate || 0}
-        ></Progress>
-      )
+    render: text => {
+      return <Progress strokeWidth={16} percent={text || 0}></Progress>
     }
   }
 ]

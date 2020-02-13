@@ -2,35 +2,67 @@ import React from 'react'
 import { Button, Input, Form, Icon, message } from 'antd'
 import Formx from '@/components/Formx'
 import loginApi from '@/services/login'
+import { ftInit, getUsbKeyId, getUser } from './ftusbkey'
+import encrypt from './encrypt'
 
 export default class LoginForm extends React.Component {
+  state = {
+    error: ''
+  }
+
+  constructor(props) {
+    super(props)
+    ftInit()
+  }
+
+  checkUsbkey(username, pincode) {
+    let user
+    try {
+      user = getUser(pincode)
+    } catch (e) {
+      this.setState({ error: e.message })
+      return false
+    }
+    if (user !== username) {
+      this.setState({ error: '当前登录用户与UsbKey不匹配' })
+      return false
+    }
+    this.setState({ error: '' })
+    return true
+  }
+
+  login(values) {
+    if (!this.checkUsbkey(values.username, values.pincode)) {
+      return false
+    }
+    const data = {
+      username: values.username,
+      usbkeyid: getUsbKeyId(values.pincode),
+      password: encrypt(values.password)
+    }
+    console.log(data)
+    loginApi
+      .login(data)
+      .then(res => {
+        if (res.success) {
+          message.success('登录成功')
+        } else {
+          message.error(res.message || '登录失败')
+        }
+      })
+      .catch(errors => {
+        console.log(errors)
+      })
+    return false
+  }
+
   render() {
     return (
       <Formx
         onRef={ref => {
           this.formx = ref
         }}
-        onSubmit={values => {
-          console.log(values)
-          loginApi
-            .login({ ...values })
-            .then(res => {
-              if (res.success) {
-                message.success('登录成功')
-              } else {
-                message.error(res.message || '登录失败')
-              }
-            })
-            .catch(errors => {
-              console.log(errors)
-            })
-          return false
-        }}
-        initValues={
-          {
-            // username: 'test'
-          }
-        }
+        onSubmit={this.login.bind(this)}
         {...this.props}
       >
         <Form.Item
@@ -67,7 +99,7 @@ export default class LoginForm extends React.Component {
           />
         </Form.Item>
         <Form.Item
-          prop="usbkey"
+          prop="pincode"
           wrapperCol={{ sm: { span: 24 } }}
           rules={[
             {
@@ -83,6 +115,7 @@ export default class LoginForm extends React.Component {
             style={{ height: 48 }}
           />
         </Form.Item>
+        {this.state.error && <span className="error">{this.state.error}</span>}
         <Form.Item wrapperCol={{ sm: { span: 24 } }} style={{ marginTop: 40 }}>
           <Button
             type="primary"

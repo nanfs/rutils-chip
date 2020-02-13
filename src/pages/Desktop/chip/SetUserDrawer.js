@@ -66,6 +66,7 @@ export default class SetUserDrawer extends React.Component {
       .setUser({ ids })
       .then(res => {
         this.drawer.afterSubmit(res)
+        this.props.onSuccess()
       })
       .catch(errors => {
         console.log(errors)

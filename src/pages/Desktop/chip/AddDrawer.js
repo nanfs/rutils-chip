@@ -63,6 +63,7 @@ export default class AddDrawer extends React.Component {
       .addVm({ data: values })
       .then(res => {
         this.drawer.afterSubmit(res)
+        this.props.onSuccess()
       })
       .catch(errors => {
         console.log(errors)

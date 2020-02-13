@@ -131,6 +131,10 @@ export default class Desktop extends React.Component {
     this.currentDrawer = this.setUserDrawer
   }
 
+  onSuccess = () => {
+    this.tablex.refresh(this.state.tableCfg)
+  }
+
   search = (key, value) => {
     const searchs = {}
     searchs[key] = value
@@ -236,11 +240,13 @@ export default class Desktop extends React.Component {
             onRef={ref => {
               this.addDrawer = ref
             }}
+            onSuccess={this.onSuccess}
           />
           <EditDrawer
             onRef={ref => {
               this.editDrawer = ref
             }}
+            onSuccess={this.onSuccess}
             initValues={this.state.initValues}
           />
           <DetailDrawer
@@ -253,6 +259,7 @@ export default class Desktop extends React.Component {
             onRef={ref => {
               this.setUserDrawer = ref
             }}
+            onSuccess={this.onSuccess}
             selection={this.state.tableCfg.selection}
           />
         </TableWrap>

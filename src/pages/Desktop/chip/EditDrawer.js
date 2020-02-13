@@ -63,6 +63,7 @@ export default class EditDrawer extends React.Component {
       .editVm({ data: values })
       .then(res => {
         this.drawer.afterSubmit(res)
+        this.props.onSuccess()
       })
       .catch(errors => {
         console.log(errors)

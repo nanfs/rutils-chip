@@ -49,7 +49,7 @@ export default class DonutChart extends React.Component {
     return (
       <div>
         <Chart
-          height={200}
+          height={190}
           width={450}
           data={dv}
           scale={cols}

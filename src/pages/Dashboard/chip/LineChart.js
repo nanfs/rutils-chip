@@ -56,7 +56,7 @@ export default function WorkOvertimeChart(props) {
 
   return (
     <Chart
-      height={230}
+      height={220}
       width={550}
       data={data}
       scale={cols}

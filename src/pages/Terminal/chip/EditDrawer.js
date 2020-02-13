@@ -65,7 +65,7 @@ export default class EditDrawer extends React.Component {
             rules={[
               {
                 required: true,
-                message: '请填写终端名称'
+                message: '请输入终端名称'
               }
             ]}
           >
@@ -107,7 +107,7 @@ export default class EditDrawer extends React.Component {
             rules={[
               {
                 required: true,
-                message: '请填写信息位置'
+                message: '请输入信息位置'
               }
             ]}
           >
@@ -135,7 +135,7 @@ export default class EditDrawer extends React.Component {
             rules={[
               {
                 required: true,
-                message: '请填写输入口令'
+                message: '请输入输入口令'
               }
             ]}
           >

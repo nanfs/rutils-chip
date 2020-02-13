@@ -3,6 +3,7 @@ import { push } from 'react-router-redux'
 import { Icon, Layout, Menu } from 'antd'
 import { USER } from '@/utils/auth'
 import { setUserToLocal } from '../components/Authorized'
+import ResetPwModal from './chip/ResetPwModal'
 
 export default class Header extends React.Component {
   render() {
@@ -38,6 +39,7 @@ export default class Header extends React.Component {
           <Menu.Item
             key="changePwd"
             onClick={() => {
+              this.modal.pop()
               console.log('changePwd')
             }}
           >
@@ -56,6 +58,11 @@ export default class Header extends React.Component {
             <span>注销</span>
           </Menu.Item>
         </Menu>
+        <ResetPwModal
+          onRef={ref => {
+            this.modal = ref
+          }}
+        />
       </Layout.Header>
     )
   }

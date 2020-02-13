@@ -22,11 +22,11 @@ class Formx extends React.Component {
 
   shouldComponentUpdate(nextProps) {
     // 应该使用这个方法，重新设置initValues
-    if (this.props.initValues === nextProps.initValues) {
-      return false
+    if (this.props.initValues !== nextProps.initValues) {
+      const { form } = this.props
+      form.setFieldsValue(nextProps.initValues)
+      return true
     }
-    const { form } = this.props
-    form.setFieldsValue(nextProps.initValues)
     return true
   }
 

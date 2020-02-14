@@ -11,12 +11,12 @@ const { TextArea } = Input
 
 export default class AddDrawer extends React.Component {
   state = {
-    current: 'day'
+    current: 0
   }
 
   componentDidMount() {
     this.props.onRef && this.props.onRef(this)
-    this.setState({ current: this.drawer.form.getFieldValue('type') })
+    this.setState({ current: this.drawer.form.getFieldValue('type') || 0 })
   }
 
   // TODO 表单取值
@@ -28,10 +28,8 @@ export default class AddDrawer extends React.Component {
 
   render() {
     const radioOptions = [
-      { label: '按周', value: 'week' },
-      { label: '按天', value: 'day' }
-      // { label: '按月', value: 'month' },
-      // { label: '按年', value: 'year' }
+      { label: '按周', value: 0 },
+      { label: '按天', value: 1 }
     ]
     const weekOptions = [
       { label: '周一', value: '1' },
@@ -51,7 +49,7 @@ export default class AddDrawer extends React.Component {
           console.log(values)
         }}
       >
-        <Formx initValues={this.props.initValues}>
+        <Formx>
           <Title slot="基础设置"></Title>
           <Form.Item prop="name" required label="终端名称">
             <Input name="name" placeholder="终端名称" />
@@ -70,14 +68,19 @@ export default class AddDrawer extends React.Component {
             <Radiox
               options={radioOptions}
               onChange={this.onChange}
-              defaultVal="week"
+              defaultVal={0}
             />
           </Form.Item>
-          <Form.Item required label="准入时间" className="time-wrap">
-            {this.state.current === 'day' && (
+          <Form.Item
+            required
+            // prop="date"
+            label="准入时间"
+            className="time-wrap"
+          >
+            {this.state.current === 0 && (
               <Selectx options={weekOptions} mode="multiple" />
             )}
-            {this.state.current === 'week' && <DatePicker />}
+            {this.state.current === 1 && <DatePicker />}
           </Form.Item>
           <Form.Item
             prop="startTime"

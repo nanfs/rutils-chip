@@ -11,6 +11,7 @@ import EditDrawer from './chip/EditDrawer'
 import InnerPath from '@/components/InnerPath'
 import { columns, apiMethod } from './chip/TableCfg'
 import accessApi from '@/services/access'
+import moment from 'moment'
 
 const { confirm } = Modal
 
@@ -40,6 +41,23 @@ export default class Desktop extends React.Component {
     let selectAccess = {}
     if (this.tablex.getSelection().length === 1) {
       selectAccess = this.tablex.getSelectData()[0]
+      selectAccess.type = selectAccess.admitInterval[0].type
+      if (selectAccess.type === 0) {
+        selectAccess.date = selectAccess.admitInterval[0].date.split(',')
+      } else {
+        selectAccess.date = moment(
+          selectAccess.admitInterval[0].date,
+          'YYYY/MM/DD'
+        )
+      }
+      selectAccess.startTime = moment(
+        selectAccess.admitInterval[0].startTime,
+        'HH:mm'
+      )
+      selectAccess.endTime = moment(
+        selectAccess.admitInterval[0].endTime,
+        'HH:mm'
+      )
       this.setState(
         { inner: '编辑', initValues: selectAccess },
         this.editDrawer.drawer.show()

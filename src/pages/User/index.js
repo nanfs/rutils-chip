@@ -1,41 +1,21 @@
 import React from 'react'
-import { Button, message, notification, TreeSelect, Row, Col } from 'antd'
+import { Button, Row, Col } from 'antd'
 import Tablex, {
   createTableCfg,
   TableWrap,
   ToolBar,
-  BarLeft,
-  BarRight
+  BarLeft
 } from '@/components/Tablex'
+import Treex from '@/components/Treex'
 import InnerPath from '@/components/InnerPath'
 import { columns, apiMethod } from './chip/TableCfg'
+import AddDrawer from './chip/AddDrawer'
+import EditDrawer from './chip/EditDrawer'
+import DetailDrawer from './chip/DetailDrawer'
 import './index.scss'
-import terminalApi from '@/services/terminal'
+import userApi from '@/services/user'
 
-const { TreeNode } = TreeSelect
 export default class User extends React.Component {
-  constructor(props) {
-    super(props)
-    columns.push({
-      title: '操作',
-      dataIndex: 'opration',
-      className: 'opration',
-      render: (text, record) => (
-        <div>
-          <Button
-            onClick={this.sendOrder.bind(this, record.id, 'turnOn')}
-            icon="user"
-          />
-          <Button
-            onClick={this.sendOrder.bind(this, record.id, 'turnOff')}
-            icon="user"
-          />
-          <Button onClick={this.detailVm}>详情</Button>
-        </div>
-      )
-    })
-  }
-
   state = {
     tableCfg: createTableCfg({
       columns,
@@ -57,17 +37,20 @@ export default class User extends React.Component {
     this.currentDrawer.drawer.hide()
   }
 
-  editTerminal = () => {
-    this.setState(
-      { inner: '编辑终端', initValues: this.state.selectData[0] },
-      this.editDrawer.drawer.show()
-    )
+  addUser = () => {
+    this.setState({ inner: '创建用户' })
+    this.addDrawer.drawer.show()
+    this.currentDrawer = this.addDrawer
+  }
+
+  editUser = () => {
+    this.setState({ inner: '编辑用户', initValues: this.state.selectData[0] })
+    this.editDrawer.drawer.show()
     this.currentDrawer = this.editDrawer
   }
 
-  onChange = value => {
-    console.log(value)
-    this.setState({ value })
+  onSelect = (value, node) => {
+    console.log(value, node)
   }
 
   render() {
@@ -75,30 +58,7 @@ export default class User extends React.Component {
       <React.Fragment>
         <Row>
           <Col span={4}>
-            <TreeSelect
-              showSearch
-              style={{ width: '100%' }}
-              value={this.state.value}
-              dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
-              placeholder="Please select"
-              allowClear
-              treeDefaultExpandAll
-              onChange={this.onChange}
-            >
-              <TreeNode value="parent 1" title="parent 1" key="0-1">
-                <TreeNode value="parent 1-0" title="parent 1-0" key="0-1-1">
-                  <TreeNode value="leaf1" title="my leaf" key="random" />
-                  <TreeNode value="leaf2" title="your leaf" key="random1" />
-                </TreeNode>
-                <TreeNode value="parent 1-1" title="parent 1-1" key="random2">
-                  <TreeNode
-                    value="sss"
-                    title={<b style={{ color: '#08c' }}>sss</b>}
-                    key="random3"
-                  />
-                </TreeNode>
-              </TreeNode>
-            </TreeSelect>
+            <Treex apiMethod={userApi.list} onSelect={this.onSelect}></Treex>
           </Col>
           <Col span={20}>
             <InnerPath
@@ -109,22 +69,54 @@ export default class User extends React.Component {
             <TableWrap>
               <ToolBar>
                 <BarLeft>
+                  <Button onClick={this.addUser}>创建用户</Button>
                   <Button
-                    onClick={this.editTerminal}
+                    onClick={this.editUser}
                     disabled={
                       !this.state.selection || this.state.selection.length !== 1
                     }
                   >
                     编辑
                   </Button>
-                  <Button onClick={this.admitAccessTerminal}>允许接入</Button>
-                  <Button onClick={this.onTerminal}>开机</Button>
-                  <Button onClick={this.offTerminal}>关机</Button>
-                  <Button onClick={this.detailTerminal}>查看详情</Button>
+                  <Button
+                    onClick={this.lockUser}
+                    disabled={
+                      !this.state.selection ||
+                      this.state.selection.length !== 1 ||
+                      (this.state.selection.length === 1 &&
+                        this.state.selection[0].status === '锁定')
+                    }
+                  >
+                    锁定
+                  </Button>
+                  <Button
+                    onClick={this.unlockUser}
+                    disabled={
+                      !this.state.selection ||
+                      this.state.selection.length !== 1 ||
+                      (this.state.selection.length === 1 &&
+                        this.state.selection[0].status === '正常')
+                    }
+                  >
+                    解锁
+                  </Button>
+                  <Button
+                    onClick={this.detailUser}
+                    disabled={
+                      !this.state.selection || this.state.selection.length !== 1
+                    }
+                  >
+                    详情
+                  </Button>
+                  <Button
+                    onClick={this.deleteUser}
+                    disabled={
+                      !this.state.selection || this.state.selection.length === 0
+                    }
+                  >
+                    删除
+                  </Button>
                 </BarLeft>
-                <BarRight>
-                  <Button>删除</Button>
-                </BarRight>
               </ToolBar>
               <Tablex
                 onRef={ref => {
@@ -135,6 +127,23 @@ export default class User extends React.Component {
                 onSelectChange={(selection, selectData) => {
                   this.setState({ selection, selectData })
                 }}
+              />
+              <AddDrawer
+                onRef={ref => {
+                  this.addDrawer = ref
+                }}
+              />
+              <EditDrawer
+                onRef={ref => {
+                  this.editDrawer = ref
+                }}
+                initValues={this.state.initValues}
+              />
+              <DetailDrawer
+                onRef={ref => {
+                  this.detailDrawer = ref
+                }}
+                initValues={this.state.initValues}
               />
             </TableWrap>
           </Col>

@@ -1,85 +1,39 @@
 import React from 'react'
-import terminalApi from '@/services/terminal'
-import { Icon, Popover } from 'antd'
+import userApi from '@/services/user'
+import { Icon } from 'antd'
 // TODO antd 样式加载问题
 export const columns = [
   {
-    title: '状态',
-    dataIndex: 'status',
-    filters: [
-      {
-        text: '1',
-        value: '1'
-      },
-      {
-        text: '3',
-        value: '3'
-      }
-    ],
-    onFilter: (value, record) => record.severity === value
+    title: '用户名',
+    dataIndex: 'username'
   },
   {
-    title: '名称',
+    title: '姓名',
     dataIndex: 'name'
   },
   {
-    title: '接入状态',
-    dataIndex: 'content'
+    title: '用户组',
+    dataIndex: 'groupName'
   },
   {
-    title: '位置',
-    dataIndex: 'location'
+    title: '角色',
+    dataIndex: 'roleName'
   },
   {
-    title: 'IP',
-    dataIndex: 'ip'
+    title: '邮件',
+    dataIndex: 'email'
   },
   {
-    title: '安全策略',
-    dataIndex: 'safepolicy',
-    render: text => (
-      <span className="table-action">
-        {text ? <Icon type="check" /> : <Icon type="close" />}
-      </span>
-    )
+    title: '桌面数量',
+    dataIndex: 'desktopNumber'
   },
   {
-    title: '准入策略',
-    dataIndex: 'admitpolicy',
-    render: text => (
-      <span className="table-action">
-        {text ? <Icon type="check" /> : <Icon type="close" />}
-      </span>
-    )
+    title: '终端数量',
+    dataIndex: 'terminalNumber'
   },
   {
-    title: '分配用户',
-    dataIndex: 'authorizationUserName',
-    render: text => (
-      <span className="table-action">
-        {text ? <Icon type="check" /> : <Icon type="close" />}
-      </span>
-    )
-  },
-  {
-    title: '使用时间',
-    key: 'userTime',
-    render: (text, record) => (
-      <span>
-        <Popover
-          placement="bottomRight"
-          content={
-            <div>
-              <p>{`上线：${record.onlinetime.replace(/,/g, ' ')}`}</p>
-              <p>{`下线：${record.offlinetime.replace(/,/g, ' ')}`}</p>
-            </div>
-          }
-          title="使用时间"
-        >
-          <Icon type="clock-circle" />
-        </Popover>
-      </span>
-    )
+    title: '状态',
+    dataIndex: 'status'
   }
 ]
-export const apiMethod = terminalApi.list
+export const apiMethod = userApi.list

@@ -9,33 +9,14 @@ import Tablex, {
 } from '@/components/Tablex'
 import InnerPath from '@/components/InnerPath'
 import { columns, apiMethod } from './chip/TableCfg'
+import AddDrawer from './chip/AddDrawer'
+import EditDrawer from './chip/EditDrawer'
+import DetailDrawer from './chip/DetailDrawer'
 import './index.scss'
-import terminalApi from '@/services/terminal'
+import userApi from '@/services/user'
 
 const { TreeNode } = TreeSelect
 export default class User extends React.Component {
-  constructor(props) {
-    super(props)
-    columns.push({
-      title: '操作',
-      dataIndex: 'opration',
-      className: 'opration',
-      render: (text, record) => (
-        <div>
-          <Button
-            onClick={this.sendOrder.bind(this, record.id, 'turnOn')}
-            icon="user"
-          />
-          <Button
-            onClick={this.sendOrder.bind(this, record.id, 'turnOff')}
-            icon="user"
-          />
-          <Button onClick={this.detailVm}>详情</Button>
-        </div>
-      )
-    })
-  }
-
   state = {
     tableCfg: createTableCfg({
       columns,
@@ -57,12 +38,95 @@ export default class User extends React.Component {
     this.currentDrawer.drawer.hide()
   }
 
-  editTerminal = () => {
-    this.setState(
-      { inner: '编辑终端', initValues: this.state.selectData[0] },
-      this.editDrawer.drawer.show()
-    )
+  addUser = () => {
+    this.setState({ inner: '创建用户' })
+    this.addDrawer.drawer.show()
+    this.currentDrawer = this.addDrawer
+  }
+
+  editUser = () => {
+    this.setState({ inner: '编辑用户', initValues: this.state.selectData[0] })
+    this.editDrawer.drawer.show()
     this.currentDrawer = this.editDrawer
+  }
+
+  lockUser = () => {
+    const ids = this.tablex.getSelection()
+    userApi
+      .lockUser({ ids })
+      .then(res => {
+        if (res.success) {
+          notification.success({ title: '锁定成功' })
+          this.tablex.refresh(this.state.tableCfg)
+        } else {
+          message.error(res.message || '锁定失败')
+        }
+      })
+      .catch(errors => {
+        console.log(errors)
+      })
+  }
+
+  unlockUser = () => {
+    const ids = this.tablex.getSelection()
+    userApi
+      .unlockUser({ ids })
+      .then(res => {
+        if (res.success) {
+          notification.success({ title: '解锁成功' })
+          this.tablex.refresh(this.state.tableCfg)
+        } else {
+          message.error(res.message || '解锁失败')
+        }
+      })
+      .catch(errors => {
+        console.log(errors)
+      })
+  }
+
+  deleteUser = () => {
+    const ids = this.tablex.getSelection()
+    userApi
+      .deleteUser({ ids })
+      .then(res => {
+        if (res.success) {
+          notification.success({ title: '删除成功' })
+          this.tablex.refresh(this.state.tableCfg)
+        } else {
+          message.error(res.message || '删除失败')
+        }
+      })
+      .catch(errors => {
+        console.log(errors)
+      })
+  }
+
+  detailUser = () => {
+    /* const ids = this.tablex.getSelection()
+    userApi
+      .terminalsdetail({ ids })
+      .then(res => {
+        if (res.success) {
+          this.setState({ inner: '查看详情', initValues: res.data })
+          userApi.terminalsusagedetail({ ids }).then(result => {
+            if (result.success) {
+              this.setState({ initChartValue: result.data.list })
+              this.detailDrawer.drawer.show()
+              this.currentDrawer = this.detailDrawer
+            } else {
+              message.error(res.message || '查询失败')
+            }
+          })
+        } else {
+          message.error(res.message || '查询失败')
+        }
+      })
+      .catch(errors => {
+        console.log(errors)
+      }) */
+    this.setState({ inner: '查看详情', initValues: {} })
+    this.detailDrawer.drawer.show()
+    this.currentDrawer = this.detailDrawer
   }
 
   onChange = value => {
@@ -109,22 +173,54 @@ export default class User extends React.Component {
             <TableWrap>
               <ToolBar>
                 <BarLeft>
+                  <Button onClick={this.addUser}>创建用户</Button>
                   <Button
-                    onClick={this.editTerminal}
+                    onClick={this.editUser}
                     disabled={
                       !this.state.selection || this.state.selection.length !== 1
                     }
                   >
                     编辑
                   </Button>
-                  <Button onClick={this.admitAccessTerminal}>允许接入</Button>
-                  <Button onClick={this.onTerminal}>开机</Button>
-                  <Button onClick={this.offTerminal}>关机</Button>
-                  <Button onClick={this.detailTerminal}>查看详情</Button>
+                  <Button
+                    onClick={this.lockUser}
+                    disabled={
+                      !this.state.selection ||
+                      this.state.selection.length !== 1 ||
+                      (this.state.selection.length === 1 &&
+                        this.state.selection[0].status === '锁定')
+                    }
+                  >
+                    锁定
+                  </Button>
+                  <Button
+                    onClick={this.unlockUser}
+                    disabled={
+                      !this.state.selection ||
+                      this.state.selection.length !== 1 ||
+                      (this.state.selection.length === 1 &&
+                        this.state.selection[0].status === '正常')
+                    }
+                  >
+                    解锁
+                  </Button>
+                  <Button
+                    onClick={this.detailUser}
+                    disabled={
+                      !this.state.selection || this.state.selection.length !== 1
+                    }
+                  >
+                    详情
+                  </Button>
+                  <Button
+                    onClick={this.deleteUser}
+                    disabled={
+                      !this.state.selection || this.state.selection.length === 0
+                    }
+                  >
+                    删除
+                  </Button>
                 </BarLeft>
-                <BarRight>
-                  <Button>删除</Button>
-                </BarRight>
               </ToolBar>
               <Tablex
                 onRef={ref => {
@@ -135,6 +231,23 @@ export default class User extends React.Component {
                 onSelectChange={(selection, selectData) => {
                   this.setState({ selection, selectData })
                 }}
+              />
+              <AddDrawer
+                onRef={ref => {
+                  this.addDrawer = ref
+                }}
+              />
+              <EditDrawer
+                onRef={ref => {
+                  this.editDrawer = ref
+                }}
+                initValues={this.state.initValues}
+              />
+              <DetailDrawer
+                onRef={ref => {
+                  this.detailDrawer = ref
+                }}
+                initValues={this.state.initValues}
               />
             </TableWrap>
           </Col>

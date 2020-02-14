@@ -11,7 +11,7 @@ const ModalCfg_init = {
   hasFooter: true
 }
 export function createModalCfg(myCfg) {
-  return Object.assign(ModalCfg_init, myCfg)
+  return { ...ModalCfg_init, ...myCfg }
 }
 class Modalx extends React.Component {
   constructor(props) {

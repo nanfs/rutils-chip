@@ -4,6 +4,8 @@ import { Icon, Layout, Menu } from 'antd'
 import { USER } from '@/utils/auth'
 import { setUserToLocal } from '../components/Authorized'
 import ResetPwModal from './chip/ResetPwModal'
+import SystemModal from './chip/SystemModal'
+// import AboutModal from './chip/AboutModal'
 
 export default class Header extends React.Component {
   render() {
@@ -21,6 +23,7 @@ export default class Header extends React.Component {
           <Menu.Item
             key="systemConfig"
             onClick={() => {
+              this.sysModal.pop()
               console.log('systemConfig')
             }}
           >
@@ -30,6 +33,7 @@ export default class Header extends React.Component {
           <Menu.Item
             key="about"
             onClick={() => {
+              this.aboutModal.pop()
               console.log('about')
             }}
           >
@@ -63,6 +67,16 @@ export default class Header extends React.Component {
             this.modal = ref
           }}
         />
+        <SystemModal
+          onRef={ref => {
+            this.sysModal = ref
+          }}
+        />
+        {/* <AboutModal
+          onRef={ref => {
+            this.aboutModal = ref
+          }}
+        /> */}
       </Layout.Header>
     )
   }

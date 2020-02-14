@@ -9,5 +9,13 @@ export default {
       method: 'post',
       data: qs.stringify(data)
     })
+  },
+  // 系统设置
+  updateConfig(data) {
+    return axios({
+      url: '/employee/changePassword',
+      method: 'post',
+      data: qs.stringify(data)
+    })
   }
 }

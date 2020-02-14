@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import Icon from 'violet-ui/components/Icon'
 import Spin from 'violet-ui/components/Spin'
-import Dialog, { DialogHeader, DialogBody } from '../Dialog'
+// import Dialog, { DialogHeader, DialogBody } from '../Dialog'
 import styles from './index.m.scss'
 
 class AboutModal extends React.Component {

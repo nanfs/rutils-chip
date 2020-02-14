@@ -12,8 +12,8 @@ export function AuthDisable(user) {
 }
 export function IsOnline() {
   return (
-    (localStorage.getItem('d-user') &&
-      JSON.parse(localStorage.getItem('d-user')).success) ||
+    (sessionStorage.getItem('d-user') &&
+      JSON.parse(sessionStorage.getItem('d-user')).success) ||
     false
   )
 }
@@ -22,8 +22,8 @@ export function CurrentUser() {
 }
 export function UserName() {
   return (
-    (localStorage.getItem('d-user') &&
-      JSON.parse(localStorage.getItem('d-user')).username) ||
+    (sessionStorage.getItem('d-user') &&
+      JSON.parse(sessionStorage.getItem('d-user')).username) ||
     false
   )
 }

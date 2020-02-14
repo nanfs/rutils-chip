@@ -6,13 +6,24 @@ import { ftInit, getUsbKeyId, getUser } from './ftusbkey'
 import encrypt from './encrypt'
 
 export default class LoginForm extends React.Component {
-  state = {
-    error: ''
-  }
-
   constructor(props) {
     super(props)
     ftInit()
+    this.state = {
+      error: '',
+      hasPin: false
+    }
+  }
+
+  componentDidMount() {
+    loginApi
+      .getProperties()
+      .then(res => {
+        // {hasPin:false}
+        this.setState({ hasPin: res.hasPin })
+        console.log(res)
+      })
+      .catch(e => console.log(e))
   }
 
   checkUsbkey(username, pincode) {
@@ -32,13 +43,21 @@ export default class LoginForm extends React.Component {
   }
 
   login(values) {
-    if (!this.checkUsbkey(values.username, values.pincode)) {
-      return false
-    }
-    const data = {
-      username: values.username,
-      usbkeyid: getUsbKeyId(values.pincode),
-      password: encrypt(values.password)
+    let data = {}
+    if (this.state.hasPin) {
+      if (!this.checkUsbkey(values.username, values.pincode)) {
+        return false
+      }
+      data = {
+        username: values.username,
+        usbkeyid: getUsbKeyId(values.pincode),
+        password: encrypt(values.password)
+      }
+    } else {
+      data = {
+        username: values.username,
+        password: encrypt(values.password)
+      }
     }
     console.log(data)
     loginApi
@@ -98,23 +117,25 @@ export default class LoginForm extends React.Component {
             style={{ height: 48 }}
           />
         </Form.Item>
-        <Form.Item
-          prop="pincode"
-          wrapperCol={{ sm: { span: 24 } }}
-          rules={[
-            {
-              required: true,
-              message: '请输入UsbKey'
-            }
-          ]}
-        >
-          <Input
-            prefix={<Icon type="usb" style={{ color: 'rgba(0,0,0,.25)' }} />}
-            type="password"
-            placeholder="UsbKey"
-            style={{ height: 48 }}
-          />
-        </Form.Item>
+        {this.state.hasPin && (
+          <Form.Item
+            prop="pincode"
+            wrapperCol={{ sm: { span: 24 } }}
+            rules={[
+              {
+                required: true,
+                message: '请输入UsbKey'
+              }
+            ]}
+          >
+            <Input
+              prefix={<Icon type="usb" style={{ color: 'rgba(0,0,0,.25)' }} />}
+              type="password"
+              placeholder="UsbKey"
+              style={{ height: 48 }}
+            />
+          </Form.Item>
+        )}
         {this.state.error && <span className="error">{this.state.error}</span>}
         <Form.Item wrapperCol={{ sm: { span: 24 } }} style={{ marginTop: 40 }}>
           <Button

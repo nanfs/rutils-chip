@@ -3,7 +3,7 @@
 let CURRENT = 'NULL'
 let USER = {}
 function getUserFromlocal() {
-  return JSON.parse(localStorage.getItem('d-user')) || {}
+  return JSON.parse(sessionStorage.getItem('d-user')) || {}
 }
 
 const reloadAuthorized = () => {
@@ -25,7 +25,7 @@ const reloadAuthorized = () => {
 
 function setUserToLocal(user) {
   user = user || {}
-  return localStorage.setItem('d-user', JSON.stringify(user))
+  return sessionStorage.setItem('d-user', JSON.stringify(user))
 }
 
 reloadAuthorized()

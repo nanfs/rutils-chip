@@ -11,6 +11,13 @@ export default {
       method: 'post',
       data: qs.stringify(data)
     })
+  },
+  getProperties() {
+    return axios({
+      url: '/properties.json',
+      method: 'get',
+      baseURL: '/'
+    })
   }
 }
 

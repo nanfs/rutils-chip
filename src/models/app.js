@@ -17,6 +17,12 @@ export default {
         ...state,
         isSideFold: !state.isSideFold
       }
+    },
+    getProperties: (state, payload) => {
+      return {
+        ...state,
+        ...payload
+      }
     }
   },
   epics: {

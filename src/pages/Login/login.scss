@@ -1,5 +1,5 @@
 body {
-  min-width: 400px;
+  min-width: 700px;
 }
 .wrap {
   display: flex;
@@ -7,18 +7,23 @@ body {
   height: 100vh;
   overflow: auto;
   background: url(../../assets/login-bg.jpg) no-repeat;
+  background-size: cover;
   text-align: center;
   padding-top: 8vh;
 
   .content {
-    width: 1640px;
+    width: 90%;
     margin: 0 auto;
+    padding-left: 80%;
+    position: relative;
+    background: url('../../assets/login-wrap-bg.jpg') left center no-repeat;
     .content-left {
-      float: left;
-      img {
-        width: 940px;
-        height: 840px;
-      }
+      background: url('../../assets/logo-icon.png') center center;
+      height: 64px;
+      width: 73px;
+      position: absolute;
+      left: 10px;
+      top: 10px;
     }
     .content-right {
       position: relative;
@@ -26,7 +31,7 @@ body {
       height: 840px;
       float: right;
       background: #fff;
-
+      box-shadow: -12px 1px 7px 0px #3131316e;
       .login-title {
         margin-top: 120px;
         margin-bottom: 40px;

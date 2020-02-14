@@ -35,6 +35,41 @@ export function dataToOptions(objArr) {
   }
   return options
 }
+// arrToTree
+// arr 格式[{ id: 'department1', title: '用户组', parentId: null },
+// {
+//   id: 'department2',
+//   title: '成都研发中心',
+//   parentId: 'department1'
+// }],
+export function nodes2Tree(nodes, parentId = 'parentId') {
+  if (!Array.isArray(nodes) || !Object.keys(nodes[0]).includes(parentId)) {
+    console.warn('数据格式不符合')
+    return []
+  }
+  console.log()
+  nodes.sort((a, b) => a[parentId] > b[parentId])
+  const nodeArr = [...nodes]
+  const tree = {}
+
+  for (let i = nodes.length - 1; i >= 0; i--) {
+    const nowPid = nodes[i].parentId
+    const nowId = nodes[i].id
+    // 建立当前节点的父节点的children 数组
+    if (tree[nowPid]) {
+      tree[nowPid].push(nodes[i])
+    } else {
+      tree[nowPid] = []
+      tree[nowPid].push(nodes[i])
+    }
+    // 将children 放入合适的位置
+    if (tree[nowId]) {
+      nodeArr[i].children = tree[nowId]
+      delete tree[nowId]
+    }
+  }
+  return tree[Object.keys(tree)[0]]
+}
 // 判断对象是否有value为true，用于控制抽屉显示
 export function objhasTrue(obj) {
   if (!obj || !Object.keys(obj).length) {

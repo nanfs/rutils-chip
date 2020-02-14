@@ -1,5 +1,7 @@
 import React from 'react'
 import { Button, message, notification } from 'antd'
+import produce from 'immer'
+
 import Tablex, {
   createTableCfg,
   TableWrap,
@@ -7,45 +9,61 @@ import Tablex, {
   BarLeft,
   BarRight
 } from '@/components/Tablex'
+import InnerPath from '@/components/InnerPath'
+import SelectSearch from '@/components/SelectSearch'
+
 import EditDrawer from './chip/EditDrawer'
 import DetailDrawer from './chip/DetailDrawer'
-import InnerPath from '@/components/InnerPath'
 import { columns, apiMethod } from './chip/TableCfg'
-import './index.scss'
 import terminalApi from '@/services/terminal'
 
+import './index.scss'
+
 export default class Termina extends React.Component {
-  constructor(props) {
-    super(props)
-    columns.push({
-      title: '操作',
-      dataIndex: 'opration',
-      className: 'opration',
-      render: (text, record) => (
-        <div>
-          <Button
-            onClick={this.sendOrder.bind(this, record.id, 'turnOn')}
-            icon="user"
-          />
-          <Button
-            onClick={this.sendOrder.bind(this, record.id, 'turnOff')}
-            icon="user"
-          />
-          <Button onClick={this.detailVm}>详情</Button>
-        </div>
-      )
-    })
+  options = {
+    title: '操作',
+    dataIndex: 'opration',
+    className: 'opration',
+    render: (text, record) => (
+      <div>
+        <Button
+          onClick={this.sendOrder.bind(this, record.id, 'turnOn')}
+          icon="user"
+        />
+        <Button
+          onClick={this.sendOrder.bind(this, record.id, 'turnOff')}
+          icon="user"
+        />
+        <Button onClick={this.detailVm}>详情</Button>
+      </div>
+    )
   }
+
+  columnsArr = [...columns, this.options]
 
   state = {
     tableCfg: createTableCfg({
-      columns,
+      columns: this.columnsArr,
       apiMethod,
       paging: { size: 5 },
       pageSizeOptions: ['5', '10']
     }),
     innerPath: undefined,
     initValues: {}
+  }
+
+  search = (key, value) => {
+    const searchs = {}
+    searchs[key] = value
+    this.setState(
+      produce(draft => {
+        draft.tableCfg.searchs = {
+          ...draft.tableCfg.searchs,
+          ...searchs
+        }
+      }),
+      () => this.tablex.refresh(this.state.tableCfg)
+    )
   }
 
   sendOrder = (id, order) => {
@@ -58,10 +76,8 @@ export default class Termina extends React.Component {
   }
 
   editTerminal = () => {
-    this.setState(
-      { inner: '编辑终端', initValues: this.state.selectData[0] },
-      this.editDrawer.drawer.show()
-    )
+    this.setState({ inner: '编辑终端', initValues: this.state.selectData[0] })
+    this.editDrawer.drawer.show()
     this.currentDrawer = this.editDrawer
   }
 
@@ -92,68 +108,57 @@ export default class Termina extends React.Component {
 
   onTerminal = () => {
     const ids = this.tablex.getSelection()
-    if (ids.length > 0) {
-      terminalApi
-        .onTerminal({ ids })
-        .then(res => {
-          if (res.success) {
-            notification.success({ title: '开机成功' })
-            this.tablex.refresh(this.state.tableCfg)
-          } else {
-            message.error(res.message || '开机失败')
-          }
-        })
-        .catch(errors => {
-          console.log(errors)
-        })
-    } else {
-      message.warning('请选择要开机的终端！')
-    }
+    terminalApi
+      .onTerminal({ ids })
+      .then(res => {
+        if (res.success) {
+          notification.success({ title: '开机成功' })
+          this.tablex.refresh(this.state.tableCfg)
+        } else {
+          message.error(res.message || '开机失败')
+        }
+      })
+      .catch(errors => {
+        console.log(errors)
+      })
   }
 
   offTerminal = () => {
     const ids = this.tablex.getSelection()
-    if (ids.length > 0) {
-      terminalApi
-        .onTerminal({ ids })
-        .then(res => {
-          if (res.success) {
-            notification.success({ title: '关机成功' })
-            this.tablex.refresh(this.state.tableCfg)
-          } else {
-            message.error(res.message || '关机失败')
-          }
-        })
-        .catch(errors => {
-          console.log(errors)
-        })
-    } else {
-      message.warning('请选择要关机的终端！')
-    }
+    terminalApi
+      .onTerminal({ ids })
+      .then(res => {
+        if (res.success) {
+          notification.success({ title: '关机成功' })
+          this.tablex.refresh(this.state.tableCfg)
+        } else {
+          message.error(res.message || '关机失败')
+        }
+      })
+      .catch(errors => {
+        console.log(errors)
+      })
   }
 
   admitAccessTerminal = () => {
     const ids = this.tablex.getSelection()
-    if (ids.length > 0) {
-      terminalApi
-        .onTerminal({ ids })
-        .then(res => {
-          if (res.success) {
-            notification.success({ title: '接入成功' })
-            this.tablex.refresh(this.state.tableCfg)
-          } else {
-            message.error(res.message || '接入失败')
-          }
-        })
-        .catch(errors => {
-          console.log(errors)
-        })
-    } else {
-      message.warning('请选择允许接入的终端！')
-    }
+    terminalApi
+      .onTerminal({ ids })
+      .then(res => {
+        if (res.success) {
+          notification.success({ title: '接入成功' })
+          this.tablex.refresh(this.state.tableCfg)
+        } else {
+          message.error(res.message || '接入失败')
+        }
+      })
+      .catch(errors => {
+        console.log(errors)
+      })
   }
 
   render() {
+    const searchOptions = [{ label: '名称', value: 'name' }]
     return (
       <React.Fragment>
         <InnerPath
@@ -172,13 +177,44 @@ export default class Termina extends React.Component {
               >
                 编辑
               </Button>
-              <Button onClick={this.admitAccessTerminal}>允许接入</Button>
-              <Button onClick={this.onTerminal}>开机</Button>
-              <Button onClick={this.offTerminal}>关机</Button>
-              <Button onClick={this.detailTerminal}>查看详情</Button>
+              <Button
+                onClick={this.admitAccessTerminal}
+                disabled={
+                  !this.state.selection || this.state.selection.length === 0
+                }
+              >
+                允许接入
+              </Button>
+              <Button
+                onClick={this.onTerminal}
+                disabled={
+                  !this.state.selection || this.state.selection.length === 0
+                }
+              >
+                开机
+              </Button>
+              <Button
+                onClick={this.offTerminal}
+                disabled={
+                  !this.state.selection || this.state.selection.length === 0
+                }
+              >
+                关机
+              </Button>
+              <Button
+                onClick={this.detailTerminal}
+                disabled={
+                  !this.state.selection || this.state.selection.length !== 1
+                }
+              >
+                查看详情
+              </Button>
             </BarLeft>
             <BarRight>
-              <Button>删除</Button>
+              <SelectSearch
+                options={searchOptions}
+                onSearch={this.search}
+              ></SelectSearch>
             </BarRight>
           </ToolBar>
           <Tablex

@@ -1,19 +1,25 @@
 import React from 'react'
 import { Button, Row, Col } from 'antd'
+import produce from 'immer'
+
 import Tablex, {
   createTableCfg,
   TableWrap,
   ToolBar,
-  BarLeft
+  BarLeft,
+  BarRight
 } from '@/components/Tablex'
 import Treex from '@/components/Treex'
 import InnerPath from '@/components/InnerPath'
+import SelectSearch from '@/components/SelectSearch'
+
 import { columns, apiMethod } from './chip/TableCfg'
 import AddDrawer from './chip/AddDrawer'
-import EditDrawer from './chip/EditDrawer'
 import DetailDrawer from './chip/DetailDrawer'
-import './index.scss'
+import EditDrawer from './chip/EditDrawer'
 import userApi from '@/services/user'
+
+import './index.scss'
 
 export default class User extends React.Component {
   state = {
@@ -26,6 +32,20 @@ export default class User extends React.Component {
     innerPath: undefined,
     initValues: {},
     value: undefined
+  }
+
+  search = (key, value) => {
+    const searchs = {}
+    searchs[key] = value
+    this.setState(
+      produce(draft => {
+        draft.tableCfg.searchs = {
+          ...draft.tableCfg.searchs,
+          ...searchs
+        }
+      }),
+      () => this.tablex.refresh(this.state.tableCfg)
+    )
   }
 
   sendOrder = (id, order) => {
@@ -54,19 +74,20 @@ export default class User extends React.Component {
   }
 
   render() {
+    const searchOptions = [{ label: '名称', value: 'name' }]
     return (
       <React.Fragment>
-        <Row>
-          <Col span={4}>
-            <Treex apiMethod={userApi.list} onSelect={this.onSelect}></Treex>
-          </Col>
-          <Col span={20}>
-            <InnerPath
-              location="用户管理"
-              inner={this.state.inner}
-              onBack={this.onBack}
-            />
-            <TableWrap>
+        <InnerPath
+          location="用户管理"
+          inner={this.state.inner}
+          onBack={this.onBack}
+        />
+        <TableWrap>
+          <Row gutter={16}>
+            <Col span={4} style={{ paddingTop: 10 }}>
+              <Treex apiMethod={userApi.list} onSelect={this.onSelect}></Treex>
+            </Col>
+            <Col span={20}>
               <ToolBar>
                 <BarLeft>
                   <Button onClick={this.addUser}>创建用户</Button>
@@ -117,6 +138,12 @@ export default class User extends React.Component {
                     删除
                   </Button>
                 </BarLeft>
+                <BarRight>
+                  <SelectSearch
+                    options={searchOptions}
+                    onSearch={this.search}
+                  ></SelectSearch>
+                </BarRight>
               </ToolBar>
               <Tablex
                 onRef={ref => {
@@ -145,9 +172,9 @@ export default class User extends React.Component {
                 }}
                 initValues={this.state.initValues}
               />
-            </TableWrap>
-          </Col>
-        </Row>
+            </Col>
+          </Row>
+        </TableWrap>
       </React.Fragment>
     )
   }

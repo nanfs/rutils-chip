@@ -7,7 +7,8 @@ const ModalCfg_init = {
   destroyOnClose: true,
   loading: false,
   okText: '确定',
-  cancelText: '取消'
+  cancelText: '取消',
+  hasFooter: true
 }
 export function createModalCfg(myCfg) {
   return Object.assign(ModalCfg_init, myCfg)
@@ -117,19 +118,23 @@ class Modalx extends React.Component {
         onCancel={this.onClose}
         onOk={this.onOk}
         title={title || modalCfg.title}
-        footer={[
-          <Button key="back" onClick={this.onClose}>
-            {modalCfg.cancelText}
-          </Button>,
-          <Button
-            key="submit"
-            type="primary"
-            loading={submitting}
-            onClick={this.submit}
-          >
-            {modalCfg.okText}
-          </Button>
-        ]}
+        footer={
+          modalCfg.hasFooter
+            ? [
+                <Button key="back" onClick={this.onClose}>
+                  {modalCfg.cancelText}
+                </Button>,
+                <Button
+                  key="submit"
+                  type="primary"
+                  loading={submitting}
+                  onClick={this.submit}
+                >
+                  {modalCfg.okText}
+                </Button>
+              ]
+            : null
+        }
       >
         {this.renderContent(setFormRef)}
       </Modal>

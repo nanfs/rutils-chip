@@ -1,65 +1,82 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import Icon from 'violet-ui/components/Icon'
-import Spin from 'violet-ui/components/Spin'
-// import Dialog, { DialogHeader, DialogBody } from '../Dialog'
-import styles from './index.m.scss'
+import Modalx, { createModalCfg } from '@/components/Modalx'
+import { Spin, Row, Col } from 'antd'
+import './index.scss'
+import appApi from '@/services/app'
 
-class AboutModal extends React.Component {
-  handleClose = e => {
-    e.preventDefault()
-    this.props.dispatch({
-      type: 'app/closeAbout'
+export default class AboutModal extends React.Component {
+  state = {
+    aboutinfo: {}
+  }
+
+  componentDidMount() {
+    this.props.onRef && this.props.onRef(this)
+    appApi.getAboutinfo().then(res => {
+      this.setState({ aboutinfo: res.data })
     })
   }
 
+  pop = () => {
+    this.modal.show()
+  }
+
   render() {
-    const { showAbout, aboutinfo } = this.props
+    const modalCfg = createModalCfg({
+      title: '关于',
+      width: 700,
+      hasFooter: false
+    })
+    const { aboutinfo } = this.state
+
     return (
-      <Dialog open={showAbout} onClose={this.handleClose}>
-        <DialogHeader onClose={this.handleClose}>
-          <Icon type="about" />
-          关于
-        </DialogHeader>
-        <DialogBody className={styles['about-panel']}>
-          <Spin spinning={aboutinfo.loading}>
-            <span className={styles['panel-logo']} />
-            <h5>网安凌云安全虚拟桌面管理平台V2.1</h5>
-            {aboutinfo.data && (
-              <ul>
-                <li>
-                  <span className={styles.title}>系统编号 :</span>{' '}
-                  <span>{aboutinfo.data.systemNumber}</span>
-                </li>
-                <li>
-                  <span className={styles.title}>产品类型 :</span>{' '}
-                  <span>{aboutinfo.data.productType}</span>
-                </li>
-                <li>
-                  <span className={styles.title}>许可数量 :</span>{' '}
-                  <span>{aboutinfo.data.permitNumber}</span>
-                </li>
-                <li>
-                  <span className={styles.title}>许可证有效期 :</span>{' '}
-                  <span>{aboutinfo.data.useTimeLimit}</span>
-                </li>
-              </ul>
-            )}
-            <h4>2018 CETC-Cloud (c)</h4>
-          </Spin>
-        </DialogBody>
-      </Dialog>
+      <Modalx
+        onRef={ref => {
+          this.modal = ref
+        }}
+        modalCfg={modalCfg}
+        onOk={this.onOk}
+      >
+        {/* <Spin spinning={aboutinfo.loading}> */}
+        {/* {aboutinfo.data && ( */}
+        <Row>
+          <Col span={24} className="logo"></Col>
+        </Row>
+        <Row gutter={48} className="row-margin">
+          <Col span={10} className="title">
+            系统编号 :
+          </Col>
+          <Col span={14}>sdfsdf</Col>
+          {/* <Col span={14}>{aboutinfo.data.systemNumber}</Col> */}
+        </Row>
+        <Row gutter={48} className="row-margin">
+          <Col span={10} className="title">
+            产品类型 :
+          </Col>
+          <Col span={14}>sdfsdf</Col>
+          {/* <Col span={14}>{aboutinfo.data.productType}</Col> */}
+        </Row>
+        <Row gutter={48} className="row-margin">
+          <Col span={10} className="title">
+            许可数量 :
+          </Col>
+          <Col span={14}>sdfsdf</Col>
+          {/* <Col span={14}>{aboutinfo.data.permitNumber}</Col> */}
+        </Row>
+        <Row gutter={48} className="row-margin">
+          <Col span={10} className="title">
+            许可证有效期 :
+          </Col>
+          <Col span={14}>sdfsdf</Col>
+          {/* <Col span={14}>{aboutinfo.data.useTimeLimit}</Col> */}
+        </Row>
+        {/* )} */}
+        <Row>
+          <Col span={24} className="info">
+            2020-CETC-cloud 电科云（北京）科技有限公司
+          </Col>
+        </Row>
+        {/* </Spin> */}
+      </Modalx>
     )
   }
 }
-
-export default connect(({ app, global }) => {
-  const { showAbout } = app
-  const {
-    data: { 'app/aboutinfo': aboutinfo = {} }
-  } = global
-  return {
-    showAbout,
-    aboutinfo
-  }
-})(AboutModal)

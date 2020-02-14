@@ -17,5 +17,13 @@ export default {
       method: 'post',
       data: qs.stringify(data)
     })
+  },
+  // 关于
+  getAboutinfo(data) {
+    return axios({
+      url: '/employee/changePassword',
+      method: 'post',
+      data: qs.stringify(data)
+    })
   }
 }

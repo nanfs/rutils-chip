@@ -5,7 +5,7 @@ import { USER } from '@/utils/auth'
 import { setUserToLocal } from '../components/Authorized'
 import ResetPwModal from './chip/ResetPwModal'
 import SystemModal from './chip/SystemModal'
-// import AboutModal from './chip/AboutModal'
+import AboutModal from './chip/AboutModal'
 
 export default class Header extends React.Component {
   render() {
@@ -72,11 +72,11 @@ export default class Header extends React.Component {
             this.sysModal = ref
           }}
         />
-        {/* <AboutModal
+        <AboutModal
           onRef={ref => {
             this.aboutModal = ref
           }}
-        /> */}
+        />
       </Layout.Header>
     )
   }

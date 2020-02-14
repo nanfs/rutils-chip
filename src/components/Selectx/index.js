@@ -19,12 +19,21 @@ export default class Selectx extends React.Component {
         placeholder={placeholder}
         onChange={onChange}
       >
-        {!options.length && <span>暂无数据</span>}
-        {options.map(item => (
-          <Option value={item.value} key={item.value} disabled={item.disabled}>
-            {item.label}
+        {!options.length && (
+          <Option value={''} key={'no-data'} disabled={true}>
+            暂无数据
           </Option>
-        ))}
+        )}
+        {options.length &&
+          options.map(item => (
+            <Option
+              value={item.value}
+              key={item.value}
+              disabled={item.disabled}
+            >
+              {item.label}
+            </Option>
+          ))}
         {onRefresh && <Button onClick={onRefresh} icon="refresh"></Button>}
       </Select>
     )

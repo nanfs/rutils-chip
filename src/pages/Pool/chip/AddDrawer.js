@@ -11,15 +11,18 @@ import poolsApi from '@/services/pools'
 const { TextArea } = Input
 
 export default class AddDrawer extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      templateOption: [],
+      clusterOptions: []
+    }
+  }
+
   componentDidMount() {
     this.props.onRef && this.props.onRef(this)
     this.getTemplate()
     this.getCluster()
-  }
-
-  state = {
-    templateOption: [],
-    clusterOptions: []
   }
 
   getTemplate = () => {
@@ -71,6 +74,8 @@ export default class AddDrawer extends React.Component {
   }
 
   render() {
+    console.log(this.state.clusterOptions)
+
     return (
       <Drawerx
         onRef={ref => {

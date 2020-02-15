@@ -171,3 +171,7 @@ export function wrapResponse(res) {
     }
   })
 }
+
+export function scrollToAnchor(id) {
+  document.getElementById(id).scrollIntoView()
+}

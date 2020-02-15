@@ -1,13 +1,16 @@
-.title {
+.about-title {
   text-align: right;
 }
-.logo {
+.about-logo {
   text-align: center;
-  margin: 50px 0 42px 0;
+  margin: 26px 0 16px 0;
+  img {
+    height: 40px;
+  }
 }
-.info {
+.about-info {
   text-align: center;
-  margin-top: 100px;
+  margin-top: 70px;
   font-weight: bold;
 }
 .row-margin {
@@ -21,4 +24,32 @@
     background: url('../../assets/about-bg.jpg') no-repeat center bottom;
     background-size: cover;
   }
+}
+.sys-anchor {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin-left: 16px;
+  li {
+    padding: 20px 30px;
+    cursor: pointer;
+  }
+  li.active {
+    background-color: #fff;
+  }
+}
+.sys-modal {
+  .ant-modal-content .ant-modal-body {
+    max-height: 360px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    background-color: #eaf2f5;
+    padding: 0;
+  }
+}
+#configContainer {
+  position: relative;
 }

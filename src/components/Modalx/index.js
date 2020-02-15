@@ -118,6 +118,7 @@ class Modalx extends React.Component {
         onCancel={this.onClose}
         onOk={this.onOk}
         title={title || modalCfg.title}
+        className={this.props.className}
         footer={
           modalCfg.hasFooter
             ? [

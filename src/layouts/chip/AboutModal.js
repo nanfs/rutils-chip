@@ -33,6 +33,7 @@ export default class AboutModal extends React.Component {
         onRef={ref => {
           this.modal = ref
         }}
+        className="about-modal"
         modalCfg={modalCfg}
         onOk={this.onOk}
       >

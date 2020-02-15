@@ -14,6 +14,7 @@ import SelectSearch from '@/components/SelectSearch'
 
 import EditDrawer from './chip/EditDrawer'
 import DetailDrawer from './chip/DetailDrawer'
+import SetUserDrawer from './chip/SetUserDrawer'
 import { columns, apiMethod } from './chip/TableCfg'
 import terminalApi from '@/services/terminal'
 
@@ -79,6 +80,11 @@ export default class Termina extends React.Component {
     this.setState({ inner: '编辑终端', initValues: this.state.selectData[0] })
     this.editDrawer.drawer.show()
     this.currentDrawer = this.editDrawer
+  }
+
+  setUser = () => {
+    this.setState({ inner: '分配用户' }, this.setUserDrawer.drawer.show())
+    this.currentDrawer = this.setUserDrawer
   }
 
   detailTerminal = () => {
@@ -178,6 +184,14 @@ export default class Termina extends React.Component {
                 编辑
               </Button>
               <Button
+                onClick={this.setUser}
+                disabled={
+                  !this.state.selection || this.state.selection.length !== 1
+                }
+              >
+                分配用户
+              </Button>
+              <Button
                 onClick={this.admitAccessTerminal}
                 disabled={
                   !this.state.selection || this.state.selection.length === 0
@@ -239,6 +253,13 @@ export default class Termina extends React.Component {
             }}
             initValues={this.state.initValues}
             initChartValue={this.state.initChartValue}
+          />
+          <SetUserDrawer
+            onRef={ref => {
+              this.setUserDrawer = ref
+            }}
+            onSuccess={this.onSuccess}
+            selection={this.state.tableCfg.selection}
           />
         </TableWrap>
       </React.Fragment>

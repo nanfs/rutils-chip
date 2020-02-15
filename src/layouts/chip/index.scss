@@ -14,3 +14,10 @@
   margin: 26px 0;
   font-weight: bold;
 }
+.about-modal {
+  background-color: white;
+  .ant-modal-content {
+    background: url('../../assets/about-bg.jpg') no-repeat center bottom;
+    background-size: cover;
+  }
+}

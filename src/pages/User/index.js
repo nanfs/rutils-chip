@@ -71,6 +71,13 @@ export default class User extends React.Component {
 
   onSelect = (value, node) => {
     console.log(value, node)
+    this.selectSearch.reset()
+    this.setState(
+      produce(draft => {
+        draft.tableCfg.searchs = {}
+      }),
+      () => this.tablex.refresh(this.state.tableCfg)
+    )
   }
 
   render() {
@@ -140,6 +147,9 @@ export default class User extends React.Component {
                 </BarLeft>
                 <BarRight>
                   <SelectSearch
+                    onRef={ref => {
+                      this.selectSearch = ref
+                    }}
                     options={searchOptions}
                     onSearch={this.search}
                   ></SelectSearch>

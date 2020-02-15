@@ -1,6 +1,4 @@
-import React from 'react'
 import userApi from '@/services/user'
-import { Icon } from 'antd'
 // TODO antd 样式加载问题
 export const columns = [
   {

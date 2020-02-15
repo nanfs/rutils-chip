@@ -3,8 +3,14 @@ import { Row, Col, Tooltip, Tabs } from 'antd'
 import Tablex, { createTableCfg } from '@/components/Tablex'
 import Drawerx from '@/components/Drawerx'
 import Title from '@/components/Title'
-import { detailTeminalColumns } from './DetailTerminalTableCfg'
-import { detailDesktopColumns } from './DetailDesktopTableCfg'
+import {
+  detailTeminalColumns,
+  detailTeminalApiMethod
+} from './DetailTerminalTableCfg'
+import {
+  detailDesktopColumns,
+  detailDesktopApiMethod
+} from './DetailDesktopTableCfg'
 
 const { TabPane } = Tabs
 
@@ -15,12 +21,15 @@ export default class DetailDrawer extends React.Component {
 
   state = {
     terminalTableCfg: createTableCfg({
+      apiMethod: detailTeminalApiMethod,
+
       columns: detailTeminalColumns,
       paging: { size: 5 },
       pageSizeOptions: ['5', '10'],
       hasRowSelection: false
     }),
     desktopTableCfg: createTableCfg({
+      apiMethod: detailDesktopApiMethod,
       columns: detailDesktopColumns,
       paging: { size: 5 },
       pageSizeOptions: ['5', '10'],

@@ -4,40 +4,6 @@ import { nodes2Tree } from '@/utils/tool'
 
 const { TreeNode } = Tree
 const { Search } = Input
-
-// const nodes = [
-//   { id: 'department1', key: 'department1', title: '用户组', parentId: null },
-//   {
-//     id: 'department2',
-//     key: 'department2',
-//     title: '成都研发中心',
-//     parentId: 'department1'
-//   },
-//   {
-//     id: 'department3',
-//     key: 'department3',
-//     title: '北京研发中心',
-//     parentId: 'department1'
-//   },
-//   {
-//     id: 'department4',
-//     key: 'department4',
-//     title: '前端组',
-//     parentId: 'department2'
-//   },
-//   {
-//     id: 'department5',
-//     key: 'department5',
-//     title: 'java组',
-//     parentId: 'department2'
-//   },
-//   {
-//     id: 'department6',
-//     key: 'department6',
-//     title: '前端组',
-//     parentId: 'department3'
-//   }
-// ]
 // 获取节点的父节点key
 const getParentKey = (key, tree) => {
   let parentKey
@@ -85,10 +51,7 @@ export default class Treex extends React.Component {
     }
     apiMethod()
       .then(res => {
-        console.log(res)
-
         if (res.success) {
-          console.log(this)
           // const nodes = res.data
           const nodes = [
             {

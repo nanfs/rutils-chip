@@ -6,7 +6,7 @@ export default {
     return axios({
       url: '/users',
       method: 'get',
-      data: qs.stringify(data)
+      params: data
     })
   },
   edit(data) {

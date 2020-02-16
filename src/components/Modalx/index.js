@@ -27,6 +27,10 @@ class Modalx extends React.Component {
     this.form = (this.formRef && this.formRef.props.form) || undefined
   }
 
+  componentDidUpdate() {
+    this.form = (this.formRef && this.formRef.props.form) || undefined
+  }
+
   show = () => {
     this.setState({
       show: true

@@ -41,7 +41,7 @@ class Dashboard extends React.Component {
               <Col span={12} style={{ paddingRight: 20, marginBottom: 20 }}>
                 <div className="dashboard-chart-wrap">
                   <div className="dashboard-chart-title">
-                    <TitleInfo slot="桌面" more="更多&gt;" />
+                    <TitleInfo slot="桌面" more="更多&gt;" url="desktop" />
                   </div>
                   <DonutChart
                     guideTitle="桌面统计"
@@ -53,7 +53,7 @@ class Dashboard extends React.Component {
               </Col>
               <Col span={12} className="dashboard-chart-wrap">
                 <div className="dashboard-chart-title">
-                  <TitleInfo slot="桌面池" more="更多&gt;" />
+                  <TitleInfo slot="桌面池" more="更多&gt;" url="pool" />
                 </div>
                 <DonutChart
                   guideTitle="桌面池统计"
@@ -67,7 +67,7 @@ class Dashboard extends React.Component {
               <Col span={12} style={{ paddingRight: 20 }}>
                 <div className="dashboard-chart-wrap">
                   <div className="dashboard-chart-title">
-                    <TitleInfo slot="终端" more="更多&gt;" />
+                    <TitleInfo slot="终端" more="更多&gt;" url="terminal" />
                   </div>
                   <DonutChart
                     guideTitle="终端统计"
@@ -79,7 +79,7 @@ class Dashboard extends React.Component {
               </Col>
               <Col span={12} className="dashboard-chart-wrap">
                 <div className="dashboard-chart-title">
-                  <TitleInfo slot="用户" more="更多&gt;" />
+                  <TitleInfo slot="用户" more="更多&gt;" url="user" />
                 </div>
                 <DonutChart
                   guideTitle="用户统计"
@@ -93,7 +93,7 @@ class Dashboard extends React.Component {
           <div className="dashboard-tclog">
             <div className="dashboard-tclog-title">
               {/* <span className="dashboard-tclog-title-text">日志</span> */}
-              <TitleInfo slot="日志" more="更多&gt;" />
+              <TitleInfo slot="日志" more="更多&gt;" url="vmlog" />
               {/* <span className="dashboard-tclog-title-more">更多&gt;</span> */}
             </div>
             <LogList logData={logData} />

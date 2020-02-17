@@ -1,5 +1,5 @@
 import React from 'react'
-import { List, Icon } from 'antd'
+import { List, Icon, Popover } from 'antd'
 
 export default class LogList extends React.Component {
   render() {
@@ -17,12 +17,21 @@ export default class LogList extends React.Component {
                     <Icon type="warning" />
                     {item.tcName}
                   </span>
-                  <span style={{ float: 'right', color: '#a0a0a0' }}>
+                  <span
+                    style={{ position: 'absolute', right: 0, color: '#a0a0a0' }}
+                  >
                     {item.datetime}
                   </span>
                 </div>
               }
-              description={item.content}
+              description={
+                <Popover
+                  placement="bottomRight"
+                  content={<div>{item.content}</div>}
+                >
+                  {item.content}
+                </Popover>
+              }
             />
           </List.Item>
         )}

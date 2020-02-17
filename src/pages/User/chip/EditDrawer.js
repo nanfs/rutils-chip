@@ -14,7 +14,7 @@ export default class editDrawer extends React.Component {
   render() {
     // const { getFieldDecorator } = this.props.form
     const { initValues } = this.props
-    console.log(initValues)
+    // console.log(initValues)
     return (
       <Drawerx
         onRef={ref => {

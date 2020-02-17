@@ -31,7 +31,8 @@ export default class User extends React.Component {
     }),
     innerPath: undefined,
     initValues: {},
-    value: undefined
+    value: undefined,
+    inputValue: 'asd'
   }
 
   search = (key, value) => {
@@ -74,7 +75,10 @@ export default class User extends React.Component {
     this.selectSearch.reset()
     this.setState(
       produce(draft => {
-        draft.tableCfg.searchs = {}
+        draft.tableCfg.searchs = {
+          ...draft.tableCfg.searchs,
+          id: value
+        }
       }),
       () => this.tablex.refresh(this.state.tableCfg)
     )
@@ -82,6 +86,7 @@ export default class User extends React.Component {
 
   render() {
     const searchOptions = [{ label: '名称', value: 'name' }]
+    const { inputValue } = this.state
     return (
       <React.Fragment>
         <InnerPath
@@ -152,6 +157,7 @@ export default class User extends React.Component {
                     }}
                     options={searchOptions}
                     onSearch={this.search}
+                    inputValue={inputValue}
                   ></SelectSearch>
                 </BarRight>
               </ToolBar>

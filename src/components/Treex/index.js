@@ -1,5 +1,5 @@
 import React from 'react'
-import { Tree, Input, Spin } from 'antd'
+import { Tree, Input, Spin, Menu } from 'antd'
 import { nodes2Tree } from '@/utils/tool'
 
 const { TreeNode } = Tree
@@ -41,7 +41,13 @@ export default class Treex extends React.Component {
     autoExpandParent: true,
     expandedKeys: [],
     nodeList: [],
-    loadding: true
+    loadding: true,
+    rightClickNodeTreeItem: {
+      pageX: '',
+      pageY: '',
+      id: '',
+      categoryName: ''
+    }
   }
 
   componentDidMount() {
@@ -168,6 +174,39 @@ export default class Treex extends React.Component {
       return <TreeNode key={item.id} title={title} />
     })
 
+  getNodeTreeRightClickMenu = () => {
+    const { pageX, pageY, id, categoryName } = {
+      ...this.state.rightClickNodeTreeItem
+    }
+    const tmpStyle = {
+      position: 'absolute',
+      left: `${pageX - 220}px`,
+      top: `${pageY - 102}px`
+    }
+    const menu = (
+      <div style={tmpStyle} className="self-right-menu">
+        <Menu>
+          <Menu.Item>新增下级部门</Menu.Item>
+          <Menu.Item>修改</Menu.Item>
+          <Menu.Item>删除</Menu.Item>
+        </Menu>
+      </div>
+    )
+    return this.state.rightClickNodeTreeItem == null ? '' : menu
+  }
+
+  onRightClick = e => {
+    console.log(e)
+    this.setState({
+      rightClickNodeTreeItem: {
+        pageX: e.event.pageX,
+        pageY: e.event.pageY,
+        id: e.node.props['data-key'],
+        categoryName: e.node.props['data-title']
+      }
+    })
+  }
+
   render() {
     const { showSearch = true } = this.props
     const {
@@ -189,9 +228,11 @@ export default class Treex extends React.Component {
           onSelect={this.onSelect}
           expandedKeys={expandedKeys}
           autoExpandParent={autoExpandParent}
+          onRightClick={this.onRightClick}
         >
           {this.renderTreeNode(nodes2Tree(nodes), searchValue)}
         </Tree>
+        {this.getNodeTreeRightClickMenu()}
       </Spin>
     )
   }

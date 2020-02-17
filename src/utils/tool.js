@@ -175,3 +175,20 @@ export function wrapResponse(res) {
 export function scrollToAnchor(id) {
   document.getElementById(id).scrollIntoView()
 }
+
+// 把字符串中的汉字转换成Unicode
+export function ch2Unicdoe(str) {
+  if (!str) {
+    return
+  }
+  let unicode = ''
+  for (let i = 0; i < str.length; i++) {
+    const temp = str.charAt(i)
+    if (/[\u4e00-\u9fa5]/.test(temp)) {
+      unicode += `\\u${temp.charCodeAt(0).toString(16)}`
+    } else {
+      unicode += temp
+    }
+  }
+  return unicode
+}

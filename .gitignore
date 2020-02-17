@@ -2,7 +2,6 @@
 
 # dependencies
 **/node_modules
-scripts/webpack.config.dev.js
 
 #mock
 # **/db.json

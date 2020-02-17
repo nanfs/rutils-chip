@@ -53,7 +53,7 @@ export default class Sider extends React.Component {
         collapsed={this.props.collapsed}
       >
         <Button onClick={this.onCollapse} className="trigger" type="link">
-          <Icon type="user"></Icon>
+          <Icon type="menu"></Icon>
         </Button>
         <Menu
           defaultSelectedKeys={['1']}

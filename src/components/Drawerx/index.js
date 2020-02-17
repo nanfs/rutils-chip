@@ -34,7 +34,8 @@ class Drawerx extends React.Component {
 
   hide = () => {
     this.setState({
-      show: false
+      show: false,
+      submitting: false
     })
     document.body.style = ''
     document.querySelector('.table-wrap').style = ''

@@ -37,9 +37,16 @@ class Modalx extends React.Component {
     })
   }
 
+  break = () => {
+    this.setState({
+      submitting: false
+    })
+  }
+
   onClose = () => {
     this.setState({
-      show: false
+      show: false,
+      submitting: false
     })
   }
 

@@ -8,7 +8,7 @@ p {
 
   .dashboard-charts {
     //background-color: #fff;
-    height: 100%;
+    //height: 100%;
     margin-right: 470px;
 
     .dashboard-chart-wrap {
@@ -108,6 +108,35 @@ p {
     .ant-list-item-meta-description {
       padding-left: 16px;
       color: #4b4b4b;
+    }
+  }
+
+  
+  @media screen and (min-width:1480px) and (max-width:1600px) {
+    .dashboard-charts { 
+      margin-right: 370px;
+    }
+    .dashboard-tclog{
+      width: 350px;
+
+      .ant-list-item-meta-description span {
+        width: 300px;
+      }
+    }
+  }
+
+  @media screen and (max-width:1480px) {
+    .dashboard-charts { 
+      margin-right: 0px;
+      margin-bottom: 20px;
+    }
+    .dashboard-tclog{
+      position: relative;
+      width: 100%;
+
+      .ant-list-item-meta-description span{
+        width: 500px;
+      }
     }
   }
 }

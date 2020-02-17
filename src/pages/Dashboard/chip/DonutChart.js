@@ -54,7 +54,7 @@ export default class DonutChart extends React.Component {
           data={dv}
           scale={cols}
           padding="auto"
-          // forceFit={true}
+          forceFit={true}
           className="dashboard-chart dashboard-donutchart"
         >
           <Coord type={'theta'} radius={0.9} innerRadius={0.8} />

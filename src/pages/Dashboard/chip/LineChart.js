@@ -61,7 +61,7 @@ export default function WorkOvertimeChart(props) {
       data={data}
       scale={cols}
       padding={(0, 0, 0, 70)}
-      // forceFit={true}
+      forceFit={true}
       className="dashboard-chart dashboard-linechart"
     >
       <Axis name="name" tickLine={null} line={null} />

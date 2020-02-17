@@ -53,6 +53,7 @@ class EditDrawer extends React.Component {
       })
     })
     values.usbs = usbs
+    values.isUsagePeripherals = form.getFieldValue('isUsagePeripherals')
     if (
       values.isUsagePeripherals == undefined ||
       values.isUsagePeripherals == false
@@ -69,7 +70,7 @@ class EditDrawer extends React.Component {
     const { initValues } = this.props
     getFieldDecorator('keys', { initialValue: initValues.initKeys || [] })
     const keys = getFieldValue('keys')
-    const formItems3 = keys.map((k, index) => (
+    const formItems = keys.map((k, index) => (
       <Row gutter={16} key={k} className="form-item-wrapper">
         <Col span={7}>
           <Form.Item>
@@ -135,12 +136,17 @@ class EditDrawer extends React.Component {
           <Form.Item prop="name" label="名称" required>
             <Input name="name" placeholder="名称" />
           </Form.Item>
-          <Form.Item prop="isUsagePeripherals" label="USB外设" required>
-            <Switch
-              name="isUsagePeripherals"
-              checkedChildren="启用"
-              unCheckedChildren="禁用"
-            />
+          <Form.Item label="USB外设" required>
+            {getFieldDecorator(`isUsagePeripherals`, {
+              valuePropName: 'checked',
+              initialValue: initValues.isUsagePeripherals
+            })(
+              <Switch
+                name="isUsagePeripherals"
+                checkedChildren="启用"
+                unCheckedChildren="禁用"
+              />
+            )}
           </Form.Item>
           <Form.Item prop="description" label="描述">
             <TextArea
@@ -163,7 +169,7 @@ class EditDrawer extends React.Component {
               <Form.Item label="ProductId" required></Form.Item>
             </Col>
           </Row>
-          {formItems3}
+          {formItems}
         </Formx>
       </Drawerx>
     )

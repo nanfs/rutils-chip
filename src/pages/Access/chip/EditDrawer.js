@@ -17,9 +17,9 @@ export default class EditDrawer extends React.Component {
 
   componentDidMount() {
     this.props.onRef && this.props.onRef(this)
-    this.setState({
-      current: this.drawer.form.getFieldValue('type')
-    })
+    // this.setState({
+    //   current: this.drawer.form.getFieldValue('type')
+    // })
   }
 
   onChange = (value, values, e) => {
@@ -70,17 +70,36 @@ export default class EditDrawer extends React.Component {
           <Form.Item required prop="type" label="准入方式">
             <Radiox options={radioOptions} onChange={this.onChange} />
           </Form.Item>
-          <Form.Item
-            required
-            // prop="date"
-            label="准入时间"
-            className="time-wrap"
-          >
-            {this.state.current === 0 && (
+          {this.state.current === 0 && (
+            <Form.Item
+              required
+              prop="weeks"
+              label="准入时间"
+              className="time-wrap"
+            >
               <Selectx options={weekOptions} mode="multiple" />
-            )}
-            {this.state.current === 1 && <DatePicker />}
-          </Form.Item>
+            </Form.Item>
+          )}
+          {this.state.current === 1 && (
+            <Form.Item
+              required
+              prop="day"
+              label="准入时间"
+              className="time-wrap"
+            >
+              <DatePicker />
+            </Form.Item>
+          )}
+          {this.state.current == undefined && (
+            <Form.Item
+              required
+              prop="weeks"
+              label="准入时间"
+              className="time-wrap"
+            >
+              <Selectx options={weekOptions} mode="multiple" />
+            </Form.Item>
+          )}
           <Form.Item
             prop="startTime"
             required

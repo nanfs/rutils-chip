@@ -43,9 +43,11 @@ export default class Desktop extends React.Component {
       selectAccess = this.tablex.getSelectData()[0]
       selectAccess.type = selectAccess.admitInterval[0].type
       if (selectAccess.type === 0) {
-        selectAccess.date = selectAccess.admitInterval[0].date.split(',')
+        selectAccess.weeks = selectAccess.admitInterval[0].date.split(',')
+        selectAccess.day = ''
       } else {
-        selectAccess.date = moment(
+        selectAccess.weeks = []
+        selectAccess.day = moment(
           selectAccess.admitInterval[0].date,
           'YYYY/MM/DD'
         )

@@ -24,7 +24,7 @@ export default class ConfigModal extends React.Component {
     inputValue2: 1,
     inputValue3: 1,
     inputValue4: 1,
-    activeList: ''
+    activeList: 'sysLink'
   }
 
   onChange = value => {

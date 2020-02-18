@@ -8,7 +8,7 @@ p {
 
   .dashboard-charts {
     //background-color: #fff;
-    height: 100%;
+    //height: 100%;
     margin-right: 470px;
 
     .dashboard-chart-wrap {
@@ -47,6 +47,37 @@ p {
     bottom: 23px;
     width: 450px;
     background-color: #fff;
+    
+    .ant-list-item-meta-title {
+      position: relative;
+    }
+
+
+    .ant-list-item-meta {
+      overflow: hidden;
+      text-overflow: ellipsis; /* 支持 IE */
+      -o-text-overflow: ellipsis;    /* 支持 Opera */
+    }
+
+    .ant-list-item-meta-content {
+      width: 100%;
+    }
+
+    .ant-list-item-meta-description span{
+      display: block;
+      width: 400px;
+      overflow: hidden;
+      text-overflow: ellipsis; /* 支持 IE */
+      -o-text-overflow: ellipsis;    /* 支持 Opera */
+      white-space: nowrap;
+    }
+
+    /* .ant-list-item-meta-description span:after{
+      content:"...";
+      position: absolute;
+      right: 3px;
+      top: 30px;
+    }/* 支持 Firefox */
 
     .dashboard-tclog-title {
       padding: 10px 12px;
@@ -77,6 +108,35 @@ p {
     .ant-list-item-meta-description {
       padding-left: 16px;
       color: #4b4b4b;
+    }
+  }
+
+  
+  @media screen and (min-width:1480px) and (max-width:1600px) {
+    .dashboard-charts { 
+      margin-right: 370px;
+    }
+    .dashboard-tclog{
+      width: 350px;
+
+      .ant-list-item-meta-description span {
+        width: 300px;
+      }
+    }
+  }
+
+  @media screen and (max-width:1480px) {
+    .dashboard-charts { 
+      margin-right: 0px;
+      margin-bottom: 20px;
+    }
+    .dashboard-tclog{
+      position: relative;
+      width: 100%;
+
+      .ant-list-item-meta-description span{
+        width: 500px;
+      }
     }
   }
 }

@@ -39,7 +39,7 @@ export default class EditDrawer extends React.Component {
 
   render() {
     const { initValues } = this.props
-    console.log(initValues)
+    // console.log(initValues)
     const { autoLockTime } = this.state
     return (
       <Drawerx

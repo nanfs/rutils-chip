@@ -20,13 +20,13 @@ function ftInit() {
     ctrl.setAttribute('id', 'USBKeyMGR')
     ctrl.setAttribute('name', 'USBKeyMGR')
     ctrl.setAttribute('style', 'display:none')
-    document.body.append(ctrl)
+    document.body.appendChild(ctrl)
   } else {
     const ctrl = document.createElement('object')
     ctrl.setAttribute('type', 'application/npFTUSBKeyMGR')
     ctrl.setAttribute('id', 'USBKeyMGR')
     ctrl.setAttribute('style', 'width:0;height:0')
-    document.body.append(ctrl)
+    document.body.appendChild(ctrl)
   }
 }
 function getUsbKeyId() {

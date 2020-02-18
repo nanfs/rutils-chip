@@ -1,34 +1,50 @@
 body {
-  min-width: 700px;
+  min-width: 1000px;
+  min-height: 619px;
 }
 .wrap {
   display: flex;
   flex-direction: column;
-  height: 100vh;
-  overflow: auto;
+  height: 100%;
   background: url(../../assets/login-bg.jpg) no-repeat;
   background-size: cover;
   text-align: center;
-  padding-top: 8vh;
+  padding: 2% 0;
 
   .content {
     width: 90%;
+    height: 100%;
     margin: 0 auto;
-    padding-left: 80%;
     position: relative;
     background: url('../../assets/login-wrap-bg.jpg') left center no-repeat;
     .content-left {
-      background: url('../../assets/logo-icon.png') center center;
       height: 64px;
-      width: 73px;
+      width: 240px;
+      padding-left: 73px;
+      line-height: 64px;
       position: absolute;
-      left: 10px;
-      top: 10px;
+      left: 54px;
+      top: 30px;
+      .login-logo {
+        height: 64px;
+        width: 73px;
+        background: url('../../assets/logo-icon.png') center center no-repeat;
+        background-size: contain;
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+      .login-logoinfo {
+        color: #fff;
+        font-size: 46px;
+        font-weight: 500;
+        letter-spacing: 4px;
+      }
     }
     .content-right {
       position: relative;
-      width: 700px;
-      height: 840px;
+      width: 42%;
+      height: 100%;
       float: right;
       background: #fff;
       box-shadow: -12px 1px 7px 0px #3131316e;
@@ -56,18 +72,30 @@ body {
 
       .company-info {
         position: absolute;
-        width: 550px;
-        bottom: 100px;
+        width: 90%;
+        bottom: 5%;
         left: 50%;
         transform: translateX(-50%);
         color: #bbb;
 
         .company-logo {
           display: inline-block;
-          width: 139px;
-          height: 24px;
+          width: 220px;
+          height: 40px;
           margin-bottom: 15px;
-          background: url(../../assets/logo.png) no-repeat;
+          background: url(../../assets/logo.png) no-repeat center center;
+        }
+        .login-line {
+          border-bottom: 1px solid #bbb;
+          position: absolute;
+          width: 26%;
+          bottom: 24px;
+        }
+        .line-left {
+          left: 0;
+        }
+        .line-right {
+          right: 0;
         }
       }
     }

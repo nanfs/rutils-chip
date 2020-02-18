@@ -117,8 +117,8 @@ class Tablex extends React.Component {
           this.setState({
             loading: false,
             data: res.data.data
-              ? res.data.data.list || []
-              : res.data.list || [],
+              ? res.data.data.records || []
+              : res.data.records || [],
             paging: {
               ...this.state.paging,
               total: res.data.data ? res.data.data.total : res.data.total

@@ -1,13 +1,30 @@
 import React from 'react'
-import { push } from 'react-router-redux'
-import { Icon, Layout, Menu } from 'antd'
+import { Icon, Layout, Menu, message } from 'antd'
 import { USER } from '@/utils/auth'
 import { setUserToLocal } from '../components/Authorized'
 import ResetPwModal from './chip/ResetPwModal'
 import SystemModal from './chip/SystemModal'
 import AboutModal from './chip/AboutModal'
+import loginApi from '@/services/login'
 
 export default class Header extends React.Component {
+  logOut = () => {
+    setUserToLocal({})
+    loginApi
+      .loginOut()
+      .then(res => {
+        if (res.success) {
+          // TODO 存储See
+          return this.props.history.push('/login')
+        } else {
+          message.error(res.message || '操作失败')
+        }
+      })
+      .catch(errors => {
+        console.log(errors)
+      })
+  }
+
   render() {
     return (
       <Layout.Header className="header">
@@ -50,14 +67,7 @@ export default class Header extends React.Component {
             <Icon type="user" />
             <span>修改密码</span>
           </Menu.Item>
-          <Menu.Item
-            key="logout"
-            onClick={() => {
-              console.log('用户已注销')
-              setUserToLocal({})
-              return push('/login')
-            }}
-          >
+          <Menu.Item key="logout" onClick={this.logOut}>
             <Icon type="logout" />
             <span>注销</span>
           </Menu.Item>

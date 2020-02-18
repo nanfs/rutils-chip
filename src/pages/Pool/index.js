@@ -68,7 +68,7 @@ export default class Pool extends React.Component {
       .sendOrder({ ids, order })
       .then(res => {
         if (res.success) {
-          notification.success({ title: '操作成功' })
+          notification.success({ message: '操作成功' })
           this.vmTablex.refresh(this.state.vmTableCfg)
         } else {
           message.error(res.message || '操作失败')
@@ -101,7 +101,7 @@ export default class Pool extends React.Component {
       .getVmConsole(id)
       .then(res => {
         if (res.success) {
-          notification.success({ title: '获取成功' })
+          notification.success({ message: '获取成功' })
         } else {
           message.error(res.message || '获取失败')
         }
@@ -129,7 +129,7 @@ export default class Pool extends React.Component {
       .delPool({ ids })
       .then(res => {
         if (res.success) {
-          notification.success({ title: '删除成功' })
+          notification.success({ message: '删除成功' })
           this.tablex.refresh(this.state.tableCfg)
         } else {
           message.error(res.message || '删除失败')
@@ -147,7 +147,7 @@ export default class Pool extends React.Component {
       .deleteVm({ ids })
       .then(res => {
         if (res.success) {
-          notification.success({ title: '删除成功' })
+          notification.success({ message: '删除成功' })
           this.vmTablex.refresh(this.state.vmTableCfg)
         } else {
           message.error(res.message || '删除失败')

@@ -1,21 +1,13 @@
 import React from 'react'
 import Modalx, { createModalCfg } from '@/components/Modalx'
-import { Spin, Row, Col } from 'antd'
+import { Row, Col } from 'antd'
 import './index.scss'
-import appApi from '@/services/app'
 
 const src = require('@/assets/logo.png')
 
 export default class AboutModal extends React.Component {
-  state = {
-    aboutinfo: {}
-  }
-
   componentDidMount() {
     this.props.onRef && this.props.onRef(this)
-    appApi.getAboutinfo().then(res => {
-      this.setState({ aboutinfo: res.data })
-    })
   }
 
   pop = () => {
@@ -28,7 +20,6 @@ export default class AboutModal extends React.Component {
       width: 738,
       hasFooter: false
     })
-    const { aboutinfo } = this.state
 
     return (
       <Modalx
@@ -39,8 +30,6 @@ export default class AboutModal extends React.Component {
         modalCfg={modalCfg}
         onOk={this.onOk}
       >
-        {/* <Spin spinning={aboutinfo.loading}> */}
-        {/* {aboutinfo.data && ( */}
         <Row>
           <Col span={24} className="about-logo">
             <img src={src} />
@@ -50,37 +39,31 @@ export default class AboutModal extends React.Component {
           <Col span={11} className="about-title">
             系统编号 :
           </Col>
-          <Col span={13}>sdfsdf</Col>
-          {/* <Col span={13}>{aboutinfo.data.systemNumber}</Col> */}
+          <Col span={13}>3F2504E0-4F89-11D3-9A0C-0305E82C3301</Col>
         </Row>
         <Row gutter={32} className="row-margin">
           <Col span={11} className="about-title">
-            产品类型 :
+            版本类型 :
           </Col>
-          <Col span={13}>sdfsdf</Col>
-          {/* <Col span={13}>{aboutinfo.data.productType}</Col> */}
+          <Col span={13}>V2.0.0 build 01108</Col>
         </Row>
         <Row gutter={32} className="row-margin">
           <Col span={11} className="about-title">
             许可数量 :
           </Col>
-          <Col span={13}>sdfsdf</Col>
-          {/* <Col span={13}>{aboutinfo.data.permitNumber}</Col> */}
+          <Col span={13}>1000</Col>
         </Row>
         <Row gutter={32} className="row-margin">
           <Col span={11} className="about-title">
             许可证有效期 :
           </Col>
-          <Col span={13}>sdfsdf</Col>
-          {/* <Col span={13}>{aboutinfo.data.useTimeLimit}</Col> */}
+          <Col span={13}>2020年12月31日</Col>
         </Row>
-        {/* )} */}
         <Row>
           <Col span={24} className="about-info">
             2020-CETC-cloud 电科云（北京）科技有限公司
           </Col>
         </Row>
-        {/* </Spin> */}
       </Modalx>
     )
   }

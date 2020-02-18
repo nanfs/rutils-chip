@@ -18,10 +18,14 @@ class Formx extends React.Component {
     onRef && onRef(this)
     // TODO 检查不生效
     form.setFieldsValue(initValues)
+    console.log(initValues)
+    this.forceUpdate()
   }
 
   shouldComponentUpdate(nextProps) {
     // 应该使用这个方法，重新设置initValues
+    console.log(this.props.initValues)
+
     if (this.props.initValues !== nextProps.initValues) {
       const { form } = this.props
       form.setFieldsValue(nextProps.initValues)

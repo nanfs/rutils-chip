@@ -1,25 +1,29 @@
 import React from 'react'
-import { Input, Switch } from 'antd'
+import { Radio } from 'antd'
+import './index.scss'
 
 export default class Switchx extends React.Component {
   render() {
-    const { value, checkedChildren, unCheckedChildren, ...rest } = this.props
-    console.log(value)
-    const transForm = { off: false, on: true }
+    const { options } = this.props
+    const optionsValue = options && [
+      { label: 'on', value: 'on' },
+      { label: 'off', value: 'off' }
+    ]
     return (
-      <Input
-        {...rest}
-        onChange={v => {
-          console.log(v)
-        }}
+      <Radio.Group
+        buttonStyle="solid"
+        onChange={this.onChange}
+        className="switch-wrap"
       >
-        <Switch
-          {...rest}
-          checkedChildren
-          unCheckedChildren
-          // checked={!!value || transForm[value]}
-        />
-      </Input>
+        {optionsValue.map(item => (
+          <Radio.Button value={item.value} key={item.value}>
+            {item.label}
+          </Radio.Button>
+        ))}
+        {/* <span className="switch-btn">
+          {value && value !== '0' ? '启用' : '禁用'}
+        </span> */}
+      </Radio.Group>
     )
   }
 }

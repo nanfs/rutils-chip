@@ -5,7 +5,7 @@ import './index.scss'
 export default class Switchx extends React.Component {
   render() {
     const { options } = this.props
-    const optionsValue = options && [
+    const optionsValue = options || [
       { label: 'on', value: 'on' },
       { label: 'off', value: 'off' }
     ]

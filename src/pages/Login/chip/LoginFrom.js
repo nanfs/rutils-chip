@@ -56,15 +56,18 @@ export default class LoginForm extends React.Component {
     } else {
       data = {
         username: values.username,
-        password: encrypt(values.password)
+        password: values.password,
+        domain: 'internal'
+        // password: encrypt(values.password)
       }
     }
-    console.log(data)
     loginApi
       .login(data)
       .then(res => {
         if (res.success) {
           message.success('登录成功')
+          this.props.onSuccess(data.username)
+          // TODO 存储See
         } else {
           message.error(res.message || '登录失败')
         }

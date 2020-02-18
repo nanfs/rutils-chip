@@ -22,7 +22,7 @@ class BasicLayout extends React.Component {
     return (
       <ConfigProvider locale={zhCN}>
         <Layout style={{ minHeight: '100vh' }}>
-          <Header />
+          <Header history={this.props.history} />
           <Layout>
             <Sider
               path={location.pathname}

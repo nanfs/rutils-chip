@@ -97,7 +97,11 @@ export default class User extends React.Component {
         <TableWrap>
           <Row gutter={16}>
             <Col span={4} style={{ paddingTop: 10 }}>
-              <Treex apiMethod={userApi.list} onSelect={this.onSelect}></Treex>
+              <Treex
+                apiMethod={userApi.list}
+                onSelect={this.onSelect}
+                addNodeApiMethod={userApi.addNode}
+              ></Treex>
             </Col>
             <Col span={20}>
               <ToolBar>

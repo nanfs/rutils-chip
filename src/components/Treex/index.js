@@ -1,7 +1,13 @@
 import React from 'react'
-import { Tree, Input, Spin, Menu } from 'antd'
+import { Tree, Input, Spin, Menu, Modal } from 'antd'
 import { nodes2Tree } from '@/utils/tool'
 
+import AddNodeModal from './chip/AddNodeModal'
+import EditNodeModal from './chip/EditNodeModal'
+
+import './index.scss'
+
+const { confirm } = Modal
 const { TreeNode } = Tree
 const { Search } = Input
 // 获取节点的父节点key
@@ -47,10 +53,18 @@ export default class Treex extends React.Component {
       pageY: '',
       id: '',
       categoryName: ''
-    }
+    },
+    rightMenuStyle: { display: 'none' }
   }
 
   componentDidMount() {
+    document.addEventListener('contextmenu', this._handleContextMenu)
+    document.addEventListener('click', this._handleClick)
+
+    this.getTreeData()
+  }
+
+  getTreeData = () => {
     const { apiMethod } = this.props
     if (!apiMethod) {
       throw new Error('没有树请求方法')
@@ -118,6 +132,20 @@ export default class Treex extends React.Component {
       })
   }
 
+  _handleContextMenu = e => {
+    e.preventDefault()
+    e.stopPropagation()
+    this.setState({
+      rightMenuStyle: { display: 'none' }
+    })
+  }
+
+  _handleClick = e => {
+    this.setState({
+      rightMenuStyle: { display: 'none' }
+    })
+  }
+
   onExpand = expandedKeys => {
     this.setState({
       expandedKeys,
@@ -166,25 +194,43 @@ export default class Treex extends React.Component {
         )
       if (item.children) {
         return (
-          <TreeNode key={item.id} title={title}>
+          <TreeNode
+            key={item.id}
+            title={title}
+            data-key={item.id}
+            data-title={item.title}
+            parentId={item.parentId}
+          >
             {this.renderTreeNode(item.children, searchValue)}
           </TreeNode>
         )
       }
-      return <TreeNode key={item.id} title={title} />
+      return (
+        <TreeNode
+          key={item.id}
+          title={title}
+          data-key={item.id}
+          data-title={item.title}
+          parentId={item.parentId}
+        />
+      )
     })
 
-  getNodeTreeRightClickMenu = () => {
+  /* getNodeTreeRightClickMenu = () => {
     const { pageX, pageY, id, categoryName } = {
       ...this.state.rightClickNodeTreeItem
     }
     const tmpStyle = {
       position: 'absolute',
-      left: `${pageX - 220}px`,
-      top: `${pageY - 102}px`
+      left: `${pageX - 230}px`,
+      top: `${pageY - 115}px`,
+      display: 'block'
     }
     const menu = (
-      <div style={tmpStyle} className="self-right-menu">
+      <div
+        style={{ display: this.state.rightMenuShow, ...tmpStyle }}
+        className="self-right-menu"
+      >
         <Menu>
           <Menu.Item>新增下级部门</Menu.Item>
           <Menu.Item>修改</Menu.Item>
@@ -193,22 +239,55 @@ export default class Treex extends React.Component {
       </div>
     )
     return this.state.rightClickNodeTreeItem == null ? '' : menu
-  }
+  } */
 
   onRightClick = e => {
     console.log(e)
+    e.event.preventDefault()
+    e.event.stopPropagation()
     this.setState({
       rightClickNodeTreeItem: {
         pageX: e.event.pageX,
         pageY: e.event.pageY,
         id: e.node.props['data-key'],
-        categoryName: e.node.props['data-title']
+        categoryName: e.node.props['data-title'],
+        parentId: e.node.props.parentId
+      },
+      rightMenuStyle: {
+        position: 'absolute',
+        left: `${e.event.pageX - 230}px`,
+        top: `${e.event.pageY - 115}px`,
+        display: 'block'
       }
     })
   }
 
+  showConfirm = () => {
+    confirm({
+      title: '确认删除该节点吗？',
+      onOk() {
+        console.log('OK')
+      },
+      onCancel() {
+        console.log('Cancel')
+      }
+    })
+  }
+
+  deleteNode = e => {
+    console.log(e)
+  }
+
   render() {
-    const { showSearch = true } = this.props
+    const {
+      showSearch = true,
+      addNodeApiMethod,
+      editNodeApiMethod
+    } = this.props
+    const { rightClickNodeTreeItem, rightMenuStyle } = this.state
+    console.log(rightClickNodeTreeItem)
+    // const { pageX, pageY, id, categoryName } = rightClickNodeTreeItem
+
     const {
       searchValue,
       expandedKeys,
@@ -232,7 +311,44 @@ export default class Treex extends React.Component {
         >
           {this.renderTreeNode(nodes2Tree(nodes), searchValue)}
         </Tree>
-        {this.getNodeTreeRightClickMenu()}
+        {rightClickNodeTreeItem && (
+          <div style={{ ...rightMenuStyle }} className="self-right-menu">
+            <Menu>
+              <Menu.Item
+                key="addNode"
+                onClick={() => {
+                  this.addNodeModal.pop()
+                }}
+              >
+                新增下级部门
+              </Menu.Item>
+              <Menu.Item
+                key="editNode"
+                onClick={() => {
+                  this.editNodeModal.pop()
+                }}
+              >
+                修改
+              </Menu.Item>
+              <Menu.Item key="deleteNode" onClick={this.showConfirm}>
+                删除
+              </Menu.Item>
+            </Menu>
+          </div>
+        )}
+        <AddNodeModal
+          onRef={ref => {
+            this.addNodeModal = ref
+          }}
+          addNodeApiMethod={addNodeApiMethod}
+        />
+        <EditNodeModal
+          onRef={ref => {
+            this.editNodeModal = ref
+          }}
+          editNodeApiMethod={editNodeApiMethod}
+          nodeValues={rightClickNodeTreeItem}
+        />
       </Spin>
     )
   }

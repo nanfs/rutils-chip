@@ -17,12 +17,12 @@ export const columns = [
     onFilter: (value, record) => record.severity === value
   },
   {
-    title: '时间',
-    dataIndex: 'datetime'
+    title: '登录时间',
+    dataIndex: 'logTime'
   },
   {
     title: '信息',
-    dataIndex: 'content'
+    dataIndex: 'message'
   },
   {
     title: 'IP',

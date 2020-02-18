@@ -1,8 +1,12 @@
 import React from 'react'
 import { Form, Input, Select } from 'antd'
+
 import Drawerx from '@/components/Drawerx'
 import Formx from '@/components/Formx'
+import TreeSelectx from '@/components/TreeSelectx'
 import Title from '@/components/Title'
+
+import userApi from '@/services/user'
 
 const { Option } = Select
 
@@ -13,6 +17,7 @@ export default class AddDrawer extends React.Component {
 
   render() {
     // const { getFieldDecorator } = this.props.form
+
     return (
       <Drawerx
         onRef={ref => {
@@ -90,11 +95,7 @@ export default class AddDrawer extends React.Component {
               }
             ]}
           >
-            <Select placeholder="组织">
-              <Option value="1">Option 1</Option>
-              <Option value="2">Option 2</Option>
-              <Option value="3">Option 3</Option>
-            </Select>
+            <TreeSelectx apiMethod={userApi.list} />
           </Form.Item>
           <Form.Item
             prop="email"

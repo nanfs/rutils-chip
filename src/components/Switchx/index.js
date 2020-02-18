@@ -3,6 +3,21 @@ import { Radio } from 'antd'
 import './index.scss'
 
 export default class Switchx extends React.Component {
+  state = {
+    value: undefined
+  }
+
+  componentDidUpdate(prep) {
+    if (this.props.value !== prep.value && prep.value === undefined) {
+      this.setState({ value: this.props.value })
+    }
+  }
+
+  handleChange = e => {
+    this.setState({ value: e.target.value })
+    this.props.onChange(e.target.value)
+  }
+
   render() {
     const { options } = this.props
     const optionsValue = options || [
@@ -12,7 +27,8 @@ export default class Switchx extends React.Component {
     return (
       <Radio.Group
         buttonStyle="solid"
-        onChange={this.onChange}
+        onChange={this.handleChange}
+        value={this.state.value}
         className="switch-wrap"
       >
         {optionsValue.map(item => (

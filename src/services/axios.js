@@ -38,12 +38,13 @@ function checkStatus(response = {}) {
 /** **** 创建axios实例 ***** */
 const service = axios.create({
   baseURL, // api的base_url
-  timeout: 5000, // 请求超时时间
+  timeout: 10000, // 请求超时时间
   method: 'post',
   withCredentials: true,
   headers: {
     'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
-    'Access-Control-Allow-Origin': '*'
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'GET,POST,PUT,DELETE,PATCH,OPTIONS'
   }
 })
 

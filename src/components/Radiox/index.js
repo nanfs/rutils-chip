@@ -2,10 +2,29 @@ import React from 'react'
 import { Radio, Button } from 'antd'
 
 export default class Radiox extends React.Component {
+  state = {
+    value: undefined
+  }
+
+  componentDidUpdate(prep) {
+    if (this.props.value !== prep.value && prep.value === undefined) {
+      this.setState({ value: this.props.value })
+    }
+  }
+
+  handleChange = e => {
+    this.setState({ value: e.target.value })
+    this.props.onChange(e.target.value)
+  }
+
   render() {
-    const { value, className, options = [], onRefresh } = this.props
+    const { className, options = [], onRefresh } = this.props
     return (
-      <Radio.Group className={className}>
+      <Radio.Group
+        className={className}
+        onChange={this.handleChange}
+        value={this.state.value}
+      >
         {!options.length && <span>暂无数据</span>}
         {options.map(item => (
           <Radio.Button

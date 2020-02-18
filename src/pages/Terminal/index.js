@@ -118,7 +118,7 @@ export default class Termina extends React.Component {
       .onTerminal({ ids })
       .then(res => {
         if (res.success) {
-          notification.success({ title: '开机成功' })
+          notification.success({ message: '开机成功' })
           this.tablex.refresh(this.state.tableCfg)
         } else {
           message.error(res.message || '开机失败')
@@ -135,7 +135,7 @@ export default class Termina extends React.Component {
       .onTerminal({ ids })
       .then(res => {
         if (res.success) {
-          notification.success({ title: '关机成功' })
+          notification.success({ message: '关机成功' })
           this.tablex.refresh(this.state.tableCfg)
         } else {
           message.error(res.message || '关机失败')
@@ -152,7 +152,7 @@ export default class Termina extends React.Component {
       .onTerminal({ ids })
       .then(res => {
         if (res.success) {
-          notification.success({ title: '接入成功' })
+          notification.success({ message: '接入成功' })
           this.tablex.refresh(this.state.tableCfg)
         } else {
           message.error(res.message || '接入失败')

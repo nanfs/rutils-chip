@@ -25,7 +25,7 @@ function ftInit() {
     const ctrl = document.createElement('object')
     ctrl.setAttribute('type', 'application/npFTUSBKeyMGR')
     ctrl.setAttribute('id', 'USBKeyMGR')
-    ctrl.setAttribute('style', 'width:0;height:0')
+    ctrl.setAttribute('style', 'width:0;height:0;display:none')
     document.body.appendChild(ctrl)
   }
 }

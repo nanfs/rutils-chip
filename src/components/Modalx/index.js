@@ -25,6 +25,7 @@ class Modalx extends React.Component {
   componentDidMount() {
     this.props.onRef && this.props.onRef(this)
     this.form = (this.formRef && this.formRef.props.form) || undefined
+    this.forceUpdate()
   }
 
   componentDidUpdate() {
@@ -44,10 +45,12 @@ class Modalx extends React.Component {
   }
 
   onClose = () => {
+    const { onClose } = this.props
     this.setState({
       show: false,
       submitting: false
     })
+    onClose && onClose()
   }
 
   // TODO 修改处理方式

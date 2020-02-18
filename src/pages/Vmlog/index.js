@@ -18,6 +18,7 @@ const { RangePicker } = DatePicker
 export default class Vmlog extends React.Component {
   state = {
     tableCfg: createTableCfg({
+      rowKey: 'auditLogId',
       columns,
       apiMethod,
       paging: { size: 5 },
@@ -59,7 +60,7 @@ export default class Vmlog extends React.Component {
       .delete({ ids })
       .then(res => {
         if (res.success) {
-          notification.success({ title: '删除成功' })
+          notification.success({ message: '删除成功' })
           this.tablex.refresh(this.state.tableCfg)
         } else {
           message.error(res.message || '删除失败')

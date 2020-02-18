@@ -63,7 +63,7 @@ export default class Desktop extends React.Component {
       .sendOrder({ ids, order })
       .then(res => {
         if (res.success) {
-          notification.success({ title: '操作成功' })
+          notification.success({ message: '操作成功' })
           this.tablex.refresh(this.state.tableCfg)
         } else {
           message.error(res.message || '操作失败')
@@ -102,7 +102,7 @@ export default class Desktop extends React.Component {
       .delete({ ids })
       .then(res => {
         if (res.success) {
-          notification.success({ title: '删除成功' })
+          notification.success({ message: '删除成功' })
           this.tablex.refresh(this.state.tableCfg)
         } else {
           message.error(res.message || '删除失败')

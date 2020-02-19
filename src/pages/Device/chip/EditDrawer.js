@@ -42,7 +42,7 @@ class EditDrawer extends React.Component {
   }
 
   updateSubmit = values => {
-    const { form } = this.props
+    const { form, initValues } = this.props
     const keys = form.getFieldValue('keys')
     const usbs = []
     keys.forEach(function(v, i) {
@@ -62,7 +62,7 @@ class EditDrawer extends React.Component {
     } else {
       values.isUsagePeripherals = '1'
     }
-    console.log(values)
+    deviceApi.updateDev(initValues.id, values)
   }
 
   render() {

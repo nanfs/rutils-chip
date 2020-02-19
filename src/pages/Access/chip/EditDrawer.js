@@ -7,6 +7,7 @@ import Selectx from '@/components/Selectx'
 import Title, { Diliver } from '@/components/Title'
 import '../index.scss'
 import moment from 'moment'
+import accessApi from '@/services/access'
 
 const { TextArea } = Input
 
@@ -41,12 +42,10 @@ export default class EditDrawer extends React.Component {
         }}
         onOk={values => {
           const data = {
-            id: values.id,
             name: values.name,
             description: values.description,
             admitInterval: [
               {
-                id: values.id,
                 type: values.type,
                 date:
                   values.type === 0
@@ -57,7 +56,7 @@ export default class EditDrawer extends React.Component {
               }
             ]
           }
-          console.log(data)
+          accessApi.update(initValues.id, data)
         }}
       >
         <Formx initValues={initValues}>

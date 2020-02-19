@@ -6,6 +6,7 @@ import Radiox from '@/components/Radiox'
 import Selectx from '@/components/Selectx'
 import Title, { Diliver } from '@/components/Title'
 import '../index.scss'
+import accessApi from '@/services/access'
 import moment from 'moment'
 
 const { TextArea } = Input
@@ -54,7 +55,7 @@ export default class AddDrawer extends React.Component {
               }
             ]
           }
-          console.log(data)
+          accessApi.add(data)
         }}
       >
         <Formx initValues={{ type: 0 }}>

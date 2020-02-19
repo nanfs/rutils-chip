@@ -16,9 +16,9 @@ export default {
       data: qs.stringify(data)
     })
   },
-  update(data) {
+  update(id, data) {
     return axios({
-      url: '/admitpolicys',
+      url: `/admitpolicys/${id}`,
       method: 'put',
       data: qs.stringify(data)
     })

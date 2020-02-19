@@ -122,277 +122,66 @@
       "username": null
     }
   ],
-  "vmlogs": [
+  "desktoplogs": [
     {
-      "id": 56,
-      "severity": 10,
-      "datetime": "2018-12-29 13:06:14",
-      "content": "群集 cluster 的HA预定检查失败。在容错情况下，主机 47 上的高可用虚拟机将无法迁移，请考虑增加资源或关闭未使用的虚拟机。",
-      "username": null,
-      "ip": "192.168.102.45",
-      "desktopName": null,
-      "hostName": null,
-      "datacenterName": "data",
-      "clusterName": "cluster"
-    },
-    {
-      "id": 51,
-      "severity": 10,
-      "datetime": "2018-12-29 12:06:14",
-      "content": "群集 cluster 的HA预定检查失败。在容错情况下，主机 47 上的高可用虚拟机将无法迁移，请考虑增加资源或关闭未使用的虚拟机。",
-      "username": null,
-      "ip": "192.168.102.45",
-      "desktopName": null,
-      "hostName": null,
-      "datacenterName": "data",
-      "clusterName": "cluster"
-    },
-    {
-      "id": 50,
-      "severity": 10,
-      "datetime": "2018-12-29 11:06:14",
-      "content": "群集 cluster 的HA预定检查失败。在容错情况下，主机 47 上的高可用虚拟机将无法迁移，请考虑增加资源或关闭未使用的虚拟机。",
-      "username": null,
-      "ip": "192.168.102.45",
-      "desktopName": null,
-      "hostName": null,
-      "datacenterName": "data",
-      "clusterName": "cluster"
-    },
-    {
-      "id": 49,
-      "severity": 10,
-      "datetime": "2018-12-29 10:06:14",
-      "content": "群集 cluster 的HA预定检查失败。在容错情况下，主机 47 上的高可用虚拟机将无法迁移，请考虑增加资源或关闭未使用的虚拟机。",
-      "username": null,
-      "ip": "192.168.102.45",
-      "desktopName": null,
-      "hostName": null,
-      "datacenterName": "data",
-      "clusterName": "cluster"
-    },
-    {
-      "id": 43,
-      "severity": 10,
-      "datetime": "2018-12-29 09:06:13",
-      "content": "群集 cluster 的HA预定检查失败。在容错情况下，主机 47 上的高可用虚拟机将无法迁移，请考虑增加资源或关闭未使用的虚拟机。",
-      "username": null,
-      "ip": "192.168.102.45",
-      "desktopName": null,
-      "hostName": null,
-      "datacenterName": "data",
-      "clusterName": "cluster"
-    },
-    {
-      "id": 38,
+      "auditLogId": 4,
       "severity": 0,
-      "datetime": "2018-12-29 09:05:45",
-      "content": "SPM运行在主机 47 上(地址: 192.168.102.47 )。",
-      "username": null,
-      "ip": "192.168.102.45",
-      "desktopName": null,
-      "hostName": "47",
-      "datacenterName": "data",
-      "clusterName": "cluster"
-    },
-    {
-      "id": 37,
-      "severity": 1,
-      "datetime": "2018-12-29 09:05:23",
-      "content": "数据中心正在初始化，请等待初始化完成。",
-      "username": "admin",
-      "ip": "172.17.225.96",
-      "desktopName": null,
-      "hostName": "Unavailable",
-      "datacenterName": "data",
+      "logTime": "2020-02-17 21:22:16",
+      "message": "User admin@internal-authz connecting from '192.168.1.1' using session 'kboCwx3oKg6KoRTeusw/MHVUkK7AldK7lEKjWi5KIzEHUvuRNSN1QwSGcDiJzEmbRUDrwFsAVnnkgWxCcPJXSA==' logged in.",
+      "userName": "admin@internal-authz",
+      "userIp": null,
+      "desktopName": "",
+      "hostName": "",
+      "datacenterName": "",
       "clusterName": ""
     },
     {
-      "id": 35,
+      "auditLogId": 5,
+      "severity": 10,
+      "logTime": "2020-02-17 21:22:30",
+      "message": "Failed to verify Power Management configuration for Host dky-cd1.com.",
+      "userName": "",
+      "userIp": null,
+      "desktopName": "",
+      "hostName": "dky-cd1.com",
+      "datacenterName": "",
+      "clusterName": ""
+    },
+    {
+      "auditLogId": 6,
       "severity": 0,
-      "datetime": "2018-12-29 09:03:26",
-      "content": "主机 47 状态设置为 Up。",
-      "username": null,
-      "ip": "192.168.102.45",
-      "desktopName": null,
-      "hostName": "47",
-      "datacenterName": "data",
-      "clusterName": "cluster"
+      "logTime": "2020-02-17 21:22:30",
+      "message": "Host dky-cd1.com was added by admin@internal-authz.",
+      "userName": "admin@internal-authz",
+      "userIp": null,
+      "desktopName": "",
+      "hostName": "dky-cd1.com",
+      "datacenterName": "",
+      "clusterName": "Default"
     },
     {
-      "id": 34,
+      "auditLogId": 7,
       "severity": 0,
-      "datetime": "2018-12-29 09:03:25",
-      "content": "主机 47 安装完成。",
-      "username": null,
-      "ip": "172.17.225.96",
-      "desktopName": null,
-      "hostName": "47",
-      "datacenterName": "data",
-      "clusterName": "cluster"
+      "logTime": "2020-02-17 21:22:31",
+      "message": "Installing Host dky-cd1.com. Connected to host dky-cd1.com with SSH key fingerprint: SHA256:FTm/rE+uurh70zRqX3ajZ4KRQcn13pr/rX00vbTqDUg.",
+      "userName": "",
+      "userIp": null,
+      "desktopName": "",
+      "hostName": "dky-cd1.com",
+      "datacenterName": "",
+      "clusterName": "Default"
     },
     {
-      "id": 33,
+      "auditLogId": 8,
       "severity": 0,
-      "datetime": "2018-12-29 09:03:20",
-      "content": "正在安装主机 47，Stage: Termination。",
-      "username": null,
-      "ip": "192.168.102.47",
-      "desktopName": null,
-      "hostName": "47",
-      "datacenterName": "data",
-      "clusterName": "cluster"
-    }
-  ],
-  "homeclusterlist": [
-    {
-      "datacenterId": "eeaa346a-5cd3-45b9-a4e4-16d12a5b261c",
-      "id": "708a4628-5f68-4a13-bac6-9e36b39d162c",
-      "name": "cluster",
-      "maxVdsMemoryOverCommit": 200,
-      "enableBalloon": true,
-      "threadsAsCores": true
-    }
-  ],
-  "homeclusterinfo": {
-    "desktopType": [
-      {
-        "name": "未指定",
-        "count": 2
-      }
-    ],
-    "total": 2,
-    "boundUserCount": 0,
-    "boundSecClassficationCount": 0,
-    "resourceSurplus": 1
-  },
-  "homedatacenter": {
-    "dataCenter": {
-      "total": 3,
-      "highSecurity": 1,
-      "highPerformance": 1,
-      "balancePerformance": 1
-    },
-    "host": {
-      "total": 2,
-      "highSecurity": 0,
-      "highPerformance": 2,
-      "balancePerformance": 0
-    },
-    "storage": {
-      "total": 1535,
-      "used": 665
-    }
-  },
-  "homevmsessions": [
-    {
-      "datetime": "周日",
-      "打开": 0,
-      "关闭": 0
-    },
-    {
-      "datetime": "周一",
-      "打开": 0,
-      "关闭": 0
-    },
-    {
-      "datetime": "周二",
-      "打开": 0,
-      "关闭": 0
-    },
-    {
-      "datetime": "周三",
-      "打开": 0,
-      "关闭": 0
-    },
-    {
-      "datetime": "周四",
-      "打开": 0,
-      "关闭": 0
-    },
-    {
-      "datetime": "周五",
-      "打开": 0,
-      "关闭": 0
-    },
-    {
-      "datetime": "周六",
-      "打开": 0,
-      "关闭": 0
-    }
-  ],
-  "homevmusage": [
-    {
-      "5": 0,
-      "status": "在线",
-      "00": 3,
-      "编辑类型1": 1,
-      "未指定": 26
-    },
-    {
-      "5": 1,
-      "status": "离线",
-      "00": 504,
-      "编辑类型1": 2,
-      "未指定": 5099
-    }
-  ],
-  "hometcstatus": {
-    "online": 0,
-    "offline": 0,
-    "waitAccess": 0,
-    "total": 0,
-    "boundUserCount": 0,
-    "boundSecClassficationCount": 0,
-    "boundSecurityPolicyCount": 0,
-    "boundAdmissionPolicyCount": 0
-  },
-  "hometcversions": [
-    {
-      "state": "系统",
-      "1.0.0": 8,
-      "5.0.0": 1
-    },
-    {
-      "state": "软件",
-      "3.1.0": 9
-    }
-  ],
-  "hometcusage": [
-    {
-      "datetime": "周日",
-      "上线": 0,
-      "下线": 0
-    },
-    {
-      "datetime": "周一",
-      "上线": 0,
-      "下线": 0
-    },
-    {
-      "datetime": "周二",
-      "上线": 0,
-      "下线": 0
-    },
-    {
-      "datetime": "周三",
-      "上线": 0,
-      "下线": 0
-    },
-    {
-      "datetime": "周四",
-      "上线": 0,
-      "下线": 0
-    },
-    {
-      "datetime": "周五",
-      "上线": 0,
-      "下线": 0
-    },
-    {
-      "datetime": "周六",
-      "上线": 0,
-      "下线": 0
+      "logTime": "2020-02-17 21:22:32",
+      "message": "Installing Host dky-cd1.com. Stage: Initializing.",
+      "userName": "",
+      "userIp": null,
+      "desktopName": "",
+      "hostName": "dky-cd1.com",
+      "datacenterName": "",
+      "clusterName": "Default"
     }
   ],
   "about": {
@@ -414,74 +203,6 @@
     "sessionTimeOutInterval": 30,
     "tcSwitcherPassword": "123456",
     "userLoginFailLockTimeThreshold": 30
-  },
-  "datacenters": [
-    {
-      "id": "b6fc9754-6e4b-472f-a12f-d5b49528322b",
-      "name": "2bxnjh",
-      "description": "",
-      "type": false,
-      "performanceMode": 2,
-      "status": 0
-    },
-    {
-      "id": "ced84822-20f8-4519-a6d0-644a8feac70e",
-      "name": "a1",
-      "description": "bd+gaq",
-      "type": true,
-      "performanceMode": 1,
-      "status": 0
-    },
-    {
-      "id": "e4b39f00-9c65-4896-852f-1b431e6538eb",
-      "name": "bjm",
-      "description": "",
-      "type": false,
-      "performanceMode": 3,
-      "status": 1
-    }
-  ],
-  "clusters": [
-    {
-      "datacenterId": "b6fc9754-6e4b-472f-a12f-d5b49528322b",
-      "id": "d6604b8b-61f6-4e17-ab8f-34594fc62fb0",
-      "name": "xnjh",
-      "maxVdsMemoryOverCommit": 200,
-      "enableBalloon": true,
-      "threadsAsCores": true
-    }
-  ],
-  "hosts": [
-    {
-      "id": "7d3fafee-68e1-45a2-a9e0-1ece85cc0244",
-      "status": 3,
-      "name": "node22",
-      "ip": null,
-      "hostName": "192.168.128.22",
-      "description": "admin",
-      "cpuUsageRate": 0,
-      "memoryUsageRate": 23,
-      "networkUsageRate": 0,
-      "desktopCount": 5
-    },
-    {
-      "id": "0c0b14bb-23b8-4faa-984b-0c7824413c2d",
-      "status": 3,
-      "name": "node9",
-      "ip": null,
-      "hostName": "192.168.128.9",
-      "description": "rtrtgrtrt",
-      "cpuUsageRate": 2,
-      "memoryUsageRate": 77,
-      "networkUsageRate": 0,
-      "desktopCount": 25
-    }
-  ],
-  "hostdesktoptypes": {
-    "total": 25,
-    "00": 2,
-    "编辑类型1": 1,
-    "未指定": 22
   },
   "storages": [
     {
@@ -611,49 +332,6 @@
       "firstName": "pvad.com/Builtin/Backup Operators",
       "lastName": "",
       "username": ""
-    }
-  ],
-  "terminaltypes": [
-    {
-      "terminal_type": "IntelN2807"
-    }
-  ],
-  "packages": [
-    {
-      "id": 192,
-      "tcType": "IntelN2807",
-      "softVer": "1.1.1",
-      "os": "ly-xubuntu",
-      "sysVer": "4.4.4",
-      "level": 0,
-      "packageType": "SOFT",
-      "description": null,
-      "uploadTime": "2018-12-17 14:36:06",
-      "downloadUrl": "https://192.168.128.27/svdms/download/IntelN2807_soft_1.1.1_ly-xubuntu_4.4.4.tar",
-      "downloadType": 0
-    },
-    {
-      "id": 191,
-      "tcType": "IntelN2807",
-      "softVer": "3.1.1",
-      "os": "ly-xubuntu",
-      "sysVer": "9.0.0",
-      "level": 0,
-      "packageType": "SOFT",
-      "description": null,
-      "uploadTime": "2018-12-14 16:13:49",
-      "downloadUrl": "https://192.168.128.27/svdms/download/IntelN2807_soft_3.1.1_ly-xubuntu_9.0.0.tar",
-      "downloadType": 0
-    }
-  ],
-  "whitelist": [
-    {
-      "id": "CECL1231231231231111",
-      "description": "123123"
-    },
-    {
-      "id": "CECL1231231231231112",
-      "description": "123123"
     }
   ],
   "terminals": [
@@ -1014,128 +692,6 @@
     "offlinetime": "",
     "securityClassification": 0
   },
-  "terminalsusagedetail": [
-    {
-      "datetime": "2018-12-06",
-      "onlinetimesum": 1102.7
-    },
-    {
-      "datetime": "2018-12-07",
-      "onlinetimesum": 1424.63
-    },
-    {
-      "datetime": "2018-12-08",
-      "onlinetimesum": 1439.17
-    },
-    {
-      "datetime": "2018-12-09",
-      "onlinetimesum": 1440
-    },
-    {
-      "datetime": "2018-12-10",
-      "onlinetimesum": 1053.52
-    },
-    {
-      "datetime": "2018-12-11",
-      "onlinetimesum": 693.55
-    },
-    {
-      "datetime": "2018-12-12",
-      "onlinetimesum": 0
-    },
-    {
-      "datetime": "2018-12-13",
-      "onlinetimesum": 0
-    },
-    {
-      "datetime": "2018-12-14",
-      "onlinetimesum": 0
-    },
-    {
-      "datetime": "2018-12-15",
-      "onlinetimesum": 0
-    },
-    {
-      "datetime": "2018-12-16",
-      "onlinetimesum": 0
-    },
-    {
-      "datetime": "2018-12-17",
-      "onlinetimesum": 7.7
-    },
-    {
-      "datetime": "2018-12-18",
-      "onlinetimesum": 0
-    },
-    {
-      "datetime": "2018-12-19",
-      "onlinetimesum": 0
-    },
-    {
-      "datetime": "2018-12-20",
-      "onlinetimesum": 0
-    },
-    {
-      "datetime": "2018-12-21",
-      "onlinetimesum": 9.92
-    },
-    {
-      "datetime": "2018-12-22",
-      "onlinetimesum": 0
-    },
-    {
-      "datetime": "2018-12-23",
-      "onlinetimesum": 0
-    },
-    {
-      "datetime": "2018-12-24",
-      "onlinetimesum": 573.75
-    },
-    {
-      "datetime": "2018-12-25",
-      "onlinetimesum": 1440
-    },
-    {
-      "datetime": "2018-12-26",
-      "onlinetimesum": 1434.25
-    },
-    {
-      "datetime": "2018-12-27",
-      "onlinetimesum": 674.17
-    },
-    {
-      "datetime": "2018-12-28",
-      "onlinetimesum": 1440
-    },
-    {
-      "datetime": "2018-12-29",
-      "onlinetimesum": 1440
-    },
-    {
-      "datetime": "2018-12-30",
-      "onlinetimesum": 1440
-    },
-    {
-      "datetime": "2018-12-31",
-      "onlinetimesum": 1440
-    },
-    {
-      "datetime": "2019-01-01",
-      "onlinetimesum": 1440
-    },
-    {
-      "datetime": "2019-01-02",
-      "onlinetimesum": 1440
-    },
-    {
-      "datetime": "2019-01-03",
-      "onlinetimesum": 1435.32
-    },
-    {
-      "datetime": "2019-01-04",
-      "onlinetimesum": 814.25
-    }
-  ],
   "templates": [
     {
       "id": "24238832-3b9a-4fe1-b800-c0a6461a0112",
@@ -1399,44 +955,6 @@
       "network": []
     }
   ],
-  "desktoptypes": [
-    {
-      "id": "8611bbf3-b45c-4dd2-a02f-7715851ff438",
-      "name": "00",
-      "cpuNum": "1",
-      "cpuCores": "1",
-      "memory": "1.0",
-      "usbNum": "0",
-      "h264Bitrate": "5.0",
-      "description": "",
-      "desktopCount": 507,
-      "status": false
-    },
-    {
-      "id": "1ffe417b-eab6-4098-ac86-f1e87b0a9a73",
-      "name": "5",
-      "cpuNum": "2",
-      "cpuCores": "1",
-      "memory": "4.0",
-      "usbNum": "0",
-      "h264Bitrate": "5.0",
-      "description": "",
-      "desktopCount": 1,
-      "status": true
-    },
-    {
-      "id": "0a033384-8131-46c9-820c-5ae03f52be89",
-      "name": "编辑类型1",
-      "cpuNum": "10",
-      "cpuCores": "2",
-      "memory": "4.1",
-      "usbNum": "0",
-      "h264Bitrate": "5.2",
-      "description": "修改描述1",
-      "desktopCount": 3,
-      "status": false
-    }
-  ],
   "pools": [
     {
       "id": "1aed7fb0-d9fc-419c-b4b6-875fecd5b82e",
@@ -1482,12 +1000,6 @@
       "desktopNum": 4,
       "prestartNum": 0,
       "description": ""
-    }
-  ],
-  "poolsdesktoptypes": [
-    {
-      "id": "8611bbf3-b45c-4dd2-a02f-7715851ff438",
-      "name": "00"
     }
   ],
   "poolsdesktops": [
@@ -1648,20 +1160,6 @@
       "groupName": "pvad.com/Users/group1,pvad.com/Users/group2",
       "type": "user",
       "name": "test001"
-    }
-  ],
-  "desktopdesktoptypes": [
-    {
-      "id": "8611bbf3-b45c-4dd2-a02f-7715851ff438",
-      "name": "00"
-    },
-    {
-      "id": "1ffe417b-eab6-4098-ac86-f1e87b0a9a73",
-      "name": "5"
-    },
-    {
-      "id": "0a033384-8131-46c9-820c-5ae03f52be89",
-      "name": "编辑类型1"
     }
   ],
   "desktops": [
@@ -2253,128 +1751,6 @@
     ],
     "network": []
   },
-  "desktopusagedetail": [
-    {
-      "datetime": "2018-12-04",
-      "onlinetimesum": 0
-    },
-    {
-      "datetime": "2018-12-05",
-      "onlinetimesum": 0
-    },
-    {
-      "datetime": "2018-12-06",
-      "onlinetimesum": 0
-    },
-    {
-      "datetime": "2018-12-07",
-      "onlinetimesum": 0
-    },
-    {
-      "datetime": "2018-12-08",
-      "onlinetimesum": 0
-    },
-    {
-      "datetime": "2018-12-09",
-      "onlinetimesum": 0
-    },
-    {
-      "datetime": "2018-12-10",
-      "onlinetimesum": 0
-    },
-    {
-      "datetime": "2018-12-11",
-      "onlinetimesum": 0
-    },
-    {
-      "datetime": "2018-12-12",
-      "onlinetimesum": 0
-    },
-    {
-      "datetime": "2018-12-13",
-      "onlinetimesum": 0
-    },
-    {
-      "datetime": "2018-12-14",
-      "onlinetimesum": 0
-    },
-    {
-      "datetime": "2018-12-15",
-      "onlinetimesum": 0
-    },
-    {
-      "datetime": "2018-12-16",
-      "onlinetimesum": 0
-    },
-    {
-      "datetime": "2018-12-17",
-      "onlinetimesum": 0
-    },
-    {
-      "datetime": "2018-12-18",
-      "onlinetimesum": 0
-    },
-    {
-      "datetime": "2018-12-19",
-      "onlinetimesum": 0
-    },
-    {
-      "datetime": "2018-12-20",
-      "onlinetimesum": 0
-    },
-    {
-      "datetime": "2018-12-21",
-      "onlinetimesum": 0
-    },
-    {
-      "datetime": "2018-12-22",
-      "onlinetimesum": 0
-    },
-    {
-      "datetime": "2018-12-23",
-      "onlinetimesum": 0
-    },
-    {
-      "datetime": "2018-12-24",
-      "onlinetimesum": 0
-    },
-    {
-      "datetime": "2018-12-25",
-      "onlinetimesum": 3.12
-    },
-    {
-      "datetime": "2018-12-26",
-      "onlinetimesum": 138.23
-    },
-    {
-      "datetime": "2018-12-27",
-      "onlinetimesum": 0
-    },
-    {
-      "datetime": "2018-12-28",
-      "onlinetimesum": 0
-    },
-    {
-      "datetime": "2018-12-29",
-      "onlinetimesum": 0
-    },
-    {
-      "datetime": "2018-12-30",
-      "onlinetimesum": 0
-    },
-    {
-      "datetime": "2018-12-31",
-      "onlinetimesum": 0
-    },
-    {
-      "datetime": "2019-01-01",
-      "onlinetimesum": 0
-    },
-    {
-      "datetime": "2019-01-02",
-      "onlinetimesum": 0
-    }
-  ],
   "safepolicys": [
     {
       "id": "f8bbe01e-ced6-495a-989f-0718fb898a91",

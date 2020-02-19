@@ -57,10 +57,10 @@ export default class Desktop extends React.Component {
     this.currentDrawer.drawer.hide()
   }
 
-  sendOrder = (id, order) => {
+  sendOrder = (id, directive) => {
     const ids = !Array.isArray(id) ? [id] : [...id]
     desktopsApi
-      .sendOrder({ ids, order })
+      .sendOrder({ desktopIds: ids, directive })
       .then(res => {
         if (res.success) {
           notification.success({ message: '操作成功' })
@@ -76,12 +76,12 @@ export default class Desktop extends React.Component {
 
   turnOn = () => {
     const ids = this.state.tableCfg.selection
-    this.sendOrder(ids, 'turnOn')
+    this.sendOrder(ids, 'start')
   }
 
   turnOff = () => {
     const ids = this.state.tableCfg.selection
-    this.sendOrder(ids, 'turnOff')
+    this.sendOrder(ids, 'shutdown')
   }
 
   onSelectChange = (selection, selectData) => {

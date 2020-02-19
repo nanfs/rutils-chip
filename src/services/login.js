@@ -7,7 +7,14 @@ import axios from './axios'
 export default {
   login(data) {
     return axios({
-      url: '/login',
+      url: '/desktop/user/login',
+      method: 'post',
+      data: qs.stringify(data)
+    })
+  },
+  loginOut(data) {
+    return axios({
+      url: '/desktop/user/logout',
       method: 'post',
       data: qs.stringify(data)
     })

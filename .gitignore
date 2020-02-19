@@ -2,10 +2,9 @@
 
 # dependencies
 **/node_modules
-
 #mock
 # **/db.json
-
+config/default.js
 .idea
 yarn.lock
 package-lock.json
@@ -22,3 +21,4 @@ functions/*
 **/dll
 .cache
 /.vscode
+

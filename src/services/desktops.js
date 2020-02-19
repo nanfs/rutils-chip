@@ -47,9 +47,9 @@ export default {
   },
   sendOrder(data) {
     return axios({
-      url: '/desktops',
-      method: 'get',
-      params: data
+      url: '/desktops/directives ',
+      method: 'post',
+      data: qs.stringify(data)
     })
   },
   getNetwork(data) {

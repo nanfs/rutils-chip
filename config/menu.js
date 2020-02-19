@@ -9,8 +9,7 @@ const menu = [
   {
     title: '资源概览',
     path: '/resource',
-    icon: 'shujugailan',
-    iconComonpent: 'MyIcon',
+    icon: 'pie-chart',
     authority: 'admin,security'
   },
   {
@@ -29,7 +28,7 @@ const menu = [
   },
   {
     title: '模板管理',
-    icon: 'template',
+    icon: 'template1',
     iconComonpent: 'MyIcon',
     path: '/template',
     authority: 'admin,security'
@@ -44,7 +43,6 @@ const menu = [
   {
     title: '外设控制',
     icon: 'usb',
-    iconComonpent: 'MyIcon',
     path: '/device',
     authority: 'admin,security'
   },
@@ -56,7 +54,7 @@ const menu = [
   },
   {
     title: '用户管理',
-    icon: 'yonghuguanli-',
+    icon: 'yonghuguanli',
     iconComonpent: 'MyIcon',
     path: '/user',
     authority: 'admin,security'

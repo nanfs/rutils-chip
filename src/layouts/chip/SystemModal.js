@@ -100,7 +100,7 @@ export default class ConfigModal extends React.Component {
         className="sys-modal"
       >
         <Formx formItemLayout={formItemLayout}>
-          <Row id="configContainer" gutter="32">
+          <Row id="configContainer" gutter={32}>
             <Col span={4} style={{ position: 'fixed' }}>
               <ul className="sys-anchor">
                 <li

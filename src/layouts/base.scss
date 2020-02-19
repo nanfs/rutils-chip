@@ -79,13 +79,29 @@ body {
     }
   }
   .ant-menu-inline-collapsed {
-    .ant-menu-item > .text {
+    .ant-menu-item .text,
+    .ant-menu-submenu .text {
       visibility: hidden;
     }
+  }
+  .ant-menu-inline-collapsed > .ant-menu-item .anticon {
+    font-size: 22px;
   }
   .trigger {
     height: 50px;
     line-height: 50px;
+  }
+  .ant-menu-item .v-icon,
+  .ant-menu-submenu .v-icon,
+  .ant-menu-item .anticon,
+  .ant-menu-submenu .anticon {
+    min-width: 14px;
+    margin-right: 15px;
+    font-size: 22px;
+    -webkit-transition: font-size 0.15s cubic-bezier(0.215, 0.61, 0.355, 1),
+      margin 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+    transition: font-size 0.15s cubic-bezier(0.215, 0.61, 0.355, 1),
+      margin 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
   }
 }
 

@@ -1,5 +1,5 @@
 import React from 'react'
-import { TreeSelect, Input, Spin, Menu } from 'antd'
+import { TreeSelect } from 'antd'
 import { nodes2Tree } from '@/utils/tool'
 
 export default class TreeSelectx extends React.Component {

@@ -1,6 +1,6 @@
 const webpack = require('webpack')
 const path = require('path')
-const ParallelUglifyPlugin = require('webpack-parallel-uglify-plugin')
+// const ParallelUglifyPlugin = require('webpack-parallel-uglify-plugin')
 const cfgPaths = require('../config/paths')
 
 const plugin = [
@@ -11,16 +11,17 @@ const plugin = [
   })
 ]
 if (process.env.NODE_ENV === 'product') {
-  plugin.push(
-    new ParallelUglifyPlugin({
-      cacheDir: '.cache/',
-      uglifyJS: {
-        output: {
-          comments: false
-        }
-      }
-    })
-  )
+  // TODO 打包插件问题
+  // plugin.push(
+  //   new ParallelUglifyPlugin({
+  //     cacheDir: '.cache/',
+  //     uglifyJS: {
+  //       output: {
+  //         comments: false
+  //       }
+  //     }
+  //   })
+  // )
 }
 module.exports = {
   stats: 'errors-only',

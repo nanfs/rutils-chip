@@ -5,6 +5,7 @@ import Formx from '@/components/Formx'
 import Radiox from '@/components/Radiox'
 import Selectx from '@/components/Selectx'
 import Title, { Diliver } from '@/components/Title'
+import { weekOptions, typeOptions } from '@/utils/formOptions'
 import '../index.scss'
 import accessApi from '@/services/access'
 import moment from 'moment'
@@ -16,49 +17,45 @@ export default class AddDrawer extends React.Component {
     this.props.onRef && this.props.onRef(this)
   }
 
-  onChange() {
+  onChange = () => {
     this.forceUpdate()
   }
 
+  add = values => {
+    const data = {
+      name: values.name,
+      description: values.description,
+      admitInterval: [
+        {
+          type: values.type,
+          date:
+            values.type === 0 ? values.weeks : moment(values.day, 'YYYY/MM/DD'),
+          startTime: moment(values.startTime).format('HH:mm'),
+          endTime: moment(values.endTime).format('HH:mm')
+        }
+      ]
+    }
+    accessApi
+      .add(data)
+      .then(res => {
+        this.drawer.afterSubmit(res)
+        this.props.onSuccess()
+      })
+      .catch(errors => {
+        this.drawer.break()
+        console.log(errors)
+      })
+  }
+
   render() {
-    const radioOptions = [
-      { label: '按周', value: 0 },
-      { label: '按天', value: 1 }
-    ]
-    const weekOptions = [
-      { label: '周一', value: '1' },
-      { label: '周二', value: '2' },
-      { label: '周三', value: '3' },
-      { label: '周四', value: '4' },
-      { label: '周五', value: '5' },
-      { label: '周六', value: '6' },
-      { label: '周日', value: '7' }
-    ]
     return (
       <Drawerx
         onRef={ref => {
           this.drawer = ref
         }}
-        onOk={values => {
-          const data = {
-            name: values.name,
-            description: values.description,
-            admitInterval: [
-              {
-                type: values.type,
-                date:
-                  values.type === 0
-                    ? values.weeks
-                    : moment(values.day, 'YYYY/MM/DD'),
-                startTime: moment(values.startTime).format('HH:mm'),
-                endTime: moment(values.endTime).format('HH:mm')
-              }
-            ]
-          }
-          accessApi.add(data)
-        }}
+        onOk={this.add}
       >
-        <Formx initValues={{ type: 0 }}>
+        <Formx initValues={this.props.initValues}>
           <Title slot="基础设置"></Title>
           <Form.Item prop="name" required label="名称">
             <Input name="name" placeholder="名称" />
@@ -74,10 +71,7 @@ export default class AddDrawer extends React.Component {
           <Diliver />
           <Title slot="准入设置"></Title>
           <Form.Item prop="type" required label="准入方式">
-            <Radiox
-              options={radioOptions}
-              onChange={this.onChange.bind(this)}
-            />
+            <Radiox options={typeOptions} onChange={this.onChange} />
           </Form.Item>
           {this.drawer &&
             this.drawer.form &&

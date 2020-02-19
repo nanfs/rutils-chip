@@ -85,6 +85,10 @@ export default class Desktop extends React.Component {
     }
   }
 
+  onSuccess = () => {
+    this.tablex.refresh(this.state.tableCfg)
+  }
+
   render() {
     return (
       <React.Fragment>
@@ -96,12 +100,8 @@ export default class Desktop extends React.Component {
         <TableWrap>
           <ToolBar>
             <BarLeft>
-              <Button onClick={this.addAccess} style={{ marginRight: '10px' }}>
-                创建
-              </Button>
-              <Button onClick={this.editAccess} style={{ marginRight: '10px' }}>
-                编辑
-              </Button>
+              <Button onClick={this.addAccess}>创建</Button>
+              <Button onClick={this.editAccess}>编辑</Button>
               <Button onClick={this.delAccess}>删除</Button>
             </BarLeft>
           </ToolBar>
@@ -115,7 +115,8 @@ export default class Desktop extends React.Component {
             onRef={ref => {
               this.addDrawer = ref
             }}
-            initValues={{ type: 'week', name: 'test' }}
+            onSuccess={this.onSuccess}
+            initValues={{ type: 'week' }}
           />
           <EditDrawer
             onRef={ref => {

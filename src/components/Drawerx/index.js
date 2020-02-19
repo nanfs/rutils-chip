@@ -27,9 +27,11 @@ class Drawerx extends React.Component {
     })
     document.body.style.maxHeight = '100vh'
     document.body.style.overflow = 'hidden'
-    document.querySelector('.table-wrap').style.maxHeight =
+    document.querySelector('.table-wrap').style.minHeight =
       'calc(100vh - 105px)'
     document.querySelector('.table-wrap').style.overflow = 'hidden'
+    document.querySelector('.ant-drawer-body .ant-form').style.Height =
+      'calc(100vh - 185px)'
   }
 
   hide = () => {
@@ -39,6 +41,7 @@ class Drawerx extends React.Component {
     })
     document.body.style = ''
     document.querySelector('.table-wrap').style = ''
+    document.querySelector('.ant-drawer-body .ant-form').style = ''
   }
 
   onClose = () => {
@@ -103,7 +106,7 @@ class Drawerx extends React.Component {
     if (this.hasFormx()) {
       return (
         <Row className="option-wrap">
-          <Col span={4} push={20}>
+          <Col span={6} push={18}>
             <Button key="back" onClick={this.onClose}>
               取消
             </Button>

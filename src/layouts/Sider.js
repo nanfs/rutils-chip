@@ -16,7 +16,7 @@ export default class Sider extends React.Component {
       <Menu.Item key={item.path}>
         <NavLink to={item.path}>
           {item.iconComonpent ? (
-            <MyIcon type={item.icon} />
+            <MyIcon type={item.icon} component="svg" />
           ) : (
             <Icon type={item.icon} />
           )}
@@ -38,7 +38,7 @@ export default class Sider extends React.Component {
             ) : (
               <Icon type={subMenu.icon} />
             )}
-            <span>{subMenu.title}</span>
+            <span className="text">{subMenu.title}</span>
           </span>
         }
       >
@@ -62,7 +62,7 @@ export default class Sider extends React.Component {
         collapsed={this.props.collapsed}
       >
         <Button onClick={this.onCollapse} className="trigger" type="link">
-          <Icon type="menu"></Icon>
+          <Icon type="menu" style={{ fontSize: '20px' }}></Icon>
         </Button>
         <Menu
           defaultSelectedKeys={['1']}

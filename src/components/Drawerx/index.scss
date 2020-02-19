@@ -1,6 +1,7 @@
 .ant-drawer {
   &-open {
     width: 100% !important;
+    height: calc(100vh - 135px) !important;
     .ant-drawer-mask {
       background-color: white;
     }
@@ -10,11 +11,15 @@
   }
   &-content {
     width: 100%;
-    height: calc(100vh - 105px);
-    &--wrapper {
+    height: 100%;
+    &-wrapper {
       box-shadow: none;
+      height: calc(100vh - 105px) !important;
       min-height: 80vh;
     }
+  }
+  &-wrapper-body {
+    overflow: hidden;
   }
   .option-wrap {
     background: #f3f6ff;

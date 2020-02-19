@@ -14,7 +14,7 @@ router.render = (req, res) => {
         total: dataRes.length,
         size: 15,
         current: 1,
-        list: dataRes
+        records: dataRes
       },
       code: 200,
       success: true,

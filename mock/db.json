@@ -2032,5 +2032,78 @@
         }
       ]
     }
+  ],
+  "resource_computing": [
+    {
+      "id": "cd41146e-4dfa-4c53-920c-4e58bc57a275",
+      "name": "192.168.254.213",
+      "status": "0",
+      "ip": "192.168.254.213",
+      "usageCpuPercent": "0",
+      "usageMemPercent": "0",
+      "usageNetworkPercent": "0",
+      "description": "",
+      "numOfDesktop": 1,
+      "storagePoolId": "a6cb3607-1f51-4bb9-8514-9544dc9a4dc7",
+      "storagePoolName": "local",
+      "clusterId": "14484da6-c478-472e-adee-bfafcf53affd",
+      "clusterName": "local"
+    },
+    {
+      "id": "98238244-46cb-4c3d-af7a-c13658809077",
+      "name": "dky-cd1.com",
+      "status": "3",
+      "ip": "dky-cd1.com",
+      "usageCpuPercent": "1",
+      "usageMemPercent": "38",
+      "usageNetworkPercent": "4",
+      "description": "",
+      "numOfDesktop": 1,
+      "storagePoolId": "1adabd46-5188-11ea-8ceb-00163e0b8415",
+      "storagePoolName": "Default",
+      "clusterId": "1aded066-5188-11ea-9dbc-00163e0b8415",
+      "clusterName": "Default"
+    }
+  ],
+  "resource_storage": [
+    {
+      "id": "366e11f2-ce76-473b-a911-ce38c7c8efd8",
+      "status": "3",
+      "storageName": "hosted_storage",
+      "storageType": "1",
+      "storageDomainType": "0",
+      "usedDiskSize": "87",
+      "availableDiskSize": "695",
+      "storageDescription": "",
+      "storageComment": "",
+      "storagePoolId": "1adabd46-5188-11ea-8ceb-00163e0b8415",
+      "storagePoolName": "Default"
+    },
+    {
+      "id": "4b5a278f-ce8c-4ec2-9396-0af882fc93f7",
+      "status": "0",
+      "storageName": "image_data",
+      "storageType": "4",
+      "storageDomainType": "0",
+      "usedDiskSize": "30",
+      "availableDiskSize": "456",
+      "storageDescription": "",
+      "storageComment": "",
+      "storagePoolId": "a6cb3607-1f51-4bb9-8514-9544dc9a4dc7",
+      "storagePoolName": "local"
+    },
+    {
+      "id": "7a9e1671-9434-4dc9-b2a9-4da0a59ef684",
+      "status": "3",
+      "storageName": "ISO",
+      "storageType": "1",
+      "storageDomainType": "2",
+      "usedDiskSize": "87",
+      "availableDiskSize": "695",
+      "storageDescription": "",
+      "storageComment": "",
+      "storagePoolId": "1adabd46-5188-11ea-8ceb-00163e0b8415",
+      "storagePoolName": "Default"
+    }
   ]
 }

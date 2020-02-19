@@ -28,11 +28,11 @@ export const columnsCompute = [
   },
   {
     title: '主机IP',
-    dataIndex: 'hostName'
+    dataIndex: 'ip'
   },
   {
     title: 'CPU',
-    dataIndex: 'cpuUsageRate',
+    dataIndex: 'usageCpuPercent',
     width: '15%',
     render: text => {
       return (
@@ -46,7 +46,7 @@ export const columnsCompute = [
   },
   {
     title: '内存',
-    dataIndex: 'memoryUsageRate',
+    dataIndex: 'usageMemPercent',
     width: '15%',
     render: text => {
       return (
@@ -60,7 +60,7 @@ export const columnsCompute = [
   },
   {
     title: '网络',
-    dataIndex: 'networkUsageRate',
+    dataIndex: 'usageNetworkPercent',
     width: '15%',
     render: text => {
       return (
@@ -78,7 +78,7 @@ export const columnsCompute = [
   },
   {
     title: '桌面总数',
-    dataIndex: 'desktopCount',
+    dataIndex: 'numOfDesktop',
     render: text => {
       return <div className={styles.vmBg}>{text}</div>
     }

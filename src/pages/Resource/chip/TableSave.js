@@ -28,12 +28,12 @@ export default class Resource extends React.Component {
     searchs[key] = value
     this.setState(
       produce(draft => {
-        draft.tableCfgCompute.searchs = {
-          ...draft.tableCfgCompute.searchs,
+        draft.tableCfgSave.searchs = {
+          ...draft.tableCfgSave.searchs,
           ...searchs
         }
       }),
-      () => this.tablexCompute.refresh(this.state.tableCfgCompute)
+      () => this.tablexSave.refresh(this.state.tableCfgSave)
     )
   }
 

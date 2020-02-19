@@ -7,7 +7,7 @@ export default {
     return axios({
       url: '/resource/computing',
       method: 'get',
-      data: qs.stringify(data)
+      params: data
     })
   },
   // 存储资源列表
@@ -15,7 +15,7 @@ export default {
     return axios({
       url: '/resource/storage',
       method: 'get',
-      data: qs.stringify(data)
+      params: data
     })
   }
 }

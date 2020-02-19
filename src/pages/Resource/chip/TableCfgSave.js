@@ -24,11 +24,11 @@ export const columnsSave = [
   },
   {
     title: '存储域名称',
-    dataIndex: 'name'
+    dataIndex: 'storageName'
   },
   {
     title: '类型',
-    dataIndex: 'type'
+    dataIndex: 'storageType'
   },
   {
     title: '使用情况',
@@ -38,15 +38,15 @@ export const columnsSave = [
       return (
         <Progress
           strokeWidth={16}
-          percent={record.used / record.total}
-          format={() => `${record.used}G/${record.total}G`}
+          percent={record.usedDiskSize / record.availableDiskSize}
+          format={() => `${record.usedDiskSize}G/${record.availableDiskSize}G`}
         ></Progress>
       )
     }
   },
   {
     title: '描述',
-    dataIndex: 'description'
+    dataIndex: 'storageDescription'
   }
 ]
 export const apiMethodSave = resourceApi.listSave

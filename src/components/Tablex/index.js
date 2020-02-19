@@ -55,7 +55,9 @@ class Tablex extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.tableCfg !== prevProps.tableCfg) {
+    if (
+      JSON.stringify(this.props.tableCfg) !== JSON.stringify(prevProps.tableCfg)
+    ) {
       const { selection } = this.props.tableCfg
       this.setState({ selection })
     }

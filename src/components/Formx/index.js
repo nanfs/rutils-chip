@@ -17,27 +17,19 @@ class Formx extends React.Component {
     const { onRef } = this.props
     onRef && onRef(this)
     // TODO 检查不生效
+    console.log(this.props.initValues)
     this.props.form.setFieldsValue(this.props.initValues)
     this.forceUpdate()
   }
 
-  // componentDidUpdate(prep) {
-  //   if (this.props.initValues !== prep.initValues && this.props.form) {
-  //     // TODO 对initvalu过滤
-  //     // const keys = Object.keys(this.prop.form.getFieldsValue())
-  //     this.props.form.setFieldsValue(this.props.initValues)
-  //   }
-  // }
-
-  shouldComponentUpdate(nextProps) {
-    // 应该使用这个方法，重新设置initValues
-
-    if (this.props.initValues !== nextProps.initValues) {
-      const { form } = this.props
-      form.setFieldsValue(nextProps.initValues)
-      return true
+  componentDidUpdate(prep) {
+    if (
+      JSON.stringify(this.props.initValues) !==
+        JSON.stringify(prep.initValues) &&
+      this.props.form
+    ) {
+      this.props.form.setFieldsValue(this.props.initValues)
     }
-    return true
   }
 
   handleSubmit = e => {

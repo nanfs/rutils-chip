@@ -146,6 +146,23 @@ export default class Termina extends React.Component {
       })
   }
 
+  restartTerminal = () => {
+    const ids = this.tablex.getSelection()
+    terminalApi
+      .onTerminal({ ids })
+      .then(res => {
+        if (res.success) {
+          notification.success({ message: '重启成功' })
+          this.tablex.refresh(this.state.tableCfg)
+        } else {
+          message.error(res.message || '重启失败')
+        }
+      })
+      .catch(errors => {
+        console.log(errors)
+      })
+  }
+
   admitAccessTerminal = () => {
     const ids = this.tablex.getSelection()
     terminalApi
@@ -199,14 +216,14 @@ export default class Termina extends React.Component {
               >
                 允许接入
               </Button>
-              <Button
+              {/* <Button
                 onClick={this.onTerminal}
                 disabled={
                   !this.state.selection || this.state.selection.length === 0
                 }
               >
                 开机
-              </Button>
+              </Button> */}
               <Button
                 onClick={this.offTerminal}
                 disabled={
@@ -214,6 +231,14 @@ export default class Termina extends React.Component {
                 }
               >
                 关机
+              </Button>
+              <Button
+                onClick={this.restartTerminal}
+                disabled={
+                  !this.state.selection || this.state.selection.length === 0
+                }
+              >
+                重启
               </Button>
               <Button
                 onClick={this.detailTerminal}

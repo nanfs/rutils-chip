@@ -49,7 +49,7 @@ export default class DetailDrawer extends React.Component {
         }}
       >
         <div className="dms-detail-section">
-          <Title slot="基础设置"></Title>
+          <Title slot="基本信息"></Title>
           <Row className="dms-detail-row">
             <Col span={3} className="dms-detail-label">
               桌面名称:

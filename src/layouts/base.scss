@@ -31,10 +31,10 @@ body {
     line-height: 55px;
     color: white;
     width: auto;
-    min-width: 360px;
+    min-width: 330px;
     background: transparent;
     .ant-menu-item {
-      padding: 3px;
+      padding: 0 15px;
       &:hover,
       &-selected {
         color: #ddd;

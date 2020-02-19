@@ -95,15 +95,15 @@ export default class User extends React.Component {
           onBack={this.onBack}
         />
         <TableWrap>
-          <Row gutter={16}>
-            <Col span={4} style={{ paddingTop: 10 }}>
+          <div className="user-wrap">
+            <div className="user-tree">
               <Treex
                 apiMethod={userApi.list}
                 onSelect={this.onSelect}
                 addNodeApiMethod={userApi.addNode}
               ></Treex>
-            </Col>
-            <Col span={20}>
+            </div>
+            <div className="user-table">
               <ToolBar>
                 <BarLeft>
                   <Button onClick={this.addUser}>创建用户</Button>
@@ -192,8 +192,8 @@ export default class User extends React.Component {
                 }}
                 initValues={this.state.initValues}
               />
-            </Col>
-          </Row>
+            </div>
+          </div>
         </TableWrap>
       </React.Fragment>
     )

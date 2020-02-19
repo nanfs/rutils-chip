@@ -16,3 +16,16 @@ p {
   padding: 3px 8px;
   font-size: 12px;
 }
+
+.user-wrap {
+  display: flex;
+
+  .user-tree {
+    width: 250px;
+    margin: 10px;
+  }
+
+  .user-table {
+    width: 100%;
+  }
+}

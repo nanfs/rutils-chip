@@ -33,9 +33,7 @@ export default class Header extends React.Component {
         </div>
         <Menu mode="horizontal">
           <Menu.Item key="username">
-            <span>
-              <Icon type="user" /> <span>{USER.name}</span>
-            </span>
+            <span>{USER.name}</span>
           </Menu.Item>
           <Menu.Item
             key="systemConfig"
@@ -44,7 +42,6 @@ export default class Header extends React.Component {
               console.log('systemConfig')
             }}
           >
-            <Icon type="user" />
             <span>系统设置</span>
           </Menu.Item>
           <Menu.Item
@@ -54,7 +51,6 @@ export default class Header extends React.Component {
               console.log('about')
             }}
           >
-            <Icon type="user" />
             <span>关于</span>
           </Menu.Item>
           <Menu.Item
@@ -64,11 +60,9 @@ export default class Header extends React.Component {
               console.log('changePwd')
             }}
           >
-            <Icon type="user" />
             <span>修改密码</span>
           </Menu.Item>
           <Menu.Item key="logout" onClick={this.logOut}>
-            <Icon type="logout" />
             <span>注销</span>
           </Menu.Item>
         </Menu>

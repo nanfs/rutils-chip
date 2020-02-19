@@ -6,6 +6,7 @@ import Radiox from '@/components/Radiox'
 import Selectx from '@/components/Selectx'
 import Title, { Diliver } from '@/components/Title'
 import '../index.scss'
+import moment from 'moment'
 
 const { TextArea } = Input
 
@@ -38,13 +39,28 @@ export default class AddDrawer extends React.Component {
           this.drawer = ref
         }}
         onOk={values => {
-          console.log(values)
+          const data = {
+            name: values.name,
+            description: values.description,
+            admitInterval: [
+              {
+                type: values.type,
+                date:
+                  values.type === 0
+                    ? values.weeks
+                    : moment(values.day, 'YYYY/MM/DD'),
+                startTime: moment(values.startTime).format('HH:mm'),
+                endTime: moment(values.endTime).format('HH:mm')
+              }
+            ]
+          }
+          console.log(data)
         }}
       >
         <Formx initValues={{ type: 0 }}>
           <Title slot="基础设置"></Title>
-          <Form.Item prop="name" required label="终端名称">
-            <Input name="name" placeholder="终端名称" />
+          <Form.Item prop="name" required label="名称">
+            <Input name="name" placeholder="名称" />
           </Form.Item>
           <Form.Item prop="description" label="描述">
             <TextArea
@@ -67,7 +83,7 @@ export default class AddDrawer extends React.Component {
             this.drawer.form.getFieldValue('type') === 0 && (
               <Form.Item
                 required
-                prop="date"
+                prop="weeks"
                 label="准入时间"
                 className="time-wrap"
               >
@@ -79,7 +95,7 @@ export default class AddDrawer extends React.Component {
             this.drawer.form.getFieldValue('type') === 1 && (
               <Form.Item
                 required
-                prop="date"
+                prop="day"
                 label="准入时间"
                 className="time-wrap"
               >

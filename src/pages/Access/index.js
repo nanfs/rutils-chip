@@ -76,7 +76,7 @@ export default class Desktop extends React.Component {
       confirm({
         title: '确定删除所选数据?',
         onOk() {
-          accessApi.delDev(selectAccess)
+          accessApi.del({ ids: JSON.stringify(selectAccess) })
         },
         onCancel() {}
       })

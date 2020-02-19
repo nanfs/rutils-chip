@@ -16,6 +16,7 @@ export function createModalCfg(myCfg) {
 class Modalx extends React.Component {
   constructor(props) {
     super(props)
+    this.props.onRef && this.props.onRef(this)
     this.state = {
       show: false,
       submitting: false
@@ -29,7 +30,9 @@ class Modalx extends React.Component {
   }
 
   componentDidUpdate() {
-    this.form = (this.formRef && this.formRef.props.form) || undefined
+    if (this.formRef && this.form === undefined) {
+      this.form = this.formRef.props.form
+    }
   }
 
   show = () => {

@@ -10,20 +10,8 @@ import '../index.scss'
 const { TextArea } = Input
 
 export default class AddDrawer extends React.Component {
-  state = {
-    current: 0
-  }
-
   componentDidMount() {
     this.props.onRef && this.props.onRef(this)
-    this.setState({ current: this.drawer.form.getFieldValue('type') || 0 })
-  }
-
-  // TODO 表单取值
-  onChange = (value, values, e) => {
-    const type = e.target.value
-    console.log('onchange', type)
-    this.setState({ current: type })
   }
 
   render() {
@@ -49,7 +37,7 @@ export default class AddDrawer extends React.Component {
           console.log(values)
         }}
       >
-        <Formx>
+        <Formx initValues={{ type: 0 }}>
           <Title slot="基础设置"></Title>
           <Form.Item prop="name" required label="终端名称">
             <Input name="name" placeholder="终端名称" />
@@ -65,11 +53,7 @@ export default class AddDrawer extends React.Component {
           <Diliver />
           <Title slot="准入设置"></Title>
           <Form.Item prop="type" required label="准入方式">
-            <Radiox
-              options={radioOptions}
-              onChange={this.onChange}
-              defaultVal={0}
-            />
+            <Radiox options={radioOptions} onChange={this.onChange} />
           </Form.Item>
           <Form.Item
             required
@@ -77,10 +61,14 @@ export default class AddDrawer extends React.Component {
             label="准入时间"
             className="time-wrap"
           >
-            {this.state.current === 0 && (
-              <Selectx options={weekOptions} mode="multiple" />
-            )}
-            {this.state.current === 1 && <DatePicker />}
+            {this.drawer &&
+              this.drawer.form &&
+              this.drawer.form.getFieldValue('type') === 0 && (
+                <Selectx options={weekOptions} mode="multiple" />
+              )}
+            {this.drawer &&
+              this.drawer.form &&
+              this.drawer.form.getFieldValue('type') === 1 && <DatePicker />}
           </Form.Item>
           <Form.Item
             prop="startTime"

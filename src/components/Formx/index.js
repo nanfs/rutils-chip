@@ -14,17 +14,23 @@ const formItemLayout = {
 
 class Formx extends React.Component {
   componentDidMount() {
-    const { initValues, onRef, form } = this.props
+    const { onRef } = this.props
     onRef && onRef(this)
     // TODO 检查不生效
-    form.setFieldsValue(initValues)
-    console.log(initValues)
+    this.props.form.setFieldsValue(this.props.initValues)
     this.forceUpdate()
   }
 
+  // componentDidUpdate(prep) {
+  //   if (this.props.initValues !== prep.initValues && this.props.form) {
+  //     // TODO 对initvalu过滤
+  //     // const keys = Object.keys(this.prop.form.getFieldsValue())
+  //     this.props.form.setFieldsValue(this.props.initValues)
+  //   }
+  // }
+
   shouldComponentUpdate(nextProps) {
     // 应该使用这个方法，重新设置initValues
-    console.log(this.props.initValues)
 
     if (this.props.initValues !== nextProps.initValues) {
       const { form } = this.props

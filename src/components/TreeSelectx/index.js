@@ -60,7 +60,7 @@ export default class TreeSelectx extends React.Component {
             {
               id: 'department6',
               key: 'department6',
-              title: '前端组',
+              title: '测试组',
               value: 'department6',
               parentId: 'department3'
             }
@@ -81,6 +81,14 @@ export default class TreeSelectx extends React.Component {
       })
   }
 
+  componentDidUpdate(prep) {
+    console.log(this.props.value, prep.value)
+    if (this.props.value !== prep.value) {
+      console.log('reset')
+      this.setState({ value: this.props.value })
+    }
+  }
+
   render() {
     const { treeData } = this.state
     const { placeholder = '请选择', onChange = undefined } = this.props
@@ -93,6 +101,7 @@ export default class TreeSelectx extends React.Component {
         // showSearch={true}
         treeData={treeData}
         onChange={onChange}
+        value={this.state.value}
       ></TreeSelect>
     )
   }

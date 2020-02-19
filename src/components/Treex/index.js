@@ -285,7 +285,7 @@ export default class Treex extends React.Component {
       editNodeApiMethod
     } = this.props
     const { rightClickNodeTreeItem, rightMenuStyle } = this.state
-    console.log(rightClickNodeTreeItem)
+    // console.log(rightClickNodeTreeItem)
     // const { pageX, pageY, id, categoryName } = rightClickNodeTreeItem
 
     const {

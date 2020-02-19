@@ -510,14 +510,16 @@
       "domain": "internal",
       "firstName": "admin",
       "lastName": "",
-      "username": "admin"
+      "username": "admin",
+      "group": "department6"
     },
     {
       "id": "fdfc627c-d875-11e0-90f0-83df133b58cd",
       "domain": "internal",
       "firstName": "audit",
       "lastName": "",
-      "username": "audit"
+      "username": "audit",
+      "group": "department4"
     },
     {
       "id": "b62b5969-1802-46c7-afcb-243760a836cd",

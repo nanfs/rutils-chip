@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import './fonts/iconfont'
-import './icon.scss'
+import './fonts/iconfont.css'
 
 function MyIcon(props) {
   const { prefixCls, type, spin, component, className, ...other } = props

@@ -1,6 +1,7 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 import { Menu, Icon, Layout, Button } from 'antd'
+import MyIcon from '@/components/MyIcon'
 import menuConfig from '*/menu'
 
 const { SubMenu } = Menu
@@ -14,7 +15,11 @@ export default class Sider extends React.Component {
     return (
       <Menu.Item key={item.path}>
         <NavLink to={item.path}>
-          <Icon type={item.icon} />
+          {item.iconComonpent ? (
+            <MyIcon type={item.icon} />
+          ) : (
+            <Icon type={item.icon} />
+          )}
           <span className="text">{item.title}</span>
         </NavLink>
       </Menu.Item>
@@ -28,7 +33,11 @@ export default class Sider extends React.Component {
         key={subMenu.title}
         title={
           <span>
-            <Icon type={subMenu.icon} />
+            {subMenu.iconComonpent ? (
+              <MyIcon type={subMenu.icon} />
+            ) : (
+              <Icon type={subMenu.icon} />
+            )}
             <span>{subMenu.title}</span>
           </span>
         }

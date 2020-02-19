@@ -82,9 +82,7 @@ export default class TreeSelectx extends React.Component {
   }
 
   componentDidUpdate(prep) {
-    console.log(this.props.value, prep.value)
     if (this.props.value !== prep.value) {
-      console.log('reset')
       this.setState({ value: this.props.value })
     }
   }

@@ -112,12 +112,12 @@ export default class AddDrawer extends React.Component {
           <Form.Item
             prop="KEYID"
             label="KEYID"
-            rules={[
+            /* rules={[
               {
                 required: true,
                 message: '请输入KEYID'
               }
-            ]}
+            ]} */
           >
             <Input placeholder="KEYID" />
           </Form.Item>

@@ -6,6 +6,41 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "4860075",
+      "name": "strategy",
+      "font_class": "strategy",
+      "unicode": "e637",
+      "unicode_decimal": 58935
+    },
+    {
+      "icon_id": "4860077",
+      "name": "template",
+      "font_class": "template1",
+      "unicode": "e639",
+      "unicode_decimal": 58937
+    },
+    {
+      "icon_id": "5255103",
+      "name": "断电",
+      "font_class": "poweroff",
+      "unicode": "e606",
+      "unicode_decimal": 58886
+    },
+    {
+      "icon_id": "6296138",
+      "name": "正在关机",
+      "font_class": "downing",
+      "unicode": "e60a",
+      "unicode_decimal": 58890
+    },
+    {
+      "icon_id": "6297021",
+      "name": "正在开机",
+      "font_class": "uping",
+      "unicode": "e60b",
+      "unicode_decimal": 58891
+    },
+    {
       "icon_id": "13086037",
       "name": "麒麟",
       "font_class": "qilin",
@@ -48,16 +83,9 @@
       "unicode_decimal": 58906
     },
     {
-      "icon_id": "837331",
-      "name": "windows",
-      "font_class": "os-windows",
-      "unicode": "e86f",
-      "unicode_decimal": 59503
-    },
-    {
       "icon_id": "3506366",
       "name": "linux",
-      "font_class": "os-linux",
+      "font_class": "linux",
       "unicode": "e61b",
       "unicode_decimal": 58907
     },
@@ -104,20 +132,6 @@
       "unicode_decimal": 58922
     },
     {
-      "icon_id": "4380404",
-      "name": "通知_",
-      "font_class": "notice",
-      "unicode": "e617",
-      "unicode_decimal": 58903
-    },
-    {
-      "icon_id": "12323759",
-      "name": "警告",
-      "font_class": "warn",
-      "unicode": "e656",
-      "unicode_decimal": 58966
-    },
-    {
       "icon_id": "13028624",
       "name": "sd",
       "font_class": "sd",
@@ -134,7 +148,7 @@
     {
       "icon_id": "5806893",
       "name": "8 USB",
-      "font_class": "USB",
+      "font_class": "usb",
       "unicode": "e8cc",
       "unicode_decimal": 59596
     },
@@ -181,13 +195,6 @@
       "unicode_decimal": 58918
     },
     {
-      "icon_id": "929937",
-      "name": "usb",
-      "font_class": "usb",
-      "unicode": "e87c",
-      "unicode_decimal": 59516
-    },
-    {
       "icon_id": "1727380",
       "name": "34模板、框架-线性",
       "font_class": "template",
@@ -211,7 +218,7 @@
     {
       "icon_id": "7391806",
       "name": "用户管理",
-      "font_class": "yonghuguanli-",
+      "font_class": "yonghuguanli",
       "unicode": "e6ad",
       "unicode_decimal": 59053
     }

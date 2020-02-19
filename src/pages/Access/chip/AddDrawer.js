@@ -14,6 +14,10 @@ export default class AddDrawer extends React.Component {
     this.props.onRef && this.props.onRef(this)
   }
 
+  onChange() {
+    this.forceUpdate()
+  }
+
   render() {
     const radioOptions = [
       { label: '按周', value: 0 },
@@ -53,23 +57,35 @@ export default class AddDrawer extends React.Component {
           <Diliver />
           <Title slot="准入设置"></Title>
           <Form.Item prop="type" required label="准入方式">
-            <Radiox options={radioOptions} onChange={this.onChange} />
+            <Radiox
+              options={radioOptions}
+              onChange={this.onChange.bind(this)}
+            />
           </Form.Item>
-          <Form.Item
-            required
-            // prop="date"
-            label="准入时间"
-            className="time-wrap"
-          >
-            {this.drawer &&
-              this.drawer.form &&
-              this.drawer.form.getFieldValue('type') === 0 && (
+          {this.drawer &&
+            this.drawer.form &&
+            this.drawer.form.getFieldValue('type') === 0 && (
+              <Form.Item
+                required
+                prop="date"
+                label="准入时间"
+                className="time-wrap"
+              >
                 <Selectx options={weekOptions} mode="multiple" />
-              )}
-            {this.drawer &&
-              this.drawer.form &&
-              this.drawer.form.getFieldValue('type') === 1 && <DatePicker />}
-          </Form.Item>
+              </Form.Item>
+            )}
+          {this.drawer &&
+            this.drawer.form &&
+            this.drawer.form.getFieldValue('type') === 1 && (
+              <Form.Item
+                required
+                prop="date"
+                label="准入时间"
+                className="time-wrap"
+              >
+                <DatePicker />
+              </Form.Item>
+            )}
           <Form.Item
             prop="startTime"
             required

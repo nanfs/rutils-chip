@@ -11,14 +11,22 @@ export default {
   },
   add(data) {
     return axios({
-      url: '/task/creating',
+      url: '/admitpolicys',
       method: 'post',
       data: qs.stringify(data)
     })
   },
   update(data) {
     return axios({
-      url: '/task/updating',
+      url: '/admitpolicys',
+      method: 'put',
+      data: qs.stringify(data)
+    })
+  },
+  del(data) {
+    return axios({
+      url: '/admitpolicys',
+      method: 'delete',
       data: qs.stringify(data)
     })
   }

@@ -42,7 +42,7 @@ const menu = [
     authority: 'admin,security'
   },
   {
-    title: '外设管理',
+    title: '外设控制',
     icon: 'usb',
     iconComonpent: 'MyIcon',
     path: '/device',

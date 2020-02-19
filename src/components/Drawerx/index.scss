@@ -11,6 +11,7 @@
   &-content {
     width: 100%;
     height: calc(100vh - 105px);
+    overflow-y: hidden;
     &--wrapper {
       box-shadow: none;
       min-height: 80vh;

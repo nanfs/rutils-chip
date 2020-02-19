@@ -95,105 +95,103 @@ export default class User extends React.Component {
           onBack={this.onBack}
         />
         <TableWrap>
-          <Row gutter={16}>
-            <Col span={4} style={{ paddingTop: 10 }}>
-              <Treex
-                apiMethod={userApi.list}
-                onSelect={this.onSelect}
-                addNodeApiMethod={userApi.addNode}
-              ></Treex>
-            </Col>
-            <Col span={20}>
-              <ToolBar>
-                <BarLeft>
-                  <Button onClick={this.addUser}>创建用户</Button>
-                  <Button
-                    onClick={this.editUser}
-                    disabled={
-                      !this.state.selection || this.state.selection.length !== 1
-                    }
-                  >
-                    编辑
-                  </Button>
-                  <Button
-                    onClick={this.lockUser}
-                    disabled={
-                      !this.state.selection ||
-                      this.state.selection.length !== 1 ||
-                      (this.state.selection.length === 1 &&
-                        this.state.selection[0].status === '锁定')
-                    }
-                  >
-                    锁定
-                  </Button>
-                  <Button
-                    onClick={this.unlockUser}
-                    disabled={
-                      !this.state.selection ||
-                      this.state.selection.length !== 1 ||
-                      (this.state.selection.length === 1 &&
-                        this.state.selection[0].status === '正常')
-                    }
-                  >
-                    解锁
-                  </Button>
-                  <Button
-                    onClick={this.detailUser}
-                    disabled={
-                      !this.state.selection || this.state.selection.length !== 1
-                    }
-                  >
-                    详情
-                  </Button>
-                  <Button
-                    onClick={this.deleteUser}
-                    disabled={
-                      !this.state.selection || this.state.selection.length === 0
-                    }
-                  >
-                    删除
-                  </Button>
-                </BarLeft>
-                <BarRight>
-                  <SelectSearch
-                    onRef={ref => {
-                      this.selectSearch = ref
-                    }}
-                    options={searchOptions}
-                    onSearch={this.search}
-                    inputValue={inputValue}
-                  ></SelectSearch>
-                </BarRight>
-              </ToolBar>
-              <Tablex
-                onRef={ref => {
-                  this.tablex = ref
-                }}
-                className="no-select-bg"
-                tableCfg={this.state.tableCfg}
-                onSelectChange={(selection, selectData) => {
-                  this.setState({ selection, selectData })
-                }}
-              />
-              <AddDrawer
-                onRef={ref => {
-                  this.addDrawer = ref
-                }}
-              />
-              <EditDrawer
-                onRef={ref => {
-                  this.editDrawer = ref
-                }}
-                initValues={this.state.initValues}
-              />
-              <DetailDrawer
-                onRef={ref => {
-                  this.detailDrawer = ref
-                }}
-                initValues={this.state.initValues}
-              />
-            </Col>
-          </Row>
+          <div className="user-tree">
+            <Treex
+              apiMethod={userApi.list}
+              onSelect={this.onSelect}
+              addNodeApiMethod={userApi.addNode}
+            ></Treex>
+          </div>
+          <div className="user-table">
+            <ToolBar>
+              <BarLeft>
+                <Button onClick={this.addUser}>创建用户</Button>
+                <Button
+                  onClick={this.editUser}
+                  disabled={
+                    !this.state.selection || this.state.selection.length !== 1
+                  }
+                >
+                  编辑
+                </Button>
+                <Button
+                  onClick={this.lockUser}
+                  disabled={
+                    !this.state.selection ||
+                    this.state.selection.length !== 1 ||
+                    (this.state.selection.length === 1 &&
+                      this.state.selection[0].status === '锁定')
+                  }
+                >
+                  锁定
+                </Button>
+                <Button
+                  onClick={this.unlockUser}
+                  disabled={
+                    !this.state.selection ||
+                    this.state.selection.length !== 1 ||
+                    (this.state.selection.length === 1 &&
+                      this.state.selection[0].status === '正常')
+                  }
+                >
+                  解锁
+                </Button>
+                <Button
+                  onClick={this.detailUser}
+                  disabled={
+                    !this.state.selection || this.state.selection.length !== 1
+                  }
+                >
+                  详情
+                </Button>
+                <Button
+                  onClick={this.deleteUser}
+                  disabled={
+                    !this.state.selection || this.state.selection.length === 0
+                  }
+                >
+                  删除
+                </Button>
+              </BarLeft>
+              <BarRight>
+                <SelectSearch
+                  onRef={ref => {
+                    this.selectSearch = ref
+                  }}
+                  options={searchOptions}
+                  onSearch={this.search}
+                  inputValue={inputValue}
+                ></SelectSearch>
+              </BarRight>
+            </ToolBar>
+            <Tablex
+              onRef={ref => {
+                this.tablex = ref
+              }}
+              className="no-select-bg"
+              tableCfg={this.state.tableCfg}
+              onSelectChange={(selection, selectData) => {
+                this.setState({ selection, selectData })
+              }}
+            />
+            <AddDrawer
+              onRef={ref => {
+                this.addDrawer = ref
+              }}
+            />
+            <EditDrawer
+              onRef={ref => {
+                this.editDrawer = ref
+              }}
+              initValues={this.state.initValues}
+            />
+            <DetailDrawer
+              onRef={ref => {
+                this.detailDrawer = ref
+              }}
+              initValues={this.state.initValues}
+            />
+          </div>
         </TableWrap>
       </React.Fragment>
     )

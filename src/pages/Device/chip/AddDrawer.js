@@ -61,7 +61,7 @@ class AddDrawer extends React.Component {
     } else {
       values.isUsagePeripherals = '1'
     }
-    console.log(values)
+    deviceApi.addDev(values)
   }
 
   render() {

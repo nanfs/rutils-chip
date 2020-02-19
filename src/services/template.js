@@ -6,14 +6,14 @@ export default {
   list(data) {
     return axios({
       url: '/templates',
-      method: 'post',
+      method: 'get',
       data: qs.stringify(data)
     })
   },
   delTem(data) {
     return axios({
-      url: '/delTem',
-      method: 'post',
+      url: '/templates',
+      method: 'delete',
       data: qs.stringify(data)
     })
   },

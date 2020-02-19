@@ -68,7 +68,7 @@ export default class Device extends React.Component {
       confirm({
         title: '确定删除所选数据?',
         onOk() {
-          deviceApi.delDev(selectDev)
+          deviceApi.delDev({ ids: JSON.stringify(selectDev) })
         },
         onCancel() {}
       })

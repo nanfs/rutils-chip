@@ -6,28 +6,28 @@ export default {
   list(data) {
     return axios({
       url: '/safepolicys',
-      method: 'post',
+      method: 'get',
       data: qs.stringify(data)
     })
   },
   delDev(data) {
     return axios({
-      url: '/delDev',
-      method: 'post',
+      url: '/safepolicys',
+      method: 'delete',
       data: qs.stringify(data)
     })
   },
   addDev(data) {
     return axios({
-      url: '/addDev',
+      url: '/safepolicys',
       method: 'post',
       data: qs.stringify(data)
     })
   },
-  updateDev(data) {
+  updateDev(id, data) {
     return axios({
-      url: '/updateDev',
-      method: 'post',
+      url: `/safepolicys/${id}`,
+      method: 'put',
       data: qs.stringify(data)
     })
   }

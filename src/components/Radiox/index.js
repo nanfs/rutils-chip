@@ -7,7 +7,8 @@ export default class Radiox extends React.Component {
   }
 
   componentDidUpdate(prep) {
-    if (this.props.value !== prep.value && prep.value === undefined) {
+    // if (this.props.value !== prep.value && prep.value === undefined) {
+    if (this.props.value !== prep.value) {
       this.setState({ value: this.props.value })
     }
   }

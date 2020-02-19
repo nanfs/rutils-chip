@@ -7,25 +7,17 @@ import Selectx from '@/components/Selectx'
 import Title, { Diliver } from '@/components/Title'
 import '../index.scss'
 import moment from 'moment'
+import accessApi from '@/services/access'
 
 const { TextArea } = Input
 
 export default class EditDrawer extends React.Component {
-  state = {
-    current: 0
-  }
-
   componentDidMount() {
     this.props.onRef && this.props.onRef(this)
-    // this.setState({
-    //   current: this.drawer.form.getFieldValue('type')
-    // })
   }
 
-  onChange = (value, values, e) => {
-    const type = e.target.value
-    console.log('onchange', type)
-    this.setState({ current: type })
+  onChange() {
+    this.forceUpdate()
   }
 
   render() {
@@ -49,13 +41,28 @@ export default class EditDrawer extends React.Component {
           this.drawer = ref
         }}
         onOk={values => {
-          console.log(values)
+          const data = {
+            name: values.name,
+            description: values.description,
+            admitInterval: [
+              {
+                type: values.type,
+                date:
+                  values.type === 0
+                    ? values.weeks
+                    : moment(values.day, 'YYYY/MM/DD'),
+                startTime: moment(values.startTime).format('HH:mm'),
+                endTime: moment(values.endTime).format('HH:mm')
+              }
+            ]
+          }
+          accessApi.update(initValues.id, data)
         }}
       >
         <Formx initValues={initValues}>
           <Title slot="基础设置"></Title>
-          <Form.Item prop="name" required label="终端名称">
-            <Input name="name" placeholder="终端名称" />
+          <Form.Item prop="name" required label="名称">
+            <Input name="name" placeholder="名称" />
           </Form.Item>
           <Form.Item prop="description" label="描述">
             <TextArea
@@ -68,38 +75,35 @@ export default class EditDrawer extends React.Component {
           <Diliver />
           <Title slot="准入设置"></Title>
           <Form.Item required prop="type" label="准入方式">
-            <Radiox options={radioOptions} onChange={this.onChange} />
+            <Radiox
+              options={radioOptions}
+              onChange={this.onChange.bind(this)}
+            />
           </Form.Item>
-          {this.state.current === 0 && (
-            <Form.Item
-              required
-              prop="weeks"
-              label="准入时间"
-              className="time-wrap"
-            >
-              <Selectx options={weekOptions} mode="multiple" />
-            </Form.Item>
-          )}
-          {this.state.current === 1 && (
-            <Form.Item
-              required
-              prop="day"
-              label="准入时间"
-              className="time-wrap"
-            >
-              <DatePicker />
-            </Form.Item>
-          )}
-          {this.state.current == undefined && (
-            <Form.Item
-              required
-              prop="weeks"
-              label="准入时间"
-              className="time-wrap"
-            >
-              <Selectx options={weekOptions} mode="multiple" />
-            </Form.Item>
-          )}
+          {this.drawer &&
+            this.drawer.form &&
+            this.drawer.form.getFieldValue('type') === 0 && (
+              <Form.Item
+                required
+                prop="weeks"
+                label="准入时间"
+                className="time-wrap"
+              >
+                <Selectx options={weekOptions} mode="multiple" />
+              </Form.Item>
+            )}
+          {this.drawer &&
+            this.drawer.form &&
+            this.drawer.form.getFieldValue('type') === 1 && (
+              <Form.Item
+                required
+                prop="day"
+                label="准入时间"
+                className="time-wrap"
+              >
+                <DatePicker />
+              </Form.Item>
+            )}
           <Form.Item
             prop="startTime"
             required

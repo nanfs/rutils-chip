@@ -71,6 +71,8 @@
     .ant-input,
     .ant-select-selection {
       border: none;
+      border-radius: 0;
+      height: 33px;
       &__rendered {
         line-height: 35px;
         padding-right: 10px;

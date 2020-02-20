@@ -45,7 +45,11 @@ export default class Resource extends React.Component {
           <ToolBar>
             <BarLeft>
               <SelectSearch
-                options={[{ label: '名称', value: 'name' }]}
+                options={[
+                  { label: '名称', value: 'storageName' },
+                  { label: 'IP', value: 'ip' },
+                  { label: '主机', value: 'hostName' }
+                ]}
                 onSearch={this.search}
               ></SelectSearch>
             </BarLeft>

@@ -12,50 +12,35 @@ const { TextArea } = Input
 export default class AddDrawer extends React.Component {
   componentDidMount() {
     this.props.onRef && this.props.onRef(this)
-    this.getTemplate()
-    this.getNetwork()
   }
 
   state = {
     templateOption: [],
-    networkOption: []
-  }
-
-  getTemplate = () => {
-    // axios获取数据
-    desktopsApi
-      .getTemplate()
-      .then(res => {
-        if (res.success) {
-          const templateOption = [
-            { label: '模板一', value: '1' },
-            { label: '模板二', value: '2' },
-            { label: '模板三', value: '3' },
-            { label: '模板四', value: '4' }
-          ]
-          this.setState({ templateOption })
-        }
-      })
-      .catch(err => console.log(err))
-  }
-
-  getNetwork = () => {
-    // axios获取数据
-    // desktopsApi
-    //   .getTemplate()
-    //   .then(res => {
-    //     if (res.success) {
-    const networkOption = [
+    networkOption: [
       { label: '网络一', value: '1' },
       { label: '网络二', value: '2' },
       { label: '网络三', value: '3' },
       { label: '网络四', value: '4' }
     ]
-    this.setState({ networkOption })
-    //   }
-    // })
-    // .catch(err => console.log(err))
   }
+
+  // getTemplate = () => {
+  //   // axios获取数据
+  //   desktopsApi
+  //     .getTemplate()
+  //     .then(res => {
+  //       if (res.success) {
+  //         const templateOption = [
+  //           { label: '模板一', value: '1' },
+  //           { label: '模板二', value: '2' },
+  //           { label: '模板三', value: '3' },
+  //           { label: '模板四', value: '4' }
+  //         ]
+  //         this.setState({ templateOption })
+  //       }
+  //     })
+  //     .catch(err => console.log(err))
+  // }
 
   addVm = values => {
     // TODO 是否是新增 删除 还是直接 传入桌面是单个还是批量
@@ -71,7 +56,6 @@ export default class AddDrawer extends React.Component {
   }
 
   render() {
-    console.log(this.state.networkOption)
     return (
       <Drawerx
         onRef={ref => {
@@ -118,7 +102,7 @@ export default class AddDrawer extends React.Component {
             wrapperCol={{ sm: { span: 16 } }}
           >
             <Radiox
-              // options={this.state.networkOption}
+              options={this.state.networkOption}
               getOptionFunction={desktopsApi.getTemplate}
             />
           </Form.Item>

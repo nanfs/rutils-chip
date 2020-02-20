@@ -2,6 +2,24 @@
   .ant-radio-button-wrapper {
     min-width: 100px;
     text-align: center;
+    &-checked {
+      &::after {
+        content: '';
+        display: block;
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        border: 4px solid currentColor;
+        border-left-color: transparent;
+        border-top-color: transparent;
+      }
+    }
+  }
+  .has-fresh {
+    .ant-radio-button-wrapper {
+      margin-right: 15px;
+      border-radius: 2px;
+    }
   }
   .reload-btn {
     max-width: 20px;

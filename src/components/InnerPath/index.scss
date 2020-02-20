@@ -6,8 +6,11 @@
   line-height: 50px;
 }
 .has-inner {
-  .btn {
+  .ant-btn {
     margin-right: 15px;
+    width: 25px;
+    height: 25px;
+    color: #2196f3;
   }
   .location-text {
     font-size: 12px;

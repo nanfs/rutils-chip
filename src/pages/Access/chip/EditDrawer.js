@@ -5,62 +5,103 @@ import Formx from '@/components/Formx'
 import Radiox from '@/components/Radiox'
 import Selectx from '@/components/Selectx'
 import Title, { Diliver } from '@/components/Title'
+import { weekOptions, typeOptions } from '@/utils/formOptions'
 import '../index.scss'
 import moment from 'moment'
 import accessApi from '@/services/access'
 
 const { TextArea } = Input
+const { RangePicker } = DatePicker
 
 export default class EditDrawer extends React.Component {
   componentDidMount() {
     this.props.onRef && this.props.onRef(this)
   }
 
-  onChange() {
+  pop = data => {
+    this.drawer.show()
+    const { id, name, description, admitInterval } = data
+    const {
+      date,
+      type,
+      startTime: startTimeStr,
+      endTime: endTimeStr
+    } = admitInterval[0]
+    const week = type === 0 ? date.split(',') : undefined
+    const day =
+      type === 1
+        ? date.split('<>').map(item => moment(item, 'YYYY/MM/DD'))
+        : undefined
+    const startTime = moment(startTimeStr, 'HH:mm')
+    const endTime = moment(endTimeStr, 'HH:mm')
+    this.drawer.form.setFieldsValue({
+      id,
+      name,
+      description,
+      week,
+      day,
+      type,
+      startTime,
+      endTime
+    })
+  }
+
+  onChange = () => {
     this.forceUpdate()
   }
 
+  edit = values => {
+    const {
+      id,
+      name,
+      type,
+      description,
+      week,
+      day,
+      startTime,
+      endTime
+    } = values
+    const data = {
+      id,
+      name,
+      description,
+      admitInterval: [
+        {
+          type,
+          date:
+            type === 0
+              ? week.join(',')
+              : day.map(item => item.format('YYYY-MM-DD')).join('<>'),
+          startTime: moment(startTime).format('HH:mm'),
+          endTime: moment(endTime).format('HH:mm')
+        }
+      ]
+    }
+    accessApi
+      .update(data)
+      .then(res => {
+        this.drawer.afterSubmit(res)
+        this.props.onSuccess()
+      })
+      .catch(errors => {
+        this.drawer.break()
+        console.log(errors)
+      })
+  }
+
   render() {
-    const { initValues } = this.props
-    const radioOptions = [
-      { label: '按周', value: 0 },
-      { label: '按天', value: 1 }
-    ]
-    const weekOptions = [
-      { label: '周一', value: '1' },
-      { label: '周二', value: '2' },
-      { label: '周三', value: '3' },
-      { label: '周四', value: '4' },
-      { label: '周五', value: '5' },
-      { label: '周六', value: '6' },
-      { label: '周日', value: '7' }
-    ]
     return (
       <Drawerx
         onRef={ref => {
           this.drawer = ref
         }}
-        onOk={values => {
-          const data = {
-            name: values.name,
-            description: values.description,
-            admitInterval: [
-              {
-                type: values.type,
-                date:
-                  values.type === 0
-                    ? values.weeks
-                    : moment(values.day, 'YYYY/MM/DD'),
-                startTime: moment(values.startTime).format('HH:mm'),
-                endTime: moment(values.endTime).format('HH:mm')
-              }
-            ]
-          }
-          accessApi.update(initValues.id, data)
-        }}
+        onOk={this.edit}
       >
-        <Formx initValues={initValues}>
+        <Formx>
           <Title slot="基础设置"></Title>
+          <Form.Item prop="id" hidden>
+            <Input />
+          </Form.Item>
           <Form.Item prop="name" required label="名称">
             <Input name="name" placeholder="名称" />
           </Form.Item>
@@ -75,35 +116,34 @@ export default class EditDrawer extends React.Component {
           <Diliver />
           <Title slot="准入设置"></Title>
           <Form.Item required prop="type" label="准入方式">
-            <Radiox
-              options={radioOptions}
-              onChange={this.onChange.bind(this)}
-            />
+            <Radiox options={typeOptions} onChange={this.onChange} />
           </Form.Item>
-          {this.drawer &&
-            this.drawer.form &&
-            this.drawer.form.getFieldValue('type') === 0 && (
-              <Form.Item
-                required
-                prop="weeks"
-                label="准入时间"
-                className="time-wrap"
-              >
-                <Selectx options={weekOptions} mode="multiple" />
-              </Form.Item>
-            )}
-          {this.drawer &&
-            this.drawer.form &&
-            this.drawer.form.getFieldValue('type') === 1 && (
-              <Form.Item
-                required
-                prop="day"
-                label="准入时间"
-                className="time-wrap"
-              >
-                <DatePicker />
-              </Form.Item>
-            )}
+          <Form.Item
+            required
+            prop="week"
+            label="准入时间"
+            className="time-wrap"
+            hidden={
+              this.drawer &&
+              this.drawer.form &&
+              this.drawer.form.getFieldValue('type') === 1
+            }
+          >
+            <Selectx options={weekOptions} mode="multiple" />
+          </Form.Item>
+          <Form.Item
+            required
+            prop="day"
+            label="准入时间"
+            className="time-wrap"
+            hidden={
+              this.drawer &&
+              this.drawer.form &&
+              this.drawer.form.getFieldValue('type') === 0
+            }
+          >
+            <RangePicker />
+          </Form.Item>
           <Form.Item
             prop="startTime"
             required

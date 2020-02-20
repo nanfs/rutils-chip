@@ -13,14 +13,16 @@ export default {
     return axios({
       url: '/admitpolicys',
       method: 'post',
-      data: qs.stringify(data)
+      data: qs.stringify(data, { allowDots: true, arrayFormat: 'indices' })
     })
   },
-  update(id, data) {
+  update(data) {
+    const { id, ...reqData } = data
+    console.log(reqData)
     return axios({
       url: `/admitpolicys/${id}`,
       method: 'put',
-      data: qs.stringify(data)
+      data: qs.stringify(reqData, { allowDots: true, arrayFormat: 'indices' })
     })
   },
   del(data) {

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, message, Modal } from 'antd'
+import { Button, message, Modal, notification } from 'antd'
 import Tablex, {
   createTableCfg,
   TableWrap,
@@ -33,36 +33,15 @@ export default class Desktop extends React.Component {
   }
 
   addAccess = () => {
-    this.setState({ inner: '创建' }, this.addDrawer.drawer.show())
+    this.setState({ inner: '创建' }, this.addDrawer.pop())
     this.currentDrawer = this.addDrawer
   }
 
   editAccess = () => {
-    let selectAccess = {}
     if (this.tablex.getSelection().length === 1) {
-      selectAccess = this.tablex.getSelectData()[0]
-      selectAccess.type = selectAccess.admitInterval[0].type
-      if (selectAccess.type === 0) {
-        selectAccess.weeks = selectAccess.admitInterval[0].date.split(',')
-        selectAccess.day = ''
-      } else {
-        selectAccess.weeks = []
-        selectAccess.day = moment(
-          selectAccess.admitInterval[0].date,
-          'YYYY/MM/DD'
-        )
-      }
-      selectAccess.startTime = moment(
-        selectAccess.admitInterval[0].startTime,
-        'HH:mm'
-      )
-      selectAccess.endTime = moment(
-        selectAccess.admitInterval[0].endTime,
-        'HH:mm'
-      )
       this.setState(
-        { inner: '编辑', initValues: selectAccess },
-        this.editDrawer.drawer.show()
+        { inner: '编辑' },
+        this.editDrawer.pop(this.tablex.getSelectData()[0])
       )
       this.currentDrawer = this.editDrawer
     } else {
@@ -71,18 +50,21 @@ export default class Desktop extends React.Component {
   }
 
   delAccess = () => {
-    const selectAccess = this.tablex.getSelection()
-    if (selectAccess.length >= 1) {
-      confirm({
-        title: '确定删除所选数据?',
-        onOk() {
-          accessApi.del({ ids: JSON.stringify(selectAccess) })
-        },
-        onCancel() {}
-      })
-    } else {
-      message.warning('请选择一条数据进行删除！')
-    }
+    const ids = this.tablex.getSelection()
+    confirm({
+      title: '确定删除所选数据?',
+      onOk() {
+        accessApi.del({ ids }).then(res => {
+          if (res.success) {
+            notification.success({ message: '删除成功' })
+            this.onSuccess()
+          } else {
+            message.error(res.message || '删除失败')
+          }
+        })
+      },
+      onCancel() {}
+    })
   }
 
   onSuccess = () => {
@@ -116,13 +98,12 @@ export default class Desktop extends React.Component {
               this.addDrawer = ref
             }}
             onSuccess={this.onSuccess}
-            initValues={{ type: 0 }}
           />
           <EditDrawer
             onRef={ref => {
               this.editDrawer = ref
             }}
-            initValues={this.state.initValues}
+            onSuccess={this.onSuccess}
           />
         </TableWrap>
       </React.Fragment>

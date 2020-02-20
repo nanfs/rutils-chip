@@ -44,6 +44,12 @@ class Drawerx extends React.Component {
     document.querySelector('.ant-drawer-body .ant-form').style = ''
   }
 
+  break = () => {
+    this.setState({
+      submitting: false
+    })
+  }
+
   onClose = () => {
     this.hide()
     const { onClose } = this.props

@@ -68,7 +68,8 @@ class Tablex extends React.Component {
       if (showLoading) {
         this.setState({
           loading: true,
-          selection: []
+          selection: [],
+          selectData: []
         })
       }
       let requestData = {}

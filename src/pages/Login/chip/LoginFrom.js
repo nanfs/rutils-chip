@@ -42,7 +42,8 @@ export default class LoginForm extends React.Component {
     return true
   }
 
-  login(values) {
+  login = values => {
+    console.log('login', values)
     let data = {}
     if (this.state.hasPin) {
       if (!this.checkUsbkey(values.username, values.pincode)) {
@@ -84,8 +85,7 @@ export default class LoginForm extends React.Component {
         onRef={ref => {
           this.formx = ref
         }}
-        onSubmit={this.login.bind(this)}
-        {...this.props}
+        onSubmit={this.login}
       >
         <Form.Item
           prop="username"

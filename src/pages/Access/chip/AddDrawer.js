@@ -11,8 +11,18 @@ import accessApi from '@/services/access'
 import moment from 'moment'
 
 const { TextArea } = Input
-
+const { RangePicker } = DatePicker
 export default class AddDrawer extends React.Component {
+  matchingPassword = (rule, value, callback) => {
+    const startTime = this.drawer.form.getFieldValue('startTime')
+    if (startTime) {
+      if (!moment(startTime).isBefore(value)) {
+        callback(new Error('结束时间必须晚于开始时间'))
+      }
+    }
+    callback()
+  }
+
   componentDidMount() {
     this.props.onRef && this.props.onRef(this)
   }
@@ -21,15 +31,19 @@ export default class AddDrawer extends React.Component {
     this.forceUpdate()
   }
 
+  pop = () => {
+    this.drawer.show()
+  }
+
   add = values => {
+    console.log('add', values)
     const data = {
       name: values.name,
       description: values.description,
       admitInterval: [
         {
           type: values.type,
-          date:
-            values.type === 0 ? values.weeks : moment(values.day, 'YYYY/MM/DD'),
+          date: values.type === 0 ? values.weeks.join(',') : undefined,
           startTime: moment(values.startTime).format('HH:mm'),
           endTime: moment(values.endTime).format('HH:mm')
         }
@@ -55,7 +69,7 @@ export default class AddDrawer extends React.Component {
         }}
         onOk={this.add}
       >
-        <Formx initValues={this.props.initValues}>
+        <Formx initValues={{ type: 0 }}>
           <Title slot="基础设置"></Title>
           <Form.Item prop="name" required label="名称">
             <Input name="name" placeholder="名称" />
@@ -73,30 +87,32 @@ export default class AddDrawer extends React.Component {
           <Form.Item prop="type" required label="准入方式">
             <Radiox options={typeOptions} onChange={this.onChange} />
           </Form.Item>
-          {this.drawer &&
-            this.drawer.form &&
-            this.drawer.form.getFieldValue('type') === 0 && (
-              <Form.Item
-                required
-                prop="weeks"
-                label="准入时间"
-                className="time-wrap"
-              >
-                <Selectx options={weekOptions} mode="multiple" />
-              </Form.Item>
-            )}
-          {this.drawer &&
-            this.drawer.form &&
-            this.drawer.form.getFieldValue('type') === 1 && (
-              <Form.Item
-                required
-                prop="day"
-                label="准入时间"
-                className="time-wrap"
-              >
-                <DatePicker />
-              </Form.Item>
-            )}
+          <Form.Item
+            required
+            prop="weeks"
+            label="准入时间"
+            className="time-wrap"
+            hidden={
+              this.drawer &&
+              this.drawer.form &&
+              this.drawer.form.getFieldValue('type') === 1
+            }
+          >
+            <Selectx options={weekOptions} mode="multiple" />
+          </Form.Item>
+          <Form.Item
+            required
+            prop="day"
+            label="准入时间"
+            className="time-wrap"
+            hidden={
+              this.drawer &&
+              this.drawer.form &&
+              this.drawer.form.getFieldValue('type') === 0
+            }
+          >
+            <RangePicker />
+          </Form.Item>
           <Form.Item
             prop="startTime"
             required
@@ -110,6 +126,7 @@ export default class AddDrawer extends React.Component {
             required
             label="结束时间"
             className="time-wrap"
+            rules={[this.matchingPassword]}
           >
             <TimePicker format={'HH:mm'} />
           </Form.Item>

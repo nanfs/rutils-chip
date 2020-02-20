@@ -18,7 +18,6 @@ export default {
     })
   },
   addDev(data) {
-    console.log(data)
     return axios({
       url: '/safepolicys',
       method: 'post',

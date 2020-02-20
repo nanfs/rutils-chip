@@ -171,6 +171,13 @@ class Tablex extends React.Component {
     return this.state.selects
   }
 
+  clearSelection = () => {
+    this.setState({
+      selection: [],
+      selects: []
+    })
+  }
+
   getData = () => {
     return this.state.data
   }

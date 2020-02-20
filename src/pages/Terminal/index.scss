@@ -52,3 +52,16 @@ p {
   padding: 3px 8px;
   font-size: 12px;
 }
+
+.terminal-sendmessage-text {
+  padding: 20px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.terminal-sendmessage-tips {
+  padding: 20px 0;
+
+  .terminal-sendmessage-tips-num {
+    color: red;
+  }
+}

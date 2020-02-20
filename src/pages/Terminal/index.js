@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, message, notification } from 'antd'
+import { Button, message, notification, Menu, Dropdown, Icon } from 'antd'
 import produce from 'immer'
 
 import Tablex, {
@@ -15,6 +15,7 @@ import SelectSearch from '@/components/SelectSearch'
 import EditDrawer from './chip/EditDrawer'
 import DetailDrawer from './chip/DetailDrawer'
 import SetUserDrawer from './chip/SetUserDrawer'
+import SendMessageDrawer from './chip/SendMessageDrawer'
 import { columns, apiMethod } from './chip/TableCfg'
 import terminalApi from '@/services/terminal'
 
@@ -50,7 +51,8 @@ export default class Termina extends React.Component {
       pageSizeOptions: ['5', '10']
     }),
     innerPath: undefined,
-    initValues: {}
+    initValues: {},
+    selectData: []
   }
 
   search = (key, value) => {
@@ -85,6 +87,11 @@ export default class Termina extends React.Component {
   setUser = () => {
     this.setState({ inner: '分配用户' }, this.setUserDrawer.drawer.show())
     this.currentDrawer = this.setUserDrawer
+  }
+
+  sendMessage = () => {
+    this.setState({ inner: '发送消息' }, this.sendMessageDrawer.drawer.show())
+    this.currentDrawer = this.sendMessageDrawer
   }
 
   detailTerminal = () => {
@@ -181,7 +188,71 @@ export default class Termina extends React.Component {
   }
 
   render() {
-    const searchOptions = [{ label: '名称', value: 'name' }]
+    const searchOptions = [
+      { label: '名称', value: 'name' },
+      { label: '位置', value: 'location' },
+      { label: 'ip', value: 'ip' }
+    ]
+    const moreButton = (
+      <Menu>
+        <Menu.Item
+          key="1"
+          onClick={this.deleteTerminal}
+          disabled={!this.state.selection || !this.state.selection.length}
+        >
+          删除
+        </Menu.Item>
+        <Menu.Item
+          key="2"
+          onClick={this.detailTerminal}
+          disabled={!this.state.selection || this.state.selection.length !== 1}
+        >
+          查看详情
+        </Menu.Item>
+        <Menu.Item
+          key="3"
+          onClick={this.suspendTerminal}
+          disabled={!this.state.selection || !this.state.selection.length}
+        >
+          暂停
+        </Menu.Item>
+        <Menu.Item
+          key="4"
+          onClick={this.lockScreen}
+          disabled={!this.state.selection || !this.state.selection.length}
+        >
+          锁屏
+        </Menu.Item>
+        <Menu.Item
+          key="5"
+          onClick={this.unlockScreen}
+          disabled={!this.state.selection || !this.state.selection.length}
+        >
+          解锁
+        </Menu.Item>
+        <Menu.Item
+          key="6"
+          onClick={this.sendMessage}
+          disabled={!this.state.selection || !this.state.selection.length}
+        >
+          发送消息
+        </Menu.Item>
+        <Menu.Item
+          key="7"
+          onClick={this.setSafepolicy}
+          disabled={!this.state.selection || !this.state.selection.length}
+        >
+          设置外设策略
+        </Menu.Item>
+        <Menu.Item
+          key="8"
+          onClick={this.setAccesspolicy}
+          disabled={!this.state.selection || !this.state.selection.length}
+        >
+          设置准入策略
+        </Menu.Item>
+      </Menu>
+    )
     return (
       <React.Fragment>
         <InnerPath
@@ -202,52 +273,41 @@ export default class Termina extends React.Component {
               </Button>
               <Button
                 onClick={this.setUser}
-                disabled={
-                  !this.state.selection || this.state.selection.length !== 1
-                }
+                disabled={!this.state.selection || !this.state.selection.length}
               >
                 分配用户
               </Button>
               <Button
                 onClick={this.admitAccessTerminal}
-                disabled={
-                  !this.state.selection || this.state.selection.length === 0
-                }
+                disabled={!this.state.selection || !this.state.selection.length}
               >
                 允许接入
               </Button>
               {/* <Button
                 onClick={this.onTerminal}
                 disabled={
-                  !this.state.selection || this.state.selection.length === 0
+                  !this.state.selection || !this.state.selection.length
                 }
               >
                 开机
               </Button> */}
               <Button
                 onClick={this.offTerminal}
-                disabled={
-                  !this.state.selection || this.state.selection.length === 0
-                }
+                disabled={!this.state.selection || !this.state.selection.length}
               >
                 关机
               </Button>
               <Button
                 onClick={this.restartTerminal}
-                disabled={
-                  !this.state.selection || this.state.selection.length === 0
-                }
+                disabled={!this.state.selection || !this.state.selection.length}
               >
                 重启
               </Button>
-              <Button
-                onClick={this.detailTerminal}
-                disabled={
-                  !this.state.selection || this.state.selection.length !== 1
-                }
-              >
-                查看详情
-              </Button>
+              <Dropdown overlay={moreButton}>
+                <Button>
+                  更多操作 <Icon type="down" />
+                </Button>
+              </Dropdown>
             </BarLeft>
             <BarRight>
               <SelectSearch
@@ -284,7 +344,14 @@ export default class Termina extends React.Component {
               this.setUserDrawer = ref
             }}
             onSuccess={this.onSuccess}
-            selection={this.state.tableCfg.selection}
+            selection={this.state.selection}
+          />
+          <SendMessageDrawer
+            onRef={ref => {
+              this.sendMessageDrawer = ref
+            }}
+            onSuccess={this.onSuccess}
+            selectData={this.state.selectData}
           />
         </TableWrap>
       </React.Fragment>

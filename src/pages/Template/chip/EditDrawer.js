@@ -38,14 +38,14 @@ export default class EditDrawer extends React.Component {
           <Form.Item prop="name" label="模板名称" required>
             <Input name="name" placeholder="模板名称" />
           </Form.Item>
-          <Form.Item prop="parentName" label="父模板" required disabled>
-            <Input name="parentName" placeholder="父模板" />
+          <Form.Item prop="parentName" label="父模板" required>
+            <Input name="parentName" placeholder="父模板" disabled />
           </Form.Item>
-          <Form.Item prop="clusterName" label="集群" required disabled>
-            <Input name="clusterName" placeholder="集群" />
+          <Form.Item prop="clusterName" label="集群" required>
+            <Input name="clusterName" placeholder="集群" disabled />
           </Form.Item>
-          <Form.Item prop="datacenterName" label="数据中心" required disabled>
-            <Input name="datacenterName" placeholder="数据中心" />
+          <Form.Item prop="datacenterName" label="数据中心" required>
+            <Input name="datacenterName" placeholder="数据中心" disabled />
           </Form.Item>
           <Form.Item prop="description" label="描述">
             <TextArea

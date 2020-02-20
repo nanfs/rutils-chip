@@ -28,36 +28,41 @@ export default class AboutModal extends React.Component {
         }}
         className="about-modal"
         modalCfg={modalCfg}
-        onOk={this.onOk}
+        // onOk={this.onOk}
       >
+        {/* <Row>
+          <Col span={24} className="about-logo">
+            <img src={src} />
+          </Col>
+        </Row> */}
+        <Row gutter={32} className="row-margin">
+          <Col span={5} className="about-title">
+            系统编号 :
+          </Col>
+          <Col span={19}>3F2504E0-4F89-11D3-9A0C-0305E82C3301</Col>
+        </Row>
+        <Row gutter={32} className="row-margin">
+          <Col span={5} className="about-title">
+            版本类型 :
+          </Col>
+          <Col span={19}>V2.0.0 build 01108</Col>
+        </Row>
+        <Row gutter={32} className="row-margin">
+          <Col span={5} className="about-title">
+            许可数量 :
+          </Col>
+          <Col span={19}>1000</Col>
+        </Row>
+        <Row gutter={32} className="row-margin">
+          <Col span={5} className="about-title">
+            许可证有效期 :
+          </Col>
+          <Col span={19}>2020年12月31日</Col>
+        </Row>
         <Row>
           <Col span={24} className="about-logo">
             <img src={src} />
           </Col>
-        </Row>
-        <Row gutter={32} className="row-margin">
-          <Col span={11} className="about-title">
-            系统编号 :
-          </Col>
-          <Col span={13}>3F2504E0-4F89-11D3-9A0C-0305E82C3301</Col>
-        </Row>
-        <Row gutter={32} className="row-margin">
-          <Col span={11} className="about-title">
-            版本类型 :
-          </Col>
-          <Col span={13}>V2.0.0 build 01108</Col>
-        </Row>
-        <Row gutter={32} className="row-margin">
-          <Col span={11} className="about-title">
-            许可数量 :
-          </Col>
-          <Col span={13}>1000</Col>
-        </Row>
-        <Row gutter={32} className="row-margin">
-          <Col span={11} className="about-title">
-            许可证有效期 :
-          </Col>
-          <Col span={13}>2020年12月31日</Col>
         </Row>
         <Row>
           <Col span={24} className="about-info">

@@ -6,6 +6,11 @@ export const columns = [
     dataIndex: 'name'
   },
   {
+    title: '已绑定数量',
+    width: 120,
+    dataIndex: 'boundTcNum'
+  },
+  {
     title: '日期',
     dataIndex: 'date',
     render: (text, record) => {

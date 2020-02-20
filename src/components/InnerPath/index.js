@@ -11,7 +11,7 @@ export default function InnerPath(props) {
     <div className="inner-path has-inner">
       <Button onClick={onBack} icon="left" />
       <span className="inner-text">{inner}</span>
-      <span className="location-text">&gt; {location}</span>
+      <span className="location-text"> &gt; {location}</span>
     </div>
   )
 }

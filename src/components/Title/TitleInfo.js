@@ -1,5 +1,5 @@
 import React from 'react'
-import { Icon } from 'antd'
+import MyIcon from '@/components/MyIcon'
 import { NavLink } from 'react-router-dom'
 
 export default function TitleInfo(props) {
@@ -7,8 +7,21 @@ export default function TitleInfo(props) {
   console.log(more)
   return (
     <p style={{ fontSize: '18px', fontWeight: 'bold' }}>
-      <Icon type="info" />
-      <span>{slot}</span>
+      <MyIcon
+        type="sd"
+        component="svg"
+        style={{
+          fontSize: '30px',
+          verticalAlign: 'middle'
+        }}
+      />
+      <span
+        style={{
+          verticalAlign: 'middle'
+        }}
+      >
+        {slot}
+      </span>
       {url && (
         <NavLink to={url}>
           <span

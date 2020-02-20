@@ -116,7 +116,7 @@ export default class Desktop extends React.Component {
               this.addDrawer = ref
             }}
             onSuccess={this.onSuccess}
-            initValues={{ type: 'week' }}
+            initValues={{ type: 0 }}
           />
           <EditDrawer
             onRef={ref => {

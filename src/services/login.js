@@ -8,7 +8,7 @@ export default {
   login(data) {
     return axios({
       timeout: 10000,
-      url: '/desktop/user/login',
+      url: '/user/login',
       method: 'post',
       data: qs.stringify(data)
     })

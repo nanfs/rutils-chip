@@ -69,6 +69,10 @@ export default class Termina extends React.Component {
     )
   }
 
+  onSuccess = () => {
+    this.tablex.refresh(this.state.tableCfg)
+  }
+
   sendOrder = (id, order) => {
     console.log('sendOrder', id, order)
   }
@@ -331,6 +335,7 @@ export default class Termina extends React.Component {
               this.editDrawer = ref
             }}
             initValues={this.state.initValues}
+            onSuccess={this.onSuccess}
           />
           <DetailDrawer
             onRef={ref => {

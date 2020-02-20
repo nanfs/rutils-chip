@@ -4,6 +4,8 @@ import Drawerx from '@/components/Drawerx'
 import Formx from '@/components/Formx'
 import Title from '@/components/Title'
 
+import terminalApi from '@/services/terminal'
+
 const { Option } = Select
 const { TextArea } = Input
 
@@ -22,6 +24,19 @@ export default class AddDrawer extends React.Component {
     })
   }
 
+  addTerminal = values => {
+    // TODO 是否是新增 删除 还是直接 传入桌面是单个还是批量
+    terminalApi
+      .addTerminal({ data: values })
+      .then(res => {
+        this.drawer.afterSubmit(res)
+        this.props.onSuccess()
+      })
+      .catch(errors => {
+        console.log(errors)
+      })
+  }
+
   render() {
     // const { getFieldDecorator } = this.props.form
     const { inputValue } = this.state
@@ -32,7 +47,7 @@ export default class AddDrawer extends React.Component {
         }}
         onOk={values => {
           console.log(values)
-          console.log(this)
+          this.addTerminal()
         }}
       >
         <Formx

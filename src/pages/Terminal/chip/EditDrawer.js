@@ -5,6 +5,8 @@ import Formx from '@/components/Formx'
 import Title from '@/components/Title'
 // import SliderNumber from '@/components/SliderNumber'
 
+import terminalApi from '@/services/terminal'
+
 const { Option } = Select
 const { TextArea } = Input
 
@@ -37,6 +39,18 @@ export default class EditDrawer extends React.Component {
     })
   }
 
+  editTerminal = values => {
+    terminalApi
+      .editTerminal({ data: values })
+      .then(res => {
+        this.drawer.afterSubmit(res)
+        this.props.onSuccess()
+      })
+      .catch(errors => {
+        console.log(errors)
+      })
+  }
+
   render() {
     const { initValues } = this.props
     // console.log(initValues)
@@ -49,6 +63,7 @@ export default class EditDrawer extends React.Component {
         onOk={values => {
           // values.autoLockTime = autoLockTime
           console.log(values)
+          this.editTerminal(values)
           return false
         }}
       >

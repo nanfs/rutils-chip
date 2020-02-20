@@ -15,7 +15,7 @@ class Dashboard extends React.Component {
         if (res.success) {
           if (res.data) {
             this.setState({
-              logData: res.data.list
+              logData: res.data.records
             })
           }
         } else {

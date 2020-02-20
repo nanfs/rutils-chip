@@ -55,7 +55,7 @@ export default class Template extends React.Component {
       title: '确定删除所选数据?',
       onOk() {
         templateApi
-          .delTem({ ids: JSON.stringify(selectTem) })
+          .delTem({ ids: selectTem })
           .then(res => {
             if (res.success) {
               notification.success({ message: '删除成功' })

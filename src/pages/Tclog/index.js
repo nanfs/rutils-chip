@@ -20,8 +20,8 @@ export default class tcLog extends React.Component {
     tableCfg: createTableCfg({
       columns,
       apiMethod,
-      paging: { size: 5 },
-      pageSizeOptions: ['5', '10']
+      paging: { size: 10 },
+      pageSizeOptions: ['10', '20', '50']
     })
   }
 
@@ -71,7 +71,11 @@ export default class tcLog extends React.Component {
   }
 
   render() {
-    const searchOptions = [{ label: '名称', value: 'name' }]
+    const searchOptions = [
+      { label: '用户', value: 'username' },
+      { label: 'ip', value: 'ip' },
+      { label: '用户ip', value: 'userip' }
+    ]
     return (
       <React.Fragment>
         <InnerPath location="系统日志-终端" />

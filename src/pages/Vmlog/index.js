@@ -21,8 +21,8 @@ export default class Vmlog extends React.Component {
       rowKey: 'auditLogId',
       columns,
       apiMethod,
-      paging: { size: 5 },
-      pageSizeOptions: ['5', '10']
+      paging: { size: 10 },
+      pageSizeOptions: ['10', '20', '50']
     })
   }
 
@@ -72,7 +72,10 @@ export default class Vmlog extends React.Component {
   }
 
   render() {
-    const searchOptions = [{ label: '名称', value: 'name' }]
+    const searchOptions = [
+      { label: '用户', value: 'username' },
+      { label: 'ip', value: 'ip' }
+    ]
     return (
       <React.Fragment>
         <InnerPath location="系统日志-桌面" />

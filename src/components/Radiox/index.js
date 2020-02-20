@@ -35,7 +35,7 @@ export default class Radiox extends React.Component {
     this.setState({ loading: true })
     getOptionFunction(param)
       .then(res => {
-        if (res.success) {
+        if (res.success && Array.isArray(res.data)) {
           this.setState({ options: res.data, loading: false })
         } else {
           this.setState({ loading: false })
@@ -63,15 +63,16 @@ export default class Radiox extends React.Component {
         value={this.state.value}
       >
         {!options.length && <span>暂无数据</span>}
-        {options.map(item => (
-          <Radio.Button
-            value={item.value}
-            key={item.value}
-            disabled={item.disabled}
-          >
-            {item.label}
-          </Radio.Button>
-        ))}
+        {options &&
+          options.map(item => (
+            <Radio.Button
+              value={item.value}
+              key={item.value}
+              disabled={item.disabled}
+            >
+              {item.label}
+            </Radio.Button>
+          ))}
         {hasInputNumber && (
           <InputNumber
             placeholder=""

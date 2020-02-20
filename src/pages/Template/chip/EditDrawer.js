@@ -24,7 +24,7 @@ export default class EditDrawer extends React.Component {
           this.drawer = ref
         }}
         onOk={values => {
-          templateApi.updateTem(values)
+          templateApi.updateTem(values, initValues.id)
           return false
         }}
       >

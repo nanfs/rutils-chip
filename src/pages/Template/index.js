@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, message, Modal } from 'antd'
+import { Button, message, Modal, notification } from 'antd'
 import Tablex, {
   createTableCfg,
   TableWrap,
@@ -35,7 +35,7 @@ export default class Template extends React.Component {
     let selectTem = {}
     if (this.tablex.getSelection().length === 1) {
       this.tablex.getData().forEach((v, i) => {
-        if (v.id == this.tablex.getSelection()[0]) {
+        if (v.id === this.tablex.getSelection()[0]) {
           selectTem = v
         }
       })
@@ -51,17 +51,25 @@ export default class Template extends React.Component {
 
   delTem = () => {
     const selectTem = this.tablex.getSelection()
-    if (selectTem.length >= 1) {
-      confirm({
-        title: '确定删除所选数据?',
-        onOk() {
-          templateApi.delTem({ ids: JSON.stringify(selectTem) })
-        },
-        onCancel() {}
-      })
-    } else {
-      message.warning('请选择一条数据进行删除！')
-    }
+    confirm({
+      title: '确定删除所选数据?',
+      onOk() {
+        templateApi
+          .delTem({ ids: JSON.stringify(selectTem) })
+          .then(res => {
+            if (res.success) {
+              notification.success({ message: '删除成功' })
+              this.tablex.refresh(this.state.tableCfg)
+            } else {
+              message.error(res.message || '删除失败')
+            }
+          })
+          .catch(errors => {
+            console.log(errors)
+          })
+      },
+      onCancel() {}
+    })
   }
 
   render() {
@@ -75,10 +83,20 @@ export default class Template extends React.Component {
         <TableWrap>
           <ToolBar>
             <BarLeft>
-              <Button onClick={this.delTem} style={{ marginRight: '10px' }}>
+              <Button
+                onClick={this.editTem}
+                disabled={
+                  !this.state.selection || this.state.selection.length !== 1
+                }
+              >
+                编辑模板
+              </Button>
+              <Button
+                onClick={this.delTem}
+                disabled={!this.state.selection || !this.state.selection.length}
+              >
                 删除模板
               </Button>
-              <Button onClick={this.editTem}>编辑模板</Button>
             </BarLeft>
           </ToolBar>
           <Tablex
@@ -86,6 +104,9 @@ export default class Template extends React.Component {
               this.tablex = ref
             }}
             tableCfg={this.state.tableCfg}
+            onSelectChange={(selection, selectData) => {
+              this.setState({ selection, selectData })
+            }}
           />
           <EditDrawer
             onRef={ref => {

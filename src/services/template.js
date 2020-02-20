@@ -17,10 +17,10 @@ export default {
       data: qs.stringify(data)
     })
   },
-  updateTem(data) {
+  updateTem(data, id) {
     return axios({
-      url: '/updateTem',
-      method: 'post',
+      url: `/templates/${id}`,
+      method: 'put',
       data: qs.stringify(data)
     })
   }

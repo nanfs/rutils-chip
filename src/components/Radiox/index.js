@@ -1,9 +1,19 @@
 import React from 'react'
-import { Radio, Button } from 'antd'
+import { Radio, Icon, InputNumber, Button } from 'antd'
+import classnames from 'classnames'
+import './index.scss'
 
 export default class Radiox extends React.Component {
   state = {
-    value: undefined
+    value: undefined,
+    options: this.props.options || []
+  }
+
+  componentDidMount() {
+    const { getOptionFunction } = this.props
+    if (getOptionFunction) {
+      this.getData()
+    }
   }
 
   componentDidUpdate(prep) {
@@ -14,15 +24,41 @@ export default class Radiox extends React.Component {
   }
 
   handleChange = e => {
-    this.setState({ value: e.target.value })
-    this.props.onChange(e.target.value)
+    const value = e.target ? e.target.value : e
+    this.setState({ value })
+    this.props.onChange(value)
+  }
+
+  // getOptionFucntion 传入获取选项方法  param传入参数
+  getData = () => {
+    const { getOptionFunction, param } = this.props
+    this.setState({ loading: true })
+    getOptionFunction(param)
+      .then(res => {
+        if (res.success) {
+          this.setState({ options: res.data, loading: false })
+        } else {
+          this.setState({ loading: false })
+          console.log(res)
+        }
+      })
+      .catch(err => {
+        this.setState({ loading: false })
+        console.log(err)
+      })
   }
 
   render() {
-    const { className, options = [], onRefresh } = this.props
+    const { className, hasInputNumber, getOptionFunction } = this.props
+    const { options, loading } = this.state
+    const cls = classnames(
+      className,
+      'radiox',
+      getOptionFunction && 'has-fresh'
+    )
     return (
       <Radio.Group
-        className={className}
+        className={cls}
         onChange={this.handleChange}
         value={this.state.value}
       >
@@ -36,7 +72,18 @@ export default class Radiox extends React.Component {
             {item.label}
           </Radio.Button>
         ))}
-        {onRefresh && <Button onClick={onRefresh} icon="refresh"></Button>}
+        {hasInputNumber && (
+          <InputNumber
+            placeholder=""
+            onChange={this.handleChange}
+            value={this.state.value}
+          />
+        )}
+        {!!getOptionFunction && (
+          <Button className="reload-btn" onClick={this.getData}>
+            <Icon type="sync" spin={loading}></Icon>
+          </Button>
+        )}
       </Radio.Group>
     )
   }

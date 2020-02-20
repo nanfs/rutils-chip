@@ -41,20 +41,20 @@ export default class AddDrawer extends React.Component {
 
   getNetwork = () => {
     // axios获取数据
-    desktopsApi
-      .getTemplate()
-      .then(res => {
-        if (res.success) {
-          const networkOption = [
-            { label: '网络一', value: '1' },
-            { label: '网络二', value: '2' },
-            { label: '网络三', value: '3' },
-            { label: '网络四', value: '4' }
-          ]
-          this.setState({ networkOption })
-        }
-      })
-      .catch(err => console.log(err))
+    // desktopsApi
+    //   .getTemplate()
+    //   .then(res => {
+    //     if (res.success) {
+    const networkOption = [
+      { label: '网络一', value: '1' },
+      { label: '网络二', value: '2' },
+      { label: '网络三', value: '3' },
+      { label: '网络四', value: '4' }
+    ]
+    this.setState({ networkOption })
+    //   }
+    // })
+    // .catch(err => console.log(err))
   }
 
   addVm = values => {
@@ -71,6 +71,7 @@ export default class AddDrawer extends React.Component {
   }
 
   render() {
+    console.log(this.state.networkOption)
     return (
       <Drawerx
         onRef={ref => {
@@ -84,10 +85,7 @@ export default class AddDrawer extends React.Component {
             <Input placeholder="桌面名称" />
           </Form.Item>
           <Form.Item prop="template" label="模板">
-            <Radiox
-              options={this.state.templateOption}
-              onRefresh={this.getTemplate}
-            />
+            <Radiox getOptionFunction={desktopsApi.getTemplate} />
           </Form.Item>
           <Form.Item prop="usbNum" label="USB数量">
             <Radiox options={usbOptions} />
@@ -95,20 +93,16 @@ export default class AddDrawer extends React.Component {
           <Form.Item
             prop="cpuCore"
             label="CPU"
-            wrapperCol={{ sm: { span: 12 } }}
+            wrapperCol={{ sm: { span: 16 } }}
           >
-            <Radiox options={cpuOptions} />
+            <Radiox options={cpuOptions} hasInputNumber />
           </Form.Item>
           <Form.Item
-            prop="cpuNum"
-            wrapperCol={{ sm: { span: 12 } }}
-            className="extend-col"
-            style={{ marginTop: '-64px', marginLeft: '65%' }}
+            prop="memory"
+            label="内存"
+            wrapperCol={{ sm: { span: 16 } }}
           >
-            <InputNumber placeholder="" />
-          </Form.Item>
-          <Form.Item prop="memory" label="内存">
-            <Radiox options={memoryOptions} />
+            <Radiox options={memoryOptions} hasInputNumber />
           </Form.Item>
           <Form.Item prop="desktopNum" label="创建数量">
             <InputNumber placeholder="" />
@@ -118,10 +112,14 @@ export default class AddDrawer extends React.Component {
           </Form.Item>
           <Diliver />
           <Title slot="网络设置"></Title>
-          <Form.Item prop="network" label="网络">
+          <Form.Item
+            prop="network"
+            label="网络"
+            wrapperCol={{ sm: { span: 16 } }}
+          >
             <Radiox
-              options={this.state.networkOption}
-              onRefresh={this.getNetwork}
+              // options={this.state.networkOption}
+              getOptionFunction={desktopsApi.getTemplate}
             />
           </Form.Item>
         </Formx>

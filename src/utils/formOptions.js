@@ -15,10 +15,7 @@ export const cpuOptions = [
   { label: '1核', value: '1' },
   { label: '2核', value: '2' },
   { label: '4核', value: '4' },
-  { label: '8核', value: '8' },
-  { label: '16核', value: '16' },
-  { label: '24核', value: '24' },
-  { label: '32核', value: '32' }
+  { label: '8核', value: '8' }
 ]
 
 export const manageTypeOptions = [

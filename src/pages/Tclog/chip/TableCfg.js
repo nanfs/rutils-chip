@@ -1,19 +1,12 @@
 import tclogsApi from '@/services/tclogs'
+import { severityOptions, renderServerityOptions } from '@/utils/tableRender'
 // TODO antd 样式加载问题
 export const columns = [
   {
     title: '级别',
     dataIndex: 'severity',
-    filters: [
-      {
-        text: '1',
-        value: '1'
-      },
-      {
-        text: '3',
-        value: '3'
-      }
-    ],
+    filters: severityOptions,
+    render: renderServerityOptions,
     onFilter: (value, record) => record.severity === value
   },
   {

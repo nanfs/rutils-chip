@@ -40,6 +40,20 @@
   .ant-table-thead > tr:first-child > th:last-child {
     border-right: none;
   }
+  .table-icon {
+    &-info {
+      color: #1890ff;
+    }
+    &-msg {
+      color: #b7eb8f;
+    }
+    &-warn {
+      color: #faad14;
+    }
+    &-alert {
+      color: #f5222d;
+    }
+  }
 }
 .table-tool {
   padding: 10px 0px 15px 0px;

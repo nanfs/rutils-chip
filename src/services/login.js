@@ -1,6 +1,3 @@
-// import collectionsApiFactory from '@/services/collectionsApiFactory'
-
-// export default collectionsApiFactory('login')
 import qs from 'qs'
 import axios from './axios'
 
@@ -15,7 +12,7 @@ export default {
   },
   loginOut(data) {
     return axios({
-      url: '/desktop/user/logout',
+      url: '/user/logout',
       method: 'post',
       data: qs.stringify(data)
     })
@@ -28,7 +25,3 @@ export default {
     })
   }
 }
-
-/* import collectionsApiFactory from '@/services/collectionsApiFactory'
-
-export default collectionsApiFactory('engines') */

@@ -12,50 +12,35 @@ const { TextArea } = Input
 export default class AddDrawer extends React.Component {
   componentDidMount() {
     this.props.onRef && this.props.onRef(this)
-    this.getTemplate()
-    this.getNetwork()
   }
 
   state = {
     templateOption: [],
-    networkOption: []
+    networkOption: [
+      { label: '网络一', value: '1' },
+      { label: '网络二', value: '2' },
+      { label: '网络三', value: '3' },
+      { label: '网络四', value: '4' }
+    ]
   }
 
-  getTemplate = () => {
-    // axios获取数据
-    desktopsApi
-      .getTemplate()
-      .then(res => {
-        if (res.success) {
-          const templateOption = [
-            { label: '模板一', value: '1' },
-            { label: '模板二', value: '2' },
-            { label: '模板三', value: '3' },
-            { label: '模板四', value: '4' }
-          ]
-          this.setState({ templateOption })
-        }
-      })
-      .catch(err => console.log(err))
-  }
-
-  getNetwork = () => {
-    // axios获取数据
-    desktopsApi
-      .getTemplate()
-      .then(res => {
-        if (res.success) {
-          const networkOption = [
-            { label: '网络一', value: '1' },
-            { label: '网络二', value: '2' },
-            { label: '网络三', value: '3' },
-            { label: '网络四', value: '4' }
-          ]
-          this.setState({ networkOption })
-        }
-      })
-      .catch(err => console.log(err))
-  }
+  // getTemplate = () => {
+  //   // axios获取数据
+  //   desktopsApi
+  //     .getTemplate()
+  //     .then(res => {
+  //       if (res.success) {
+  //         const templateOption = [
+  //           { label: '模板一', value: '1' },
+  //           { label: '模板二', value: '2' },
+  //           { label: '模板三', value: '3' },
+  //           { label: '模板四', value: '4' }
+  //         ]
+  //         this.setState({ templateOption })
+  //       }
+  //     })
+  //     .catch(err => console.log(err))
+  // }
 
   addVm = values => {
     // TODO 是否是新增 删除 还是直接 传入桌面是单个还是批量
@@ -84,10 +69,7 @@ export default class AddDrawer extends React.Component {
             <Input placeholder="桌面名称" />
           </Form.Item>
           <Form.Item prop="template" label="模板">
-            <Radiox
-              options={this.state.templateOption}
-              onRefresh={this.getTemplate}
-            />
+            <Radiox getOptionFunction={desktopsApi.getTemplate} />
           </Form.Item>
           <Form.Item prop="usbNum" label="USB数量">
             <Radiox options={usbOptions} />
@@ -95,20 +77,16 @@ export default class AddDrawer extends React.Component {
           <Form.Item
             prop="cpuCore"
             label="CPU"
-            wrapperCol={{ sm: { span: 12 } }}
+            wrapperCol={{ sm: { span: 16 } }}
           >
-            <Radiox options={cpuOptions} />
+            <Radiox options={cpuOptions} hasInputNumber />
           </Form.Item>
           <Form.Item
-            prop="cpuNum"
-            wrapperCol={{ sm: { span: 12 } }}
-            className="extend-col"
-            style={{ marginTop: '-64px', marginLeft: '65%' }}
+            prop="memory"
+            label="内存"
+            wrapperCol={{ sm: { span: 16 } }}
           >
-            <InputNumber placeholder="" />
-          </Form.Item>
-          <Form.Item prop="memory" label="内存">
-            <Radiox options={memoryOptions} />
+            <Radiox options={memoryOptions} hasInputNumber />
           </Form.Item>
           <Form.Item prop="desktopNum" label="创建数量">
             <InputNumber placeholder="" />
@@ -118,10 +96,14 @@ export default class AddDrawer extends React.Component {
           </Form.Item>
           <Diliver />
           <Title slot="网络设置"></Title>
-          <Form.Item prop="network" label="网络">
+          <Form.Item
+            prop="network"
+            label="网络"
+            wrapperCol={{ sm: { span: 16 } }}
+          >
             <Radiox
               options={this.state.networkOption}
-              onRefresh={this.getNetwork}
+              getOptionFunction={desktopsApi.getTemplate}
             />
           </Form.Item>
         </Formx>

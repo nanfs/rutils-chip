@@ -17,7 +17,6 @@ class Formx extends React.Component {
     const { onRef } = this.props
     onRef && onRef(this)
     // TODO 检查不生效
-    console.log(this.props.initValues)
     this.props.form.setFieldsValue(this.props.initValues)
     this.forceUpdate()
   }

@@ -18,15 +18,87 @@
     display: inline-block;
   }
 }
+
 .table-wrap {
+  padding: 10px 20px;
+  margin: 0px 20px;
+  background: white;
   position: relative;
-  height: calc(100% - 50px);
+  // min-height: 80vh;
+  .ant-table-thead > tr > th {
+    background-color: #e1e2e7;
+    color: #6d6e6d;
+    font-size: 14px;
+    font-weight: normal;
+    padding: 10px;
+    border-right: 1px solid #d9d9d9;
+  }
+  .ant-table-thead > tr:first-child > th:first-child,
+  .ant-table-thead > tr:first-child > th:last-child {
+    border-radius: 0;
+  }
+  .ant-table-thead > tr:first-child > th:last-child {
+    border-right: none;
+  }
 }
 .table-tool {
-  .bar-right {
-    display: flex;
-    justify-content: flex-end;
-    text-align: right;
-    align-items: center;
+  padding: 10px 0px 15px 0px;
+  .ant-btn {
+    padding: 0px 20px;
+    background-color: #efefef;
+    border-radius: 2px;
+    height: 35px;
+    line-height: 35px;
+    margin-right: 10px;
   }
+  .ant-calendar-picker {
+    margin-right: 15px;
+    .ant-calendar-picker-input {
+      height: 35px;
+      border-radius: 2px;
+      width: 260px;
+      text-align: left;
+      border: 1px solid #b7b7b7;
+    }
+  }
+
+  .select-search {
+    max-width: 400px;
+    height: 35px;
+    border-radius: 2px;
+    border: 1px solid #b7b7b7;
+    display: inline-flex;
+    .ant-input,
+    .ant-select-selection {
+      border: none;
+      &__rendered {
+        line-height: 35px;
+        padding-right: 10px;
+      }
+      &--single {
+        height: 33px;
+      }
+    }
+    .ant-select {
+      flex: 1;
+    }
+    .ant-input-search {
+      flex: auto;
+      &-button {
+        height: 33px;
+      }
+    }
+    .ant-btn {
+      background-color: transparent;
+      border: none;
+      color: #333;
+    }
+  }
+}
+
+.bar-right {
+  display: flex;
+  justify-content: flex-end;
+  text-align: right;
+  align-items: center;
 }

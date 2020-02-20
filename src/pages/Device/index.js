@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, message, Modal } from 'antd'
+import { Button, message, Modal, notification } from 'antd'
 import Tablex, {
   createTableCfg,
   TableWrap,
@@ -25,6 +25,13 @@ export default class Device extends React.Component {
     }),
     innerPath: undefined,
     initValues: {}
+  }
+
+  onSuccess = () => {
+    this.setState({ inner: '' })
+    this.addDrawer.drawer.hide()
+    this.editDrawer.drawer.hide()
+    this.tablex.refresh(this.state.tableCfg)
   }
 
   onBack = () => {
@@ -53,7 +60,7 @@ export default class Device extends React.Component {
       selectDev.initKeys = initKeys
       selectDev.initId = initKeys.length - 1
       this.setState(
-        { inner: '编辑模板', initValues: selectDev },
+        { inner: '编辑', initValues: selectDev },
         this.editDrawer.drawer.show()
       )
       this.currentDrawer = this.editDrawer
@@ -64,11 +71,24 @@ export default class Device extends React.Component {
 
   delDev = () => {
     const selectDev = this.tablex.getSelection()
+    const self = this
     if (selectDev.length >= 1) {
       confirm({
         title: '确定删除所选数据?',
         onOk() {
-          deviceApi.delDev({ ids: JSON.stringify(selectDev) })
+          deviceApi
+            .delDev({ ids: selectDev })
+            .then(res => {
+              if (res.success) {
+                notification.success({ message: '删除成功' })
+                self.onSuccess()
+              } else {
+                message.error(res.message || '删除失败')
+              }
+            })
+            .catch(errors => {
+              console.log(errors)
+            })
         },
         onCancel() {}
       })
@@ -88,13 +108,21 @@ export default class Device extends React.Component {
         <TableWrap>
           <ToolBar>
             <BarLeft>
-              <Button onClick={this.addDev} style={{ marginRight: '10px' }}>
-                创建
-              </Button>
-              <Button onClick={this.editDev} style={{ marginRight: '10px' }}>
+              <Button onClick={this.addDev}>创建</Button>
+              <Button
+                onClick={this.editDev}
+                disabled={
+                  !this.state.selection || this.state.selection.length !== 1
+                }
+              >
                 编辑
               </Button>
-              <Button onClick={this.delDev}>删除</Button>
+              <Button
+                onClick={this.delDev}
+                disabled={!this.state.selection || !this.state.selection.length}
+              >
+                删除
+              </Button>
             </BarLeft>
           </ToolBar>
           <Tablex
@@ -102,17 +130,22 @@ export default class Device extends React.Component {
               this.tablex = ref
             }}
             tableCfg={this.state.tableCfg}
+            onSelectChange={(selection, selectData) => {
+              this.setState({ selection, selectData })
+            }}
           />
           <EditDrawer
             onRef={ref => {
               this.editDrawer = ref
             }}
             initValues={this.state.initValues}
+            onSuccess={this.onSuccess}
           />
           <AddDrawer
             onRef={ref => {
               this.addDrawer = ref
             }}
+            onSuccess={this.onSuccess}
           />
         </TableWrap>
       </React.Fragment>

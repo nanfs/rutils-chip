@@ -148,7 +148,7 @@ export function wrapResponse(res) {
   return new Promise((resolve, reject) => {
     switch (res.code) {
       case 200:
-        if (res.data.success !== undefined && res.data.success === false) {
+        if (res.success !== undefined && res.success === false) {
           reject()
           break
         }

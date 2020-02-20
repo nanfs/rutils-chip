@@ -7,7 +7,7 @@ export default {
     return axios({
       url: '/safepolicys',
       method: 'get',
-      data: qs.stringify(data)
+      params: data
     })
   },
   delDev(data) {
@@ -18,17 +18,18 @@ export default {
     })
   },
   addDev(data) {
+    console.log(data)
     return axios({
       url: '/safepolicys',
       method: 'post',
-      data: qs.stringify(data)
+      data: qs.stringify(data, { arrayFormat: 'indices', allowDots: true })
     })
   },
   updateDev(id, data) {
     return axios({
       url: `/safepolicys/${id}`,
       method: 'put',
-      data: qs.stringify(data)
+      data: qs.stringify(data, { arrayFormat: 'indices', allowDots: true })
     })
   }
 }

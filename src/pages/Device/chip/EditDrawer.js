@@ -53,16 +53,24 @@ class EditDrawer extends React.Component {
       })
     })
     values.usbs = usbs
-    values.isUsagePeripherals = form.getFieldValue('isUsagePeripherals')
+    values.usagePeripherals = form.getFieldValue('usagePeripherals')
     if (
-      values.isUsagePeripherals == undefined ||
-      values.isUsagePeripherals == false
+      values.usagePeripherals == undefined ||
+      values.usagePeripherals == false
     ) {
-      values.isUsagePeripherals = '0'
+      values.usagePeripherals = '0'
     } else {
-      values.isUsagePeripherals = '1'
+      values.usagePeripherals = '1'
     }
-    deviceApi.updateDev(initValues.id, values)
+    deviceApi
+      .updateDev(initValues.id, values)
+      .then(res => {
+        this.drawer.afterSubmit(res)
+        this.props.onSuccess()
+      })
+      .catch(errors => {
+        console.log(errors)
+      })
   }
 
   render() {
@@ -137,12 +145,12 @@ class EditDrawer extends React.Component {
             <Input name="name" placeholder="名称" />
           </Form.Item>
           <Form.Item label="USB外设" required>
-            {getFieldDecorator(`isUsagePeripherals`, {
+            {getFieldDecorator(`usagePeripherals`, {
               valuePropName: 'checked',
-              initialValue: initValues.isUsagePeripherals
+              initialValue: initValues.usagePeripherals
             })(
               <Switch
-                name="isUsagePeripherals"
+                name="usagePeripherals"
                 checkedChildren="启用"
                 unCheckedChildren="禁用"
               />

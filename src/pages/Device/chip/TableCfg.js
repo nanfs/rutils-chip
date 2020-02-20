@@ -12,9 +12,13 @@ export const columns = [
     dataIndex: 'description'
   },
   {
+    title: '已绑定数量',
+    dataIndex: 'boundTcNum'
+  },
+  {
     title: '外设',
     width: 120,
-    dataIndex: 'isUsagePeripherals',
+    dataIndex: 'usagePeripherals',
     render: text => {
       if (text == '1') {
         return (
@@ -33,7 +37,7 @@ export const columns = [
   },
   {
     title: '特例',
-    dataIndex: 'usbsupport'
+    dataIndex: 'usbSupport'
   }
 ]
 export const apiMethod = deviceApi.list

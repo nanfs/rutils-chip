@@ -54,14 +54,22 @@ class AddDrawer extends React.Component {
     })
     values.usbs = usbs
     if (
-      values.isUsagePeripherals == undefined ||
-      values.isUsagePeripherals == false
+      values.usagePeripherals == undefined ||
+      values.usagePeripherals == false
     ) {
-      values.isUsagePeripherals = '0'
+      values.usagePeripherals = '0'
     } else {
-      values.isUsagePeripherals = '1'
+      values.usagePeripherals = '1'
     }
-    deviceApi.addDev(values)
+    deviceApi
+      .addDev(values)
+      .then(res => {
+        this.drawer.afterSubmit(res)
+        this.props.onSuccess()
+      })
+      .catch(errors => {
+        console.log(errors)
+      })
   }
 
   render() {
@@ -127,9 +135,9 @@ class AddDrawer extends React.Component {
           <Form.Item prop="name" label="名称" required>
             <Input name="name" placeholder="名称" />
           </Form.Item>
-          <Form.Item prop="isUsagePeripherals" label="USB外设" required>
+          <Form.Item prop="usagePeripherals" label="USB外设" required>
             <Switch
-              name="isUsagePeripherals"
+              name="usagePeripherals"
               checkedChildren="启用"
               unCheckedChildren="禁用"
             />

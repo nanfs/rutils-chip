@@ -6,11 +6,11 @@
   "description": "",
   "glyphs": [
     {
-      "icon_id": "13117677",
-      "name": "桌面池",
+      "icon_id": "13118241",
+      "name": "vm-pool",
       "font_class": "vm-pool",
-      "unicode": "e65c",
-      "unicode_decimal": 58972
+      "unicode": "e65e",
+      "unicode_decimal": 58974
     },
     {
       "icon_id": "5203249",

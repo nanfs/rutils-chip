@@ -21,14 +21,14 @@ const menu = [
   },
   {
     title: '桌面池管理',
-    icon: 'zhuomianchi',
+    icon: 'template1',
     iconComonpent: 'MyIcon',
     path: '/pool',
     authority: 'admin,security'
   },
   {
     title: '模板管理',
-    icon: 'template1',
+    icon: 'template',
     iconComonpent: 'MyIcon',
     path: '/template',
     authority: 'admin,security'

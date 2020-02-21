@@ -22,7 +22,8 @@ export default class tcLog extends React.Component {
       apiMethod,
       paging: { size: 10 },
       pageSizeOptions: ['10', '20', '50']
-    })
+    }),
+    disbaledButton: {}
   }
 
   selectDate = rangeDate => {
@@ -53,6 +54,17 @@ export default class tcLog extends React.Component {
     )
   }
 
+  onSelectChange = selection => {
+    let disbaledButton = {}
+    if (selection.length === 0) {
+      disbaledButton = {
+        ...disbaledButton,
+        disabledDelete: true
+      }
+    }
+    this.setState({ disbaledButton })
+  }
+
   deleteLogs = () => {
     const ids = this.tablex.getSelection()
     tclogsApi
@@ -66,6 +78,7 @@ export default class tcLog extends React.Component {
         }
       })
       .catch(errors => {
+        message.error(errors)
         console.log(errors)
       })
   }
@@ -76,13 +89,19 @@ export default class tcLog extends React.Component {
       { label: 'ip', value: 'ip' },
       { label: '用户ip', value: 'userip' }
     ]
+    const { disbaledButton } = this.state
     return (
       <React.Fragment>
         <InnerPath location="系统日志-终端" />
         <TableWrap>
           <ToolBar>
             <BarLeft span={10}>
-              <Button onClick={this.deleteLogs}>删除</Button>
+              <Button
+                onClick={this.deleteLogs}
+                disabled={disbaledButton.disabledDelete}
+              >
+                删除
+              </Button>
             </BarLeft>
             <BarRight span={14}>
               <RangePicker onChange={this.selectDate}></RangePicker>

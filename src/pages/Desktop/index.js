@@ -49,7 +49,8 @@ export default class Desktop extends React.Component {
       pageSizeOptions: ['5', '10']
     }),
     innerPath: undefined,
-    initValues: {}
+    initValues: {},
+    disbaledButton: {}
   }
 
   onBack = () => {
@@ -85,9 +86,18 @@ export default class Desktop extends React.Component {
   }
 
   onSelectChange = (selection, selectData) => {
-    this.setState({
-      tableCfg: { ...this.state.tableCfg, selection, selectData }
-    })
+    let disbaledButton = {}
+    if (selection.length !== 1) {
+      disbaledButton = { ...disbaledButton, disabledEdit: true }
+    }
+    if (selection.length === 0) {
+      disbaledButton = {
+        ...disbaledButton,
+        disabledDelete: true,
+        disabledSetUser: true
+      }
+    }
+    this.setState({ disbaledButton })
   }
 
   createVm = () => {
@@ -151,15 +161,13 @@ export default class Desktop extends React.Component {
 
   render() {
     const searchOptions = [{ label: '名称', value: 'name' }]
+    const { disbaledButton } = this.state
     const moreButton = (
       <Menu>
         <Menu.Item
           key="1"
           onClick={this.deleteVm}
-          disabled={
-            !this.state.tableCfg.selection ||
-            !this.state.tableCfg.selection.length
-          }
+          disabled={disbaledButton.disabledDelete}
         >
           删除
         </Menu.Item>
@@ -197,20 +205,14 @@ export default class Desktop extends React.Component {
             <BarLeft>
               <Button onClick={this.createVm}>创建桌面</Button>
               <Button
-                disabled={
-                  !this.state.tableCfg.selection ||
-                  this.state.tableCfg.selection.length !== 1
-                }
                 onClick={this.editVm}
+                disabled={disbaledButton.disabledEdit}
               >
                 编辑桌面
               </Button>
               <Button
                 onClick={this.setUser}
-                disabled={
-                  !this.state.tableCfg.selection ||
-                  this.state.tableCfg.selection.length !== 1
-                }
+                disabled={disbaledButton.disabledSetUser}
               >
                 分配用户
               </Button>

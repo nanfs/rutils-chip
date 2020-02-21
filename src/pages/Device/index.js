@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, message, Modal, notification } from 'antd'
+import { Button, message, Modal, notification, Select } from 'antd'
 import Tablex, {
   createTableCfg,
   TableWrap,
@@ -23,8 +23,10 @@ export default class Device extends React.Component {
       paging: { size: 5 },
       pageSizeOptions: ['5', '10']
     }),
+
     innerPath: undefined,
-    initValues: {}
+    initValues: {},
+    disbaledButton: {}
   }
 
   onSuccess = () => {
@@ -32,6 +34,17 @@ export default class Device extends React.Component {
     this.addDrawer.drawer.hide()
     this.editDrawer.drawer.hide()
     this.tablex.refresh(this.state.tableCfg)
+  }
+
+  onSelectChange = (selection, selectData) => {
+    let disbaledButton = {}
+    if (selection.length !== 1) {
+      disbaledButton = { ...disbaledButton, disabledEdit: true }
+    }
+    if (selection.length === 0) {
+      disbaledButton = { ...disbaledButton, disabledDelete: true }
+    }
+    this.setState({ disbaledButton })
   }
 
   onBack = () => {
@@ -103,6 +116,7 @@ export default class Device extends React.Component {
   }
 
   render() {
+    const { disbaledButton } = this.state
     return (
       <React.Fragment>
         <InnerPath
@@ -116,15 +130,13 @@ export default class Device extends React.Component {
               <Button onClick={this.addDev}>创建</Button>
               <Button
                 onClick={this.editDev}
-                disabled={
-                  !this.state.selection || this.state.selection.length !== 1
-                }
+                disabled={disbaledButton.disabledEdit}
               >
                 编辑
               </Button>
               <Button
                 onClick={this.delDev}
-                disabled={!this.state.selection || !this.state.selection.length}
+                disabled={disbaledButton.disabledDelete}
               >
                 删除
               </Button>
@@ -135,9 +147,7 @@ export default class Device extends React.Component {
               this.tablex = ref
             }}
             tableCfg={this.state.tableCfg}
-            onSelectChange={(selection, selectData) => {
-              this.setState({ selection, selectData })
-            }}
+            onSelectChange={this.onSelectChange}
           />
           <EditDrawer
             onRef={ref => {

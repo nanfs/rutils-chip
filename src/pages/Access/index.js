@@ -11,7 +11,6 @@ import EditDrawer from './chip/EditDrawer'
 import InnerPath from '@/components/InnerPath'
 import { columns, apiMethod } from './chip/TableCfg'
 import accessApi from '@/services/access'
-import moment from 'moment'
 
 const { confirm } = Modal
 
@@ -24,12 +23,24 @@ export default class Desktop extends React.Component {
       pageSizeOptions: ['5', '10']
     }),
     innerPath: undefined,
-    initValues: {}
+    initValues: {},
+    disbaledButton: {}
   }
 
   onBack = () => {
     this.setState({ inner: undefined })
     this.currentDrawer.drawer.hide()
+  }
+
+  onSelectChange = (selection, selectData) => {
+    let disbaledButton = {}
+    if (selection.length !== 1) {
+      disbaledButton = { ...disbaledButton, disabledEdit: true }
+    }
+    if (selection.length === 0) {
+      disbaledButton = { ...disbaledButton, disabledDelete: true }
+    }
+    this.setState({ disbaledButton })
   }
 
   addAccess = () => {
@@ -72,6 +83,7 @@ export default class Desktop extends React.Component {
   }
 
   render() {
+    const { disbaledButton } = this.state
     return (
       <React.Fragment>
         <InnerPath
@@ -83,14 +95,25 @@ export default class Desktop extends React.Component {
           <ToolBar>
             <BarLeft>
               <Button onClick={this.addAccess}>创建</Button>
-              <Button onClick={this.editAccess}>编辑</Button>
-              <Button onClick={this.delAccess}>删除</Button>
+              <Button
+                onClick={this.editAccess}
+                disabled={disbaledButton.disabledEdit}
+              >
+                编辑
+              </Button>
+              <Button
+                onClick={this.delAccess}
+                disabled={disbaledButton.disabledDelete}
+              >
+                删除
+              </Button>
             </BarLeft>
           </ToolBar>
           <Tablex
             onRef={ref => {
               this.tablex = ref
             }}
+            onSelectChange={this.onSelectChange}
             tableCfg={this.state.tableCfg}
           />
           <AddDrawer

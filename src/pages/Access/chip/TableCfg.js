@@ -1,6 +1,12 @@
 import accessApi from '@/services/access'
+import React from 'react'
+import { Tag } from 'antd'
 // TODO antd 样式加载问题
 const typeArr = ['按周', '按日期']
+const typeOptions = [
+  { text: '按周', value: 0 },
+  { text: '按日期', value: 1 }
+]
 function renderDateText(text) {
   if (text === undefined || text === null) {
     return ''
@@ -21,15 +27,20 @@ export const columns = [
   },
   {
     title: '已绑定终端数',
-    width: 120,
-    dataIndex: 'boundTcNum'
+    width: 150,
+    dataIndex: 'boundTcNum',
+    render: text => <Tag color="blue">{text}</Tag>,
+    sorter: (a, b) => a.boundTcNum - b.boundTcNum,
+    sortDirections: ['descend', 'ascend']
   },
   {
     title: '准入类型',
     dataIndex: 'type',
+    filters: typeOptions,
     render: (text, record) => {
       return typeArr[record.admitInterval[0].type]
-    }
+    },
+    onFilter: (value, record) => record.admitInterval[0].type === value
   },
   {
     title: '日期',
@@ -41,7 +52,7 @@ export const columns = [
   {
     title: '时间',
     dataIndex: 'time',
-    width: 120,
+    width: 150,
     render: (text, record) => {
       return `${record.admitInterval[0].startTime} - ${record.admitInterval[0].endTime}`
     }

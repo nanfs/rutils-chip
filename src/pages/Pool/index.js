@@ -54,7 +54,9 @@ export default class Pool extends React.Component {
       pageSizeOptions: ['5', '10']
     }),
     innerPath: undefined,
-    initValues: {}
+    initValues: {},
+    disbaledButton: {},
+    vmDisbaledButton: {}
   }
 
   onBack = () => {
@@ -80,9 +82,33 @@ export default class Pool extends React.Component {
   }
 
   onSelectChange = (selection, selectData) => {
-    this.setState({
-      tableCfg: { ...this.state.tableCfg, selection, selectData }
-    })
+    let disbaledButton = {}
+    if (selection.length !== 1) {
+      disbaledButton = { ...disbaledButton, disabledEdit: true }
+    }
+    if (selection.length === 0) {
+      disbaledButton = {
+        ...disbaledButton,
+        disabledDelete: true,
+        disabledSetUser: true
+      }
+    }
+    this.setState({ disbaledButton })
+  }
+
+  onVmSelectChange = (selection, selectData) => {
+    let vmDisbaledButton = {}
+    if (selection.length !== 1) {
+      vmDisbaledButton = { ...vmDisbaledButton, disabledEdit: true }
+    }
+    if (selection.length === 0) {
+      vmDisbaledButton = {
+        ...vmDisbaledButton,
+        disabledDelete: true,
+        disabledSetUser: true
+      }
+    }
+    this.setState({ vmDisbaledButton })
   }
 
   turnOn = () => {
@@ -109,12 +135,6 @@ export default class Pool extends React.Component {
       .catch(errors => {
         console.log(errors)
       })
-  }
-
-  onVmSelectChange = (selection, selectData) => {
-    this.setState({
-      vmTableCfg: { ...this.state.vmTableCfg, selection, selectData }
-    })
   }
 
   createPool = () => {
@@ -187,6 +207,8 @@ export default class Pool extends React.Component {
 
   render() {
     const searchOptions = [{ label: '名称', value: 'name' }]
+    const { disbaledButton, vmDisbaledButton } = this.state
+
     return (
       <React.Fragment>
         <InnerPath
@@ -199,29 +221,20 @@ export default class Pool extends React.Component {
             <BarLeft>
               <Button onClick={this.createPool}>创建池</Button>
               <Button
-                disabled={
-                  !this.state.tableCfg.selection ||
-                  this.state.tableCfg.selection.length !== 1
-                }
                 onClick={this.editPool}
+                disabled={disbaledButton.disabledEdit}
               >
                 编辑池
               </Button>
               <Button
                 onClick={this.setUser}
-                disabled={
-                  !this.state.tableCfg.selection ||
-                  this.state.tableCfg.selection.length !== 1
-                }
+                disabled={disbaledButton.disabledSetUser}
               >
                 分配用户
               </Button>
               <Button
-                disabled={
-                  !this.state.tableCfg.selection ||
-                  !this.state.tableCfg.selection.length
-                }
                 onClick={this.deletePool}
+                disabled={disbaledButton.disabledDelete}
               >
                 删除池
               </Button>
@@ -244,39 +257,12 @@ export default class Pool extends React.Component {
           <Diliver />
           <ToolBar>
             <BarLeft>
+              <Button onClick={this.turnOn}>开机</Button>
+              <Button onClick={this.turnOff}>关机</Button>
+              <Button onClick={this.getConsole}>打开控制台</Button>
               <Button
-                disabled={
-                  !this.state.vmTableCfg.selection ||
-                  !this.state.vmTableCfg.selection.length
-                }
-                onClick={this.turnOn}
-              >
-                开机
-              </Button>
-              <Button
-                disabled={
-                  !this.state.vmTableCfg.selection ||
-                  !this.state.vmTableCfg.selection.length
-                }
-                onClick={this.turnOff}
-              >
-                关机
-              </Button>
-              <Button
-                disabled={
-                  !this.state.vmTableCfg.selection ||
-                  this.state.vmTableCfg.selection.length !== 1
-                }
-                onClick={this.getConsole}
-              >
-                打开控制台
-              </Button>
-              <Button
-                disabled={
-                  !this.state.vmTableCfg.selection ||
-                  !this.state.vmTableCfg.selection.length
-                }
                 onClick={this.deleteVm}
+                disabled={vmDisbaledButton.disabledDelete}
               >
                 删除桌面
               </Button>

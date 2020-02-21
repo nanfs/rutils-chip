@@ -66,10 +66,9 @@ class Tablex extends React.Component {
   beforeLoad = (tableCfg, showLoading = true) => {
     return new Promise(resolve => {
       if (showLoading) {
+        this.onSelectChange([], [])
         this.setState({
-          loading: true,
-          selection: [],
-          selectData: []
+          loading: true
         })
       }
       let requestData = {}

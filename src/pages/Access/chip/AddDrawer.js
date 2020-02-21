@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form, Input, TimePicker, DatePicker, Row, Col } from 'antd'
+import { Form, Input, TimePicker, DatePicker } from 'antd'
 import Drawerx from '@/components/Drawerx'
 import Formx from '@/components/Formx'
 import Radiox from '@/components/Radiox'
@@ -72,13 +72,9 @@ export default class AddDrawer extends React.Component {
       >
         <Formx initValues={{ type: 0 }}>
           <Title slot="基础设置"></Title>
-          <Row>
-            <Col span={6}>
-              <Form.Item prop="name" required label="名称" rules={[required]}>
-                <Input name="name" placeholder="名称" />
-              </Form.Item>
-            </Col>
-          </Row>
+          <Form.Item prop="name" required label="名称" rules={[required]}>
+            <Input name="name" placeholder="名称" />
+          </Form.Item>
           <Form.Item prop="description" label="描述">
             <TextArea
               style={{ resize: 'none' }}
@@ -97,7 +93,6 @@ export default class AddDrawer extends React.Component {
             prop="weeks"
             label="准入时间"
             className="time-wrap"
-            rules={[required]}
             hidden={
               this.drawer &&
               this.drawer.form &&
@@ -111,7 +106,6 @@ export default class AddDrawer extends React.Component {
             prop="day"
             label="准入时间"
             className="time-wrap"
-            rules={[required]}
             hidden={
               this.drawer &&
               this.drawer.form &&

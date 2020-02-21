@@ -6,6 +6,300 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "13117677",
+      "name": "桌面池",
+      "font_class": "vm-pool",
+      "unicode": "e65c",
+      "unicode_decimal": 58972
+    },
+    {
+      "icon_id": "5203249",
+      "name": "分离",
+      "font_class": "storage-detaching",
+      "unicode": "e622",
+      "unicode_decimal": 58914
+    },
+    {
+      "icon_id": "924702",
+      "name": "其他",
+      "font_class": "qita",
+      "unicode": "e618",
+      "unicode_decimal": 58904
+    },
+    {
+      "icon_id": "3447466",
+      "name": "服务编排-连接线",
+      "font_class": "tc-isjoined",
+      "unicode": "e75b",
+      "unicode_decimal": 59227
+    },
+    {
+      "icon_id": "13116593",
+      "name": "InActive",
+      "font_class": "storage-inactive",
+      "unicode": "e653",
+      "unicode_decimal": 58963
+    },
+    {
+      "icon_id": "13116539",
+      "name": "pilot-active",
+      "font_class": "storage-active",
+      "unicode": "e8d7",
+      "unicode_decimal": 59607
+    },
+    {
+      "icon_id": "13116492",
+      "name": "PreparingForMaintenance",
+      "font_class": "host-preparingformaintenance",
+      "unicode": "e64f",
+      "unicode_decimal": 58959
+    },
+    {
+      "icon_id": "13116506",
+      "name": "PreparingForMaintenance",
+      "font_class": "storage-preparingformaintenance",
+      "unicode": "e8d5",
+      "unicode_decimal": 59605
+    },
+    {
+      "icon_id": "8862225",
+      "name": "上门安装",
+      "font_class": "host-installingos",
+      "unicode": "e649",
+      "unicode_decimal": 58953
+    },
+    {
+      "icon_id": "13116460",
+      "name": "后台维护",
+      "font_class": "storage-maintenance",
+      "unicode": "e8d4",
+      "unicode_decimal": 59604
+    },
+    {
+      "icon_id": "1459150",
+      "name": "后台维护",
+      "font_class": "host-maintenance",
+      "unicode": "e61c",
+      "unicode_decimal": 58908
+    },
+    {
+      "icon_id": "13114560",
+      "name": "ImageLocked",
+      "font_class": "vm-ImageIllegal",
+      "unicode": "e647",
+      "unicode_decimal": 58951
+    },
+    {
+      "icon_id": "13114679",
+      "name": "ImageLocked",
+      "font_class": "vm-imagelocked",
+      "unicode": "e648",
+      "unicode_decimal": 58952
+    },
+    {
+      "icon_id": "13114700",
+      "name": "Unknown",
+      "font_class": "vm-unknown",
+      "unicode": "e642",
+      "unicode_decimal": 58946
+    },
+    {
+      "icon_id": "13114724",
+      "name": "Paused",
+      "font_class": "vm-paused",
+      "unicode": "e643",
+      "unicode_decimal": 58947
+    },
+    {
+      "icon_id": "13114758",
+      "name": "Suspended",
+      "font_class": "vm-suspended",
+      "unicode": "e644",
+      "unicode_decimal": 58948
+    },
+    {
+      "icon_id": "13114783",
+      "name": "SavingState",
+      "font_class": "vm-savingstate",
+      "unicode": "e645",
+      "unicode_decimal": 58949
+    },
+    {
+      "icon_id": "13114801",
+      "name": "RestoringState",
+      "font_class": "vm-restoringstate",
+      "unicode": "e646",
+      "unicode_decimal": 58950
+    },
+    {
+      "icon_id": "13116278",
+      "name": "Unknown",
+      "font_class": "storage--unknown-copy",
+      "unicode": "e8d0",
+      "unicode_decimal": 59600
+    },
+    {
+      "icon_id": "13116737",
+      "name": "ImageLocked",
+      "font_class": "tc-imagelocked",
+      "unicode": "e8d9",
+      "unicode_decimal": 59609
+    },
+    {
+      "icon_id": "13114439",
+      "name": "ImageLocked",
+      "font_class": "storage-imagelocked",
+      "unicode": "e641",
+      "unicode_decimal": 58945
+    },
+    {
+      "icon_id": "13114405",
+      "name": "WaitForLaunch",
+      "font_class": "vm-waitforlaunch",
+      "unicode": "e63f",
+      "unicode_decimal": 58943
+    },
+    {
+      "icon_id": "13114377",
+      "name": "Unassigned",
+      "font_class": "vm-unassigned",
+      "unicode": "e63e",
+      "unicode_decimal": 58942
+    },
+    {
+      "icon_id": "13116377",
+      "name": "Unassigned",
+      "font_class": "host-unassigned",
+      "unicode": "e8d3",
+      "unicode_decimal": 59603
+    },
+    {
+      "icon_id": "13116520",
+      "name": "Initializing",
+      "font_class": "storage-uninitialized",
+      "unicode": "e8d6",
+      "unicode_decimal": 59606
+    },
+    {
+      "icon_id": "13117458",
+      "name": "Initializing",
+      "font_class": "storage-initializing-copy",
+      "unicode": "e8de",
+      "unicode_decimal": 59614
+    },
+    {
+      "icon_id": "13114078",
+      "name": "Initializing",
+      "font_class": "host-initializing",
+      "unicode": "e63b",
+      "unicode_decimal": 58939
+    },
+    {
+      "icon_id": "13114170",
+      "name": "Kdumping",
+      "font_class": "host-kdumping",
+      "unicode": "e63c",
+      "unicode_decimal": 58940
+    },
+    {
+      "icon_id": "13114287",
+      "name": "InstallFailed",
+      "font_class": "host-installfailed",
+      "unicode": "e63d",
+      "unicode_decimal": 58941
+    },
+    {
+      "icon_id": "6399128",
+      "name": "错误",
+      "font_class": "host-error",
+      "unicode": "e60e",
+      "unicode_decimal": 58894
+    },
+    {
+      "icon_id": "13113967",
+      "name": "NonOperational",
+      "font_class": "host-nonoperational",
+      "unicode": "e63a",
+      "unicode_decimal": 58938
+    },
+    {
+      "icon_id": "13113662",
+      "name": "MigratingTo",
+      "font_class": "vm-migratingTo",
+      "unicode": "e636",
+      "unicode_decimal": 58934
+    },
+    {
+      "icon_id": "13116012",
+      "name": "重启",
+      "font_class": "vm-rebootinprogress",
+      "unicode": "e8cd",
+      "unicode_decimal": 59597
+    },
+    {
+      "icon_id": "13113636",
+      "name": "重启",
+      "font_class": "host-reboot",
+      "unicode": "e635",
+      "unicode_decimal": 58933
+    },
+    {
+      "icon_id": "13116649",
+      "name": "Connecting",
+      "font_class": "tc-connecting-copy",
+      "unicode": "e8d8",
+      "unicode_decimal": 59608
+    },
+    {
+      "icon_id": "13109282",
+      "name": "Connecting",
+      "font_class": "host-connecting",
+      "unicode": "e634",
+      "unicode_decimal": 58932
+    },
+    {
+      "icon_id": "11883159",
+      "name": "商户迁移",
+      "font_class": "vm-migratingfrom",
+      "unicode": "e631",
+      "unicode_decimal": 58929
+    },
+    {
+      "icon_id": "13109162",
+      "name": "PendingApproval",
+      "font_class": "host-pendingapproval",
+      "unicode": "e633",
+      "unicode_decimal": 58931
+    },
+    {
+      "icon_id": "13108298",
+      "name": "Installing",
+      "font_class": "host-installing",
+      "unicode": "e630",
+      "unicode_decimal": 58928
+    },
+    {
+      "icon_id": "13108332",
+      "name": "NonResponsive",
+      "font_class": "vm-nonresponsive",
+      "unicode": "e632",
+      "unicode_decimal": 58930
+    },
+    {
+      "icon_id": "13116333",
+      "name": "NonResponsive",
+      "font_class": "host-nonresponsive",
+      "unicode": "e8d2",
+      "unicode_decimal": 59602
+    },
+    {
+      "icon_id": "13107762",
+      "name": "断电",
+      "font_class": "duandian",
+      "unicode": "e62e",
+      "unicode_decimal": 58926
+    },
+    {
       "icon_id": "4860075",
       "name": "strategy",
       "font_class": "strategy",
@@ -20,100 +314,128 @@
       "unicode_decimal": 58937
     },
     {
-      "icon_id": "5255103",
-      "name": "断电",
-      "font_class": "poweroff",
-      "unicode": "e606",
-      "unicode_decimal": 58886
-    },
-    {
       "icon_id": "6296138",
       "name": "正在关机",
-      "font_class": "downing",
+      "font_class": "vm-poweringdown",
       "unicode": "e60a",
       "unicode_decimal": 58890
     },
     {
       "icon_id": "6297021",
       "name": "正在开机",
-      "font_class": "uping",
+      "font_class": "vm-poweringup",
       "unicode": "e60b",
       "unicode_decimal": 58891
     },
     {
       "icon_id": "13086037",
       "name": "麒麟",
-      "font_class": "qilin",
+      "font_class": "os-qilin",
       "unicode": "e62d",
       "unicode_decimal": 58925
     },
     {
       "icon_id": "13085999",
       "name": "Ubuntu",
-      "font_class": "ubuntu",
+      "font_class": "os-ubuntu",
       "unicode": "e62c",
       "unicode_decimal": 58924
     },
     {
       "icon_id": "1111359",
       "name": "windows",
-      "font_class": "windows7",
+      "font_class": "os-windows7",
       "unicode": "e638",
       "unicode_decimal": 58936
     },
     {
       "icon_id": "3846904",
       "name": "Windows",
-      "font_class": "windows",
+      "font_class": "os-windows",
       "unicode": "e6a0",
       "unicode_decimal": 59040
     },
     {
       "icon_id": "13060970",
       "name": "普华",
-      "font_class": "puhua",
+      "font_class": "os-puhua",
       "unicode": "e62b",
       "unicode_decimal": 58923
     },
     {
+      "icon_id": "13116813",
+      "name": "在线",
+      "font_class": "tc-online",
+      "unicode": "e8da",
+      "unicode_decimal": 59610
+    },
+    {
       "icon_id": "7626597",
       "name": "在线",
-      "font_class": "zaixian",
+      "font_class": "tc-offline",
       "unicode": "e61a",
       "unicode_decimal": 58906
     },
     {
       "icon_id": "3506366",
       "name": "linux",
-      "font_class": "linux",
+      "font_class": "os-linux",
       "unicode": "e61b",
       "unicode_decimal": 58907
     },
     {
-      "icon_id": "10666917",
-      "name": "成功",
-      "font_class": "success",
-      "unicode": "e671",
-      "unicode_decimal": 58993
+      "icon_id": "13116824",
+      "name": "icon_关机-开机",
+      "font_class": "tc-Down",
+      "unicode": "e8db",
+      "unicode_decimal": 59611
+    },
+    {
+      "icon_id": "13116827",
+      "name": "icon_关机-开机",
+      "font_class": "vm-Down",
+      "unicode": "e8dc",
+      "unicode_decimal": 59612
+    },
+    {
+      "icon_id": "13116839",
+      "name": "icon_关机-开机",
+      "font_class": "host-down",
+      "unicode": "e8dd",
+      "unicode_decimal": 59613
+    },
+    {
+      "icon_id": "13116296",
+      "name": "icon_关机-开机",
+      "font_class": "tc-up",
+      "unicode": "e8d1",
+      "unicode_decimal": 59601
+    },
+    {
+      "icon_id": "13116242",
+      "name": "icon_关机-开机",
+      "font_class": "vm-up",
+      "unicode": "e8cf",
+      "unicode_decimal": 59599
     },
     {
       "icon_id": "6850411",
       "name": "链接",
-      "font_class": "link",
+      "font_class": "tc-connecting",
       "unicode": "e603",
       "unicode_decimal": 58883
     },
     {
       "icon_id": "9915912",
       "name": "HTSCIT_链接断开",
-      "font_class": "unlink",
+      "font_class": "storage-unattached",
       "unicode": "e687",
       "unicode_decimal": 59015
     },
     {
       "icon_id": "11518201",
       "name": "icon_关机-开机",
-      "font_class": "turn-off",
+      "font_class": "host-up",
       "unicode": "e609",
       "unicode_decimal": 58889
     },
@@ -179,13 +501,6 @@
       "font_class": "bumen",
       "unicode": "e6ae",
       "unicode_decimal": 59054
-    },
-    {
-      "icon_id": "13028314",
-      "name": "桌面池",
-      "font_class": "zhuomianchi",
-      "unicode": "e627",
-      "unicode_decimal": 58919
     },
     {
       "icon_id": "13027866",

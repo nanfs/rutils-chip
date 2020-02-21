@@ -4,7 +4,7 @@ const Copy = require('copy-webpack-plugin')
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
-const ParallelUglifyPlugin = require('webpack-parallel-uglify-plugin')
+// const ParallelUglifyPlugin = require('webpack-parallel-uglify-plugin')
 const CompressionWebpackPlugin = require('compression-webpack-plugin')
 const webpackConfigBase = require('./webpack.config.base')
 const cfgPaths = require('../config/paths')
@@ -27,7 +27,7 @@ const webpackConfigProd = {
       dlls: ['./vendor.dll.js']
     }),
     /* 多核压缩代码 */
-    new ParallelUglifyPlugin({
+    /* new ParallelUglifyPlugin({
       cacheDir: '.cache/',
       uglifyJS: {
         output: {
@@ -42,7 +42,7 @@ const webpackConfigProd = {
         //   warnings: false
         // }
       }
-    }),
+    }), */
     // 分析代码
     new BundleAnalyzerPlugin({ analyzerMode: 'static' }),
     new Copy([{ from: './scripts/dll', to: './' }]),

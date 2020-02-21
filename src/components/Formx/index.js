@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form } from 'antd'
+import { Form, message } from 'antd'
 
 const formItemLayout = {
   labelCol: {
@@ -41,8 +41,46 @@ class Formx extends React.Component {
         }
       })
       .catch(errors => {
+        message.error(errors)
         console.log(errors)
       })
+  }
+
+  renderFormItem = child => {
+    if (!React.isValidElement(child)) {
+      return child
+    }
+    if (child.type.name === 'FormItem' && child.props.prop) {
+      const {
+        getFieldDecorator,
+        getFieldValue,
+        getFieldsValue
+      } = this.props.form
+      const rules = child.props.rules || undefined
+      const value = getFieldValue(child.props.prop)
+      const values = getFieldsValue()
+      const childNode = getFieldDecorator(child.props.prop, {
+        rules
+      })(
+        React.cloneElement(child.props.children, {
+          onChange: e => {
+            const { onChange } = child.props.children.props
+            onChange && onChange(value, values, e)
+          }
+        })
+      )
+      return React.cloneElement(child, {}, childNode)
+    }
+    if (child.type.name === 'FormItem') {
+      return React.cloneElement(child)
+    }
+    if (child.props.children) {
+      const sonNode = React.Children.map(child.props.children, son =>
+        this.renderFormItem(son)
+      )
+      return React.cloneElement(child, {}, sonNode)
+    }
+    return child
   }
 
   render() {
@@ -55,33 +93,7 @@ class Formx extends React.Component {
         className={className}
         style={style}
       >
-        {React.Children.map(children, child => {
-          if (child && child.type.name === 'FormItem' && child.props.prop) {
-            const {
-              getFieldDecorator,
-              getFieldValue,
-              getFieldsValue
-            } = this.props.form
-            const rules = child.props.rules || undefined
-            const value = getFieldValue(child.props.prop)
-            const values = getFieldsValue()
-            const childNode = getFieldDecorator(child.props.prop, {
-              rules
-            })(
-              React.cloneElement(child.props.children, {
-                onChange: e => {
-                  const { onChange } = child.props.children.props
-                  onChange && onChange(value, values, e)
-                }
-              })
-            )
-            return React.cloneElement(child, {}, childNode)
-          }
-          if (React.isValidElement(child)) {
-            return React.cloneElement(child)
-          }
-          return child
-        })}
+        {React.Children.map(children, child => this.renderFormItem(child))}
       </Form>
     )
   }

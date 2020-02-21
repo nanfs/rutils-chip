@@ -20,7 +20,7 @@ export const columns = [
     width: 120,
     dataIndex: 'usagePeripherals',
     render: text => {
-      if (text == '1') {
+      if (text === '1') {
         return (
           <span>
             <Icon type="check-circle" style={{ color: '#19c0f0' }} /> 开启所有

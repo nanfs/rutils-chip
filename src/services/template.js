@@ -17,11 +17,12 @@ export default {
       data: qs.stringify(data)
     })
   },
-  updateTem(data, id) {
+  updateTem(data) {
+    const { id, ...reqData } = data
     return axios({
       url: `/templates/${id}`,
       method: 'put',
-      data: qs.stringify(data)
+      data: qs.stringify(reqData)
     })
   }
 }

@@ -5,8 +5,8 @@ import MyIcon from '@/components/MyIcon'
 
 const statusRender = status => {
   const typeList = {
-    '0': 'poweroff',
-    '1': 'downing',
+    '0': 'unknown',
+    '1': 'uninitialized',
     '2': 'uping',
     '3': 'zaixian',
     '4': 'success',
@@ -16,6 +16,7 @@ const statusRender = status => {
     '8': 'poweroff',
     '9': 'downing'
   }
+  console.log(status, typeList[status])
   return (
     <MyIcon
       type={typeList[status]}

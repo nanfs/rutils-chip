@@ -1,5 +1,4 @@
 import React from 'react'
-import { message } from 'antd'
 import Tablex, {
   createTableCfg,
   TableWrap,
@@ -37,6 +36,18 @@ export default class Resource extends React.Component {
     )
   }
 
+  onTableChange = (a, filter) => {
+    this.setState(
+      produce(draft => {
+        draft.tableCfgSave.searchs = {
+          ...draft.tableCfgSave.searchs,
+          ...filter
+        }
+      }),
+      () => this.tablexSave.refresh(this.state.tableCfgSave)
+    )
+  }
+
   render() {
     return (
       <React.Fragment>
@@ -59,6 +70,7 @@ export default class Resource extends React.Component {
               this.tablexSave = ref
             }}
             tableCfg={this.state.tableCfgSave}
+            onChange={this.onTableChange}
           />
         </TableWrap>
       </React.Fragment>

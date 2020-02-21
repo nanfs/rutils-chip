@@ -12,48 +12,66 @@ export default class EditDrawer extends React.Component {
     this.props.onRef && this.props.onRef(this)
   }
 
-  cancelEdit = () => {
-    this.formx.props.form.resetFields()
+  pop = data => {
+    this.drawer.show()
+    const {
+      id,
+      name,
+      parentName,
+      clusterName,
+      datacenterName,
+      description
+    } = data
+    this.drawer.form.setFieldsValue({
+      id,
+      name,
+      parentName,
+      clusterName,
+      datacenterName,
+      description
+    })
+  }
+
+  editTem = values => {
+    templateApi
+      .updateTem(values)
+      .then(res => {
+        this.drawer.afterSubmit(res)
+        this.props.onSuccess()
+      })
+      .catch(errors => {
+        this.drawer.break()
+        console.log(errors)
+      })
   }
 
   render() {
-    const { initValues } = this.props
     return (
       <Drawerx
         onRef={ref => {
           this.drawer = ref
         }}
-        onOk={values => {
-          templateApi.updateTem(values, initValues.id)
-          return false
-        }}
+        onOk={this.editTem}
       >
-        <Formx
-          initValues={initValues}
-          onRef={ref => {
-            this.formx = ref
-          }}
-        >
+        <Formx>
           <Title slot="基础设置"></Title>
+          <Form.Item prop="id" hidden>
+            <Input />
+          </Form.Item>
           <Form.Item prop="name" label="模板名称" required>
-            <Input name="name" placeholder="模板名称" />
+            <Input placeholder="模板名称" />
           </Form.Item>
-          <Form.Item prop="parentName" label="父模板" required>
-            <Input name="parentName" placeholder="父模板" disabled />
+          <Form.Item prop="parentName" label="父模板">
+            <Input placeholder="父模板" disabled />
           </Form.Item>
-          <Form.Item prop="clusterName" label="集群" required>
-            <Input name="clusterName" placeholder="集群" disabled />
+          <Form.Item prop="clusterName" label="集群">
+            <Input placeholder="集群" disabled />
           </Form.Item>
-          <Form.Item prop="datacenterName" label="数据中心" required>
-            <Input name="datacenterName" placeholder="数据中心" disabled />
+          <Form.Item prop="datacenterName" label="数据中心">
+            <Input placeholder="数据中心" disabled />
           </Form.Item>
           <Form.Item prop="description" label="描述">
-            <TextArea
-              style={{ resize: 'none' }}
-              rows={4}
-              name="description"
-              placeholder="描述"
-            />
+            <TextArea style={{ resize: 'none' }} rows={4} placeholder="描述" />
           </Form.Item>
         </Formx>
       </Drawerx>

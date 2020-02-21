@@ -18,7 +18,6 @@ export default {
   },
   update(data) {
     const { id, ...reqData } = data
-    console.log(reqData)
     return axios({
       url: `/admitpolicys/${id}`,
       method: 'put',

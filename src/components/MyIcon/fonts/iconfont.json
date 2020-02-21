@@ -34,9 +34,16 @@
       "unicode_decimal": 59227
     },
     {
-      "icon_id": "13116593",
+      "icon_id": "13117840",
       "name": "InActive",
       "font_class": "storage-inactive",
+      "unicode": "e8df",
+      "unicode_decimal": 59615
+    },
+    {
+      "icon_id": "13116593",
+      "name": "InActive",
+      "font_class": "storage-activing",
       "unicode": "e653",
       "unicode_decimal": 58963
     },

@@ -21,7 +21,7 @@ const menu = [
   },
   {
     title: '桌面池管理',
-    icon: 'zhuomianchi',
+    icon: 'vm-pool',
     iconComonpent: 'MyIcon',
     path: '/pool',
     authority: 'admin,security'

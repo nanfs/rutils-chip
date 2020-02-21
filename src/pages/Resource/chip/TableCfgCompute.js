@@ -1,36 +1,8 @@
 import React from 'react'
 import resourceApi from '@/services/resource'
 import { Progress } from 'antd'
-import MyIcon from '@/components/MyIcon'
 import styles from '../index.m.scss'
-
-const statusRender = status => {
-  const typeList = {
-    '0': 'poweroff',
-    '1': 'downing',
-    '2': 'uping',
-    '3': 'zaixian',
-    '4': 'success',
-    '5': 'link',
-    '6': 'unlink',
-    '7': 'turn-off',
-    '8': 'poweroff',
-    '9': 'downing',
-    '10': 'uping',
-    '11': 'zaixian',
-    '12': 'success',
-    '13': 'link',
-    '14': 'unlink',
-    '15': 'turn-off'
-  }
-  return (
-    <MyIcon
-      type={typeList[status]}
-      component="svg"
-      style={{ fontSize: '18px' }}
-    />
-  )
-}
+import { hostStatusRender } from '@/utils/tableRender'
 
 export const columnsCompute = [
   {
@@ -104,7 +76,7 @@ export const columnsCompute = [
       }
     ],
     onFilter: (value, record) => record.status == value,
-    render: text => statusRender(text)
+    render: text => hostStatusRender(text)
   },
   {
     title: '主机名称',
@@ -123,7 +95,7 @@ export const columnsCompute = [
         <Progress
           strokeColor="#40d00f"
           strokeWidth={16}
-          percent={text}
+          percent={parseFloat(text)}
         ></Progress>
       )
     }
@@ -137,7 +109,7 @@ export const columnsCompute = [
         <Progress
           strokeColor="#40d00f"
           strokeWidth={16}
-          percent={text}
+          percent={parseFloat(text)}
         ></Progress>
       )
     }
@@ -151,7 +123,7 @@ export const columnsCompute = [
         <Progress
           strokeColor="#40d00f"
           strokeWidth={16}
-          percent={text}
+          percent={parseFloat(text)}
         ></Progress>
       )
     }

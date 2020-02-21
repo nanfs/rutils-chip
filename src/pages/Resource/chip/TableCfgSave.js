@@ -1,29 +1,7 @@
 import React from 'react'
 import resourceApi from '@/services/resource'
 import { Progress } from 'antd'
-import MyIcon from '@/components/MyIcon'
-
-const statusRender = status => {
-  const typeList = {
-    '0': 'poweroff',
-    '1': 'downing',
-    '2': 'uping',
-    '3': 'zaixian',
-    '4': 'success',
-    '5': 'link',
-    '6': 'unlink',
-    '7': 'turn-off',
-    '8': 'poweroff',
-    '9': 'downing'
-  }
-  return (
-    <MyIcon
-      type={typeList[status]}
-      component="svg"
-      style={{ fontSize: '18px' }}
-    />
-  )
-}
+import { storageStatusRender, storageTypeRender } from '@/utils/tableRender'
 
 export const columnsSave = [
   {
@@ -73,7 +51,7 @@ export const columnsSave = [
       }
     ],
     onFilter: (value, record) => record.status == value,
-    render: text => statusRender(text)
+    render: text => storageStatusRender(text)
   },
   {
     title: '存储域名称',
@@ -81,7 +59,8 @@ export const columnsSave = [
   },
   {
     title: '类型',
-    dataIndex: 'storageType'
+    dataIndex: 'storageType',
+    render: text => storageTypeRender(text)
   },
   {
     title: '使用情况',
@@ -91,7 +70,11 @@ export const columnsSave = [
       return (
         <Progress
           strokeWidth={16}
-          percent={record.usedDiskSize / record.availableDiskSize}
+          percent={
+            (parseFloat(record.usedDiskSize) /
+              parseFloat(record.availableDiskSize)) *
+            100
+          }
           format={() => `${record.usedDiskSize}G/${record.availableDiskSize}G`}
         ></Progress>
       )

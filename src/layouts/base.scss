@@ -5,6 +5,12 @@ body {
 .mr10 {
   margin-right: 10px;
 }
+.ant-layout {
+  background: #e5e9f2;
+  &-sider-children {
+    border-right: 1px solid #dedede;
+  }
+}
 // header
 .header {
   background-color: $primary-color;

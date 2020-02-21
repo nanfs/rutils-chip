@@ -36,6 +36,18 @@ export default class Resource extends React.Component {
     )
   }
 
+  onTableChange = (a, filter) => {
+    this.setState(
+      produce(draft => {
+        draft.tableCfgCompute.searchs = {
+          ...draft.tableCfgCompute.searchs,
+          ...filter
+        }
+      }),
+      () => this.tablexCompute.refresh(this.state.tableCfgCompute)
+    )
+  }
+
   render() {
     return (
       <React.Fragment>
@@ -59,6 +71,7 @@ export default class Resource extends React.Component {
                 this.tablexCompute = ref
               }}
               tableCfg={this.state.tableCfgCompute}
+              onChange={this.onTableChange}
             />
           </TableWrap>
         </div>

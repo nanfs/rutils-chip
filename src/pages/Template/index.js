@@ -19,11 +19,10 @@ export default class Template extends React.Component {
       columns,
       apiMethod,
       expandedRowRender: false,
-      paging: { size: 5 },
+      paging: { size: 10 },
       pageSizeOptions: ['5', '10']
     }),
-    innerPath: undefined,
-    initValues: {}
+    innerPath: undefined
   }
 
   onBack = () => {
@@ -32,21 +31,11 @@ export default class Template extends React.Component {
   }
 
   editTem = () => {
-    let selectTem = {}
-    if (this.tablex.getSelection().length === 1) {
-      this.tablex.getData().forEach((v, i) => {
-        if (v.id === this.tablex.getSelection()[0]) {
-          selectTem = v
-        }
-      })
-      this.setState(
-        { inner: '编辑模板', initValues: selectTem },
-        this.editDrawer.drawer.show()
-      )
-      this.currentDrawer = this.editDrawer
-    } else {
-      message.warning('请选择一条数据进行编辑！')
-    }
+    this.setState(
+      { inner: '编辑模板' },
+      this.editDrawer.pop(this.tablex.getSelectData()[0])
+    )
+    this.currentDrawer = this.editDrawer
   }
 
   delTem = () => {
@@ -112,7 +101,9 @@ export default class Template extends React.Component {
             onRef={ref => {
               this.editDrawer = ref
             }}
-            initValues={this.state.initValues}
+            onSuccess={() => {
+              this.tablex.refresh(this.state.tableCfg)
+            }}
           />
         </TableWrap>
       </React.Fragment>

@@ -65,7 +65,6 @@ class AddDrawer extends React.Component {
       .addDev(values)
       .then(res => {
         this.drawer.afterSubmit(res)
-        this.props.onSuccess()
       })
       .catch(errors => {
         console.log(errors)
@@ -124,7 +123,8 @@ class AddDrawer extends React.Component {
         onRef={ref => {
           this.drawer = ref
         }}
-        onOk={values => this.addSubmit(values)}
+        onSuccess={this.props.onSuccess}
+        onOk={this.addSubmit}
       >
         <Formx
           onRef={ref => {

@@ -30,7 +30,6 @@ export default class AddDrawer extends React.Component {
       .addTerminal({ data: values })
       .then(res => {
         this.drawer.afterSubmit(res)
-        this.props.onSuccess()
       })
       .catch(errors => {
         console.log(errors)
@@ -49,6 +48,7 @@ export default class AddDrawer extends React.Component {
           console.log(values)
           this.addTerminal()
         }}
+        onSuccess={this.props.onSuccess}
       >
         <Formx
           onRef={ref => {

@@ -44,7 +44,6 @@ export default class EditDrawer extends React.Component {
       .editTerminal({ data: values })
       .then(res => {
         this.drawer.afterSubmit(res)
-        this.props.onSuccess()
       })
       .catch(errors => {
         console.log(errors)
@@ -66,6 +65,7 @@ export default class EditDrawer extends React.Component {
           this.editTerminal(values)
           return false
         }}
+        onSuccess={this.props.onSuccess}
       >
         <Formx
           initValues={initValues}

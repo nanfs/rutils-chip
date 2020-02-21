@@ -176,14 +176,17 @@ export default class Desktop extends React.Component {
         >
           删除
         </Menu.Item>
-        <Menu.Item key="2" onClick={() => this.patchOrder('turnOn')}>
+        <Menu.Item key="2" onClick={() => this.patchOrder('start')}>
           开机
         </Menu.Item>
-        <Menu.Item key="3" onClick={() => this.patchOrder('turnOff')}>
+        <Menu.Item key="3" onClick={() => this.patchOrder('shutdown')}>
           关机
         </Menu.Item>
-        <Menu.Item key="4" onClick={() => this.patchOrder('powerOff')}>
+        <Menu.Item key="4" onClick={() => this.patchOrder('poweroff')}>
           断电
+        </Menu.Item>
+        <Menu.Item key="5" onClick={() => this.patchOrder('restart')}>
+          重启
         </Menu.Item>
       </Menu>
     )

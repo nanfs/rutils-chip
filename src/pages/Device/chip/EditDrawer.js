@@ -66,7 +66,6 @@ class EditDrawer extends React.Component {
       .updateDev(initValues.id, values)
       .then(res => {
         this.drawer.afterSubmit(res)
-        this.props.onSuccess()
       })
       .catch(errors => {
         console.log(errors)
@@ -132,6 +131,7 @@ class EditDrawer extends React.Component {
         onRef={ref => {
           this.drawer = ref
         }}
+        onSuccess={this.props.onSuccess}
         onOk={values => this.updateSubmit(values)}
       >
         <Formx

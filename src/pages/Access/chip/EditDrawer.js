@@ -81,7 +81,6 @@ export default class EditDrawer extends React.Component {
       .update(data)
       .then(res => {
         this.drawer.afterSubmit(res)
-        this.props.onSuccess()
       })
       .catch(errors => {
         this.drawer.break()
@@ -96,6 +95,7 @@ export default class EditDrawer extends React.Component {
           this.drawer = ref
         }}
         onOk={this.edit}
+        onSuccess={this.props.onSuccess}
       >
         <Formx>
           <Title slot="基础设置"></Title>

@@ -37,7 +37,6 @@ export default class EditDrawer extends React.Component {
       .updateTem(values)
       .then(res => {
         this.drawer.afterSubmit(res)
-        this.props.onSuccess()
       })
       .catch(errors => {
         this.drawer.break()
@@ -51,6 +50,7 @@ export default class EditDrawer extends React.Component {
         onRef={ref => {
           this.drawer = ref
         }}
+        onSuccess={this.props.onSuccess}
         onOk={this.editTem}
       >
         <Formx>

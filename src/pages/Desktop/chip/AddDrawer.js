@@ -48,7 +48,6 @@ export default class AddDrawer extends React.Component {
       .addVm({ data: values })
       .then(res => {
         this.drawer.afterSubmit(res)
-        this.props.onSuccess()
       })
       .catch(errors => {
         console.log(errors)
@@ -62,6 +61,7 @@ export default class AddDrawer extends React.Component {
           this.drawer = ref
         }}
         onOk={this.addVm}
+        onSuccess={this.props.onSuccess}
       >
         <Formx>
           <Title slot="基础设置"></Title>

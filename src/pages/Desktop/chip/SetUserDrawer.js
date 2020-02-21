@@ -66,7 +66,6 @@ export default class SetUserDrawer extends React.Component {
       .setUser({ ids })
       .then(res => {
         this.drawer.afterSubmit(res)
-        this.props.onSuccess()
       })
       .catch(errors => {
         console.log(errors)
@@ -81,6 +80,7 @@ export default class SetUserDrawer extends React.Component {
           this.drawer = ref
         }}
         onOk={this.setUser}
+        onSuccess={this.props.onSuccess}
       >
         <Formx>
           <TableWrap>

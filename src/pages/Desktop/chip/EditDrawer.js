@@ -63,7 +63,6 @@ export default class EditDrawer extends React.Component {
       .editVm({ data: values })
       .then(res => {
         this.drawer.afterSubmit(res)
-        this.props.onSuccess()
       })
       .catch(errors => {
         console.log(errors)
@@ -77,6 +76,7 @@ export default class EditDrawer extends React.Component {
         onRef={ref => {
           this.drawer = ref
         }}
+        onSuccess={this.props.onSuccess}
         onOk={this.editVm}
       >
         <Formx initValues={initValues}>

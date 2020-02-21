@@ -241,6 +241,7 @@ class Tablex extends React.Component {
       selectedRowKeys: selection,
       onChange: this.onSelectChange
     }
+    const { onChange } = this.props
     return (
       <React.Fragment>
         <Table
@@ -254,6 +255,7 @@ class Tablex extends React.Component {
           scroll={scroll}
           expandedRowRender={expandedRowRender}
           onRow={this.props.onRow}
+          onChange={onChange}
         />
         <div className="pagination-wrapper">
           <Button

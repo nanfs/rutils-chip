@@ -33,8 +33,8 @@ export default class Vmlog extends React.Component {
       produce(draft => {
         draft.tableCfg.searchs = {
           ...draft.tableCfg.searchs,
-          startDate: startDate.format('YYYY-MM-DD'),
-          endDate: endDate.format('YYYY-MM-DD')
+          fromDate: startDate.format('YYYY-MM-DD'),
+          toDate: endDate.format('YYYY-MM-DD')
         }
       }),
       () => this.tablex.refresh(this.state.tableCfg)
@@ -49,6 +49,18 @@ export default class Vmlog extends React.Component {
         draft.tableCfg.searchs = {
           ...draft.tableCfg.searchs,
           ...searchs
+        }
+      }),
+      () => this.tablex.refresh(this.state.tableCfg)
+    )
+  }
+
+  onTableChange = (a, filter) => {
+    this.setState(
+      produce(draft => {
+        draft.tableCfg.searchs = {
+          ...draft.tableCfg.searchs,
+          ...filter
         }
       }),
       () => this.tablex.refresh(this.state.tableCfg)
@@ -86,8 +98,12 @@ export default class Vmlog extends React.Component {
 
   render() {
     const searchOptions = [
-      { label: '用户', value: 'username' },
-      { label: 'ip', value: 'ip' }
+      { label: '信息', value: 'message' },
+      { label: '用户', value: 'userName' },
+      { label: '桌面名称', value: 'desktopName' },
+      { label: '数据中心名称', value: 'datacenterName' },
+      { label: '集群名称', value: 'clusterName' },
+      { label: '主机名', value: 'hostName' }
     ]
     const { disbaledButton } = this.state
     return (
@@ -117,6 +133,7 @@ export default class Vmlog extends React.Component {
             }}
             tableCfg={this.state.tableCfg}
             onSelectChange={this.onSelectChange}
+            onChange={this.onTableChange}
           />
         </TableWrap>
       </React.Fragment>

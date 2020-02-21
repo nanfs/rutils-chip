@@ -1,4 +1,5 @@
 import axios from './axios'
+import qs from 'qs'
 
 export default {
   list(data) {
@@ -12,7 +13,7 @@ export default {
     return axios({
       url: '/tclogs',
       method: 'delete',
-      params: data
+      data: qs.stringify(data)
     })
   }
 }

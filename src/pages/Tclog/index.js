@@ -32,8 +32,8 @@ export default class tcLog extends React.Component {
       produce(draft => {
         draft.tableCfg.searchs = {
           ...draft.tableCfg.searchs,
-          startDate: startDate.format('YYYY-MM-DD'),
-          endDate: endDate.format('YYYY-MM-DD')
+          fromDate: startDate.format('YYYY-MM-DD'),
+          toDate: endDate.format('YYYY-MM-DD')
         }
       }),
       () => this.tablex.refresh(this.state.tableCfg)
@@ -48,6 +48,18 @@ export default class tcLog extends React.Component {
         draft.tableCfg.searchs = {
           ...draft.tableCfg.searchs,
           ...searchs
+        }
+      }),
+      () => this.tablex.refresh(this.state.tableCfg)
+    )
+  }
+
+  onTableChange = (a, filter) => {
+    this.setState(
+      produce(draft => {
+        draft.tableCfg.searchs = {
+          ...draft.tableCfg.searchs,
+          ...filter
         }
       }),
       () => this.tablex.refresh(this.state.tableCfg)
@@ -85,8 +97,11 @@ export default class tcLog extends React.Component {
 
   render() {
     const searchOptions = [
-      { label: '用户', value: 'username' },
-      { label: 'ip', value: 'ip' },
+      { label: '信息', value: 'message' },
+      { label: '终端ip', value: 'tcip' },
+      { label: '终端序列号', value: 'tcSn' },
+      { label: '终端名称', value: 'tcName' },
+      { label: '用户名', value: 'userName' },
       { label: '用户ip', value: 'userip' }
     ]
     const { disbaledButton } = this.state
@@ -116,6 +131,7 @@ export default class tcLog extends React.Component {
               this.tablex = ref
             }}
             tableCfg={this.state.tableCfg}
+            onChange={this.onTableChange}
           />
         </TableWrap>
       </React.Fragment>

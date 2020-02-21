@@ -15,16 +15,17 @@ export default class LoginForm extends React.Component {
     }
   }
 
-  componentDidMount() {
-    loginApi
-      .getProperties()
-      .then(res => {
-        // {hasPin:false}
-        this.setState({ hasPin: res.hasPin })
-        console.log(res)
-      })
-      .catch(e => console.log(e))
-  }
+  // TODO 获取文件
+  // componentDidMount() {
+  //   loginApi
+  //     .getProperties()
+  //     .then(res => {
+  //       // {hasPin:false}
+  //       this.setState({ hasPin: res.hasPin })
+  //       console.log(res)
+  //     })
+  //     .catch(e => console.log(e))
+  // }
 
   checkUsbkey(username, pincode) {
     let user
@@ -86,6 +87,7 @@ export default class LoginForm extends React.Component {
           this.formx = ref
         }}
         onSubmit={this.login}
+        className={'login-form'}
       >
         <Form.Item
           prop="username"

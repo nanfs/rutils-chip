@@ -75,6 +75,11 @@ export default class Desktop extends React.Component {
       })
   }
 
+  patchOrder = directive => {
+    const ids = this.tablex.getSelection()
+    this.sendOrder(ids, directive)
+  }
+
   turnOn = () => {
     const ids = this.state.tableCfg.selection
     this.sendOrder(ids, 'start')
@@ -171,25 +176,14 @@ export default class Desktop extends React.Component {
         >
           删除
         </Menu.Item>
-        <Menu.Item
-          key="2"
-          onClick={this.turnOn}
-          disabled={
-            !this.state.tableCfg.selection ||
-            !this.state.tableCfg.selection.length
-          }
-        >
+        <Menu.Item key="2" onClick={() => this.patchOrder('turnOn')}>
           开机
         </Menu.Item>
-        <Menu.Item
-          key="3"
-          onClick={this.turnOff}
-          disabled={
-            !this.state.tableCfg.selection ||
-            !this.state.tableCfg.selection.length
-          }
-        >
+        <Menu.Item key="3" onClick={() => this.patchOrder('turnOff')}>
           关机
+        </Menu.Item>
+        <Menu.Item key="4" onClick={() => this.patchOrder('powerOff')}>
+          断电
         </Menu.Item>
       </Menu>
     )

@@ -1,4 +1,5 @@
 import axios from './axios'
+import qs from 'qs'
 
 export default {
   list(data) {
@@ -12,8 +13,8 @@ export default {
   delete(data) {
     return axios({
       url: '/desktoplogs',
-      method: 'delete'
-      // params: data
+      method: 'delete',
+      data: qs.stringify(data)
     })
   }
 }

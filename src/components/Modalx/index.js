@@ -40,7 +40,6 @@ class Modalx extends React.Component {
 
   componentDidUpdate() {
     this.form = (this.formRef && this.formRef.props.form) || undefined
-    console.log('didupdate')
   }
 
   show = () => {

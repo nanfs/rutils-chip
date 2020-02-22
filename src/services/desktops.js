@@ -40,7 +40,7 @@ export default {
   },
   getTemplate(data) {
     return axios({
-      url: '/desktops',
+      url: '/templates',
       method: 'get',
       params: data
     })

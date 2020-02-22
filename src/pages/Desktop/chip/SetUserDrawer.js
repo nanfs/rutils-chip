@@ -58,10 +58,14 @@ export default class SetUserDrawer extends React.Component {
     ))
   }
 
+  pop = ids => {
+    console.log(ids)
+    this.drawer.show()
+  }
+
   setUser = () => {
     // TODO 是否是新增 删除 还是直接 传入桌面是单个还是批量
     const { selection: ids } = this.state.tableCfg
-    const { selection } = this.props
     desktopsApi
       .setUser({ ids })
       .then(res => {

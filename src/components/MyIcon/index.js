@@ -23,7 +23,7 @@ function MyIcon(props) {
     )
   }
   const cls = classnames(prefixCls, 'iconfont', className, classes)
-  return <i {...other} className={cls} />
+  return <i {...other} className={cls} title={title} />
 }
 
 const propTypes = {

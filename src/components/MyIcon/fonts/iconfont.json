@@ -6,6 +6,69 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "151695",
+      "name": "down",
+      "font_class": "order-down",
+      "unicode": "e662",
+      "unicode_decimal": 58978
+    },
+    {
+      "icon_id": "1668101",
+      "name": "电脑",
+      "font_class": "order-console",
+      "unicode": "e676",
+      "unicode_decimal": 58998
+    },
+    {
+      "icon_id": "1759654",
+      "name": "在线",
+      "font_class": "tc-online1",
+      "unicode": "e60f",
+      "unicode_decimal": 58895
+    },
+    {
+      "icon_id": "3739795",
+      "name": "用户群管理",
+      "font_class": "order-setuser",
+      "unicode": "e64a",
+      "unicode_decimal": 58954
+    },
+    {
+      "icon_id": "5353542",
+      "name": "right",
+      "font_class": "order-up",
+      "unicode": "ea5b",
+      "unicode_decimal": 59995
+    },
+    {
+      "icon_id": "5353887",
+      "name": "hold",
+      "font_class": "order-paused",
+      "unicode": "ea5e",
+      "unicode_decimal": 59998
+    },
+    {
+      "icon_id": "5443568",
+      "name": "check",
+      "font_class": "order-info",
+      "unicode": "ea64",
+      "unicode_decimal": 60004
+    },
+    {
+      "icon_id": "5444236",
+      "name": "关闭控制台",
+      "font_class": "order-console-end",
+      "unicode": "e607",
+      "unicode_decimal": 58887
+    },
+    {
+      "icon_id": "146446",
+      "name": "redhat",
+      "font_class": "os-redhat",
+      "unicode": "e703",
+      "unicode_decimal": 59139
+    },
+    {
       "icon_id": "13118241",
       "name": "vm-pool",
       "font_class": "vm-pool",
@@ -244,6 +307,13 @@
       "unicode_decimal": 59597
     },
     {
+      "icon_id": "13126491",
+      "name": "重启",
+      "font_class": "vm-rebootinprogress-copy",
+      "unicode": "ea65",
+      "unicode_decimal": 60005
+    },
+    {
       "icon_id": "13113636",
       "name": "重启",
       "font_class": "host-reboot",
@@ -302,7 +372,7 @@
     {
       "icon_id": "13107762",
       "name": "断电",
-      "font_class": "duandian",
+      "font_class": "order-poweroff",
       "unicode": "e62e",
       "unicode_decimal": 58926
     },
@@ -337,7 +407,7 @@
     {
       "icon_id": "13086037",
       "name": "麒麟",
-      "font_class": "os-qilin",
+      "font_class": "os-kylin",
       "unicode": "e62d",
       "unicode_decimal": 58925
     },
@@ -393,14 +463,14 @@
     {
       "icon_id": "13116824",
       "name": "icon_关机-开机",
-      "font_class": "tc-Down",
+      "font_class": "tc-down",
       "unicode": "e8db",
       "unicode_decimal": 59611
     },
     {
       "icon_id": "13116827",
       "name": "icon_关机-开机",
-      "font_class": "vm-Down",
+      "font_class": "vm-down",
       "unicode": "e8dc",
       "unicode_decimal": 59612
     },

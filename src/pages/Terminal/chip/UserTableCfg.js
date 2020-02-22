@@ -1,4 +1,4 @@
-import terminalApi from '@/services/desktops'
+import terminalApi from '@/services/terminal'
 // TODO antd 样式加载问题
 export const columns = [
   {
@@ -17,4 +17,4 @@ export const columns = [
     dataIndex: 'group'
   }
 ]
-export const apiMethod = terminalApi.list
+// export const apiMethod = terminalApi.list

@@ -31,8 +31,7 @@ export default class Device extends React.Component {
 
   onSuccess = () => {
     this.setState({ inner: '' })
-    this.addDrawer.drawer.hide()
-    this.editDrawer.drawer.hide()
+    this.currentDrawer.drawer.hide()
     this.tablex.refresh(this.state.tableCfg)
   }
 

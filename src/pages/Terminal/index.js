@@ -52,7 +52,8 @@ export default class Termina extends React.Component {
     }),
     innerPath: undefined,
     initValues: {},
-    selectData: []
+    selectData: [],
+    disbaledButton: {}
   }
 
   search = (key, value) => {
@@ -191,67 +192,83 @@ export default class Termina extends React.Component {
       })
   }
 
+  onSelectChange = (selection, selectData) => {
+    let disbaledButton = {}
+    if (selection.length !== 1) {
+      disbaledButton = { ...disbaledButton, disabledEdit: true }
+    }
+    if (selection.length === 0) {
+      disbaledButton = {
+        ...disbaledButton,
+        disabledDelete: true,
+        disabledSetUser: true
+      }
+    }
+    this.setState({ disbaledButton })
+  }
+
   render() {
     const searchOptions = [
       { label: '名称', value: 'name' },
       { label: '位置', value: 'location' },
       { label: 'ip', value: 'ip' }
     ]
+    const { disbaledButton } = this.state
     const moreButton = (
       <Menu>
         <Menu.Item
           key="1"
           onClick={this.deleteTerminal}
-          disabled={!this.state.selection || !this.state.selection.length}
+          disabled={disbaledButton.disabledDelete}
         >
           删除
         </Menu.Item>
         <Menu.Item
           key="2"
           onClick={this.detailTerminal}
-          disabled={!this.state.selection || this.state.selection.length !== 1}
+          disabled={disbaledButton.disabledEdit}
         >
           查看详情
         </Menu.Item>
         <Menu.Item
           key="3"
           onClick={this.suspendTerminal}
-          disabled={!this.state.selection || !this.state.selection.length}
+          disabled={disbaledButton.disabledEdit}
         >
           暂停
         </Menu.Item>
         <Menu.Item
           key="4"
           onClick={this.lockScreen}
-          disabled={!this.state.selection || !this.state.selection.length}
+          disabled={disbaledButton.disabledEdit}
         >
           锁屏
         </Menu.Item>
         <Menu.Item
           key="5"
           onClick={this.unlockScreen}
-          disabled={!this.state.selection || !this.state.selection.length}
+          disabled={disbaledButton.disabledDelete}
         >
           解锁
         </Menu.Item>
         <Menu.Item
           key="6"
           onClick={this.sendMessage}
-          disabled={!this.state.selection || !this.state.selection.length}
+          disabled={disbaledButton.disabledDelete}
         >
           发送消息
         </Menu.Item>
         <Menu.Item
           key="7"
           onClick={this.setSafepolicy}
-          disabled={!this.state.selection || !this.state.selection.length}
+          disabled={disbaledButton.disabledDelete}
         >
           设置外设策略
         </Menu.Item>
         <Menu.Item
           key="8"
           onClick={this.setAccesspolicy}
-          disabled={!this.state.selection || !this.state.selection.length}
+          disabled={disbaledButton.disabledDelete}
         >
           设置准入策略
         </Menu.Item>
@@ -269,21 +286,19 @@ export default class Termina extends React.Component {
             <BarLeft>
               <Button
                 onClick={this.editTerminal}
-                disabled={
-                  !this.state.selection || this.state.selection.length !== 1
-                }
+                disabled={disbaledButton.disabledEdit}
               >
                 编辑
               </Button>
               <Button
                 onClick={this.setUser}
-                disabled={!this.state.selection || !this.state.selection.length}
+                disabled={disbaledButton.disabledEdit}
               >
                 分配用户
               </Button>
               <Button
                 onClick={this.admitAccessTerminal}
-                disabled={!this.state.selection || !this.state.selection.length}
+                disabled={disbaledButton.disabledSetUser}
               >
                 允许接入
               </Button>
@@ -297,13 +312,13 @@ export default class Termina extends React.Component {
               </Button> */}
               <Button
                 onClick={this.offTerminal}
-                disabled={!this.state.selection || !this.state.selection.length}
+                disabled={disbaledButton.disabledEdit}
               >
                 关机
               </Button>
               <Button
                 onClick={this.restartTerminal}
-                disabled={!this.state.selection || !this.state.selection.length}
+                disabled={disbaledButton.disabledEdit}
               >
                 重启
               </Button>
@@ -326,9 +341,7 @@ export default class Termina extends React.Component {
             }}
             className="no-select-bg"
             tableCfg={this.state.tableCfg}
-            onSelectChange={(selection, selectData) => {
-              this.setState({ selection, selectData })
-            }}
+            onSelectChange={this.onSelectChange}
           />
           <EditDrawer
             onRef={ref => {

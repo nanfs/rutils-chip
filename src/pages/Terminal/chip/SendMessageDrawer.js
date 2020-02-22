@@ -1,7 +1,8 @@
 import React from 'react'
-import { Form, Input } from 'antd'
+import { Form, Input, notification, message } from 'antd'
 import Drawerx from '@/components/Drawerx'
 import Formx from '@/components/Formx'
+import terminalApi from '@/services/terminal'
 
 const { TextArea } = Input
 
@@ -11,17 +12,31 @@ export default class SendMessageDrawer extends React.Component {
   }
 
   state = {
-    inputValue: 1
+    messageNumber: 0
   }
 
-  onChange = value => {
-    this.setState({
-      inputValue: value
-    })
+  handleChange = value => {
+    console.log(value)
+    /* this.setState({
+      messageNumber: value.length
+    }) */
+  }
+
+  sendMessage = (values, sns) => {
+    terminalApi
+      .directiveTerminal({ sns, command: 'sendMessage', ...values })
+      .then(res => {
+        this.drawer.afterSubmit(res)
+      })
+      .catch(errors => {
+        console.log(errors)
+      })
   }
 
   render() {
-    const { selectData } = this.props
+    const { selectData, selection } = this.props
+    const { messageNumber } = this.state
+    console.log(messageNumber)
     let selectName = selectData.map(item => {
       return item.name
     })
@@ -36,17 +51,12 @@ export default class SendMessageDrawer extends React.Component {
           this.drawer = ref
         }}
         onOk={values => {
-          console.log(values)
-          console.log(this)
+          this.sendMessage(values, selection)
         }}
       >
         <Formx
           onRef={ref => {
-            this.form = ref
-          }}
-          onSubmit={values => {
-            console.log(values)
-            return false
+            this.formx = ref
           }}
         >
           <div className="terminal-sendmessage-text">
@@ -58,12 +68,21 @@ export default class SendMessageDrawer extends React.Component {
           </div>
 
           <Form.Item
-            prop="description"
+            prop="message"
             label=""
-            rules={[]}
+            rules={[
+              {
+                required: true,
+                message: '请输入消息内容'
+              }
+            ]}
             wrapperCol={{ sm: { span: 24 } }}
           >
-            <TextArea rows={10} placeholder="消息内容" />
+            <TextArea
+              rows={10}
+              placeholder="消息内容"
+              onChange={this.handleChange}
+            />
           </Form.Item>
         </Formx>
       </Drawerx>

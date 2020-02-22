@@ -9,43 +9,45 @@ export default {
       params: data
     })
   },
-  edit(data) {
+  editTerminal(data) {
     return axios({
-      url: '/updating',
+      url: '/terminals',
+      method: 'put',
       data: qs.stringify(data)
     })
   },
-  onTerminal(data) {
+  deleteTerminal(data) {
     return axios({
-      url: '/onTerminal',
-      method: 'post',
+      url: '/terminals',
+      method: '/delete',
       data: qs.stringify(data)
     })
   },
-  offTerminal(data) {
+  directiveTerminal(data) {
     return axios({
-      url: '/onTerminal',
+      url: '/terminals/directives',
       method: 'post',
       data: qs.stringify(data)
     })
   },
   admitAccessTerminal(data) {
     return axios({
-      url: '/onTerminal',
+      url: '/terminals/auditpass',
       method: 'post',
       data: qs.stringify(data)
     })
   },
-  terminalsdetail(data) {
+  terminalsdetail(id, data) {
     return axios({
-      url: '/terminalsdetail',
-      data: qs.stringify(data)
+      url: `/terminals/${id}`,
+      method: 'get',
+      params: data
     })
-  },
-  terminalsusagedetail(data) {
+  }
+  /* terminalsusagedetail(data) {
     return axios({
       url: '/terminalsusagedetail',
       data: qs.stringify(data)
     })
-  }
+  } */
 }

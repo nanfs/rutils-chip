@@ -6,7 +6,7 @@ import './fonts/iconfont.css'
 import './icon.scss'
 
 function MyIcon(props) {
-  const { prefixCls, type, spin, component, className, ...other } = props
+  const { prefixCls, type, spin, component, title, className, ...other } = props
   const classes = {
     [`icon-${type}`]: type,
     'v-icon-spin': !!spin
@@ -15,7 +15,7 @@ function MyIcon(props) {
     const cls = classnames('svgicon', `icon-${type}`, className)
     const svgType = `#icon-${type}`
     return (
-      <i className={prefixCls}>
+      <i className={prefixCls} title={title}>
         <svg className={cls} aria-hidden="true" {...other}>
           <use xlinkHref={svgType} />
         </svg>

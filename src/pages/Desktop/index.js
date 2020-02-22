@@ -11,6 +11,7 @@ import AddDrawer from './chip/AddDrawer'
 import EditDrawer from './chip/EditDrawer'
 import DetailDrawer from './chip/DetailDrawer'
 import SetUserDrawer from './chip/SetUserDrawer'
+import AddTemplateModal from './chip/AddTemplateModal'
 import InnerPath from '@/components/InnerPath'
 import SelectSearch from '@/components/SelectSearch'
 import produce from 'immer'
@@ -34,6 +35,9 @@ export default class Desktop extends React.Component {
           onClick={this.sendOrder.bind(this, record.id, 'turnOff')}
           icon="user"
         />
+        <Button onClick={() => this.addTemplateModal.pop(record.id)}>
+          添加模板
+        </Button>
         <Button onClick={this.detailVm}>详情</Button>
       </div>
     )
@@ -262,6 +266,11 @@ export default class Desktop extends React.Component {
             selection={this.state.tableCfg.selection}
           />
         </TableWrap>
+        <AddTemplateModal
+          onRef={ref => {
+            this.addTemplateModal = ref
+          }}
+        ></AddTemplateModal>
       </React.Fragment>
     )
   }

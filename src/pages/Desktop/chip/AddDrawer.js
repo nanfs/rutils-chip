@@ -88,9 +88,6 @@ export default class AddDrawer extends React.Component {
           >
             <Radiox options={memoryOptions} hasInputNumber />
           </Form.Item>
-          <Form.Item prop="desktopNum" label="创建数量">
-            <InputNumber placeholder="" />
-          </Form.Item>
           <Form.Item prop="description" label="描述">
             <TextArea placeholder="" />
           </Form.Item>

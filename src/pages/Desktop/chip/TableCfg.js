@@ -90,21 +90,21 @@ export const columns = [
     title: 'CPU',
     dataIndex: 'cpuUsageRate',
     render: text => {
-      return <Progress strokeWidth={16} percent={text || 0}></Progress>
+      return <Progress strokeWidth={16} percent={+text || 0}></Progress>
     }
   },
   {
     title: '内存',
     dataIndex: 'memoryUsageRate',
     render: text => {
-      return <Progress strokeWidth={16} percent={text || 0}></Progress>
+      return <Progress strokeWidth={16} percent={+text || 0}></Progress>
     }
   },
   {
     title: '网络',
     dataIndex: 'networkUsageRate',
     render: text => {
-      return <Progress strokeWidth={16} percent={text || 0}></Progress>
+      return <Progress strokeWidth={16} percent={+text || 0}></Progress>
     }
   }
 ]

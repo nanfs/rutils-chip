@@ -4,7 +4,7 @@ import { wrapResponse } from '@/utils/tool'
 
 const ModalCfg_init = {
   forceRender: true,
-  destroyOnClose: true,
+  // destroyOnClose: true,
   loading: false,
   okText: '确定',
   cancelText: '取消',
@@ -13,10 +13,20 @@ const ModalCfg_init = {
 export function createModalCfg(myCfg) {
   return { ...ModalCfg_init, ...myCfg }
 }
+const formItemLayout = {
+  labelCol: {
+    xs: { span: 24 },
+    sm: { span: 7, pull: 1 }
+  },
+  wrapperCol: {
+    xs: { span: 24 },
+    sm: { span: 14 }
+  }
+}
+
 class Modalx extends React.Component {
   constructor(props) {
     super(props)
-    this.props.onRef && this.props.onRef(this)
     this.state = {
       show: false,
       submitting: false
@@ -26,13 +36,11 @@ class Modalx extends React.Component {
   componentDidMount() {
     this.props.onRef && this.props.onRef(this)
     this.form = (this.formRef && this.formRef.props.form) || undefined
-    this.forceUpdate()
   }
 
   componentDidUpdate() {
-    if (this.formRef && this.form === undefined) {
-      this.form = this.formRef.props.form
-    }
+    this.form = (this.formRef && this.formRef.props.form) || undefined
+    console.log('didupdate')
   }
 
   show = () => {
@@ -45,6 +53,10 @@ class Modalx extends React.Component {
     this.setState({
       submitting: false
     })
+  }
+
+  afterClose = () => {
+    this.form && this.form.resetFields()
   }
 
   onClose = () => {
@@ -116,7 +128,10 @@ class Modalx extends React.Component {
   renderContent(setFormRef) {
     // if (this.state.show) {
     return this.hasFormx()
-      ? React.cloneElement(this.props.children, { onRef: setFormRef })
+      ? React.cloneElement(this.props.children, {
+          onRef: setFormRef,
+          formItemLayout
+        })
       : this.props.children
     // }
     // return undefined
@@ -134,10 +149,11 @@ class Modalx extends React.Component {
         visible={this.state.show}
         onCancel={this.onClose}
         onOk={this.onOk}
+        afterClose={this.afterClose}
         title={title || modalCfg.title}
         className={this.props.className}
         footer={
-          modalCfg.hasFooter
+          modalCfg && modalCfg.hasFooter
             ? [
                 <Button key="back" onClick={this.onClose}>
                   {modalCfg.cancelText}

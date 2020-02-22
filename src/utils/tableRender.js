@@ -96,6 +96,25 @@ export const storageTypeRender = type => {
   }
   return <span>{typeList[type]}</span>
 }
+export const vmStatusText = {
+  'vm-unassigned': '未指派的',
+  'vm-Down': '关机',
+  'vm-up': '开机',
+  'vm-poweringup': '正在开机',
+  'vm-paused': '暂停',
+  'vm-migratingfrom': '迁移出',
+  'vm-migratingTo': '迁移入',
+  'vm-unknown': '未知',
+  'vm-nonresponsive': '没有响应',
+  'vm-waitforlaunch': '等待',
+  'vm-rebootinprogress': '重启过程中',
+  'vm-savingstate': '保存状态',
+  'vm-restoringstate': '恢复状态',
+  'vm-suspended': '挂起',
+  'vm-ImageIllegal': '镜像损坏',
+  'vm-imagelocked': '镜像锁定',
+  'vm-poweringdown': '正在关机'
+}
 export const vmStatusRender = status => {
   const statusList = {
     '-1': 'vm-unassigned',
@@ -119,6 +138,7 @@ export const vmStatusRender = status => {
   return (
     <MyIcon
       type={statusList[status]}
+      title={vmStatusText[statusList[status]]}
       component="svg"
       style={{ fontSize: '18px' }}
     />

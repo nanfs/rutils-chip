@@ -106,12 +106,7 @@ export default class EditDrawer extends React.Component {
             <Input name="name" placeholder="名称" />
           </Form.Item>
           <Form.Item prop="description" label="描述">
-            <TextArea
-              style={{ resize: 'none' }}
-              rows={4}
-              name="description"
-              placeholder="描述"
-            />
+            <TextArea style={{ resize: 'none' }} rows={4} placeholder="描述" />
           </Form.Item>
           <Diliver />
           <Title slot="准入设置"></Title>

@@ -12,7 +12,7 @@ export const columns = [
     dataIndex: 'description'
   },
   {
-    title: '已绑定数量',
+    title: '已绑定终端数',
     dataIndex: 'boundTcNum'
   },
   {

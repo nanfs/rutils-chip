@@ -178,7 +178,7 @@ export default class ConfigModal extends React.Component {
           </Form.Item>
           <Form.Item
             prop="userLoginFailLockTimeThreshold"
-            label="登录失败锁定阈值"
+            label="登录失败锁定时间"
           >
             <Row>
               {/* <Col span={18}>

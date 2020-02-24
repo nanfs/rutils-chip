@@ -156,3 +156,9 @@ body {
 .ant-input-number-handler-wrap {
   opacity: 1 !important;
 }
+// 下拉框多选时去掉hover时的勾
+.ant-select-dropdown.ant-select-dropdown--multiple
+  .ant-select-dropdown-menu-item:hover
+  .ant-select-selected-icon {
+  color: transparent !important;
+}

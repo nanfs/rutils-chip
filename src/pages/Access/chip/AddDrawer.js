@@ -44,7 +44,10 @@ export default class AddDrawer extends React.Component {
       admitInterval: [
         {
           type: values.type,
-          date: values.type === 0 ? values.weeks.join(',') : undefined,
+          date:
+            values.type === 0
+              ? values.weeks.join(',')
+              : values.day.map(item => item.format('YYYY-MM-DD')).join('<>'),
           startTime: moment(values.startTime).format('HH:mm'),
           endTime: moment(values.endTime).format('HH:mm')
         }

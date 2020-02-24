@@ -220,9 +220,18 @@ export default class Termina extends React.Component {
       disbaledButton = {
         ...disbaledButton,
         disabledDelete: true,
-        disabledSetUser: true
+        disabledSetUser: true,
+        disabledAdmitAccess: true
       }
     }
+    const hasAccessData = selectData.filter(item => item.isReq)
+    if (hasAccessData && hasAccessData.length) {
+      disbaledButton = {
+        ...disbaledButton,
+        disabledAdmitAccess: true
+      }
+    }
+
     this.setState({ disbaledButton, selection, selectData, selectSN })
   }
 
@@ -317,7 +326,7 @@ export default class Termina extends React.Component {
               </Button>
               <Button
                 onClick={this.admitAccessTerminal}
-                disabled={disbaledButton.disabledSetUser}
+                disabled={disbaledButton.disabledAdmitAccess}
               >
                 允许接入
               </Button>

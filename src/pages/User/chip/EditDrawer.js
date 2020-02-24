@@ -26,6 +26,8 @@ export default class editDrawer extends React.Component {
         onOk={values => {
           console.log(values)
         }}
+        onClose={this.props.onClose}
+        onSuccess={this.props.onSuccess}
       >
         <Formx
           initValues={initValues}

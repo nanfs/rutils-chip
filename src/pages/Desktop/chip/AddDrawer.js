@@ -15,7 +15,6 @@ export default class AddDrawer extends React.Component {
   }
 
   state = {
-    templateOption: [],
     networkOption: [
       { label: '网络一', value: '1' },
       { label: '网络二', value: '2' },
@@ -24,28 +23,15 @@ export default class AddDrawer extends React.Component {
     ]
   }
 
-  // getTemplate = () => {
-  //   // axios获取数据
-  //   desktopsApi
-  //     .getTemplate()
-  //     .then(res => {
-  //       if (res.success) {
-  //         const templateOption = [
-  //           { label: '模板一', value: '1' },
-  //           { label: '模板二', value: '2' },
-  //           { label: '模板三', value: '3' },
-  //           { label: '模板四', value: '4' }
-  //         ]
-  //         this.setState({ templateOption })
-  //       }
-  //     })
-  //     .catch(err => console.log(err))
-  // }
+  pop = () => {
+    this.drawer.show()
+    this.setState({ fetchData: true })
+  }
 
   addVm = values => {
     // TODO 是否是新增 删除 还是直接 传入桌面是单个还是批量
     desktopsApi
-      .addVm({ data: values })
+      .addVm({ values })
       .then(res => {
         this.drawer.afterSubmit(res)
       })
@@ -61,6 +47,7 @@ export default class AddDrawer extends React.Component {
           this.drawer = ref
         }}
         onOk={this.addVm}
+        onClose={this.props.onClose}
         onSuccess={this.props.onSuccess}
       >
         <Formx>
@@ -68,8 +55,15 @@ export default class AddDrawer extends React.Component {
           <Form.Item prop="name" label="桌面名称">
             <Input placeholder="桌面名称" />
           </Form.Item>
-          <Form.Item prop="template" label="模板">
-            <Radiox getOptionFunction={desktopsApi.getTemplate} />
+          <Form.Item
+            prop="template"
+            label="模板"
+            hidden={!this.state.fetchData}
+          >
+            <Radiox
+              getOptionFunction={desktopsApi.getTemplate}
+              param={{ current: 1, size: 10000 }}
+            />
           </Form.Item>
           <Form.Item prop="usbNum" label="USB数量">
             <Radiox options={usbOptions} />
@@ -101,6 +95,7 @@ export default class AddDrawer extends React.Component {
             <Radiox
               options={this.state.networkOption}
               getOptionFunction={desktopsApi.getTemplate}
+              fetch={this.state.fetchData}
             />
           </Form.Item>
         </Formx>

@@ -8,6 +8,7 @@ export const columns = [
   {
     title: '状态',
     dataIndex: 'status',
+    width: 50,
     filters: [
       { value: '-1', text: '未指派的' },
       { value: '0', text: '关机' },

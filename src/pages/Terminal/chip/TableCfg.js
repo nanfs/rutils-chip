@@ -1,22 +1,53 @@
 import React from 'react'
 import terminalApi from '@/services/terminal'
-import { Icon, Popover } from 'antd'
+import { Icon, Popover, Tag } from 'antd'
+import MyIcon from '@/components/MyIcon'
+
 // TODO antd 样式加载问题
+const iconStyle = {
+  check: { fontSize: 20, color: '#1789d8' },
+  close: { fontSize: 18 }
+}
 export const columns = [
   {
     title: '状态',
     dataIndex: 'status',
     filters: [
       {
-        text: '1',
-        value: '1'
+        text: '离线',
+        value: '0'
       },
       {
-        text: '3',
-        value: '3'
+        text: '在线',
+        value: '1'
       }
     ],
-    onFilter: (value, record) => record.severity === value
+    onFilter: (value, record) => record.status === value,
+    render: value => {
+      return value === 0 ? (
+        <Popover content={'离线'}>
+          <MyIcon
+            type="tc-offline"
+            component="svg"
+            style={{
+              fontSize: '20px'
+              // color: value === 0 ? '#ccc' : '#1890ff'
+            }}
+          />
+        </Popover>
+      ) : (
+        <Popover content={'在线'}>
+          <MyIcon
+            type="tc-online"
+            component="svg"
+            style={{
+              fontSize: '20px'
+              // color: value === 0 ? '#ccc' : '#1890ff'
+            }}
+          />
+        </Popover>
+      )
+    }
   },
   {
     title: '名称',
@@ -24,7 +55,25 @@ export const columns = [
   },
   {
     title: '接入状态',
-    dataIndex: 'content'
+    dataIndex: 'isControlled',
+    filters: [
+      {
+        text: '待接入',
+        value: false
+      },
+      {
+        text: '已接入',
+        value: true
+      }
+    ],
+    onFilter: (value, record) => record.accessStatus === value,
+    render: value => {
+      return value ? (
+        <Tag color="#ade688">已接入</Tag>
+      ) : (
+        <Tag color="#f3b88b">待接入</Tag>
+      )
+    }
   },
   {
     title: '位置',
@@ -39,7 +88,11 @@ export const columns = [
     dataIndex: 'safepolicy',
     render: text => (
       <span className="table-action">
-        {text ? <Icon type="check" /> : <Icon type="close" />}
+        {text ? (
+          <Icon type="check" style={iconStyle.check} />
+        ) : (
+          <Icon type="close" style={iconStyle.close} />
+        )}
       </span>
     )
   },
@@ -48,7 +101,11 @@ export const columns = [
     dataIndex: 'admitpolicy',
     render: text => (
       <span className="table-action">
-        {text ? <Icon type="check" /> : <Icon type="close" />}
+        {text ? (
+          <Icon type="check" style={iconStyle.check} />
+        ) : (
+          <Icon type="close" style={iconStyle.close} />
+        )}
       </span>
     )
   },
@@ -57,11 +114,15 @@ export const columns = [
     dataIndex: 'authorizationUserName',
     render: text => (
       <span className="table-action">
-        {text ? <Icon type="check" /> : <Icon type="close" />}
+        {text ? (
+          <Icon type="check" style={iconStyle.check} />
+        ) : (
+          <Icon type="close" style={iconStyle.close} />
+        )}
       </span>
     )
-  },
-  {
+  }
+  /* {
     title: '使用时间',
     key: 'userTime',
     render: (text, record) => (
@@ -80,6 +141,6 @@ export const columns = [
         </Popover>
       </span>
     )
-  }
+  } */
 ]
 export const apiMethod = terminalApi.list

@@ -31,8 +31,7 @@ export default class Device extends React.Component {
 
   onSuccess = () => {
     this.setState({ inner: '' })
-    this.addDrawer.drawer.hide()
-    this.editDrawer.drawer.hide()
+    this.currentDrawer.drawer.hide()
     this.tablex.refresh(this.state.tableCfg)
   }
 
@@ -153,6 +152,7 @@ export default class Device extends React.Component {
             onRef={ref => {
               this.editDrawer = ref
             }}
+            onClose={this.onBack}
             initValues={this.state.initValues}
             onSuccess={this.onSuccess}
           />
@@ -160,6 +160,7 @@ export default class Device extends React.Component {
             onRef={ref => {
               this.addDrawer = ref
             }}
+            onClose={this.onBack}
             onSuccess={this.onSuccess}
           />
         </TableWrap>

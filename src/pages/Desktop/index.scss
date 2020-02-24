@@ -24,16 +24,20 @@ th.opration {
     height: 54px;
     line-height: 54px;
     padding: 0;
-    padding-left: 500px;
+    padding-left: 60%;
     background: linear-gradient(
       to right,
       rgba(255, 255, 255, 0.1) 0%,
       rgba(187, 208, 229, 0.7) 40%,
       #427abf 100%
     ) !important;
-    .ant-btn {
+    .ant-btn,
+    .v-icon {
+      color: white;
       vertical-align: middle;
-      margin-right: 10px;
+      padding-right: 10px;
+      padding-left: 10px;
+      font-size: 18px;
     }
   }
 }

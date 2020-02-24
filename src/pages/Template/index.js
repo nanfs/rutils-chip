@@ -101,6 +101,7 @@ export default class Template extends React.Component {
             onRef={ref => {
               this.editDrawer = ref
             }}
+            onClose={this.onBack}
             onSuccess={() => {
               this.tablex.refresh(this.state.tableCfg)
             }}

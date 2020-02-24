@@ -15,6 +15,8 @@ import SelectSearch from '@/components/SelectSearch'
 import EditDrawer from './chip/EditDrawer'
 import DetailDrawer from './chip/DetailDrawer'
 import SetUserDrawer from './chip/SetUserDrawer'
+import SetSafePolicyDrawer from './chip/SetSafePolicyDrawer'
+import SetAccessPolicyDrawer from './chip/SetAccessPolicyDrawer'
 import SendMessageDrawer from './chip/SendMessageDrawer'
 import { columns, apiMethod } from './chip/TableCfg'
 import terminalApi from '@/services/terminal'
@@ -29,11 +31,11 @@ export default class Termina extends React.Component {
     render: (text, record) => (
       <div>
         <Button
-          onClick={this.sendOrder.bind(this, record.id, 'turnOn')}
+          onClick={this.sendOrder.bind(this, 'turnOn', record.id)}
           icon="user"
         />
         <Button
-          onClick={this.sendOrder.bind(this, record.id, 'turnOff')}
+          onClick={this.sendOrder.bind(this, 'turnOff', record.id)}
           icon="user"
         />
         <Button onClick={this.detailVm}>详情</Button>
@@ -52,7 +54,8 @@ export default class Termina extends React.Component {
     }),
     innerPath: undefined,
     initValues: {},
-    selectData: []
+    selectData: [],
+    disbaledButton: {}
   }
 
   search = (key, value) => {
@@ -70,11 +73,9 @@ export default class Termina extends React.Component {
   }
 
   onSuccess = () => {
+    this.setState({ inner: undefined })
+    this.currentDrawer.drawer.hide()
     this.tablex.refresh(this.state.tableCfg)
-  }
-
-  sendOrder = (id, order) => {
-    console.log('sendOrder', id, order)
   }
 
   onBack = () => {
@@ -89,19 +90,21 @@ export default class Termina extends React.Component {
   }
 
   setUser = () => {
-    this.setState({ inner: '分配用户' }, this.setUserDrawer.drawer.show())
+    this.setState({ inner: '分配用户' })
+    this.setUserDrawer.drawer.show()
     this.currentDrawer = this.setUserDrawer
   }
 
   sendMessage = () => {
-    this.setState({ inner: '发送消息' }, this.sendMessageDrawer.drawer.show())
+    this.setState({ inner: '发送消息' })
+    this.sendMessageDrawer.drawer.show()
     this.currentDrawer = this.sendMessageDrawer
   }
 
   detailTerminal = () => {
     const ids = this.tablex.getSelection()
     terminalApi
-      .terminalsdetail({ ids })
+      .terminalsdetail(ids[0])
       .then(res => {
         if (res.success) {
           this.setState({ inner: '查看详情', initValues: res.data })
@@ -123,50 +126,17 @@ export default class Termina extends React.Component {
       })
   }
 
-  onTerminal = () => {
-    const ids = this.tablex.getSelection()
+  sendOrder = (order, id = undefined) => {
+    console.log('sendOrder', id, order)
+    const sns = this.tablex.getSelection()
     terminalApi
-      .onTerminal({ ids })
+      .directiveTerminal({ sns, command: order })
       .then(res => {
         if (res.success) {
-          notification.success({ message: '开机成功' })
+          notification.success({ message: '操作成功' })
           this.tablex.refresh(this.state.tableCfg)
         } else {
-          message.error(res.message || '开机失败')
-        }
-      })
-      .catch(errors => {
-        console.log(errors)
-      })
-  }
-
-  offTerminal = () => {
-    const ids = this.tablex.getSelection()
-    terminalApi
-      .onTerminal({ ids })
-      .then(res => {
-        if (res.success) {
-          notification.success({ message: '关机成功' })
-          this.tablex.refresh(this.state.tableCfg)
-        } else {
-          message.error(res.message || '关机失败')
-        }
-      })
-      .catch(errors => {
-        console.log(errors)
-      })
-  }
-
-  restartTerminal = () => {
-    const ids = this.tablex.getSelection()
-    terminalApi
-      .onTerminal({ ids })
-      .then(res => {
-        if (res.success) {
-          notification.success({ message: '重启成功' })
-          this.tablex.refresh(this.state.tableCfg)
-        } else {
-          message.error(res.message || '重启失败')
+          message.error(res.message || '操作失败')
         }
       })
       .catch(errors => {
@@ -175,9 +145,9 @@ export default class Termina extends React.Component {
   }
 
   admitAccessTerminal = () => {
-    const ids = this.tablex.getSelection()
+    const sns = this.tablex.getSelection()
     terminalApi
-      .onTerminal({ ids })
+      .admitAccessTerminal({ sns })
       .then(res => {
         if (res.success) {
           notification.success({ message: '接入成功' })
@@ -191,67 +161,83 @@ export default class Termina extends React.Component {
       })
   }
 
+  onSelectChange = (selection, selectData) => {
+    let disbaledButton = {}
+    if (selection.length !== 1) {
+      disbaledButton = { ...disbaledButton, disabledEdit: true }
+    }
+    if (selection.length === 0) {
+      disbaledButton = {
+        ...disbaledButton,
+        disabledDelete: true,
+        disabledSetUser: true
+      }
+    }
+    this.setState({ disbaledButton, selection, selectData })
+  }
+
   render() {
     const searchOptions = [
       { label: '名称', value: 'name' },
       { label: '位置', value: 'location' },
       { label: 'ip', value: 'ip' }
     ]
+    const { disbaledButton } = this.state
     const moreButton = (
       <Menu>
         <Menu.Item
           key="1"
           onClick={this.deleteTerminal}
-          disabled={!this.state.selection || !this.state.selection.length}
+          disabled={disbaledButton.disabledDelete}
         >
           删除
         </Menu.Item>
         <Menu.Item
           key="2"
           onClick={this.detailTerminal}
-          disabled={!this.state.selection || this.state.selection.length !== 1}
+          disabled={disbaledButton.disabledEdit}
         >
           查看详情
         </Menu.Item>
         <Menu.Item
           key="3"
-          onClick={this.suspendTerminal}
-          disabled={!this.state.selection || !this.state.selection.length}
+          onClick={this.sendOrder.bind(this, 'suspend')}
+          disabled={disbaledButton.disabledDelete}
         >
           暂停
         </Menu.Item>
         <Menu.Item
           key="4"
-          onClick={this.lockScreen}
-          disabled={!this.state.selection || !this.state.selection.length}
+          onClick={this.sendOrder.bind(this, 'lock')}
+          disabled={disbaledButton.disabledDelete}
         >
           锁屏
         </Menu.Item>
         <Menu.Item
           key="5"
-          onClick={this.unlockScreen}
-          disabled={!this.state.selection || !this.state.selection.length}
+          onClick={this.sendOrder.bind(this, 'unlock')}
+          disabled={disbaledButton.disabledDelete}
         >
           解锁
         </Menu.Item>
         <Menu.Item
           key="6"
           onClick={this.sendMessage}
-          disabled={!this.state.selection || !this.state.selection.length}
+          disabled={disbaledButton.disabledDelete}
         >
           发送消息
         </Menu.Item>
         <Menu.Item
           key="7"
-          onClick={this.setSafepolicy}
-          disabled={!this.state.selection || !this.state.selection.length}
+          onClick={this.setSafePolicy}
+          disabled={disbaledButton.disabledDelete}
         >
           设置外设策略
         </Menu.Item>
         <Menu.Item
           key="8"
-          onClick={this.setAccesspolicy}
-          disabled={!this.state.selection || !this.state.selection.length}
+          onClick={this.setAccessPolicy}
+          disabled={disbaledButton.disabledDelete}
         >
           设置准入策略
         </Menu.Item>
@@ -269,21 +255,19 @@ export default class Termina extends React.Component {
             <BarLeft>
               <Button
                 onClick={this.editTerminal}
-                disabled={
-                  !this.state.selection || this.state.selection.length !== 1
-                }
+                disabled={disbaledButton.disabledEdit}
               >
                 编辑
               </Button>
               <Button
                 onClick={this.setUser}
-                disabled={!this.state.selection || !this.state.selection.length}
+                disabled={disbaledButton.disabledEdit}
               >
                 分配用户
               </Button>
               <Button
                 onClick={this.admitAccessTerminal}
-                disabled={!this.state.selection || !this.state.selection.length}
+                disabled={disbaledButton.disabledSetUser}
               >
                 允许接入
               </Button>
@@ -296,14 +280,14 @@ export default class Termina extends React.Component {
                 开机
               </Button> */}
               <Button
-                onClick={this.offTerminal}
-                disabled={!this.state.selection || !this.state.selection.length}
+                onClick={this.sendOrder.bind(this, 'turnOff')}
+                disabled={disbaledButton.disabledEdit}
               >
                 关机
               </Button>
               <Button
-                onClick={this.restartTerminal}
-                disabled={!this.state.selection || !this.state.selection.length}
+                onClick={this.sendOrder.bind(this, 'restart')}
+                disabled={disbaledButton.disabledEdit}
               >
                 重启
               </Button>
@@ -326,9 +310,7 @@ export default class Termina extends React.Component {
             }}
             className="no-select-bg"
             tableCfg={this.state.tableCfg}
-            onSelectChange={(selection, selectData) => {
-              this.setState({ selection, selectData })
-            }}
+            onSelectChange={this.onSelectChange}
           />
           <EditDrawer
             onRef={ref => {
@@ -336,17 +318,34 @@ export default class Termina extends React.Component {
             }}
             initValues={this.state.initValues}
             onSuccess={this.onSuccess}
+            onClose={this.onBack}
           />
           <DetailDrawer
             onRef={ref => {
               this.detailDrawer = ref
             }}
+            onClose={this.onBack}
             initValues={this.state.initValues}
             initChartValue={this.state.initChartValue}
           />
           <SetUserDrawer
             onRef={ref => {
               this.setUserDrawer = ref
+            }}
+            onClose={this.onBack}
+            onSuccess={this.onSuccess}
+            selection={this.state.selection}
+          />
+          <SetSafePolicyDrawer
+            onRef={ref => {
+              this.setSafePolicyDrawer = ref
+            }}
+            onSuccess={this.onSuccess}
+            selection={this.state.selection}
+          />
+          <SetAccessPolicyDrawer
+            onRef={ref => {
+              this.setAccessPolicyDrawer = ref
             }}
             onSuccess={this.onSuccess}
             selection={this.state.selection}
@@ -355,8 +354,10 @@ export default class Termina extends React.Component {
             onRef={ref => {
               this.sendMessageDrawer = ref
             }}
+            onClose={this.onBack}
             onSuccess={this.onSuccess}
             selectData={this.state.selectData}
+            selection={this.state.selection}
           />
         </TableWrap>
       </React.Fragment>

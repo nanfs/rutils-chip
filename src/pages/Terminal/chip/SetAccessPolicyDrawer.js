@@ -15,7 +15,7 @@ import Tablex, {
 } from '@/components/Tablex'
 
 // 是否翻页保存数据
-export default class SetUserDrawer extends React.Component {
+export default class SetSafePolicyDrawer extends React.Component {
   componentDidMount() {
     this.props.onRef && this.props.onRef(this)
   }
@@ -80,7 +80,6 @@ export default class SetUserDrawer extends React.Component {
         onRef={ref => {
           this.drawer = ref
         }}
-        onClose={this.props.onClose}
         onOk={this.setUser}
       >
         <Formx>

@@ -76,6 +76,7 @@ export default class EditDrawer extends React.Component {
         onRef={ref => {
           this.drawer = ref
         }}
+        onClose={this.props.onClose}
         onSuccess={this.props.onSuccess}
         onOk={this.editVm}
       >

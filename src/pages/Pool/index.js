@@ -205,6 +205,10 @@ export default class Pool extends React.Component {
     )
   }
 
+  onSuccess = () => {
+    this.tablex.refresh(this.state.tableCfg)
+  }
+
   render() {
     const searchOptions = [{ label: '名称', value: 'name' }]
     const { disbaledButton, vmDisbaledButton } = this.state
@@ -286,23 +290,31 @@ export default class Pool extends React.Component {
             onRef={ref => {
               this.addDrawer = ref
             }}
+            onClose={this.onBack}
+            onSuccess={this.onSuccess}
           />
           <EditDrawer
             onRef={ref => {
               this.editDrawer = ref
             }}
+            onClose={this.onBack}
+            onSuccess={this.onSuccess}
             initValues={this.state.initValues}
           />
           <DetailDrawer
             onRef={ref => {
               this.detailDrawer = ref
             }}
+            onClose={this.onBack}
+            onSuccess={this.onSuccess}
             initValues={this.state.initValues}
           />
           <SetUserDrawer
             onRef={ref => {
               this.setUserDrawer = ref
             }}
+            onClose={this.onBack}
+            onSuccess={this.onSuccess}
             selection={this.state.tableCfg.selection}
           />
         </TableWrap>

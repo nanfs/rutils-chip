@@ -121,11 +121,13 @@ export default class Desktop extends React.Component {
               this.addDrawer = ref
             }}
             onSuccess={this.onSuccess}
+            onClose={this.onBack}
           />
           <EditDrawer
             onRef={ref => {
               this.editDrawer = ref
             }}
+            onClose={this.onBack}
             onSuccess={this.onSuccess}
           />
         </TableWrap>

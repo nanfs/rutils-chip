@@ -82,6 +82,8 @@ export default class AddDrawer extends React.Component {
           this.drawer = ref
         }}
         onOk={this.addPool}
+        onSuccess={this.props.onSuccess}
+        onClose={this.props.onClose}
       >
         <Formx>
           <Title slot="基础设置"></Title>

@@ -13,6 +13,7 @@ import DetailDrawer from './chip/DetailDrawer'
 import SetUserDrawer from './chip/SetUserDrawer'
 import AddTemplateModal from './chip/AddTemplateModal'
 import InnerPath from '@/components/InnerPath'
+import MyIcon from '@/components/MyIcon'
 import SelectSearch from '@/components/SelectSearch'
 import produce from 'immer'
 import desktopsApi from '@/services/desktops'
@@ -27,18 +28,56 @@ export default class Desktop extends React.Component {
     className: 'opration',
     render: (text, record) => (
       <div>
-        <Button
-          onClick={this.sendOrder.bind(this, record.id, 'turnOn')}
-          icon="user"
+        <MyIcon
+          type="order-down"
+          title="关机"
+          onClick={this.sendOrder.bind(this, record.id, 'shutdown')}
         />
-        <Button
-          onClick={this.sendOrder.bind(this, record.id, 'turnOff')}
-          icon="user"
+        <MyIcon
+          type="order-up"
+          title="开机"
+          onClick={this.sendOrder.bind(this, record.id, 'start')}
         />
-        <Button onClick={() => this.addTemplateModal.pop(record.id)}>
-          添加模板
-        </Button>
-        <Button onClick={this.detailVm}>详情</Button>
+        <MyIcon
+          type="order-poweroff"
+          title="断电"
+          onClick={this.sendOrder.bind(this, record.id, 'start')}
+        />
+        <MyIcon
+          type="vm-rebootinprogress"
+          title="重启"
+          onClick={this.sendOrder.bind(this, record.id, 'start')}
+        />
+        <MyIcon
+          type="order-console-end"
+          title="关闭控制台"
+          onClick={this.sendOrder.bind(this, record.id, 'start')}
+        />
+        <MyIcon
+          type="order-console"
+          title="打开控制台"
+          onClick={this.sendOrder.bind(this, record.id, 'start')}
+        />
+        <MyIcon
+          type="order-setuser"
+          title="分配用户"
+          onClick={() => this.setUserDrawer.pop(record.id)}
+        />
+        <MyIcon
+          type="template1"
+          title="添加模板"
+          onClick={() => this.addTemplateModal.pop(record.id)}
+        />
+        <Icon
+          type="form"
+          title="编辑"
+          onClick={() => this.editDrawer.pop(record.id)}
+        />
+        <MyIcon
+          type="order-info"
+          title="详情"
+          onClick={() => this.detailDrawer.pop(record.id)}
+        />
       </div>
     )
   }
@@ -110,7 +149,7 @@ export default class Desktop extends React.Component {
   }
 
   createVm = () => {
-    this.setState({ inner: '新建桌面' }, this.addDrawer.drawer.show())
+    this.setState({ inner: '新建桌面' }, this.addDrawer.pop())
     this.currentDrawer = this.addDrawer
   }
 
@@ -146,7 +185,7 @@ export default class Desktop extends React.Component {
   }
 
   setUser = () => {
-    this.setState({ inner: '分配用户' }, this.setUserDrawer.drawer.show())
+    this.setState({ inner: '分配用户' }, this.setUserDrawer.pop())
     this.currentDrawer = this.setUserDrawer
   }
 
@@ -205,12 +244,12 @@ export default class Desktop extends React.Component {
           <ToolBar>
             <BarLeft>
               <Button onClick={this.createVm}>创建桌面</Button>
-              <Button
+              {/* <Button
                 onClick={this.editVm}
                 disabled={disbaledButton.disabledEdit}
               >
                 编辑桌面
-              </Button>
+              </Button> */}
               <Button
                 onClick={this.setUser}
                 disabled={disbaledButton.disabledSetUser}
@@ -244,26 +283,29 @@ export default class Desktop extends React.Component {
               this.addDrawer = ref
             }}
             onSuccess={this.onSuccess}
+            onClose={this.onBack}
           />
           <EditDrawer
             onRef={ref => {
               this.editDrawer = ref
             }}
             onSuccess={this.onSuccess}
+            onClose={this.onBack}
             initValues={this.state.initValues}
           />
           <DetailDrawer
             onRef={ref => {
               this.detailDrawer = ref
             }}
+            onClose={this.onBack}
             initValues={this.state.initValues}
           />
           <SetUserDrawer
             onRef={ref => {
               this.setUserDrawer = ref
             }}
+            onClose={this.onBack}
             onSuccess={this.onSuccess}
-            selection={this.state.tableCfg.selection}
           />
         </TableWrap>
         <AddTemplateModal

@@ -84,6 +84,10 @@ export default class User extends React.Component {
     )
   }
 
+  onSuccess = () => {
+    this.tablex.refresh(this.state.tableCfg)
+  }
+
   render() {
     const searchOptions = [{ label: '名称', value: 'name' }]
     const { inputValue } = this.state
@@ -179,17 +183,22 @@ export default class User extends React.Component {
                 onRef={ref => {
                   this.addDrawer = ref
                 }}
+                onClose={this.onBack}
+                onSuccess={this.onSuccess}
               />
               <EditDrawer
                 onRef={ref => {
                   this.editDrawer = ref
                 }}
+                onClose={this.onBack}
+                onSuccess={this.onSuccess}
                 initValues={this.state.initValues}
               />
               <DetailDrawer
                 onRef={ref => {
                   this.detailDrawer = ref
                 }}
+                onClose={this.onBack}
                 initValues={this.state.initValues}
               />
             </div>

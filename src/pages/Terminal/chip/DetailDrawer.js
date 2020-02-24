@@ -161,7 +161,7 @@ export default class DetailDrawer extends React.Component {
           />
         </div>
         <div className="dms-detail-section">
-          <Title slot="安全策略"></Title>
+          <Title slot="安全控制"></Title>
           <Table
             columns={detailSafepolicyColumns}
             dataSource={initValues.safePolicys}
@@ -169,7 +169,7 @@ export default class DetailDrawer extends React.Component {
           />
         </div>
         <div className="dms-detail-section">
-          <Title slot="准入策略"></Title>
+          <Title slot="准入控制"></Title>
           <Table
             columns={detailAdmitpolicyColumns}
             dataSource={initValues.admitPolicys}

@@ -10,15 +10,7 @@ export default class Radiox extends React.Component {
     expand: false
   }
 
-  componentDidMount() {
-    const { getOptionFunction } = this.props
-    if (getOptionFunction) {
-      this.getData()
-    }
-  }
-
   componentDidUpdate(prep) {
-    // if (this.props.value !== prep.value && prep.value === undefined) {
     if (this.props.value !== prep.value) {
       this.setState({ value: this.props.value })
     }
@@ -30,40 +22,17 @@ export default class Radiox extends React.Component {
     this.props.onChange(value)
   }
 
-  // getOptionFucntion 传入获取选项方法  param传入参数
-  getData = () => {
-    const { getOptionFunction, param, keys = ['id', 'name'] } = this.props
-    this.setState({ loading: true })
-    getOptionFunction(param)
-      .then(res => {
-        if (res.success && Array.isArray(res.data.records)) {
-          const options = res.data.records.map(item => ({
-            label: item[keys[1]],
-            value: item[keys[0]]
-          }))
-          this.setState({ options, loading: false })
-        } else {
-          this.setState({ loading: false })
-          console.log(res)
-        }
-      })
-      .catch(err => {
-        this.setState({ loading: false })
-        console.log(err)
-      })
-  }
-
   toggle = () => {
     this.setState({ expand: !this.state.expand })
   }
 
   renderOptions = () => {
-    const { getOptionFunction } = this.props
-    const { options, expand } = this.state
-    if (!options.length) {
+    const { options } = this.props
+    const { expand } = this.state
+    if (!options || !options.length) {
       return <span>暂无数据</span>
     }
-    if (!getOptionFunction || expand) {
+    if (expand) {
       return options.map(item => (
         <Radio.Button
           value={item.value}
@@ -74,35 +43,28 @@ export default class Radiox extends React.Component {
         </Radio.Button>
       ))
     }
-    if (!expand) {
-      const someOptions = options.slice(0, 8)
-      return (
-        // <Row>
-        someOptions.map(item => (
-          // <Col span={6} key={index}>
-          <Radio.Button
-            value={item.value}
-            key={item.value}
-            disabled={item.disabled}
-          >
-            {item.label}
-          </Radio.Button>
-          // </Col>
-        ))
-        // </Row>
-      )
-    }
-    console.log('catch renderOptions', expand, options)
+    const someOptions = options.slice(0, 8)
+    return (
+      // <Row>
+      someOptions.map(item => (
+        // <Col span={6} key={index}>
+        <Radio.Button
+          value={item.value}
+          key={item.value}
+          disabled={item.disabled}
+        >
+          {item.label}
+        </Radio.Button>
+        // </Col>
+      ))
+      // </Row>
+    )
   }
 
   render() {
-    const { className, hasInputNumber, getOptionFunction } = this.props
-    const { options, loading, expand } = this.state
-    const cls = classnames(
-      className,
-      'radiox',
-      getOptionFunction && 'has-fresh'
-    )
+    const { className, hasInputNumber, loading, getData } = this.props
+    const { options, expand } = this.state
+    const cls = classnames(className, 'radiox', getData && 'has-fresh')
     return (
       <Radio.Group
         className={cls}
@@ -117,7 +79,7 @@ export default class Radiox extends React.Component {
             value={this.state.value}
           />
         )}
-        {!!getOptionFunction && options && options.length > 8 && (
+        {options && options.length > 8 && (
           <Button
             className="expand-btn"
             onClick={this.toggle}
@@ -126,8 +88,8 @@ export default class Radiox extends React.Component {
             {expand ? '折叠隐藏' : '展开更多'}
           </Button>
         )}
-        {!!getOptionFunction && (
-          <Button className="reload-btn" onClick={this.getData}>
+        {loading && (
+          <Button className="reload-btn" onClick={getData}>
             <Icon type="sync" spin={loading}></Icon>
           </Button>
         )}

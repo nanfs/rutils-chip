@@ -54,7 +54,7 @@ export default {
   },
   getNetwork(data) {
     return axios({
-      url: '/desktops',
+      url: 'http://192.168.254.204/ovirt-engine/desktop/networks',
       method: 'get',
       params: data
     })

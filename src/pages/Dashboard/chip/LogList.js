@@ -1,5 +1,6 @@
 import React from 'react'
 import { List, Icon, Popover } from 'antd'
+import { renderServerityOptions } from '@/utils/tableRender'
 
 export default class LogList extends React.Component {
   render() {
@@ -14,22 +15,23 @@ export default class LogList extends React.Component {
               title={
                 <div>
                   <span style={{ color: '#8697bc' }}>
-                    <Icon type="warning" />
-                    {item.tcName}
+                    {renderServerityOptions(item.severity)}
+                    {/* <Icon type="warning" /> */}
+                    {item.userName}
                   </span>
                   <span
                     style={{ position: 'absolute', right: 0, color: '#a0a0a0' }}
                   >
-                    {item.datetime}
+                    {item.logTime}
                   </span>
                 </div>
               }
               description={
                 <Popover
                   placement="bottomRight"
-                  content={<div>{item.content}</div>}
+                  content={<div>{item.message}</div>}
                 >
-                  {item.content}
+                  {item.message}
                 </Popover>
               }
             />

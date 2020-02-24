@@ -1,6 +1,6 @@
 import desktopsApi from '@/services/desktops'
 import React from 'react'
-import { Icon, Progress } from 'antd'
+import { Progress } from 'antd'
 import { vmStatusRender, osStatusRender } from '@/utils/tableRender'
 import MyIcon from '@/components/MyIcon'
 // TODO antd 样式加载问题
@@ -8,7 +8,7 @@ export const columns = [
   {
     title: '状态',
     dataIndex: 'status',
-    width: 50,
+    width: 80,
     filters: [
       { value: '-1', text: '未指派的' },
       { value: '0', text: '关机' },

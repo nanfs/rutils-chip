@@ -5,12 +5,12 @@ export const columns = [
   {
     title: '级别',
     dataIndex: 'severity',
+    width: 100,
     filters: severityOptions,
-    render: renderServerityOptions,
-    onFilter: (value, record) => record.severity === value
+    render: renderServerityOptions
   },
   {
-    title: '登录时间',
+    title: '时间',
     dataIndex: 'logTime'
   },
   {

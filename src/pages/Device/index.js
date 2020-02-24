@@ -152,6 +152,7 @@ export default class Device extends React.Component {
             onRef={ref => {
               this.editDrawer = ref
             }}
+            onClose={this.onBack}
             initValues={this.state.initValues}
             onSuccess={this.onSuccess}
           />
@@ -159,6 +160,7 @@ export default class Device extends React.Component {
             onRef={ref => {
               this.addDrawer = ref
             }}
+            onClose={this.onBack}
             onSuccess={this.onSuccess}
           />
         </TableWrap>

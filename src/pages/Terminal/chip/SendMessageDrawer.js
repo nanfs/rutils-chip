@@ -53,6 +53,7 @@ export default class SendMessageDrawer extends React.Component {
         onOk={values => {
           this.sendMessage(values, selection)
         }}
+        onClose={this.props.onClose}
       >
         <Formx
           onRef={ref => {

@@ -283,24 +283,28 @@ export default class Desktop extends React.Component {
               this.addDrawer = ref
             }}
             onSuccess={this.onSuccess}
+            onClose={this.onBack}
           />
           <EditDrawer
             onRef={ref => {
               this.editDrawer = ref
             }}
             onSuccess={this.onSuccess}
+            onClose={this.onBack}
             initValues={this.state.initValues}
           />
           <DetailDrawer
             onRef={ref => {
               this.detailDrawer = ref
             }}
+            onClose={this.onBack}
             initValues={this.state.initValues}
           />
           <SetUserDrawer
             onRef={ref => {
               this.setUserDrawer = ref
             }}
+            onClose={this.onBack}
             onSuccess={this.onSuccess}
           />
         </TableWrap>

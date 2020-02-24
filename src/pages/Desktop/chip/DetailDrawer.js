@@ -53,6 +53,7 @@ export default class DetailDrawer extends React.Component {
         onRef={ref => {
           this.drawer = ref
         }}
+        onClose={this.props.onClose}
         onOk={values => {
           console.log(values)
         }}

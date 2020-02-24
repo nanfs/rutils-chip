@@ -80,6 +80,7 @@ export default class SetUserDrawer extends React.Component {
         onRef={ref => {
           this.drawer = ref
         }}
+        onClose={this.props.onClose}
         onOk={this.setUser}
       >
         <Formx>

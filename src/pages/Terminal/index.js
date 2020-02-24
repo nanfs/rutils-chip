@@ -318,11 +318,13 @@ export default class Termina extends React.Component {
             }}
             initValues={this.state.initValues}
             onSuccess={this.onSuccess}
+            onClose={this.onBack}
           />
           <DetailDrawer
             onRef={ref => {
               this.detailDrawer = ref
             }}
+            onClose={this.onBack}
             initValues={this.state.initValues}
             initChartValue={this.state.initChartValue}
           />
@@ -330,6 +332,7 @@ export default class Termina extends React.Component {
             onRef={ref => {
               this.setUserDrawer = ref
             }}
+            onClose={this.onBack}
             onSuccess={this.onSuccess}
             selection={this.state.selection}
           />
@@ -351,6 +354,7 @@ export default class Termina extends React.Component {
             onRef={ref => {
               this.sendMessageDrawer = ref
             }}
+            onClose={this.onBack}
             onSuccess={this.onSuccess}
             selectData={this.state.selectData}
             selection={this.state.selection}

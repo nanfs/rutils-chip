@@ -138,6 +138,8 @@ class EditDrawer extends React.Component {
           onRef={ref => {
             this.formx = ref
           }}
+          onClose={this.props.onClose}
+          onSuccess={this.props.onSuccess}
           initValues={initValues}
         >
           <Title slot="基础设置"></Title>

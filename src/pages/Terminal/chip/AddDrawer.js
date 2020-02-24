@@ -48,6 +48,7 @@ export default class AddDrawer extends React.Component {
           console.log(values)
           this.addTerminal()
         }}
+        onClose={this.props.onClose}
         onSuccess={this.props.onSuccess}
       >
         <Formx

@@ -47,6 +47,7 @@ export default class DetailDrawer extends React.Component {
         onOk={values => {
           console.log(values)
         }}
+        onClose={this.props.onClose}
       >
         <div className="dms-detail-section">
           <Title slot="基础设置"></Title>

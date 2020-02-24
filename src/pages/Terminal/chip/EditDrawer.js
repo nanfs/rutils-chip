@@ -65,6 +65,7 @@ export default class EditDrawer extends React.Component {
           this.editTerminal(values)
           return false
         }}
+        onClose={this.props.onClose}
         onSuccess={this.props.onSuccess}
       >
         <Formx

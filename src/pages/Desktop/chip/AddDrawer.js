@@ -6,6 +6,7 @@ import Title, { Diliver } from '@/components/Title'
 import Radiox from '@/components/Radiox'
 import { usbOptions, memoryOptions, cpuOptions } from '@/utils/formOptions'
 import desktopsApi from '@/services/desktops'
+import { required } from '@/utils/valid'
 
 const { TextArea } = Input
 
@@ -17,6 +18,8 @@ export default class AddDrawer extends React.Component {
   state = {
     templateOptions: [],
     networkOptions: [],
+    networks: [],
+    clusterId: undefined,
     templateLoading: false,
     networkLoading: false
   }
@@ -25,13 +28,23 @@ export default class AddDrawer extends React.Component {
     this.drawer.show()
     this.setState({ fetchData: true })
     this.getTemplate()
-    this.getNetwork()
   }
 
   addVm = values => {
+    console.log('values', values)
+    const { templateId, network } = values
+    const templateFix = templateId.split('&clusterId')[0]
+    const [kind, name, kindid] = network.split('&')
+    const data = {
+      ...values,
+      cpuNum: 1,
+      templateId: templateFix,
+      network: [{ kind, name, kindid }]
+    }
+    console.log('data', data)
     // TODO 是否是新增 删除 还是直接 传入桌面是单个还是批量
     desktopsApi
-      .addVm({ values })
+      .addVm(data)
       .then(res => {
         this.drawer.afterSubmit(res)
       })
@@ -58,17 +71,31 @@ export default class AddDrawer extends React.Component {
   }
 
   onTempalteChange = (a, b, value) => {
-    console.log(value)
+    const clusterId = value.split('&clusterId')[1]
+    this.setState({ clusterId }, () => this.getNetwork(clusterId))
   }
 
   getNetwork = () => {
+    const queryClusterId = this.state.clusterId
+    this.setState({ networkLoading: true })
+    if (!queryClusterId) {
+      this.setState({ networkLoading: false })
+      return Promise.reject().catch(e => {
+        console.log(e)
+      })
+    }
     desktopsApi
-      .getNetwork({ current: 1, size: 10000 })
+      .getNetwork(queryClusterId)
       .then(res => {
-        console.log(res)
-        this.setState({ networkLoading: false })
+        const network = res.data.records
+        const networkOptions = network.map(item => ({
+          label: `${item.kind}/${item.name}`,
+          value: `${item.kind}&${item.name}&${item.kindid}`
+        }))
+        this.setState({ networkOptions, networkLoading: false })
       })
       .catch(e => {
+        this.setState({ networkLoading: false })
         console.log(e)
       })
   }
@@ -85,14 +112,10 @@ export default class AddDrawer extends React.Component {
       >
         <Formx>
           <Title slot="基础设置"></Title>
-          <Form.Item prop="name" label="桌面名称">
+          <Form.Item prop="name" label="桌面名称" rules={[required]}>
             <Input placeholder="桌面名称" />
           </Form.Item>
-          <Form.Item
-            prop="template"
-            label="模板"
-            hidden={!this.state.fetchData}
-          >
+          <Form.Item prop="templateId" label="模板" rules={[required]}>
             <Radiox
               getData={this.getTemplate}
               options={this.state.templateOptions}
@@ -100,12 +123,13 @@ export default class AddDrawer extends React.Component {
               onChange={this.onTempalteChange}
             />
           </Form.Item>
-          <Form.Item prop="usbNum" label="USB数量">
+          <Form.Item prop="usbNum" label="USB数量" rules={[required]}>
             <Radiox options={usbOptions} />
           </Form.Item>
           <Form.Item
-            prop="cpuCore"
+            prop="cpuCores"
             label="CPU"
+            rules={[required]}
             wrapperCol={{ sm: { span: 16 } }}
           >
             <Radiox options={cpuOptions} hasInputNumber />
@@ -113,6 +137,7 @@ export default class AddDrawer extends React.Component {
           <Form.Item
             prop="memory"
             label="内存"
+            rules={[required]}
             wrapperCol={{ sm: { span: 16 } }}
           >
             <Radiox options={memoryOptions} hasInputNumber />
@@ -125,6 +150,7 @@ export default class AddDrawer extends React.Component {
           <Form.Item
             prop="network"
             label="网络"
+            rules={[required]}
             wrapperCol={{ sm: { span: 16 } }}
             hidden={!this.state.fetchData}
           >

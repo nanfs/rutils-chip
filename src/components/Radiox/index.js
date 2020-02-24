@@ -88,7 +88,7 @@ export default class Radiox extends React.Component {
             {expand ? '折叠隐藏' : '展开更多'}
           </Button>
         )}
-        {loading && (
+        {getData && (
           <Button className="reload-btn" onClick={getData}>
             <Icon type="sync" spin={loading}></Icon>
           </Button>

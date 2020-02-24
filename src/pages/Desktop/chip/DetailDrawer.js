@@ -2,10 +2,22 @@ import React from 'react'
 import Drawerx from '@/components/Drawerx'
 import { Row, Col, Table } from 'antd'
 import Title, { Diliver } from '@/components/Title'
+import desktopsApi from '@/services/desktops'
 
 export default class DetailDrawer extends React.Component {
   componentDidMount() {
     this.props.onRef && this.props.onRef(this)
+  }
+
+  pop = id => {
+    desktopsApi
+      .detail(id)
+      .then(res => {
+        console.log(res)
+      })
+      .catch(e => {
+        console.log(e)
+      })
   }
 
   render() {

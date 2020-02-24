@@ -1,5 +1,4 @@
 export function required(rule, value, callback) {
-  console.log(value)
   if (value === undefined || value === null || value.length === 0) {
     callback(new Error('这是必填项'))
   }

@@ -10,6 +10,12 @@ export default {
       params: data
     })
   },
+  detail(id) {
+    return axios({
+      url: `/desktops/${id}`,
+      method: 'get'
+    })
+  },
   delVm(data) {
     return axios({
       url: '/desktops',
@@ -28,7 +34,7 @@ export default {
     return axios({
       url: '/desktops',
       method: 'post',
-      data: qs.stringify(data)
+      data: qs.stringify(data, { arrayFormat: 'indices', allowDots: true })
     })
   },
   editVm(data) {
@@ -52,11 +58,10 @@ export default {
       data: qs.stringify(data)
     })
   },
-  getNetwork(data) {
+  getNetwork(id) {
     return axios({
-      url: 'http://192.168.254.204/ovirt-engine/desktop/networks',
-      method: 'get',
-      params: data
+      url: `/networks/${id}`,
+      method: 'get'
     })
   }
 }

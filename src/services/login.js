@@ -4,7 +4,7 @@ import axios from './axios'
 export default {
   login(data) {
     return axios({
-      timeout: 10000,
+      timeout: 50000,
       url: '/user/login',
       method: 'post',
       data: qs.stringify(data)

@@ -21,18 +21,9 @@ export default class DonutChart extends React.Component {
     const { DonutChartData, guideTitle, dataSum } = this.props
     const { DataView } = DataSet
     const { Html } = Guide
-    const data = [
-      {
-        name: '事例一',
-        count: 40
-      },
-      {
-        name: '事例二',
-        count: 21
-      }
-    ]
+
     const dv = new DataView()
-    dv.source(data).transform({
+    dv.source(DonutChartData).transform({
       type: 'percent',
       field: 'count',
       dimension: 'name',
@@ -71,7 +62,7 @@ export default class DonutChart extends React.Component {
             marker="square"
             itemFormatter={val => {
               let count = 0
-              data.forEach(item => {
+              DonutChartData.forEach(item => {
                 if (item.name === val) count = item.count
               })
               return `${val}    ${count}` // val 为每个图例项的文本值

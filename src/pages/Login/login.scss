@@ -1,5 +1,5 @@
 body {
-  min-width: 1000px;
+  min-width: 1200px;
   min-height: 619px;
 }
 .wrap {
@@ -17,6 +17,7 @@ body {
     margin: 0 auto;
     position: relative;
     background: url('../../assets/login-wrap-bg.jpg') left center no-repeat;
+    background-size: 100% 100%;
     .content-left {
       height: 64px;
       width: 240px;
@@ -58,7 +59,7 @@ body {
       }
 
       .login-form {
-        width: 368px;
+        width: 60%;
         margin: 30px auto;
         text-align: left;
 

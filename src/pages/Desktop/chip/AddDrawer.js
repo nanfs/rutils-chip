@@ -15,17 +15,17 @@ export default class AddDrawer extends React.Component {
   }
 
   state = {
-    networkOption: [
-      { label: '网络一', value: '1' },
-      { label: '网络二', value: '2' },
-      { label: '网络三', value: '3' },
-      { label: '网络四', value: '4' }
-    ]
+    templateOptions: [],
+    networkOptions: [],
+    templateLoading: false,
+    networkLoading: false
   }
 
   pop = () => {
     this.drawer.show()
     this.setState({ fetchData: true })
+    this.getTemplate()
+    this.getNetwork()
   }
 
   addVm = values => {
@@ -37,6 +37,39 @@ export default class AddDrawer extends React.Component {
       })
       .catch(errors => {
         console.log(errors)
+      })
+  }
+
+  // 需要clusetid 还有 id 无奈
+  getTemplate = () => {
+    this.setState({ templateLoading: true })
+    desktopsApi
+      .getTemplate({ current: 1, size: 10000 })
+      .then(res => {
+        const templateOptions = res.data.records.map(item => ({
+          label: item.name,
+          value: `${item.id}&clusterId${item.clusterId}`
+        }))
+        this.setState({ templateOptions, templateLoading: false })
+      })
+      .catch(e => {
+        console.log(e)
+      })
+  }
+
+  onTempalteChange = (a, b, value) => {
+    console.log(value)
+  }
+
+  getNetwork = () => {
+    desktopsApi
+      .getNetwork({ current: 1, size: 10000 })
+      .then(res => {
+        console.log(res)
+        this.setState({ networkLoading: false })
+      })
+      .catch(e => {
+        console.log(e)
       })
   }
 
@@ -61,8 +94,10 @@ export default class AddDrawer extends React.Component {
             hidden={!this.state.fetchData}
           >
             <Radiox
-              getOptionFunction={desktopsApi.getTemplate}
-              param={{ current: 1, size: 10000 }}
+              getData={this.getTemplate}
+              options={this.state.templateOptions}
+              loading={this.state.templateLoading}
+              onChange={this.onTempalteChange}
             />
           </Form.Item>
           <Form.Item prop="usbNum" label="USB数量">
@@ -91,11 +126,12 @@ export default class AddDrawer extends React.Component {
             prop="network"
             label="网络"
             wrapperCol={{ sm: { span: 16 } }}
+            hidden={!this.state.fetchData}
           >
             <Radiox
-              options={this.state.networkOption}
-              getOptionFunction={desktopsApi.getTemplate}
-              fetch={this.state.fetchData}
+              getData={this.getNetwork}
+              options={this.state.networkOptions}
+              loading={this.state.networkLoading}
             />
           </Form.Item>
         </Formx>

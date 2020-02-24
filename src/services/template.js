@@ -5,6 +5,7 @@ export default {
   // 模板列表
   list(data) {
     return axios({
+      timeout: 10000,
       url: '/templates',
       method: 'get',
       data: qs.stringify(data)

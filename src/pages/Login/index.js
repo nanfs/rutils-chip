@@ -6,6 +6,12 @@ import { setUserToLocal } from '@/components/Authorized'
 export default class Login extends Component {
   onSuccess = username => {
     setUserToLocal(username)
+
+    console.log(
+      '%c 🍡 this.props: ',
+      'font-size:20px;background-color: #B03734;color:#fff;',
+      this.props
+    )
     this.props.history.push('/')
   }
 

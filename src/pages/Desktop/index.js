@@ -207,6 +207,7 @@ export default class Desktop extends React.Component {
     )
   }
 
+  // TODO 修改开关机等 禁用条件
   render() {
     const searchOptions = [{ label: '名称', value: 'name' }]
     const { disbaledButton } = this.state
@@ -219,16 +220,32 @@ export default class Desktop extends React.Component {
         >
           删除
         </Menu.Item>
-        <Menu.Item key="2" onClick={() => this.patchOrder('start')}>
+        <Menu.Item
+          key="2"
+          disabled={disbaledButton.disabledDelete}
+          onClick={() => this.patchOrder('start')}
+        >
           开机
         </Menu.Item>
-        <Menu.Item key="3" onClick={() => this.patchOrder('shutdown')}>
+        <Menu.Item
+          key="3"
+          disabled={disbaledButton.disabledDelete}
+          onClick={() => this.patchOrder('shutdown')}
+        >
           关机
         </Menu.Item>
-        <Menu.Item key="4" onClick={() => this.patchOrder('poweroff')}>
+        <Menu.Item
+          key="4"
+          disabled={disbaledButton.disabledDelete}
+          onClick={() => this.patchOrder('poweroff')}
+        >
           断电
         </Menu.Item>
-        <Menu.Item key="5" onClick={() => this.patchOrder('restart')}>
+        <Menu.Item
+          key="5"
+          disabled={disbaledButton.disabledDelete}
+          onClick={() => this.patchOrder('restart')}
+        >
           重启
         </Menu.Item>
       </Menu>

@@ -95,6 +95,18 @@ export default class Termina extends React.Component {
     this.currentDrawer = this.setUserDrawer
   }
 
+  setSafePolicy = () => {
+    this.setState({ inner: '设置外设控制' })
+    this.setSafePolicyDrawer.drawer.show()
+    this.currentDrawer = this.setSafePolicyDrawer
+  }
+
+  setAccessPolicy = () => {
+    this.setState({ inner: '设置准入控制' })
+    this.setAccessPolicyDrawer.drawer.show()
+    this.currentDrawer = this.setAccessPolicyDrawer
+  }
+
   sendMessage = () => {
     this.setState({ inner: '发送消息' })
     this.sendMessageDrawer.drawer.show()
@@ -232,14 +244,14 @@ export default class Termina extends React.Component {
           onClick={this.setSafePolicy}
           disabled={disbaledButton.disabledDelete}
         >
-          设置外设策略
+          设置外设控制
         </Menu.Item>
         <Menu.Item
           key="8"
           onClick={this.setAccessPolicy}
           disabled={disbaledButton.disabledDelete}
         >
-          设置准入策略
+          设置准入控制
         </Menu.Item>
       </Menu>
     )

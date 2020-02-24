@@ -55,7 +55,7 @@ export const columns = [
   },
   {
     title: '接入状态',
-    dataIndex: 'isControlled',
+    dataIndex: 'isReq',
     filters: [
       {
         text: '待接入',

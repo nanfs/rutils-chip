@@ -124,14 +124,14 @@ export default class DetailDrawer extends React.Component {
             </Col>
           </Row>
           <Row className="dms-detail-row">
-            <Col span={3} className="dms-detail-label">
+            {/* <Col span={3} className="dms-detail-label">
               自动锁屏时间:
             </Col>
             <Col span={8} className="dms-detail-value">
               <Tooltip title={initValues.autoLockTime}>
                 <span>{initValues.autoLockTime}</span>
               </Tooltip>
-            </Col>
+            </Col> */}
             <Col span={3} className="dms-detail-label">
               认证方式:
             </Col>
@@ -140,8 +140,16 @@ export default class DetailDrawer extends React.Component {
                 <span>{initValues.loginWay}</span>
               </Tooltip>
             </Col>
+            <Col span={3} className="dms-detail-label">
+              描述:
+            </Col>
+            <Col span={8} className="dms-detail-value">
+              <Tooltip title={initValues.description}>
+                <span>{initValues.description}</span>
+              </Tooltip>
+            </Col>
           </Row>
-          <Row className="dms-detail-row">
+          {/* <Row className="dms-detail-row">
             <Col span={3} className="dms-detail-label">
               描述:
             </Col>
@@ -150,7 +158,7 @@ export default class DetailDrawer extends React.Component {
                 <span>{initValues.description}</span>
               </Tooltip>
             </Col>
-          </Row>
+          </Row> */}
         </div>
         <div className="dms-detail-section">
           <Title slot="所属用户"></Title>
@@ -184,10 +192,10 @@ export default class DetailDrawer extends React.Component {
             pagination={false}
           />
         </div>
-        <div className="dms-detail-section">
+        {/* <div className="dms-detail-section">
           <Title slot="使用统计"></Title>
           <DetailUseStatisticsChart dataSource={initChartValue} />
-        </div>
+        </div> */}
       </Drawerx>
     )
   }

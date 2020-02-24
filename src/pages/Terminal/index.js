@@ -1,5 +1,13 @@
 import React from 'react'
-import { Button, message, notification, Menu, Dropdown, Icon } from 'antd'
+import {
+  Button,
+  message,
+  notification,
+  Menu,
+  Dropdown,
+  Icon,
+  Modal
+} from 'antd'
 import produce from 'immer'
 
 import Tablex, {
@@ -22,6 +30,8 @@ import { columns, apiMethod } from './chip/TableCfg'
 import terminalApi from '@/services/terminal'
 
 import './index.scss'
+
+const { confirm } = Modal
 
 export default class Termina extends React.Component {
   options = {
@@ -55,6 +65,7 @@ export default class Termina extends React.Component {
     innerPath: undefined,
     initValues: {},
     selectData: [],
+    selectSN: [],
     disbaledButton: {}
   }
 
@@ -114,21 +125,23 @@ export default class Termina extends React.Component {
   }
 
   detailTerminal = () => {
-    const ids = this.tablex.getSelection()
+    const sns = this.state.selectSN
     terminalApi
-      .terminalsdetail(ids[0])
+      .terminalsdetail(sns[0])
       .then(res => {
         if (res.success) {
           this.setState({ inner: '查看详情', initValues: res.data })
-          terminalApi.terminalsusagedetail({ ids }).then(result => {
-            if (result.success) {
-              this.setState({ initChartValue: result.data.list })
+          this.detailDrawer.drawer.show()
+          this.currentDrawer = this.detailDrawer
+          /* terminalApi.terminalsusagedetail({ sns }).then(res => {
+            if (res.success) {
+              this.setState({ initChartValue: res.data })
               this.detailDrawer.drawer.show()
               this.currentDrawer = this.detailDrawer
             } else {
               message.error(res.message || '查询失败')
             }
-          })
+          }) */
         } else {
           message.error(res.message || '查询失败')
         }
@@ -140,7 +153,7 @@ export default class Termina extends React.Component {
 
   sendOrder = (order, id = undefined) => {
     console.log('sendOrder', id, order)
-    const sns = this.tablex.getSelection()
+    const sns = this.state.selectSN
     terminalApi
       .directiveTerminal({ sns, command: order })
       .then(res => {
@@ -157,7 +170,7 @@ export default class Termina extends React.Component {
   }
 
   admitAccessTerminal = () => {
-    const sns = this.tablex.getSelection()
+    const sns = this.state.selectSN
     terminalApi
       .admitAccessTerminal({ sns })
       .then(res => {
@@ -173,8 +186,33 @@ export default class Termina extends React.Component {
       })
   }
 
+  deleteTerminal = () => {
+    const sns = this.state.selectSN
+    const self = this
+    confirm({
+      title: '确定删除所选数据?',
+      onOk() {
+        terminalApi
+          .deleteTerminal({ sns })
+          .then(res => {
+            if (res.success) {
+              notification.success({ message: '删除成功' })
+              self.tablex.refresh(this.state.tableCfg)
+            } else {
+              message.error(res.message || '删除失败')
+            }
+          })
+          .catch(errors => {
+            console.log(errors)
+          })
+      },
+      onCancel() {}
+    })
+  }
+
   onSelectChange = (selection, selectData) => {
     let disbaledButton = {}
+    const selectSN = selectData.map(item => item.sn)
     if (selection.length !== 1) {
       disbaledButton = { ...disbaledButton, disabledEdit: true }
     }
@@ -185,7 +223,7 @@ export default class Termina extends React.Component {
         disabledSetUser: true
       }
     }
-    this.setState({ disbaledButton, selection, selectData })
+    this.setState({ disbaledButton, selection, selectData, selectSN })
   }
 
   render() {

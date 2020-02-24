@@ -33,6 +33,24 @@ export function renderServerityOptions(recordText) {
   const { text, icon, color } = current
   return <Icon type={icon} className={`table-icon-${color}`} title={text} />
 }
+export const hostStatusText = {
+  'host-unassigned': '未指派的',
+  'host-down': '关机',
+  'host-maintenance': '维护',
+  'host-up': '开机',
+  'host-nonresponsive': '没有响应',
+  'host-error': '错误',
+  'host-installing': '正在安装',
+  'host-installfailed': '安装失败',
+  'host-reboot': '重启',
+  'host-preparingformaintenance': '准备维护',
+  'host-nonoperational': '不可操作',
+  'host-pendingapproval': '待批准',
+  'host-initializing': '正在初始化',
+  'host-connecting': '正在连接',
+  'host-installingos': '安装系统过程中',
+  'host-kdumping': '释放资源过程中'
+}
 export const hostStatusRender = status => {
   const statusList = {
     '0': 'host-unassigned',
@@ -56,9 +74,22 @@ export const hostStatusRender = status => {
     <MyIcon
       type={statusList[status]}
       component="svg"
+      title={hostStatusText[statusList[status]]}
       style={{ fontSize: '18px' }}
     />
   )
+}
+export const storageStatusText = {
+  'storage--unknown-copy': '未知',
+  'storage-uninitialized': '未初始化',
+  'storage-unattached': '未连接',
+  'storage-active': '激活',
+  'storage-inactive': '正在激活',
+  'storage-imagelocked': '锁定',
+  'storage-maintenance': '维护',
+  'storage-preparingformaintenance': '准备维护',
+  'storage-detaching': '分离过程中',
+  'storage-activing': '激活过程中'
 }
 export const storageStatusRender = status => {
   const statusList = {
@@ -77,6 +108,7 @@ export const storageStatusRender = status => {
     <MyIcon
       type={statusList[status]}
       component="svg"
+      title={storageStatusText[statusList[status]]}
       style={{ fontSize: '18px' }}
     />
   )

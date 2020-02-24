@@ -20,14 +20,17 @@ const formItemLayout = {
 
 export default class ConfigModal extends React.Component {
   state = {
-    inputValue: 1,
-    inputValue2: 1,
-    inputValue3: 1
+    inputValue: 10086,
+    inputValue2: 5,
+    inputValue3: 60
     // inputValue4: 1
     // activeList: 'sysLink'
   }
 
   onChange = value => {
+    if (value === 0) {
+      return
+    }
     this.setState({
       inputValue: value
     })
@@ -135,7 +138,7 @@ export default class ConfigModal extends React.Component {
                 <TitleInfo slot="系统参数" /> */}
           <Form.Item prop="sessionTimeOutInterval" label="会话超时时间">
             <Row>
-              <Col span={18}>
+              {/* <Col span={18}>
                 <Slider
                   min={1}
                   max={5}
@@ -143,20 +146,19 @@ export default class ConfigModal extends React.Component {
                   value={typeof inputValue === 'number' ? inputValue : 0}
                 />
               </Col>
-              <Col span={4}>
-                <InputNumber
-                  min={1}
-                  max={5}
-                  style={{ marginLeft: 16 }}
-                  value={inputValue}
-                  onChange={this.onChange}
-                />
-              </Col>
+              <Col span={4}> */}
+              <InputNumber
+                min={-1}
+                style={{ width: '100%' }}
+                value={typeof inputValue === 'number' ? inputValue : 10086}
+                onChange={this.onChange}
+              />
+              {/* </Col> */}
             </Row>
           </Form.Item>
           <Form.Item prop="userLoginFailMaxTimes" label="登录失败最大次数">
             <Row>
-              <Col span={18}>
+              {/* <Col span={18}>
                 <Slider
                   min={1}
                   max={5}
@@ -164,15 +166,14 @@ export default class ConfigModal extends React.Component {
                   value={typeof inputValue2 === 'number' ? inputValue2 : 0}
                 />
               </Col>
-              <Col span={4}>
-                <InputNumber
-                  min={1}
-                  max={5}
-                  style={{ marginLeft: 16 }}
-                  value={inputValue2}
-                  onChange={this.onChange2}
-                />
-              </Col>
+              <Col span={4}> */}
+              <InputNumber
+                min={1}
+                style={{ width: '100%' }}
+                value={typeof inputValue2 === 'number' ? inputValue2 : 5}
+                onChange={this.onChange2}
+              />
+              {/* </Col> */}
             </Row>
           </Form.Item>
           <Form.Item
@@ -180,7 +181,7 @@ export default class ConfigModal extends React.Component {
             label="登录失败锁定阈值"
           >
             <Row>
-              <Col span={18}>
+              {/* <Col span={18}>
                 <Slider
                   min={1}
                   max={5}
@@ -188,15 +189,14 @@ export default class ConfigModal extends React.Component {
                   value={typeof inputValue3 === 'number' ? inputValue3 : 0}
                 />
               </Col>
-              <Col span={4}>
-                <InputNumber
-                  min={1}
-                  max={5}
-                  style={{ marginLeft: 16 }}
-                  value={inputValue3}
-                  onChange={this.onChange3}
-                />
-              </Col>
+              <Col span={4}> */}
+              <InputNumber
+                min={1}
+                style={{ width: '100%' }}
+                value={typeof inputValue3 === 'number' ? inputValue3 : 60}
+                onChange={this.onChange3}
+              />
+              {/* </Col> */}
             </Row>
           </Form.Item>
           {/* <Form.Item prop="isAllowMultiSession" label="用户多会话">

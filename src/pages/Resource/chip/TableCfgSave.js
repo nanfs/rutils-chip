@@ -75,7 +75,9 @@ export const columnsSave = [
               parseFloat(record.availableDiskSize)) *
             100
           }
-          format={() => `${record.usedDiskSize}G/${record.availableDiskSize}G`}
+          format={() =>
+            `${record.usedDiskSize || 0}G/${record.availableDiskSize || 0}G`
+          }
         ></Progress>
       )
     }

@@ -1,6 +1,7 @@
 @import '../styles/default.scss';
 body {
-  overflow-x: hidden;
+  min-width: 1200px;
+  overflow-x: auto;
 }
 .mr10 {
   margin-right: 10px;

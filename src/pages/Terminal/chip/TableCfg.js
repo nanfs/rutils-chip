@@ -84,7 +84,7 @@ export const columns = [
     dataIndex: 'ip'
   },
   {
-    title: '安全策略',
+    title: '外设控制',
     dataIndex: 'safepolicy',
     render: text => (
       <span className="table-action">
@@ -97,7 +97,7 @@ export const columns = [
     )
   },
   {
-    title: '准入策略',
+    title: '准入控制',
     dataIndex: 'admitpolicy',
     render: text => (
       <span className="table-action">

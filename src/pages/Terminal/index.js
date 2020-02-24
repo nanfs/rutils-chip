@@ -192,7 +192,7 @@ export default class Termina extends React.Component {
     const searchOptions = [
       { label: '名称', value: 'name' },
       { label: '位置', value: 'location' },
-      { label: 'ip', value: 'ip' }
+      { label: 'Ip', value: 'ip' }
     ]
     const { disbaledButton } = this.state
     const moreButton = (

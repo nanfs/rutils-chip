@@ -64,6 +64,7 @@
     height: 35px;
     line-height: 35px;
     margin-right: 10px;
+    margin-bottom: 4px;
   }
   .ant-calendar-picker {
     margin-right: 15px;
@@ -100,6 +101,7 @@
     }
     .ant-input-search {
       flex: auto;
+      overflow: hidden;
       &-button {
         height: 33px;
       }

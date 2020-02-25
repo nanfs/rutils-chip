@@ -1,5 +1,5 @@
 import React from 'react'
-import { Tree, Input, Spin, Menu, Modal } from 'antd'
+import { Tree, Input, Spin, Menu, Modal, notification, message } from 'antd'
 import { nodes2Tree } from '@/utils/tool'
 
 import AddNodeModal from './chip/AddNodeModal'
@@ -33,7 +33,7 @@ const generateList = data => {
     const node = data[i]
     const { key, title } = node
     allKey.push(key.toString())
-    nodeList.push({ key: key.toString(), title })
+    nodeList.push({ key, title })
     if (node.children) {
       generateList(node.children)
     }
@@ -48,6 +48,7 @@ export default class Treex extends React.Component {
     expandedKeys: [],
     selectedKeys: [],
     nodeList: [],
+    nodes: undefined,
     loadding: true,
     rightClickNodeTreeItem: {
       pageX: '',
@@ -70,60 +71,89 @@ export default class Treex extends React.Component {
     if (!apiMethod) {
       throw new Error('没有树请求方法')
     }
+    /* const nodes = [
+      {
+        id: '0',
+        key: '0',
+        title: '用户组',
+        parentId: null
+      },
+      {
+        id: '1',
+        key: '1',
+        title: '成都研发中心',
+        parentId: '0'
+      },
+      {
+        id: '2',
+        key: '2',
+        title: '设计组',
+        parentId: '5'
+      },
+      {
+        id: '3',
+        key: '3',
+        title: '前端组',
+        parentId: '1'
+      },
+      {
+        id: '4',
+        key: '4',
+        title: '北京研发中心',
+        parentId: '1'
+      },
+      {
+        id: '5',
+        key: '5',
+        title: '前端组',
+        parentId: '4'
+      }
+    ]
+    if (!Array.isArray(nodes) || !Object.keys(nodes[0]).includes('key')) {
+      throw new Error('数据格式不符合')
+    }
+    const { allKey, nodeList } = generateList(nodes)
+    this.setState({
+      expandedKeys: allKey,
+      selectedKeys: [nodes[0].key],
+      nodeList,
+      nodes,
+      loading: false
+    })
+    treeRenderSuccess && treeRenderSuccess(nodes[0].key) */
     apiMethod()
       .then(res => {
         if (res.success) {
-          const nodes = res.data
-          /* const nodes = [
-            {
-              id: 'department1',
-              key: 'department1',
-              title: '用户组',
-              parentId: null
-            },
-            {
-              id: 'department2',
-              key: 'department2',
-              title: '成都研发中心',
-              parentId: 'department1'
-            },
-            {
-              id: 'department3',
-              key: 'department3',
-              title: '北京研发中心',
-              parentId: 'department1'
-            },
-            {
-              id: 'department4',
-              key: 'department4',
-              title: '前端组',
-              parentId: 'department2'
-            },
-            {
-              id: 'department5',
-              key: 'department5',
-              title: 'java组',
-              parentId: 'department2'
-            },
-            {
-              id: 'department6',
-              key: 'department6',
-              title: '前端组',
-              parentId: 'department3'
+          const nodes = res.data.map(element => {
+            return {
+              ...element,
+              key: element.key.toString(),
+              id: element.id.toString(),
+              value: element.id.toString(),
+              parentId:
+                element.parentId === null
+                  ? element.parentId
+                  : element.parentId.toString()
             }
-          ] */
+          })
+          nodes.sort((a, b) => {
+            if (a.parentId === null && b.parentId !== null) {
+              return -1
+            }
+            return a.parentId - b.parentId
+          })
           if (!Array.isArray(nodes) || !Object.keys(nodes[0]).includes('key')) {
             throw new Error('数据格式不符合')
           }
           const { allKey, nodeList } = generateList(nodes)
           this.setState({
             expandedKeys: allKey,
-            selectedKeys: [nodes[0].key.toString()],
+            selectedKeys: [nodes[0].key],
             nodeList,
             nodes,
             loading: false
           })
-          treeRenderSuccess && treeRenderSuccess(nodes[0].key.toString())
+          treeRenderSuccess && treeRenderSuccess(nodes[0].key, nodes)
         } else {
           this.nodes = []
           this.setState({ loading: false })
@@ -178,6 +208,9 @@ export default class Treex extends React.Component {
   onSelect = (key, node) => {
     const { onSelect } = this.props
     onSelect && onSelect(key, node)
+    this.setState({
+      selectedKeys: key
+    })
   }
 
   renderTreeNode = (data, searchValue = '') =>
@@ -253,7 +286,7 @@ export default class Treex extends React.Component {
         pageX: e.event.pageX,
         pageY: e.event.pageY,
         id: e.node.props['data-key'],
-        categoryName: e.node.props['data-title'],
+        name: e.node.props['data-title'],
         parentId: e.node.props.parentId
       },
       rightMenuStyle: {
@@ -265,20 +298,31 @@ export default class Treex extends React.Component {
     })
   }
 
-  showConfirm = () => {
+  deleteNode = () => {
+    const { deleteNodeApiMethod } = this.props
+    const self = this
     confirm({
       title: '确认删除该节点吗？',
       onOk() {
-        console.log('OK')
+        deleteNodeApiMethod({
+          id: parseInt(self.state.rightClickNodeTreeItem.id, 10)
+        })
+          .then(res => {
+            if (res.success) {
+              notification.success({ message: '删除成功' })
+              self.getTreeData()
+            } else {
+              message.error(res.message || '删除失败')
+            }
+          })
+          .catch(errors => {
+            console.log(errors)
+          })
       },
       onCancel() {
         console.log('Cancel')
       }
     })
-  }
-
-  deleteNode = e => {
-    console.log(e)
   }
 
   render() {
@@ -335,7 +379,7 @@ export default class Treex extends React.Component {
               >
                 修改
               </Menu.Item>
-              <Menu.Item key="deleteNode" onClick={this.showConfirm}>
+              <Menu.Item key="deleteNode" onClick={this.deleteNode}>
                 删除
               </Menu.Item>
             </Menu>

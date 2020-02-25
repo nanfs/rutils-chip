@@ -48,7 +48,7 @@ export function nodes2Tree(nodes, parentId = 'parentId') {
     return []
   }
   console.log()
-  nodes.sort((a, b) => a[parentId] > b[parentId])
+  nodes.sort((a, b) => a[parentId] - b[parentId])
   const nodeArr = [...nodes]
   const tree = {}
 

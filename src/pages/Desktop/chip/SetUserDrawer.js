@@ -78,11 +78,7 @@ export default class SetUserDrawer extends React.Component {
     // TODO 是否是新增 删除 还是直接 传入桌面是单个还是批量
     const { ids } = this.state
     const { selectData } = this.state.tableCfg
-    const users = selectData.map(item => ({
-      domain: item.domain,
-      id: item.uuid,
-      type: 'user'
-    }))
+    const users = selectData
     desktopsApi
       .setUser({ ids, users })
       .then(res => {
@@ -108,7 +104,7 @@ export default class SetUserDrawer extends React.Component {
   }
 
   render() {
-    const searchOptions = [{ label: 'internal', value: 'internal' }]
+    const searchOptions = [{ label: '用户名', value: 'username' }]
     return (
       <Drawerx
         onRef={ref => {

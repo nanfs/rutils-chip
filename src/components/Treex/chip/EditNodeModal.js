@@ -10,24 +10,28 @@ export default class EditNodeModal extends React.Component {
     this.props.onRef && this.props.onRef(this)
   }
 
-  getResult = values => {
-    return new Promise(resolve => {
-      setTimeout(() => {
-        appApi.updatePwd(values).then(res => {
-          console.log(res)
-          resolve(res)
-        })
-      }, 1000)
-    })
-  }
-
   pop = () => {
     this.modal.show()
   }
 
   onOk = values => {
-    const { addNodeApiMethod } = this.props
-    console.log(addNodeApiMethod)
+    const { editNodeApiMethod, nodeValues, addNodeSuccess } = this.props
+    editNodeApiMethod({
+      ...values,
+      id: parseInt(nodeValues.id, 10),
+      parentId: parseInt(nodeValues.parentId, 10)
+    })
+      .then(res => {
+        if (res.success) {
+          addNodeSuccess && addNodeSuccess()
+        } else {
+          // this.nodes = []
+        }
+        this.modal.afterSubmit(res)
+      })
+      .catch(e => {
+        console.log(e)
+      })
   }
 
   render() {
@@ -43,7 +47,7 @@ export default class EditNodeModal extends React.Component {
       >
         <Formx initValues={nodeValues}>
           <Form.Item
-            prop="categoryName"
+            prop="name"
             label="名称"
             rules={[
               {

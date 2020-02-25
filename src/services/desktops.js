@@ -20,7 +20,7 @@ export default {
     return axios({
       url: '/desktops',
       method: 'delete',
-      params: data
+      data: qs.stringify(data)
     })
   },
   setUser(data) {

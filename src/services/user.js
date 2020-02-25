@@ -30,9 +30,9 @@ export default {
       data: qs.stringify(data)
     })
   },
-  descrip(data) {
+  domainlist(data) {
     return axios({
-      url: '/user/list',
+      url: '/domainlist',
       method: 'get',
       params: data
     })
@@ -44,9 +44,10 @@ export default {
       params: data
     })
   },
-  edit(data) {
+  addUser(data) {
     return axios({
-      url: '/updating',
+      url: '/user/create',
+      method: 'post',
       data: qs.stringify(data)
     })
   },

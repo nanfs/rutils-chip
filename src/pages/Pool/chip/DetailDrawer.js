@@ -73,7 +73,7 @@ export default class DetailDrawer extends React.Component {
         </Row>
         <Row>
           <Col span={3}>USB个数：</Col>
-          <Col span={8}>{data.usbNumb}</Col>
+          <Col span={8}>{data.usbNum}</Col>
           <Col span={3}>CPU：</Col>
           <Col span={8}>{data.cpu}</Col>
         </Row>

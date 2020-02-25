@@ -14,6 +14,16 @@ const { TextArea } = Input
 const { RangePicker } = DatePicker
 
 export default class EditDrawer extends React.Component {
+  compareTime = (rule, value, callback) => {
+    const startTime = this.drawer.form.getFieldValue('startTime')
+    if (startTime) {
+      if (!moment(startTime).isBefore(value)) {
+        callback(new Error('结束时间必须晚于开始时间'))
+      }
+    }
+    callback()
+  }
+
   componentDidMount() {
     this.props.onRef && this.props.onRef(this)
   }
@@ -153,6 +163,7 @@ export default class EditDrawer extends React.Component {
             required
             label="结束时间"
             className="time-wrap"
+            rules={[this.compareTime]}
           >
             <TimePicker format={'HH:mm'} />
           </Form.Item>

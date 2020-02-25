@@ -1,9 +1,11 @@
 import React from 'react'
-import { Form, Input, InputNumber } from 'antd'
+import { Form, Input } from 'antd'
 import Drawerx from '@/components/Drawerx'
 import Formx from '@/components/Formx'
 import Title, { Diliver } from '@/components/Title'
 import Radiox from '@/components/Radiox'
+import Checkboxx from '@/components/Checkboxx'
+
 import { usbOptions, memoryOptions, cpuOptions } from '@/utils/formOptions'
 import desktopsApi from '@/services/desktops'
 import { required } from '@/utils/valid'
@@ -31,15 +33,18 @@ export default class AddDrawer extends React.Component {
   }
 
   addVm = values => {
-    console.log('values', values)
     const { templateId, network } = values
     const templateFix = templateId.split('&clusterId')[0]
-    const [kind, name, kindid] = network.split('&')
+    const networkFix = network.map(item => {
+      const [kind, name, kindid] = item.split('&')
+      return { kind, name, kindid }
+    })
+
     const data = {
       ...values,
       cpuNum: 1,
       templateId: templateFix,
-      network: [{ kind, name, kindid }]
+      network: networkFix
     }
     console.log('data', data)
     // TODO 是否是新增 删除 还是直接 传入桌面是单个还是批量
@@ -123,9 +128,9 @@ export default class AddDrawer extends React.Component {
               onChange={this.onTempalteChange}
             />
           </Form.Item>
-          <Form.Item prop="usbNum" label="USB数量" rules={[required]}>
+          {/* <Form.Item prop="usbNum" label="USB数量" rules={[required]}>
             <Radiox options={usbOptions} />
-          </Form.Item>
+          </Form.Item> */}
           <Form.Item
             prop="cpuCores"
             label="CPU"
@@ -154,7 +159,7 @@ export default class AddDrawer extends React.Component {
             wrapperCol={{ sm: { span: 16 } }}
             hidden={!this.state.fetchData}
           >
-            <Radiox
+            <Checkboxx
               getData={this.getNetwork}
               options={this.state.networkOptions}
               loading={this.state.networkLoading}

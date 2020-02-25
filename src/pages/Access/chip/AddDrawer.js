@@ -14,7 +14,7 @@ import moment from 'moment'
 const { TextArea } = Input
 const { RangePicker } = DatePicker
 export default class AddDrawer extends React.Component {
-  matchingPassword = (rule, value, callback) => {
+  compareTime = (rule, value, callback) => {
     const startTime = this.drawer.form.getFieldValue('startTime')
     if (startTime) {
       if (!moment(startTime).isBefore(value)) {
@@ -131,7 +131,7 @@ export default class AddDrawer extends React.Component {
             required
             label="结束时间"
             className="time-wrap"
-            rules={[this.matchingPassword]}
+            rules={[this.compareTime]}
           >
             <TimePicker format={'HH:mm'} />
           </Form.Item>

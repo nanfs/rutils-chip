@@ -10,11 +10,10 @@ export default {
       params: data
     })
   },
-  delPool(data) {
+  delPool(poolId) {
     return axios({
-      url: '/pools',
-      method: 'delete',
-      params: data
+      url: `/pools/${poolId}`,
+      method: 'delete'
     })
   },
   setUser(data) {
@@ -40,22 +39,7 @@ export default {
   },
   getTemplate(data) {
     return axios({
-      url: '/pools',
-      method: 'get',
-      params: data
-    })
-  },
-
-  getNetwork(data) {
-    return axios({
-      url: '/pools',
-      method: 'get',
-      params: data
-    })
-  },
-  getCluster(data) {
-    return axios({
-      url: '/pools',
+      url: '/templates',
       method: 'get',
       params: data
     })

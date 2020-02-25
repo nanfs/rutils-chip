@@ -4,13 +4,22 @@ import Drawerx from '@/components/Drawerx'
 import Formx from '@/components/Formx'
 import Title from '@/components/Title'
 import Radiox from '@/components/Radiox'
-import Selectx from '@/components/Selectx'
 import { usbOptions, manageTypeOptions } from '@/utils/formOptions'
 import poolsApi from '@/services/pools'
 
 const { TextArea } = Input
 
 export default class AddDrawer extends React.Component {
+  compareNum = (rule, value, callback) => {
+    const desktopNum = this.drawer.form.getFieldValue('desktopNum')
+    if (desktopNum) {
+      if (desktopNum < value) {
+        callback(new Error('预启动数量应该不大于创建数量'))
+      }
+    }
+    callback()
+  }
+
   constructor(props) {
     super(props)
     this.state = {
@@ -21,44 +30,28 @@ export default class AddDrawer extends React.Component {
 
   componentDidMount() {
     this.props.onRef && this.props.onRef(this)
+  }
+
+  pop = () => {
+    this.drawer.show()
     this.getTemplate()
-    this.getCluster()
   }
 
+  // 需要clusetid 还有 id 无奈
   getTemplate = () => {
-    // axios获取数据
+    this.setState({ templateLoading: true })
     poolsApi
-      .getTemplate()
+      .getTemplate({ current: 1, size: 10000 })
       .then(res => {
-        if (res.success) {
-          const templateOption = [
-            { label: '模板一', value: '1' },
-            { label: '模板二', value: '2' },
-            { label: '模板三', value: '3' },
-            { label: '模板四', value: '4' }
-          ]
-          this.setState({ templateOption })
-        }
+        const templateOptions = res.data.records.map(item => ({
+          label: item.name,
+          value: item.id
+        }))
+        this.setState({ templateOptions, templateLoading: false })
       })
-      .catch(err => console.log(err))
-  }
-
-  getCluster = () => {
-    // axios获取数据
-    poolsApi
-      .getCluster()
-      .then(res => {
-        if (res.success) {
-          const clusterOptions = [
-            { label: '集群一', value: '1' },
-            { label: '集群二', value: '2' },
-            { label: '集群三', value: '3' },
-            { label: '集群四', value: '4' }
-          ]
-          this.setState({ clusterOptions })
-        }
+      .catch(e => {
+        console.log(e)
       })
-      .catch(err => console.log(err))
   }
 
   addPool = values => {
@@ -74,8 +67,6 @@ export default class AddDrawer extends React.Component {
   }
 
   render() {
-    console.log(this.state.clusterOptions)
-
     return (
       <Drawerx
         onRef={ref => {
@@ -90,25 +81,29 @@ export default class AddDrawer extends React.Component {
           <Form.Item prop="name" label="桌面池名称">
             <Input placeholder="桌面名称" />
           </Form.Item>
-          <Form.Item prop="template" label="模板">
+          <Form.Item prop="templateId" label="模板">
             <Radiox
-              options={this.state.templateOption}
-              onRefresh={this.getTemplate}
+              getData={this.getTemplate}
+              options={this.state.templateOptions}
+              loading={this.state.templateLoading}
+              onChange={this.onTempalteChange}
             />
-          </Form.Item>
-          <Form.Item prop="cluster" label="集群">
-            <Selectx options={this.state.clusterOptions} />
           </Form.Item>
           <Form.Item prop="manageType" label="管理类型">
             <Radiox options={manageTypeOptions} />
           </Form.Item>
-          <Form.Item prop="usbNum" label="USB数量">
+          {/* <Form.Item prop="usbNum" label="USB数量">
             <Radiox options={usbOptions} />
-          </Form.Item>
+          </Form.Item> */}
           <Form.Item prop="desktopNum" label="创建数量">
             <InputNumber placeholder="" />
           </Form.Item>
-          <Form.Item prop="prestartNum" label="预启动数量">
+
+          <Form.Item
+            prop="prestartNum"
+            label="预启动数量"
+            rules={[this.compareNum]}
+          >
             <InputNumber placeholder="" />
           </Form.Item>
           <Form.Item prop="description" label="描述">

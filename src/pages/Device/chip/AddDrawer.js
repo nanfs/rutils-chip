@@ -41,6 +41,17 @@ class AddDrawer extends React.Component {
     })
   }
 
+  onClose = () => {
+    const { form } = this.props
+    form.setFieldsValue({
+      keys: [0],
+      'names[0]': '',
+      'vids[0]': '',
+      'pids[0]': ''
+    })
+    this.props.onClose()
+  }
+
   addSubmit = values => {
     const { form } = this.props
     const keys = form.getFieldValue('keys')
@@ -123,7 +134,7 @@ class AddDrawer extends React.Component {
         onRef={ref => {
           this.drawer = ref
         }}
-        onClose={this.props.onClose}
+        onClose={this.onClose}
         onSuccess={this.props.onSuccess}
         onOk={this.addSubmit}
       >
@@ -136,7 +147,12 @@ class AddDrawer extends React.Component {
           <Form.Item prop="name" label="名称" required>
             <Input name="name" placeholder="名称" />
           </Form.Item>
-          <Form.Item prop="usagePeripherals" label="USB外设" required>
+          <Form.Item
+            prop="usagePeripherals"
+            label="USB外设"
+            valuePropName="checked"
+            required
+          >
             <Switch
               name="usagePeripherals"
               checkedChildren="启用"

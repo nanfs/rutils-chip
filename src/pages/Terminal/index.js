@@ -96,7 +96,8 @@ export default class Termina extends React.Component {
 
   editTerminal = () => {
     this.setState({ inner: '编辑终端', initValues: this.state.selectData[0] })
-    this.editDrawer.drawer.show()
+    // this.editDrawer.drawer.show()
+    this.editDrawer.pop(this.tablex.getSelectData()[0])
     this.currentDrawer = this.editDrawer
   }
 

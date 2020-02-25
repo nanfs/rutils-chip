@@ -37,7 +37,6 @@ export default class AddDrawer extends React.Component {
   }
 
   add = values => {
-    console.log('add', values)
     const data = {
       name: values.name,
       description: values.description,

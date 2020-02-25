@@ -9,9 +9,9 @@ export default {
       params: data
     })
   },
-  editTerminal(data) {
+  editTerminal(id, data) {
     return axios({
-      url: '/terminals',
+      url: `/terminals/${id}`,
       method: 'put',
       data: qs.stringify(data)
     })

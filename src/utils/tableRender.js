@@ -204,7 +204,7 @@ export const osStatusRender = status => {
   }
   return (
     <MyIcon
-      type={statusList[status]}
+      type={statusList[status] || 'os-windows'}
       component="svg"
       style={{ fontSize: '18px' }}
     />

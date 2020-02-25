@@ -10,25 +10,11 @@ export const columns = [
     dataIndex: 'status',
     width: 80,
     filters: [
-      { value: -1, text: '未指派的' },
-      { value: 0, text: '关机' },
-      { value: 1, text: '开机' },
-      { value: 2, text: '正在开机' },
-      { value: 4, text: '暂停' },
-      { value: 5, text: '迁移出' },
-      { value: 6, text: '迁移入' },
-      { value: 7, text: '未知' },
-      { value: 8, text: '没有响应' },
-      { value: 9, text: '等待' },
-      { value: 10, text: '重启过程中' },
-      { value: 11, text: '保存状态' },
-      { value: 12, text: '恢复状态' },
-      { value: 13, text: '挂起' },
-      { value: 14, text: '镜像损坏' },
-      { value: 15, text: '镜像锁定' },
-      { value: 16, text: '正在关机' }
+      { value: [0, 13], text: '关机' },
+      { value: [1], text: '开机' },
+      { value: [2, 16, 10, 15, 5, 6, 11, 12, 9], text: '运行' },
+      { value: [7, 8, 14, -1, 4], text: '异常' }
     ],
-    onFilter: (value, record) => record.severity === value,
     render: text => vmStatusRender(text)
   },
   {

@@ -32,11 +32,13 @@ export default class Desktop extends React.Component {
         <MyIcon
           type="order-down"
           title="关机"
+          hidden={record.status === 0}
           onClick={this.sendOrder.bind(this, record.id, 'shutdown')}
         />
         <MyIcon
           type="order-up"
           title="开机"
+          hidden={record.status === 1}
           onClick={this.sendOrder.bind(this, record.id, 'start')}
         />
         <MyIcon
@@ -47,6 +49,7 @@ export default class Desktop extends React.Component {
         <MyIcon
           type="vm-rebootinprogress"
           title="重启"
+          hidden={record.status === 10}
           onClick={this.sendOrder.bind(this, record.id, 'restart')}
         />
         {/* //TODO 缺少接口 */}
@@ -134,8 +137,31 @@ export default class Desktop extends React.Component {
       disbaledButton = {
         ...disbaledButton,
         disabledDelete: true,
-        disabledSetUser: true
+        disabledSetUser: true,
+        disabledUp: true,
+        disabledDown: true,
+        disabledOff: true,
+        disabledRestart: true
       }
+    } else {
+      selectData.forEach(item => {
+        if (item.status === 1) {
+          disbaledButton = {
+            ...disbaledButton,
+            disabledUp: true
+          }
+        } else if (item.status === 0) {
+          disbaledButton = {
+            ...disbaledButton,
+            disabledDown: true
+          }
+        } else if (item.status === 10) {
+          disbaledButton = {
+            ...disbaledButton,
+            disabledRestart: true
+          }
+        }
+      })
     }
     this.setState({ disbaledButton })
   }
@@ -207,6 +233,18 @@ export default class Desktop extends React.Component {
     )
   }
 
+  onTableChange = (a, filter) => {
+    this.setState(
+      produce(draft => {
+        draft.tableCfg.searchs = {
+          ...draft.tableCfg.searchs,
+          ...filter
+        }
+      }),
+      () => this.tablex.refresh(this.state.tableCfg)
+    )
+  }
+
   // TODO 修改开关机等 禁用条件
   render() {
     const searchOptions = [{ label: '名称', value: 'name' }]
@@ -222,28 +260,28 @@ export default class Desktop extends React.Component {
         </Menu.Item>
         <Menu.Item
           key="2"
-          disabled={disbaledButton.disabledDelete}
+          disabled={disbaledButton.disabledUp}
           onClick={() => this.patchOrder('start')}
         >
           开机
         </Menu.Item>
         <Menu.Item
           key="3"
-          disabled={disbaledButton.disabledDelete}
+          disabled={disbaledButton.disabledDown}
           onClick={() => this.patchOrder('shutdown')}
         >
           关机
         </Menu.Item>
         <Menu.Item
           key="4"
-          disabled={disbaledButton.disabledDelete}
+          disabled={disbaledButton.disabledOff}
           onClick={() => this.patchOrder('poweroff')}
         >
           断电
         </Menu.Item>
         <Menu.Item
           key="5"
-          disabled={disbaledButton.disabledDelete}
+          disabled={disbaledButton.disabledRestart}
           onClick={() => this.patchOrder('restart')}
         >
           重启
@@ -294,6 +332,7 @@ export default class Desktop extends React.Component {
             className="no-select-bg"
             tableCfg={this.state.tableCfg}
             onSelectChange={this.onSelectChange}
+            onChange={this.onTableChange}
           />
           <AddDrawer
             onRef={ref => {

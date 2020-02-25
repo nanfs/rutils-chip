@@ -21,11 +21,55 @@ import userApi from '@/services/user'
 
 import './index.scss'
 
+const nodes = [
+  {
+    id: 'department1',
+    key: 'department1',
+    value: 'department1',
+    title: '用户组',
+    parentId: null
+  },
+  {
+    id: 'department2',
+    key: 'department2',
+    value: 'department2',
+    title: '成都研发中心',
+    parentId: 'department1'
+  },
+  {
+    id: 'department3',
+    key: 'department3',
+    value: 'department3',
+    title: '北京研发中心',
+    parentId: 'department1'
+  },
+  {
+    id: 'department4',
+    key: 'department4',
+    value: 'department4',
+    title: '前端组',
+    parentId: 'department2'
+  },
+  {
+    id: 'department5',
+    key: 'department5',
+    value: 'department5',
+    title: 'java组',
+    parentId: 'department2'
+  },
+  {
+    id: 'department6',
+    key: 'department6',
+    value: 'department6',
+    title: '前端组',
+    parentId: 'department3'
+  }
+]
+
 export default class User extends React.Component {
   state = {
     tableCfg: createTableCfg({
       columns,
-      apiMethod,
       paging: { size: 5 },
       pageSizeOptions: ['5', '10']
     }),
@@ -88,6 +132,23 @@ export default class User extends React.Component {
     this.tablex.refresh(this.state.tableCfg)
   }
 
+  treeRenderSuccess = selectNode => {
+    console.log(selectNode)
+    this.setState(
+      produce(draft => {
+        draft.tableCfg = {
+          ...draft.tableCfg,
+          apiMethod,
+          searchs: {
+            ...draft.tableCfg.searchs,
+            groupId: selectNode
+          }
+        }
+      }),
+      () => this.tablex.refresh(this.state.tableCfg)
+    )
+  }
+
   render() {
     const searchOptions = [{ label: '名称', value: 'name' }]
     const { inputValue } = this.state
@@ -102,9 +163,12 @@ export default class User extends React.Component {
           <div className="user-wrap">
             <div className="user-tree">
               <Treex
-                apiMethod={userApi.list}
+                apiMethod={userApi.groupQuery}
                 onSelect={this.onSelect}
-                addNodeApiMethod={userApi.addNode}
+                addNodeApiMethod={userApi.groupCreate}
+                editNodeApiMethod={userApi.groupUpdate}
+                deleteNodeApiMethod={userApi.groupDelete}
+                treeRenderSuccess={this.treeRenderSuccess}
               ></Treex>
             </div>
             <div className="user-table">
@@ -184,7 +248,8 @@ export default class User extends React.Component {
                   this.addDrawer = ref
                 }}
                 onClose={this.onBack}
-                onSuccess={this.onSuccess}
+                onSuccess={this.onSuccesss}
+                nodeData={nodes}
               />
               <EditDrawer
                 onRef={ref => {
@@ -193,6 +258,7 @@ export default class User extends React.Component {
                 onClose={this.onBack}
                 onSuccess={this.onSuccess}
                 initValues={this.state.initValues}
+                nodeData={nodes}
               />
               <DetailDrawer
                 onRef={ref => {

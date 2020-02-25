@@ -130,7 +130,7 @@ export const storageTypeRender = type => {
 }
 export const vmStatusText = {
   'vm-unassigned': '未指派的',
-  'vm-Down': '关机',
+  'vm-down': '关机',
   'vm-up': '开机',
   'vm-poweringup': '正在开机',
   'vm-paused': '暂停',
@@ -150,7 +150,7 @@ export const vmStatusText = {
 export const vmStatusRender = status => {
   const statusList = {
     '-1': 'vm-unassigned',
-    '0': 'vm-Down',
+    '0': 'vm-down',
     '1': 'vm-up',
     '2': 'vm-poweringup',
     '4': 'vm-paused',

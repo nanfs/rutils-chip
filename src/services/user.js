@@ -2,9 +2,44 @@ import qs from 'qs'
 import axios from './axios'
 
 export default {
+  groupQuery(data) {
+    return axios({
+      url: '/group/query',
+      method: 'post',
+      params: data
+    })
+  },
+  groupCreate(data) {
+    return axios({
+      url: '/group/create',
+      method: 'post',
+      data: qs.stringify(data)
+    })
+  },
+  groupUpdate(data) {
+    return axios({
+      url: '/group/update',
+      method: 'post',
+      data: qs.stringify(data)
+    })
+  },
+  groupDelete(data) {
+    return axios({
+      url: '/group/delete',
+      method: 'post',
+      data: qs.stringify(data)
+    })
+  },
+  descrip(data) {
+    return axios({
+      url: '/user/list',
+      method: 'get',
+      params: data
+    })
+  },
   list(data) {
     return axios({
-      url: '/users',
+      url: '/user/querybygroup',
       method: 'get',
       params: data
     })
@@ -33,18 +68,6 @@ export default {
     return axios({
       url: '/deleteUser',
       method: 'delete',
-      data: qs.stringify(data)
-    })
-  },
-  terminalsdetail(data) {
-    return axios({
-      url: '/terminalsdetail',
-      data: qs.stringify(data)
-    })
-  },
-  terminalsusagedetail(data) {
-    return axios({
-      url: '/terminalsusagedetail',
       data: qs.stringify(data)
     })
   }

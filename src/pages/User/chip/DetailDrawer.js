@@ -21,15 +21,14 @@ export default class DetailDrawer extends React.Component {
 
   state = {
     terminalTableCfg: createTableCfg({
-      apiMethod: detailTeminalApiMethod,
-
+      // apiMethod: detailTeminalApiMethod,
       columns: detailTeminalColumns,
       paging: { size: 5 },
       pageSizeOptions: ['5', '10'],
       hasRowSelection: false
     }),
     desktopTableCfg: createTableCfg({
-      apiMethod: detailDesktopApiMethod,
+      // apiMethod: detailDesktopApiMethod,
       columns: detailDesktopColumns,
       paging: { size: 5 },
       pageSizeOptions: ['5', '10'],

@@ -9,76 +9,19 @@ export default class TreeSelectx extends React.Component {
     autoExpandParent: true,
     expandedKeys: [],
     nodeList: [],
-    loadding: true
+    loadding: true,
+    treeData: []
   }
 
   componentDidMount() {
-    const { apiMethod } = this.props
-    if (!apiMethod) {
-      throw new Error('没有树请求方法')
+    const { apiMethod, nodeData } = this.props
+    if (!Array.isArray(nodeData) || !Object.keys(nodeData[0]).includes('key')) {
+      throw new Error('数据格式不符合')
     }
-    apiMethod()
-      .then(res => {
-        if (res.success) {
-          // const nodes = res.data
-          const nodes = [
-            {
-              id: 'department1',
-              key: 'department1',
-              value: 'department1',
-              title: '用户组',
-              parentId: null
-            },
-            {
-              id: 'department2',
-              key: 'department2',
-              title: '成都研发中心',
-              value: 'department2',
-              parentId: 'department1'
-            },
-            {
-              id: 'department3',
-              key: 'department3',
-              title: '北京研发中心',
-              value: 'department3',
-              parentId: 'department1'
-            },
-            {
-              id: 'department4',
-              key: 'department4',
-              title: '前端组',
-              value: 'department4',
-              parentId: 'department2'
-            },
-            {
-              id: 'department5',
-              key: 'department5',
-              title: 'java组',
-              value: 'department5',
-              parentId: 'department2'
-            },
-            {
-              id: 'department6',
-              key: 'department6',
-              title: '测试组',
-              value: 'department6',
-              parentId: 'department3'
-            }
-          ]
-          if (!Array.isArray(nodes) || !Object.keys(nodes[0]).includes('key')) {
-            throw new Error('数据格式不符合')
-          }
-          const treeData = nodes2Tree(nodes)
-          this.setState({
-            treeData
-          })
-        } else {
-          this.treeData = []
-        }
-      })
-      .catch(e => {
-        console.log(e)
-      })
+    const treeData = nodes2Tree(nodeData)
+    this.setState({
+      treeData
+    })
   }
 
   componentDidUpdate(prep) {

@@ -41,13 +41,14 @@ export default class Desktop extends React.Component {
         <MyIcon
           type="order-poweroff"
           title="断电"
-          onClick={this.sendOrder.bind(this, record.id, 'start')}
+          onClick={this.sendOrder.bind(this, record.id, 'poweroff')}
         />
         <MyIcon
           type="vm-rebootinprogress"
           title="重启"
-          onClick={this.sendOrder.bind(this, record.id, 'start')}
+          onClick={this.sendOrder.bind(this, record.id, 'restart')}
         />
+        {/* //TODO 缺少接口 */}
         <MyIcon
           type="order-console-end"
           title="关闭控制台"
@@ -56,12 +57,12 @@ export default class Desktop extends React.Component {
         <MyIcon
           type="order-console"
           title="打开控制台"
-          onClick={this.sendOrder.bind(this, record.id, 'start')}
+          onClick={this.openConsole.bind(this, record.name, record.id)}
         />
         <MyIcon
           type="order-setuser"
           title="分配用户"
-          onClick={() => this.setUserDrawer.pop(record.id)}
+          onClick={this.setUser.bind(this, [record.id])}
         />
         <MyIcon
           type="template1"
@@ -71,12 +72,12 @@ export default class Desktop extends React.Component {
         <Icon
           type="form"
           title="编辑"
-          onClick={() => this.editDrawer.pop(record.id)}
+          onClick={this.editVm.bind(this, record.id)}
         />
         <MyIcon
           type="order-info"
           title="详情"
-          onClick={() => this.detailDrawer.pop(record.id)}
+          onClick={this.detailVm.bind(this, record.id)}
         />
       </div>
     )
@@ -123,16 +124,6 @@ export default class Desktop extends React.Component {
     this.sendOrder(ids, directive)
   }
 
-  turnOn = () => {
-    const ids = this.state.tableCfg.selection
-    this.sendOrder(ids, 'start')
-  }
-
-  turnOff = () => {
-    const ids = this.state.tableCfg.selection
-    this.sendOrder(ids, 'shutdown')
-  }
-
   onSelectChange = (selection, selectData) => {
     let disbaledButton = {}
     if (selection.length !== 1) {
@@ -167,25 +158,38 @@ export default class Desktop extends React.Component {
         }
       })
       .catch(errors => {
+        message.error(errors || 'catch error')
         console.log(errors)
       })
   }
 
-  editVm = () => {
-    this.setState(
-      { inner: '编辑桌面', initValues: this.state.tableCfg.selectData[0] },
-      this.editDrawer.drawer.show()
-    )
+  editVm = id => {
+    this.setState({ inner: '编辑桌面' }, this.editDrawer.pop(id))
     this.currentDrawer = this.editDrawer
   }
 
-  detailVm = () => {
-    this.setState({ inner: '桌面详情' }, this.detailDrawer.drawer.show())
+  detailVm = id => {
+    this.setState({ inner: '桌面详情' }, this.detailDrawer.pop(id))
     this.currentDrawer = this.detailDrawer
   }
 
+  // TODO 格式不一致
+  openConsole = (name, desktopId) => {
+    const href = `../destops/console?desktopId=${desktopId}`
+    const aLink = document.createElement('a')
+    document.body.appendChild(aLink)
+    aLink.style.display = 'none'
+    aLink.href = href
+    aLink.download = `${name}.vv`
+    aLink.click()
+    document.body.removeChild(aLink)
+  }
+
   setUser = () => {
-    this.setState({ inner: '分配用户' }, this.setUserDrawer.pop())
+    this.setState(
+      { inner: '分配用户' },
+      this.setUserDrawer.pop(this.tablex.getSelection())
+    )
     this.currentDrawer = this.setUserDrawer
   }
 

@@ -5,14 +5,18 @@ import Title, { Diliver } from '@/components/Title'
 import desktopsApi from '@/services/desktops'
 
 export default class DetailDrawer extends React.Component {
+  state = { data: {} }
+
   componentDidMount() {
     this.props.onRef && this.props.onRef(this)
   }
 
   pop = id => {
+    this.drawer.show()
     desktopsApi
       .detail(id)
       .then(res => {
+        this.setState({ data: res.data })
         console.log(res)
       })
       .catch(e => {
@@ -21,7 +25,6 @@ export default class DetailDrawer extends React.Component {
   }
 
   render() {
-    const { data = {} } = this.props
     const userColums = [
       {
         title: '姓名',
@@ -42,24 +45,7 @@ export default class DetailDrawer extends React.Component {
         dataIndex: 'app'
       }
     ]
-    const diskColums = [
-      {
-        title: '名称',
-        dataIndex: 'name'
-      },
-      {
-        title: '大小(GB)',
-        dataIndex: 'size'
-      },
-      {
-        title: '状态',
-        dataIndex: 'status'
-      },
-      {
-        title: '描述',
-        dataIndex: 'description'
-      }
-    ]
+    const { data } = this.state
     return (
       <Drawerx
         onRef={ref => {
@@ -75,25 +61,25 @@ export default class DetailDrawer extends React.Component {
           <Col span={3}>桌面名称：</Col>
           <Col span={8}>{data.name}</Col>
           <Col span={3}>数据中心：</Col>
-          <Col span={8}>{data.datacenter}</Col>
+          <Col span={8}>{data.datacenterName}</Col>
         </Row>
         <Row>
           <Col span={3}>模板</Col>
-          <Col span={8}>{data.template}</Col>
+          <Col span={8}>{data.templateName}</Col>
           <Col span={3}>集群：</Col>
-          <Col span={8}>{data.cluster}</Col>
+          <Col span={8}>{data.clusterName}</Col>
         </Row>
         <Row>
           <Col span={3}>USB个数：</Col>
           <Col span={8}>{data.usbNumb}</Col>
           <Col span={3}>CPU：</Col>
-          <Col span={8}>{data.cpu}</Col>
+          <Col span={8}>{data.cpuCores}</Col>
         </Row>
         <Row>
           <Col span={3}>ID：</Col>
           <Col span={8}>{data.id}</Col>
           <Col span={3}>内存：</Col>
-          <Col span={8}>{data.memory}</Col>
+          <Col span={8}>{data.memory} G</Col>
         </Row>
         <Row>
           <Col span={3}>描述：</Col>
@@ -103,17 +89,10 @@ export default class DetailDrawer extends React.Component {
         </Row>
         <Diliver />
         <Title slot="所属用户"></Title>
-        <Table columns={userColums} dataSource={data.user}></Table>
+        <Table columns={userColums} dataSource={data.owner}></Table>
         <Diliver />
         <Title slot="应用程序"></Title>
-        <Table columns={appColums} dataSource={data.user}></Table>
-        <Diliver />
-        <Title slot="磁盘"></Title>
-        <Table columns={diskColums} dataSource={data.user}></Table>
-        <Diliver />
-        <Title slot="使用统计"></Title>
-        <Table dataSource={data.user}></Table>
-        <Diliver />
+        <Table columns={appColums} dataSource={data.appList || []}></Table>
       </Drawerx>
     )
   }

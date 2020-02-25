@@ -16,7 +16,7 @@ export default class editDrawer extends React.Component {
 
   render() {
     // const { getFieldDecorator } = this.props.form
-    const { initValues } = this.props
+    const { initValues, nodeData } = this.props
     console.log(initValues)
     return (
       <Drawerx
@@ -98,7 +98,7 @@ export default class editDrawer extends React.Component {
               }
             ]}
           >
-            <TreeSelectx apiMethod={userApi.list} />
+            <TreeSelectx nodeData={nodeData} />
           </Form.Item>
           <Form.Item
             prop="email"

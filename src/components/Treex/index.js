@@ -32,8 +32,8 @@ const generateList = data => {
   for (let i = 0; i < data.length; i++) {
     const node = data[i]
     const { key, title } = node
-    allKey.push(key)
-    nodeList.push({ key, title })
+    allKey.push(key.toString())
+    nodeList.push({ key: key.toString(), title })
     if (node.children) {
       generateList(node.children)
     }
@@ -46,6 +46,7 @@ export default class Treex extends React.Component {
     searchValue: '',
     autoExpandParent: true,
     expandedKeys: [],
+    selectedKeys: [],
     nodeList: [],
     loadding: true,
     rightClickNodeTreeItem: {
@@ -65,15 +66,15 @@ export default class Treex extends React.Component {
   }
 
   getTreeData = () => {
-    const { apiMethod } = this.props
+    const { apiMethod, treeRenderSuccess } = this.props
     if (!apiMethod) {
       throw new Error('没有树请求方法')
     }
     apiMethod()
       .then(res => {
         if (res.success) {
-          // const nodes = res.data
-          const nodes = [
+          const nodes = res.data
+          /* const nodes = [
             {
               id: 'department1',
               key: 'department1',
@@ -110,17 +111,19 @@ export default class Treex extends React.Component {
               title: '前端组',
               parentId: 'department3'
             }
-          ]
+          ] */
           if (!Array.isArray(nodes) || !Object.keys(nodes[0]).includes('key')) {
             throw new Error('数据格式不符合')
           }
           const { allKey, nodeList } = generateList(nodes)
           this.setState({
             expandedKeys: allKey,
+            selectedKeys: [nodes[0].key.toString()],
             nodeList,
             nodes,
             loading: false
           })
+          treeRenderSuccess && treeRenderSuccess(nodes[0].key.toString())
         } else {
           this.nodes = []
           this.setState({ loading: false })
@@ -291,6 +294,7 @@ export default class Treex extends React.Component {
     const {
       searchValue,
       expandedKeys,
+      selectedKeys,
       autoExpandParent,
       nodes,
       loading
@@ -302,6 +306,7 @@ export default class Treex extends React.Component {
         )}
         <Tree
           defaultExpandAll
+          selectedKeys={selectedKeys}
           className="tree-wrap"
           onExpand={this.onExpand}
           onSelect={this.onSelect}

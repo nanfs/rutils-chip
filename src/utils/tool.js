@@ -54,7 +54,9 @@ export function nodes2Tree(nodes, parentId = 'parentId') {
 
   for (let i = nodes.length - 1; i >= 0; i--) {
     const nowPid = nodes[i].parentId
-    const nowId = nodes[i].id
+      ? nodes[i].parentId.toString()
+      : nodes[i].parentId
+    const nowId = nodes[i].id.toString()
     // 建立当前节点的父节点的children 数组
     if (tree[nowPid]) {
       tree[nowPid].push(nodes[i])

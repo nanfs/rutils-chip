@@ -10,11 +10,10 @@ export default {
       params: data
     })
   },
-  delPool(data) {
+  delPool(poolId) {
     return axios({
-      url: '/pools',
-      method: 'delete',
-      data: qs.stringify(data)
+      url: `/pools/${poolId}`,
+      method: 'delete'
     })
   },
   setUser(data) {

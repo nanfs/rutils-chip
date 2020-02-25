@@ -180,10 +180,10 @@ export default class Pool extends React.Component {
   }
 
   deletePool = () => {
-    const { selection: id } = this.state.tableCfg
-    const ids = !Array.isArray(id) ? [id] : [...id]
+    // TODO 添加删除禁用 只能单个删除
+    const poolId = this.tablex.getSelection()[0]
     poolsApi
-      .delPool({ ids })
+      .delPool(poolId)
       .then(res => {
         if (res.success) {
           notification.success({ message: '删除成功' })

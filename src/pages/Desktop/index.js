@@ -1,3 +1,4 @@
+/* eslint-disable react/no-string-refs */
 import React from 'react'
 import { Button, Dropdown, Menu, Icon, notification, message } from 'antd'
 import Tablex, {
@@ -17,7 +18,7 @@ import MyIcon from '@/components/MyIcon'
 import SelectSearch from '@/components/SelectSearch'
 import produce from 'immer'
 import desktopsApi from '@/services/desktops'
-
+import { downloadVV } from '@/utils/tool'
 import { columns, apiMethod } from './chip/TableCfg'
 import './index.scss'
 
@@ -175,14 +176,9 @@ export default class Desktop extends React.Component {
 
   // TODO 格式不一致
   openConsole = (name, desktopId) => {
-    const href = `../destops/console?desktopId=${desktopId}`
-    const aLink = document.createElement('a')
-    document.body.appendChild(aLink)
-    aLink.style.display = 'none'
-    aLink.href = href
-    aLink.download = `${name}.vv`
-    aLink.click()
-    document.body.removeChild(aLink)
+    desktopsApi.openConsole({ desktopId }).then(res => {
+      downloadVV(res, name)
+    })
   }
 
   setUser = () => {

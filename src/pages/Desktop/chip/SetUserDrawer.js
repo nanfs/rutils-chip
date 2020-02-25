@@ -20,14 +20,16 @@ export default class SetUserDrawer extends React.Component {
       columns,
       apiMethod,
       paging: { size: 5 },
+      rowKey: 'uuid',
+      searchs: { domain: 'internal' },
       pageSizeOptions: ['5', '10']
     })
   }
 
-  removeUserSelection = id => {
+  removeUserSelection = uuid => {
     const { selection, selectData } = this.state.tableCfg
-    const newSelection = selection.filter(item => item !== id)
-    const newSelectData = selectData.filter(item => item.id !== id)
+    const newSelection = selection.filter(item => item !== uuid)
+    const newSelectData = selectData.filter(item => item.uuid !== uuid)
     this.setState(
       produce(draft => {
         draft.tableCfg = {
@@ -36,7 +38,7 @@ export default class SetUserDrawer extends React.Component {
           selectData: newSelectData
         }
       }),
-      () => this.tablex.replace(this.state.tableCfg)
+      () => this.userTablex.replace(this.state.tableCfg)
     )
   }
 
@@ -44,11 +46,11 @@ export default class SetUserDrawer extends React.Component {
     const selectData = this.state.tableCfg.selectData || []
     return selectData.map(item => (
       <UserButton
-        key={item.id}
-        value={item.id}
+        key={item.uuid}
+        value={item.uuid}
         onDel={this.removeUserSelection}
       >
-        {item.name}
+        {item.username}
       </UserButton>
     ))
   }
@@ -57,6 +59,7 @@ export default class SetUserDrawer extends React.Component {
     // 如果是一个 获取当前分配的用户
     if (ids.length) {
       console.log('ids', ids)
+      this.setState({ ids })
       desktopsApi
         .detail(ids[0])
         .then(res => {
@@ -67,22 +70,41 @@ export default class SetUserDrawer extends React.Component {
           console.log(e)
         })
     }
-
+    this.userTablex.refresh(this.state.tableCfg)
     this.drawer.show()
   }
 
   setUser = () => {
     // TODO 是否是新增 删除 还是直接 传入桌面是单个还是批量
-    const { selection: ids, selectData } = this.state.tableCfg
-    console.log('select', selectData)
+    const { ids } = this.state
+    const { selectData } = this.state.tableCfg
+    const users = selectData.map(item => ({
+      domain: item.domain,
+      id: item.uuid,
+      type: 'user'
+    }))
     desktopsApi
-      .setUser({ ids })
+      .setUser({ ids, users })
       .then(res => {
         this.drawer.afterSubmit(res)
       })
       .catch(errors => {
         console.log(errors)
       })
+  }
+
+  search = (key, value) => {
+    const searchs = {}
+    searchs[key] = value
+    this.setState(
+      produce(draft => {
+        draft.tableCfg.searchs = {
+          ...draft.tableCfg.searchs,
+          ...searchs
+        }
+      }),
+      () => this.userTablex.refresh(this.state.tableCfg)
+    )
   }
 
   render() {
@@ -108,6 +130,7 @@ export default class SetUserDrawer extends React.Component {
               onRef={ref => {
                 this.userTablex = ref
               }}
+              stopFetch={true}
               tableCfg={this.state.tableCfg}
               onSelectChange={(selection, selectData) =>
                 this.setState(

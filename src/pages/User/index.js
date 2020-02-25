@@ -165,7 +165,9 @@ export default class User extends React.Component {
               <Treex
                 apiMethod={userApi.groupQuery}
                 onSelect={this.onSelect}
-                addNodeApiMethod={userApi.addNode}
+                addNodeApiMethod={userApi.groupCreate}
+                editNodeApiMethod={userApi.groupUpdate}
+                deleteNodeApiMethod={userApi.groupDelete}
                 treeRenderSuccess={this.treeRenderSuccess}
               ></Treex>
             </div>

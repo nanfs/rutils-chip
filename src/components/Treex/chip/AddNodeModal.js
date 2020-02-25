@@ -26,7 +26,18 @@ export default class AddNodeModal extends React.Component {
   }
 
   onOk = values => {
-    const { addNodeApiMethod, nodeValues } = this.props
+    const { addNodeApiMethod, nodeValues, addNodeSuccess } = this.props
+    addNodeApiMethod({ ...values, parentId: nodeValues.props['data-key'] })
+      .then(res => {
+        if (res.success) {
+          addNodeSuccess && addNodeSuccess()
+        } else {
+          // this.nodes = []
+        }
+      })
+      .catch(e => {
+        console.log(e)
+      })
   }
 
   render() {

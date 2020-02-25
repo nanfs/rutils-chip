@@ -9,6 +9,27 @@ export default {
       params: data
     })
   },
+  groupCreate(data) {
+    return axios({
+      url: '/group/create',
+      method: 'post',
+      data: qs.stringify(data)
+    })
+  },
+  groupUpdate(data) {
+    return axios({
+      url: '/group/update',
+      method: 'post',
+      data: qs.stringify(data)
+    })
+  },
+  groupDelete(data) {
+    return axios({
+      url: '/group/delete',
+      method: 'post',
+      data: qs.stringify(data)
+    })
+  },
   list(data) {
     return axios({
       url: '/user/querybygroup',

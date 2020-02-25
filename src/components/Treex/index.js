@@ -346,6 +346,8 @@ export default class Treex extends React.Component {
             this.addNodeModal = ref
           }}
           addNodeApiMethod={addNodeApiMethod}
+          nodeValues={rightClickNodeTreeItem}
+          addNodeSuccess={this.getTreeData}
         />
         <EditNodeModal
           onRef={ref => {
@@ -353,6 +355,7 @@ export default class Treex extends React.Component {
           }}
           editNodeApiMethod={editNodeApiMethod}
           nodeValues={rightClickNodeTreeItem}
+          editNodeSuccess={this.getTreeData}
         />
       </Spin>
     )

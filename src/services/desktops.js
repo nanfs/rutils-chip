@@ -63,5 +63,12 @@ export default {
       url: `/networks/${id}`,
       method: 'get'
     })
+  },
+  openConsole(data) {
+    return axios({
+      url: '/desktops/console',
+      method: 'get',
+      params: data
+    })
   }
 }

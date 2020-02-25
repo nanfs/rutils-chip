@@ -1,4 +1,4 @@
-import desktopsApi from '@/services/desktops'
+import usersApi from '@/services/user'
 // TODO antd 样式加载问题
 export const columns = [
   {
@@ -17,4 +17,4 @@ export const columns = [
     dataIndex: 'group'
   }
 ]
-export const apiMethod = desktopsApi.list
+export const apiMethod = usersApi.descrip

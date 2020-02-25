@@ -80,9 +80,13 @@
   .select-search {
     max-width: 400px;
     height: 35px;
+    display: flex;
     border-radius: 2px;
     border: 1px solid #b7b7b7;
-    display: inline-flex;
+    display: inline-flex !important;
+    .ant-input-group-wrapper {
+      top: 0px;
+    }
     .ant-input,
     .ant-select-selection {
       border: none;

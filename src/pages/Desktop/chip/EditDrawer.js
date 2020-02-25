@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form, Input, InputNumber } from 'antd'
+import { Form, Input, InputNumber, Button } from 'antd'
 import Drawerx from '@/components/Drawerx'
 import Formx from '@/components/Formx'
 import Title, { Diliver } from '@/components/Title'
@@ -12,49 +12,53 @@ const { TextArea } = Input
 export default class EditDrawer extends React.Component {
   componentDidMount() {
     this.props.onRef && this.props.onRef(this)
-    this.getTemplate()
-    this.getNetwork()
   }
 
   state = {
     templateOption: [],
-    networkOption: []
+    networkOption: [],
+    initValues: {},
+    networkLoading: false
   }
 
-  getTemplate = () => {
-    // axios获取数据
+  pop = id => {
+    console.log(id)
+    this.drawer.show()
     desktopsApi
-      .getTemplate()
+      .detail(id)
       .then(res => {
-        if (res.success) {
-          const templateOption = [
-            { label: '模板一', value: '1' },
-            { label: '模板二', value: '2' },
-            { label: '模板三', value: '3' },
-            { label: '模板四', value: '4' }
-          ]
-          this.setState({ templateOption })
-        }
+        this.setState({ initValues: res.data })
+        this.getNetwork()
+        console.log(res)
       })
-      .catch(err => console.log(err))
+      .catch(e => {
+        console.log(e)
+      })
   }
 
   getNetwork = () => {
-    // axios获取数据
-    desktopsApi
-      .getTemplate()
-      .then(res => {
-        if (res.success) {
-          const networkOption = [
-            { label: '网络一', value: '1' },
-            { label: '网络二', value: '2' },
-            { label: '网络三', value: '3' },
-            { label: '网络四', value: '4' }
-          ]
-          this.setState({ networkOption })
-        }
+    const queryClusterId = this.state.initValues.clusterId
+    this.setState({ networkLoading: true })
+    if (!queryClusterId) {
+      this.setState({ networkLoading: false })
+      return Promise.reject().catch(e => {
+        console.log(e)
       })
-      .catch(err => console.log(err))
+    }
+    desktopsApi
+      .getNetwork(queryClusterId)
+      .then(res => {
+        const network = res.data.records
+        const networkOptions = network.map(item => ({
+          label: `${item.kind}/${item.name}`,
+          value: `${item.kind}&${item.name}&${item.kindid}`
+        }))
+        this.setState({ networkOptions, networkLoading: false })
+      })
+      .catch(e => {
+        this.setState({ networkLoading: false })
+        console.log(e)
+      })
   }
 
   editVm = values => {
@@ -70,7 +74,7 @@ export default class EditDrawer extends React.Component {
   }
 
   render() {
-    const { initValues } = this.props
+    const { initValues } = this.state
     return (
       <Drawerx
         onRef={ref => {
@@ -85,35 +89,21 @@ export default class EditDrawer extends React.Component {
           <Form.Item prop="name" label="桌面名称">
             <Input placeholder="桌面名称" />
           </Form.Item>
-          <Form.Item prop="template" label="模板">
-            <Radiox
-              options={this.state.templateOption}
-              onRefresh={this.getTemplate}
-            />
+          <Form.Item label="模板">
+            <Button>{initValues.templateName}</Button>
           </Form.Item>
           <Form.Item prop="usbNum" label="USB数量">
-            <Radiox options={usbOptions} />
+            <Radiox options={usbOptions} hasInputNumber />
           </Form.Item>
           <Form.Item
-            prop="cpuCore"
+            prop="cpuCores"
             label="CPU"
             wrapperCol={{ sm: { span: 12 } }}
           >
-            <Radiox options={cpuOptions} />
-          </Form.Item>
-          <Form.Item
-            prop="cpuNum"
-            wrapperCol={{ sm: { span: 12 } }}
-            className="extend-col"
-            style={{ marginTop: '-64px', marginLeft: '65%' }}
-          >
-            <InputNumber placeholder="" />
+            <Radiox options={cpuOptions} hasInputNumber />
           </Form.Item>
           <Form.Item prop="memory" label="内存">
-            <Radiox options={memoryOptions} />
-          </Form.Item>
-          <Form.Item prop="desktopNum" label="创建数量">
-            <InputNumber placeholder="" />
+            <Radiox options={memoryOptions} hasInputNumber />
           </Form.Item>
           <Form.Item prop="description" label="描述">
             <TextArea placeholder="" />
@@ -122,8 +112,9 @@ export default class EditDrawer extends React.Component {
           <Title slot="网络设置"></Title>
           <Form.Item prop="network" label="桌面名称">
             <Radiox
-              options={this.state.networkOption}
-              onRefresh={this.getNetwork}
+              getData={this.getNetwork}
+              options={this.state.networkOptions}
+              loading={this.state.networkLoading}
             />
           </Form.Item>
         </Formx>

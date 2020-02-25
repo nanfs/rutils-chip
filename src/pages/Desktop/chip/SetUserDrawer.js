@@ -7,12 +7,7 @@ import UserButton from '@/components/UserButton'
 import { columns, apiMethod } from './UserTableCfg'
 import desktopsApi from '@/services/desktops'
 import produce from 'immer'
-import Tablex, {
-  createTableCfg,
-  TableWrap,
-  ToolBar,
-  BarLeft
-} from '@/components/Tablex'
+import Tablex, { createTableCfg, TableWrap, ToolBar } from '@/components/Tablex'
 
 // 是否翻页保存数据
 export default class SetUserDrawer extends React.Component {
@@ -59,13 +54,27 @@ export default class SetUserDrawer extends React.Component {
   }
 
   pop = ids => {
-    console.log(ids)
+    // 如果是一个 获取当前分配的用户
+    if (ids.length) {
+      console.log('ids', ids)
+      desktopsApi
+        .detail(ids[0])
+        .then(res => {
+          this.setState({ owner: res.data.owner })
+          console.log(res.data.owner)
+        })
+        .catch(e => {
+          console.log(e)
+        })
+    }
+
     this.drawer.show()
   }
 
   setUser = () => {
     // TODO 是否是新增 删除 还是直接 传入桌面是单个还是批量
-    const { selection: ids } = this.state.tableCfg
+    const { selection: ids, selectData } = this.state.tableCfg
+    console.log('select', selectData)
     desktopsApi
       .setUser({ ids })
       .then(res => {
@@ -77,7 +86,7 @@ export default class SetUserDrawer extends React.Component {
   }
 
   render() {
-    const searchOptions = [{ label: '名称', value: 'name' }]
+    const searchOptions = [{ label: 'internal', value: 'internal' }]
     return (
       <Drawerx
         onRef={ref => {
@@ -90,16 +99,14 @@ export default class SetUserDrawer extends React.Component {
         <Formx>
           <TableWrap>
             <ToolBar>
-              <BarLeft>
-                <SelectSearch
-                  options={searchOptions}
-                  onSearch={this.search}
-                ></SelectSearch>
-              </BarLeft>
+              <SelectSearch
+                options={searchOptions}
+                onSearch={this.search}
+              ></SelectSearch>
             </ToolBar>
             <Tablex
               onRef={ref => {
-                this.tablex = ref
+                this.userTablex = ref
               }}
               tableCfg={this.state.tableCfg}
               onSelectChange={(selection, selectData) =>

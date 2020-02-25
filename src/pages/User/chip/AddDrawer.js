@@ -17,6 +17,7 @@ export default class AddDrawer extends React.Component {
 
   render() {
     // const { getFieldDecorator } = this.props.form
+    const { nodeData } = this.props
 
     return (
       <Drawerx
@@ -97,7 +98,7 @@ export default class AddDrawer extends React.Component {
               }
             ]}
           >
-            <TreeSelectx apiMethod={userApi.list} />
+            <TreeSelectx nodeData={nodeData} />
           </Form.Item>
           <Form.Item
             prop="email"

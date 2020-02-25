@@ -12,11 +12,13 @@ import EditDrawer from './chip/EditDrawer'
 import DetailDrawer from './chip/DetailDrawer'
 import SetUserDrawer from './chip/SetUserDrawer'
 import InnerPath from '@/components/InnerPath'
+import MyIcon from '@/components/MyIcon'
 import SelectSearch from '@/components/SelectSearch'
 import produce from 'immer'
 import poolsApi from '@/services/pools'
 import { Diliver } from '@/components/Title'
-import { columns, apiMethod, vmColumns, vmApiMethod } from './chip/TableCfg'
+import { columns, apiMethod } from './chip/TableCfg'
+import { vmColumns, vmApiMethod } from './chip/VmTableCfg'
 import './index.scss'
 
 export default class Pool extends React.Component {
@@ -26,13 +28,36 @@ export default class Pool extends React.Component {
     className: 'opration',
     render: (text, record) => (
       <div>
-        <Button
-          onClick={this.sendOrder.bind(this, record.id, 'turnOn')}
-          icon="user"
+        <MyIcon
+          type="order-down"
+          title="关机"
+          onClick={() => this.sendOrder(record.id, 'shutdown')}
         />
-        <Button
-          onClick={this.sendOrder.bind(this, record.id, 'turnOff')}
-          icon="user"
+        <MyIcon
+          type="order-up"
+          title="开机"
+          onClick={() => this.sendOrder(record.id, 'start')}
+        />
+        <MyIcon
+          type="order-poweroff"
+          title="断电"
+          onClick={() => this.sendOrder(record.id, 'poweroff')}
+        />
+        <MyIcon
+          type="vm-rebootinprogress"
+          title="重启"
+          onClick={() => this.sendOrder(record.id, 'restart')}
+        />
+        {/* //TODO 缺少接口 */}
+        <MyIcon
+          type="order-console-end"
+          title="关闭控制台"
+          onClick={() => this.sendOrder(record.id, 'start')}
+        />
+        <MyIcon
+          type="order-console"
+          title="打开控制台"
+          onClick={() => this.openConsole(record.name, record.id)}
         />
       </div>
     )
@@ -111,14 +136,26 @@ export default class Pool extends React.Component {
     this.setState({ vmDisbaledButton })
   }
 
-  turnOn = () => {
-    const ids = this.state.vmTableCfg.selection
-    this.sendOrder(ids, 'turnOn')
+  sendOrder = (id, directive) => {
+    const ids = !Array.isArray(id) ? [id] : [...id]
+    poolsApi
+      .sendOrder({ desktopIds: ids, directive })
+      .then(res => {
+        if (res.success) {
+          notification.success({ message: '操作成功' })
+          this.tablex.refresh(this.state.tableCfg)
+        } else {
+          message.error(res.message || '操作失败')
+        }
+      })
+      .catch(errors => {
+        console.log(errors)
+      })
   }
 
-  turnOff = () => {
-    const ids = this.state.vmTableCfg.selection
-    this.sendOrder(ids, 'turnOff')
+  patchOrder = directive => {
+    const ids = this.tablex.getSelection()
+    this.sendOrder(ids, directive)
   }
 
   getConsole = () => {
@@ -138,7 +175,7 @@ export default class Pool extends React.Component {
   }
 
   createPool = () => {
-    this.setState({ inner: '新建池' }, this.addDrawer.drawer.show())
+    this.setState({ inner: '新建池' }, this.addDrawer.pop())
     this.currentDrawer = this.addDrawer
   }
 
@@ -261,9 +298,9 @@ export default class Pool extends React.Component {
           <Diliver />
           <ToolBar>
             <BarLeft>
-              <Button onClick={this.turnOn}>开机</Button>
-              <Button onClick={this.turnOff}>关机</Button>
-              <Button onClick={this.getConsole}>打开控制台</Button>
+              <Button onClick={() => this.patchOrder('start')}>开机</Button>
+              <Button onClick={() => this.patchOrder('shutdown')}>关机</Button>
+              {/* <Button onClick={this.getConsole}>打开控制台</Button> */}
               <Button
                 onClick={this.deleteVm}
                 disabled={vmDisbaledButton.disabledDelete}

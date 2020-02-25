@@ -146,10 +146,9 @@ export default class Desktop extends React.Component {
   }
 
   deleteVm = () => {
-    const { selection: id } = this.state.tableCfg
-    const ids = !Array.isArray(id) ? [id] : [...id]
+    const desktopIds = this.tablex.getSelection()
     desktopsApi
-      .delete({ ids })
+      .delVm({ desktopIds })
       .then(res => {
         if (res.success) {
           notification.success({ message: '删除成功' })

@@ -22,7 +22,6 @@ export default class EditDrawer extends React.Component {
   componentDidMount() {
     this.props.onRef && this.props.onRef(this)
     this.getTemplate()
-    this.getCluster()
   }
 
   getTemplate = () => {
@@ -38,24 +37,6 @@ export default class EditDrawer extends React.Component {
             { label: '模板四', value: '4' }
           ]
           this.setState({ templateOption })
-        }
-      })
-      .catch(err => console.log(err))
-  }
-
-  getCluster = () => {
-    // axios获取数据
-    poolsApi
-      .getCluster()
-      .then(res => {
-        if (res.success) {
-          const clusterOptions = [
-            { label: '集群一', value: '1' },
-            { label: '集群二', value: '2' },
-            { label: '集群三', value: '3' },
-            { label: '集群四', value: '4' }
-          ]
-          this.setState({ clusterOptions })
         }
       })
       .catch(err => console.log(err))
@@ -100,9 +81,9 @@ export default class EditDrawer extends React.Component {
           <Form.Item prop="manageType" label="管理类型">
             <Radiox options={manageTypeOptions} />
           </Form.Item>
-          <Form.Item prop="usbNum" label="USB数量">
+          {/* <Form.Item prop="usbNum" label="USB数量">
             <Radiox options={usbOptions} />
-          </Form.Item>
+          </Form.Item> */}
           <Form.Item prop="desktopNum" label="创建数量">
             <InputNumber placeholder="" />
           </Form.Item>

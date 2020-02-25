@@ -18,6 +18,7 @@ export default class EditDrawer extends React.Component {
     templateOption: [],
     networkOption: [],
     initValues: {},
+    templateName: undefined,
     networkLoading: false
   }
 
@@ -27,7 +28,14 @@ export default class EditDrawer extends React.Component {
     desktopsApi
       .detail(id)
       .then(res => {
-        this.setState({ initValues: res.data })
+        const { data } = res
+        const { network } = data
+        const networkFix = network.map(
+          item => `${item.kind}&${item.name}&${item.kindid}`
+        )
+        this.setState({ templateName: data.templateName })
+        this.drawer.form.setFieldsValue({ ...data, network: networkFix })
+
         this.getNetwork()
         console.log(res)
       })
@@ -62,9 +70,14 @@ export default class EditDrawer extends React.Component {
   }
 
   editVm = values => {
+    const { network } = values
     // TODO 是否是新增 删除 还是直接 传入桌面是单个还是批量
+    const networkFix = network.map(item => {
+      const [kind, name, kindid] = item.split('&')
+      return { kind, name, kindid }
+    })
     desktopsApi
-      .editVm({ data: values })
+      .editVm({ ...values, network: networkFix })
       .then(res => {
         this.drawer.afterSubmit(res)
       })
@@ -74,7 +87,6 @@ export default class EditDrawer extends React.Component {
   }
 
   render() {
-    const { initValues } = this.state
     return (
       <Drawerx
         onRef={ref => {
@@ -84,17 +96,17 @@ export default class EditDrawer extends React.Component {
         onSuccess={this.props.onSuccess}
         onOk={this.editVm}
       >
-        <Formx initValues={initValues}>
+        <Formx>
           <Title slot="基础设置"></Title>
           <Form.Item prop="name" label="桌面名称">
             <Input placeholder="桌面名称" />
           </Form.Item>
           <Form.Item label="模板">
-            <Button>{initValues.templateName}</Button>
+            <Button>{this.state.templateName}</Button>
           </Form.Item>
-          <Form.Item prop="usbNum" label="USB数量">
-            <Radiox options={usbOptions} hasInputNumber />
-          </Form.Item>
+          {/* <Form.Item prop="usbNum" label="USB数量">
+            <Radiox options={usbOptions} />
+          </Form.Item> */}
           <Form.Item
             prop="cpuCores"
             label="CPU"
@@ -110,7 +122,7 @@ export default class EditDrawer extends React.Component {
           </Form.Item>
           <Diliver />
           <Title slot="网络设置"></Title>
-          <Form.Item prop="network" label="桌面名称">
+          <Form.Item prop="network" label="网络">
             <Radiox
               getData={this.getNetwork}
               options={this.state.networkOptions}

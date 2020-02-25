@@ -70,22 +70,22 @@ export default class DetailDrawer extends React.Component {
           <Col span={8}>{data.clusterName}</Col>
         </Row>
         <Row>
-          <Col span={3}>USB个数：</Col>
-          <Col span={8}>{data.usbNumb}</Col>
+          {/* <Col span={3}>USB个数：</Col>
+          <Col span={8}>{data.usbNum}</Col> */}
+          <Col span={3}>ID：</Col>
+          <Col span={8}>{data.id}</Col>
           <Col span={3}>CPU：</Col>
           <Col span={8}>{data.cpuCores}</Col>
         </Row>
         <Row>
-          <Col span={3}>ID：</Col>
-          <Col span={8}>{data.id}</Col>
+          <Col span={3}>IP：</Col>
+          <Col span={8}>{data.ip}</Col>
           <Col span={3}>内存：</Col>
           <Col span={8}>{data.memory} G</Col>
         </Row>
         <Row>
           <Col span={3}>描述：</Col>
           <Col span={8}>{data.description}</Col>
-          <Col span={3}>IP：</Col>
-          <Col span={8}>{data.ip}</Col>
         </Row>
         <Diliver />
         <Title slot="所属用户"></Title>

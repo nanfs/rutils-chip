@@ -25,8 +25,26 @@ export default class EditDrawer extends React.Component {
     }
   }
 
-  cancelEdit = () => {
-    this.formx.props.form.resetFields()
+  pop = data => {
+    this.drawer.show()
+    const {
+      id,
+      name,
+      description,
+      loginWay,
+      location,
+      secretWord,
+      bondKey
+    } = data
+    this.drawer.form.setFieldsValue({
+      id,
+      name,
+      description,
+      loginWay,
+      location,
+      secretWord,
+      bondKey
+    })
   }
 
   state = {
@@ -39,9 +57,30 @@ export default class EditDrawer extends React.Component {
     })
   }
 
+  selectChange = () => {
+    this.forceUpdate()
+  }
+
   editTerminal = values => {
+    const {
+      id,
+      name,
+      description,
+      loginWay,
+      location,
+      secretWord,
+      bondKey
+    } = values
+    const data = {
+      name,
+      description,
+      loginWay,
+      location,
+      secretWord: loginWay === 2 ? secretWord : '',
+      bondKey: loginWay === 1 ? bondKey : ''
+    }
     terminalApi
-      .editTerminal({ data: values })
+      .editTerminal(id, data)
       .then(res => {
         this.drawer.afterSubmit(res)
       })
@@ -61,20 +100,18 @@ export default class EditDrawer extends React.Component {
         }}
         onOk={values => {
           // values.autoLockTime = autoLockTime
-          console.log(values)
+          // console.log(values)
           this.editTerminal(values)
           return false
         }}
         onClose={this.props.onClose}
         onSuccess={this.props.onSuccess}
       >
-        <Formx
-          initValues={initValues}
-          onRef={ref => {
-            this.formx = ref
-          }}
-        >
+        <Formx initValues={initValues}>
           <Title slot="基础设置"></Title>
+          <Form.Item prop="id" hidden>
+            <Input />
+          </Form.Item>
           <Form.Item
             prop="name"
             label="终端名称"
@@ -130,7 +167,7 @@ export default class EditDrawer extends React.Component {
             <Input placeholder="信息位置" />
           </Form.Item>
           <Form.Item
-            prop="securityClassification"
+            prop="loginWay"
             label="认证方式"
             rules={[
               {
@@ -139,11 +176,27 @@ export default class EditDrawer extends React.Component {
               }
             ]}
           >
-            <Select>
-              <Option value="1">Option 1</Option>
-              <Option value="2">Option 2</Option>
-              <Option value="0">Option 0</Option>
+            <Select onChange={this.selectChange}>
+              <Option value={1}>keyId</Option>
+              <Option value={2}>安全口令</Option>
             </Select>
+          </Form.Item>
+          <Form.Item
+            prop="bondKey"
+            label="输入keyId"
+            rules={[
+              {
+                required: true,
+                message: '请输入keyId'
+              }
+            ]}
+            hidden={
+              this.drawer &&
+              this.drawer.form &&
+              this.drawer.form.getFieldValue('loginWay') === 2
+            }
+          >
+            <Input placeholder="输入keyId" type="password" />
           </Form.Item>
           <Form.Item
             prop="secretWord"
@@ -151,9 +204,14 @@ export default class EditDrawer extends React.Component {
             rules={[
               {
                 required: true,
-                message: '请输入输入口令'
+                message: '请输入口令'
               }
             ]}
+            hidden={
+              this.drawer &&
+              this.drawer.form &&
+              this.drawer.form.getFieldValue('loginWay') === 1
+            }
           >
             <Input placeholder="输入口令" type="password" />
           </Form.Item>

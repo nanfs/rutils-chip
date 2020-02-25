@@ -52,6 +52,8 @@ class Drawerx extends React.Component {
 
   onClose = () => {
     this.hide()
+    const { form } = (this.formRef && this.formRef.props) || {}
+    form.resetFields()
     const { onClose } = this.props
     onClose && onClose()
   }

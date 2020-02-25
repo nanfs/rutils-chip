@@ -59,9 +59,15 @@ class Formx extends React.Component {
       const rules = child.props.rules || undefined
       const value = getFieldValue(child.props.prop)
       const values = getFieldsValue()
-      const childNode = getFieldDecorator(child.props.prop, {
-        rules
-      })(
+      const childNode = getFieldDecorator(
+        child.props.prop,
+        {
+          valuePropName: child.props.valuePropName ? 'checked' : 'value'
+        },
+        {
+          rules
+        }
+      )(
         React.cloneElement(child.props.children, {
           onChange: e => {
             const { onChange } = child.props.children.props

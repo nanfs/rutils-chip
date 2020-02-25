@@ -1,7 +1,7 @@
 .ant-drawer {
   &-open {
     width: 100% !important;
-    height: calc(100vh - 135px) !important;
+    height: calc(100vh - 130px) !important;
     .ant-drawer-mask {
       background-color: white;
     }
@@ -12,6 +12,7 @@
   &-content {
     width: 100%;
     height: 100%;
+    overflow: hidden;
     &-wrapper {
       overflow-y: hidden;
       box-shadow: none;

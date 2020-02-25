@@ -26,7 +26,7 @@ class Drawerx extends React.Component {
       show: true
     })
     document.body.style.maxHeight = '100vh'
-    document.body.style.overflow = 'hidden'
+    // document.body.style.overflow = 'hidden'
     document.querySelector('.table-wrap').style.minHeight =
       'calc(100vh - 105px)'
     document.querySelector('.table-wrap').style.overflow = 'hidden'
@@ -58,6 +58,7 @@ class Drawerx extends React.Component {
 
   // TODO 修改处理方式
   afterSubmit = res => {
+    const { form } = (this.formRef && this.formRef.props) || {}
     return new Promise(resolve => {
       wrapResponse(res)
         .then(() => {
@@ -68,6 +69,7 @@ class Drawerx extends React.Component {
           this.props.onSuccess && this.props.onSuccess()
           notification.success({ message: res.message || '操作成功' })
           resolve(res)
+          form.resetFields()
         })
         .catch(() => {
           message.error(res.message || '操作失败')

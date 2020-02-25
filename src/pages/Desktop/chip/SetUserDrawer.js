@@ -104,7 +104,7 @@ export default class SetUserDrawer extends React.Component {
   }
 
   render() {
-    const searchOptions = [{ label: 'internal', value: 'internal' }]
+    const searchOptions = [{ label: '用户名', value: 'username' }]
     return (
       <Drawerx
         onRef={ref => {

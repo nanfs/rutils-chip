@@ -40,7 +40,7 @@ class Tablex extends React.Component {
     this.state = {
       loading: false,
       selection: [],
-      selectData: [],
+      selectData: [], // 可能会出现不同步到情况
       paging: {
         size: (paging && paging.size) || 10,
         current: 1,

@@ -104,6 +104,7 @@ export default class Template extends React.Component {
             }}
             onClose={this.onBack}
             onSuccess={() => {
+              this.onBack()
               this.tablex.refresh(this.state.tableCfg)
             }}
           />

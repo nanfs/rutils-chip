@@ -34,5 +34,5 @@ export const weekOptions = [
 ]
 export const typeOptions = [
   { label: '按周', value: 0 },
-  { label: '按天', value: 1 }
+  { label: '按日期', value: 1 }
 ]

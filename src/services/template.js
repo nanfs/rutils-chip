@@ -11,6 +11,13 @@ export default {
       data: qs.stringify(data)
     })
   },
+  addTem(data) {
+    return axios({
+      url: '/templates',
+      method: 'post',
+      data: qs.stringify(data)
+    })
+  },
   delTem(data) {
     return axios({
       url: '/templates',

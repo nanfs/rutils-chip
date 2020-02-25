@@ -51,7 +51,7 @@ class Tablex extends React.Component {
 
   componentDidMount() {
     this.props.onRef && this.props.onRef(this)
-    this.refresh({ ...this.props.tableCfg })
+    !this.props.stopFetch && this.refresh({ ...this.props.tableCfg })
   }
 
   componentDidUpdate(prevProps) {

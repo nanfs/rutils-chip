@@ -2,6 +2,7 @@ import React from 'react'
 import Modalx, { createModalCfg } from '@/components/Modalx'
 import Formx from '@/components/Formx'
 import { Form, Input } from 'antd'
+import templateApi from '@/services/template'
 
 const { TextArea } = Input
 
@@ -10,13 +11,21 @@ export default class AddTemplateModal extends React.Component {
     this.props.onRef && this.props.onRef(this)
   }
 
-  pop = id => {
+  pop = vmId => {
     this.modal.show()
-    this.modal.form.setFieldsValue({ id })
+    this.modal.form.setFieldsValue({ vmId })
   }
 
   onOk = values => {
-    console.log(values)
+    templateApi
+      .addTem(values)
+      .then(res => {
+        this.modal.afterSubmit(res)
+      })
+      .catch(errors => {
+        this.modal.break()
+        console.log(errors)
+      })
   }
 
   render() {
@@ -31,10 +40,10 @@ export default class AddTemplateModal extends React.Component {
         onOk={this.onOk}
       >
         <Formx>
-          <Form.Item prop="id" label="模板名称" hidden>
+          <Form.Item prop="vmId" label="模板名称" hidden>
             <Input />
           </Form.Item>
-          <Form.Item prop="templatename" label="模板名称">
+          <Form.Item prop="templateName" label="模板名称">
             <Input placeholder="模板名称"></Input>
           </Form.Item>
           <Form.Item prop="description" label="描述">

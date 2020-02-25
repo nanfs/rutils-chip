@@ -194,3 +194,19 @@ export function ch2Unicdoe(str) {
   }
   return unicode
 }
+
+export function downloadVV(flow, name) {
+  const blob = new Blob([flow], {
+    type: 'application/x-virt-viewer;charset=UTF-8'
+  })
+  const objUrl = URL.createObjectURL(blob)
+  const aLink = document.createElement('a')
+  aLink.download = `${name}.vv`
+  document.body.appendChild(aLink)
+  aLink.style.display = 'none'
+  aLink.href = objUrl
+  aLink.click()
+  document.body.removeChild(aLink)
+  window.URL.revokeObjectURL(objUrl)
+  aLink.setAttribute('download', name)
+}

@@ -25,9 +25,9 @@ export default {
   },
   setUser(data) {
     return axios({
-      url: '/desktops',
-      method: 'get',
-      params: data
+      url: '/desktops/users',
+      method: 'post',
+      data: qs.stringify(data, { arrayFormat: 'indices', allowDots: true })
     })
   },
   addVm(data) {
@@ -68,7 +68,8 @@ export default {
     return axios({
       url: '/desktops/console',
       method: 'get',
-      params: data
+      params: data,
+      responseType: 'arraybuffer'
     })
   }
 }

@@ -150,7 +150,7 @@ export const vmStatusText = {
 export const vmStatusRender = status => {
   const statusList = {
     '-1': 'vm-unassigned',
-    '0': 'vm-Down',
+    '0': 'vm-down',
     '1': 'vm-up',
     '2': 'vm-poweringup',
     '4': 'vm-paused',

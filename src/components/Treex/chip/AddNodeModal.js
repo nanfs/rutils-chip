@@ -10,30 +10,24 @@ export default class AddNodeModal extends React.Component {
     this.props.onRef && this.props.onRef(this)
   }
 
-  getResult = values => {
-    return new Promise(resolve => {
-      setTimeout(() => {
-        appApi.updatePwd(values).then(res => {
-          console.log(res)
-          resolve(res)
-        })
-      }, 1000)
-    })
-  }
-
   pop = () => {
     this.modal.show()
   }
 
   onOk = values => {
     const { addNodeApiMethod, nodeValues, addNodeSuccess } = this.props
-    addNodeApiMethod({ ...values, parentId: nodeValues.props['data-key'] })
+    addNodeApiMethod({
+      ...values,
+      parentId:
+        nodeValues.id === null ? nodeValues.id : parseInt(nodeValues.id, 10)
+    })
       .then(res => {
         if (res.success) {
           addNodeSuccess && addNodeSuccess()
         } else {
           // this.nodes = []
         }
+        this.modal.afterSubmit(res)
       })
       .catch(e => {
         console.log(e)

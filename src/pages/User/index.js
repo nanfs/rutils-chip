@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Row, Col } from 'antd'
+import { Button, Row, Col, notification, message } from 'antd'
 import produce from 'immer'
 
 import Tablex, {
@@ -20,6 +20,7 @@ import EditDrawer from './chip/EditDrawer'
 import userApi from '@/services/user'
 
 import './index.scss'
+import { array, element } from 'prop-types'
 
 const nodes = [
   {
@@ -76,7 +77,33 @@ export default class User extends React.Component {
     innerPath: undefined,
     initValues: {},
     value: undefined,
-    inputValue: 'asd'
+    inputValue: 'asd',
+    domainlist: []
+  }
+
+  componentDidMount = () => {
+    userApi
+      .domainlist()
+      .then(res => {
+        if (res.success) {
+          // notification.success({ message: '查询域成功' })
+          const domainlist = res.data.map(item => {
+            const obj = {}
+            obj.label = item
+            obj.value = item
+            return obj
+          })
+
+          this.setState({
+            domainlist
+          })
+        } else {
+          message.error(res.message || '查询域失败')
+        }
+      })
+      .catch(errors => {
+        console.log(errors)
+      })
   }
 
   search = (key, value) => {
@@ -121,7 +148,7 @@ export default class User extends React.Component {
       produce(draft => {
         draft.tableCfg.searchs = {
           ...draft.tableCfg.searchs,
-          id: value
+          groupId: value[0]
         }
       }),
       () => this.tablex.refresh(this.state.tableCfg)
@@ -132,8 +159,10 @@ export default class User extends React.Component {
     this.tablex.refresh(this.state.tableCfg)
   }
 
-  treeRenderSuccess = selectNode => {
-    console.log(selectNode)
+  treeRenderSuccess = (selectNode, treeData) => {
+    this.setState({
+      treeData
+    })
     this.setState(
       produce(draft => {
         draft.tableCfg = {
@@ -144,6 +173,7 @@ export default class User extends React.Component {
             groupId: selectNode
           }
         }
+        // draft.treeData = treeData
       }),
       () => this.tablex.refresh(this.state.tableCfg)
     )
@@ -151,7 +181,7 @@ export default class User extends React.Component {
 
   render() {
     const searchOptions = [{ label: '名称', value: 'name' }]
-    const { inputValue } = this.state
+    const { inputValue, treeData, initValues, domainlist } = this.state
     return (
       <React.Fragment>
         <InnerPath
@@ -249,7 +279,8 @@ export default class User extends React.Component {
                 }}
                 onClose={this.onBack}
                 onSuccess={this.onSuccesss}
-                nodeData={nodes}
+                nodeData={treeData}
+                domainlist={domainlist}
               />
               <EditDrawer
                 onRef={ref => {
@@ -257,15 +288,16 @@ export default class User extends React.Component {
                 }}
                 onClose={this.onBack}
                 onSuccess={this.onSuccess}
-                initValues={this.state.initValues}
-                nodeData={nodes}
+                initValues={initValues}
+                nodeData={treeData}
+                domainlist={domainlist}
               />
               <DetailDrawer
                 onRef={ref => {
                   this.detailDrawer = ref
                 }}
                 onClose={this.onBack}
-                initValues={this.state.initValues}
+                initValues={initValues}
               />
             </div>
           </div>

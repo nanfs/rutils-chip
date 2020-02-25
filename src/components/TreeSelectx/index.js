@@ -13,18 +13,11 @@ export default class TreeSelectx extends React.Component {
     treeData: []
   }
 
-  componentDidMount() {
-    const { apiMethod, nodeData } = this.props
-    if (!Array.isArray(nodeData) || !Object.keys(nodeData[0]).includes('key')) {
-      throw new Error('数据格式不符合')
-    }
-    const treeData = nodes2Tree(nodeData)
-    this.setState({
-      treeData
-    })
-  }
-
   componentDidUpdate(prep) {
+    if (this.props.nodeData !== prep.nodeData) {
+      const treeData = nodes2Tree(this.props.nodeData)
+      this.setState({ treeData })
+    }
     if (this.props.value !== prep.value) {
       this.setState({ value: this.props.value })
     }

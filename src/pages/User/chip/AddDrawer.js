@@ -4,6 +4,7 @@ import { Form, Input, Select } from 'antd'
 import Drawerx from '@/components/Drawerx'
 import Formx from '@/components/Formx'
 import TreeSelectx from '@/components/TreeSelectx'
+import Selectx from '@/components/Selectx'
 import Title from '@/components/Title'
 
 import userApi from '@/services/user'
@@ -15,9 +16,21 @@ export default class AddDrawer extends React.Component {
     this.props.onRef && this.props.onRef(this)
   }
 
+  addUser = values => {
+    userApi
+      .addUser({ ...values, description: '123' })
+      .then(res => {
+        this.drawer.afterSubmit(res)
+      })
+      .catch(errors => {
+        this.drawer.break()
+        console.log(errors)
+      })
+  }
+
   render() {
     // const { getFieldDecorator } = this.props.form
-    const { nodeData } = this.props
+    const { nodeData, domainlist } = this.props
 
     return (
       <Drawerx
@@ -26,6 +39,7 @@ export default class AddDrawer extends React.Component {
         }}
         onOk={values => {
           console.log(values)
+          this.addUser(values)
         }}
         onClose={this.props.onClose}
         onSuccess={this.props.onSuccess}
@@ -46,23 +60,31 @@ export default class AddDrawer extends React.Component {
               }
             ]}
           >
-            <Select placeholder="用户名">
-              <Option value="1">Option 1</Option>
-              <Option value="2">Option 2</Option>
-              <Option value="3">Option 3</Option>
-            </Select>
+            <Selectx placeholder="请选择域" options={domainlist}></Selectx>
           </Form.Item>
           <Form.Item
-            prop="name"
-            label="姓名"
+            prop="firstname"
+            label="姓"
             rules={[
               {
                 required: true,
-                message: '请填写姓名'
+                message: '请填写姓'
               }
             ]}
           >
-            <Input placeholder="姓名" />
+            <Input placeholder="名" />
+          </Form.Item>
+          <Form.Item
+            prop="lastname"
+            label="名"
+            rules={[
+              {
+                required: true,
+                message: '请填写名'
+              }
+            ]}
+          >
+            <Input placeholder="名" />
           </Form.Item>
           <Form.Item
             prop="username"
@@ -89,7 +111,7 @@ export default class AddDrawer extends React.Component {
             <Input placeholder="密码" type="password" />
           </Form.Item>
           <Form.Item
-            prop="group"
+            prop="groupId"
             label="组织"
             rules={[
               {
@@ -112,18 +134,18 @@ export default class AddDrawer extends React.Component {
           >
             <Input placeholder="邮件" />
           </Form.Item>
-          <Form.Item
+          {/* <Form.Item
             prop="KEYID"
             label="KEYID"
-            /* rules={[
+            rules={[
               {
                 required: true,
                 message: '请输入KEYID'
               }
-            ]} */
+            ]}
           >
             <Input placeholder="KEYID" />
-          </Form.Item>
+          </Form.Item> */}
         </Formx>
       </Drawerx>
     )

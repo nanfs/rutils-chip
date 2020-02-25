@@ -189,6 +189,7 @@ export default class Termina extends React.Component {
   deleteTerminal = () => {
     const sns = this.state.selectSN
     const self = this
+    console.log(sns)
     confirm({
       title: '确定删除所选数据?',
       onOk() {
@@ -197,7 +198,7 @@ export default class Termina extends React.Component {
           .then(res => {
             if (res.success) {
               notification.success({ message: '删除成功' })
-              self.tablex.refresh(this.state.tableCfg)
+              self.tablex.refresh(self.state.tableCfg)
             } else {
               message.error(res.message || '删除失败')
             }
@@ -224,8 +225,8 @@ export default class Termina extends React.Component {
         disabledAdmitAccess: true
       }
     }
-    const hasAccessData = selectData.filter(item => item.isReq)
-    if (hasAccessData && hasAccessData.length) {
+    const hasAccessData = selectData.filter(item => item.isReg)
+    if (hasAccessData && hasAccessData.length > 0) {
       disbaledButton = {
         ...disbaledButton,
         disabledAdmitAccess: true
@@ -339,7 +340,7 @@ export default class Termina extends React.Component {
                 开机
               </Button> */}
               <Button
-                onClick={this.sendOrder.bind(this, 'turnOff')}
+                onClick={this.sendOrder.bind(this, 'shutdown')}
                 disabled={disbaledButton.disabledEdit}
               >
                 关机

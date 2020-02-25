@@ -19,7 +19,7 @@ export default {
   deleteTerminal(data) {
     return axios({
       url: '/terminals',
-      method: '/delete',
+      method: 'delete',
       data: qs.stringify(data)
     })
   },

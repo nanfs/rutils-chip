@@ -55,7 +55,7 @@ export const columns = [
   },
   {
     title: '接入状态',
-    dataIndex: 'isReq',
+    dataIndex: 'isReg',
     filters: [
       {
         text: '待接入',
@@ -66,8 +66,9 @@ export const columns = [
         value: true
       }
     ],
-    onFilter: (value, record) => record.accessStatus === value,
+    onFilter: (value, record) => record.isReg === value,
     render: value => {
+      console.log(value)
       return value ? (
         <Tag color="#ade688">已接入</Tag>
       ) : (

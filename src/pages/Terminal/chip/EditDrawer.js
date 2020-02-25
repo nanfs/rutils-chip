@@ -87,7 +87,7 @@ export default class EditDrawer extends React.Component {
           >
             <Input placeholder="终端名称" />
           </Form.Item>
-          <Form.Item
+          {/* <Form.Item
             prop="autoLockTime"
             label="自动锁屏时间"
             rules={[
@@ -115,8 +115,8 @@ export default class EditDrawer extends React.Component {
                 />
               </Col>
             </Row>
-            {/* <SliderNumber autoLockTime={'1'} /> */}
-          </Form.Item>
+            <SliderNumber autoLockTime={'1'} />
+          </Form.Item> */}
           <Form.Item
             prop="location"
             label="信息位置"
@@ -155,7 +155,7 @@ export default class EditDrawer extends React.Component {
               }
             ]}
           >
-            <Input placeholder="输入口令" type="password" disabled />
+            <Input placeholder="输入口令" type="password" />
           </Form.Item>
           <Form.Item prop="description" label="描述" rules={[]}>
             <TextArea rows={3} placeholder="描述" />

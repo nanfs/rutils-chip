@@ -3,10 +3,10 @@
 export const detailUseTimeColumns = [
   {
     title: '上线时间',
-    dataIndex: 'onlinetime'
+    dataIndex: 'onlineTime'
   },
   {
     title: '下线时间',
-    dataIndex: 'offlinetime'
+    dataIndex: 'offlineTime'
   }
 ]

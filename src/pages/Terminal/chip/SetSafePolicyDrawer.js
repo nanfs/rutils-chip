@@ -2,9 +2,8 @@ import React from 'react'
 import Drawerx from '@/components/Drawerx'
 import Formx from '@/components/Formx'
 import SelectSearch from '@/components/SelectSearch'
-import { Tag } from 'antd'
+import { Tag, Switch } from 'antd'
 import Title, { Diliver } from '@/components/Title'
-import UserButton from '@/components/UserButton'
 import { columns, apiMethod } from './SafePolicyTableCfg'
 import terminalApi from '@/services/terminal'
 import produce from 'immer'
@@ -30,7 +29,27 @@ export default class SetSafePolicyDrawer extends React.Component {
       rowKey: record => `${record.id}&${record.name}`,
       searchs: { domain: 'internal' },
       pageSizeOptions: ['5', '10']
-    })
+    }),
+    switchDisable: true
+  }
+
+  onClose = () => {
+    this.setState(
+      {
+        totalSelection: [],
+        tableCfg: createTableCfg({
+          columns,
+          apiMethod,
+          selection: [],
+          paging: { size: 5 },
+          rowKey: record => `${record.id}&${record.name}`,
+          searchs: { domain: 'internal' },
+          pageSizeOptions: ['5', '10']
+        }),
+        switchDisable: true
+      },
+      this.props.onClose()
+    )
   }
 
   onSelectChange = selection => {
@@ -85,6 +104,7 @@ export default class SetSafePolicyDrawer extends React.Component {
           this.setState(
             produce(draft => {
               draft.totalSelection = totalSelection
+              draft.switchDisable = true
               draft.tableCfg = {
                 ...draft.tableCfg,
                 selection: totalSelection
@@ -97,6 +117,10 @@ export default class SetSafePolicyDrawer extends React.Component {
           console.log(e)
         })
     } else {
+      console.log('aaaa')
+      this.setState({
+        switchDisable: false
+      })
       this.deviceTablex.refresh(this.state.tableCfg)
     }
     this.drawer.show()
@@ -150,10 +174,16 @@ export default class SetSafePolicyDrawer extends React.Component {
         <Formx>
           <TableWrap>
             <ToolBar>
-              {/* <SelectSearch
-                options={searchOptions}
-                onSearch={this.search}
-              ></SelectSearch> */}
+              {/* <Switch
+                name="usagePeripherals"
+                checkedChildren="启用外设"
+                unCheckedChildren="禁用外设"
+                disabled={this.state.switchDisable}
+                checked={this.state.swichStatus}
+              />
+              <span className="setsafepolicy-tips">
+                只允许设置同一种类型的外设控制策略
+              </span> */}
             </ToolBar>
             <Tablex
               onRef={ref => {

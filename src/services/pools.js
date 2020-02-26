@@ -39,7 +39,7 @@ export default {
   editPool(data) {
     const { poolId, ...rest } = data
     return axios({
-      url: `/pool${poolId}`,
+      url: `/pools/${poolId}`,
       method: 'post',
       data: qs.stringify(rest)
     })
@@ -54,14 +54,14 @@ export default {
   vmList(data) {
     const { poolId, ...rest } = data
     return axios({
-      url: `/pool/${poolId}/desktops`,
+      url: `/pools/${poolId}/desktops`,
       method: 'get',
       params: rest
     })
   },
   getVmConsole(data) {
     const { poolId, ...rest } = data
-    const url = `/pool${poolId}/desktops`
+    const url = `/pools/${poolId}/desktops`
     return axios({
       url: '/desktops',
       method: 'get',
@@ -70,7 +70,7 @@ export default {
   },
   sendOrder(data) {
     const { poolId, ...rest } = data
-    const url = `/pool${poolId}/desktops`
+    const url = `/pools/${poolId}/desktops`
     return axios({
       url: '/pools',
       method: 'get',
@@ -79,7 +79,7 @@ export default {
   },
   deleteVm(data) {
     const { poolId, ...rest } = data
-    const url = `/pool${poolId}/desktops`
+    const url = `/pools/${poolId}/desktops`
     return axios({
       url: '/pools',
       method: 'get',

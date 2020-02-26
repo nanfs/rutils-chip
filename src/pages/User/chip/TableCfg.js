@@ -40,7 +40,7 @@ export const columns = [
     title: '状态',
     dataIndex: 'status',
     render: value => {
-      return value !== 0 ? (
+      return value === 1 ? (
         <span>
           <Icon
             type="check-circle"

@@ -43,7 +43,7 @@ export default class editDrawer extends React.Component {
   editUser = values => {
     const { onSuccess } = this.props
     userApi
-      .editUser({ ...values, description: '123' })
+      .editUser({ ...values })
       .then(res => {
         this.drawer.afterSubmit(res)
         onSuccess && onSuccess()

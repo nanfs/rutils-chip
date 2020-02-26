@@ -34,16 +34,22 @@ export const columns = [
     title: '状态',
     dataIndex: 'status',
     render: text => {
-      if (text == '0') {
+      if (text == '1') {
         return (
           <span>
             <Icon type="lock" className={styles.lock} /> 锁定
           </span>
         )
-      } else {
+      } else if (text == '0') {
         return (
           <span className={styles['can-use']}>
             <Icon type="check-circle" /> 可用
+          </span>
+        )
+      } else {
+        return (
+          <span className={styles.safety}>
+            <Icon type="safety" /> 合法
           </span>
         )
       }

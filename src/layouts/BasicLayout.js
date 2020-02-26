@@ -48,7 +48,7 @@ class BasicLayout extends React.Component {
                 />
               </Content>
               <Footer style={{ textAlign: 'center' }}>
-                电科云（北京）科技有限公司 版权所有
+                版权所有©2020 电科云（北京）科技有限公司
               </Footer>
             </Layout>
           </Layout>

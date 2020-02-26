@@ -34,7 +34,7 @@ export const columnsSave = [
   },
   {
     title: '存储域名称',
-    dataIndex: 'storageName'
+    dataIndex: 'name'
   },
   {
     title: '数据中心',

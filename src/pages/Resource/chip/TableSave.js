@@ -57,7 +57,7 @@ export default class Resource extends React.Component {
             <BarLeft>
               <SelectSearch
                 options={[
-                  { label: '名称', value: 'storageName' },
+                  { label: '名称', value: 'name' },
                   { label: '描述', value: 'description' }
                 ]}
                 onSearch={this.search}

@@ -66,7 +66,7 @@ export default class AboutModal extends React.Component {
         </Row>
         <Row>
           <Col span={24} className="about-info">
-            2020-CETC-cloud 电科云（北京）科技有限公司
+            版权所有©2020 电科云（北京）科技有限公司
           </Col>
         </Row>
       </Modalx>

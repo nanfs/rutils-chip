@@ -30,7 +30,7 @@ export default {
     return axios({
       url: `/templates/${id}`,
       method: 'put',
-      data: qs.stringify(reqData)
+      data: qs.stringify(reqData, { arrayFormat: 'indices', allowDots: true })
     })
   }
 }

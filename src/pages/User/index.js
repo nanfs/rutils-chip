@@ -171,6 +171,40 @@ export default class User extends React.Component {
     })
   }
 
+  lockUser = () => {
+    const ids = this.tablex.getSelection()
+    userApi
+      .lockUser({ userId: ids[0] })
+      .then(res => {
+        if (res.success) {
+          notification.success({ message: '锁定成功' })
+          this.tablex.refresh(self.state.tableCfg)
+        } else {
+          message.error(res.message || '锁定失败')
+        }
+      })
+      .catch(errors => {
+        console.log(errors)
+      })
+  }
+
+  unlockUser = () => {
+    const ids = this.tablex.getSelection()
+    userApi
+      .unlockUser({ userId: ids[0] })
+      .then(res => {
+        if (res.success) {
+          notification.success({ message: '解锁成功' })
+          this.tablex.refresh(self.state.tableCfg)
+        } else {
+          message.error(res.message || '解锁失败')
+        }
+      })
+      .catch(errors => {
+        console.log(errors)
+      })
+  }
+
   detailUser = () => {
     this.setState({ inner: '详情' })
     this.detailDrawer.pop(this.state.selectData[0])

@@ -2110,12 +2110,12 @@
     {
       "kind": "ovirtmgmt",
       "name": "ovirtmgmt",
-      "kindid": "0000000a-000a-000a-000a-000000000398"
+      "kindId": "0000000a-000a-000a-000a-000000000398"
     },
     {
       "kind": "srtest",
       "name": "srtest",
-      "kindid": "4428c21d-ed72-4bb3-ab23-3205118a71aa"
+      "kindId": "4428c21d-ed72-4bb3-ab23-3205118a71aa"
     }
   ]
 }

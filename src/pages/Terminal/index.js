@@ -59,6 +59,7 @@ export default class Termina extends React.Component {
     tableCfg: createTableCfg({
       columns: this.columnsArr,
       apiMethod,
+      rowKey: 'sn',
       paging: { size: 5 },
       pageSizeOptions: ['5', '10']
     }),
@@ -102,8 +103,10 @@ export default class Termina extends React.Component {
   }
 
   setUser = () => {
-    this.setState({ inner: '分配用户' })
-    this.setUserDrawer.drawer.show()
+    this.setState(
+      { inner: '分配用户' },
+      this.setUserDrawer.pop(this.tablex.getSelection())
+    )
     this.currentDrawer = this.setUserDrawer
   }
 

@@ -4,8 +4,14 @@ import Drawerx from '@/components/Drawerx'
 import Formx from '@/components/Formx'
 import Title from '@/components/Title'
 import Radiox from '@/components/Radiox'
-import { usbOptions, manageTypeOptions } from '@/utils/formOptions'
+import {
+  memoryOptions,
+  cpuOptions,
+  manageTypeOptions
+} from '@/utils/formOptions'
+
 import poolsApi from '@/services/pools'
+import { required } from '@/utils/valid'
 
 const { TextArea } = Input
 
@@ -57,7 +63,7 @@ export default class AddDrawer extends React.Component {
   addPool = values => {
     // TODO 是否是新增 删除 还是直接 传入桌面是单个还是批量
     poolsApi
-      .addPool({ data: values })
+      .addPool({ cpuNum: 1, ...values })
       .then(res => {
         this.drawer.afterSubmit(res)
       })
@@ -91,6 +97,22 @@ export default class AddDrawer extends React.Component {
           </Form.Item>
           <Form.Item prop="manageType" label="管理类型">
             <Radiox options={manageTypeOptions} />
+          </Form.Item>
+          <Form.Item
+            prop="cpuCores"
+            label="CPU"
+            rules={[required]}
+            wrapperCol={{ sm: { span: 16 } }}
+          >
+            <Radiox options={cpuOptions} hasInputNumber />
+          </Form.Item>
+          <Form.Item
+            prop="memory"
+            label="内存"
+            rules={[required]}
+            wrapperCol={{ sm: { span: 16 } }}
+          >
+            <Radiox options={memoryOptions} hasInputNumber />
           </Form.Item>
           {/* <Form.Item prop="usbNum" label="USB数量">
             <Radiox options={usbOptions} />

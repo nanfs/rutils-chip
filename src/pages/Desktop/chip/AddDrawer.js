@@ -6,7 +6,7 @@ import Title, { Diliver } from '@/components/Title'
 import Radiox from '@/components/Radiox'
 import Checkboxx from '@/components/Checkboxx'
 
-import { usbOptions, memoryOptions, cpuOptions } from '@/utils/formOptions'
+import { memoryOptions, cpuOptions } from '@/utils/formOptions'
 import desktopsApi from '@/services/desktops'
 import { required } from '@/utils/valid'
 
@@ -36,8 +36,8 @@ export default class AddDrawer extends React.Component {
     const { templateId, network } = values
     const templateFix = templateId.split('&clusterId')[0]
     const networkFix = network.map(item => {
-      const [kind, name, kindid] = item.split('&')
-      return { kind, name, kindid }
+      const [kind, name, kindId] = item.split('&')
+      return { kind, name, kindId }
     })
 
     const data = {
@@ -95,7 +95,7 @@ export default class AddDrawer extends React.Component {
         const network = res.data.records
         const networkOptions = network.map(item => ({
           label: `${item.kind}/${item.name}`,
-          value: `${item.kind}&${item.name}&${item.kindid}`
+          value: `${item.kind}&${item.name}&${item.kindId}`
         }))
         this.setState({ networkOptions, networkLoading: false })
       })

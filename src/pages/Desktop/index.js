@@ -97,7 +97,6 @@ export default class Desktop extends React.Component {
       pageSizeOptions: ['5', '10']
     }),
     innerPath: undefined,
-    initValues: {},
     disbaledButton: {}
   }
 
@@ -346,14 +345,12 @@ export default class Desktop extends React.Component {
             }}
             onSuccess={this.onSuccess}
             onClose={this.onBack}
-            initValues={this.state.initValues}
           />
           <DetailDrawer
             onRef={ref => {
               this.detailDrawer = ref
             }}
             onClose={this.onBack}
-            initValues={this.state.initValues}
           />
           <SetUserDrawer
             onRef={ref => {

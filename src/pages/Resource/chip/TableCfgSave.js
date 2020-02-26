@@ -37,6 +37,10 @@ export const columnsSave = [
     dataIndex: 'storageName'
   },
   {
+    title: '数据中心',
+    dataIndex: 'storagePoolName'
+  },
+  {
     title: '类型',
     dataIndex: 'storageType',
     render: text => storageTypeRender(text)

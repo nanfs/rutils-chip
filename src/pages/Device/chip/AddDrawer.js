@@ -55,6 +55,7 @@ class AddDrawer extends React.Component {
   addSubmit = values => {
     const { form } = this.props
     const keys = form.getFieldValue('keys')
+    console.log(keys)
     const usbs = []
     keys.forEach(function(v, i) {
       usbs.push({

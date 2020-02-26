@@ -42,6 +42,13 @@ export const columnsCompute = [
     dataIndex: 'ip'
   },
   {
+    title: '数据中心/集群',
+    dataIndex: 'vm',
+    render: (text, record) => {
+      return `${record.storagePoolName}/${record.clusterName}`
+    }
+  },
+  {
     title: 'CPU',
     dataIndex: 'usageCpuPercent',
     width: '15%',

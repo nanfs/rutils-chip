@@ -82,6 +82,17 @@ class EditDrawer extends React.Component {
       })
   }
 
+  onClose = () => {
+    const { form } = this.props
+    form.setFieldsValue({
+      keys: [0],
+      'names[0]': '',
+      'vids[0]': '',
+      'pids[0]': ''
+    })
+    this.props.onClose()
+  }
+
   render() {
     const { getFieldDecorator, getFieldValue } = this.props.form
     const { initValues } = this.props
@@ -148,9 +159,9 @@ class EditDrawer extends React.Component {
           onRef={ref => {
             this.formx = ref
           }}
-          onClose={this.props.onClose}
+          onClose={this.onClose}
           onSuccess={this.props.onSuccess}
-          initValues={initValues}
+          // initValues={initValues}
         >
           <Title slot="基础设置"></Title>
           <Form.Item prop="id" hidden>

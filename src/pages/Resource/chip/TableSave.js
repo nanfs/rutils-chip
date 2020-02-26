@@ -58,8 +58,7 @@ export default class Resource extends React.Component {
               <SelectSearch
                 options={[
                   { label: '名称', value: 'storageName' },
-                  { label: 'IP', value: 'ip' },
-                  { label: '主机', value: 'hostName' }
+                  { label: '描述', value: 'description' }
                 ]}
                 onSearch={this.search}
               ></SelectSearch>

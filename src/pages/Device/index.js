@@ -90,7 +90,7 @@ export default class Device extends React.Component {
             .then(res => {
               if (res.success) {
                 notification.success({ message: '删除成功' })
-                this.onSuccess()
+                self.tablex.refresh(self.state.tableCfg)
                 self.tablex.clearSelection()
                 self.setState({
                   selection: [],

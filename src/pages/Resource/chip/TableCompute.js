@@ -60,7 +60,7 @@ export default class Resource extends React.Component {
                   options={[
                     { label: '名称', value: 'name' },
                     { label: 'IP', value: 'ip' },
-                    { label: '主机', value: 'hostName' }
+                    { label: '描述', value: 'description' }
                   ]}
                   onSearch={this.search}
                 ></SelectSearch>

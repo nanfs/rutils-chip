@@ -52,7 +52,7 @@ export default {
   },
   setUser(data) {
     return axios({
-      url: '/desktops/users',
+      url: '/terminals/users',
       method: 'post',
       data: qs.stringify(data, { arrayFormat: 'indices', allowDots: true })
     })

@@ -36,8 +36,8 @@ export default class AddDrawer extends React.Component {
     const { templateId, network } = values
     const templateFix = templateId.split('&clusterId')[0]
     const networkFix = network.map(item => {
-      const [kind, name, kindId] = item.split('&')
-      return { kind, name, kindId }
+      const [kind, name, kindid] = item.split('&')
+      return { kind, name, kindid }
     })
 
     const data = {
@@ -95,7 +95,7 @@ export default class AddDrawer extends React.Component {
         const network = res.data.records
         const networkOptions = network.map(item => ({
           label: `${item.kind}/${item.name}`,
-          value: `${item.kind}&${item.name}&${item.kindId}`
+          value: `${item.kind}&${item.name}&${item.kindid}`
         }))
         this.setState({ networkOptions, networkLoading: false })
       })

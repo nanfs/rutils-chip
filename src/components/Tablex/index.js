@@ -126,6 +126,7 @@ class Tablex extends React.Component {
               total: res.data.data ? res.data.data.total : res.data.total
             }
           })
+          this.props.afterLoad && this.props.afterLoad()
           resolve(res)
         })
         .catch(() => {

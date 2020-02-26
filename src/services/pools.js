@@ -16,11 +16,17 @@ export default {
       method: 'delete'
     })
   },
+  detail(poolId) {
+    return axios({
+      url: `/pools/${poolId}`,
+      method: 'get'
+    })
+  },
   setUser(data) {
     return axios({
-      url: '/pools',
-      method: 'get',
-      params: data
+      url: '/pools/users',
+      method: 'post',
+      data: qs.stringify(data, { arrayFormat: 'indices', allowDots: true })
     })
   },
   addPool(data) {
@@ -31,10 +37,11 @@ export default {
     })
   },
   editPool(data) {
+    const { poolId, ...rest } = data
     return axios({
-      url: '/pools',
+      url: `/pool${poolId}`,
       method: 'post',
-      data: qs.stringify(data)
+      data: qs.stringify(rest)
     })
   },
   getTemplate(data) {
@@ -46,9 +53,8 @@ export default {
   },
   vmList(data) {
     const { poolId, ...rest } = data
-    const url = `/pool${poolId}/desktops`
     return axios({
-      url: '/desktops',
+      url: `/pool/${poolId}/desktops`,
       method: 'get',
       params: rest
     })

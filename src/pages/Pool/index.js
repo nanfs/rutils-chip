@@ -9,7 +9,6 @@ import Tablex, {
 } from '@/components/Tablex'
 import AddDrawer from './chip/AddDrawer'
 import EditDrawer from './chip/EditDrawer'
-import DetailDrawer from './chip/DetailDrawer'
 import SetUserDrawer from './chip/SetUserDrawer'
 import InnerPath from '@/components/InnerPath'
 import MyIcon from '@/components/MyIcon'
@@ -79,7 +78,6 @@ export default class Pool extends React.Component {
       pageSizeOptions: ['5', '10']
     }),
     innerPath: undefined,
-    initValues: {},
     disbaledButton: {},
     vmDisbaledButton: {}
   }
@@ -217,8 +215,8 @@ export default class Pool extends React.Component {
 
   editPool = () => {
     this.setState(
-      { inner: '编辑池', initValues: this.state.tableCfg.selectData[0] },
-      this.editDrawer.drawer.show()
+      { inner: '编辑池' },
+      this.editDrawer.pop(this.tablex.getSelection()[0])
     )
     this.currentDrawer = this.editDrawer
   }
@@ -231,6 +229,7 @@ export default class Pool extends React.Component {
   search = (key, value) => {
     const searchs = {}
     searchs[key] = value
+    console.log('serach')
     this.setState(
       produce(draft => {
         draft.vmTableCfg.searchs = {
@@ -240,6 +239,15 @@ export default class Pool extends React.Component {
       }),
       () => this.vmTablex.refresh(this.state.vmTableCfg)
     )
+  }
+
+  afterPoolLoad = () => {
+    console.log(
+      'afterPoolLoad',
+      this.tablex.getData(),
+      this.tablex.getData()[0].id
+    )
+    this.search('poolId', this.tablex.getData() && this.tablex.getData()[0].id)
   }
 
   onSuccess = () => {
@@ -287,6 +295,7 @@ export default class Pool extends React.Component {
             }}
             tableCfg={this.state.tableCfg}
             onSelectChange={this.onSelectChange}
+            afterLoad={this.afterPoolLoad}
             onRow={record => {
               return {
                 onClick: event => {
@@ -319,6 +328,7 @@ export default class Pool extends React.Component {
             onRef={ref => {
               this.vmTablex = ref
             }}
+            stopFetch={true}
             className="no-select-bg"
             tableCfg={this.state.vmTableCfg}
             onSelectChange={this.onVmSelectChange}
@@ -336,15 +346,6 @@ export default class Pool extends React.Component {
             }}
             onClose={this.onBack}
             onSuccess={this.onSuccess}
-            initValues={this.state.initValues}
-          />
-          <DetailDrawer
-            onRef={ref => {
-              this.detailDrawer = ref
-            }}
-            onClose={this.onBack}
-            onSuccess={this.onSuccess}
-            initValues={this.state.initValues}
           />
           <SetUserDrawer
             onRef={ref => {

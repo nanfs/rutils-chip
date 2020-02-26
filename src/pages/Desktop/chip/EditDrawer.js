@@ -31,7 +31,7 @@ export default class EditDrawer extends React.Component {
         const { data } = res
         const { network } = data
         const networkFix = network.map(
-          item => `${item.kind}&${item.name}&${item.kindId}`
+          item => `${item.kind}&${item.name}&${item.kindid}`
         )
         this.setState({ templateName: data.templateName })
         this.drawer.form.setFieldsValue({ ...data, network: networkFix })
@@ -59,7 +59,7 @@ export default class EditDrawer extends React.Component {
         const network = res.data.records
         const networkOptions = network.map(item => ({
           label: `${item.kind}/${item.name}`,
-          value: `${item.kind}&${item.name}&${item.kindId}`
+          value: `${item.kind}&${item.name}&${item.kindid}`
         }))
         this.setState({ networkOptions, networkLoading: false })
       })
@@ -73,8 +73,8 @@ export default class EditDrawer extends React.Component {
     const { network } = values
     // TODO 是否是新增 删除 还是直接 传入桌面是单个还是批量
     const networkFix = network.map(item => {
-      const [kind, name, kindId] = item.split('&')
-      return { kind, name, kindId }
+      const [kind, name, kindid] = item.split('&')
+      return { kind, name, kindid }
     })
     desktopsApi
       .editVm({ ...values, network: networkFix })

@@ -131,10 +131,9 @@ class EditDrawer extends React.Component {
   render() {
     const { getFieldDecorator, getFieldValue } = this.props.form
     const { initValues } = this.props
-    getFieldDecorator('keys', {
-      initialValue: initValues.initKeys || []
-    })
 
+    console.log(initValues, 'initValues')
+    getFieldDecorator('keys', { initialValue: initValues.initKeys || [] })
     const keys = getFieldValue('keys')
     console.log('keys', keys)
     const formItems = keys.map((k, index) => (

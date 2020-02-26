@@ -1,5 +1,7 @@
 import axios from 'axios'
 import { message } from 'antd'
+import { push } from 'react-router-redux'
+import { setUserToLocal } from '@/components/Authorized'
 
 const cfg = require('../../config/default')
 
@@ -64,6 +66,11 @@ service.interceptors.response.use(
     // Do something with response data
     // localStorage.setItem('cookie', response.headers['set-cookie'])
     if (response.data) {
+      if (response.data.code === '203') {
+        console.log(response.data)
+        setUserToLocal({})
+        return push('/login')
+      }
       return response.data
     }
     return checkStatus(response)

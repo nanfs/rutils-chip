@@ -1,6 +1,6 @@
 import React from 'react'
 import { Table, Pagination, Button } from 'antd'
-import { wrapResponse } from '@/utils/tool'
+import { wrapResponse } from './node_modules/@/utils/tool'
 import './index.scss'
 import TableWrap, { BarLeft, BarRight, ToolBar } from './TableWrap'
 // TODO 页码渲染问题
@@ -66,7 +66,7 @@ class Tablex extends React.Component {
   beforeLoad = (tableCfg, showLoading = true) => {
     return new Promise(resolve => {
       if (showLoading) {
-        !this.props.saveSelection && this.onSelectChange([], [])
+        this.onSelectChange([], [])
         this.setState({
           loading: true
         })

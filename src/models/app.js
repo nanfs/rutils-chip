@@ -1,6 +1,6 @@
 import { push } from 'react-router-redux'
 import { Observable } from 'rxjs/Observable'
-import { setUserToLocal } from '../components/Authorized'
+import { setUserToLocal } from '@/components/Authorized'
 import { cleanRequest, request } from './utils'
 import appApi from '@/services/app'
 

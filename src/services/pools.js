@@ -22,11 +22,11 @@ export default {
       method: 'get'
     })
   },
-  setUser(data) {
+  setUser({ poolId, users }) {
     return axios({
-      url: '/pools/users',
+      url: `/pools/${poolId}/users`,
       method: 'post',
-      data: qs.stringify(data, { arrayFormat: 'indices', allowDots: true })
+      data: qs.stringify({ users }, { arrayFormat: 'indices', allowDots: true })
     })
   },
   addPool(data) {
@@ -59,24 +59,7 @@ export default {
       params: rest
     })
   },
-  getVmConsole(data) {
-    const { poolId, ...rest } = data
-    const url = `/pools/${poolId}/desktops`
-    return axios({
-      url: '/desktops',
-      method: 'get',
-      params: rest
-    })
-  },
-  sendOrder(data) {
-    const { poolId, ...rest } = data
-    const url = `/pools/${poolId}/desktops`
-    return axios({
-      url: '/pools',
-      method: 'get',
-      params: rest
-    })
-  },
+
   deleteVm(data) {
     const { poolId, ...rest } = data
     const url = `/pools/${poolId}/desktops`

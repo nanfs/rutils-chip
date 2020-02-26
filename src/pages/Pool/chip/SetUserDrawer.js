@@ -28,9 +28,26 @@ export default class SetUserDrawer extends React.Component {
     })
   }
 
+  onClose = () => {
+    this.setState(
+      {
+        totalSelection: [],
+        tableCfg: createTableCfg({
+          columns,
+          apiMethod,
+          selection: [],
+          paging: { size: 5 },
+          rowKey: record => `${record.uuid}&${record.username}`,
+          searchs: { domain: 'internal' },
+          pageSizeOptions: ['5', '10']
+        })
+      },
+      this.props.onClose()
+    )
+  }
+
   onSelectChange = selection => {
-    const { totalSelection } = this.state
-    const newSelection = Array.from(new Set([...totalSelection, ...selection]))
+    const newSelection = selection
     this.setState(
       produce(draft => {
         draft.totalSelection = newSelection
@@ -70,7 +87,8 @@ export default class SetUserDrawer extends React.Component {
   pop = poolId => {
     // 如果是一个 获取当前分配的用户
     this.drawer.show()
-    this.setState({ poolId })
+    this.userTablex.replace(this.state.tableCfg)
+    this.setState({ poolId, totalSelection: [] })
     poolsApi
       .detail(poolId)
       .then(res => {
@@ -100,7 +118,7 @@ export default class SetUserDrawer extends React.Component {
     const { poolId, totalSelection } = this.state
     const users = totalSelection.map(item => {
       const [uuid, username] = item.split('&')
-      return { uuid, username, domain: 'internal' }
+      return { uuid, username, domain: 'internal-authz' }
     })
 
     poolsApi
@@ -134,7 +152,7 @@ export default class SetUserDrawer extends React.Component {
         onRef={ref => {
           this.drawer = ref
         }}
-        onClose={this.props.onClose}
+        onClose={this.onClose}
         onOk={this.setUser}
         onSuccess={this.props.onSuccess}
       >
@@ -151,6 +169,7 @@ export default class SetUserDrawer extends React.Component {
                 this.userTablex = ref
               }}
               stopFetch={true}
+              saveSelection={true}
               tableCfg={this.state.tableCfg}
               onSelectChange={this.onSelectChange}
             />

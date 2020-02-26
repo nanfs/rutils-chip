@@ -73,7 +73,7 @@ export default class User extends React.Component {
   state = {
     tableCfg: createTableCfg({
       columns,
-      apiMethod: undefined,
+      apiMethod,
       paging: { size: 5 },
       pageSizeOptions: ['5', '10']
     }),
@@ -178,7 +178,7 @@ export default class User extends React.Component {
       .then(res => {
         if (res.success) {
           notification.success({ message: '锁定成功' })
-          this.tablex.refresh(self.state.tableCfg)
+          this.tablex.refresh(this.state.tableCfg)
         } else {
           message.error(res.message || '锁定失败')
         }
@@ -195,7 +195,7 @@ export default class User extends React.Component {
       .then(res => {
         if (res.success) {
           notification.success({ message: '解锁成功' })
-          this.tablex.refresh(self.state.tableCfg)
+          this.tablex.refresh(this.state.tableCfg)
         } else {
           message.error(res.message || '解锁失败')
         }
@@ -236,13 +236,9 @@ export default class User extends React.Component {
     })
     this.setState(
       produce(draft => {
-        draft.tableCfg = {
-          ...draft.tableCfg,
-          apiMethod,
-          searchs: {
-            ...draft.tableCfg.searchs,
-            groupId: selectNode
-          }
+        draft.tableCfg.searchs = {
+          ...draft.tableCfg.searchs,
+          groupId: selectNode
         }
         // draft.treeData = treeData
       }),
@@ -257,24 +253,42 @@ export default class User extends React.Component {
       disbaledButton = {
         ...disbaledButton,
         disabledEdit: true,
-        disabledDelete: true
+        disabledDelete: true, // 删除目前只做单个，后面加批量
+        disabledUnlock: true, // 解锁目前只做单个，后面加批量
+        disabledLock: true // // 锁定目前只做单个，后面加批量
       }
     }
     if (selection.length === 0) {
       disbaledButton = {
         ...disbaledButton,
-        disabledLock: true,
+        disabledDelete: true,
         disabledUnlock: true,
-        disabledDelete: true // 删除目前只做单个，后面加批量
+        disabledLock: true
       }
     }
-    const hasBoundData = selectData.filter(
+    const isBoundData = selectData.filter(
       item => item.tccount + item.vmcount > 0
     )
-    if (hasBoundData && hasBoundData.length > 0) {
+    if (isBoundData && isBoundData.length > 0) {
       disbaledButton = {
         ...disbaledButton,
         disabledDelete: true
+      }
+    }
+
+    const isLockData = selectData.filter(item => item.status === 1)
+    if (isLockData && isLockData.length > 0) {
+      disbaledButton = {
+        ...disbaledButton,
+        disabledLock: true
+      }
+    }
+
+    const unLockData = selectData.filter(item => item.status === 0)
+    if (unLockData && unLockData.length > 0) {
+      disbaledButton = {
+        ...disbaledButton,
+        disabledUnlock: true
       }
     }
 
@@ -362,13 +376,14 @@ export default class User extends React.Component {
                 className="no-select-bg"
                 tableCfg={this.state.tableCfg}
                 onSelectChange={this.onSelectChange}
+                stopFetch={true}
               />
               <AddDrawer
                 onRef={ref => {
                   this.addDrawer = ref
                 }}
                 onClose={this.onBack}
-                onSuccess={this.onSuccesss}
+                onSuccess={this.onSuccess}
                 nodeData={treeData}
                 domainlist={domainlist}
               />

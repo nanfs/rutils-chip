@@ -46,7 +46,10 @@ export default class DetailDrawer extends React.Component {
     this.drawer.show()
     this.setState(
       produce(draft => {
-        draft.initValues = data
+        draft.initValues = {
+          ...data,
+          statusName: data.status && data.status === 0 ? '正常' : '锁定'
+        }
         draft.terminalTableCfg.searchs = { userId: data.id }
         draft.desktopTableCfg.searchs = { userId: data.id }
       }),
@@ -130,8 +133,8 @@ export default class DetailDrawer extends React.Component {
               状态：
             </Col>
             <Col span={8} className="dms-detail-value">
-              <Tooltip title={initValues.state}>
-                <span>{initValues.state}</span>
+              <Tooltip title={initValues.statusName}>
+                <span>{initValues.statusName}</span>
               </Tooltip>
             </Col>
           </Row>

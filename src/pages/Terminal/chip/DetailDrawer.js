@@ -23,8 +23,26 @@ export default class DetailDrawer extends React.Component {
       .terminalsdetail(sns[0])
       .then(res => {
         if (res.success) {
+          const onlineTimeArray = res.data.onlineTime.split(',')
+          const offlineTimeArray = res.data.offlineTime.split(',')
+          if (onlineTimeArray.length > offlineTimeArray.length) {
+            for (
+              let i = 0;
+              i < onlineTimeArray.length - offlineTimeArray.length;
+              i++
+            ) {
+              offlineTimeArray.unshift('')
+            }
+          }
+          const useTime = onlineTimeArray.map((element, index) => {
+            return {
+              id: index,
+              onlineTime: element,
+              offlineTime: offlineTimeArray[index]
+            }
+          })
           this.setState({
-            initValues: { ...res.data }
+            initValues: { ...res.data, useTime }
           })
         } else {
           message.error(res.message || '查询失败')
@@ -37,6 +55,7 @@ export default class DetailDrawer extends React.Component {
 
   render() {
     const { initValues, initChartValue } = this.state
+    console.log(initValues)
     return (
       <Drawerx
         onRef={ref => {
@@ -187,7 +206,7 @@ export default class DetailDrawer extends React.Component {
           <Title slot="使用时间"></Title>
           <Table
             columns={detailUseTimeColumns}
-            dataSource={initValues.owner}
+            dataSource={initValues.useTime}
             pagination={false}
           />
         </div>

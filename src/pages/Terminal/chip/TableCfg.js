@@ -85,10 +85,10 @@ export const columns = [
   },
   {
     title: '外设控制',
-    dataIndex: 'safepolicy',
+    dataIndex: 'numOfSafePolicyBounded',
     render: text => (
       <span className="table-action">
-        {text ? (
+        {text !== 0 ? (
           <Icon type="check" style={iconStyle.check} />
         ) : (
           <Icon type="close" style={iconStyle.close} />
@@ -98,10 +98,10 @@ export const columns = [
   },
   {
     title: '准入控制',
-    dataIndex: 'admitpolicy',
+    dataIndex: 'numOfAdmitPolicyBounded',
     render: text => (
       <span className="table-action">
-        {text ? (
+        {text !== 0 ? (
           <Icon type="check" style={iconStyle.check} />
         ) : (
           <Icon type="close" style={iconStyle.close} />
@@ -111,10 +111,10 @@ export const columns = [
   },
   {
     title: '分配用户',
-    dataIndex: 'authorizationUserName',
+    dataIndex: 'numOfUserBounded',
     render: text => (
       <span className="table-action">
-        {text ? (
+        {text !== 0 ? (
           <Icon type="check" style={iconStyle.check} />
         ) : (
           <Icon type="close" style={iconStyle.close} />

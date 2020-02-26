@@ -28,9 +28,26 @@ export default class SetUserDrawer extends React.Component {
     })
   }
 
+  onClose = () => {
+    this.setState(
+      {
+        totalSelection: [],
+        tableCfg: createTableCfg({
+          columns,
+          apiMethod,
+          selection: [],
+          paging: { size: 5 },
+          rowKey: record => `${record.uuid}&${record.username}`,
+          searchs: { domain: 'internal' },
+          pageSizeOptions: ['5', '10']
+        })
+      },
+      this.props.onClose()
+    )
+  }
+
   onSelectChange = selection => {
-    const { totalSelection } = this.state
-    const newSelection = Array.from(new Set([...totalSelection, ...selection]))
+    const newSelection = selection
     this.setState(
       produce(draft => {
         draft.totalSelection = newSelection
@@ -59,7 +76,6 @@ export default class SetUserDrawer extends React.Component {
 
   renderSelectUser = () => {
     const { totalSelection } = this.state
-    console.log('totalSelection', totalSelection)
     return totalSelection.map(item => (
       <Tag key={item} closable onClose={() => this.removeUserSelection(item)}>
         {item && item.split('&')[1]}
@@ -69,7 +85,8 @@ export default class SetUserDrawer extends React.Component {
 
   pop = ids => {
     // 如果是一个 获取当前分配的用户
-    this.setState({ ids })
+    this.drawer.show()
+    this.setState({ ids, totalSelection: [] })
     if (ids && ids.length === 1) {
       desktopsApi
         .detail(ids[0])
@@ -95,16 +112,14 @@ export default class SetUserDrawer extends React.Component {
     } else {
       this.userTablex.refresh(this.state.tableCfg)
     }
-    this.drawer.show()
   }
 
   setUser = () => {
     // TODO 是否是新增 删除 还是直接 传入桌面是单个还是批量
-    console.log(this.state.totalSelection)
     const { ids, totalSelection } = this.state
     const users = totalSelection.map(item => {
       const [uuid, username] = item.split('&')
-      return { uuid, username, domain: 'internal' }
+      return { uuid, username, domain: 'internal-authz' }
     })
 
     desktopsApi
@@ -138,7 +153,7 @@ export default class SetUserDrawer extends React.Component {
         onRef={ref => {
           this.drawer = ref
         }}
-        onClose={this.props.onClose}
+        onClose={this.onClose}
         onOk={this.setUser}
         onSuccess={this.props.onSuccess}
       >
@@ -155,6 +170,7 @@ export default class SetUserDrawer extends React.Component {
                 this.userTablex = ref
               }}
               stopFetch={true}
+              saveSelection={true}
               tableCfg={this.state.tableCfg}
               onSelectChange={this.onSelectChange}
             />

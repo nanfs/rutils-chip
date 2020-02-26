@@ -3,7 +3,10 @@
 export const detailUserColumns = [
   {
     title: '姓名',
-    dataIndex: 'name'
+    dataIndex: 'name',
+    render: (value, record) => {
+      return record.firstname + record.lastname
+    }
   },
   {
     title: '用户名',
@@ -11,6 +14,6 @@ export const detailUserColumns = [
   },
   {
     title: '组',
-    dataIndex: 'content'
+    dataIndex: 'groupName'
   }
 ]

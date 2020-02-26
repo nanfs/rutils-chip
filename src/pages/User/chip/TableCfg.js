@@ -11,7 +11,10 @@ export const columns = [
   },
   {
     title: '姓名',
-    dataIndex: 'name'
+    dataIndex: 'name',
+    render: (value, record) => {
+      return record.firstname + record.lastname
+    }
   },
   {
     title: '用户组',
@@ -27,11 +30,11 @@ export const columns = [
   }, */
   {
     title: '桌面数量',
-    dataIndex: 'desktopNumber'
+    dataIndex: 'vmcount'
   },
   {
     title: '终端数量',
-    dataIndex: 'terminalNumber'
+    dataIndex: 'tccount'
   },
   {
     title: '状态',

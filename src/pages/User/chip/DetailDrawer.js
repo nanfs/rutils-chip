@@ -1,5 +1,6 @@
 import React from 'react'
-import { Row, Col, Tooltip, Tabs } from 'antd'
+import { Row, Col, Tooltip, Tabs, message } from 'antd'
+import produce from 'immer'
 import Tablex, { createTableCfg } from '@/components/Tablex'
 import Drawerx from '@/components/Drawerx'
 import Title from '@/components/Title'
@@ -12,6 +13,8 @@ import {
   detailDesktopApiMethod
 } from './DetailDesktopTableCfg'
 
+import userApi from '@/services/user'
+
 const { TabPane } = Tabs
 
 export default class DetailDrawer extends React.Component {
@@ -21,23 +24,41 @@ export default class DetailDrawer extends React.Component {
 
   state = {
     terminalTableCfg: createTableCfg({
-      // apiMethod: detailTeminalApiMethod,
+      apiMethod: detailTeminalApiMethod,
       columns: detailTeminalColumns,
       paging: { size: 5 },
       pageSizeOptions: ['5', '10'],
-      hasRowSelection: false
+      hasRowSelection: false,
+      hasPaging: false
     }),
     desktopTableCfg: createTableCfg({
-      // apiMethod: detailDesktopApiMethod,
+      apiMethod: detailDesktopApiMethod,
       columns: detailDesktopColumns,
       paging: { size: 5 },
       pageSizeOptions: ['5', '10'],
-      hasRowSelection: false
-    })
+      hasRowSelection: false,
+      hasPaging: false
+    }),
+    initValues: {}
+  }
+
+  pop = data => {
+    this.drawer.show()
+    this.setState(
+      produce(draft => {
+        draft.initValues = data
+        draft.terminalTableCfg.searchs = { userId: data.id }
+        draft.desktopTableCfg.searchs = { userId: data.id }
+      }),
+      () => {
+        this.desktopTablex.refresh(this.state.desktopTableCfg)
+        this.terminalTablex.refresh(this.state.terminalTableCfg)
+      }
+    )
   }
 
   render() {
-    const { initValues } = this.props
+    const { initValues } = this.state
     return (
       <Drawerx
         onRef={ref => {
@@ -52,73 +73,83 @@ export default class DetailDrawer extends React.Component {
           <Title slot="基础设置"></Title>
           <Row className="dms-detail-row">
             <Col span={3} className="dms-detail-label">
-              用户名:
+              用户名：
             </Col>
             <Col span={8} className="dms-detail-value">
-              <Tooltip title={initValues.name}>
-                <span>{initValues.name}</span>
+              <Tooltip title={initValues.username}>
+                <span>{initValues.username}</span>
               </Tooltip>
             </Col>
             <Col span={3} className="dms-detail-label">
               姓名：
             </Col>
             <Col span={8} className="dms-detail-value">
-              <Tooltip title={initValues.sn}>
-                <span>{initValues.sn}</span>
+              <Tooltip
+                title={
+                  initValues.firstname &&
+                  initValues.lastname &&
+                  initValues.firstname + initValues.lastname
+                }
+              >
+                <span>
+                  {initValues.firstname &&
+                    initValues.lastname &&
+                    initValues.firstname + initValues.lastname}
+                </span>
               </Tooltip>
             </Col>
           </Row>
           <Row className="dms-detail-row">
             <Col span={3} className="dms-detail-label">
-              用户组:
+              用户组：
             </Col>
             <Col span={8} className="dms-detail-value">
-              <Tooltip title={initValues.location}>
-                <span>{initValues.location}</span>
+              <Tooltip title={initValues.groupName}>
+                <span>{initValues.groupName}</span>
               </Tooltip>
             </Col>
             <Col span={3} className="dms-detail-label">
-              角色:
+              角色：
             </Col>
             <Col span={8} className="dms-detail-value">
-              <Tooltip title={initValues.terminal_type}>
-                <span>{initValues.terminal_type}</span>
-              </Tooltip>
-            </Col>
-          </Row>
-          <Row className="dms-detail-row">
-            <Col span={3} className="dms-detail-label">
-              邮箱:
-            </Col>
-            <Col span={8} className="dms-detail-value">
-              <Tooltip title={initValues.version}>
-                <span>{initValues.version}</span>
-              </Tooltip>
-            </Col>
-            <Col span={3} className="dms-detail-label">
-              状态:
-            </Col>
-            <Col span={8} className="dms-detail-value">
-              <Tooltip title={initValues.os}>
-                <span>{initValues.os}</span>
+              <Tooltip title={initValues.roleName}>
+                <span>{initValues.roleName}</span>
               </Tooltip>
             </Col>
           </Row>
           <Row className="dms-detail-row">
             <Col span={3} className="dms-detail-label">
-              桌面数量:
+              邮箱：
             </Col>
             <Col span={8} className="dms-detail-value">
-              <Tooltip title={initValues.cpu}>
-                <span>{initValues.cpu}</span>
+              <Tooltip title={initValues.email}>
+                <span>{initValues.email}</span>
               </Tooltip>
             </Col>
             <Col span={3} className="dms-detail-label">
-              终端数量:
+              状态：
             </Col>
             <Col span={8} className="dms-detail-value">
-              <Tooltip title={initValues.memory}>
-                <span>{initValues.memory}</span>
+              <Tooltip title={initValues.state}>
+                <span>{initValues.state}</span>
+              </Tooltip>
+            </Col>
+          </Row>
+          <Row className="dms-detail-row">
+            <Col span={3} className="dms-detail-label">
+              桌面数量：
+            </Col>
+            <Col span={8} className="dms-detail-value">
+              <Tooltip title={initValues.vmcount}>
+                <span>{initValues.vmcount}</span>
+              </Tooltip>
+            </Col>
+            <Col span={3} className="dms-detail-label">
+              终端数量：
+            </Col>
+            <Col span={8} className="dms-detail-value">
+              <Tooltip title={initValues.tccount}>
+                <span>{initValues.tccount}</span>
               </Tooltip>
             </Col>
           </Row>
@@ -127,25 +158,27 @@ export default class DetailDrawer extends React.Component {
           <TabPane tab="已分配桌面" key="1">
             <Tablex
               onRef={ref => {
-                this.tablex = ref
+                this.desktopTablex = ref
               }}
               className="no-select-bg"
               tableCfg={this.state.desktopTableCfg}
               onSelectChange={(selection, selectData) => {
                 this.setState({ selection, selectData })
               }}
+              stopFetch={true}
             />
           </TabPane>
-          <TabPane tab="已分配终端" key="2">
+          <TabPane tab="已分配终端" key="2" forceRender={true}>
             <Tablex
               onRef={ref => {
-                this.tablex = ref
+                this.terminalTablex = ref
               }}
               className="no-select-bg"
               tableCfg={this.state.terminalTableCfg}
               onSelectChange={(selection, selectData) => {
                 this.setState({ selection, selectData })
               }}
+              stopFetch={true}
             />
           </TabPane>
         </Tabs>

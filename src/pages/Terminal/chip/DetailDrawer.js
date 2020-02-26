@@ -1,5 +1,5 @@
 import React from 'react'
-import { Row, Col, Tooltip, Table } from 'antd'
+import { Row, Col, Tooltip, Table, message } from 'antd'
 import Drawerx from '@/components/Drawerx'
 import Title from '@/components/Title'
 import { detailUserColumns } from './DetailUserTableCfg'
@@ -8,37 +8,35 @@ import { detailAdmitpolicyColumns } from './DetailAdmitpolicyTableCfg'
 import { detailUseTimeColumns } from './DetailUseTimeTableCfg'
 import DetailUseStatisticsChart from './DetailUseStatisticsChart'
 
+import terminalApi from '@/services/terminal'
+
 export default class DetailDrawer extends React.Component {
   componentDidMount() {
     this.props.onRef && this.props.onRef(this)
   }
 
-  state = {
-    /* userTableCfg: createTableCfg({
-      data: this.props.initValues.owner,
-      columns: detailUserColumns,
-      hasPaging: false,
-      hasRowSelection: false
-    }),
-    safepolicyTableCfg: createTableCfg({
-      columns: detailSafepolicyColumns,
-      hasPaging: false,
-      hasRowSelection: false
-    }),
-    admitpolicyTableCfg: createTableCfg({
-      columns: detailAdmitpolicyColumns,
-      hasPaging: false,
-      hasRowSelection: false
-    }),
-    usetimeTableCfg: createTableCfg({
-      columns: detailUseTimeColumns,
-      hasPaging: false,
-      hasRowSelection: false
-    }) */
+  state = { initValues: {} }
+
+  pop = sns => {
+    this.drawer.show()
+    terminalApi
+      .terminalsdetail(sns[0])
+      .then(res => {
+        if (res.success) {
+          this.setState({
+            initValues: { ...res.data }
+          })
+        } else {
+          message.error(res.message || '查询失败')
+        }
+      })
+      .catch(errors => {
+        console.log(errors)
+      })
   }
 
   render() {
-    const { initValues, initChartValue } = this.props
+    const { initValues, initChartValue } = this.state
     return (
       <Drawerx
         onRef={ref => {
@@ -164,8 +162,9 @@ export default class DetailDrawer extends React.Component {
           <Title slot="所属用户"></Title>
           <Table
             columns={detailUserColumns}
-            dataSource={initValues.owner}
+            dataSource={initValues.users}
             pagination={false}
+            rowKey="userId"
           />
         </div>
         <div className="dms-detail-section">

@@ -17,10 +17,12 @@ export default class AddDrawer extends React.Component {
   }
 
   addUser = values => {
+    const { onSuccess } = this.props
     userApi
       .addUser({ ...values, description: '123' })
       .then(res => {
         this.drawer.afterSubmit(res)
+        onSuccess && onSuccess()
       })
       .catch(errors => {
         this.drawer.break()

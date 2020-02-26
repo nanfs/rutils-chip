@@ -68,7 +68,6 @@ export const columns = [
     ],
     onFilter: (value, record) => record.isReg === value,
     render: value => {
-      console.log(value)
       return value ? (
         <Tag color="#ade688">已接入</Tag>
       ) : (

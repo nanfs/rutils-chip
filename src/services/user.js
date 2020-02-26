@@ -58,6 +58,20 @@ export default {
       data: qs.stringify(data)
     })
   },
+  editUser(data) {
+    return axios({
+      url: '/user/update',
+      method: 'post',
+      data: qs.stringify(data)
+    })
+  },
+  deleteUser(data) {
+    return axios({
+      url: '/user/delete',
+      method: 'delete',
+      data: qs.stringify(data)
+    })
+  },
   lockUser(data) {
     return axios({
       url: '/lockUser',
@@ -72,10 +86,17 @@ export default {
       data: qs.stringify(data)
     })
   },
-  deleteUser(data) {
+  desktopList(data) {
     return axios({
-      url: '/deleteUser',
-      method: 'delete',
+      url: '/user/desktoplist',
+      method: 'post',
+      data: qs.stringify(data)
+    })
+  },
+  tcList(data) {
+    return axios({
+      url: '/user/tclist',
+      method: 'post',
       data: qs.stringify(data)
     })
   }

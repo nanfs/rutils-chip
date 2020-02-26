@@ -67,7 +67,8 @@ export default class SetUserDrawer extends React.Component {
 
   pop = ids => {
     // 如果是一个 获取当前分配的用户
-    this.setState({ ids })
+    this.drawer.show()
+    this.setState({ ids, totalSelection: [] })
     if (ids && ids.length === 1) {
       desktopsApi
         .detail(ids[0])
@@ -93,7 +94,6 @@ export default class SetUserDrawer extends React.Component {
     } else {
       this.userTablex.refresh(this.state.tableCfg)
     }
-    this.drawer.show()
   }
 
   setUser = () => {

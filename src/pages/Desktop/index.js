@@ -32,13 +32,13 @@ export default class Desktop extends React.Component {
         <MyIcon
           type="order-down"
           title="关机"
-          hidden={record.status === 0}
+          disabled={record.status === 0}
           onClick={this.sendOrder.bind(this, record.id, 'shutdown')}
         />
         <MyIcon
           type="order-up"
           title="开机"
-          hidden={record.status === 1}
+          disabled={record.status === 1}
           onClick={this.sendOrder.bind(this, record.id, 'start')}
         />
         <MyIcon
@@ -49,7 +49,7 @@ export default class Desktop extends React.Component {
         <MyIcon
           type="vm-rebootinprogress"
           title="重启"
-          hidden={record.status === 10}
+          disabled={record.status === 10}
           onClick={this.sendOrder.bind(this, record.id, 'restart')}
         />
         {/* //TODO 缺少接口 */}

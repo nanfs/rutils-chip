@@ -5,6 +5,13 @@ import './fonts/iconfont'
 import './fonts/iconfont.css'
 import './icon.scss'
 
+function onClick(props) {
+  if (props.disabled) {
+    return false
+  } else {
+    props.onClick && props.onClick()
+  }
+}
 function MyIcon(props) {
   const { prefixCls, type, spin, component, title, className, ...other } = props
   const classes = {
@@ -16,14 +23,26 @@ function MyIcon(props) {
     const svgType = `#icon-${type}`
     return (
       <i className={prefixCls} title={title}>
-        <svg className={cls} aria-hidden="true" {...other}>
+        <svg
+          className={cls}
+          aria-hidden="true"
+          {...other}
+          onClick={onClick.bind(this, props)}
+        >
           <use xlinkHref={svgType} />
         </svg>
       </i>
     )
   }
   const cls = classnames(prefixCls, 'iconfont', className, classes)
-  return <i {...other} className={cls} title={title} />
+  return (
+    <i
+      {...other}
+      className={cls}
+      title={title}
+      onClick={onClick.bind(this, props)}
+    />
+  )
 }
 
 const propTypes = {

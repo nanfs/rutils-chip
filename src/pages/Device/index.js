@@ -48,6 +48,7 @@ export default class Device extends React.Component {
 
   onBack = () => {
     this.setState({ inner: undefined })
+    this.tablex.clearSelection()
     this.currentDrawer.drawer.hide()
   }
 

@@ -20,7 +20,6 @@ export const columns = [
   {
     title: '基本信息',
     dataIndex: 'name',
-    width: 100,
     render: (text, record) => {
       return (
         <span>

@@ -7,11 +7,22 @@ import deviceApi from '@/services/device'
 import '../index.scss'
 
 const { TextArea } = Input
-let id = 1000
+let num = 1000
 
 class EditDrawer extends React.Component {
   componentDidMount() {
     this.props.onRef && this.props.onRef(this)
+  }
+
+  pop = data => {
+    this.drawer.show()
+    const { id, name, usagePeripherals, description } = data
+    this.drawer.form.setFieldsValue({
+      id,
+      name,
+      usagePeripherals: usagePeripherals !== '0',
+      description
+    })
   }
 
   remove = k => {
@@ -33,7 +44,7 @@ class EditDrawer extends React.Component {
     const { form } = this.props
     // can use data-binding to get
     const keys = form.getFieldValue('keys')
-    const nextKeys = keys.concat(id++)
+    const nextKeys = keys.concat(num++)
     // can use data-binding to set
     // important! notify form to detect changes
     form.setFieldsValue({
@@ -42,7 +53,7 @@ class EditDrawer extends React.Component {
   }
 
   updateSubmit = values => {
-    const { form, initValues } = this.props
+    const { form } = this.props
     const keys = form.getFieldValue('keys')
     const usbs = []
     keys.forEach(function(v, i) {
@@ -53,7 +64,6 @@ class EditDrawer extends React.Component {
       })
     })
     values.usbs = usbs
-    values.usagePeripherals = form.getFieldValue('usagePeripherals')
     if (
       values.usagePeripherals == undefined ||
       values.usagePeripherals == false
@@ -63,7 +73,7 @@ class EditDrawer extends React.Component {
       values.usagePeripherals = '1'
     }
     deviceApi
-      .updateDev(initValues.id, values)
+      .updateDev(values.id, values)
       .then(res => {
         this.drawer.afterSubmit(res)
       })
@@ -143,20 +153,28 @@ class EditDrawer extends React.Component {
           initValues={initValues}
         >
           <Title slot="基础设置"></Title>
+          <Form.Item prop="id" hidden>
+            <Input />
+          </Form.Item>
           <Form.Item prop="name" label="名称" required>
             <Input name="name" placeholder="名称" />
           </Form.Item>
-          <Form.Item label="USB外设" required>
-            {getFieldDecorator(`usagePeripherals`, {
+          <Form.Item
+            label="USB外设"
+            required
+            prop="usagePeripherals"
+            valuepropname="checked"
+          >
+            {/* {getFieldDecorator(`usagePeripherals`, {
               valuePropName: 'checked',
               initialValue: initValues.usagePeripherals
-            })(
-              <Switch
-                name="usagePeripherals"
-                checkedChildren="启用"
-                unCheckedChildren="禁用"
-              />
-            )}
+            })( */}
+            <Switch
+              name="usagePeripherals"
+              checkedChildren="启用"
+              unCheckedChildren="禁用"
+            />
+            {/* )} */}
           </Form.Item>
           <Form.Item prop="description" label="描述">
             <TextArea

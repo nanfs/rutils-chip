@@ -62,7 +62,7 @@ class Formx extends React.Component {
       const childNode = getFieldDecorator(
         child.props.prop,
         {
-          valuePropName: child.props.valuePropName ? 'checked' : 'value'
+          valuePropName: child.props.valuepropname ? 'checked' : 'value'
         },
         {
           rules

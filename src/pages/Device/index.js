@@ -61,20 +61,17 @@ export default class Device extends React.Component {
     if (this.tablex.getSelection().length === 1) {
       selectDev = this.tablex.getSelectData()[0]
       const initKeys = []
-      if (selectDev.isUsagePeripherals == '0') {
-        selectDev.isUsagePeripherals = false
-      } else {
-        selectDev.isUsagePeripherals = true
-      }
       selectDev.usbs.forEach(function(v, i) {
         initKeys.push(i)
       })
       selectDev.initKeys = initKeys
-      selectDev.initId = initKeys.length - 1
+      console.log(selectDev)
       this.setState(
         { inner: '编辑', initValues: selectDev },
-        this.editDrawer.drawer.show()
+        // this.editDrawer.drawer.show()
+        this.editDrawer.pop(selectDev)
       )
+
       this.currentDrawer = this.editDrawer
     } else {
       message.warning('请选择一条数据进行编辑！')
@@ -93,7 +90,7 @@ export default class Device extends React.Component {
             .then(res => {
               if (res.success) {
                 notification.success({ message: '删除成功' })
-                self.onSuccess()
+                this.onSuccess()
                 self.tablex.clearSelection()
                 self.setState({
                   selection: [],

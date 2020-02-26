@@ -10,47 +10,26 @@ export const columnsSave = [
     width: 100,
     filters: [
       {
-        text: '未知',
-        value: '0'
-      },
-      {
-        text: '未初始化',
-        value: '1'
-      },
-      {
-        text: '未连接',
-        value: '2'
-      },
-      {
         text: '激活',
-        value: '3'
+        value: [3]
       },
       {
-        text: '正在激活',
-        value: '4'
-      },
-      {
-        text: '锁定',
-        value: '5'
+        text: '未激活',
+        value: [4]
       },
       {
         text: '维护',
-        value: '6'
+        value: [6]
       },
       {
-        text: '准备维护',
-        value: '7'
+        text: '未附加',
+        value: [2]
       },
       {
-        text: '分离过程中',
-        value: '8'
-      },
-      {
-        text: '激活过程中',
-        value: '9'
+        text: '其他',
+        value: [0, 1, 5, 7, 8, 9]
       }
     ],
-    onFilter: (value, record) => record.status == value,
     render: text => storageStatusRender(text)
   },
   {

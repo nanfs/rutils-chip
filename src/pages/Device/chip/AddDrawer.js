@@ -150,7 +150,7 @@ class AddDrawer extends React.Component {
           <Form.Item
             prop="usagePeripherals"
             label="USB外设"
-            valuePropName="checked"
+            valuepropname="checked"
             required
           >
             <Switch

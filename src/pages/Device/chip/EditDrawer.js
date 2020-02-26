@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form, Input, Switch, Icon, Row, Col } from 'antd'
+import { Form, Input, Switch, Icon, Row, Col, notification } from 'antd'
 import Drawerx from '@/components/Drawerx'
 import Formx from '@/components/Formx'
 import Title, { Diliver } from '@/components/Title'
@@ -7,7 +7,7 @@ import deviceApi from '@/services/device'
 import '../index.scss'
 
 const { TextArea } = Input
-let num = 1000
+let num = 100000
 
 class EditDrawer extends React.Component {
   componentDidMount() {
@@ -15,6 +15,7 @@ class EditDrawer extends React.Component {
   }
 
   pop = data => {
+    console.log('num', num)
     this.drawer.show()
     const { id, name, usagePeripherals, description } = data
     this.drawer.form.setFieldsValue({
@@ -44,6 +45,19 @@ class EditDrawer extends React.Component {
     const { form } = this.props
     // can use data-binding to get
     const keys = form.getFieldValue('keys')
+    if (keys.length >= 10) {
+      notification.warn({ message: '特例限制最多10条' })
+      return
+    }
+    const n = keys[keys.length - 1]
+    if (
+      !document.getElementById(`names[${n}]`).value ||
+      !document.getElementById(`vids[${n}]`).value ||
+      !document.getElementById(`pids[${n}]`).value
+    ) {
+      notification.error({ message: '请完善外设控制' })
+      return
+    }
     const nextKeys = keys.concat(num++)
     // can use data-binding to set
     // important! notify form to detect changes
@@ -55,15 +69,23 @@ class EditDrawer extends React.Component {
   updateSubmit = values => {
     const { form } = this.props
     const keys = form.getFieldValue('keys')
-    const usbs = []
+    const usbList = []
     keys.forEach(function(v, i) {
-      usbs.push({
-        name: document.getElementById(`names[${v}]`).value,
-        vid: document.getElementById(`vids[${v}]`).value,
-        pid: document.getElementById(`pids[${v}]`).value
-      })
+      if (
+        document.getElementById(`names[${v}]`).value &&
+        document.getElementById(`vids[${v}]`).value &&
+        document.getElementById(`pids[${v}]`).value
+      ) {
+        usbList.push({
+          name: document.getElementById(`names[${v}]`).value,
+          vid: document.getElementById(`vids[${v}]`).value,
+          pid: document.getElementById(`pids[${v}]`).value
+        })
+      }
     })
-    values.usbs = usbs
+    if (usbList.length) {
+      values.usbs = usbList
+    }
     if (
       values.usagePeripherals == undefined ||
       values.usagePeripherals == false
@@ -72,8 +94,15 @@ class EditDrawer extends React.Component {
     } else {
       values.usagePeripherals = '1'
     }
+    const { name, usagePeripherals, description, usbs } = values
+    const data = {
+      name,
+      usagePeripherals,
+      description,
+      usbs
+    }
     deviceApi
-      .updateDev(values.id, values)
+      .updateDev(values.id, data)
       .then(res => {
         this.drawer.afterSubmit(res)
       })
@@ -82,22 +111,32 @@ class EditDrawer extends React.Component {
       })
   }
 
+  // onSuccess = () => {
+  //   const { form } = this.props
+  //   form.setFieldsValue({
+  //     keys: [0],
+  //     'names[0]': '',
+  //     'vids[0]': '',
+  //     'pids[0]': ''
+  //   })
+  //   this.props.onSuccess()
+  // }
+
   onClose = () => {
-    const { form } = this.props
-    form.setFieldsValue({
-      keys: [0],
-      'names[0]': '',
-      'vids[0]': '',
-      'pids[0]': ''
-    })
+    const { form, initValues } = this.props
+    form.setFieldsValue({ keys: initValues.initKeys })
     this.props.onClose()
   }
 
   render() {
     const { getFieldDecorator, getFieldValue } = this.props.form
     const { initValues } = this.props
-    getFieldDecorator('keys', { initialValue: initValues.initKeys || [] })
+    getFieldDecorator('keys', {
+      initialValue: initValues.initKeys || []
+    })
+
     const keys = getFieldValue('keys')
+    console.log('keys', keys)
     const formItems = keys.map((k, index) => (
       <Row gutter={16} key={k} className="form-item-wrapper">
         <Col span={7}>
@@ -152,6 +191,7 @@ class EditDrawer extends React.Component {
         onRef={ref => {
           this.drawer = ref
         }}
+        destroyOnClose={true}
         onSuccess={this.props.onSuccess}
         onOk={values => this.updateSubmit(values)}
         onClose={this.onClose}
@@ -195,16 +235,16 @@ class EditDrawer extends React.Component {
             />
           </Form.Item>
           <Diliver />
-          <Title slot="外设设置"></Title>
+          <Title slot="特例设置"></Title>
           <Row gutter={16} className="form-item-wrapper">
             <Col span={7}>
-              <Form.Item label="名称" required></Form.Item>
+              <Form.Item label="名称"></Form.Item>
             </Col>
             <Col span={7}>
-              <Form.Item label="VendorId" required></Form.Item>
+              <Form.Item label="VendorId"></Form.Item>
             </Col>
             <Col span={7}>
-              <Form.Item label="ProductId" required></Form.Item>
+              <Form.Item label="ProductId"></Form.Item>
             </Col>
           </Row>
           {formItems}

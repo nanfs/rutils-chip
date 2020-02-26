@@ -53,7 +53,7 @@ export default class Device extends React.Component {
   }
 
   addDev = () => {
-    this.setState({ inner: '创建' }, this.addDrawer.drawer.show())
+    this.setState({ inner: '创建' }, this.addDrawer.pop())
     this.currentDrawer = this.addDrawer
   }
 
@@ -65,8 +65,11 @@ export default class Device extends React.Component {
       selectDev.usbs.forEach(function(v, i) {
         initKeys.push(i)
       })
-      selectDev.initKeys = initKeys
-      console.log(selectDev)
+      if (initKeys.length) {
+        selectDev.initKeys = initKeys
+      } else {
+        selectDev.initKeys = [0]
+      }
       this.setState(
         { inner: '编辑', initValues: selectDev },
         // this.editDrawer.drawer.show()

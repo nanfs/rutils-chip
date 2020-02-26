@@ -28,7 +28,7 @@ export default class Resource extends React.Component {
     this.setState(
       produce(draft => {
         draft.tableCfgSave.searchs = {
-          ...draft.tableCfgSave.searchs,
+          // ...draft.tableCfgSave.searchs,
           ...searchs
         }
       }),

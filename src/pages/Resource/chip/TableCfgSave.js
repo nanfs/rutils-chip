@@ -67,7 +67,7 @@ export const columnsSave = [
   },
   {
     title: '描述',
-    dataIndex: 'storageDescription'
+    dataIndex: 'description'
   }
 ]
 export const apiMethodSave = resourceApi.listSave

@@ -1,6 +1,7 @@
 import React from 'react'
 import deviceApi from '@/services/device'
-import { Icon } from 'antd'
+import { Icon, Popover } from 'antd'
+import MyIcon from '@/components/MyIcon'
 
 export const columns = [
   {
@@ -37,7 +38,28 @@ export const columns = [
   },
   {
     title: '特例',
-    dataIndex: 'usbSupport'
+    dataIndex: 'usb',
+    render: (text, record) => {
+      const info = record.usbs.map((item, index) => (
+        // <Row key={index}>
+        //   <Col span={8}>name：{item.name}，</Col>
+        //   <Col span={8}>vid：{item.vid}，</Col>
+        //   <Col span={8}>pid:{item.pid}</Col>
+        // </Row>
+        <p key={index}>
+          name：{item.name}，vid：{item.vid}，pid:{item.pid}
+        </p>
+      ))
+      return (
+        <Popover content={info}>
+          <MyIcon
+            type="order-info"
+            component="svg"
+            style={{ cursor: 'pointer' }}
+          />
+        </Popover>
+      )
+    }
   }
 ]
 export const apiMethod = deviceApi.list

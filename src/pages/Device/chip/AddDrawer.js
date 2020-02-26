@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form, Input, Switch, Icon, Row, Col } from 'antd'
+import { Form, Input, Switch, Icon, Row, Col, notification } from 'antd'
 import Drawerx from '@/components/Drawerx'
 import Formx from '@/components/Formx'
 import Title, { Diliver } from '@/components/Title'
@@ -12,6 +12,16 @@ let id = 1
 class AddDrawer extends React.Component {
   componentDidMount() {
     this.props.onRef && this.props.onRef(this)
+  }
+
+  pop = () => {
+    this.drawer.show()
+    this.drawer.form.setFieldsValue({
+      keys: [0],
+      'names[0]': '',
+      'vids[0]': '',
+      'pids[0]': ''
+    })
   }
 
   remove = k => {
@@ -33,6 +43,19 @@ class AddDrawer extends React.Component {
     const { form } = this.props
     // can use data-binding to get
     const keys = form.getFieldValue('keys')
+    if (keys.length >= 10) {
+      notification.warn({ message: '特例限制最多10条' })
+      return
+    }
+    const num = keys[keys.length - 1]
+    if (
+      !document.getElementById(`names[${num}]`).value ||
+      !document.getElementById(`vids[${num}]`).value ||
+      !document.getElementById(`pids[${num}]`).value
+    ) {
+      notification.error({ message: '请完善外设控制' })
+      return
+    }
     const nextKeys = keys.concat(id++)
     // can use data-binding to set
     // important! notify form to detect changes
@@ -52,19 +75,37 @@ class AddDrawer extends React.Component {
     this.props.onClose()
   }
 
+  onSuccess = () => {
+    const { form } = this.props
+    form.setFieldsValue({
+      keys: [0],
+      'names[0]': '',
+      'vids[0]': '',
+      'pids[0]': ''
+    })
+    this.props.onSuccess()
+  }
+
   addSubmit = values => {
     const { form } = this.props
     const keys = form.getFieldValue('keys')
-    console.log(keys)
     const usbs = []
     keys.forEach(function(v, i) {
-      usbs.push({
-        name: document.getElementById(`names[${v}]`).value,
-        vid: document.getElementById(`vids[${v}]`).value,
-        pid: document.getElementById(`pids[${v}]`).value
-      })
+      if (
+        document.getElementById(`names[${v}]`).value &&
+        document.getElementById(`vids[${v}]`).value &&
+        document.getElementById(`pids[${v}]`).value
+      ) {
+        usbs.push({
+          name: document.getElementById(`names[${v}]`).value,
+          vid: document.getElementById(`vids[${v}]`).value,
+          pid: document.getElementById(`pids[${v}]`).value
+        })
+      }
     })
-    values.usbs = usbs
+    if (usbs.length) {
+      values.usbs = usbs
+    }
     if (
       values.usagePeripherals == undefined ||
       values.usagePeripherals == false
@@ -136,7 +177,7 @@ class AddDrawer extends React.Component {
           this.drawer = ref
         }}
         onClose={this.onClose}
-        onSuccess={this.props.onSuccess}
+        onSuccess={this.onSuccess}
         onOk={this.addSubmit}
       >
         <Formx
@@ -169,16 +210,16 @@ class AddDrawer extends React.Component {
             />
           </Form.Item>
           <Diliver />
-          <Title slot="外设设置"></Title>
+          <Title slot="特例设置"></Title>
           <Row gutter={16} className="form-item-wrapper">
             <Col span={7}>
-              <Form.Item label="名称" required></Form.Item>
+              <Form.Item label="名称"></Form.Item>
             </Col>
             <Col span={7}>
-              <Form.Item label="VendorId" required></Form.Item>
+              <Form.Item label="VendorId"></Form.Item>
             </Col>
             <Col span={7}>
-              <Form.Item label="ProductId" required></Form.Item>
+              <Form.Item label="ProductId"></Form.Item>
             </Col>
           </Row>
           {formItems3}

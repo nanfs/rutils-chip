@@ -22,11 +22,11 @@ export default {
       method: 'get'
     })
   },
-  setUser(data) {
+  setUser({ poolId, users }) {
     return axios({
-      url: '/pools/users',
+      url: `/pools/${poolId}/users`,
       method: 'post',
-      data: qs.stringify(data, { arrayFormat: 'indices', allowDots: true })
+      data: qs.stringify({ users }, { arrayFormat: 'indices', allowDots: true })
     })
   },
   addPool(data) {

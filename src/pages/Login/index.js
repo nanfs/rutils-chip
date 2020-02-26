@@ -5,8 +5,9 @@ import { setUserToLocal } from '@/components/Authorized'
 
 export default class Login extends Component {
   onSuccess = username => {
+    console.log('username', username)
     setUserToLocal(username)
-    this.props.history.push('/')
+    this.props.history.push('/dashboard')
   }
 
   render() {

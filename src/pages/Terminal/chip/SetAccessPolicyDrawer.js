@@ -38,6 +38,7 @@ export default class SetSafePolicyDrawer extends React.Component {
       tableCfg: createTableCfg({
         columns,
         apiMethod,
+        selection: [],
         paging: { size: 5 },
         rowKey: record => `${record.id}&${record.name}`,
         searchs: { domain: 'internal' },

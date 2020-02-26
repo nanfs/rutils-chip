@@ -35,6 +35,7 @@ export default class SetUserDrawer extends React.Component {
         tableCfg: createTableCfg({
           columns,
           apiMethod,
+          selection: [],
           paging: { size: 5 },
           rowKey: record => `${record.uuid}&${record.username}`,
           searchs: { domain: 'internal' },

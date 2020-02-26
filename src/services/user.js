@@ -37,6 +37,13 @@ export default {
       params: data
     })
   },
+  descrip(data) {
+    return axios({
+      url: '/user/list',
+      method: 'get',
+      params: data
+    })
+  },
   list(data) {
     return axios({
       url: '/user/querybygroup',

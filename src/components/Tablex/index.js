@@ -36,10 +36,10 @@ export function createTableCfg(myCfg) {
 class Tablex extends React.Component {
   constructor(props) {
     super(props)
-    const { paging } = this.props.tableCfg
+    const { paging, selection = [] } = this.props.tableCfg
     this.state = {
       loading: false,
-      selection: [],
+      selection,
       selectData: [], // 可能会出现不同步到情况
       paging: {
         size: (paging && paging.size) || 10,
@@ -183,6 +183,7 @@ class Tablex extends React.Component {
   }
 
   onSelectChange = (selectKeys, selects) => {
+    console.log('selectKeys', selectKeys)
     const { onSelectChange } = this.props
     this.setState({
       selection: selectKeys,

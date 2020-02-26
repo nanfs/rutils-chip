@@ -3,8 +3,9 @@ import Drawerx from '@/components/Drawerx'
 import Formx from '@/components/Formx'
 import SelectSearch from '@/components/SelectSearch'
 import Title, { Diliver } from '@/components/Title'
-import UserButton from '@/components/UserButton'
+// import UserButton from '@/components/UserButton'
 import { columns, apiMethod } from './UserTableCfg'
+import { Tag } from 'antd'
 import desktopsApi from '@/services/desktops'
 import produce from 'immer'
 import Tablex, { createTableCfg, TableWrap, ToolBar } from '@/components/Tablex'
@@ -16,26 +17,40 @@ export default class SetUserDrawer extends React.Component {
   }
 
   state = {
+    totalSelection: [],
     tableCfg: createTableCfg({
       columns,
       apiMethod,
       paging: { size: 5 },
-      rowKey: 'uuid',
+      rowKey: record => `${record.uuid}&${record.username}`,
       searchs: { domain: 'internal' },
       pageSizeOptions: ['5', '10']
     })
   }
 
-  removeUserSelection = uuid => {
-    const { selection, selectData } = this.state.tableCfg
-    const newSelection = selection.filter(item => item !== uuid)
-    const newSelectData = selectData.filter(item => item.uuid !== uuid)
+  onSelectChange = selection => {
+    const { totalSelection } = this.state
+    const newSelection = Array.from(new Set([...totalSelection, ...selection]))
     this.setState(
       produce(draft => {
+        draft.totalSelection = newSelection
         draft.tableCfg = {
           ...draft.tableCfg,
-          selection: newSelection,
-          selectData: newSelectData
+          selection: newSelection
+        }
+      })
+    )
+  }
+
+  removeUserSelection = key => {
+    const { totalSelection } = this.state
+    const newSelection = totalSelection.filter(item => item !== key)
+    this.setState(
+      produce(draft => {
+        draft.totalSelection = newSelection
+        draft.tableCfg = {
+          ...draft.tableCfg,
+          selection: newSelection
         }
       }),
       () => this.userTablex.replace(this.state.tableCfg)
@@ -43,15 +58,12 @@ export default class SetUserDrawer extends React.Component {
   }
 
   renderSelectUser = () => {
-    const selectData = this.state.tableCfg.selectData || []
-    return selectData.map(item => (
-      <UserButton
-        key={item.uuid}
-        value={item.uuid}
-        onDel={this.removeUserSelection}
-      >
-        {item.username}
-      </UserButton>
+    const { totalSelection } = this.state
+    console.log('totalSelection', totalSelection)
+    return totalSelection.map(item => (
+      <Tag key={item} closable onClose={() => this.removeUserSelection(item)}>
+        {item && item.split('&')[1]}
+      </Tag>
     ))
   }
 
@@ -63,8 +75,20 @@ export default class SetUserDrawer extends React.Component {
       desktopsApi
         .detail(ids[0])
         .then(res => {
-          this.setState({ owner: res.data.owner })
-          console.log(res.data.owner)
+          const { owner } = res.data
+          const totalSelection = owner.map(
+            item => `${item.id}&${item.username}`
+          )
+          this.setState(
+            produce(draft => {
+              draft.totalSelection = totalSelection
+              draft.tableCfg = {
+                ...draft.tableCfg,
+                selection: totalSelection
+              }
+            }),
+            () => this.userTablex.replace(this.state.tableCfg)
+          )
         })
         .catch(e => {
           console.log(e)
@@ -76,9 +100,13 @@ export default class SetUserDrawer extends React.Component {
 
   setUser = () => {
     // TODO 是否是新增 删除 还是直接 传入桌面是单个还是批量
-    const { ids } = this.state
-    const { selectData } = this.state.tableCfg
-    const users = selectData
+    console.log(this.state.totalSelection)
+    const { ids, totalSelection } = this.state
+    const users = totalSelection.map(item => {
+      const [uuid, userName] = item.split('&')
+      return { uuid, userName, domain: 'internal' }
+    })
+
     desktopsApi
       .setUser({ ids, users })
       .then(res => {
@@ -128,17 +156,7 @@ export default class SetUserDrawer extends React.Component {
               }}
               stopFetch={true}
               tableCfg={this.state.tableCfg}
-              onSelectChange={(selection, selectData) =>
-                this.setState(
-                  produce(draft => {
-                    draft.tableCfg = {
-                      ...draft.tableCfg,
-                      selection,
-                      selectData
-                    }
-                  })
-                )
-              }
+              onSelectChange={this.onSelectChange}
             />
           </TableWrap>
           <Diliver />

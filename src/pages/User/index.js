@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Row, Col, notification, message } from 'antd'
+import { Button, Row, Col, notification, message, Modal } from 'antd'
 import produce from 'immer'
 
 import Tablex, {
@@ -21,6 +21,8 @@ import userApi from '@/services/user'
 
 import './index.scss'
 import { array, element } from 'prop-types'
+
+const { confirm } = Modal
 
 const nodes = [
   {
@@ -71,6 +73,7 @@ export default class User extends React.Component {
   state = {
     tableCfg: createTableCfg({
       columns,
+      apiMethod: undefined,
       paging: { size: 5 },
       pageSizeOptions: ['5', '10']
     }),
@@ -78,7 +81,8 @@ export default class User extends React.Component {
     initValues: {},
     value: undefined,
     inputValue: 'asd',
-    domainlist: []
+    domainlist: [],
+    disbaledButton: {}
   }
 
   componentDidMount = () => {
@@ -136,9 +140,42 @@ export default class User extends React.Component {
   }
 
   editUser = () => {
-    this.setState({ inner: '编辑用户', initValues: this.state.selectData[0] })
-    this.editDrawer.drawer.show()
+    this.setState({ inner: '编辑用户' })
+    this.editDrawer.pop(this.state.selectData[0])
+    // this.editDrawer.drawer.show()
     this.currentDrawer = this.editDrawer
+  }
+
+  // 删除目前只做单个，后面加批量
+  deleteUser = () => {
+    const ids = this.tablex.getSelection()
+    const self = this
+    confirm({
+      title: '确定删除所选数据?',
+      onOk() {
+        userApi
+          .deleteUser({ userId: ids[0] })
+          .then(res => {
+            if (res.success) {
+              notification.success({ message: '删除成功' })
+              self.tablex.refresh(self.state.tableCfg)
+            } else {
+              message.error(res.message || '删除失败')
+            }
+          })
+          .catch(errors => {
+            console.log(errors)
+          })
+      },
+      onCancel() {}
+    })
+  }
+
+  detailUser = () => {
+    this.setState({ inner: '详情' })
+    this.detailDrawer.pop(this.state.selectData[0])
+    // this.detailDrawer.drawer.show()
+    this.currentDrawer = this.detailDrawer
   }
 
   onSelect = (value, node) => {
@@ -179,9 +216,46 @@ export default class User extends React.Component {
     )
   }
 
+  onSelectChange = (selection, selectData) => {
+    let disbaledButton = {}
+    const selectSN = selectData.map(item => item.sn)
+    if (selection.length !== 1) {
+      disbaledButton = {
+        ...disbaledButton,
+        disabledEdit: true,
+        disabledDelete: true
+      }
+    }
+    if (selection.length === 0) {
+      disbaledButton = {
+        ...disbaledButton,
+        disabledLock: true,
+        disabledUnlock: true,
+        disabledDelete: true // 删除目前只做单个，后面加批量
+      }
+    }
+    const hasBoundData = selectData.filter(
+      item => item.tccount + item.vmcount > 0
+    )
+    if (hasBoundData && hasBoundData.length > 0) {
+      disbaledButton = {
+        ...disbaledButton,
+        disabledDelete: true
+      }
+    }
+
+    this.setState({ disbaledButton, selection, selectData, selectSN })
+  }
+
   render() {
     const searchOptions = [{ label: '名称', value: 'name' }]
-    const { inputValue, treeData, initValues, domainlist } = this.state
+    const {
+      inputValue,
+      treeData,
+      initValues,
+      domainlist,
+      disbaledButton
+    } = this.state
     return (
       <React.Fragment>
         <InnerPath
@@ -207,47 +281,31 @@ export default class User extends React.Component {
                   <Button onClick={this.addUser}>创建用户</Button>
                   <Button
                     onClick={this.editUser}
-                    disabled={
-                      !this.state.selection || this.state.selection.length !== 1
-                    }
+                    disabled={disbaledButton.disabledEdit}
                   >
                     编辑
                   </Button>
                   <Button
                     onClick={this.lockUser}
-                    disabled={
-                      !this.state.selection ||
-                      this.state.selection.length !== 1 ||
-                      (this.state.selection.length === 1 &&
-                        this.state.selection[0].status === '锁定')
-                    }
+                    disabled={disbaledButton.disabledLock}
                   >
                     锁定
                   </Button>
                   <Button
                     onClick={this.unlockUser}
-                    disabled={
-                      !this.state.selection ||
-                      this.state.selection.length !== 1 ||
-                      (this.state.selection.length === 1 &&
-                        this.state.selection[0].status === '正常')
-                    }
+                    disabled={disbaledButton.disabledUnlock}
                   >
                     解锁
                   </Button>
                   <Button
                     onClick={this.detailUser}
-                    disabled={
-                      !this.state.selection || this.state.selection.length !== 1
-                    }
+                    disabled={disbaledButton.disabledEdit}
                   >
                     详情
                   </Button>
                   <Button
                     onClick={this.deleteUser}
-                    disabled={
-                      !this.state.selection || this.state.selection.length === 0
-                    }
+                    disabled={disbaledButton.disabledDelete}
                   >
                     删除
                   </Button>
@@ -269,9 +327,7 @@ export default class User extends React.Component {
                 }}
                 className="no-select-bg"
                 tableCfg={this.state.tableCfg}
-                onSelectChange={(selection, selectData) => {
-                  this.setState({ selection, selectData })
-                }}
+                onSelectChange={this.onSelectChange}
               />
               <AddDrawer
                 onRef={ref => {
@@ -297,7 +353,6 @@ export default class User extends React.Component {
                   this.detailDrawer = ref
                 }}
                 onClose={this.onBack}
-                initValues={initValues}
               />
             </div>
           </div>

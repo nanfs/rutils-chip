@@ -16,13 +16,13 @@ export default class EditDrawer extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (
+    /* if (
       prevProps.initValues.autoLockTime !== this.props.initValues.autoLockTime
     ) {
       this.setState({
         autoLockTime: this.props.initValues.autoLockTime
       })
-    }
+    } */
   }
 
   pop = data => {
@@ -90,8 +90,6 @@ export default class EditDrawer extends React.Component {
   }
 
   render() {
-    const { initValues } = this.props
-    // console.log(initValues)
     const { autoLockTime } = this.state
     return (
       <Drawerx
@@ -107,7 +105,7 @@ export default class EditDrawer extends React.Component {
         onClose={this.props.onClose}
         onSuccess={this.props.onSuccess}
       >
-        <Formx initValues={initValues}>
+        <Formx>
           <Title slot="基础设置"></Title>
           <Form.Item prop="id" hidden>
             <Input />

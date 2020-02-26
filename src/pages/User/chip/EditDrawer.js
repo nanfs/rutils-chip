@@ -1,9 +1,11 @@
 import React from 'react'
 import { Form, Input, Select } from 'antd'
+
 import Drawerx from '@/components/Drawerx'
 import Formx from '@/components/Formx'
-import Title from '@/components/Title'
 import TreeSelectx from '@/components/TreeSelectx'
+import Selectx from '@/components/Selectx'
+import Title from '@/components/Title'
 
 import userApi from '@/services/user'
 
@@ -14,9 +16,48 @@ export default class editDrawer extends React.Component {
     this.props.onRef && this.props.onRef(this)
   }
 
+  pop = data => {
+    this.drawer.show()
+    const {
+      id,
+      domain,
+      firstname,
+      lastname,
+      username,
+      passeword,
+      groupId,
+      email
+    } = data
+    this.drawer.form.setFieldsValue({
+      id,
+      domain,
+      firstname,
+      lastname,
+      username,
+      passeword,
+      groupId,
+      email
+    })
+  }
+
+  editUser = values => {
+    const { onSuccess } = this.props
+    userApi
+      .editUser({ ...values, description: '123' })
+      .then(res => {
+        this.drawer.afterSubmit(res)
+        onSuccess && onSuccess()
+      })
+      .catch(errors => {
+        this.drawer.break()
+        console.log(errors)
+      })
+  }
+
   render() {
     // const { getFieldDecorator } = this.props.form
-    const { initValues, nodeData } = this.props
+    const { nodeData, domainlist } = this.props
+
     return (
       <Drawerx
         onRef={ref => {
@@ -24,12 +65,12 @@ export default class editDrawer extends React.Component {
         }}
         onOk={values => {
           console.log(values)
+          this.editUser(values)
         }}
         onClose={this.props.onClose}
         onSuccess={this.props.onSuccess}
       >
         <Formx
-          initValues={initValues}
           onRef={ref => {
             this.form = ref
           }}
@@ -45,23 +86,31 @@ export default class editDrawer extends React.Component {
               }
             ]}
           >
-            <Select placeholder="用户名">
-              <Option value="1">Option 1</Option>
-              <Option value="2">Option 2</Option>
-              <Option value="3">Option 3</Option>
-            </Select>
+            <Selectx placeholder="请选择域" options={domainlist}></Selectx>
           </Form.Item>
           <Form.Item
-            prop="name"
-            label="姓名"
+            prop="firstname"
+            label="姓"
             rules={[
               {
                 required: true,
-                message: '请填写姓名'
+                message: '请填写姓'
               }
             ]}
           >
-            <Input placeholder="姓名" />
+            <Input placeholder="名" />
+          </Form.Item>
+          <Form.Item
+            prop="lastname"
+            label="名"
+            rules={[
+              {
+                required: true,
+                message: '请填写名'
+              }
+            ]}
+          >
+            <Input placeholder="名" />
           </Form.Item>
           <Form.Item
             prop="username"
@@ -88,7 +137,7 @@ export default class editDrawer extends React.Component {
             <Input placeholder="密码" type="password" />
           </Form.Item>
           <Form.Item
-            prop="group"
+            prop="groupId"
             label="组织"
             rules={[
               {
@@ -111,7 +160,7 @@ export default class editDrawer extends React.Component {
           >
             <Input placeholder="邮件" />
           </Form.Item>
-          <Form.Item
+          {/* <Form.Item
             prop="KEYID"
             label="KEYID"
             rules={[
@@ -122,7 +171,7 @@ export default class editDrawer extends React.Component {
             ]}
           >
             <Input placeholder="KEYID" />
-          </Form.Item>
+          </Form.Item> */}
         </Formx>
       </Drawerx>
     )

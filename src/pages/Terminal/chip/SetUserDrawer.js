@@ -28,6 +28,23 @@ export default class SetUserDrawer extends React.Component {
     })
   }
 
+  onClose = () => {
+    this.setState(
+      {
+        totalSelection: [],
+        tableCfg: createTableCfg({
+          columns,
+          apiMethod,
+          paging: { size: 5 },
+          rowKey: record => `${record.uuid}&${record.username}`,
+          searchs: { domain: 'internal' },
+          pageSizeOptions: ['5', '10']
+        })
+      },
+      this.props.onClose()
+    )
+  }
+
   onSelectChange = selection => {
     const newSelection = selection
     this.setState(
@@ -58,7 +75,6 @@ export default class SetUserDrawer extends React.Component {
 
   renderSelectUser = () => {
     const { totalSelection } = this.state
-    console.log('totalSelection', totalSelection)
     return totalSelection.map(item => (
       <Tag key={item} closable onClose={() => this.removeUserSelection(item)}>
         {item && item.split('&')[1]}
@@ -100,7 +116,6 @@ export default class SetUserDrawer extends React.Component {
 
   setUser = () => {
     // TODO 是否是新增 删除 还是直接 传入桌面是单个还是批量
-    console.log(this.state.totalSelection)
     const { sns, totalSelection } = this.state
     const users = totalSelection.map(item => {
       const [uuid, username] = item.split('&')
@@ -138,7 +153,7 @@ export default class SetUserDrawer extends React.Component {
         onRef={ref => {
           this.drawer = ref
         }}
-        onClose={this.props.onClose}
+        onClose={this.onClose}
         onOk={this.setUser}
         onSuccess={this.props.onSuccess}
       >

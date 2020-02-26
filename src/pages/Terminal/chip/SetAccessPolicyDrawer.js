@@ -32,6 +32,20 @@ export default class SetSafePolicyDrawer extends React.Component {
     })
   }
 
+  onClose = () => {
+    this.setState({
+      totalSelection: [],
+      tableCfg: createTableCfg({
+        columns,
+        apiMethod,
+        paging: { size: 5 },
+        rowKey: record => `${record.id}&${record.name}`,
+        searchs: { domain: 'internal' },
+        pageSizeOptions: ['5', '10']
+      })
+    })
+  }
+
   onSelectChange = selection => {
     const newSelection = selection
     this.setState(
@@ -142,7 +156,7 @@ export default class SetSafePolicyDrawer extends React.Component {
         onRef={ref => {
           this.drawer = ref
         }}
-        onClose={this.props.onClose}
+        onClose={this.onClose}
         onOk={this.setAccess}
         onSuccess={this.props.onSuccess}
       >

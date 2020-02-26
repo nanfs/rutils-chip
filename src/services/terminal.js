@@ -63,6 +63,13 @@ export default {
       method: 'post',
       data: qs.stringify(data, { arrayFormat: 'indices', allowDots: true })
     })
+  },
+  setDevice(data) {
+    return axios({
+      url: '/terminals/safepolicys',
+      method: 'post',
+      data: qs.stringify(data, { arrayFormat: 'indices', allowDots: true })
+    })
   }
   /* terminalsusagedetail(data) {
     return axios({

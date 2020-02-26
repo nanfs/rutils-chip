@@ -15,16 +15,6 @@ export default class EditDrawer extends React.Component {
     this.props.onRef && this.props.onRef(this)
   }
 
-  componentDidUpdate(prevProps) {
-    /* if (
-      prevProps.initValues.autoLockTime !== this.props.initValues.autoLockTime
-    ) {
-      this.setState({
-        autoLockTime: this.props.initValues.autoLockTime
-      })
-    } */
-  }
-
   pop = data => {
     this.drawer.show()
     const {
@@ -45,10 +35,6 @@ export default class EditDrawer extends React.Component {
       secretWord,
       bondKey
     })
-  }
-
-  state = {
-    autoLockTime: 1
   }
 
   onChange = value => {
@@ -90,7 +76,6 @@ export default class EditDrawer extends React.Component {
   }
 
   render() {
-    const { autoLockTime } = this.state
     return (
       <Drawerx
         onRef={ref => {

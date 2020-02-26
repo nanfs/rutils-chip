@@ -1,6 +1,6 @@
 import desktopsApi from '@/services/desktops'
 import React from 'react'
-import { Progress } from 'antd'
+import { Progress, Icon } from 'antd'
 import { vmStatusRender, osStatusRender } from '@/utils/tableRender'
 import MyIcon from '@/components/MyIcon'
 // TODO antd 样式加载问题
@@ -46,7 +46,12 @@ export const columns = [
   },
   {
     title: '已分配用户',
-    dataIndex: 'assignedUsers'
+    dataIndex: 'assignedUsers',
+    render: text => (
+      <span className="table-action">
+        {text ? <Icon type="check" /> : <Icon type="close" />}
+      </span>
+    )
   },
   {
     title: '控制台',

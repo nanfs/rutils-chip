@@ -333,7 +333,7 @@ export default class Termina extends React.Component {
               </Button>
               <Button
                 onClick={this.setUser}
-                disabled={disbaledButton.disabledEdit}
+                disabled={disbaledButton.disabledSetUser}
               >
                 分配用户
               </Button>

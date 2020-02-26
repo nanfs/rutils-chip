@@ -29,8 +29,7 @@ export default class SetUserDrawer extends React.Component {
   }
 
   onSelectChange = selection => {
-    const { totalSelection } = this.state
-    const newSelection = Array.from(new Set([...totalSelection, ...selection]))
+    const newSelection = selection
     this.setState(
       produce(draft => {
         draft.totalSelection = newSelection
@@ -70,7 +69,7 @@ export default class SetUserDrawer extends React.Component {
   pop = poolId => {
     // 如果是一个 获取当前分配的用户
     this.drawer.show()
-    this.setState({ poolId })
+    this.setState({ poolId, totalSelection: [] })
     poolsApi
       .detail(poolId)
       .then(res => {
@@ -151,6 +150,7 @@ export default class SetUserDrawer extends React.Component {
                 this.userTablex = ref
               }}
               stopFetch={true}
+              saveSelection={true}
               tableCfg={this.state.tableCfg}
               onSelectChange={this.onSelectChange}
             />

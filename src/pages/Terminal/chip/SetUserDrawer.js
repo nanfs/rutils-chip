@@ -29,8 +29,7 @@ export default class SetUserDrawer extends React.Component {
   }
 
   onSelectChange = selection => {
-    const { totalSelection } = this.state
-    const newSelection = Array.from(new Set([...totalSelection, ...selection]))
+    const newSelection = selection
     this.setState(
       produce(draft => {
         draft.totalSelection = newSelection
@@ -69,9 +68,10 @@ export default class SetUserDrawer extends React.Component {
 
   pop = sns => {
     // 如果是一个 获取当前分配的用户
+    this.drawer.show()
+    this.setState({ sns, totalSelection: [] })
     if (sns && sns.length === 1) {
       console.log('sns', sns)
-      this.setState({ sns })
       terminalApi
         .detail(sns[0])
         .then(res => {
@@ -96,7 +96,6 @@ export default class SetUserDrawer extends React.Component {
     } else {
       this.userTablex.refresh(this.state.tableCfg)
     }
-    this.drawer.show()
   }
 
   setUser = () => {
@@ -156,6 +155,7 @@ export default class SetUserDrawer extends React.Component {
                 this.userTablex = ref
               }}
               stopFetch={true}
+              saveSelection={true}
               tableCfg={this.state.tableCfg}
               onSelectChange={this.onSelectChange}
             />

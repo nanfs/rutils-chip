@@ -32,8 +32,8 @@ export default class tcLog extends React.Component {
       produce(draft => {
         draft.tableCfg.searchs = {
           ...draft.tableCfg.searchs,
-          fromDate: startDate.format('YYYY-MM-DD'),
-          toDate: endDate.format('YYYY-MM-DD')
+          fromDate: (startDate && startDate.format('YYYY-MM-DD')) || undefined,
+          toDate: (endDate && endDate.format('YYYY-MM-DD')) || undefined
         }
       }),
       () => this.tablex.refresh(this.state.tableCfg)

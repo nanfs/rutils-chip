@@ -9,7 +9,7 @@ function getUserFromlocal() {
 const reloadAuthorized = () => {
   const user = getUserFromlocal()
   // 在这里修改获取用户的权限类型
-  const currentAuthority = user.roleTag
+  const currentAuthority = user
   USER = user
   if (currentAuthority) {
     if (currentAuthority.constructor === Function) {

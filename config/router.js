@@ -12,7 +12,7 @@ function getRouterConfig(app) {
     },
     {
       path: '/',
-      authority: '',
+      authority: 'admin',
       component: dynamic({
         app,
         models: () => [import('../src/models/app')],

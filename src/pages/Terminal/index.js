@@ -141,13 +141,13 @@ export default class Termina extends React.Component {
 
   setSafePolicy = () => {
     this.setState({ inner: '设置外设控制' })
-    this.setSafePolicyDrawer.drawer.show()
+    this.setSafePolicyDrawer.pop(this.tablex.getSelection())
     this.currentDrawer = this.setSafePolicyDrawer
   }
 
   setAccessPolicy = () => {
     this.setState({ inner: '设置准入控制' })
-    this.setAccessPolicyDrawer.drawer.show()
+    this.setAccessPolicyDrawer.pop(this.tablex.getSelection())
     this.currentDrawer = this.setAccessPolicyDrawer
   }
 
@@ -409,6 +409,7 @@ export default class Termina extends React.Component {
             onRef={ref => {
               this.setSafePolicyDrawer = ref
             }}
+            onClose={this.onBack}
             onSuccess={this.onSuccess}
             selection={this.state.selection}
           />
@@ -416,6 +417,7 @@ export default class Termina extends React.Component {
             onRef={ref => {
               this.setAccessPolicyDrawer = ref
             }}
+            onClose={this.onBack}
             onSuccess={this.onSuccess}
             selection={this.state.selection}
           />

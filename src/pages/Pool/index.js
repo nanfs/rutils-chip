@@ -222,7 +222,10 @@ export default class Pool extends React.Component {
   }
 
   setUser = () => {
-    this.setState({ inner: '分配用户' }, this.setUserDrawer.drawer.show())
+    this.setState(
+      { inner: '分配用户' },
+      this.setUserDrawer.pop(this.tablex.getSelection()[0])
+    )
     this.currentDrawer = this.setUserDrawer
   }
 

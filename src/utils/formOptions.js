@@ -19,8 +19,8 @@ export const cpuOptions = [
 ]
 
 export const manageTypeOptions = [
-  { label: '手动', value: '1' },
-  { label: '自动', value: '0' }
+  { label: '手动', value: 1 },
+  { label: '自动', value: 0 }
 ]
 
 export const weekOptions = [

@@ -37,11 +37,11 @@ export default {
     })
   },
   editPool(data) {
-    const { poolId, ...rest } = data
+    const { poolId, values } = data
     return axios({
       url: `/pools/${poolId}`,
       method: 'post',
-      data: qs.stringify(rest)
+      data: qs.stringify(values)
     })
   },
   getTemplate(data) {

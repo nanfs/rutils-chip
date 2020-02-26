@@ -4,7 +4,6 @@ import Drawerx from '@/components/Drawerx'
 import Formx from '@/components/Formx'
 import Title from '@/components/Title'
 import Radiox from '@/components/Radiox'
-import Selectx from '@/components/Selectx'
 import { manageTypeOptions } from '@/utils/formOptions'
 import poolsApi from '@/services/pools'
 
@@ -23,10 +22,11 @@ export default class EditDrawer extends React.Component {
     this.props.onRef && this.props.onRef(this)
   }
 
-  pop = id => {
+  pop = poolId => {
+    this.setState({ poolId })
     this.drawer.show()
     poolsApi
-      .detail(id)
+      .detail(poolId)
       .then(res => {
         const { data } = res
         this.setState({ templateName: data.templateName })
@@ -40,8 +40,9 @@ export default class EditDrawer extends React.Component {
 
   editPool = values => {
     // TODO 是否是新增 删除 还是直接 传入桌面是单个还是批量
+    const { poolId } = this.state
     poolsApi
-      .editPool({ data: values })
+      .editPool({ poolId, values })
       .then(res => {
         this.drawer.afterSubmit(res)
       })
@@ -58,7 +59,7 @@ export default class EditDrawer extends React.Component {
         }}
         onSuccess={this.props.onSuccess}
         onClose={this.props.onClose}
-        onOk={this.addPool}
+        onOk={this.editPool}
       >
         <Formx>
           <Title slot="基础设置"></Title>
@@ -68,19 +69,10 @@ export default class EditDrawer extends React.Component {
           <Form.Item label="模板">
             <Button>{this.state.templateName}</Button>
           </Form.Item>
-          <Form.Item prop="cluster" label="集群">
-            <Selectx options={this.state.clusterOptions} />
-          </Form.Item>
           <Form.Item prop="manageType" label="管理类型">
             <Radiox options={manageTypeOptions} />
           </Form.Item>
-          <Form.Item prop="cpuCores" label="CPU">
-            <Button>{this.state.templateName}</Button>
-          </Form.Item>
-          <Form.Item prop="memory" label="内存">
-            <Button>{this.state.templateName}</Button>
-          </Form.Item>
-          <Form.Item prop="desktopNum" label="创建数量">
+          <Form.Item prop="desktopNum" label="增加数量">
             <InputNumber placeholder="" />
           </Form.Item>
           <Form.Item prop="prestartNum" label="预启动数量">

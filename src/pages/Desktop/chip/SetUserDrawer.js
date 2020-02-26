@@ -69,9 +69,8 @@ export default class SetUserDrawer extends React.Component {
 
   pop = ids => {
     // 如果是一个 获取当前分配的用户
+    this.setState({ ids })
     if (ids && ids.length === 1) {
-      console.log('ids', ids)
-      this.setState({ ids })
       desktopsApi
         .detail(ids[0])
         .then(res => {
@@ -104,8 +103,8 @@ export default class SetUserDrawer extends React.Component {
     console.log(this.state.totalSelection)
     const { ids, totalSelection } = this.state
     const users = totalSelection.map(item => {
-      const [uuid, userName] = item.split('&')
-      return { uuid, userName, domain: 'internal' }
+      const [uuid, username] = item.split('&')
+      return { uuid, username, domain: 'internal' }
     })
 
     desktopsApi

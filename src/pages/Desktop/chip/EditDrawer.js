@@ -33,7 +33,10 @@ export default class EditDrawer extends React.Component {
         const networkFix = network.map(
           item => `${item.kind}&${item.name}&${item.kindid}`
         )
-        this.setState({ templateName: data.templateName })
+        this.setState({
+          templateName: data.templateName,
+          clusterId: data.clusterId
+        })
         this.drawer.form.setFieldsValue({ ...data, network: networkFix })
 
         this.getNetwork()
@@ -45,7 +48,7 @@ export default class EditDrawer extends React.Component {
   }
 
   getNetwork = () => {
-    const queryClusterId = this.state.initValues.clusterId
+    const queryClusterId = this.state.clusterId
     this.setState({ networkLoading: true })
     if (!queryClusterId) {
       this.setState({ networkLoading: false })

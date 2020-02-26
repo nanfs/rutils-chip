@@ -15,6 +15,7 @@ import MyIcon from '@/components/MyIcon'
 import SelectSearch from '@/components/SelectSearch'
 import produce from 'immer'
 import poolsApi from '@/services/pools'
+import desktopsApi from '@/services/desktops'
 import { Diliver } from '@/components/Title'
 import { columns, apiMethod } from './chip/TableCfg'
 import { vmColumns, vmApiMethod } from './chip/VmTableCfg'
@@ -87,14 +88,14 @@ export default class Pool extends React.Component {
     this.currentDrawer.drawer.hide()
   }
 
-  sendOrder = (id, order) => {
+  sendOrder = (id, directive) => {
     const ids = !Array.isArray(id) ? [id] : [...id]
-    poolsApi
-      .sendOrder({ ids, order })
+    desktopsApi
+      .sendOrder({ desktopIds: ids, directive })
       .then(res => {
         if (res.success) {
           notification.success({ message: '操作成功' })
-          this.vmTablex.refresh(this.state.vmTableCfg)
+          this.tablex.refresh(this.state.tableCfg)
         } else {
           message.error(res.message || '操作失败')
         }
@@ -132,28 +133,6 @@ export default class Pool extends React.Component {
       }
     }
     this.setState({ vmDisbaledButton })
-  }
-
-  sendOrder = (id, directive) => {
-    const ids = !Array.isArray(id) ? [id] : [...id]
-    poolsApi
-      .sendOrder({ desktopIds: ids, directive })
-      .then(res => {
-        if (res.success) {
-          notification.success({ message: '操作成功' })
-          this.tablex.refresh(this.state.tableCfg)
-        } else {
-          message.error(res.message || '操作失败')
-        }
-      })
-      .catch(errors => {
-        console.log(errors)
-      })
-  }
-
-  patchOrder = directive => {
-    const ids = this.tablex.getSelection()
-    this.sendOrder(ids, directive)
   }
 
   getConsole = () => {
@@ -196,19 +175,19 @@ export default class Pool extends React.Component {
   }
 
   deleteVm = () => {
-    const { selection: id } = this.state.tableCfg
-    const ids = !Array.isArray(id) ? [id] : [...id]
-    poolsApi
-      .deleteVm({ ids })
+    const desktopIds = this.vmTablex.getSelection()
+    desktopsApi
+      .delVm({ desktopIds })
       .then(res => {
         if (res.success) {
           notification.success({ message: '删除成功' })
-          this.vmTablex.refresh(this.state.vmTableCfg)
+          this.vmTablex.refresh(this.state.tableCfg)
         } else {
           message.error(res.message || '删除失败')
         }
       })
       .catch(errors => {
+        message.error(errors || 'catch error')
         console.log(errors)
       })
   }
@@ -301,7 +280,7 @@ export default class Pool extends React.Component {
             afterLoad={this.afterPoolLoad}
             onRow={record => {
               return {
-                onClick: event => {
+                onClick: () => {
                   this.search('poolId', record.id)
                 }
               }
@@ -310,8 +289,20 @@ export default class Pool extends React.Component {
           <Diliver />
           <ToolBar>
             <BarLeft>
-              <Button onClick={() => this.patchOrder('start')}>开机</Button>
-              <Button onClick={() => this.patchOrder('shutdown')}>关机</Button>
+              <Button
+                onClick={() =>
+                  this.sendOrder(this.vmTablex.getSelection(), 'start')
+                }
+              >
+                开机
+              </Button>
+              <Button
+                onClick={() =>
+                  this.sendOrder(this.vmTablex.getSelection(), 'shutdown')
+                }
+              >
+                关机
+              </Button>
               {/* <Button onClick={this.getConsole}>打开控制台</Button> */}
               <Button
                 onClick={this.deleteVm}

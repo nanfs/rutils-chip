@@ -16,6 +16,12 @@ export default {
       data: qs.stringify(data)
     })
   },
+  detail(sn) {
+    return axios({
+      url: `/terminals/${sn}`,
+      method: 'get'
+    })
+  },
   deleteTerminal(data) {
     return axios({
       url: '/terminals',
@@ -42,6 +48,13 @@ export default {
       url: `/terminals/${id}`,
       method: 'get',
       params: data
+    })
+  },
+  setUser(data) {
+    return axios({
+      url: '/desktops/users',
+      method: 'post',
+      data: qs.stringify(data, { arrayFormat: 'indices', allowDots: true })
     })
   }
   /* terminalsusagedetail(data) {

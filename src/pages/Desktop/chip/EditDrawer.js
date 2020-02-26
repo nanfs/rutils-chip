@@ -24,7 +24,6 @@ export default class EditDrawer extends React.Component {
   }
 
   pop = id => {
-    console.log(id)
     this.drawer.show()
     desktopsApi
       .detail(id)

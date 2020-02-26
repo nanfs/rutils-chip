@@ -86,7 +86,11 @@ export default class editDrawer extends React.Component {
               }
             ]}
           >
-            <Selectx placeholder="请选择域" options={domainlist}></Selectx>
+            <Selectx
+              placeholder="请选择域"
+              options={domainlist}
+              disabled={true}
+            ></Selectx>
           </Form.Item>
           <Form.Item
             prop="firstname"
@@ -134,7 +138,7 @@ export default class editDrawer extends React.Component {
               }
             ]}
           >
-            <Input placeholder="密码" type="password" />
+            <Input placeholder="密码" type="password" disabled />
           </Form.Item>
           <Form.Item
             prop="groupId"

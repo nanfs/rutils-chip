@@ -24,12 +24,14 @@ export default class Selectx extends React.Component {
       options = [],
       onRefresh,
       mode = '',
+      disabled,
       placeholder = '请选择'
     } = this.props
     return (
       <Select
         className={className}
         mode={mode}
+        disabled={disabled}
         placeholder={placeholder}
         onChange={this.handleChange}
         value={this.state.value}

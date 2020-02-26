@@ -67,9 +67,8 @@ export default class LoginForm extends React.Component {
       .login(data)
       .then(res => {
         if (res.success) {
-          message.success('登录成功')
           this.props.onSuccess(data.username)
-          // TODO 存储See
+          message.success('登录成功')
         } else {
           message.error(res.message || '登录失败')
         }

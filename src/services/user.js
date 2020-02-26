@@ -68,20 +68,20 @@ export default {
   deleteUser(data) {
     return axios({
       url: '/user/delete',
-      method: 'delete',
+      method: 'post',
       data: qs.stringify(data)
     })
   },
   lockUser(data) {
     return axios({
-      url: '/lockUser',
+      url: '/user/locked',
       method: 'post',
       data: qs.stringify(data)
     })
   },
   unlockUser(data) {
     return axios({
-      url: '/unlockUser',
+      url: '/user/unlocked',
       method: 'post',
       data: qs.stringify(data)
     })

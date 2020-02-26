@@ -5,7 +5,7 @@ export default {
   // 修改密码
   updatePwd(data) {
     return axios({
-      url: '/employee/changePassword',
+      url: '/user/changepassword',
       method: 'post',
       data: qs.stringify(data)
     })

@@ -104,8 +104,8 @@ export default class SetUserDrawer extends React.Component {
     console.log(this.state.totalSelection)
     const { sns, totalSelection } = this.state
     const users = totalSelection.map(item => {
-      const [uuid, userName] = item.split('&')
-      return { uuid, userName, domain: 'internal' }
+      const [uuid, username] = item.split('&')
+      return { uuid, username, domain: 'internal-authz' }
     })
 
     terminalApi

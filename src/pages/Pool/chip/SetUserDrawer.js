@@ -100,7 +100,7 @@ export default class SetUserDrawer extends React.Component {
     const { poolId, totalSelection } = this.state
     const users = totalSelection.map(item => {
       const [uuid, username] = item.split('&')
-      return { uuid, username, domain: 'internal' }
+      return { uuid, username, domain: 'internal-authz' }
     })
 
     poolsApi

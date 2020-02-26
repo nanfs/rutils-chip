@@ -29,8 +29,7 @@ export default class SetUserDrawer extends React.Component {
   }
 
   onSelectChange = selection => {
-    const { totalSelection } = this.state
-    const newSelection = Array.from(new Set([...totalSelection, ...selection]))
+    const newSelection = selection
     this.setState(
       produce(draft => {
         draft.totalSelection = newSelection
@@ -59,7 +58,6 @@ export default class SetUserDrawer extends React.Component {
 
   renderSelectUser = () => {
     const { totalSelection } = this.state
-    console.log('totalSelection', totalSelection)
     return totalSelection.map(item => (
       <Tag key={item} closable onClose={() => this.removeUserSelection(item)}>
         {item && item.split('&')[1]}
@@ -100,11 +98,10 @@ export default class SetUserDrawer extends React.Component {
 
   setUser = () => {
     // TODO 是否是新增 删除 还是直接 传入桌面是单个还是批量
-    console.log(this.state.totalSelection)
     const { ids, totalSelection } = this.state
     const users = totalSelection.map(item => {
       const [uuid, username] = item.split('&')
-      return { uuid, username, domain: 'internal' }
+      return { uuid, username, domain: 'internal-authz' }
     })
 
     desktopsApi
@@ -155,6 +152,7 @@ export default class SetUserDrawer extends React.Component {
                 this.userTablex = ref
               }}
               stopFetch={true}
+              saveSelection={true}
               tableCfg={this.state.tableCfg}
               onSelectChange={this.onSelectChange}
             />

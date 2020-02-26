@@ -326,7 +326,7 @@ export default class Termina extends React.Component {
           <ToolBar>
             <BarLeft>
               <Button
-                onClick={this.editTerminal}
+                onClick={() => this.editTerminal()}
                 disabled={disbaledButton.disabledEdit}
               >
                 编辑

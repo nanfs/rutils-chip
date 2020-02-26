@@ -15,7 +15,7 @@ export default class DetailDrawer extends React.Component {
     this.props.onRef && this.props.onRef(this)
   }
 
-  state = { initValues: {} }
+  state = { initValues: { useTime: [] } }
 
   pop = sns => {
     this.drawer.show()
@@ -36,7 +36,7 @@ export default class DetailDrawer extends React.Component {
           }
           const useTime = onlineTimeArray.map((element, index) => {
             return {
-              id: index,
+              key: `useTime${index}`,
               onlineTime: element,
               offlineTime: offlineTimeArray[index]
             }
@@ -70,7 +70,7 @@ export default class DetailDrawer extends React.Component {
           <Title slot="基本信息"></Title>
           <Row className="dms-detail-row">
             <Col span={3} className="dms-detail-label">
-              桌面名称:
+              桌面名称：
             </Col>
             <Col span={8} className="dms-detail-value">
               <Tooltip title={initValues.name}>
@@ -88,7 +88,7 @@ export default class DetailDrawer extends React.Component {
           </Row>
           <Row className="dms-detail-row">
             <Col span={3} className="dms-detail-label">
-              位置:
+              位置：
             </Col>
             <Col span={8} className="dms-detail-value">
               <Tooltip title={initValues.location}>
@@ -96,7 +96,7 @@ export default class DetailDrawer extends React.Component {
               </Tooltip>
             </Col>
             <Col span={3} className="dms-detail-label">
-              终端类型:
+              终端类型：
             </Col>
             <Col span={8} className="dms-detail-value">
               <Tooltip title={initValues.terminal_type}>
@@ -106,7 +106,7 @@ export default class DetailDrawer extends React.Component {
           </Row>
           <Row className="dms-detail-row">
             <Col span={3} className="dms-detail-label">
-              版本号:
+              版本号：
             </Col>
             <Col span={8} className="dms-detail-value">
               <Tooltip title={initValues.version}>
@@ -114,7 +114,7 @@ export default class DetailDrawer extends React.Component {
               </Tooltip>
             </Col>
             <Col span={3} className="dms-detail-label">
-              操作系统:
+              操作系统：
             </Col>
             <Col span={8} className="dms-detail-value">
               <Tooltip title={initValues.os}>
@@ -124,7 +124,7 @@ export default class DetailDrawer extends React.Component {
           </Row>
           <Row className="dms-detail-row">
             <Col span={3} className="dms-detail-label">
-              CPU:
+              CPU：
             </Col>
             <Col span={8} className="dms-detail-value">
               <Tooltip title={initValues.cpu}>
@@ -132,7 +132,7 @@ export default class DetailDrawer extends React.Component {
               </Tooltip>
             </Col>
             <Col span={3} className="dms-detail-label">
-              内存:
+              内存：
             </Col>
             <Col span={8} className="dms-detail-value">
               <Tooltip title={initValues.memory}>
@@ -150,7 +150,7 @@ export default class DetailDrawer extends React.Component {
               </Tooltip>
             </Col> */}
             <Col span={3} className="dms-detail-label">
-              认证方式:
+              认证方式：
             </Col>
             <Col span={8} className="dms-detail-value">
               <Tooltip title={initValues.loginWay}>
@@ -158,7 +158,7 @@ export default class DetailDrawer extends React.Component {
               </Tooltip>
             </Col>
             <Col span={3} className="dms-detail-label">
-              描述:
+              描述：
             </Col>
             <Col span={8} className="dms-detail-value">
               <Tooltip title={initValues.description}>
@@ -168,7 +168,7 @@ export default class DetailDrawer extends React.Component {
           </Row>
           {/* <Row className="dms-detail-row">
             <Col span={3} className="dms-detail-label">
-              描述:
+              描述：
             </Col>
             <Col span={12} className="dms-detail-value">
               <Tooltip title={initValues.description}>
@@ -192,6 +192,7 @@ export default class DetailDrawer extends React.Component {
             columns={detailSafepolicyColumns}
             dataSource={initValues.safePolicys}
             pagination={false}
+            rowKey="id"
           />
         </div>
         <div className="dms-detail-section">
@@ -200,6 +201,7 @@ export default class DetailDrawer extends React.Component {
             columns={detailAdmitpolicyColumns}
             dataSource={initValues.admitPolicys}
             pagination={false}
+            rowKey="id"
           />
         </div>
         <div className="dms-detail-section">

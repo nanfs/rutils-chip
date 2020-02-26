@@ -32,8 +32,10 @@ export default class tcLog extends React.Component {
       produce(draft => {
         draft.tableCfg.searchs = {
           ...draft.tableCfg.searchs,
-          fromDate: (startDate && startDate.format('YYYY-MM-DD')) || undefined,
-          toDate: (endDate && endDate.format('YYYY-MM-DD')) || undefined
+          fromDate:
+            (startDate && startDate.format('YYYY-MM-DD HH:mm:ss')) || undefined,
+          toDate:
+            (endDate && endDate.format('YYYY-MM-DD HH:mm:ss')) || undefined
         }
       }),
       () => this.tablex.refresh(this.state.tableCfg)
@@ -119,7 +121,7 @@ export default class tcLog extends React.Component {
               </Button>
             </BarLeft>
             <BarRight span={14}>
-              <RangePicker onChange={this.selectDate}></RangePicker>
+              <RangePicker onChange={this.selectDate} showTime></RangePicker>
               <SelectSearch
                 options={searchOptions}
                 onSearch={this.search}

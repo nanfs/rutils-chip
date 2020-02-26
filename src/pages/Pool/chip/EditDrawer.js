@@ -86,6 +86,9 @@ export default class EditDrawer extends React.Component {
           <Form.Item prop="prestartNum" label="预启动数量">
             <InputNumber placeholder="" />
           </Form.Item>
+          <Form.Item prop="maxAssignedVmsPerUser" label="用户最多虚拟机数">
+            <InputNumber placeholder="" />
+          </Form.Item>
           <Form.Item prop="description" label="描述">
             <TextArea placeholder="" />
           </Form.Item>

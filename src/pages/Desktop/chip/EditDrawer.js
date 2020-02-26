@@ -1,10 +1,11 @@
 import React from 'react'
-import { Form, Input, InputNumber, Button } from 'antd'
+import { Form, Input, Button } from 'antd'
 import Drawerx from '@/components/Drawerx'
 import Formx from '@/components/Formx'
 import Title, { Diliver } from '@/components/Title'
 import Radiox from '@/components/Radiox'
-import { usbOptions, memoryOptions, cpuOptions } from '@/utils/formOptions'
+import Checkboxx from '@/components/Checkboxx'
+import { memoryOptions, cpuOptions } from '@/utils/formOptions'
 import desktopsApi from '@/services/desktops'
 
 const { TextArea } = Input
@@ -31,7 +32,7 @@ export default class EditDrawer extends React.Component {
         const { data } = res
         const { network } = data
         const networkFix = network.map(
-          item => `${item.kind}&${item.name}&${item.kindid}`
+          item => `${item.kind}&${item.name}&${item.kindId}`
         )
         this.setState({ templateName: data.templateName })
         this.drawer.form.setFieldsValue({ ...data, network: networkFix })
@@ -59,7 +60,7 @@ export default class EditDrawer extends React.Component {
         const network = res.data.records
         const networkOptions = network.map(item => ({
           label: `${item.kind}/${item.name}`,
-          value: `${item.kind}&${item.name}&${item.kindid}`
+          value: `${item.kind}&${item.name}&${item.kindId}`
         }))
         this.setState({ networkOptions, networkLoading: false })
       })
@@ -73,8 +74,8 @@ export default class EditDrawer extends React.Component {
     const { network } = values
     // TODO 是否是新增 删除 还是直接 传入桌面是单个还是批量
     const networkFix = network.map(item => {
-      const [kind, name, kindid] = item.split('&')
-      return { kind, name, kindid }
+      const [kind, name, kindId] = item.split('&')
+      return { kind, name, kindId }
     })
     desktopsApi
       .editVm({ ...values, network: networkFix })
@@ -123,7 +124,7 @@ export default class EditDrawer extends React.Component {
           <Diliver />
           <Title slot="网络设置"></Title>
           <Form.Item prop="network" label="网络">
-            <Radiox
+            <Checkboxx
               getData={this.getNetwork}
               options={this.state.networkOptions}
               loading={this.state.networkLoading}

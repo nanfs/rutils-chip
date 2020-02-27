@@ -104,7 +104,7 @@ export default class DetailDrawer extends React.Component {
           </Row>
           <Row className="dms-detail-row">
             <Col span={3} className="dms-detail-label">
-              用户组：
+              组织：
             </Col>
             <Col span={8} className="dms-detail-value">
               <Tooltip title={initValues.groupName}>
@@ -140,7 +140,7 @@ export default class DetailDrawer extends React.Component {
           </Row>
           <Row className="dms-detail-row">
             <Col span={3} className="dms-detail-label">
-              桌面数量：
+              已分配桌面数量：
             </Col>
             <Col span={8} className="dms-detail-value">
               <Tooltip title={initValues.vmcount}>
@@ -148,7 +148,7 @@ export default class DetailDrawer extends React.Component {
               </Tooltip>
             </Col>
             <Col span={3} className="dms-detail-label">
-              终端数量：
+              已分配终端数量：
             </Col>
             <Col span={8} className="dms-detail-value">
               <Tooltip title={initValues.tccount}>

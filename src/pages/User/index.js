@@ -308,7 +308,10 @@ export default class User extends React.Component {
   }
 
   render() {
-    const searchOptions = [{ label: '用户名', value: 'username' }]
+    const searchOptions = [
+      { label: '用户名', value: 'username' },
+      { label: '姓名', value: 'name' }
+    ]
     const {
       inputValue,
       treeData,

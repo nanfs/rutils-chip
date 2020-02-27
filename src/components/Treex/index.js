@@ -188,6 +188,7 @@ export default class Treex extends React.Component {
     })
   }
 
+  // 树节点筛选
   onChange = e => {
     const { value } = e.target
     const { nodes, nodeList } = this.state
@@ -207,11 +208,12 @@ export default class Treex extends React.Component {
     })
   }
 
+  // 树节点选中
   onSelect = (key, node) => {
     const { onSelect } = this.props
-    onSelect && onSelect(key, node)
+    onSelect && onSelect(node.props.eventKey, node)
     this.setState({
-      selectedKeys: key
+      selectedKeys: node.props.eventKey
     })
   }
 

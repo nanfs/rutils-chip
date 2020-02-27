@@ -69,6 +69,9 @@ export default class EditDrawer extends React.Component {
           <Form.Item label="模板">
             <Button>{this.state.templateName}</Button>
           </Form.Item>
+          <Form.Item prop="templateId" label="模板id" hidden>
+            <Input placeholder="模板" />
+          </Form.Item>
           <Form.Item prop="manageType" label="管理类型">
             <Radiox options={manageTypeOptions} />
           </Form.Item>

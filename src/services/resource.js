@@ -7,7 +7,10 @@ export default {
     return axios({
       url: '/resource/computing',
       method: 'get',
-      params: data
+      params: data,
+      paramsSerializer: params => {
+        return qs.stringify(params, { arrayFormat: 'indices' })
+      }
     })
   },
   // 存储资源列表
@@ -15,7 +18,10 @@ export default {
     return axios({
       url: '/resource/storage',
       method: 'get',
-      params: data
+      params: data,
+      paramsSerializer: params => {
+        return qs.stringify(params, { arrayFormat: 'indices' })
+      }
     })
   }
 }

@@ -72,9 +72,9 @@ export const hostStatusRender = status => {
   }
   return (
     <MyIcon
-      type={statusList[status] || 'host-unassigned'}
+      type={statusList[status]}
       component="svg"
-      title={hostStatusText[statusList[status]]}
+      title={hostStatusText[statusList[status]] || 'null'}
       style={{ fontSize: '18px' }}
     />
   )
@@ -106,9 +106,9 @@ export const storageStatusRender = status => {
   }
   return (
     <MyIcon
-      type={statusList[status] || 'storage--unknown-copy'}
+      type={statusList[status]}
       component="svg"
-      title={storageStatusText[statusList[status]]}
+      title={storageStatusText[statusList[status]] || 'null'}
       style={{ fontSize: '18px' }}
     />
   )
@@ -169,8 +169,8 @@ export const vmStatusRender = status => {
   }
   return (
     <MyIcon
-      type={statusList[status] || 'vm-unassigned'}
-      title={vmStatusText[statusList[status]]}
+      type={statusList[status]}
+      title={vmStatusText[statusList[status]] || 'null'}
       component="svg"
       style={{ fontSize: '18px' }}
     />

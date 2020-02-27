@@ -14,6 +14,7 @@ export default class Resource extends React.Component {
   state = {
     tableCfgSave: createTableCfg({
       columns: columnsSave,
+      rowKey: record => `${record.id}+ ${record.storagePoolName}`,
       apiMethod: apiMethodSave,
       expandedRowRender: false,
       hasRowSelection: false,
@@ -29,6 +30,7 @@ export default class Resource extends React.Component {
       produce(draft => {
         draft.tableCfgSave.searchs = {
           // ...draft.tableCfgSave.searchs,
+          status: draft.tableCfgCompute.searchs.status,
           ...searchs
         }
       }),
@@ -37,11 +39,15 @@ export default class Resource extends React.Component {
   }
 
   onTableChange = (a, filter) => {
+    const statusList = []
+    filter.status.forEach(function(v, i) {
+      statusList.push(...v)
+    })
     this.setState(
       produce(draft => {
         draft.tableCfgSave.searchs = {
           ...draft.tableCfgSave.searchs,
-          ...filter
+          status: statusList
         }
       }),
       () => this.tablexSave.refresh(this.state.tableCfgSave)

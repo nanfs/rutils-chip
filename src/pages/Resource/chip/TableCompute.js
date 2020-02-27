@@ -29,6 +29,7 @@ export default class Resource extends React.Component {
       produce(draft => {
         draft.tableCfgCompute.searchs = {
           // ...draft.tableCfgCompute.searchs,
+          status: draft.tableCfgCompute.searchs.status,
           ...searchs
         }
       }),
@@ -37,11 +38,15 @@ export default class Resource extends React.Component {
   }
 
   onTableChange = (a, filter) => {
+    const statusList = []
+    filter.status.forEach(function(v, i) {
+      statusList.push(...v)
+    })
     this.setState(
       produce(draft => {
         draft.tableCfgCompute.searchs = {
           ...draft.tableCfgCompute.searchs,
-          ...filter
+          status: statusList
         }
       }),
       () => this.tablexCompute.refresh(this.state.tableCfgCompute)

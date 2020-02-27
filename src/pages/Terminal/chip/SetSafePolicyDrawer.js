@@ -59,6 +59,7 @@ export default class SetSafePolicyDrawer extends React.Component {
     this.setState(
       produce(draft => {
         draft.totalSelection = newSelection
+        draft.switchDisable = newSelection.length > 0 // 当清空已选择时，打开开关
         draft.tableCfg = {
           ...draft.tableCfg,
           selection: newSelection
@@ -105,9 +106,7 @@ export default class SetSafePolicyDrawer extends React.Component {
             item => `${item.id}&${item.name}`
           )
           const switchStatus =
-            safePolicys.length > 0
-              ? safePolicys[0].usagePeripherals === '1'
-              : true
+            safePolicys.length > 0 ? safePolicys[0].usbSupport === '1' : true
           this.setState(
             produce(draft => {
               draft.totalSelection = totalSelection

@@ -38,10 +38,11 @@ export default {
     })
   },
   editVm(data) {
+    const { id, ...values } = data
     return axios({
-      url: '/desktops',
+      url: `/desktops/${id}`,
       method: 'post',
-      data: qs.stringify(data)
+      data: qs.stringify(values, { arrayFormat: 'indices', allowDots: true })
     })
   },
   getTemplate(data) {

@@ -37,7 +37,7 @@ export default class EditDrawer extends React.Component {
           templateName: data.templateName,
           clusterId: data.clusterId
         })
-        this.drawer.form.setFieldsValue({ ...data, network: networkFix })
+        this.drawer.form.setFieldsValue({ ...data, id, network: networkFix })
 
         this.getNetwork()
         console.log(res)
@@ -101,6 +101,12 @@ export default class EditDrawer extends React.Component {
       >
         <Formx>
           <Title slot="基础设置"></Title>
+          <Form.Item prop="id" hidden>
+            <Input placeholder="id" />
+          </Form.Item>
+          <Form.Item prop="cpuNum" hidden>
+            <Input placeholder="cpuNum" />
+          </Form.Item>
           <Form.Item prop="name" label="桌面名称">
             <Input placeholder="桌面名称" />
           </Form.Item>

@@ -116,6 +116,11 @@ class Tablex extends React.Component {
     return new Promise(resolve => {
       wrapResponse(res)
         .then(() => {
+          // 页码超出 显示最大
+          if (res.data.current > res.data.pages) {
+            const { size } = this.state.paging
+            return this.pageChange(res.data.pages, size)
+          }
           this.setState({
             loading: false,
             data: res.data.data

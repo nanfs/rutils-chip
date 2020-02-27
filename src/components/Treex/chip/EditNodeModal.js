@@ -15,15 +15,17 @@ export default class EditNodeModal extends React.Component {
   }
 
   onOk = values => {
-    const { editNodeApiMethod, nodeValues, addNodeSuccess } = this.props
+    const { editNodeApiMethod, nodeValues, editNodeSuccess } = this.props
+    const parentId =
+      nodeValues.parentId === '-1' ? null : parseInt(nodeValues.parentId, 10)
     editNodeApiMethod({
       ...values,
       id: parseInt(nodeValues.id, 10),
-      parentId: parseInt(nodeValues.parentId, 10)
+      parentId
     })
       .then(res => {
         if (res.success) {
-          addNodeSuccess && addNodeSuccess()
+          editNodeSuccess && editNodeSuccess()
         } else {
           // this.nodes = []
         }

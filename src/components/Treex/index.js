@@ -56,7 +56,8 @@ export default class Treex extends React.Component {
       id: '',
       categoryName: ''
     },
-    rightMenuStyle: { display: 'none' }
+    rightMenuStyle: { display: 'none' },
+    nodeDeleteDisable: false
   }
 
   componentDidMount() {
@@ -131,17 +132,13 @@ export default class Treex extends React.Component {
               id: element.id.toString(),
               value: element.id.toString(),
               parentId:
-                element.parentId === null
-                  ? element.parentId
-                  : element.parentId.toString()
+                element.parentId === null ? '-1' : element.parentId.toString()
             }
           })
           nodes.sort((a, b) => {
-            if (a.parentId === null && b.parentId !== null) {
-              return -1
-            }
             return a.parentId - b.parentId
           })
+
           if (!Array.isArray(nodes) || !Object.keys(nodes[0]).includes('key')) {
             throw new Error('数据格式不符合')
           }
@@ -280,6 +277,7 @@ export default class Treex extends React.Component {
   onRightClick = e => {
     console.log(e)
     // e.event.preventDefault()
+    const nodeDeleteDisable = e.node.props.parentId === '-1'
     e.event.stopPropagation()
     this.setState({
       rightClickNodeTreeItem: {
@@ -293,8 +291,10 @@ export default class Treex extends React.Component {
         position: 'absolute',
         left: `${e.event.pageX - 230}px`,
         top: `${e.event.pageY - 115}px`,
-        display: 'block'
-      }
+        display: 'block',
+        zIndex: 1001
+      },
+      nodeDeleteDisable
     })
   }
 
@@ -379,7 +379,11 @@ export default class Treex extends React.Component {
               >
                 修改
               </Menu.Item>
-              <Menu.Item key="deleteNode" onClick={this.deleteNode}>
+              <Menu.Item
+                key="deleteNode"
+                onClick={this.deleteNode}
+                disabled={this.state.nodeDeleteDisable}
+              >
                 删除
               </Menu.Item>
             </Menu>

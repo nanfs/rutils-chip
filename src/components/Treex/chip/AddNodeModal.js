@@ -18,8 +18,7 @@ export default class AddNodeModal extends React.Component {
     const { addNodeApiMethod, nodeValues, addNodeSuccess } = this.props
     addNodeApiMethod({
       ...values,
-      parentId:
-        nodeValues.id === null ? nodeValues.id : parseInt(nodeValues.id, 10)
+      parentId: nodeValues.id === '-1' ? null : parseInt(nodeValues.id, 10)
     })
       .then(res => {
         if (res.success) {

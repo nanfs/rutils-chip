@@ -37,7 +37,7 @@ export default {
     })
   },
   editPool(data) {
-    const { poolId, values } = data
+    const { poolId, ...values } = data
     return axios({
       url: `/pools/${poolId}`,
       method: 'post',

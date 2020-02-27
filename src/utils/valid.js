@@ -62,7 +62,7 @@ export function textRange(min = 0, max) {
 
 export function checkEmail(rule, value, callback) {
   const re = new RegExp('^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\\.[a-zA-Z0-9-]+)$')
-  if (!value && !re.test(value)) {
+  if (value && !re.test(value)) {
     callback(new Error('邮箱格式错误'))
   }
   callback()
@@ -71,10 +71,10 @@ export function checkEmail(rule, value, callback) {
 export function checkName(rule, value, callback) {
   console.log('checkName', value)
   const re = new RegExp('^[\u4e00-\u9fffa-zA-Z\\d\\.\\-_]*$')
-  if (!value && !re.test(value)) {
+  if (value && !re.test(value)) {
     callback(new Error('请填写中文、字母、数字、"."、"-"、"_"'))
   }
-  if (!value && value.length > 40) {
+  if (value && value.length > 40) {
     callback(new Error('输入名称长度限定最多40个字符'))
   }
   callback()

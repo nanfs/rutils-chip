@@ -47,6 +47,12 @@ export default class Desktop extends React.Component {
           onClick={this.sendOrder.bind(this, record.id, 'poweroff')}
         />
         <MyIcon
+          type="order-paused"
+          title="暂停"
+          disabled={record.status !== 1}
+          onClick={this.sendOrder.bind(this, record.id, 'paused')}
+        />
+        <MyIcon
           type="vm-rebootinprogress"
           title="重启"
           disabled={record.status === 10}

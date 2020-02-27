@@ -160,7 +160,6 @@ class Drawerx extends React.Component {
         placement="right"
         visible={this.state.show}
         onClose={this.onClose}
-        destroyOnClose={this.props.destroyOnClose}
         title={title}
         style={{ position: 'absolute' }}
         className="drawerx"

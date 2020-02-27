@@ -22,7 +22,7 @@ export default class EditDrawer extends React.Component {
   }
 
   setValues = () => {
-    const { id, name, usagePeripherals, description, usbs } = this.state
+    const { id, name, usageFix, description, usbs } = this.state
     const usbsObj = {}
     usbs.forEach((item, index) => {
       usbsObj[`usbname[${index}]`] = item.name
@@ -32,7 +32,7 @@ export default class EditDrawer extends React.Component {
     this.drawer.form.setFieldsValue({
       id,
       name,
-      usagePeripherals: usagePeripherals !== '0',
+      usageFix,
       description,
       ...usbsObj
     })
@@ -40,7 +40,8 @@ export default class EditDrawer extends React.Component {
 
   pop = data => {
     this.drawer.show()
-    console.log('data', data)
+    const { usagePeripherals } = data
+    data.usageFix = usagePeripherals != '0'
     this.setState(data)
   }
 
@@ -63,21 +64,62 @@ export default class EditDrawer extends React.Component {
     const newUsbs = [...usbs.slice(0, k), ...usbs.slice(k + 1)]
     this.setState({
       ...this.state,
+      ...this.drawer.form.getFieldsValue(),
       usbs: newUsbs
     })
   }
 
-  add = () => {
+  add = index => {
     const usbs = this.getUsbs()
+    if (index >= 9) {
+      notification.warn({ message: '特例最多允许添加10条' })
+      return
+    }
+    if (usbs[index].name == '' || usbs[index].name == undefined) {
+      notification.warn({ message: '请完善特例名称' })
+      return
+    }
+    if (usbs[index].vid == '' || usbs[index].vid == undefined) {
+      notification.warn({ message: '请完善特例VendorId' })
+      return
+    }
+    if (usbs[index].pid == '' || usbs[index].pid == undefined) {
+      notification.warn({ message: '请完善特例ProductId' })
+      return
+    }
     this.setState({
       ...this.state,
+      ...this.drawer.form.getFieldsValue(),
       usbs: [...usbs, []]
     })
   }
 
   updateDev = values => {
     const usbs = this.getUsbs()
-    const { id, name, description, usagePeripherals: usageFix } = values
+    if (usbs.length === 1) {
+      if (
+        usbs[0].name == '' ||
+        usbs[0].name == undefined ||
+        usbs[0].vid == '' ||
+        usbs[0].vid == undefined ||
+        usbs[0].pid == '' ||
+        usbs[0].pid == undefined
+      ) {
+        notification.warn({ message: '请至少添加一例特例' })
+        return
+      }
+    } else if (
+      usbs[usbs.length - 1].name == '' ||
+      usbs[usbs.length - 1].name == undefined ||
+      usbs[usbs.length - 1].vid == '' ||
+      usbs[usbs.length - 1].vid == undefined ||
+      usbs[usbs.length - 1].pid == '' ||
+      usbs[usbs.length - 1].pid == undefined
+    ) {
+      notification.warn({ message: '请完善特例' })
+      return
+    }
+    const { id, name, description, usageFix } = values
     const usagePeripherals = usageFix ? '1' : '0'
     deviceApi
       .updateDev({ id, name, description, usagePeripherals, usbs })
@@ -101,12 +143,12 @@ export default class EditDrawer extends React.Component {
             </Form.Item>
           </Col>
           <Col span={7}>
-            <Form.Item prop={`usbpid[${index}]`}>
+            <Form.Item prop={`usbvid[${index}]`}>
               <Input placeholder="VendorId" />
             </Form.Item>
           </Col>
           <Col span={7}>
-            <Form.Item prop={`usbvid[${index}]`}>
+            <Form.Item prop={`usbpid[${index}]`}>
               <Input placeholder="ProductId" />
             </Form.Item>
           </Col>
@@ -121,7 +163,7 @@ export default class EditDrawer extends React.Component {
               <Icon
                 className="dynamic-delete-button"
                 type="plus-circle"
-                onClick={this.add}
+                onClick={() => this.add(index)}
                 style={{ marginLeft: 8 }}
               />
             </Col>
@@ -164,11 +206,11 @@ export default class EditDrawer extends React.Component {
           <Form.Item
             label="USB外设"
             required
-            prop="usagePeripherals"
+            prop="usageFix"
             valuepropname="checked"
           >
             <Switch
-              name="usagePeripherals"
+              name="usageFix"
               checkedChildren="启用"
               unCheckedChildren="禁用"
             />

@@ -35,7 +35,6 @@ export default class SendMessageDrawer extends React.Component {
   handleChange = (a, b, e) => {
     e.persist()
     debounce(() => {
-      console.log(a, b, e.target.value)
       this.setState({
         messageNumber: 500 - e.target.value.length
       })
@@ -55,7 +54,6 @@ export default class SendMessageDrawer extends React.Component {
 
   render() {
     const { messageNumber, selectName, sns } = this.state
-    console.log(messageNumber)
     return (
       <Drawerx
         onRef={ref => {

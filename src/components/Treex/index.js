@@ -67,6 +67,11 @@ export default class Treex extends React.Component {
     this.getTreeData()
   }
 
+  componentWillUnmount() {
+    // document.removeEventListener('contextmenu', this._handleContextMenu)
+    document.removeEventListener('click', this._handleClick)
+  }
+
   getTreeData = () => {
     const { apiMethod, treeRenderSuccess } = this.props
     if (!apiMethod) {

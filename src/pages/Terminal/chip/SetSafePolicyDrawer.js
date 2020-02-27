@@ -4,7 +4,7 @@ import Formx from '@/components/Formx'
 import SelectSearch from '@/components/SelectSearch'
 import { Tag, Switch } from 'antd'
 import Title, { Diliver } from '@/components/Title'
-import { columns, apiMethod } from './SafePolicyTableCfg'
+import { columns, apiMethod } from '@/pages/Device/chip/TableCfg'
 import terminalApi from '@/services/terminal'
 import produce from 'immer'
 import Tablex, {
@@ -27,10 +27,11 @@ export default class SetSafePolicyDrawer extends React.Component {
       apiMethod,
       paging: { size: 5 },
       rowKey: record => `${record.id}&${record.name}`,
-      searchs: { domain: 'internal' },
+      searchs: {},
       pageSizeOptions: ['5', '10']
     }),
-    switchDisable: true
+    switchDisable: true,
+    switchStatus: true
   }
 
   onClose = () => {
@@ -43,10 +44,11 @@ export default class SetSafePolicyDrawer extends React.Component {
           selection: [],
           paging: { size: 5 },
           rowKey: record => `${record.id}&${record.name}`,
-          searchs: { domain: 'internal' },
+          searchs: {},
           pageSizeOptions: ['5', '10']
         }),
-        switchDisable: true
+        switchDisable: true,
+        switchStatus: true
       },
       this.props.onClose()
     )
@@ -71,6 +73,7 @@ export default class SetSafePolicyDrawer extends React.Component {
     this.setState(
       produce(draft => {
         draft.totalSelection = newSelection
+        draft.switchDisable = newSelection.length > 0 // 当清空已选择时，打开开关
         draft.tableCfg = {
           ...draft.tableCfg,
           selection: newSelection
@@ -97,17 +100,26 @@ export default class SetSafePolicyDrawer extends React.Component {
       terminalApi
         .detail(sns[0])
         .then(res => {
-          const { admitPolicys } = res.data
-          const totalSelection = admitPolicys.map(
+          const { safePolicys } = res.data
+          const totalSelection = safePolicys.map(
             item => `${item.id}&${item.name}`
           )
+          const switchStatus =
+            safePolicys.length > 0
+              ? safePolicys[0].usagePeripherals === '1'
+              : true
           this.setState(
             produce(draft => {
               draft.totalSelection = totalSelection
-              draft.switchDisable = true
+              draft.switchDisable = safePolicys.length > 0
+              draft.switchStatus = switchStatus
               draft.tableCfg = {
                 ...draft.tableCfg,
                 selection: totalSelection
+              }
+              draft.tableCfg.searchs = {
+                ...draft.tableCfg.searchs,
+                usagePeripherals: switchStatus ? '1' : '0'
               }
             }),
             () => this.deviceTablex.replace(this.state.tableCfg)
@@ -117,11 +129,17 @@ export default class SetSafePolicyDrawer extends React.Component {
           console.log(e)
         })
     } else {
-      console.log('aaaa')
-      this.setState({
-        switchDisable: false
-      })
-      this.deviceTablex.refresh(this.state.tableCfg)
+      this.setState(
+        produce(draft => {
+          draft.switchDisable = false
+          draft.switchStatus = true
+          draft.tableCfg.searchs = {
+            ...draft.tableCfg.searchs,
+            usagePeripherals: '1'
+          }
+        }),
+        () => this.deviceTablex.replace(this.state.tableCfg)
+      )
     }
     this.drawer.show()
   }
@@ -160,6 +178,19 @@ export default class SetSafePolicyDrawer extends React.Component {
     )
   }
 
+  switchChange = checked => {
+    this.setState(
+      produce(draft => {
+        draft.switchStatus = checked
+        draft.tableCfg.searchs = {
+          ...draft.tableCfg.searchs,
+          usagePeripherals: checked ? '1' : '0'
+        }
+      }),
+      () => this.deviceTablex.replace(this.state.tableCfg)
+    )
+  }
+
   render() {
     // const searchOptions = [{ label: '用户名', value: 'username' }]
     return (
@@ -174,16 +205,17 @@ export default class SetSafePolicyDrawer extends React.Component {
         <Formx>
           <TableWrap>
             <ToolBar>
-              {/* <Switch
+              <Switch
                 name="usagePeripherals"
                 checkedChildren="启用外设"
                 unCheckedChildren="禁用外设"
                 disabled={this.state.switchDisable}
-                checked={this.state.swichStatus}
+                checked={this.state.switchStatus}
+                onChange={this.switchChange}
               />
               <span className="setsafepolicy-tips">
                 只允许设置同一种类型的外设控制策略
-              </span> */}
+              </span>
             </ToolBar>
             <Tablex
               onRef={ref => {

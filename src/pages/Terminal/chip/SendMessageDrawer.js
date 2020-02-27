@@ -12,7 +12,23 @@ export default class SendMessageDrawer extends React.Component {
   }
 
   state = {
-    messageNumber: 0
+    messageNumber: 0,
+    sns: [],
+    selectData: []
+  }
+
+  pop = (sns, selectData) => {
+    this.drawer.show()
+    let selectName = selectData.map(item => {
+      return item.name
+    })
+    selectName = selectName
+      .join('，')
+      .substring(0, selectName.join('，').length - 1)
+    this.setState({
+      sns,
+      selectName
+    })
   }
 
   handleChange = value => {
@@ -34,24 +50,15 @@ export default class SendMessageDrawer extends React.Component {
   }
 
   render() {
-    const { selectData, selection } = this.props
-    const { messageNumber } = this.state
+    const { messageNumber, selectName, sns } = this.state
     console.log(messageNumber)
-    let selectName = selectData.map(item => {
-      return item.name
-    })
-    selectName = selectName
-      .join('，')
-      .substring(0, selectName.join('，').length - 1)
-
-    console.log(selectName)
     return (
       <Drawerx
         onRef={ref => {
           this.drawer = ref
         }}
         onOk={values => {
-          this.sendMessage(values, selection)
+          this.sendMessage(values, sns)
         }}
         onClose={this.props.onClose}
       >

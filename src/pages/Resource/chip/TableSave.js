@@ -14,6 +14,7 @@ export default class Resource extends React.Component {
   state = {
     tableCfgSave: createTableCfg({
       columns: columnsSave,
+      rowKey: record => `${record.id}&${record.storagePoolName}`,
       apiMethod: apiMethodSave,
       expandedRowRender: false,
       hasRowSelection: false,

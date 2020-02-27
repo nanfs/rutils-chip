@@ -5,6 +5,7 @@ import Formx from '@/components/Formx'
 import Title, { Diliver } from '@/components/Title'
 import deviceApi from '@/services/device'
 import '../index.scss'
+import { required, checkName, number4 } from '@/utils/valid'
 
 const { TextArea } = Input
 export default class AddDrawer extends React.Component {
@@ -72,15 +73,15 @@ export default class AddDrawer extends React.Component {
       notification.warn({ message: '特例最多允许添加10条' })
       return
     }
-    if (usbs[index].name == '' || usbs[index].name == undefined) {
+    if (usbs[index].name === '' || usbs[index].name === undefined) {
       notification.warn({ message: '请完善特例名称' })
       return
     }
-    if (usbs[index].vid == '' || usbs[index].vid == undefined) {
+    if (usbs[index].vid === '' || usbs[index].vid === undefined) {
       notification.warn({ message: '请完善特例VendorId' })
       return
     }
-    if (usbs[index].pid == '' || usbs[index].pid == undefined) {
+    if (usbs[index].pid === '' || usbs[index].pid === undefined) {
       notification.warn({ message: '请完善特例ProductId' })
       return
     }
@@ -135,17 +136,17 @@ export default class AddDrawer extends React.Component {
       usbs.map((item, index) => (
         <Row gutter={16} key={index} className="form-item-wrapper">
           <Col span={7}>
-            <Form.Item prop={`usbname[${index}]`}>
+            <Form.Item prop={`usbname[${index}]`} rules={[checkName, required]}>
               <Input placeholder="名称" />
             </Form.Item>
           </Col>
           <Col span={7}>
-            <Form.Item prop={`usbvid[${index}]`}>
+            <Form.Item prop={`usbvid[${index}]`} rules={[number4, required]}>
               <Input placeholder="VendorId" />
             </Form.Item>
           </Col>
           <Col span={7}>
-            <Form.Item prop={`usbpid[${index}]`}>
+            <Form.Item prop={`usbpid[${index}]`} rules={[number4, required]}>
               <Input placeholder="ProductId" />
             </Form.Item>
           </Col>
@@ -197,7 +198,12 @@ export default class AddDrawer extends React.Component {
           <Form.Item prop="id" hidden>
             <Input />
           </Form.Item>
-          <Form.Item prop="name" label="名称" required>
+          <Form.Item
+            prop="name"
+            label="名称"
+            required
+            rules={[checkName, required]}
+          >
             <Input name="name" placeholder="名称" />
           </Form.Item>
           <Form.Item

@@ -62,11 +62,10 @@ class Formx extends React.Component {
       const childNode = getFieldDecorator(
         child.props.prop,
         {
+          rules,
           valuePropName: child.props.valuepropname ? 'checked' : 'value'
         },
-        {
-          rules
-        }
+        {}
       )(
         React.cloneElement(child.props.children, {
           onChange: e => {

@@ -4,6 +4,7 @@ import Drawerx from '@/components/Drawerx'
 import Formx from '@/components/Formx'
 import Title from '@/components/Title'
 import templateApi from '@/services/template'
+import { required, checkName } from '@/utils/valid'
 
 const { TextArea } = Input
 
@@ -59,7 +60,12 @@ export default class EditDrawer extends React.Component {
           <Form.Item prop="id" hidden>
             <Input />
           </Form.Item>
-          <Form.Item prop="name" label="模板名称" required>
+          <Form.Item
+            prop="name"
+            label="模板名称"
+            required
+            rules={[required, checkName]}
+          >
             <Input placeholder="模板名称" />
           </Form.Item>
           <Form.Item prop="parentName" label="父模板">

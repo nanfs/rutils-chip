@@ -11,7 +11,7 @@ import {
 } from '@/utils/formOptions'
 
 import poolsApi from '@/services/pools'
-import { required } from '@/utils/valid'
+import { required, checkName, lessThanValue } from '@/utils/valid'
 
 const { TextArea } = Input
 
@@ -40,6 +40,11 @@ export default class AddDrawer extends React.Component {
 
   pop = () => {
     this.drawer.show()
+    this.drawer.form.setFieldsValue({
+      desktopNum: 1,
+      prestartNum: 0,
+      maxAssignedVmsPerUser: 1
+    })
     this.getTemplate()
   }
 
@@ -84,7 +89,11 @@ export default class AddDrawer extends React.Component {
       >
         <Formx>
           <Title slot="基础设置"></Title>
-          <Form.Item prop="name" label="桌面池名称">
+          <Form.Item
+            prop="name"
+            label="桌面池名称"
+            rules={[required, checkName]}
+          >
             <Input placeholder="桌面名称" />
           </Form.Item>
           <Form.Item prop="templateId" label="模板">
@@ -101,10 +110,14 @@ export default class AddDrawer extends React.Component {
           <Form.Item
             prop="cpuCores"
             label="CPU"
-            rules={[required]}
+            rules={[required, lessThanValue(160)]}
             wrapperCol={{ sm: { span: 16 } }}
           >
-            <Radiox options={cpuOptions} hasInputNumber />
+            <Radiox
+              options={cpuOptions}
+              hasInputNumber
+              numProps={{ min: 1, max: 160 }}
+            />
           </Form.Item>
           <Form.Item
             prop="memory"
@@ -112,21 +125,26 @@ export default class AddDrawer extends React.Component {
             rules={[required]}
             wrapperCol={{ sm: { span: 16 } }}
           >
-            <Radiox options={memoryOptions} hasInputNumber />
+            <Radiox
+              options={memoryOptions}
+              hasInputNumber
+              numProps={{ min: 1, max: 100 }}
+            />
           </Form.Item>
-          {/* <Form.Item prop="usbNum" label="USB数量">
-            <Radiox options={usbOptions} />
-          </Form.Item> */}
-          <Form.Item prop="desktopNum" label="创建数量">
-            <InputNumber placeholder="" />
+          <Form.Item
+            prop="desktopNum"
+            label="创建数量"
+            rules={[required, lessThanValue(20)]}
+          >
+            <InputNumber placeholder="" min={1} max={20} />
           </Form.Item>
 
           <Form.Item
             prop="prestartNum"
             label="预启动数量"
-            rules={[this.compareNum]}
+            rules={[required, this.compareNum]}
           >
-            <InputNumber placeholder="" />
+            <InputNumber placeholder="" min={1} max={20} />
           </Form.Item>
           <Form.Item prop="maxAssignedVmsPerUser" label="用户最大虚拟机数">
             <InputNumber placeholder="" />

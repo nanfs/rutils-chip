@@ -7,6 +7,7 @@ import Radiox from '@/components/Radiox'
 import Checkboxx from '@/components/Checkboxx'
 import { memoryOptions, cpuOptions } from '@/utils/formOptions'
 import desktopsApi from '@/services/desktops'
+import { required, checkName, lessThanValue } from '@/utils/valid'
 
 const { TextArea } = Input
 
@@ -107,7 +108,7 @@ export default class EditDrawer extends React.Component {
           <Form.Item prop="cpuNum" hidden>
             <Input placeholder="cpuNum" />
           </Form.Item>
-          <Form.Item prop="name" label="桌面名称">
+          <Form.Item prop="name" label="桌面名称" rules={[required, checkName]}>
             <Input placeholder="桌面名称" />
           </Form.Item>
           <Form.Item label="模板">
@@ -119,12 +120,25 @@ export default class EditDrawer extends React.Component {
           <Form.Item
             prop="cpuCores"
             label="CPU"
+            rules={[required, lessThanValue(160)]}
             wrapperCol={{ sm: { span: 12 } }}
           >
-            <Radiox options={cpuOptions} hasInputNumber />
+            <Radiox
+              options={cpuOptions}
+              hasInputNumber
+              numProps={{ max: 160, min: 1 }}
+            />
           </Form.Item>
-          <Form.Item prop="memory" label="内存">
-            <Radiox options={memoryOptions} hasInputNumber />
+          <Form.Item
+            prop="memory"
+            label="内存"
+            rules={[required, lessThanValue(100)]}
+          >
+            <Radiox
+              options={memoryOptions}
+              hasInputNumber
+              numProps={{ max: 100, min: 1 }}
+            />
           </Form.Item>
           <Form.Item prop="description" label="描述">
             <TextArea placeholder="" />

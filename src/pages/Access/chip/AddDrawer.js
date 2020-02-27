@@ -8,7 +8,7 @@ import Title, { Diliver } from '@/components/Title'
 import { weekOptions, typeOptions } from '@/utils/formOptions'
 import '../index.scss'
 import accessApi from '@/services/access'
-import { required } from '@/utils/valid'
+import { required, checkName } from '@/utils/valid'
 import moment from 'moment'
 
 const { TextArea } = Input
@@ -75,7 +75,12 @@ export default class AddDrawer extends React.Component {
       >
         <Formx initValues={{ type: 0 }}>
           <Title slot="基础设置"></Title>
-          <Form.Item prop="name" required label="名称" rules={[required]}>
+          <Form.Item
+            prop="name"
+            required
+            label="名称"
+            rules={[required, checkName]}
+          >
             <Input name="name" placeholder="名称" />
           </Form.Item>
           <Form.Item prop="description" label="描述">

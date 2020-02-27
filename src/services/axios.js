@@ -67,7 +67,7 @@ service.interceptors.response.use(
     // localStorage.setItem('cookie', response.headers['set-cookie'])
     if (response.data) {
       if (response.data.code === '203') {
-        console.log(response.data)
+        console.log('203', response.data)
         setUserToLocal({})
         return push('/login')
       }

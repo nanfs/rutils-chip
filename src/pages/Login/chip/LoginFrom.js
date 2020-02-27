@@ -4,6 +4,8 @@ import Formx from '@/components/Formx'
 import loginApi from '@/services/login'
 import { ftInit, getUsbKeyId, getUser } from './ftusbkey'
 import encrypt from './encrypt'
+import { setUserToLocal } from '@/components/Authorized'
+import { required } from '@/utils/valid'
 
 export default class LoginForm extends React.Component {
   constructor(props) {
@@ -67,7 +69,8 @@ export default class LoginForm extends React.Component {
       .login(data)
       .then(res => {
         if (res.success) {
-          this.props.onSuccess(data.username)
+          setUserToLocal(data.username)
+          window.location.hash = 'dashboard'
           message.success('登录成功')
         } else {
           message.error(res.message || '登录失败')
@@ -90,12 +93,7 @@ export default class LoginForm extends React.Component {
       >
         <Form.Item
           prop="username"
-          rules={[
-            {
-              required: true,
-              message: '请输入用户名'
-            }
-          ]}
+          rules={[required]}
           wrapperCol={{ sm: { span: 24 } }}
         >
           <Input

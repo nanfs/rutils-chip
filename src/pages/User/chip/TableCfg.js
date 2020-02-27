@@ -40,7 +40,8 @@ export const columns = [
     title: '状态',
     dataIndex: 'status',
     render: value => {
-      return value === 1 ? (
+      console.log(value)
+      return value === 0 ? (
         <span>
           <Icon
             type="check-circle"
@@ -54,7 +55,7 @@ export const columns = [
               verticalAlign: 'top'
             }}
           >
-            锁定
+            &nbsp;&nbsp;正常
           </span>
         </span>
       ) : (
@@ -63,7 +64,7 @@ export const columns = [
             type="tc-imagelocked"
             component="svg"
             style={{
-              fontSize: '20px'
+              fontSize: '18px'
               // color: value === 0 ? '#ccc' : '#1890ff'
             }}
           />
@@ -74,7 +75,7 @@ export const columns = [
               color: '#e80d0c'
             }}
           >
-            正常
+            &nbsp;锁定
           </span>
         </span>
       )

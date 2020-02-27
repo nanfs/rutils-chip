@@ -1,15 +1,8 @@
 import React, { Component } from 'react'
 import LoginFrom from './chip/LoginFrom'
 import './login.scss'
-import { setUserToLocal } from '@/components/Authorized'
 
 export default class Login extends Component {
-  onSuccess = username => {
-    console.log('username', username)
-    setUserToLocal(username)
-    this.props.history.push('/dashboard')
-  }
-
   render() {
     return (
       <div className="wrap">
@@ -20,7 +13,7 @@ export default class Login extends Component {
           </div>
           <div className="content-right">
             <div className="login-title">安全云桌面管理系统</div>
-            <LoginFrom className="login-form" onSuccess={this.onSuccess} />
+            <LoginFrom className="login-form" />
             <div className="company-info">
               <span className="company-logo"></span>
               <p>

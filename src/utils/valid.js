@@ -14,14 +14,28 @@ export function moreThanValue(min) {
       value !== '' &&
       !Number.isNaN(value * 1.0)
     ) {
-      if (value * 1.0 <= min) {
-        callback(new Error(`值不能小于等于${min}`))
+      if (value * 1.0 < min) {
+        callback(new Error(`值不能小于${min}`))
       }
     }
     callback()
   }
 }
-
+export function lessThanValue(max) {
+  return (rule, value, callback) => {
+    if (
+      value !== undefined &&
+      value !== null &&
+      value !== '' &&
+      !Number.isNaN(value * 1.0)
+    ) {
+      if (value * 1.0 > max) {
+        callback(new Error(`值不能大于${max}`))
+      }
+    }
+    callback()
+  }
+}
 export function minLength(min) {
   return (rule, value, callback) => {
     if (value !== undefined && value !== null && value !== '') {
@@ -46,7 +60,7 @@ export function textRange(min = 0, max) {
   }
 }
 
-export function email(rule, value, callback) {
+export function checkEmail(rule, value, callback) {
   const re = new RegExp('^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\\.[a-zA-Z0-9-]+)$')
   if (!value && !re.test(value)) {
     callback(new Error('邮箱格式错误'))
@@ -54,7 +68,8 @@ export function email(rule, value, callback) {
   callback()
 }
 
-export function name(rule, value, callback) {
+export function checkName(rule, value, callback) {
+  console.log('checkName', value)
   const re = new RegExp('^[\u4e00-\u9fffa-zA-Z\\d\\.\\-_]*$')
   if (!value && !re.test(value)) {
     callback(new Error('请填写中文、字母、数字、"."、"-"、"_"'))

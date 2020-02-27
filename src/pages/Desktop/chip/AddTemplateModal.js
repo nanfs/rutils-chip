@@ -3,6 +3,7 @@ import Modalx, { createModalCfg } from '@/components/Modalx'
 import Formx from '@/components/Formx'
 import { Form, Input } from 'antd'
 import templateApi from '@/services/template'
+import { required } from '@/utils/valid'
 
 const { TextArea } = Input
 
@@ -43,7 +44,7 @@ export default class AddTemplateModal extends React.Component {
           <Form.Item prop="vmId" label="模板名称" hidden>
             <Input />
           </Form.Item>
-          <Form.Item prop="templateName" label="模板名称">
+          <Form.Item prop="templateName" label="模板名称" rules={[required]}>
             <Input placeholder="模板名称"></Input>
           </Form.Item>
           <Form.Item prop="description" label="描述">

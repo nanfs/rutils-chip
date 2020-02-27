@@ -6,16 +6,32 @@ import Title from '@/components/Title'
 import Radiox from '@/components/Radiox'
 import { manageTypeOptions } from '@/utils/formOptions'
 import poolsApi from '@/services/pools'
+import { required, checkName, lessThanValue } from '@/utils/valid'
 
 const { TextArea } = Input
 
 export default class EditDrawer extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      templateOption: [],
-      clusterOptions: []
+  state = {
+    templateOption: [],
+    clusterOptions: []
+  }
+
+  less20 = (rule, value, callback) => {
+    const desktopNum = this.drawer.form.getFieldValue('desktopNum')
+    if (desktopNum + value > 20) {
+      callback(new Error('池最多包含20台虚拟机'))
     }
+    callback()
+  }
+
+  compareTotal = (rule, value, callback) => {
+    const desktopNum = this.drawer.form.getFieldValue('desktopNum')
+    const editDesktopNum = this.drawer.form.getFieldValue('editDesktopNum')
+    const currentTotal = desktopNum + editDesktopNum
+    if (value > currentTotal) {
+      callback(new Error('应该不大于桌面池总数'))
+    }
+    callback()
   }
 
   componentDidMount() {
@@ -63,7 +79,11 @@ export default class EditDrawer extends React.Component {
       >
         <Formx>
           <Title slot="基础设置"></Title>
-          <Form.Item prop="name" label="桌面池名称">
+          <Form.Item
+            prop="name"
+            label="桌面池名称"
+            rules={[required, checkName]}
+          >
             <Input placeholder="桌面名称" />
           </Form.Item>
           <Form.Item label="模板">
@@ -75,13 +95,28 @@ export default class EditDrawer extends React.Component {
           <Form.Item prop="manageType" label="管理类型">
             <Radiox options={manageTypeOptions} />
           </Form.Item>
-          <Form.Item prop="desktopNum" label="增加数量">
+          <Form.Item prop="desktopNum" hidden>
             <InputNumber placeholder="" />
           </Form.Item>
-          <Form.Item prop="prestartNum" label="预启动数量">
-            <InputNumber placeholder="" />
+          <Form.Item
+            prop="editDesktopNum"
+            label="增加数量"
+            rules={[this.less20]}
+          >
+            <InputNumber placeholder="" min={0} max={20} />
           </Form.Item>
-          <Form.Item prop="maxAssignedVmsPerUser" label="用户最大虚拟机数">
+          <Form.Item
+            prop="prestartNum"
+            label="预启动数量"
+            rules={[this.compareTotal]}
+          >
+            <InputNumber placeholder="" min={1} max={20} />
+          </Form.Item>
+          <Form.Item
+            prop="maxAssignedVmsPerUser"
+            label="用户最大虚拟机数"
+            rules={[this.compareTotal]}
+          >
             <InputNumber placeholder="" />
           </Form.Item>
           <Form.Item prop="description" label="描述">

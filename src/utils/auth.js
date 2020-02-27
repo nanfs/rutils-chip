@@ -25,7 +25,7 @@ const reloadAuthorized = () => {
 
 function setUserToLocal(user) {
   user = user || {}
-  return sessionStorage.setItem('d-user', JSON.stringify(user))
+  sessionStorage.setItem('d-user', JSON.stringify(user))
 }
 
 reloadAuthorized()

@@ -5,6 +5,7 @@ import Formx from '@/components/Formx'
 import Title, { Diliver } from '@/components/Title'
 import deviceApi from '@/services/device'
 import '../index.scss'
+import { required, checkName, number4 } from '../../../utils/valid'
 
 const { TextArea } = Input
 
@@ -138,17 +139,17 @@ export default class EditDrawer extends React.Component {
       usbs.map((item, index) => (
         <Row gutter={16} key={index} className="form-item-wrapper">
           <Col span={7}>
-            <Form.Item prop={`usbname[${index}]`}>
+            <Form.Item prop={`usbname[${index}]`} rules={[required, checkName]}>
               <Input placeholder="名称" />
             </Form.Item>
           </Col>
           <Col span={7}>
-            <Form.Item prop={`usbvid[${index}]`}>
+            <Form.Item prop={`usbvid[${index}]`} rules={[required, number4]}>
               <Input placeholder="VendorId" />
             </Form.Item>
           </Col>
           <Col span={7}>
-            <Form.Item prop={`usbpid[${index}]`}>
+            <Form.Item prop={`usbpid[${index}]`} rules={[required, number4]}>
               <Input placeholder="ProductId" />
             </Form.Item>
           </Col>
@@ -200,7 +201,12 @@ export default class EditDrawer extends React.Component {
           <Form.Item prop="id" hidden>
             <Input />
           </Form.Item>
-          <Form.Item prop="name" label="名称" required>
+          <Form.Item
+            prop="name"
+            label="名称"
+            required
+            rules={[checkName, required]}
+          >
             <Input name="name" placeholder="名称" />
           </Form.Item>
           <Form.Item

@@ -62,7 +62,7 @@ export default class Radiox extends React.Component {
   }
 
   render() {
-    const { className, hasInputNumber, loading, getData } = this.props
+    const { className, hasInputNumber, loading, getData, numProps } = this.props
     const { options, expand } = this.state
     const cls = classnames(className, 'radiox', getData && 'has-fresh')
     return (
@@ -75,6 +75,8 @@ export default class Radiox extends React.Component {
         {hasInputNumber && (
           <InputNumber
             placeholder=""
+            min={numProps.min}
+            max={numProps.max}
             onChange={this.handleChange}
             value={this.state.value}
           />

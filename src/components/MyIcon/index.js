@@ -13,7 +13,8 @@ function onClick(props) {
   }
 }
 function MyIcon(props) {
-  const { prefixCls, type, spin, component, title, className, ...other } = props
+  const { prefixCls, spin, component, title, className, ...other } = props
+  const type = props.type || 'vm-unknown'
   const classes = {
     [`icon-${type}`]: type,
     'v-icon-spin': !!spin

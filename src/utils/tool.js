@@ -209,3 +209,14 @@ export function downloadVV(flow, name) {
   window.URL.revokeObjectURL(objUrl)
   aLink.setAttribute('download', name)
 }
+
+// 防抖动函数
+export function debounce(fn, wait) {
+  let timer = null
+  return function() {
+    if (timer !== null) {
+      clearTimeout(timer)
+    }
+    timer = setTimeout(fn, wait)
+  }
+}

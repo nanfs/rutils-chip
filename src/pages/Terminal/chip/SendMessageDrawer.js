@@ -3,6 +3,7 @@ import { Form, Input, notification, message } from 'antd'
 import Drawerx from '@/components/Drawerx'
 import Formx from '@/components/Formx'
 import terminalApi from '@/services/terminal'
+import debounce from 'lodash.debounce'
 
 const { TextArea } = Input
 
@@ -12,7 +13,7 @@ export default class SendMessageDrawer extends React.Component {
   }
 
   state = {
-    messageNumber: 0,
+    messageNumber: 500,
     sns: [],
     selectData: []
   }
@@ -31,11 +32,14 @@ export default class SendMessageDrawer extends React.Component {
     })
   }
 
-  handleChange = value => {
-    console.log(value)
-    /* this.setState({
-      messageNumber: value.length
-    }) */
+  handleChange = (a, b, e) => {
+    e.persist()
+    debounce(() => {
+      console.log(a, b, e.target.value)
+      this.setState({
+        messageNumber: 500 - e.target.value.length
+      })
+    }, 1000)()
   }
 
   sendMessage = (values, sns) => {
@@ -72,7 +76,10 @@ export default class SendMessageDrawer extends React.Component {
           </div>
           <div className="terminal-sendmessage-tips">
             温馨提示：文本内容不得超过500字。您还可以输入
-            <span className="terminal-sendmessage-tips-num">200</span>字！
+            <span className="terminal-sendmessage-tips-num">
+              {messageNumber}
+            </span>
+            字！
           </div>
 
           <Form.Item

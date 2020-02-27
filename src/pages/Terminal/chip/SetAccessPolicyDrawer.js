@@ -27,7 +27,7 @@ export default class SetSafePolicyDrawer extends React.Component {
       apiMethod,
       paging: { size: 5 },
       rowKey: record => `${record.id}&${record.name}`,
-      searchs: { domain: 'internal' },
+      searchs: {},
       pageSizeOptions: ['5', '10']
     })
   }
@@ -41,7 +41,7 @@ export default class SetSafePolicyDrawer extends React.Component {
         selection: [],
         paging: { size: 5 },
         rowKey: record => `${record.id}&${record.name}`,
-        searchs: { domain: 'internal' },
+        searchs: {},
         pageSizeOptions: ['5', '10']
       })
     })

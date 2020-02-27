@@ -54,6 +54,7 @@ export default class DonutChart extends React.Component {
             position="right-center"
             offsetX={50}
             offsetY={10}
+            clickable={false}
             textStyle={{
               fill: '#404040', // 文本的颜色
               fontSize: '14' // 文本大小

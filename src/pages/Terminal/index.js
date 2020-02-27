@@ -42,12 +42,18 @@ export default class Termina extends React.Component {
     render: (text, record) => (
       <div>
         <MyIcon
+          type="tc-connecting"
+          title="允许接入"
+          // disabled={record}
+          onClick={this.admitAccessTerminal.bind(this, [record.sn])}
+        />
+        <MyIcon
           type="tc-down"
           title="关机"
           // disabled={record}
           onClick={this.sendOrder.bind(this, 'shutdown', [record.sn])}
         />
-        <MyIcon
+        {/* <MyIcon
           type="vm-rebootinprogress"
           title="重启"
           onClick={this.sendOrder.bind(this, 'restart', [record.sn])}
@@ -56,7 +62,7 @@ export default class Termina extends React.Component {
           type="tc-imagelocked"
           title="锁屏"
           onClick={this.sendOrder.bind(this, 'lock', [record.sn])}
-        />
+        /> */}
         <MyIcon
           type="tc-imagelocked"
           title="解锁"
@@ -67,6 +73,11 @@ export default class Termina extends React.Component {
           type="order-setuser"
           title="分配用户"
           onClick={this.setUser.bind(this, [record.id])}
+        />
+        <MyIcon
+          type="order-setuser"
+          title="发送消息"
+          onClick={this.sendMessage.bind(this, [record.id])}
         />
         <Icon
           type="form"
@@ -153,7 +164,11 @@ export default class Termina extends React.Component {
 
   sendMessage = () => {
     this.setState({ inner: '发送消息' })
-    this.sendMessageDrawer.drawer.show()
+    this.sendMessageDrawer.pop(
+      this.tablex.getSelection(),
+      this.state.selectData
+    )
+    // this.sendMessageDrawer.drawer.show()
     this.currentDrawer = this.sendMessageDrawer
   }
 
@@ -234,14 +249,24 @@ export default class Termina extends React.Component {
         ...disbaledButton,
         disabledDelete: true,
         disabledSetUser: true,
-        disabledAdmitAccess: true
+        disabledAdmitAccess: true,
+        disabledShutdown: true
       }
-    }
-    const hasAccessData = selectData.filter(item => item.isReg)
-    if (hasAccessData && hasAccessData.length > 0) {
-      disbaledButton = {
-        ...disbaledButton,
-        disabledAdmitAccess: true
+    } else {
+      const isAccessData = selectData.filter(item => item.isReg)
+      if (isAccessData && isAccessData.length > 0) {
+        disbaledButton = {
+          ...disbaledButton,
+          disabledAdmitAccess: true
+        }
+      }
+
+      const isOffData = selectData.filter(item => !item.status)
+      if (isOffData && isOffData.length > 0) {
+        disbaledButton = {
+          ...disbaledButton,
+          disabledShutdown: true
+        }
       }
     }
 
@@ -271,24 +296,24 @@ export default class Termina extends React.Component {
         >
           查看详情
         </Menu.Item>
-        <Menu.Item
+        {/* <Menu.Item
           key="3"
           onClick={() => this.sendOrder('suspend')}
           disabled={disbaledButton.disabledDelete}
         >
           暂停
-        </Menu.Item>
+        </Menu.Item> */}
         <Menu.Item
           key="4"
           onClick={() => this.sendOrder('lock')}
-          disabled={disbaledButton.disabledDelete}
+          disabled={true}
         >
           锁屏
         </Menu.Item>
         <Menu.Item
           key="5"
           onClick={() => this.sendOrder('unlock')}
-          disabled={disbaledButton.disabledDelete}
+          disabled={true}
         >
           解锁
         </Menu.Item>
@@ -331,18 +356,7 @@ export default class Termina extends React.Component {
               >
                 编辑
               </Button>
-              <Button
-                onClick={this.setUser}
-                disabled={disbaledButton.disabledSetUser}
-              >
-                分配用户
-              </Button>
-              <Button
-                onClick={this.admitAccessTerminal}
-                disabled={disbaledButton.disabledAdmitAccess}
-              >
-                允许接入
-              </Button>
+
               {/* <Button
                 onClick={this.onTerminal}
                 disabled={
@@ -353,15 +367,27 @@ export default class Termina extends React.Component {
               </Button> */}
               <Button
                 onClick={() => this.sendOrder('shutdown')}
-                disabled={disbaledButton.disabledEdit}
+                disabled={disbaledButton.disabledShutdown}
               >
                 关机
               </Button>
               <Button
                 onClick={() => this.sendOrder('restart')}
-                disabled={disbaledButton.disabledEdit}
+                disabled={disbaledButton.disabledShutdown}
               >
                 重启
+              </Button>
+              <Button
+                onClick={this.setUser}
+                disabled={disbaledButton.disabledSetUser}
+              >
+                分配用户
+              </Button>
+              <Button
+                onClick={() => this.admitAccessTerminal()}
+                disabled={disbaledButton.disabledAdmitAccess}
+              >
+                允许接入
               </Button>
               <Dropdown overlay={moreButton}>
                 <Button>

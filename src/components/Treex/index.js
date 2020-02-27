@@ -60,7 +60,7 @@ export default class Treex extends React.Component {
   }
 
   componentDidMount() {
-    document.addEventListener('contextmenu', this._handleContextMenu)
+    // document.addEventListener('contextmenu', this._handleContextMenu)
     document.addEventListener('click', this._handleClick)
 
     this.getTreeData()
@@ -165,13 +165,13 @@ export default class Treex extends React.Component {
       })
   }
 
-  _handleContextMenu = e => {
+  /* _handleContextMenu = e => {
     e.preventDefault()
-    e.stopPropagation()
+    // e.stopPropagation()
     this.setState({
       rightMenuStyle: { display: 'none' }
     })
-  }
+  } */
 
   _handleClick = e => {
     this.setState({
@@ -279,7 +279,7 @@ export default class Treex extends React.Component {
 
   onRightClick = e => {
     console.log(e)
-    e.event.preventDefault()
+    // e.event.preventDefault()
     e.event.stopPropagation()
     this.setState({
       rightClickNodeTreeItem: {

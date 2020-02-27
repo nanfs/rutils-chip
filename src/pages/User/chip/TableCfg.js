@@ -29,11 +29,11 @@ export const columns = [
     dataIndex: 'email'
   }, */
   {
-    title: '桌面数量',
+    title: '已分配桌面数量',
     dataIndex: 'vmcount'
   },
   {
-    title: '终端数量',
+    title: '已分配终端数量',
     dataIndex: 'tccount'
   },
   {

@@ -24,7 +24,7 @@ export default class editDrawer extends React.Component {
       firstname,
       lastname,
       username,
-      passeword,
+      password,
       groupId,
       email
     } = data
@@ -34,7 +34,7 @@ export default class editDrawer extends React.Component {
       firstname,
       lastname,
       username,
-      passeword,
+      password,
       groupId,
       email
     })
@@ -64,7 +64,6 @@ export default class editDrawer extends React.Component {
           this.drawer = ref
         }}
         onOk={values => {
-          console.log(values)
           this.editUser(values)
         }}
         onClose={this.props.onClose}

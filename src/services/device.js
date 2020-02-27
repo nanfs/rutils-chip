@@ -24,11 +24,12 @@ export default {
       data: qs.stringify(data, { arrayFormat: 'indices', allowDots: true })
     })
   },
-  updateDev(id, data) {
+  updateDev(data) {
+    const { id, ...values } = data
     return axios({
       url: `/safepolicys/${id}`,
       method: 'put',
-      data: qs.stringify(data, { arrayFormat: 'indices', allowDots: true })
+      data: qs.stringify(values, { arrayFormat: 'indices', allowDots: true })
     })
   }
 }

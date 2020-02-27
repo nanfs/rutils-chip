@@ -7,102 +7,80 @@ import deviceApi from '@/services/device'
 import '../index.scss'
 
 const { TextArea } = Input
-let num = 100000
 
-class EditDrawer extends React.Component {
+export default class EditDrawer extends React.Component {
+  state = {}
+
   componentDidMount() {
     this.props.onRef && this.props.onRef(this)
   }
 
-  pop = data => {
-    console.log('num', num)
-    this.drawer.show()
-    const { id, name, usagePeripherals, description } = data
+  componentDidUpdate(props, state) {
+    if (JSON.stringify(this.state) !== JSON.stringify(state)) {
+      this.setValues()
+    }
+  }
+
+  setValues = () => {
+    const { id, name, usagePeripherals, description, usbs } = this.state
+    const usbsObj = {}
+    usbs.forEach((item, index) => {
+      usbsObj[`usbname[${index}]`] = item.name
+      usbsObj[`usbpid[${index}]`] = item.pid
+      usbsObj[`usbvid[${index}]`] = item.vid
+    })
     this.drawer.form.setFieldsValue({
       id,
       name,
       usagePeripherals: usagePeripherals !== '0',
-      description
+      description,
+      ...usbsObj
     })
   }
 
+  pop = data => {
+    this.drawer.show()
+    console.log('data', data)
+    this.setState(data)
+  }
+
+  getUsbs = () => {
+    const data = this.drawer.form.getFieldsValue()
+    const { usbname, usbvid, usbpid } = data
+    const usbs = []
+    usbname.forEach((item, index) => {
+      usbs.push({
+        name: usbname[index],
+        vid: usbvid[index],
+        pid: usbpid[index]
+      })
+    })
+    return usbs
+  }
+
   remove = k => {
-    const { form } = this.props
-    // can use data-binding to get
-    const keys = form.getFieldValue('keys')
-
-    if (keys.length === 1) {
-      return
-    }
-
-    // can use data-binding to set
-    form.setFieldsValue({
-      keys: keys.filter(key => key !== k)
+    const usbs = this.getUsbs()
+    const newUsbs = [...usbs.slice(0, k), ...usbs.slice(k + 1)]
+    this.setState({
+      ...this.state,
+      usbs: newUsbs
     })
   }
 
   add = () => {
-    const { form } = this.props
-    // can use data-binding to get
-    const keys = form.getFieldValue('keys')
-    if (keys.length >= 10) {
-      notification.warn({ message: '特例限制最多10条' })
-      return
-    }
-    const n = keys[keys.length - 1]
-    if (
-      !document.getElementById(`names[${n}]`).value ||
-      !document.getElementById(`vids[${n}]`).value ||
-      !document.getElementById(`pids[${n}]`).value
-    ) {
-      notification.error({ message: '请完善外设控制' })
-      return
-    }
-    const nextKeys = keys.concat(num++)
-    // can use data-binding to set
-    // important! notify form to detect changes
-    form.setFieldsValue({
-      keys: nextKeys
+    const usbs = this.getUsbs()
+    this.setState({
+      ...this.state,
+      usbs: [...usbs, []]
     })
   }
 
-  updateSubmit = values => {
-    const { form } = this.props
-    const keys = form.getFieldValue('keys')
-    const usbList = []
-    keys.forEach(function(v, i) {
-      if (
-        document.getElementById(`names[${v}]`).value &&
-        document.getElementById(`vids[${v}]`).value &&
-        document.getElementById(`pids[${v}]`).value
-      ) {
-        usbList.push({
-          name: document.getElementById(`names[${v}]`).value,
-          vid: document.getElementById(`vids[${v}]`).value,
-          pid: document.getElementById(`pids[${v}]`).value
-        })
-      }
-    })
-    if (usbList.length) {
-      values.usbs = usbList
-    }
-    if (
-      values.usagePeripherals == undefined ||
-      values.usagePeripherals == false
-    ) {
-      values.usagePeripherals = '0'
-    } else {
-      values.usagePeripherals = '1'
-    }
-    const { name, usagePeripherals, description, usbs } = values
-    const data = {
-      name,
-      usagePeripherals,
-      description,
-      usbs
-    }
+  updateDev = values => {
+    const usbs = this.getUsbs()
+    const { id, name, description, usagePeripherals: usageFix } = values
+    const usagePeripherals = usageFix ? '1' : '0'
     deviceApi
-      .updateDev(values.id, data)
+      .updateDev({ id, name, description, usagePeripherals, usbs })
       .then(res => {
         this.drawer.afterSubmit(res)
       })
@@ -111,95 +89,70 @@ class EditDrawer extends React.Component {
       })
   }
 
-  // onSuccess = () => {
-  //   const { form } = this.props
-  //   form.setFieldsValue({
-  //     keys: [0],
-  //     'names[0]': '',
-  //     'vids[0]': '',
-  //     'pids[0]': ''
-  //   })
-  //   this.props.onSuccess()
-  // }
-
-  onClose = () => {
-    const { form, initValues } = this.props
-    form.setFieldsValue({ keys: initValues.initKeys })
-    this.props.onClose()
+  renderUsb = () => {
+    const { usbs } = this.state
+    return (
+      usbs &&
+      usbs.map((item, index) => (
+        <Row gutter={16} key={index} className="form-item-wrapper">
+          <Col span={7}>
+            <Form.Item prop={`usbname[${index}]`}>
+              <Input placeholder="名称" />
+            </Form.Item>
+          </Col>
+          <Col span={7}>
+            <Form.Item prop={`usbpid[${index}]`}>
+              <Input placeholder="VendorId" />
+            </Form.Item>
+          </Col>
+          <Col span={7}>
+            <Form.Item prop={`usbvid[${index}]`}>
+              <Input placeholder="ProductId" />
+            </Form.Item>
+          </Col>
+          {index === usbs.length - 1 ? (
+            <Col span={3}>
+              <Icon
+                className="dynamic-delete-button"
+                type="minus-circle-o"
+                disabled={index === 0}
+                onClick={() => this.remove(index)}
+              />
+              <Icon
+                className="dynamic-delete-button"
+                type="plus-circle"
+                onClick={this.add}
+                style={{ marginLeft: 8 }}
+              />
+            </Col>
+          ) : (
+            <Col span={3}>
+              <Icon
+                className="dynamic-delete-button"
+                type="minus-circle-o"
+                onClick={() => this.remove(index)}
+              />
+            </Col>
+          )}
+        </Row>
+      ))
+    )
   }
 
   render() {
-    const { getFieldDecorator, getFieldValue } = this.props.form
-    const { initValues } = this.props
-
-    console.log(initValues, 'initValues')
-    getFieldDecorator('keys', { initialValue: initValues.initKeys || [] })
-    const keys = getFieldValue('keys')
-    console.log('keys', keys)
-    const formItems = keys.map((k, index) => (
-      <Row gutter={16} key={k} className="form-item-wrapper">
-        <Col span={7}>
-          <Form.Item>
-            {getFieldDecorator(`names[${k}]`, {
-              initialValue: initValues.usbs[k] ? initValues.usbs[k].name : ''
-            })(<Input placeholder="名称" />)}
-          </Form.Item>
-        </Col>
-        <Col span={7}>
-          <Form.Item>
-            {getFieldDecorator(`vids[${k}]`, {
-              initialValue: initValues.usbs[k] ? initValues.usbs[k].vid : ''
-            })(<Input placeholder="VendorId" />)}
-          </Form.Item>
-        </Col>
-        <Col span={7}>
-          <Form.Item>
-            {getFieldDecorator(`pids[${k}]`, {
-              initialValue: initValues.usbs[k] ? initValues.usbs[k].pid : ''
-            })(<Input placeholder="ProductId" />)}
-          </Form.Item>
-        </Col>
-        {keys.length > 1 ? (
-          <Col span={3}>
-            <Icon
-              className="dynamic-delete-button"
-              type="minus-circle-o"
-              onClick={() => this.remove(k)}
-            />
-            <Icon
-              className="dynamic-delete-button"
-              type="plus-circle"
-              onClick={this.add}
-              style={{ marginLeft: 8 }}
-            />
-          </Col>
-        ) : (
-          <Col span={3}>
-            <Icon
-              className="dynamic-delete-button"
-              type="plus-circle"
-              onClick={this.add}
-              style={{ marginLeft: 8 }}
-            />
-          </Col>
-        )}
-      </Row>
-    ))
     return (
       <Drawerx
         onRef={ref => {
           this.drawer = ref
         }}
-        destroyOnClose={true}
         onSuccess={this.props.onSuccess}
-        onOk={values => this.updateSubmit(values)}
+        onOk={this.updateDev}
         onClose={this.onClose}
       >
         <Formx
           onRef={ref => {
             this.formx = ref
           }}
-          // initValues={initValues}
         >
           <Title slot="基础设置"></Title>
           <Form.Item prop="id" hidden>
@@ -214,16 +167,11 @@ class EditDrawer extends React.Component {
             prop="usagePeripherals"
             valuepropname="checked"
           >
-            {/* {getFieldDecorator(`usagePeripherals`, {
-              valuePropName: 'checked',
-              initialValue: initValues.usagePeripherals
-            })( */}
             <Switch
               name="usagePeripherals"
               checkedChildren="启用"
               unCheckedChildren="禁用"
             />
-            {/* )} */}
           </Form.Item>
           <Form.Item prop="description" label="描述">
             <TextArea
@@ -246,13 +194,9 @@ class EditDrawer extends React.Component {
               <Form.Item label="ProductId"></Form.Item>
             </Col>
           </Row>
-          {formItems}
+          {this.renderUsb()}
         </Formx>
       </Drawerx>
     )
   }
 }
-
-const WrappedEditDrawer = Form.create()(EditDrawer)
-
-export default WrappedEditDrawer

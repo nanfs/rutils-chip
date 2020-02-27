@@ -76,6 +76,9 @@ export default class editDrawer extends React.Component {
           }}
         >
           <Title slot="基础设置"></Title>
+          <Form.Item prop="id" hidden>
+            <Input />
+          </Form.Item>
           <Form.Item
             prop="domain"
             label="域"

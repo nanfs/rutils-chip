@@ -4,7 +4,7 @@ import Formx from '@/components/Formx'
 import loginApi from '@/services/login'
 import { ftInit, getUsbKeyId, getUser } from './ftusbkey'
 import encrypt from './encrypt'
-import { setUserToLocal } from '@/components/Authorized'
+import { setUserToLocal, reloadAuthorized } from '@/components/Authorized'
 import { required } from '@/utils/valid'
 
 export default class LoginForm extends React.Component {
@@ -46,7 +46,6 @@ export default class LoginForm extends React.Component {
   }
 
   login = values => {
-    console.log('login', values)
     let data = {}
     if (this.state.hasPin) {
       if (!this.checkUsbkey(values.username, values.pincode)) {
@@ -70,6 +69,8 @@ export default class LoginForm extends React.Component {
       .then(res => {
         if (res.success) {
           setUserToLocal(data.username)
+          reloadAuthorized()
+
           window.location.hash = 'dashboard'
           message.success('登录成功')
         } else {

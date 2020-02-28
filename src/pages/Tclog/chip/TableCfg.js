@@ -11,23 +11,23 @@ export const columns = [
   },
   {
     title: '时间',
-    dataIndex: 'datetime'
+    dataIndex: 'logTime'
   },
   {
     title: '信息',
-    dataIndex: 'content'
+    dataIndex: 'message'
   },
   {
     title: '序列号',
-    dataIndex: 'sn'
+    dataIndex: 'tcSn'
   },
   {
     title: '终端IP',
-    dataIndex: 'vip'
+    dataIndex: 'tcIp'
   },
   {
     title: '用户',
-    dataIndex: 'username'
+    dataIndex: 'userName'
   },
   {
     title: '用户IP',

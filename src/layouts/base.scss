@@ -137,10 +137,11 @@ body {
 }
 
 .dms-detail-value {
-  text-align: center;
+  text-align: left;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  text-indent: 44px;
 }
 
 //进度条progress

@@ -125,7 +125,13 @@ export default class AddDrawer extends React.Component {
           >
             <Input placeholder="桌面名称" />
           </Form.Item>
-          <Form.Item prop="templateId" label="模板" requiredrules={[required]}>
+          <Form.Item
+            prop="templateId"
+            label="模板"
+            required
+            rules={[required]}
+            wrapperCol={{ sm: { span: 16 } }}
+          >
             <Radiox
               getData={this.getTemplate}
               options={this.state.templateOptions}

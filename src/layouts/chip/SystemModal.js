@@ -9,7 +9,7 @@ import {
   lessThanValue,
   moreThanValue,
   checkPassword
-} from '../../utils/valid'
+} from '@/utils/valid'
 
 const formItemLayout = {
   labelCol: {
@@ -80,21 +80,17 @@ export default class ConfigModal extends React.Component {
           <Form.Item
             prop="userLoginFailLockTimeThreshold"
             label="登录失败锁定时间"
+            rules={[lessThanValue(60), moreThanValue(1)]}
           >
-            <InputNumber
-              min={1}
-              style={{ width: '100%' }}
-              max={60}
-              rules={[lessThanValue(60), moreThanValue(1)]}
-            />
+            <InputNumber min={1} style={{ width: '100%' }} max={60} />
           </Form.Item>
 
-          <Form.Item prop="tcSwitcherPassword" label="交换机共享密钥">
-            <Input
-              placeholder="交换机共享密钥"
-              type="password"
-              rules={[checkPassword]}
-            />
+          <Form.Item
+            prop="tcSwitcherPassword"
+            label="交换机共享密钥"
+            rules={[checkPassword]}
+          >
+            <Input placeholder="交换机共享密钥" type="password" />
           </Form.Item>
         </Formx>
       </Modalx>

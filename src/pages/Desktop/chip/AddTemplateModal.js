@@ -41,7 +41,7 @@ export default class AddTemplateModal extends React.Component {
         onOk={this.onOk}
       >
         <Formx>
-          <Form.Item prop="vmId" label="模板名称" hidden>
+          <Form.Item prop="vmId" label="模板id" hidden>
             <Input />
           </Form.Item>
           <Form.Item prop="templateName" label="模板名称" rules={[required]}>

@@ -23,9 +23,8 @@ export default class SendMessageDrawer extends React.Component {
     let selectName = selectData.map(item => {
       return item.name
     })
-    selectName = selectName
-      .join('，')
-      .substring(0, selectName.join('，').length - 1)
+    selectName = selectName.join('，')
+    // .substring(0, selectName.join('，').length - 1)
     this.setState({
       sns,
       selectName

@@ -89,7 +89,7 @@ export function sessionTime(rule, value, callback) {
 
 export function number4(rule, value, callback) {
   const re = new RegExp('^[0-9ABCDEF]{4}$')
-  if (!value && !re.test(value)) {
+  if (value && !re.test(value)) {
     callback(new Error('请输入由0-9，ABCDEF组成的4位16进制数'))
   }
   callback()

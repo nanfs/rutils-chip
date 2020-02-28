@@ -41,9 +41,15 @@ export default class EditDrawer extends React.Component {
 
   pop = data => {
     this.drawer.show()
-    const { usagePeripherals } = data
+    const { usagePeripherals, usbs: usbFix } = data
     data.usageFix = usagePeripherals != '0'
-    this.setState(data)
+    console.log(usbFix, usbFix[0], usbFix[0] && !usbFix[0].name)
+    if (!usbFix.length) {
+      usbFix.push({ name: '', vid: '', pid: '' })
+    }
+    console.log(data)
+    console.log({ ...data, usbs: usbFix })
+    this.setState({ ...data, usbs: usbFix })
   }
 
   getUsbs = () => {
@@ -96,7 +102,7 @@ export default class EditDrawer extends React.Component {
   }
 
   updateDev = values => {
-    const usbs = this.getUsbs()
+    let usbs = this.getUsbs()
     if (usbs.length === 1) {
       if (
         usbs[0].name == '' ||
@@ -106,8 +112,9 @@ export default class EditDrawer extends React.Component {
         usbs[0].pid == '' ||
         usbs[0].pid == undefined
       ) {
-        notification.warn({ message: '请至少添加一例特例' })
-        return
+        // notification.warn({ message: '请至少添加一例特例' })
+        // return
+        usbs = undefined
       }
     } else if (
       usbs[usbs.length - 1].name == '' ||
@@ -117,8 +124,9 @@ export default class EditDrawer extends React.Component {
       usbs[usbs.length - 1].pid == '' ||
       usbs[usbs.length - 1].pid == undefined
     ) {
-      notification.warn({ message: '请完善特例' })
-      return
+      // notification.warn({ message: '请完善特例' })
+      // return
+      usbs = usbs.slice(0, usbs.length - 2) // 去掉最后一项
     }
     const { id, name, description, usageFix } = values
     const usagePeripherals = usageFix ? '1' : '0'
@@ -139,17 +147,17 @@ export default class EditDrawer extends React.Component {
       usbs.map((item, index) => (
         <Row gutter={16} key={index} className="form-item-wrapper">
           <Col span={7}>
-            <Form.Item prop={`usbname[${index}]`} rules={[required, checkName]}>
+            <Form.Item prop={`usbname[${index}]`} rules={[checkName]}>
               <Input placeholder="名称" />
             </Form.Item>
           </Col>
           <Col span={7}>
-            <Form.Item prop={`usbvid[${index}]`} rules={[required, number4]}>
+            <Form.Item prop={`usbvid[${index}]`} rules={[number4]}>
               <Input placeholder="VendorId" />
             </Form.Item>
           </Col>
           <Col span={7}>
-            <Form.Item prop={`usbpid[${index}]`} rules={[required, number4]}>
+            <Form.Item prop={`usbpid[${index}]`} rules={[number4]}>
               <Input placeholder="ProductId" />
             </Form.Item>
           </Col>

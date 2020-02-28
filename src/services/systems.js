@@ -2,7 +2,7 @@ import qs from 'qs'
 import axios from './axios'
 
 export default {
-  // 修改密码
+  // 系统设置
   edit(data) {
     return axios({
       url: '/systemsetting',

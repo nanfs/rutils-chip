@@ -35,7 +35,9 @@ export default class DetailDrawer extends React.Component {
       columns: detailDesktopColumns,
       paging: { size: 5 },
       pageSizeOptions: ['5', '10'],
-      hasRowSelection: false
+      hasRowSelection: false,
+
+      rowKey: 'vmname'
     }),
     initValues: {}
   }

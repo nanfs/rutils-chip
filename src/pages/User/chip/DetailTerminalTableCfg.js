@@ -8,7 +8,7 @@ const iconStyle = {
   check: { fontSize: 20, color: '#1789d8' },
   close: { fontSize: 18 }
 }
-export const columns = [
+export const detailTeminalColumns = [
   {
     title: '状态',
     dataIndex: 'status',

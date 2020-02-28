@@ -4,7 +4,7 @@ import { vmStatusRender, osStatusRender } from '@/utils/tableRender'
 import MyIcon from '@/components/MyIcon'
 import { onlineStringTime } from '@/utils/tool'
 // TODO antd 样式加载问题
-export const columns = [
+export const detailDesktopColumns = [
   {
     title: '状态',
     dataIndex: 'status',
@@ -18,15 +18,15 @@ export const columns = [
     render: text => vmStatusRender(text)
   },
   {
-    title: '基本信息',
-    dataIndex: 'name',
-    render: (text, record) => {
+    title: '桌面名称',
+    dataIndex: 'vmname'
+    /* render: (text, record) => {
       return (
         <span>
           {osStatusRender(record.os)} {record.name}
         </span>
       )
-    }
+    } */
   },
   {
     title: 'IP',
@@ -34,10 +34,10 @@ export const columns = [
   },
   {
     title: '控制台',
-    dataIndex: 'isConsole',
+    dataIndex: 'consolestatus',
     width: 100,
     render: (text, record) => {
-      const consoleContent = record.consoleUserName ? (
+      const consoleContent = record.consolestatus ? (
         <div>
           <MyIcon type="tc-connecting" component="svg" />
           <span>已连接</span>{' '}

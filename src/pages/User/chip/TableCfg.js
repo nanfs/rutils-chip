@@ -14,8 +14,8 @@ export const columns = [
     dataIndex: 'name',
     render: (value, record) => {
       return (
-        (record.firstname ? '' : record.firstname) +
-        (record.lastname ? '' : record.lastname)
+        (record.firstname === null ? '' : record.firstname) +
+        (record.lastname === null ? '' : record.lastname)
       )
     }
   },
@@ -33,11 +33,13 @@ export const columns = [
   }, */
   {
     title: '已分配桌面数',
-    dataIndex: 'vmcount'
+    dataIndex: 'vmcount',
+    render: text => <Tag>{text}</Tag>
   },
   {
     title: '已分配终端数',
-    dataIndex: 'tccount'
+    dataIndex: 'tccount',
+    render: text => <Tag>{text}</Tag>
   },
   {
     title: '状态',

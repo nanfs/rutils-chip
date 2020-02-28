@@ -107,7 +107,7 @@ export default class tcLog extends React.Component {
   render() {
     const searchOptions = [
       { label: '信息', value: 'message' },
-      { label: '终端ip', value: 'tcip' },
+      { label: '终端ip', value: 'tcIp' },
       { label: '终端序列号', value: 'tcSn' },
       { label: '终端名称', value: 'tcName' },
       { label: '用户名', value: 'userName' },

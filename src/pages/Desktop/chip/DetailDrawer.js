@@ -28,12 +28,14 @@ export default class DetailDrawer extends React.Component {
   render() {
     const userColums = [
       {
-        title: '姓名',
-        dataIndex: 'name'
+        title: '用户名',
+        width: 200,
+        dataIndex: 'username'
       },
       {
-        title: '用户名',
-        dataIndex: 'username'
+        title: '姓名',
+        width: 200,
+        dataIndex: 'name'
       },
       {
         title: '组',
@@ -118,15 +120,22 @@ export default class DetailDrawer extends React.Component {
             {data.description}
           </Col>
         </Row>
+        <Row className="dms-detail-row"></Row>
         <Diliver />
         <Title slot="所属用户"></Title>
-        <Table columns={userColums} dataSource={data.owner}></Table>
+        <Table
+          columns={userColums}
+          dataSource={data.owner}
+          pagination={{ position: 'none' }}
+        ></Table>
         <Diliver />
         <Title slot="应用程序"></Title>
-        <div>
-          {data.appList &&
-            data.appList.split(',').map(item => <Tag key={item}>{item}</Tag>)}
-        </div>
+        <Row className="dms-detail-row">
+          <div>
+            {data.appList &&
+              data.appList.split(',').map(item => <Tag key={item}>{item}</Tag>)}
+          </div>
+        </Row>
       </Drawerx>
     )
   }

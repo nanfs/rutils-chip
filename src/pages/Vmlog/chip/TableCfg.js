@@ -19,7 +19,7 @@ export const columns = [
   },
   {
     title: 'IP',
-    dataIndex: 'ip'
+    dataIndex: 'userIp'
   },
   {
     title: '用户',

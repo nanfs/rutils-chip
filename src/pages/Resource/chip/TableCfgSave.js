@@ -58,9 +58,13 @@ export const columnsSave = [
               parseFloat(record.availableDiskSize)) *
             100
           }
-          format={() =>
-            `${record.usedDiskSize || 0}G/${record.availableDiskSize || 0}G`
-          }
+          format={() => {
+            if (!record.usedDiskSize || !record.availableDiskSize) {
+              return 'N/A'
+            } else {
+              return `${record.usedDiskSize}G/${record.availableDiskSize}G`
+            }
+          }}
           status={
             record.usedDiskSize !== record.availableDiskSize
               ? 'active'

@@ -29,7 +29,7 @@ export const columns = [
     title: '已绑定终端数',
     width: 150,
     dataIndex: 'boundTcNum',
-    render: text => <Tag color="blue">{text}</Tag>,
+    render: text => <Tag>{text}</Tag>,
     sorter: (a, b) => a.boundTcNum - b.boundTcNum,
     sortDirections: ['descend', 'ascend']
   },

@@ -80,7 +80,7 @@ class Dashboard extends React.Component {
             })
           }
         } else {
-          message.error(res.message || '查询桌面持统计失败')
+          message.error(res.message || '查询桌面池统计失败')
         }
       })
       .catch(errors => {

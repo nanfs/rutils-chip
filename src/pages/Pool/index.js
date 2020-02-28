@@ -33,21 +33,25 @@ export default class Pool extends React.Component {
         <MyIcon
           type="order-down"
           title="关机"
+          disabled={record.status === 0}
           onClick={() => this.sendOrder(record.id, 'shutdown')}
         />
         <MyIcon
           type="order-up"
           title="开机"
+          disabled={record.status === 1}
           onClick={() => this.sendOrder(record.id, 'start')}
         />
         <MyIcon
           type="order-poweroff"
           title="断电"
+          disabled={record.status === 0}
           onClick={() => this.sendOrder(record.id, 'poweroff')}
         />
         <MyIcon
           type="vm-rebootinprogress"
           title="重启"
+          disabled={record.status === 0}
           onClick={() => this.sendOrder(record.id, 'restart')}
         />
         {/* //TODO 缺少接口 */}
@@ -59,6 +63,7 @@ export default class Pool extends React.Component {
         <MyIcon
           type="order-console"
           title="打开控制台"
+          disabled={record.status !== 1}
           onClick={() => this.openConsole(record.name, record.id)}
         />
       </div>
@@ -127,12 +132,27 @@ export default class Pool extends React.Component {
     if (selection.length !== 1) {
       vmDisbaledButton = { ...vmDisbaledButton, disabledEdit: true }
     }
+
     if (selection.length === 0) {
       vmDisbaledButton = {
         ...vmDisbaledButton,
-        disabledDelete: true,
-        disabledSetUser: true
+        disabledDelete: true
       }
+    } else {
+      selectData.forEach(item => {
+        if (item.status === 1) {
+          vmDisbaledButton = {
+            ...vmDisbaledButton,
+            disabledUp: true
+          }
+        }
+        if (item.status === 0) {
+          vmDisbaledButton = {
+            ...vmDisbaledButton,
+            disabledDown: true
+          }
+        }
+      })
     }
     this.setState({ vmDisbaledButton })
   }
@@ -318,6 +338,7 @@ export default class Pool extends React.Component {
                 onClick={() =>
                   this.sendOrder(this.vmTablex.getSelection(), 'start')
                 }
+                disabled={vmDisbaledButton.disabledUp}
               >
                 开机
               </Button>
@@ -325,10 +346,10 @@ export default class Pool extends React.Component {
                 onClick={() =>
                   this.sendOrder(this.vmTablex.getSelection(), 'shutdown')
                 }
+                disabled={vmDisbaledButton.disabledDown}
               >
                 关机
               </Button>
-              {/* <Button onClick={this.getConsole}>打开控制台</Button> */}
               <Button
                 onClick={this.deleteVm}
                 disabled={vmDisbaledButton.disabledDelete}

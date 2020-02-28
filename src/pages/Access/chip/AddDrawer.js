@@ -8,7 +8,7 @@ import Title, { Diliver } from '@/components/Title'
 import { weekOptions, typeOptions } from '@/utils/formOptions'
 import '../index.scss'
 import accessApi from '@/services/access'
-import { required, checkName } from '@/utils/valid'
+import { required, checkName, number5 } from '@/utils/valid'
 import moment from 'moment'
 
 const { TextArea } = Input
@@ -108,7 +108,7 @@ export default class AddDrawer extends React.Component {
           >
             <Input name="name" placeholder="名称" />
           </Form.Item>
-          <Form.Item prop="description" label="描述">
+          <Form.Item prop="description" label="描述" rules={[number5]}>
             <TextArea
               style={{ resize: 'none' }}
               rows={4}

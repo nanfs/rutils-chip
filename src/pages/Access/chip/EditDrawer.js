@@ -9,7 +9,7 @@ import { weekOptions, typeOptions } from '@/utils/formOptions'
 import '../index.scss'
 import moment from 'moment'
 import accessApi from '@/services/access'
-import { required, checkName } from '@/utils/valid'
+import { required, checkName, number5 } from '@/utils/valid'
 
 const { TextArea } = Input
 const { RangePicker } = DatePicker
@@ -146,7 +146,7 @@ export default class EditDrawer extends React.Component {
           >
             <Input name="name" placeholder="名称" />
           </Form.Item>
-          <Form.Item prop="description" label="描述">
+          <Form.Item prop="description" label="描述" rules={[number5]}>
             <TextArea style={{ resize: 'none' }} rows={4} placeholder="描述" />
           </Form.Item>
           <Diliver />

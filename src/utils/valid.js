@@ -134,3 +134,9 @@ export function checkPassword(rule, value, callback) {
   }
   callback()
 }
+export function number5(rule, value, callback) {
+  if (value && value.length > 50) {
+    callback(new Error('输入描述长度限定最多50个字符'))
+  }
+  callback()
+}

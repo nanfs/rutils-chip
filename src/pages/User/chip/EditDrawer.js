@@ -8,8 +8,13 @@ import Selectx from '@/components/Selectx'
 import Title from '@/components/Title'
 
 import userApi from '@/services/user'
-
-const { Option } = Select
+import {
+  required,
+  checkName,
+  textRange,
+  checkPassword,
+  checkEmail
+} from '@/utils/valid'
 
 export default class editDrawer extends React.Component {
   componentDidMount() {
@@ -78,17 +83,8 @@ export default class editDrawer extends React.Component {
           <Form.Item prop="id" hidden>
             <Input />
           </Form.Item>
-          <Form.Item
-            prop="domain"
-            label="域"
-            required
-            rules={[
-              {
-                required: true,
-                message: '请选择域'
-              }
-            ]}
-          >
+          <Form.Item prop="domain" label="域"
+            required rules={[required]}>
             <Selectx
               placeholder="请选择域"
               options={domainlist}
@@ -96,15 +92,10 @@ export default class editDrawer extends React.Component {
             ></Selectx>
           </Form.Item>
           <Form.Item
-            prop="firstname"
+            prop="firstname" 
             label="姓"
             required
-            rules={[
-              {
-                required: true,
-                message: '请填写姓'
-              }
-            ]}
+            rules={[required, checkName, textRange(0, 29)]}
           >
             <Input placeholder="名" />
           </Form.Item>
@@ -112,12 +103,7 @@ export default class editDrawer extends React.Component {
             prop="lastname"
             label="名"
             required
-            rules={[
-              {
-                required: true,
-                message: '请填写名'
-              }
-            ]}
+            rules={[required, checkName, textRange(0, 28)]}
           >
             <Input placeholder="名" />
           </Form.Item>
@@ -125,12 +111,7 @@ export default class editDrawer extends React.Component {
             prop="username"
             label="用户名"
             required
-            rules={[
-              {
-                required: true,
-                message: '请选择用户名'
-              }
-            ]}
+            rules={[required, textRange(0, 20)]}
           >
             <Input placeholder="用户名" disabled />
           </Form.Item>
@@ -138,12 +119,7 @@ export default class editDrawer extends React.Component {
             prop="password"
             label="密码"
             required
-            rules={[
-              {
-                required: true,
-                message: '请填写密码'
-              }
-            ]}
+            rules={[required, checkPassword]}
           >
             <Input
               placeholder="密码"
@@ -151,44 +127,13 @@ export default class editDrawer extends React.Component {
               autoComplete="new-password"
             />
           </Form.Item>
-          <Form.Item
-            prop="groupId"
-            label="组织"
-            required
-            rules={[
-              {
-                required: true,
-                message: '请选择组织'
-              }
-            ]}
-          >
+          <Form.Item prop="groupId" label="组织"
+            required rules={[required]}>
             <TreeSelectx nodeData={nodeData} />
           </Form.Item>
-          <Form.Item
-            prop="email"
-            label="邮件"
-            required
-            rules={[
-              {
-                required: true,
-                message: '请输入邮件'
-              }
-            ]}
-          >
+          <Form.Item prop="email" label="邮件" rules={[checkEmail]}>
             <Input placeholder="邮件" />
           </Form.Item>
-          {/* <Form.Item
-            prop="KEYID"
-            label="KEYID"
-            rules={[
-              {
-                required: true,
-                message: '请输入KEYID'
-              }
-            ]}
-          >
-            <Input placeholder="KEYID" />
-          </Form.Item> */}
         </Formx>
       </Drawerx>
     )

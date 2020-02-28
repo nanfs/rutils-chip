@@ -1,18 +1,12 @@
 import React from 'react'
-import { Form, Input, Slider, InputNumber, Row, Col, Select } from 'antd'
+import { Form, Input, Select } from 'antd'
 import Drawerx from '@/components/Drawerx'
 import Formx from '@/components/Formx'
 import Title from '@/components/Title'
 // import SliderNumber from '@/components/SliderNumber'
 
 import terminalApi from '@/services/terminal'
-import {
-  required,
-  checkName,
-  textRange,
-  checkKeyId,
-  password
-} from '@/utils/valid'
+import { required, checkName, textRange, checkKeyId } from '@/utils/valid'
 
 const { Option } = Select
 const { TextArea } = Input

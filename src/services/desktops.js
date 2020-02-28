@@ -7,7 +7,10 @@ export default {
     return axios({
       url: '/desktops',
       method: 'get',
-      params: data
+      params: data,
+      paramsSerializer: params => {
+        return qs.stringify(params, { arrayFormat: 'indices' })
+      }
     })
   },
   detail(id) {

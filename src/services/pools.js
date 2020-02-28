@@ -58,7 +58,10 @@ export default {
     return axios({
       url: `/pools/${poolId}/desktops`,
       method: 'get',
-      params: rest
+      params: rest,
+      paramsSerializer: params => {
+        return qs.stringify(params, { arrayFormat: 'indices' })
+      }
     })
   }
 }

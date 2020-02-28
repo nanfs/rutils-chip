@@ -86,11 +86,7 @@ export default class ConfigModal extends React.Component {
             <InputNumber min={1} style={{ width: '100%' }} max={60} />
           </Form.Item>
 
-          <Form.Item
-            prop="tcSwitcherPassword"
-            label="交换机共享密钥"
-            rules={[checkPassword]}
-          >
+          <Form.Item prop="tcSwitcherPassword" label="交换机共享密钥">
             <Input placeholder="交换机共享密钥" type="password" />
           </Form.Item>
         </Formx>

@@ -88,16 +88,21 @@ class Drawerx extends React.Component {
     this.setState({
       submitting: true
     })
+    console.log('123123')
     if (form && onOk) {
       // 使用回调
       form
         .validateFieldsAndScroll((errors, values) => {
-          console.log(values)
           if (!errors) {
             onOk(values)
+          } else {
+            this.break()
           }
         })
-        .catch(err => console.log(err))
+        .catch(err => {
+          this.break()
+          console.log(err)
+        })
     } else {
       onOk && onOk()
     }
@@ -125,7 +130,8 @@ class Drawerx extends React.Component {
             <Button
               key="submit"
               type="primary"
-              loading={this.submitting}
+              disabled={this.state.submitting}
+              loading={this.state.submitting}
               onClick={this.submit}
             >
               确定

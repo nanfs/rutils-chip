@@ -161,6 +161,7 @@ class Modalx extends React.Component {
                   key="submit"
                   type="primary"
                   loading={submitting}
+                  disabled={submitting}
                   onClick={this.submit}
                 >
                   {modalCfg.okText}

@@ -17,17 +17,17 @@ export default class EditDrawer extends React.Component {
   }
 
   less20 = (rule, value, callback) => {
-    const desktopNum = this.drawer.form.getFieldValue('desktopNum')
-    if (desktopNum + value > 20) {
+    const { oldDeskTopNum } = this.state
+    if (oldDeskTopNum + value > 20) {
       callback(new Error('池最多包含20台虚拟机'))
     }
     callback()
   }
 
   compareTotal = (rule, value, callback) => {
+    const { oldDeskTopNum } = this.state
     const desktopNum = this.drawer.form.getFieldValue('desktopNum')
-    const editDesktopNum = this.drawer.form.getFieldValue('editDesktopNum')
-    const currentTotal = desktopNum + editDesktopNum
+    const currentTotal = desktopNum + oldDeskTopNum
     if (value > currentTotal) {
       callback(new Error('应该不大于桌面池总数'))
     }
@@ -45,8 +45,11 @@ export default class EditDrawer extends React.Component {
       .detail(poolId)
       .then(res => {
         const { data } = res
-        this.setState({ templateName: data.templateName })
-        this.drawer.form.setFieldsValue({ ...data, editDesktopNum: 0 })
+        this.setState({
+          templateName: data.templateName,
+          oldDeskTopNum: data.desktopNum
+        })
+        this.drawer.form.setFieldsValue({ ...data, desktopNum: 0 })
         this.getNetwork()
       })
       .catch(e => {
@@ -84,6 +87,7 @@ export default class EditDrawer extends React.Component {
             prop="name"
             label="桌面池名称"
             required
+            disabled
             rules={[required, checkName]}
           >
             <Input placeholder="桌面名称" />
@@ -97,14 +101,7 @@ export default class EditDrawer extends React.Component {
           <Form.Item prop="manageType" label="管理类型">
             <Radiox options={manageTypeOptions} />
           </Form.Item>
-          <Form.Item prop="desktopNum" hidden>
-            <InputNumber placeholder="" />
-          </Form.Item>
-          <Form.Item
-            prop="editDesktopNum"
-            label="增加数量"
-            rules={[this.less20]}
-          >
+          <Form.Item prop="desktopNum" label="增加数量" rules={[this.less20]}>
             <InputNumber placeholder="" min={0} max={20} />
           </Form.Item>
           <Form.Item

@@ -69,7 +69,7 @@ export default class SetUserDrawer extends React.Component {
   pop = poolId => {
     // 如果是一个 获取当前分配的用户
     this.drawer.show()
-    // this.userTablex.replace(this.state.tableCfg)
+    this.userTablex.replace(this.state.tableCfg)
     this.setState({
       poolId,
       totalSelection: [],

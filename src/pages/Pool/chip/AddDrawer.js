@@ -148,7 +148,7 @@ export default class AddDrawer extends React.Component {
             label="预启动数量"
             rules={[required, this.compareNum]}
           >
-            <InputNumber placeholder="" min={1} max={20} />
+            <InputNumber placeholder="" min={0} max={20} />
           </Form.Item>
           <Form.Item prop="maxAssignedVmsPerUser" label="用户最大虚拟机数">
             <InputNumber placeholder="" />

@@ -2,6 +2,7 @@ import React from 'react'
 import { Icon, Progress } from 'antd'
 import poolsApi from '@/services/pools'
 import MyIcon from '@/components/MyIcon'
+import { onlineStringTime } from '@/utils/tool'
 import { vmStatusRender, osStatusRender } from '@/utils/tableRender'
 
 export const vmColumns = [
@@ -23,8 +24,7 @@ export const vmColumns = [
     render: (text, record) => {
       return (
         <span>
-          {osStatusRender(record.os)}
-          {record.name}
+          {osStatusRender(record.os)} {record.name}
         </span>
       )
     }
@@ -40,7 +40,8 @@ export const vmColumns = [
   {
     title: '上线时间',
     key: 'onlineTime',
-    dataIndex: 'onlineTime'
+    dataIndex: 'onlineTime',
+    render: text => onlineStringTime(text)
   },
   {
     title: '已分配用户',

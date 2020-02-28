@@ -5,7 +5,6 @@ export const columns = [
   {
     title: '级别',
     dataIndex: 'severity',
-    width: 100,
     filters: severityOptions,
     render: renderServerityOptions
   },
@@ -15,6 +14,7 @@ export const columns = [
   },
   {
     title: '信息',
+    width: '30%',
     dataIndex: 'message'
   },
   {

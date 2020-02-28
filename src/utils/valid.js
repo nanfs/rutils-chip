@@ -82,7 +82,7 @@ export function checkName(rule, value, callback) {
 
 export function sessionTime(rule, value, callback) {
   if (value === 0 || value < -1 || value > 10080) {
-    callback(new Error('请输入-1~100000非零的整数'))
+    callback(new Error('请输入-1~10080非零的整数'))
   }
   callback()
 }

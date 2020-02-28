@@ -6,7 +6,10 @@ export default {
     return axios({
       url: '/desktoplogs',
       method: 'get',
-      params: data
+      params: data,
+      paramsSerializer: params => {
+        return qs.stringify(params, { arrayFormat: 'indices' })
+      }
     })
   },
   // TODO 批量删除

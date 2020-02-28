@@ -1,5 +1,5 @@
 import React from 'react'
-import { Table, Pagination, Button } from 'antd'
+import { Table, Pagination, Button, message } from 'antd'
 import { wrapResponse } from '@/utils/tool'
 import './index.scss'
 import TableWrap, { BarLeft, BarRight, ToolBar } from './TableWrap'
@@ -74,7 +74,6 @@ class Tablex extends React.Component {
       let requestData = {}
 
       if (tableCfg.hasPaging) {
-        console.log('tableCfg', this.state)
         const { size, current } = this.state.paging
         requestData = { ...requestData, size, current }
       }
@@ -107,7 +106,7 @@ class Tablex extends React.Component {
             this.setState({
               loading: false
             })
-            console.log('loadData 请求失败', err)
+            message.error(err)
           })
       })
     })

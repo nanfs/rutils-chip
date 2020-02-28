@@ -161,9 +161,10 @@ export default class Treex extends React.Component {
           this.setState({ loading: false })
         }
       })
-      .catch(e => {
+      .catch(errors => {
         this.setState({ loading: false })
-        console.log(e)
+        message.error(errors)
+        console.log(errors)
       })
   }
 
@@ -283,8 +284,6 @@ export default class Treex extends React.Component {
   } */
 
   onRightClick = e => {
-    console.log(e)
-    // e.event.preventDefault()
     const nodeDeleteDisable = e.node.props.parentId === '-1'
     e.event.stopPropagation()
     this.setState({
@@ -327,9 +326,7 @@ export default class Treex extends React.Component {
             console.log(errors)
           })
       },
-      onCancel() {
-        console.log('Cancel')
-      }
+      onCancel() {}
     })
   }
 

@@ -29,7 +29,7 @@ export default class AddNodeModal extends React.Component {
         this.modal.afterSubmit(res)
       })
       .catch(e => {
-        console.log(e)
+        message.error(e)
       })
   }
 

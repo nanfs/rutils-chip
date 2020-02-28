@@ -1,12 +1,12 @@
 import React from 'react'
-import { Form, Input, InputNumber, Button } from 'antd'
+import { Form, Input, InputNumber, Button, message } from 'antd'
 import Drawerx from '@/components/Drawerx'
 import Formx from '@/components/Formx'
 import Title from '@/components/Title'
 import Radiox from '@/components/Radiox'
 import { manageTypeOptions } from '@/utils/formOptions'
 import poolsApi from '@/services/pools'
-import { required, checkName, lessThanValue } from '@/utils/valid'
+import { required, checkName } from '@/utils/valid'
 
 const { TextArea } = Input
 
@@ -51,8 +51,10 @@ export default class EditDrawer extends React.Component {
         })
         this.drawer.form.setFieldsValue({ ...data, desktopNum: 0 })
       })
-      .catch(e => {
-        console.log(e)
+      .catch(errors => {
+        message.error(errors)
+
+        console.log(errors)
       })
   }
 
@@ -65,6 +67,8 @@ export default class EditDrawer extends React.Component {
         this.drawer.afterSubmit(res)
       })
       .catch(errors => {
+        message.error(errors)
+
         console.log(errors)
       })
   }

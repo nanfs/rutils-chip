@@ -51,6 +51,7 @@ class Dashboard extends React.Component {
         }
       })
       .catch(errors => {
+        message.error(errors)
         console.log(errors)
       })
     dashboardApi
@@ -84,6 +85,7 @@ class Dashboard extends React.Component {
         }
       })
       .catch(errors => {
+        message.error(errors)
         console.log(errors)
       })
     dashboardApi
@@ -127,6 +129,7 @@ class Dashboard extends React.Component {
         }
       })
       .catch(errors => {
+        message.error(errors)
         console.log(errors)
       })
     dashboardApi
@@ -160,6 +163,7 @@ class Dashboard extends React.Component {
         }
       })
       .catch(errors => {
+        message.error(errors)
         console.log(errors)
       })
     tclogsApi
@@ -176,6 +180,7 @@ class Dashboard extends React.Component {
         }
       })
       .catch(errors => {
+        message.error(errors)
         console.log(errors)
       })
     vmlogsApi
@@ -192,6 +197,7 @@ class Dashboard extends React.Component {
         }
       })
       .catch(errors => {
+        message.error(errors)
         console.log(errors)
       })
   }

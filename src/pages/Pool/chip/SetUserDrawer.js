@@ -5,7 +5,7 @@ import SelectSearch from '@/components/SelectSearch'
 import Title, { Diliver } from '@/components/Title'
 // import UserButton from '@/components/UserButton'
 import { columns, apiMethod } from './UserTableCfg'
-import { Tag } from 'antd'
+import { Tag, message } from 'antd'
 import poolsApi from '@/services/pools'
 import produce from 'immer'
 import Tablex, { createTableCfg, TableWrap, ToolBar } from '@/components/Tablex'
@@ -58,7 +58,6 @@ export default class SetUserDrawer extends React.Component {
 
   renderSelectUser = () => {
     const { totalSelection } = this.state
-    console.log('totalSelection', totalSelection)
     return totalSelection.map(item => (
       <Tag key={item} closable onClose={() => this.removeUserSelection(item)}>
         {item && item.split('&')[1]}
@@ -100,14 +99,13 @@ export default class SetUserDrawer extends React.Component {
           () => this.userTablex.replace(this.state.tableCfg)
         )
       })
-      .catch(e => {
-        console.log(e)
+      .catch(errors => {
+        console.log(errors)
+        message.error(errors)
       })
   }
 
   setUser = () => {
-    // TODO 是否是新增 删除 还是直接 传入桌面是单个还是批量
-    console.log(this.state.totalSelection)
     const { poolId, totalSelection } = this.state
     const users = totalSelection.map(item => {
       const [uuid, username] = item.split('&')
@@ -121,6 +119,7 @@ export default class SetUserDrawer extends React.Component {
       })
       .catch(errors => {
         console.log(errors)
+        message.error(errors)
       })
   }
 

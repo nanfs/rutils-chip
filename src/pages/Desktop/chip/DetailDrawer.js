@@ -1,6 +1,6 @@
 import React from 'react'
 import Drawerx from '@/components/Drawerx'
-import { Row, Col, Table, Tag } from 'antd'
+import { Row, Col, Table, Tag, message } from 'antd'
 import Title, { Diliver } from '@/components/Title'
 import desktopsApi from '@/services/desktops'
 
@@ -19,8 +19,9 @@ export default class DetailDrawer extends React.Component {
         this.setState({ data: res.data })
         console.log(res)
       })
-      .catch(e => {
-        console.log(e)
+      .catch(errors => {
+        message.error(errors)
+        console.log(errors)
       })
   }
 

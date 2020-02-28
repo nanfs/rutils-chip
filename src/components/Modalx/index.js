@@ -102,8 +102,8 @@ class Modalx extends React.Component {
             onOk(values)
           }
         })
-        .catch(err => {
-          console.log(err)
+        .catch(errors => {
+          message.error(errors)
           this.setState({
             submitting: false
           })

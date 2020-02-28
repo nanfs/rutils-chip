@@ -88,7 +88,6 @@ class Drawerx extends React.Component {
     this.setState({
       submitting: true
     })
-    console.log('123123')
     if (form && onOk) {
       // 使用回调
       form
@@ -101,7 +100,7 @@ class Drawerx extends React.Component {
         })
         .catch(err => {
           this.break()
-          console.log(err)
+          message.error(err)
         })
     } else {
       onOk && onOk()

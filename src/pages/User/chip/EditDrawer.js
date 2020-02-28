@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form, Input, Select } from 'antd'
+import { Form, Input, message } from 'antd'
 
 import Drawerx from '@/components/Drawerx'
 import Formx from '@/components/Formx'
@@ -55,6 +55,7 @@ export default class editDrawer extends React.Component {
       })
       .catch(errors => {
         this.drawer.break()
+        message.error(errors)
         console.log(errors)
       })
   }

@@ -1,18 +1,12 @@
 import React from 'react'
 import Drawerx from '@/components/Drawerx'
 import Formx from '@/components/Formx'
-import SelectSearch from '@/components/SelectSearch'
-import { Tag, Switch } from 'antd'
+import { Tag, Switch, message } from 'antd'
 import Title, { Diliver } from '@/components/Title'
 import { columns, apiMethod } from '@/pages/Device/chip/TableCfg'
 import terminalApi from '@/services/terminal'
 import produce from 'immer'
-import Tablex, {
-  createTableCfg,
-  TableWrap,
-  ToolBar,
-  BarLeft
-} from '@/components/Tablex'
+import Tablex, { createTableCfg, TableWrap, ToolBar } from '@/components/Tablex'
 
 // 是否翻页保存数据
 export default class SetSafePolicyDrawer extends React.Component {
@@ -114,8 +108,9 @@ export default class SetSafePolicyDrawer extends React.Component {
             () => this.deviceTablex.replace(this.state.tableCfg)
           )
         })
-        .catch(e => {
-          console.log(e)
+        .catch(errors => {
+          console.log(errors)
+          message.error(errors)
         })
     } else {
       this.setState(
@@ -135,7 +130,6 @@ export default class SetSafePolicyDrawer extends React.Component {
 
   setDevice = () => {
     // TODO 是否是新增 删除 还是直接 传入桌面是单个还是批量
-    console.log(this.state.totalSelection)
     const { sns, totalSelection } = this.state
     const ids = totalSelection.map(item => {
       const [id, name] = item.split('&')
@@ -150,6 +144,7 @@ export default class SetSafePolicyDrawer extends React.Component {
       })
       .catch(errors => {
         console.log(errors)
+        message.error(errors)
       })
   }
 

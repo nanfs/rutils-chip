@@ -54,8 +54,7 @@ export default class DetailDrawer extends React.Component {
   }
 
   render() {
-    const { initValues, initChartValue } = this.state
-    // console.log(initValues)
+    const { initValues } = this.state
     return (
       <Drawerx
         onRef={ref => {

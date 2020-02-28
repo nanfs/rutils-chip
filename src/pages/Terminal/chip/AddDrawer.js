@@ -44,10 +44,7 @@ export default class AddDrawer extends React.Component {
         onRef={ref => {
           this.drawer = ref
         }}
-        onOk={values => {
-          console.log(values)
-          this.addTerminal()
-        }}
+        onOk={this.addTerminal}
         onClose={this.props.onClose}
         onSuccess={this.props.onSuccess}
       >

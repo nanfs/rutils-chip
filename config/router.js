@@ -23,7 +23,7 @@ function getRouterConfig(app) {
           path: '/dashboard',
           component: dynamic({
             app,
-            models: () => [import('../src/models/dashboard')],
+            models: () => [],
             component: () => import('../src/pages/Dashboard/index')
           })
         },
@@ -31,7 +31,7 @@ function getRouterConfig(app) {
           path: '/resource',
           component: dynamic({
             app,
-            models: () => [import('../src/models/dashboard')],
+            models: () => [],
             component: () => import('../src/pages/Resource/index')
           })
         },
@@ -39,7 +39,7 @@ function getRouterConfig(app) {
           path: '/desktop',
           component: dynamic({
             app,
-            models: () => [import('../src/models/dashboard')],
+            models: () => [],
             component: () => import('../src/pages/Desktop/index')
           })
         },
@@ -47,7 +47,7 @@ function getRouterConfig(app) {
           path: '/pool',
           component: dynamic({
             app,
-            models: () => [import('../src/models/dashboard')],
+            models: () => [],
             component: () => import('../src/pages/Pool/index')
           })
         },
@@ -55,7 +55,7 @@ function getRouterConfig(app) {
           path: '/template',
           component: dynamic({
             app,
-            models: () => [import('../src/models/dashboard')],
+            models: () => [],
             component: () => import('../src/pages/Template/index')
           })
         },
@@ -63,7 +63,7 @@ function getRouterConfig(app) {
           path: '/terminal',
           component: dynamic({
             app,
-            models: () => [import('../src/models/dashboard')],
+            models: () => [],
             component: () => import('../src/pages/Terminal/index')
           })
         },
@@ -71,7 +71,7 @@ function getRouterConfig(app) {
           path: '/device',
           component: dynamic({
             app,
-            models: () => [import('../src/models/dashboard')],
+            models: () => [],
             component: () => import('../src/pages/Device/index')
           })
         },
@@ -79,7 +79,7 @@ function getRouterConfig(app) {
           path: '/access',
           component: dynamic({
             app,
-            models: () => [import('../src/models/dashboard')],
+            models: () => [],
             component: () => import('../src/pages/Access/index')
           })
         },
@@ -87,7 +87,7 @@ function getRouterConfig(app) {
           path: '/user',
           component: dynamic({
             app,
-            models: () => [import('../src/models/dashboard')],
+            models: () => [],
             component: () => import('../src/pages/User/index')
           })
         },
@@ -95,7 +95,7 @@ function getRouterConfig(app) {
           path: '/vmlog',
           component: dynamic({
             app,
-            models: () => [import('../src/models/dashboard')],
+            models: () => [],
             component: () => import('../src/pages/Vmlog/index')
           })
         },
@@ -103,7 +103,7 @@ function getRouterConfig(app) {
           path: '/tclog',
           component: dynamic({
             app,
-            models: () => [import('../src/models/dashboard')],
+            models: () => [],
             component: () => import('../src/pages/Tclog/index')
           })
         }

@@ -16,7 +16,7 @@ import SelectSearch from '@/components/SelectSearch'
 import produce from 'immer'
 import poolsApi from '@/services/pools'
 import desktopsApi from '@/services/desktops'
-import { Diliver } from '@/components/Title'
+import Title, { Diliver } from '@/components/Title'
 import { columns, apiMethod } from './chip/TableCfg'
 import { vmColumns, vmApiMethod } from './chip/VmTableCfg'
 import './index.scss'
@@ -208,12 +208,12 @@ export default class Pool extends React.Component {
     this.currentDrawer = this.setUserDrawer
   }
 
-  search = (key, value) => {
+  search = (key, value, name) => {
     const searchs = {}
     searchs[key] = value
-    console.log('serach')
     this.setState(
       produce(draft => {
+        draft.currentName = name
         draft.vmTableCfg.searchs = {
           ...draft.vmTableCfg.searchs,
           ...searchs
@@ -227,9 +227,14 @@ export default class Pool extends React.Component {
     console.log(
       'afterPoolLoad',
       this.tablex.getData(),
-      this.tablex.getData()[0].id
+      this.tablex.getData()[0].id,
+      this.tablex.getData()[0].name
     )
-    this.search('poolId', this.tablex.getData() && this.tablex.getData()[0].id)
+    this.search(
+      'poolId',
+      this.tablex.getData() && this.tablex.getData()[0].id,
+      this.tablex.getData() && this.tablex.getData()[0].name
+    )
   }
 
   onSuccess = () => {
@@ -281,12 +286,17 @@ export default class Pool extends React.Component {
             onRow={record => {
               return {
                 onClick: () => {
-                  this.search('poolId', record.id)
+                  this.search('poolId', record.id, record.name)
                 }
               }
             }}
           />
           <Diliver />
+          <Title
+            slot={
+              this.state.currentName && `${this.state.currentName} 的桌面列表`
+            }
+          ></Title>
           <ToolBar>
             <BarLeft>
               <Button

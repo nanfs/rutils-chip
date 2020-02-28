@@ -4,6 +4,12 @@ import Modalx, { createModalCfg } from '@/components/Modalx'
 import Formx from '@/components/Formx'
 import { Form, Input, Row, InputNumber } from 'antd'
 import './index.scss'
+import {
+  sessionTime,
+  lessThanValue,
+  moreThanValue,
+  checkPassword
+} from '../../utils/valid'
 
 const formItemLayout = {
   labelCol: {
@@ -57,21 +63,38 @@ export default class ConfigModal extends React.Component {
         className="sys-modal"
       >
         <Formx formItemLayout={formItemLayout}>
-          <Form.Item prop="sessionTimeOutInterval" label="会话超时时间">
+          <Form.Item
+            prop="sessionTimeOutInterval"
+            label="会话超时时间"
+            rules={[sessionTime]}
+          >
             <InputNumber min={-1} style={{ width: '100%' }} />
           </Form.Item>
-          <Form.Item prop="userLoginFailMaxTimes" label="登录失败最大次数">
-            <InputNumber min={1} style={{ width: '100%' }} />
+          <Form.Item
+            prop="userLoginFailMaxTimes"
+            label="登录失败最大次数"
+            rules={[lessThanValue(10), moreThanValue(1)]}
+          >
+            <InputNumber min={1} style={{ width: '100%' }} max={10} />
           </Form.Item>
           <Form.Item
             prop="userLoginFailLockTimeThreshold"
             label="登录失败锁定时间"
           >
-            <InputNumber min={1} style={{ width: '100%' }} />
+            <InputNumber
+              min={1}
+              style={{ width: '100%' }}
+              max={60}
+              rules={[lessThanValue(60), moreThanValue(1)]}
+            />
           </Form.Item>
 
           <Form.Item prop="tcSwitcherPassword" label="交换机共享密钥">
-            <Input placeholder="交换机共享密钥" type="password" />
+            <Input
+              placeholder="交换机共享密钥"
+              type="password"
+              rules={[checkPassword]}
+            />
           </Form.Item>
         </Formx>
       </Modalx>

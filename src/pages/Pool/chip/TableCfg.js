@@ -20,7 +20,7 @@ export const columns = [
         value: '3'
       }
     ],
-    onFilter: (value, record) => record.severity === value
+    render: text => (text === 0 ? '自动' : '手动')
   },
   {
     title: '模板',

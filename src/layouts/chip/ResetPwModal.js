@@ -5,8 +5,19 @@ import Modalx, { createModalCfg } from '@/components/Modalx'
 import Formx from '@/components/Formx'
 import { Form, Input, message } from 'antd'
 import { USER } from '@/utils/auth'
+import { required, checkPassword } from '../../utils/valid'
 
 export default class ModalDemo extends React.Component {
+  comparePwd = (rule, value, callback) => {
+    const newPassword = this.drawer.form.getFieldValue('newPassword')
+    if (newPassword) {
+      if (newPassword !== value) {
+        callback(new Error('两次密码不一致'))
+      }
+    }
+    callback()
+  }
+
   componentDidMount() {
     this.props.onRef && this.props.onRef(this)
   }
@@ -78,12 +89,7 @@ export default class ModalDemo extends React.Component {
           <Form.Item
             prop="newPassword"
             label="新密码"
-            rules={[
-              {
-                required: true,
-                message: '请输入新密码'
-              }
-            ]}
+            rules={[required, checkPassword]}
             labelCol={{ sm: { span: 5 } }}
             wrapperCol={{ sm: { span: 16 } }}
           >
@@ -92,12 +98,7 @@ export default class ModalDemo extends React.Component {
           <Form.Item
             prop="confirmPassword"
             label="确认新密码"
-            rules={[
-              {
-                required: true,
-                message: '请确认新密码'
-              }
-            ]}
+            rules={[required, this.comparePwd]}
             labelCol={{ sm: { span: 5 } }}
             wrapperCol={{ sm: { span: 16 } }}
           >

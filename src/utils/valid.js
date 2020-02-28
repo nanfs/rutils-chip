@@ -95,7 +95,7 @@ export function number4(rule, value, callback) {
   callback()
 }
 
-export function password(rule, value, callback) {
+export function checkPassword(rule, value, callback) {
   if (!value) {
     callback()
   }
@@ -120,7 +120,7 @@ export function password(rule, value, callback) {
   ) {
     strong++
   }
-  if (strong < 2) {
+  if (strong < 3) {
     callback(new Error('字母、数字、特殊字符的三种组合以上'))
   }
   callback()

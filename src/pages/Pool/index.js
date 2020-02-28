@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, notification, message } from 'antd'
+import { Button, notification, Modal, message } from 'antd'
 import Tablex, {
   createTableCfg,
   TableWrap,
@@ -20,6 +20,8 @@ import Title, { Diliver } from '@/components/Title'
 import { columns, apiMethod } from './chip/TableCfg'
 import { vmColumns, vmApiMethod } from './chip/VmTableCfg'
 import './index.scss'
+
+const { confirm } = Modal
 
 export default class Pool extends React.Component {
   opration = {
@@ -159,37 +161,49 @@ export default class Pool extends React.Component {
   deletePool = () => {
     // TODO 添加删除禁用 只能单个删除
     const poolId = this.tablex.getSelection()[0]
-    poolsApi
-      .delPool(poolId)
-      .then(res => {
-        if (res.success) {
-          notification.success({ message: '删除成功' })
-          this.tablex.refresh(this.state.tableCfg)
-        } else {
-          message.error(res.message || '删除失败')
-        }
-      })
-      .catch(errors => {
-        console.log(errors)
-      })
+    confirm({
+      title: '确定删除所选数据?',
+      onOk() {
+        poolsApi
+          .delPool(poolId)
+          .then(res => {
+            if (res.success) {
+              notification.success({ message: '删除成功' })
+              this.tablex.refresh(this.state.tableCfg)
+            } else {
+              message.error(res.message || '删除失败')
+            }
+          })
+          .catch(errors => {
+            console.log(errors)
+          })
+      },
+      onCancel() {}
+    })
   }
 
   deleteVm = () => {
     const desktopIds = this.vmTablex.getSelection()
-    desktopsApi
-      .delVm({ desktopIds })
-      .then(res => {
-        if (res.success) {
-          notification.success({ message: '删除成功' })
-          this.vmTablex.refresh(this.state.tableCfg)
-        } else {
-          message.error(res.message || '删除失败')
-        }
-      })
-      .catch(errors => {
-        message.error(errors || 'catch error')
-        console.log(errors)
-      })
+    confirm({
+      title: '确定删除所选数据?',
+      onOk() {
+        desktopsApi
+          .delVm({ desktopIds })
+          .then(res => {
+            if (res.success) {
+              notification.success({ message: '删除成功' })
+              this.vmTablex.refresh(this.state.tableCfg)
+            } else {
+              message.error(res.message || '删除失败')
+            }
+          })
+          .catch(errors => {
+            message.error(errors || 'catch error')
+            console.log(errors)
+          })
+      },
+      onCancel() {}
+    })
   }
 
   editPool = () => {

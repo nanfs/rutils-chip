@@ -62,8 +62,15 @@ export default class Radiox extends React.Component {
   }
 
   render() {
-    const { className, hasInputNumber, loading, getData, numProps } = this.props
-    const { options, expand } = this.state
+    const {
+      className,
+      hasInputNumber,
+      loading,
+      getData,
+      numProps,
+      options
+    } = this.props
+    const { expand } = this.state
     const cls = classnames(className, 'radiox', getData && 'has-fresh')
     return (
       <Radio.Group

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, DatePicker, notification, message } from 'antd'
+import { Button, DatePicker, notification, message, Modal } from 'antd'
 import Tablex, {
   createTableCfg,
   TableWrap,
@@ -14,6 +14,7 @@ import produce from 'immer'
 import vmlogsApi from '@/services/vmlogs'
 
 const { RangePicker } = DatePicker
+const { confirm } = Modal
 
 export default class Vmlog extends React.Component {
   state = {
@@ -85,20 +86,26 @@ export default class Vmlog extends React.Component {
 
   deleteLogs = () => {
     const ids = this.tablex.getSelection()
-    vmlogsApi
-      .delete({ ids })
-      .then(res => {
-        if (res.success) {
-          notification.success({ message: '删除成功' })
-          this.tablex.refresh(this.state.tableCfg)
-        } else {
-          message.error(res.message || '删除失败')
-        }
-      })
-      .catch(errors => {
-        message.error(errors)
-        console.log(errors)
-      })
+    confirm({
+      title: '确定删除所选数据?',
+      onOk() {
+        vmlogsApi
+          .delete({ ids })
+          .then(res => {
+            if (res.success) {
+              notification.success({ message: '删除成功' })
+              this.tablex.refresh(this.state.tableCfg)
+            } else {
+              message.error(res.message || '删除失败')
+            }
+          })
+          .catch(errors => {
+            message.error(errors)
+            console.log(errors)
+          })
+      },
+      onCancel() {}
+    })
   }
 
   render() {

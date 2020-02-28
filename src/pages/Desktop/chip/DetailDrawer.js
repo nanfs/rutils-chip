@@ -1,6 +1,6 @@
 import React from 'react'
 import Drawerx from '@/components/Drawerx'
-import { Row, Col, Table } from 'antd'
+import { Row, Col, Table, Tag } from 'antd'
 import Title, { Diliver } from '@/components/Title'
 import desktopsApi from '@/services/desktops'
 
@@ -39,12 +39,6 @@ export default class DetailDrawer extends React.Component {
         dataIndex: 'group'
       }
     ]
-    const appColums = [
-      {
-        title: '程序名称',
-        dataIndex: 'app'
-      }
-    ]
     const { data } = this.state
     return (
       <Drawerx
@@ -57,42 +51,81 @@ export default class DetailDrawer extends React.Component {
         }}
       >
         <Title slot="基础设置"></Title>
-        <Row>
-          <Col span={3}>桌面名称：</Col>
-          <Col span={8}>{data.name}</Col>
-          <Col span={3}>数据中心：</Col>
-          <Col span={8}>{data.datacenterName}</Col>
+        <Row className="dms-detail-row">
+          <Col span={3} className="dms-detail-label">
+            桌面名称：
+          </Col>
+          <Col span={8} className="dms-detail-value">
+            {data.name}
+          </Col>
+          <Col span={3} className="dms-detail-label">
+            数据中心：
+          </Col>
+          <Col span={8} className="dms-detail-value">
+            {data.datacenterName}
+          </Col>
         </Row>
-        <Row>
-          <Col span={3}>模板</Col>
-          <Col span={8}>{data.templateName}</Col>
-          <Col span={3}>集群：</Col>
-          <Col span={8}>{data.clusterName}</Col>
+        <Row className="dms-detail-row">
+          <Col span={3} className="dms-detail-label">
+            模板
+          </Col>
+          <Col span={8} className="dms-detail-value">
+            {data.templateName}
+          </Col>
+          <Col span={3} className="dms-detail-label">
+            集群：
+          </Col>
+          <Col span={8} className="dms-detail-value">
+            {data.clusterName}
+          </Col>
         </Row>
-        <Row>
+        <Row className="dms-detail-row">
           {/* <Col span={3}>USB个数：</Col>
           <Col span={8}>{data.usbNum}</Col> */}
-          <Col span={3}>ID：</Col>
-          <Col span={8}>{data.id}</Col>
-          <Col span={3}>CPU：</Col>
-          <Col span={8}>{data.cpuCores}</Col>
+          <Col span={3} className="dms-detail-label">
+            ID：
+          </Col>
+          <Col span={8} className="dms-detail-value">
+            {data.id}
+          </Col>
+          <Col span={3} className="dms-detail-label">
+            CPU：
+          </Col>
+          <Col span={8} className="dms-detail-value">
+            {data.cpuCores}
+          </Col>
         </Row>
-        <Row>
-          <Col span={3}>IP：</Col>
-          <Col span={8}>{data.ip}</Col>
-          <Col span={3}>内存：</Col>
-          <Col span={8}>{data.memory} G</Col>
+        <Row className="dms-detail-row">
+          <Col span={3} className="dms-detail-label">
+            IP：
+          </Col>
+          <Col span={8} className="dms-detail-value">
+            {data.ip}
+          </Col>
+          <Col span={3} className="dms-detail-label">
+            内存：
+          </Col>
+          <Col span={8} className="dms-detail-value">
+            {data.memory} G
+          </Col>
         </Row>
-        <Row>
-          <Col span={3}>描述：</Col>
-          <Col span={8}>{data.description}</Col>
+        <Row className="dms-detail-row">
+          <Col span={3} className="dms-detail-label">
+            描述：
+          </Col>
+          <Col span={8} className="dms-detail-value">
+            {data.description}
+          </Col>
         </Row>
         <Diliver />
         <Title slot="所属用户"></Title>
         <Table columns={userColums} dataSource={data.owner}></Table>
         <Diliver />
         <Title slot="应用程序"></Title>
-        <Table columns={appColums} dataSource={data.appList || []}></Table>
+        <div>
+          {data.appList &&
+            data.appList.split(',').map(item => <Tag key={item}>{item}</Tag>)}
+        </div>
       </Drawerx>
     )
   }

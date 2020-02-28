@@ -1,6 +1,14 @@
 /* eslint-disable react/no-string-refs */
 import React from 'react'
-import { Button, Dropdown, Menu, Icon, notification, message } from 'antd'
+import {
+  Button,
+  Modal,
+  Dropdown,
+  Menu,
+  Icon,
+  notification,
+  message
+} from 'antd'
 import Tablex, {
   createTableCfg,
   TableWrap,
@@ -22,6 +30,7 @@ import { downloadVV } from '@/utils/tool'
 import { columns, apiMethod } from './chip/TableCfg'
 import './index.scss'
 
+const { confirm } = Modal
 export default class Desktop extends React.Component {
   options = {
     title: '操作',
@@ -76,7 +85,7 @@ export default class Desktop extends React.Component {
         />
         <MyIcon
           type="template1"
-          title="添加模板"
+          title="创建模板"
           onClick={() => this.addTemplateModal.pop(record.id)}
         />
         <Icon
@@ -178,20 +187,26 @@ export default class Desktop extends React.Component {
 
   deleteVm = () => {
     const desktopIds = this.tablex.getSelection()
-    desktopsApi
-      .delVm({ desktopIds })
-      .then(res => {
-        if (res.success) {
-          notification.success({ message: '删除成功' })
-          this.tablex.refresh(this.state.tableCfg)
-        } else {
-          message.error(res.message || '删除失败')
-        }
-      })
-      .catch(errors => {
-        message.error(errors || 'catch error')
-        console.log(errors)
-      })
+    confirm({
+      title: '确定删除所选数据?',
+      onOk() {
+        desktopsApi
+          .delVm({ desktopIds })
+          .then(res => {
+            if (res.success) {
+              notification.success({ message: '删除成功' })
+              this.tablex.refresh(this.state.tableCfg)
+            } else {
+              message.error(res.message || '删除失败')
+            }
+          })
+          .catch(errors => {
+            message.error(errors || 'catch error')
+            console.log(errors)
+          })
+      },
+      onCancel() {}
+    })
   }
 
   editVm = id => {

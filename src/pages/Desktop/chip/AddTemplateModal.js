@@ -30,14 +30,14 @@ export default class AddTemplateModal extends React.Component {
   }
 
   render() {
-    const modalCfg = createModalCfg({ title: '添加模板', hasFooter: true })
+    const modalCfg = createModalCfg({ title: '创建模板', hasFooter: true })
     return (
       <Modalx
         onRef={ref => {
           this.modal = ref
         }}
         modalCfg={modalCfg}
-        title={'添加模板'}
+        title={'创建模板'}
         onOk={this.onOk}
       >
         <Formx>

@@ -46,7 +46,7 @@ export default class EditDrawer extends React.Component {
       .then(res => {
         const { data } = res
         this.setState({ templateName: data.templateName })
-        this.drawer.form.setFieldsValue(data)
+        this.drawer.form.setFieldsValue({ ...data, editDesktopNum: 0 })
         this.getNetwork()
       })
       .catch(e => {
@@ -111,7 +111,7 @@ export default class EditDrawer extends React.Component {
             label="预启动数量"
             rules={[this.compareTotal]}
           >
-            <InputNumber placeholder="" min={1} max={20} />
+            <InputNumber placeholder="" min={0} max={20} />
           </Form.Item>
           <Form.Item
             prop="maxAssignedVmsPerUser"

@@ -1,25 +1,25 @@
 import poolsApi from '@/services/pools'
 import React from 'react'
-import { Icon, Progress } from 'antd'
+import { Tag } from 'antd'
 // TODO antd 样式加载问题
 export const columns = [
   {
-    title: '状态',
+    title: '名称',
     dataIndex: 'name'
   },
   {
     title: '管理类型',
     dataIndex: 'manageType',
-    filters: [
-      {
-        text: '1',
-        value: '1'
-      },
-      {
-        text: '3',
-        value: '3'
-      }
-    ],
+    // filters: [
+    //   {
+    //     text: '自动',
+    //     value: 0
+    //   },
+    //   {
+    //     text: '手动',
+    //     value: 1
+    //   }
+    // ],
     render: text => (text === 0 ? '自动' : '手动')
   },
   {
@@ -28,15 +28,18 @@ export const columns = [
   },
   {
     title: '正在运行',
-    dataIndex: 'runDesktopNum'
+    dataIndex: 'runDesktopNum',
+    render: text => <Tag>{text}</Tag>
   },
   {
     title: '预启动',
-    dataIndex: 'prestartNum'
+    dataIndex: 'prestartNum',
+    render: text => <Tag>{text}</Tag>
   },
   {
     title: '桌面总数',
-    dataIndex: 'desktopNum'
+    dataIndex: 'desktopNum',
+    render: text => <Tag>{text}</Tag>
   },
   {
     title: '描述',

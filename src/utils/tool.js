@@ -220,3 +220,32 @@ export function debounce(fn, wait) {
     timer = setTimeout(fn, wait)
   }
 }
+
+export function onlineStringTime(value) {
+  // return second
+  // 按照秒计算
+  if (!value) {
+    return ''
+  }
+  const days = Math.floor(value / 86400)
+  const hours = Math.floor(value / 3600) - days * 24
+  const minutes = Math.floor(value / 60) - days * 1440 - hours * 60
+  const second = Math.ceil(value % 60)
+  let timeString = ''
+  if (value === 0 || value === '0') {
+    return '0秒'
+  }
+  if (days) {
+    timeString += `${days}天`
+  }
+  if (hours) {
+    timeString += `${hours}小时`
+  }
+  if (minutes) {
+    timeString += `${minutes}分`
+  }
+  if (second !== 0) {
+    timeString += `${second}秒`
+  }
+  return timeString
+}

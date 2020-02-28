@@ -2,6 +2,7 @@ import desktopsApi from '@/services/desktops'
 import React from 'react'
 import { Progress, Icon } from 'antd'
 import { vmStatusRender, osStatusRender } from '@/utils/tableRender'
+import { onlineStringTime } from '@/utils/tool'
 import MyIcon from '@/components/MyIcon'
 // TODO antd 样式加载问题
 export const columns = [
@@ -23,8 +24,7 @@ export const columns = [
     render: (text, record) => {
       return (
         <span>
-          {osStatusRender(record.os)}
-          {record.name}
+          {osStatusRender(record.os)} {record.name}
         </span>
       )
     }
@@ -75,7 +75,8 @@ export const columns = [
   {
     title: '本次运行时长',
     key: 'onlineTime',
-    dataIndex: 'onlineTime'
+    dataIndex: 'onlineTime',
+    render: text => onlineStringTime(text)
   },
   {
     title: 'CPU',

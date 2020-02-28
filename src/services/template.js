@@ -22,6 +22,7 @@ export default {
     return axios({
       url: '/templates',
       method: 'delete',
+      timeout: 60000,
       data: qs.stringify(data)
     })
   },

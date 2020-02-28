@@ -13,7 +13,8 @@ export default {
   delPool(poolId) {
     return axios({
       url: `/pools/${poolId}`,
-      method: 'delete'
+      method: 'delete',
+      timeout: 60000
     })
   },
   detail(poolId) {
@@ -41,6 +42,7 @@ export default {
     return axios({
       url: `/pools/${poolId}`,
       method: 'post',
+      timeout: 60000,
       data: qs.stringify(values)
     })
   },
@@ -55,16 +57,6 @@ export default {
     const { poolId, ...rest } = data
     return axios({
       url: `/pools/${poolId}/desktops`,
-      method: 'get',
-      params: rest
-    })
-  },
-
-  deleteVm(data) {
-    const { poolId, ...rest } = data
-    const url = `/pools/${poolId}/desktops`
-    return axios({
-      url: '/pools',
       method: 'get',
       params: rest
     })

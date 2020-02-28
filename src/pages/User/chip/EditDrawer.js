@@ -83,8 +83,7 @@ export default class editDrawer extends React.Component {
           <Form.Item prop="id" hidden>
             <Input />
           </Form.Item>
-          <Form.Item prop="domain" label="域"
-            required rules={[required]}>
+          <Form.Item prop="domain" label="域" required rules={[required]}>
             <Selectx
               placeholder="请选择域"
               options={domainlist}
@@ -92,7 +91,7 @@ export default class editDrawer extends React.Component {
             ></Selectx>
           </Form.Item>
           <Form.Item
-            prop="firstname" 
+            prop="firstname"
             label="姓"
             required
             rules={[required, checkName, textRange(0, 29)]}
@@ -127,8 +126,7 @@ export default class editDrawer extends React.Component {
               autoComplete="new-password"
             />
           </Form.Item>
-          <Form.Item prop="groupId" label="组织"
-            required rules={[required]}>
+          <Form.Item prop="groupId" label="组织" required rules={[required]}>
             <TreeSelectx nodeData={nodeData} />
           </Form.Item>
           <Form.Item prop="email" label="邮件" rules={[checkEmail]}>

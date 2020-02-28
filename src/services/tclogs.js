@@ -6,7 +6,10 @@ export default {
     return axios({
       url: '/tclogs',
       method: 'get',
-      params: data
+      params: data,
+      paramsSerializer: params => {
+        return qs.stringify(params, { arrayFormat: 'indices' })
+      }
     })
   },
   delete(data) {

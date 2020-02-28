@@ -49,7 +49,8 @@ export default class tcLog extends React.Component {
     this.setState(
       produce(draft => {
         draft.tableCfg.searchs = {
-          ...draft.tableCfg.searchs,
+          // ...draft.tableCfg.searchs,
+          severity: draft.tableCfg.searchs.severity,
           ...searchs
         }
       }),
@@ -58,11 +59,13 @@ export default class tcLog extends React.Component {
   }
 
   onTableChange = (a, filter) => {
+    const severityList = []
+    severityList.push(...filter.severity)
     this.setState(
       produce(draft => {
         draft.tableCfg.searchs = {
           ...draft.tableCfg.searchs,
-          ...filter
+          severity: severityList
         }
       }),
       () => this.tablex.refresh(this.state.tableCfg)

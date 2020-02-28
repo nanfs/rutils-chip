@@ -92,6 +92,7 @@ export default class AddDrawer extends React.Component {
           <Form.Item
             prop="name"
             label="桌面池名称"
+            required
             rules={[required, checkName]}
           >
             <Input placeholder="桌面名称" />
@@ -114,6 +115,7 @@ export default class AddDrawer extends React.Component {
           <Form.Item
             prop="cpuCores"
             label="CPU"
+            required
             rules={[required, lessThanValue(160)]}
             wrapperCol={{ sm: { span: 16 } }}
           >
@@ -126,6 +128,7 @@ export default class AddDrawer extends React.Component {
           <Form.Item
             prop="memory"
             label="内存"
+            required
             rules={[required]}
             wrapperCol={{ sm: { span: 16 } }}
           >
@@ -138,6 +141,7 @@ export default class AddDrawer extends React.Component {
           <Form.Item
             prop="desktopNum"
             label="创建数量"
+            required
             rules={[required, lessThanValue(20)]}
           >
             <InputNumber placeholder="" min={1} max={20} />
@@ -146,6 +150,7 @@ export default class AddDrawer extends React.Component {
           <Form.Item
             prop="prestartNum"
             label="预启动数量"
+            required
             rules={[required, this.compareNum]}
           >
             <InputNumber placeholder="" min={0} max={20} />

@@ -81,6 +81,7 @@ export default class editDrawer extends React.Component {
           <Form.Item
             prop="domain"
             label="域"
+            required
             rules={[
               {
                 required: true,
@@ -97,6 +98,7 @@ export default class editDrawer extends React.Component {
           <Form.Item
             prop="firstname"
             label="姓"
+            required
             rules={[
               {
                 required: true,
@@ -109,6 +111,7 @@ export default class editDrawer extends React.Component {
           <Form.Item
             prop="lastname"
             label="名"
+            required
             rules={[
               {
                 required: true,
@@ -121,6 +124,7 @@ export default class editDrawer extends React.Component {
           <Form.Item
             prop="username"
             label="用户名"
+            required
             rules={[
               {
                 required: true,
@@ -133,6 +137,7 @@ export default class editDrawer extends React.Component {
           <Form.Item
             prop="password"
             label="密码"
+            required
             rules={[
               {
                 required: true,
@@ -149,6 +154,7 @@ export default class editDrawer extends React.Component {
           <Form.Item
             prop="groupId"
             label="组织"
+            required
             rules={[
               {
                 required: true,
@@ -161,6 +167,7 @@ export default class editDrawer extends React.Component {
           <Form.Item
             prop="email"
             label="邮件"
+            required
             rules={[
               {
                 required: true,

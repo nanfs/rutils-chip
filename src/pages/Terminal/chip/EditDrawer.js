@@ -105,6 +105,7 @@ export default class EditDrawer extends React.Component {
           <Form.Item
             prop="name"
             label="终端名称"
+            required
             rules={[required, checkName, textRange(0, 63)]}
           >
             <Input placeholder="终端名称" />
@@ -142,6 +143,7 @@ export default class EditDrawer extends React.Component {
           <Form.Item
             prop="location"
             label="信息位置"
+            required
             rules={[required, textRange(0, 50)]}
           >
             <Input placeholder="信息位置" />
@@ -155,6 +157,7 @@ export default class EditDrawer extends React.Component {
           <Form.Item
             prop="bondKey"
             label="输入keyId"
+            required
             rules={[required, textRange(0, 64), checkKeyId]}
             hidden={
               this.drawer &&
@@ -171,6 +174,7 @@ export default class EditDrawer extends React.Component {
           <Form.Item
             prop="secretWord"
             label="输入口令"
+            required
             rules={[required, textRange(0, 32)]}
             hidden={
               this.drawer &&

@@ -108,7 +108,12 @@ export default class EditDrawer extends React.Component {
           <Form.Item prop="cpuNum" hidden>
             <Input placeholder="cpuNum" />
           </Form.Item>
-          <Form.Item prop="name" label="桌面名称" rules={[required, checkName]}>
+          <Form.Item
+            prop="name"
+            label="桌面名称"
+            required
+            rules={[required, checkName]}
+          >
             <Input placeholder="桌面名称" />
           </Form.Item>
           <Form.Item label="模板">
@@ -120,6 +125,7 @@ export default class EditDrawer extends React.Component {
           <Form.Item
             prop="cpuCores"
             label="CPU"
+            required
             rules={[required, lessThanValue(160)]}
             wrapperCol={{ sm: { span: 12 } }}
           >
@@ -132,6 +138,7 @@ export default class EditDrawer extends React.Component {
           <Form.Item
             prop="memory"
             label="内存"
+            required
             rules={[required, lessThanValue(100)]}
           >
             <Radiox

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form, Input, Button } from 'antd'
+import { Form, Input, Button, message } from 'antd'
 import Drawerx from '@/components/Drawerx'
 import Formx from '@/components/Formx'
 import Title, { Diliver } from '@/components/Title'
@@ -41,10 +41,10 @@ export default class EditDrawer extends React.Component {
         this.drawer.form.setFieldsValue({ ...data, id, network: networkFix })
 
         this.getNetwork()
-        console.log(res)
       })
-      .catch(e => {
-        console.log(e)
+      .catch(errors => {
+        message.error(errors)
+        console.log(errors)
       })
   }
 
@@ -53,8 +53,9 @@ export default class EditDrawer extends React.Component {
     this.setState({ networkLoading: true })
     if (!queryClusterId) {
       this.setState({ networkLoading: false })
-      return Promise.reject().catch(e => {
-        console.log(e)
+      return Promise.reject().catch(errors => {
+        message.error(errors)
+        console.log(errors)
       })
     }
     desktopsApi
@@ -67,9 +68,10 @@ export default class EditDrawer extends React.Component {
         }))
         this.setState({ networkOptions, networkLoading: false })
       })
-      .catch(e => {
+      .catch(errors => {
         this.setState({ networkLoading: false })
-        console.log(e)
+        message.error(errors)
+        console.log(errors)
       })
   }
 
@@ -86,6 +88,7 @@ export default class EditDrawer extends React.Component {
         this.drawer.afterSubmit(res)
       })
       .catch(errors => {
+        message.error(errors)
         console.log(errors)
       })
   }

@@ -21,6 +21,7 @@ export default class Header extends React.Component {
         }
       })
       .catch(errors => {
+        message.error(errors)
         console.log(errors)
       })
   }
@@ -39,7 +40,6 @@ export default class Header extends React.Component {
             key="systemConfig"
             onClick={() => {
               this.sysModal.pop()
-              console.log('systemConfig')
             }}
           >
             <span>系统设置</span>
@@ -48,7 +48,6 @@ export default class Header extends React.Component {
             key="about"
             onClick={() => {
               this.aboutModal.pop()
-              console.log('about')
             }}
           >
             <span>关于</span>
@@ -57,7 +56,6 @@ export default class Header extends React.Component {
             key="changePwd"
             onClick={() => {
               this.modal.pop()
-              console.log('changePwd')
             }}
           >
             <span>修改密码</span>

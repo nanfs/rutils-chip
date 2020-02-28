@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form, Input, InputNumber } from 'antd'
+import { Form, Input, InputNumber, message } from 'antd'
 import Drawerx from '@/components/Drawerx'
 import Formx from '@/components/Formx'
 import Title from '@/components/Title'
@@ -60,8 +60,9 @@ export default class AddDrawer extends React.Component {
         }))
         this.setState({ templateOptions, templateLoading: false })
       })
-      .catch(e => {
-        console.log(e)
+      .catch(errors => {
+        message.error(errors)
+        console.log(errors)
       })
   }
 
@@ -73,6 +74,7 @@ export default class AddDrawer extends React.Component {
         this.drawer.afterSubmit(res)
       })
       .catch(errors => {
+        message.error(errors)
         console.log(errors)
       })
   }

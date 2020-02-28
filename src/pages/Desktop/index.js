@@ -60,7 +60,7 @@ export default class Desktop extends React.Component {
           type="order-paused"
           title="暂停"
           disabled={record.status !== 1}
-          onClick={this.sendOrder.bind(this, record.id, 'paused')}
+          onClick={this.sendOrder.bind(this, record.id, 'pause')}
         />
         <MyIcon
           type="vm-rebootinprogress"
@@ -135,6 +135,7 @@ export default class Desktop extends React.Component {
         }
       })
       .catch(errors => {
+        message.error(errors)
         console.log(errors)
       })
   }
@@ -161,7 +162,7 @@ export default class Desktop extends React.Component {
       }
     } else {
       selectData.forEach(item => {
-        if (item.status === 1) {
+        if (item.status !== 0) {
           disbaledButton = {
             ...disbaledButton,
             disabledUp: true
@@ -169,7 +170,9 @@ export default class Desktop extends React.Component {
         } else if (item.status === 0) {
           disbaledButton = {
             ...disbaledButton,
-            disabledDown: true
+            disabledDown: true,
+            disabledRestart: true,
+            disabledOff: true
           }
         } else if (item.status === 10) {
           disbaledButton = {

@@ -69,7 +69,6 @@ export function checkEmail(rule, value, callback) {
 }
 
 export function checkName(rule, value, callback) {
-  console.log('checkName', value)
   const re = new RegExp('^[\u4e00-\u9fffa-zA-Z\\d\\.\\-_]*$')
   if (value && !re.test(value)) {
     callback(new Error('请填写中文、字母、数字、"."、"-"、"_"'))
@@ -81,7 +80,6 @@ export function checkName(rule, value, callback) {
 }
 
 export function checkKeyId(rule, value, callback) {
-  console.log('checkKeyId', value)
   const re = new RegExp('^[A-Za-z0-9-_]+$')
   if (value && !re.test(value)) {
     callback(new Error('请填写字母、数字、"-"、"_"'))

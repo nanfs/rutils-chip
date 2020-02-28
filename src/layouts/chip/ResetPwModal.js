@@ -33,11 +33,11 @@ export default class ModalDemo extends React.Component {
             username: USER
           })
           .then(res => {
-            console.log(res)
             this.modal.afterSubmit(res)
             resolve(res)
           })
           .catch(errors => {
+            message.error(errors)
             console.log(errors)
           })
       }, 1000)

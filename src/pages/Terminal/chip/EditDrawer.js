@@ -83,8 +83,6 @@ export default class EditDrawer extends React.Component {
           this.drawer = ref
         }}
         onOk={values => {
-          // values.autoLockTime = autoLockTime
-          // console.log(values)
           this.editTerminal(values)
           return false
         }}

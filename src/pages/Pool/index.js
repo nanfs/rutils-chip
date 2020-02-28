@@ -143,7 +143,7 @@ export default class Pool extends React.Component {
       }
     } else {
       selectData.forEach(item => {
-        if (item.status === 1) {
+        if (item.status !== 0) {
           vmDisbaledButton = {
             ...vmDisbaledButton,
             disabledUp: true
@@ -261,12 +261,6 @@ export default class Pool extends React.Component {
   }
 
   afterPoolLoad = () => {
-    console.log(
-      'afterPoolLoad',
-      this.tablex.getData(),
-      this.tablex.getData()[0].id,
-      this.tablex.getData()[0].name
-    )
     this.search(
       'poolId',
       this.tablex.getData() && this.tablex.getData()[0].id,

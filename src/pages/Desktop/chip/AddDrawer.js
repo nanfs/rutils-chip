@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form, Input } from 'antd'
+import { Form, Input, message } from 'antd'
 import Drawerx from '@/components/Drawerx'
 import Formx from '@/components/Formx'
 import Title, { Diliver } from '@/components/Title'
@@ -46,14 +46,13 @@ export default class AddDrawer extends React.Component {
       templateId: templateFix,
       network: networkFix
     }
-    console.log('data', data)
-    // TODO 是否是新增 删除 还是直接 传入桌面是单个还是批量
     desktopsApi
       .addVm(data)
       .then(res => {
         this.drawer.afterSubmit(res)
       })
       .catch(errors => {
+        message.error(errors)
         console.log(errors)
       })
   }
@@ -70,8 +69,9 @@ export default class AddDrawer extends React.Component {
         }))
         this.setState({ templateOptions, templateLoading: false })
       })
-      .catch(e => {
-        console.log(e)
+      .catch(errors => {
+        message.error(errors)
+        console.log(errors)
       })
   }
 
@@ -85,8 +85,8 @@ export default class AddDrawer extends React.Component {
     this.setState({ networkLoading: true })
     if (!queryClusterId) {
       this.setState({ networkLoading: false })
-      return Promise.reject().catch(e => {
-        console.log(e)
+      return Promise.reject().catch(errors => {
+        message.error(errors)
       })
     }
     desktopsApi
@@ -99,9 +99,9 @@ export default class AddDrawer extends React.Component {
         }))
         this.setState({ networkOptions, networkLoading: false })
       })
-      .catch(e => {
+      .catch(errors => {
         this.setState({ networkLoading: false })
-        console.log(e)
+        message.error(errors)
       })
   }
 

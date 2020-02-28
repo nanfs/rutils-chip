@@ -184,6 +184,7 @@ export default class User extends React.Component {
         }
       })
       .catch(errors => {
+        message.error(errors)
         console.log(errors)
       })
   }
@@ -201,6 +202,7 @@ export default class User extends React.Component {
         }
       })
       .catch(errors => {
+        message.error(errors)
         console.log(errors)
       })
   }
@@ -213,7 +215,6 @@ export default class User extends React.Component {
   }
 
   onSelect = (value, node) => {
-    console.log(value, node)
     this.selectSearch.reset()
     this.setState(
       produce(draft => {

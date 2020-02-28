@@ -2,7 +2,7 @@ import React from 'react'
 import systemsApi from '@/services/systems'
 import Modalx, { createModalCfg } from '@/components/Modalx'
 import Formx from '@/components/Formx'
-import { Form, Input, Row, InputNumber } from 'antd'
+import { Form, Input, message, InputNumber } from 'antd'
 import './index.scss'
 import {
   sessionTime,
@@ -32,11 +32,11 @@ export default class ConfigModal extends React.Component {
     systemsApi
       .datail()
       .then(res => {
-        console.log(res.data)
         this.modal.form.setFieldsValue(res.data)
       })
-      .catch(e => {
-        console.log(e)
+      .catch(errors => {
+        message.error(errors)
+        console.log(errors)
       })
   }
 
@@ -47,6 +47,7 @@ export default class ConfigModal extends React.Component {
         this.modal.afterSubmit(res)
       })
       .catch(errors => {
+        message.error(errors)
         console.log(errors)
       })
   }

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form, Input, TimePicker, DatePicker } from 'antd'
+import { Form, Input, TimePicker, DatePicker, message } from 'antd'
 import Drawerx from '@/components/Drawerx'
 import Formx from '@/components/Formx'
 import Radiox from '@/components/Radiox'
@@ -118,6 +118,7 @@ export default class EditDrawer extends React.Component {
       })
       .catch(errors => {
         this.drawer.break()
+        message.error(errors)
         console.log(errors)
       })
   }

@@ -2,7 +2,6 @@ import moment from 'moment'
 
 // 时间格式化
 export function dateFormat(val, format = 'YYYY-MM-DD HH:mm:ss') {
-  console.log(val)
   if (!val) {
     return val
   }
@@ -93,7 +92,6 @@ export function searchObj(string) {
     const value = decodeURIComponent(subArr[1])
     urlParam[key] = value
   }
-  console.log(urlParam)
   return urlParam
 }
 

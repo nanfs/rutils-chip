@@ -109,7 +109,6 @@ export default class SetSafePolicyDrawer extends React.Component {
 
   setAccess = () => {
     // TODO 是否是新增 删除 还是直接 传入桌面是单个还是批量
-    console.log(this.state.totalSelection)
     const { sns, totalSelection } = this.state
     const ids = totalSelection.map(item => {
       const [id, name] = item.split('&')

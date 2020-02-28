@@ -32,7 +32,7 @@ export default class EditNodeModal extends React.Component {
         this.modal.afterSubmit(res)
       })
       .catch(e => {
-        console.log(e)
+        message.error(e)
       })
   }
 

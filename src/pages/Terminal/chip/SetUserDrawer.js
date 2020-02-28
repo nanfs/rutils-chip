@@ -5,7 +5,7 @@ import SelectSearch from '@/components/SelectSearch'
 import Title, { Diliver } from '@/components/Title'
 // import UserButton from '@/components/UserButton'
 import { columns, apiMethod } from './UserTableCfg'
-import { Tag } from 'antd'
+import { Tag, message } from 'antd'
 import terminalApi from '@/services/terminal'
 import produce from 'immer'
 import Tablex, { createTableCfg, TableWrap, ToolBar } from '@/components/Tablex'
@@ -99,8 +99,9 @@ export default class SetUserDrawer extends React.Component {
             () => this.userTablex.replace(this.state.tableCfg)
           )
         })
-        .catch(e => {
-          console.log(e)
+        .catch(errors => {
+          console.log(errors)
+          message.error(errors)
         })
     } else {
       this.userTablex.refresh(this.state.tableCfg)

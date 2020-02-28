@@ -118,7 +118,9 @@ export default class Termina extends React.Component {
     this.setState(
       produce(draft => {
         draft.tableCfg.searchs = {
-          ...draft.tableCfg.searchs,
+          // ...draft.tableCfg.searchs,
+          status: draft.tableCfgSave.searchs.status,
+          isReg: draft.tableCfgSave.searchs.isReg,
           ...searchs
         }
       }),
@@ -275,11 +277,22 @@ export default class Termina extends React.Component {
   }
 
   onTableChange = (a, filter) => {
+    const statusList = []
+    filter.status &&
+      filter.status.forEach(function(v, i) {
+        statusList.push(...v)
+      })
+    const isRegList = []
+    filter.isReg &&
+      filter.isReg.forEach(function(v, i) {
+        isRegList.push(...v)
+      })
     this.setState(
       produce(draft => {
         draft.tableCfg.searchs = {
           ...draft.tableCfg.searchs,
-          ...filter
+          status: statusList,
+          isReg: isRegList
         }
       }),
       () => this.tablex.refresh(this.state.tableCfg)

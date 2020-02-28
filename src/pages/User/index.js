@@ -116,7 +116,8 @@ export default class User extends React.Component {
     this.setState(
       produce(draft => {
         draft.tableCfg.searchs = {
-          ...draft.tableCfg.searchs,
+          // ...draft.tableCfg.searchs,
+          status: draft.tableCfg.searchs.status,
           ...searchs
         }
       }),
@@ -297,11 +298,17 @@ export default class User extends React.Component {
   }
 
   onTableChange = (a, filter) => {
+    const statusList = []
+    filter.status &&
+      filter.status.forEach(function(v, i) {
+        statusList.push(...v)
+      })
     this.setState(
       produce(draft => {
         draft.tableCfg.searchs = {
           ...draft.tableCfg.searchs,
-          ...filter
+          status: statusList
+          // ...filter
         }
       }),
       () => this.tablex.refresh(this.state.tableCfg)

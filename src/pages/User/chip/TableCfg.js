@@ -45,8 +45,8 @@ export const columns = [
     title: '状态',
     dataIndex: 'status',
     filters: [
-      { value: 1, text: '锁定' },
-      { value: 0, text: '正常' }
+      { value: [1], text: '锁定' },
+      { value: [0], text: '正常' }
     ],
     render: value => {
       return value === 0 ? (

@@ -15,11 +15,11 @@ export const columns = [
     filters: [
       {
         text: '离线',
-        value: '0'
+        value: ['0']
       },
       {
         text: '在线',
-        value: '1'
+        value: ['1']
       }
     ],
     onFilter: (value, record) => record.status === value,
@@ -59,14 +59,14 @@ export const columns = [
     filters: [
       {
         text: '待接入',
-        value: false
+        value: [false]
       },
       {
         text: '已接入',
-        value: true
+        value: [true]
       }
     ],
-    onFilter: (value, record) => record.isReg === value,
+    // onFilter: (value, record) => record.isReg === value,
     render: value => {
       return value ? (
         <Tag color="#ade688">已接入</Tag>

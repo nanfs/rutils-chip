@@ -48,7 +48,10 @@ export default {
     return axios({
       url: '/user/querybygroup',
       method: 'get',
-      params: data
+      params: data,
+      paramsSerializer: params => {
+        return qs.stringify(params, { arrayFormat: 'indices' })
+      }
     })
   },
   addUser(data) {

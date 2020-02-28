@@ -30,7 +30,7 @@ export default class Resource extends React.Component {
       produce(draft => {
         draft.tableCfgSave.searchs = {
           // ...draft.tableCfgSave.searchs,
-          status: draft.tableCfgCompute.searchs.status,
+          status: draft.tableCfgSave.searchs.status,
           ...searchs
         }
       }),

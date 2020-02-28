@@ -6,7 +6,10 @@ export default {
     return axios({
       url: '/terminals',
       method: 'get',
-      params: data
+      params: data,
+      paramsSerializer: params => {
+        return qs.stringify(params, { arrayFormat: 'indices' })
+      }
     })
   },
   editTerminal(id, data) {

@@ -1,5 +1,5 @@
 import React from 'react'
-import { List, Icon, Popover } from 'antd'
+import { List, Popover } from 'antd'
 import { renderServerityOptions } from '@/utils/tableRender'
 
 export default class LogList extends React.Component {
@@ -15,9 +15,7 @@ export default class LogList extends React.Component {
               title={
                 <div>
                   <span style={{ color: '#8697bc' }}>
-                    {renderServerityOptions(item.severity)}
-                    {/* <Icon type="warning" /> */}
-                    {item.userName}
+                    {renderServerityOptions(item.severity)} {item.userName}
                   </span>
                   <span
                     style={{ position: 'absolute', right: 0, color: '#a0a0a0' }}

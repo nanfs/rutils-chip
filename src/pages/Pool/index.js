@@ -252,11 +252,28 @@ export default class Pool extends React.Component {
       produce(draft => {
         draft.currentName = name
         draft.vmTableCfg.searchs = {
-          ...draft.vmTableCfg.searchs,
+          // ...draft.vmTableCfg.searchs,
+          status: draft.vmTableCfg.searchs.status,
           ...searchs
         }
       }),
       () => this.vmTablex.refresh(this.state.vmTableCfg)
+    )
+  }
+
+  onVmTableChange = (a, filter) => {
+    const statusList = []
+    filter.status.forEach(function(v, i) {
+      statusList.push(...v)
+    })
+    this.setState(
+      produce(draft => {
+        draft.vmTableCfg.searchs = {
+          ...draft.vmTableCfg.searchs,
+          status: statusList
+        }
+      }),
+      () => this.tablex.refresh(this.state.vmTableCfg)
     )
   }
 
@@ -368,6 +385,7 @@ export default class Pool extends React.Component {
             stopFetch={true}
             className="no-select-bg"
             tableCfg={this.state.vmTableCfg}
+            onChange={this.onVmTableChange}
             onSelectChange={this.onVmSelectChange}
           />
           <AddDrawer

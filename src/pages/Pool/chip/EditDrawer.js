@@ -87,10 +87,9 @@ export default class EditDrawer extends React.Component {
             prop="name"
             label="桌面池名称"
             required
-            disabled
             rules={[required, checkName]}
           >
-            <Input placeholder="桌面名称" />
+            <Input placeholder="桌面名称" disabled />
           </Form.Item>
           <Form.Item label="模板">
             <Button>{this.state.templateName}</Button>

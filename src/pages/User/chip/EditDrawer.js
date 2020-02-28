@@ -140,7 +140,11 @@ export default class editDrawer extends React.Component {
               }
             ]}
           >
-            <Input placeholder="密码" type="password" disabled />
+            <Input
+              placeholder="密码"
+              type="password"
+              autoComplete="new-password"
+            />
           </Form.Item>
           <Form.Item
             prop="groupId"

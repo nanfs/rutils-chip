@@ -93,7 +93,7 @@ export default class User extends React.Component {
           // notification.success({ message: '查询域成功' })
           const domainlist = res.data.map(item => {
             const obj = {}
-            obj.label = item
+            obj.label = item === 'internal' ? '本地组' : '域'
             obj.value = item
             return obj
           })

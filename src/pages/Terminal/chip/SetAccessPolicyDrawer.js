@@ -77,7 +77,7 @@ export default class SetSafePolicyDrawer extends React.Component {
 
   renderSelectAccess = () => {
     const { totalSelection } = this.state
-    console.log('totalSelection', totalSelection)
+    // console.log('totalSelection', totalSelection)
     return totalSelection.map(item => (
       <Tag key={item} closable onClose={() => this.removeAccessSelection(item)}>
         {item && item.split('&')[1]}

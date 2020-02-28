@@ -40,6 +40,11 @@ export default class Desktop extends React.Component {
     if (selection.length === 0) {
       disbaledButton = { ...disbaledButton, disabledDelete: true }
     }
+    selectData.forEach(function(v, i) {
+      if (v.boundTcNum !== 0) {
+        disbaledButton = { ...disbaledButton, disabledDelete: true }
+      }
+    })
     this.setState({ disbaledButton })
   }
 

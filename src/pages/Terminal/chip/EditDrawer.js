@@ -6,6 +6,13 @@ import Title from '@/components/Title'
 // import SliderNumber from '@/components/SliderNumber'
 
 import terminalApi from '@/services/terminal'
+import {
+  required,
+  checkName,
+  textRange,
+  checkKeyId,
+  password
+} from '@/utils/valid'
 
 const { Option } = Select
 const { TextArea } = Input
@@ -98,12 +105,7 @@ export default class EditDrawer extends React.Component {
           <Form.Item
             prop="name"
             label="终端名称"
-            rules={[
-              {
-                required: true,
-                message: '请输入终端名称'
-              }
-            ]}
+            rules={[required, checkName, textRange(0, 63)]}
           >
             <Input placeholder="终端名称" />
           </Form.Item>
@@ -140,25 +142,11 @@ export default class EditDrawer extends React.Component {
           <Form.Item
             prop="location"
             label="信息位置"
-            rules={[
-              {
-                required: true,
-                message: '请输入信息位置'
-              }
-            ]}
+            rules={[required, textRange(0, 50)]}
           >
             <Input placeholder="信息位置" />
           </Form.Item>
-          <Form.Item
-            prop="loginWay"
-            label="认证方式"
-            rules={[
-              {
-                required: true,
-                message: '请选择认证方式'
-              }
-            ]}
-          >
+          <Form.Item prop="loginWay" label="认证方式" rules={[required]}>
             <Select onChange={this.selectChange}>
               <Option value={1}>keyId</Option>
               <Option value={2}>安全口令</Option>
@@ -167,38 +155,36 @@ export default class EditDrawer extends React.Component {
           <Form.Item
             prop="bondKey"
             label="输入keyId"
-            rules={[
-              {
-                required: true,
-                message: '请输入keyId'
-              }
-            ]}
+            rules={[required, textRange(0, 64), checkKeyId]}
             hidden={
               this.drawer &&
               this.drawer.form &&
               this.drawer.form.getFieldValue('loginWay') === 2
             }
           >
-            <Input placeholder="输入keyId" type="password" />
+            <Input
+              placeholder="输入keyId"
+              type="password"
+              autoComplete="new-password"
+            />
           </Form.Item>
           <Form.Item
             prop="secretWord"
             label="输入口令"
-            rules={[
-              {
-                required: true,
-                message: '请输入口令'
-              }
-            ]}
+            rules={[required, textRange(0, 32)]}
             hidden={
               this.drawer &&
               this.drawer.form &&
               this.drawer.form.getFieldValue('loginWay') === 1
             }
           >
-            <Input placeholder="输入口令" type="password" />
+            <Input
+              placeholder="输入口令"
+              type="password"
+              autoComplete="new-password"
+            />
           </Form.Item>
-          <Form.Item prop="description" label="描述" rules={[]}>
+          <Form.Item prop="description" label="描述" rules={[textRange(0, 50)]}>
             <TextArea rows={3} placeholder="描述" />
           </Form.Item>
         </Formx>

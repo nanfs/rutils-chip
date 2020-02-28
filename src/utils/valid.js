@@ -80,6 +80,15 @@ export function checkName(rule, value, callback) {
   callback()
 }
 
+export function checkKeyId(rule, value, callback) {
+  console.log('checkKeyId', value)
+  const re = new RegExp('^[A-Za-z0-9-_]+$')
+  if (value && !re.test(value)) {
+    callback(new Error('请填写字母、数字、"-"、"_"'))
+  }
+  callback()
+}
+
 export function sessionTime(rule, value, callback) {
   if (value === 0 || value < -1 || value > 10080) {
     callback(new Error('请输入-1~10080非零的整数'))

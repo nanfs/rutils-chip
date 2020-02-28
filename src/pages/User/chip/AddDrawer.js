@@ -110,7 +110,11 @@ export default class AddDrawer extends React.Component {
               }
             ]}
           >
-            <Input placeholder="密码" type="password" />
+            <Input
+              placeholder="密码"
+              type="password"
+              autoComplete="new-password"
+            />
           </Form.Item>
           <Form.Item
             prop="groupId"

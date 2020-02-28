@@ -54,6 +54,7 @@ export default class DetailDrawer extends React.Component {
         draft.desktopTableCfg.searchs = { userId: data.id }
       }),
       () => {
+        console.log('test')
         this.desktopTablex.refresh(this.state.desktopTableCfg)
         this.terminalTablex.refresh(this.state.terminalTableCfg)
       }

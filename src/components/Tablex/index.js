@@ -52,6 +52,7 @@ class Tablex extends React.Component {
   componentDidMount() {
     this.props.onRef && this.props.onRef(this)
     !this.props.stopFetch && this.refresh({ ...this.props.tableCfg })
+    console.log('aaa')
   }
 
   componentDidUpdate(prevProps) {
@@ -155,6 +156,7 @@ class Tablex extends React.Component {
 
   // 重置选择 保留页码
   refresh = tableCfg => {
+    console.log('here')
     return new Promise(resolve => {
       this.loadData(tableCfg).then(res => {
         this.afterLoad(tableCfg, res).then(() => resolve(res))

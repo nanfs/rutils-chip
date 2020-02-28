@@ -273,6 +273,18 @@ export default class Termina extends React.Component {
     this.setState({ disbaledButton, selection, selectData, selectSN })
   }
 
+  onTableChange = (a, filter) => {
+    this.setState(
+      produce(draft => {
+        draft.tableCfg.searchs = {
+          ...draft.tableCfg.searchs,
+          ...filter
+        }
+      }),
+      () => this.tablex.refresh(this.state.tableCfg)
+    )
+  }
+
   render() {
     const searchOptions = [
       { label: '名称', value: 'name' },
@@ -409,6 +421,7 @@ export default class Termina extends React.Component {
             className="no-select-bg"
             tableCfg={this.state.tableCfg}
             onSelectChange={this.onSelectChange}
+            onChange={this.onTableChange}
           />
           <EditDrawer
             onRef={ref => {

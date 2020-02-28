@@ -295,8 +295,23 @@ export default class User extends React.Component {
     this.setState({ disbaledButton, selection, selectData, selectSN })
   }
 
+  onTableChange = (a, filter) => {
+    this.setState(
+      produce(draft => {
+        draft.tableCfg.searchs = {
+          ...draft.tableCfg.searchs,
+          ...filter
+        }
+      }),
+      () => this.tablex.refresh(this.state.tableCfg)
+    )
+  }
+
   render() {
-    const searchOptions = [{ label: '名称', value: 'name' }]
+    const searchOptions = [
+      { label: '用户名', value: 'username' },
+      { label: '姓名', value: 'name' }
+    ]
     const {
       inputValue,
       treeData,
@@ -376,6 +391,7 @@ export default class User extends React.Component {
                 className="no-select-bg"
                 tableCfg={this.state.tableCfg}
                 onSelectChange={this.onSelectChange}
+                onChange={this.onTableChange}
                 stopFetch={true}
               />
               <AddDrawer

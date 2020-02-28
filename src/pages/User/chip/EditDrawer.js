@@ -128,7 +128,7 @@ export default class editDrawer extends React.Component {
               }
             ]}
           >
-            <Input placeholder="用户名" />
+            <Input placeholder="用户名" disabled />
           </Form.Item>
           <Form.Item
             prop="password"

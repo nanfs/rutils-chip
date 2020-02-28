@@ -115,12 +115,15 @@ export default class Pool extends React.Component {
   onSelectChange = (selection, selectData) => {
     let disbaledButton = {}
     if (selection.length !== 1) {
-      disbaledButton = { ...disbaledButton, disabledEdit: true }
+      disbaledButton = {
+        ...disbaledButton,
+        disabledEdit: true,
+        disabledDelete: true
+      }
     }
     if (selection.length === 0) {
       disbaledButton = {
         ...disbaledButton,
-        disabledDelete: true,
         disabledSetUser: true
       }
     }

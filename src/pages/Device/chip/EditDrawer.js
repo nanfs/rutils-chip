@@ -17,13 +17,15 @@ export default class EditDrawer extends React.Component {
   }
 
   componentDidUpdate(props, state) {
+    console.log('state', state, this.state)
+
     if (JSON.stringify(this.state) !== JSON.stringify(state)) {
-      this.setValues()
+      this.setValues(this.state)
     }
   }
 
-  setValues = () => {
-    const { id, name, usageFix, description, usbs } = this.state
+  setValues = data => {
+    const { id, name, usageFix, description, usbs } = data
     const usbsObj = {}
     usbs.forEach((item, index) => {
       usbsObj[`usbname[${index}]`] = item.name
@@ -43,13 +45,11 @@ export default class EditDrawer extends React.Component {
     this.drawer.show()
     const { usagePeripherals, usbs: usbFix } = data
     data.usageFix = usagePeripherals != '0'
-    console.log(usbFix, usbFix[0], usbFix[0] && !usbFix[0].name)
+    let usbs = usbFix
     if (!usbFix.length) {
-      usbFix.push({ name: '', vid: '', pid: '' })
+      usbs = [{ name: '', vid: '', pid: '' }]
     }
-    console.log(data)
-    console.log({ ...data, usbs: usbFix })
-    this.setState({ ...data, usbs: usbFix })
+    this.setState({ ...data, usbs }, this.setValues({ ...data, usbs }))
   }
 
   getUsbs = () => {

@@ -22,28 +22,11 @@ export default class SetUserDrawer extends React.Component {
       columns,
       apiMethod,
       paging: { size: 5 },
+      selection: [],
       rowKey: record => `${record.uuid}&${record.username}`,
       searchs: { domain: 'internal' },
       pageSizeOptions: ['5', '10']
     })
-  }
-
-  onClose = () => {
-    this.setState(
-      {
-        totalSelection: [],
-        tableCfg: createTableCfg({
-          columns,
-          apiMethod,
-          selection: [],
-          paging: { size: 5 },
-          rowKey: record => `${record.uuid}&${record.username}`,
-          searchs: { domain: 'internal' },
-          pageSizeOptions: ['5', '10']
-        })
-      },
-      this.props.onClose()
-    )
   }
 
   onSelectChange = selection => {
@@ -86,7 +69,19 @@ export default class SetUserDrawer extends React.Component {
   pop = ids => {
     // 如果是一个 获取当前分配的用户
     this.drawer.show()
-    this.setState({ ids, totalSelection: [] })
+    this.setState({
+      ids,
+      totalSelection: [],
+      tableCfg: createTableCfg({
+        columns,
+        apiMethod,
+        paging: { size: 5 },
+        selection: [],
+        rowKey: record => `${record.uuid}&${record.username}`,
+        searchs: { domain: 'internal' },
+        pageSizeOptions: ['5', '10']
+      })
+    })
     if (ids && ids.length === 1) {
       desktopsApi
         .detail(ids[0])

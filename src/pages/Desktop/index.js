@@ -110,8 +110,8 @@ export default class Desktop extends React.Component {
     tableCfg: createTableCfg({
       columns: this.columnsArr,
       apiMethod,
-      paging: { size: 5 },
-      pageSizeOptions: ['5', '10']
+      paging: { size: 10 },
+      pageSizeOptions: ['10', '20', '50']
     }),
     innerPath: undefined,
     disbaledButton: {}

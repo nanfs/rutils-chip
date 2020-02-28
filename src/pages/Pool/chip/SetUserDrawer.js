@@ -28,24 +28,6 @@ export default class SetUserDrawer extends React.Component {
     })
   }
 
-  onClose = () => {
-    this.setState(
-      {
-        totalSelection: [],
-        tableCfg: createTableCfg({
-          columns,
-          apiMethod,
-          selection: [],
-          paging: { size: 5 },
-          rowKey: record => `${record.uuid}&${record.username}`,
-          searchs: { domain: 'internal' },
-          pageSizeOptions: ['5', '10']
-        })
-      },
-      this.props.onClose()
-    )
-  }
-
   onSelectChange = selection => {
     const newSelection = selection
     this.setState(
@@ -87,8 +69,19 @@ export default class SetUserDrawer extends React.Component {
   pop = poolId => {
     // 如果是一个 获取当前分配的用户
     this.drawer.show()
-    this.userTablex.replace(this.state.tableCfg)
-    this.setState({ poolId, totalSelection: [] })
+    // this.userTablex.replace(this.state.tableCfg)
+    this.setState({
+      poolId,
+      totalSelection: [],
+      tableCfg: createTableCfg({
+        columns,
+        apiMethod,
+        paging: { size: 5 },
+        rowKey: record => `${record.uuid}&${record.username}`,
+        searchs: { domain: 'internal' },
+        pageSizeOptions: ['5', '10']
+      })
+    })
     poolsApi
       .detail(poolId)
       .then(res => {

@@ -28,16 +28,14 @@ export default class DetailDrawer extends React.Component {
       columns: detailTeminalColumns,
       paging: { size: 5 },
       pageSizeOptions: ['5', '10'],
-      hasRowSelection: false,
-      hasPaging: false
+      hasRowSelection: false
     }),
     desktopTableCfg: createTableCfg({
       apiMethod: detailDesktopApiMethod,
       columns: detailDesktopColumns,
       paging: { size: 5 },
       pageSizeOptions: ['5', '10'],
-      hasRowSelection: false,
-      hasPaging: false
+      hasRowSelection: false
     }),
     initValues: {}
   }
@@ -50,8 +48,14 @@ export default class DetailDrawer extends React.Component {
           ...data,
           statusName: data.status && data.status === 0 ? '正常' : '锁定'
         }
-        draft.terminalTableCfg.searchs = { userId: data.id }
-        draft.desktopTableCfg.searchs = { userId: data.id }
+        draft.terminalTableCfg.searchs = {
+          ...draft.terminalTableCfg.searchs,
+          userId: data.id
+        }
+        draft.desktopTableCfg.searchs = {
+          ...draft.desktopTableCfg.searchs,
+          userId: data.id
+        }
       }),
       () => {
         this.desktopTablex.refresh(this.state.desktopTableCfg)
@@ -140,7 +144,7 @@ export default class DetailDrawer extends React.Component {
           </Row>
           <Row className="dms-detail-row">
             <Col span={3} className="dms-detail-label">
-              已分配桌面数量：
+              已分配桌面数：
             </Col>
             <Col span={8} className="dms-detail-value">
               <Tooltip title={initValues.vmcount}>
@@ -148,7 +152,7 @@ export default class DetailDrawer extends React.Component {
               </Tooltip>
             </Col>
             <Col span={3} className="dms-detail-label">
-              已分配终端数量：
+              已分配终端数：
             </Col>
             <Col span={8} className="dms-detail-value">
               <Tooltip title={initValues.tccount}>

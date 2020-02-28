@@ -13,11 +13,14 @@ export const columns = [
     title: '姓名',
     dataIndex: 'name',
     render: (value, record) => {
-      return record.firstname + record.lastname
+      return (
+        (record.firstname ? '' : record.firstname) +
+        (record.lastname ? '' : record.lastname)
+      )
     }
   },
   {
-    title: '用户组',
+    title: '组织',
     dataIndex: 'groupName'
   },
   {
@@ -29,11 +32,11 @@ export const columns = [
     dataIndex: 'email'
   }, */
   {
-    title: '已分配桌面数量',
+    title: '已分配桌面数',
     dataIndex: 'vmcount'
   },
   {
-    title: '已分配终端数量',
+    title: '已分配终端数',
     dataIndex: 'tccount'
   },
   {

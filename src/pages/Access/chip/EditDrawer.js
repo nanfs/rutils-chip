@@ -15,6 +15,11 @@ const { TextArea } = Input
 const { RangePicker } = DatePicker
 
 export default class EditDrawer extends React.Component {
+  state = {
+    checkWeeksRequired: false,
+    checkDayRequired: false
+  }
+
   compareTime = (rule, value, callback) => {
     const startTime = this.drawer.form.getFieldValue('startTime')
     if (startTime) {
@@ -27,6 +32,15 @@ export default class EditDrawer extends React.Component {
 
   componentDidMount() {
     this.props.onRef && this.props.onRef(this)
+  }
+
+  componentDidUpdate() {
+    const type = this.drawer.form.getFieldValue('type')
+    if (type === 1) {
+      this.drawer.form.validateFields(['weeks'], this.state.checkWeeksRequired)
+    } else {
+      this.drawer.form.validateFields(['day'], this.state.checkDayRequired)
+    }
   }
 
   pop = data => {
@@ -55,9 +69,18 @@ export default class EditDrawer extends React.Component {
       startTime,
       endTime
     })
+    this.setState({
+      checkWeeksRequired: type === 0,
+      checkDayRequired: type === 1
+    })
   }
 
-  onChange = () => {
+  onChange = e => {
+    if (e === 1) {
+      this.setState({ checkWeeksRequired: true, checkDayRequired: false })
+    } else {
+      this.setState({ checkWeeksRequired: false, checkDayRequired: true })
+    }
     this.forceUpdate()
   }
 
@@ -100,6 +123,7 @@ export default class EditDrawer extends React.Component {
   }
 
   render() {
+    const { checkWeeksRequired, checkDayRequired } = this.state
     return (
       <Drawerx
         onRef={ref => {
@@ -135,6 +159,7 @@ export default class EditDrawer extends React.Component {
             prop="week"
             label="准入时间"
             className="time-wrap"
+            rules={[{ required: checkWeeksRequired, message: '这是必填项' }]}
             hidden={
               this.drawer &&
               this.drawer.form &&
@@ -148,6 +173,7 @@ export default class EditDrawer extends React.Component {
             prop="day"
             label="准入时间"
             className="time-wrap"
+            rules={[{ required: checkDayRequired, message: '这是必填项' }]}
             hidden={
               this.drawer &&
               this.drawer.form &&

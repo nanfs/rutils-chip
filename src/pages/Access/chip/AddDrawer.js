@@ -14,6 +14,11 @@ import moment from 'moment'
 const { TextArea } = Input
 const { RangePicker } = DatePicker
 export default class AddDrawer extends React.Component {
+  state = {
+    checkWeeksRequired: true,
+    checkDayRequired: false
+  }
+
   compareTime = (rule, value, callback) => {
     const startTime = this.drawer.form.getFieldValue('startTime')
     if (startTime) {
@@ -28,12 +33,31 @@ export default class AddDrawer extends React.Component {
     this.props.onRef && this.props.onRef(this)
   }
 
-  onChange = () => {
+  componentDidUpdate() {
+    const type = this.drawer.form.getFieldValue('type')
+    if (type === 1) {
+      this.drawer.form.validateFields(['weeks'], this.state.checkWeeksRequired)
+    } else {
+      this.drawer.form.validateFields(['day'], this.state.checkDayRequired)
+    }
+  }
+
+  onChange = e => {
+    if (e === 1) {
+      this.setState({ checkWeeksRequired: true, checkDayRequired: false })
+    } else {
+      this.setState({ checkWeeksRequired: false, checkDayRequired: true })
+    }
     this.forceUpdate()
   }
 
   pop = () => {
     this.drawer.show()
+    this.drawer.form.setFieldsValue({ type: 0 })
+    this.setState({
+      checkWeeksRequired: true,
+      checkDayRequired: false
+    })
   }
 
   add = values => {
@@ -64,6 +88,7 @@ export default class AddDrawer extends React.Component {
   }
 
   render() {
+    const { checkWeeksRequired, checkDayRequired } = this.state
     return (
       <Drawerx
         onRef={ref => {
@@ -73,7 +98,7 @@ export default class AddDrawer extends React.Component {
         onSuccess={this.props.onSuccess}
         onOk={this.add}
       >
-        <Formx initValues={{ type: 0 }}>
+        <Formx>
           <Title slot="基础设置"></Title>
           <Form.Item
             prop="name"
@@ -101,6 +126,7 @@ export default class AddDrawer extends React.Component {
             prop="weeks"
             label="准入时间"
             className="time-wrap"
+            rules={[{ required: checkWeeksRequired, message: '这是必填项' }]}
             hidden={
               this.drawer &&
               this.drawer.form &&
@@ -114,6 +140,7 @@ export default class AddDrawer extends React.Component {
             prop="day"
             label="准入时间"
             className="time-wrap"
+            rules={[{ required: checkDayRequired, message: '这是必填项' }]}
             hidden={
               this.drawer &&
               this.drawer.form &&

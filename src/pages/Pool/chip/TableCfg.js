@@ -10,16 +10,6 @@ export const columns = [
   {
     title: '管理类型',
     dataIndex: 'manageType',
-    // filters: [
-    //   {
-    //     text: '自动',
-    //     value: 0
-    //   },
-    //   {
-    //     text: '手动',
-    //     value: 1
-    //   }
-    // ],
     render: text => (text === 0 ? '自动' : '手动')
   },
   {

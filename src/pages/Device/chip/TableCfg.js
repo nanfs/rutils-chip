@@ -41,16 +41,11 @@ export const columns = [
     dataIndex: 'usb',
     render: (text, record) => {
       const info = record.usbs.map((item, index) => (
-        // <Row key={index}>
-        //   <Col span={8}>name：{item.name}，</Col>
-        //   <Col span={8}>vid：{item.vid}，</Col>
-        //   <Col span={8}>pid:{item.pid}</Col>
-        // </Row>
         <p key={index}>
           name：{item.name}，vid：{item.vid}，pid:{item.pid}
         </p>
       ))
-      return (
+      return info.length ? (
         <Popover content={info}>
           <MyIcon
             type="order-info"
@@ -58,6 +53,8 @@ export const columns = [
             style={{ cursor: 'pointer' }}
           />
         </Popover>
+      ) : (
+        <span>无</span>
       )
     }
   }

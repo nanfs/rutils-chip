@@ -17,8 +17,6 @@ export default class EditDrawer extends React.Component {
   }
 
   componentDidUpdate(props, state) {
-    console.log('state', state, this.state)
-
     if (JSON.stringify(this.state) !== JSON.stringify(state)) {
       this.setValues(this.state)
     }
@@ -43,13 +41,13 @@ export default class EditDrawer extends React.Component {
 
   pop = data => {
     this.drawer.show()
-    const { usagePeripherals, usbs: usbFix } = data
-    data.usageFix = usagePeripherals != '0'
-    let usbs = usbFix
-    if (!usbFix.length) {
-      usbs = [{ name: '', vid: '', pid: '' }]
+    const dataList = JSON.parse(JSON.stringify(data))
+    const { usagePeripherals, usbs } = dataList
+    dataList.usageFix = usagePeripherals != '0'
+    if (usbs.length === 0) {
+      usbs.push({ name: '', vid: '', pid: '' })
     }
-    this.setState({ ...data, usbs }, this.setValues({ ...data, usbs }))
+    this.setState({ ...dataList }, this.setValues({ ...dataList }))
   }
 
   getUsbs = () => {
@@ -112,8 +110,6 @@ export default class EditDrawer extends React.Component {
         usbs[0].pid == '' ||
         usbs[0].pid == undefined
       ) {
-        // notification.warn({ message: '请至少添加一例特例' })
-        // return
         usbs = undefined
       }
     } else if (
@@ -124,9 +120,7 @@ export default class EditDrawer extends React.Component {
       usbs[usbs.length - 1].pid == '' ||
       usbs[usbs.length - 1].pid == undefined
     ) {
-      // notification.warn({ message: '请完善特例' })
-      // return
-      usbs = usbs.slice(0, usbs.length - 2) // 去掉最后一项
+      usbs = usbs.slice(0, usbs.length - 1) // 去掉最后一项
     }
     const { id, name, description, usageFix } = values
     const usagePeripherals = usageFix ? '1' : '0'

@@ -115,7 +115,7 @@ export default class AddDrawer extends React.Component {
       usbs[usbs.length - 1].pid == undefined
     ) {
       // notification.warn({ message: '请完善特例' })
-      usbs = usbs.slice(0, usbs.length - 2) // 去掉最后一项
+      usbs = usbs.slice(0, usbs.length - 1) // 去掉最后一项
     }
     const { id, name, description, usageFix } = values
     const usagePeripherals = usageFix ? '1' : '0'

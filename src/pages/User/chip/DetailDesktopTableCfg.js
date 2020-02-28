@@ -1,6 +1,5 @@
 import React from 'react'
 import userApi from '@/services/user'
-import { Progress } from 'antd'
 import { vmStatusRender, osStatusRender } from '@/utils/tableRender'
 import MyIcon from '@/components/MyIcon'
 import { onlineStringTime } from '@/utils/tool'

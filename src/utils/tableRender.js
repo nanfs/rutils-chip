@@ -18,13 +18,13 @@ export const severityOptions = [
   {
     text: '错误',
     value: 2,
-    icon: 'alert',
+    icon: 'close',
     color: 'alert'
   },
   {
     text: '告警',
     value: 10,
-    icon: 'bulb',
+    icon: 'alert',
     color: 'msg'
   }
 ]

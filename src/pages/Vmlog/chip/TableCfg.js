@@ -22,6 +22,11 @@ export const columns = [
     dataIndex: 'ip'
   },
   {
+    title: '用户',
+    dataIndex: 'userName'
+  },
+
+  {
     title: '桌面',
     dataIndex: 'desktopName'
   },
@@ -34,7 +39,7 @@ export const columns = [
     dataIndex: 'datacenterName'
   },
   {
-    title: '群集',
+    title: '集群',
     dataIndex: 'clusterName'
   }
 ]

@@ -4,6 +4,11 @@ import { Progress, Icon } from 'antd'
 import { vmStatusRender, osStatusRender } from '@/utils/tableRender'
 import { onlineStringTime } from '@/utils/tool'
 import MyIcon from '@/components/MyIcon'
+
+const iconStyle = {
+  check: { fontSize: 20, color: '#1789d8' },
+  close: { fontSize: 18 }
+}
 // TODO antd 样式加载问题
 export const columns = [
   {
@@ -49,7 +54,11 @@ export const columns = [
     dataIndex: 'assignedUsers',
     render: text => (
       <span className="table-action">
-        {text ? <Icon type="check" /> : <Icon type="close" />}
+        {text ? (
+          <Icon type="check" style={iconStyle.check} />
+        ) : (
+          <Icon type="close" style={iconStyle.close} />
+        )}
       </span>
     )
   },
@@ -82,21 +91,39 @@ export const columns = [
     title: 'CPU',
     dataIndex: 'cpuUsageRate',
     render: text => {
-      return <Progress strokeWidth={16} percent={+text || 0}></Progress>
+      return (
+        <Progress
+          strokeWidth={16}
+          percent={+text || 0}
+          status={+text < 100 ? 'active' : 'exception'}
+        ></Progress>
+      )
     }
   },
   {
     title: '内存',
     dataIndex: 'memoryUsageRate',
     render: text => {
-      return <Progress strokeWidth={16} percent={+text || 0}></Progress>
+      return (
+        <Progress
+          strokeWidth={16}
+          percent={+text || 0}
+          status={+text < 100 ? 'active' : 'exception'}
+        ></Progress>
+      )
     }
   },
   {
     title: '网络',
     dataIndex: 'networkUsageRate',
     render: text => {
-      return <Progress strokeWidth={16} percent={+text || 0}></Progress>
+      return (
+        <Progress
+          strokeWidth={10}
+          percent={+text || 0}
+          status={+text < 100 ? 'active' : 'exception'}
+        ></Progress>
+      )
     }
   }
 ]

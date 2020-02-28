@@ -6,7 +6,7 @@ export default {
     return axios({
       url: '/admitpolicys',
       method: 'get',
-      data: qs.stringify(data)
+      params: data
     })
   },
   add(data) {

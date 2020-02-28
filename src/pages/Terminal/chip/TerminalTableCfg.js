@@ -5,18 +5,17 @@ import { Icon, Popover } from 'antd'
 export const columns = [
   {
     title: '状态',
-    dataIndex: 'status',
-    filters: [
-      {
-        text: '1',
-        value: '1'
-      },
-      {
-        text: '3',
-        value: '3'
-      }
-    ],
-    onFilter: (value, record) => record.severity === value
+    dataIndex: 'status'
+    // filters: [
+    //   {
+    //     text: '1',
+    //     value: '1'
+    //   },
+    //   {
+    //     text: '3',
+    //     value: '3'
+    //   }
+    // ]
   },
   {
     title: '名称',

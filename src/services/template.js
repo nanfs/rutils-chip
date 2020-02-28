@@ -8,7 +8,7 @@ export default {
       timeout: 10000,
       url: '/templates',
       method: 'get',
-      data: qs.stringify(data)
+      params: data
     })
   },
   addTem(data) {

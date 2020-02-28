@@ -14,3 +14,4 @@ export default function Title(props) {
   const { slot } = props
   return <p className="drawer-form-title">{slot}</p>
 }
+export { default as TitleInfo } from './TitleInfo'

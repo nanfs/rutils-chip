@@ -68,11 +68,11 @@ export default class Desktop extends React.Component {
           onClick={this.sendOrder.bind(this, record.id, 'restart')}
         />
         {/* //TODO 缺少接口 */}
-        <MyIcon
+        {/* <MyIcon
           type="order-console-end"
           title="关闭控制台"
           onClick={this.sendOrder.bind(this, record.id, 'start')}
-        />
+        /> */}
         <MyIcon
           type="order-console"
           title="打开控制台"

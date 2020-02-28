@@ -17,7 +17,7 @@ export const columns = [
     dataIndex: 'boundTcNum'
   },
   {
-    title: '外设',
+    title: 'USB外设',
     width: 120,
     dataIndex: 'usagePeripherals',
     render: text => {
@@ -37,7 +37,7 @@ export const columns = [
     }
   },
   {
-    title: '特例',
+    title: '名单',
     dataIndex: 'usb',
     render: (text, record) => {
       const info = record.usbs.map((item, index) => (

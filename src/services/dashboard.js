@@ -27,7 +27,7 @@ export default {
     return axios({
       url: '/users/state/statistics',
       method: 'get',
-      data: qs.stringify(data)
+      params: data
     })
   }
 }

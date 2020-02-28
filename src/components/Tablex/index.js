@@ -74,6 +74,7 @@ class Tablex extends React.Component {
       let requestData = {}
 
       if (tableCfg.hasPaging) {
+        console.log('tableCfg', this.state)
         const { size, current } = this.state.paging
         requestData = { ...requestData, size, current }
       }
@@ -190,7 +191,6 @@ class Tablex extends React.Component {
   }
 
   onSelectChange = (selectKeys, selects) => {
-    console.log('selectKeys', selectKeys)
     const { onSelectChange } = this.props
     this.setState({
       selection: selectKeys,

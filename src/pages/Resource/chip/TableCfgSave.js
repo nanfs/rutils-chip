@@ -61,6 +61,11 @@ export const columnsSave = [
           format={() =>
             `${record.usedDiskSize || 0}G/${record.availableDiskSize || 0}G`
           }
+          status={
+            record.usedDiskSize !== record.availableDiskSize
+              ? 'active'
+              : 'exception'
+          }
         ></Progress>
       )
     }

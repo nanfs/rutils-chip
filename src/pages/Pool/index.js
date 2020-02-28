@@ -16,7 +16,7 @@ import SelectSearch from '@/components/SelectSearch'
 import produce from 'immer'
 import poolsApi from '@/services/pools'
 import desktopsApi from '@/services/desktops'
-import Title, { Diliver } from '@/components/Title'
+import { Diliver, TitleInfo } from '@/components/Title'
 import { columns, apiMethod } from './chip/TableCfg'
 import { vmColumns, vmApiMethod } from './chip/VmTableCfg'
 import './index.scss'
@@ -51,11 +51,11 @@ export default class Pool extends React.Component {
           onClick={() => this.sendOrder(record.id, 'restart')}
         />
         {/* //TODO 缺少接口 */}
-        <MyIcon
+        {/* <MyIcon
           type="order-console-end"
           title="关闭控制台"
           onClick={() => this.sendOrder(record.id, 'start')}
-        />
+        /> */}
         <MyIcon
           type="order-console"
           title="打开控制台"
@@ -97,7 +97,7 @@ export default class Pool extends React.Component {
       .then(res => {
         if (res.success) {
           notification.success({ message: '操作成功' })
-          this.tablex.refresh(this.state.tableCfg)
+          this.vmTablex.refresh(this.state.tableCfg)
         } else {
           message.error(res.message || '操作失败')
         }
@@ -306,11 +306,12 @@ export default class Pool extends React.Component {
             }}
           />
           <Diliver />
-          <Title
+          <TitleInfo
+            style={{ paddingTop: '10px', marginBottom: '0px' }}
             slot={
               this.state.currentName && `${this.state.currentName} 的桌面列表`
             }
-          ></Title>
+          />
           <ToolBar>
             <BarLeft>
               <Button

@@ -238,7 +238,7 @@ export default class EditDrawer extends React.Component {
             />
           </Form.Item>
           <Diliver />
-          <Title slot="特例设置"></Title>
+          <Title slot="名单设置"></Title>
           <Row gutter={16} className="form-item-wrapper">
             <Col span={7}>
               <Form.Item label="名称"></Form.Item>

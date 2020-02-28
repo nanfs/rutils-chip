@@ -164,3 +164,17 @@ body {
   .ant-select-selected-icon {
   color: transparent !important;
 }
+.table-icon {
+  &-info {
+    color: #1890ff;
+  }
+  &-msg {
+    color: #faad14;
+  }
+  &-warn {
+    color: #f56a00;
+  }
+  &-alert {
+    color: #f5222d;
+  }
+}

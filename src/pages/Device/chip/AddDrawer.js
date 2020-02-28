@@ -5,7 +5,7 @@ import Formx from '@/components/Formx'
 import Title, { Diliver } from '@/components/Title'
 import deviceApi from '@/services/device'
 import '../index.scss'
-import { required, checkName, number4 } from '@/utils/valid'
+import { required, checkName, number4, number5 } from '@/utils/valid'
 
 const { TextArea } = Input
 export default class AddDrawer extends React.Component {
@@ -218,7 +218,7 @@ export default class AddDrawer extends React.Component {
               unCheckedChildren="禁用"
             />
           </Form.Item>
-          <Form.Item prop="description" label="描述">
+          <Form.Item prop="description" label="描述" rules={[number5]}>
             <TextArea
               style={{ resize: 'none' }}
               rows={4}

@@ -77,7 +77,7 @@ export default class Termina extends React.Component {
         <MyIcon
           type="order-setuser"
           title="发送消息"
-          onClick={this.sendMessage.bind(this, [record.id])}
+          onClick={this.sendMessage.bind(this, [record.sn], [record])}
         />
         <Icon
           type="form"
@@ -103,7 +103,7 @@ export default class Termina extends React.Component {
       apiMethod,
       rowKey: 'sn',
       paging: { size: 10 },
-      pageSizeOptions: ['10', '20', '50']
+      pageSizeOptions: ['5', '10']
     }),
     innerPath: undefined,
     // initValues: {},
@@ -162,11 +162,12 @@ export default class Termina extends React.Component {
     this.currentDrawer = this.setAccessPolicyDrawer
   }
 
-  sendMessage = () => {
+  sendMessage = (sn = undefined, selectData = undefined) => {
     this.setState({ inner: '发送消息' })
+
     this.sendMessageDrawer.pop(
-      this.tablex.getSelection(),
-      this.state.selectData
+      sn || this.state.selectSN,
+      selectData || this.state.selectData
     )
     // this.sendMessageDrawer.drawer.show()
     this.currentDrawer = this.sendMessageDrawer

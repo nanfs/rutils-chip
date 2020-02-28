@@ -64,6 +64,7 @@ export default class AddDrawer extends React.Component {
           <Form.Item
             prop="name"
             label="终端名称"
+            required
             rules={[
               {
                 required: true,
@@ -76,6 +77,7 @@ export default class AddDrawer extends React.Component {
           <Form.Item
             prop="autoLockTime"
             label="自动锁屏时间"
+            required
             rules={[
               {
                 required: true
@@ -105,6 +107,7 @@ export default class AddDrawer extends React.Component {
           <Form.Item
             prop="location"
             label="信息位置"
+            required
             rules={[
               {
                 required: true,
@@ -117,6 +120,7 @@ export default class AddDrawer extends React.Component {
           <Form.Item
             prop="securityClassification"
             label="认证方式"
+            required
             rules={[
               {
                 required: true,
@@ -133,6 +137,7 @@ export default class AddDrawer extends React.Component {
           <Form.Item
             prop="secretWord"
             label="输入口令"
+            required
             rules={[
               {
                 required: true,

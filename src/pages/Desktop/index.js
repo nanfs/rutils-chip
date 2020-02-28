@@ -53,6 +53,7 @@ export default class Desktop extends React.Component {
         <MyIcon
           type="order-poweroff"
           title="断电"
+          disabled={record.status === 0}
           onClick={this.sendOrder.bind(this, record.id, 'poweroff')}
         />
         <MyIcon
@@ -64,7 +65,7 @@ export default class Desktop extends React.Component {
         <MyIcon
           type="vm-rebootinprogress"
           title="重启"
-          disabled={record.status === 10}
+          disabled={record.status === 10 || record.status === 0}
           onClick={this.sendOrder.bind(this, record.id, 'restart')}
         />
         {/* //TODO 缺少接口 */}
@@ -76,6 +77,7 @@ export default class Desktop extends React.Component {
         <MyIcon
           type="order-console"
           title="打开控制台"
+          disabled={record.status !== 1}
           onClick={this.openConsole.bind(this, record.name, record.id)}
         />
         <MyIcon
@@ -108,8 +110,8 @@ export default class Desktop extends React.Component {
     tableCfg: createTableCfg({
       columns: this.columnsArr,
       apiMethod,
-      paging: { size: 5 },
-      pageSizeOptions: ['5', '10']
+      paging: { size: 10 },
+      pageSizeOptions: ['10', '20', '50']
     }),
     innerPath: undefined,
     disbaledButton: {}
@@ -318,12 +320,6 @@ export default class Desktop extends React.Component {
           <ToolBar>
             <BarLeft>
               <Button onClick={this.createVm}>创建桌面</Button>
-              {/* <Button
-                onClick={this.editVm}
-                disabled={disbaledButton.disabledEdit}
-              >
-                编辑桌面
-              </Button> */}
               <Button
                 onClick={this.setUser}
                 disabled={disbaledButton.disabledSetUser}

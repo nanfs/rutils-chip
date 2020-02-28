@@ -8,8 +8,13 @@ import Selectx from '@/components/Selectx'
 import Title from '@/components/Title'
 
 import userApi from '@/services/user'
-
-const { Option } = Select
+import {
+  required,
+  checkName,
+  textRange,
+  checkPassword,
+  checkEmail
+} from '@/utils/valid'
 
 export default class AddDrawer extends React.Component {
   componentDidMount() {
@@ -52,102 +57,50 @@ export default class AddDrawer extends React.Component {
           }}
         >
           <Title slot="基础设置"></Title>
-          <Form.Item
-            prop="domain"
-            label="域"
-            rules={[
-              {
-                required: true,
-                message: '请选择域'
-              }
-            ]}
-          >
+          <Form.Item prop="domain" label="域" required rules={[required]}>
             <Selectx placeholder="请选择域" options={domainlist}></Selectx>
           </Form.Item>
           <Form.Item
             prop="firstname"
             label="姓"
-            rules={[
-              {
-                required: true,
-                message: '请填写姓'
-              }
-            ]}
+            required
+            rules={[required, checkName, textRange(0, 29)]}
           >
             <Input placeholder="名" />
           </Form.Item>
           <Form.Item
             prop="lastname"
             label="名"
-            rules={[
-              {
-                required: true,
-                message: '请填写名'
-              }
-            ]}
+            rules={[required, checkName, textRange(0, 28)]}
           >
             <Input placeholder="名" />
           </Form.Item>
           <Form.Item
             prop="username"
             label="用户名"
-            rules={[
-              {
-                required: true,
-                message: '请选择用户名'
-              }
-            ]}
+            required
+            rules={[required, textRange(0, 20)]}
           >
             <Input placeholder="用户名" />
           </Form.Item>
           <Form.Item
             prop="password"
             label="密码"
-            rules={[
-              {
-                required: true,
-                message: '请填写密码'
-              }
-            ]}
+            required
+            rules={[required, checkPassword]}
           >
-            <Input placeholder="密码" type="password" />
+            <Input
+              placeholder="密码"
+              type="password"
+              autoComplete="new-password"
+            />
           </Form.Item>
-          <Form.Item
-            prop="groupId"
-            label="组织"
-            rules={[
-              {
-                required: true,
-                message: '请选择组织'
-              }
-            ]}
-          >
+          <Form.Item prop="groupId" label="组织" required rules={[required]}>
             <TreeSelectx nodeData={nodeData} />
           </Form.Item>
-          <Form.Item
-            prop="email"
-            label="邮件"
-            rules={[
-              {
-                required: true,
-                message: '请输入邮件'
-              }
-            ]}
-          >
+          <Form.Item prop="email" label="邮件" rules={[checkEmail]}>
             <Input placeholder="邮件" />
           </Form.Item>
-          {/* <Form.Item
-            prop="KEYID"
-            label="KEYID"
-            rules={[
-              {
-                required: true,
-                message: '请输入KEYID'
-              }
-            ]}
-          >
-            <Input placeholder="KEYID" />
-          </Form.Item> */}
         </Formx>
       </Drawerx>
     )

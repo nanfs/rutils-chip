@@ -8,8 +8,8 @@ export const usbOptions = [
 export const memoryOptions = [
   { label: '1G', value: '1' },
   { label: '2G', value: '2' },
-  { label: '4G', value: '3' },
-  { label: '8G', value: '4' }
+  { label: '4G', value: '4' },
+  { label: '8G', value: '8' }
 ]
 export const cpuOptions = [
   { label: '1核', value: '1' },

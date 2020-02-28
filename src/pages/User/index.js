@@ -24,7 +24,7 @@ import { array, element } from 'prop-types'
 
 const { confirm } = Modal
 
-const nodes = [
+/* const nodes = [
   {
     id: 'department1',
     key: 'department1',
@@ -67,14 +67,14 @@ const nodes = [
     title: '前端组',
     parentId: 'department3'
   }
-]
+] */
 
 export default class User extends React.Component {
   state = {
     tableCfg: createTableCfg({
       columns,
       apiMethod,
-      paging: { size: 5 },
+      paging: { size: 10 },
       pageSizeOptions: ['5', '10']
     }),
     innerPath: undefined,
@@ -93,7 +93,7 @@ export default class User extends React.Component {
           // notification.success({ message: '查询域成功' })
           const domainlist = res.data.map(item => {
             const obj = {}
-            obj.label = item
+            obj.label = item === 'internal' ? '本地组' : '域'
             obj.value = item
             return obj
           })

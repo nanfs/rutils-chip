@@ -51,6 +51,7 @@ export default class EditNodeModal extends React.Component {
           <Form.Item
             prop="name"
             label="名称"
+            required
             rules={[
               {
                 required: true,

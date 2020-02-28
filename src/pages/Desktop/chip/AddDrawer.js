@@ -117,10 +117,15 @@ export default class AddDrawer extends React.Component {
       >
         <Formx>
           <Title slot="基础设置"></Title>
-          <Form.Item prop="name" label="桌面名称" rules={[required, checkName]}>
+          <Form.Item
+            prop="name"
+            label="桌面名称"
+            required
+            rules={[required, checkName]}
+          >
             <Input placeholder="桌面名称" />
           </Form.Item>
-          <Form.Item prop="templateId" label="模板" rules={[required]}>
+          <Form.Item prop="templateId" label="模板" requiredrules={[required]}>
             <Radiox
               getData={this.getTemplate}
               options={this.state.templateOptions}
@@ -134,6 +139,7 @@ export default class AddDrawer extends React.Component {
           <Form.Item
             prop="cpuCores"
             label="CPU"
+            required
             rules={[required, lessThanValue(160)]}
             wrapperCol={{ sm: { span: 16 } }}
           >
@@ -146,6 +152,7 @@ export default class AddDrawer extends React.Component {
           <Form.Item
             prop="memory"
             label="内存"
+            required
             rules={[required, lessThanValue(100)]}
             wrapperCol={{ sm: { span: 16 } }}
           >
@@ -163,6 +170,7 @@ export default class AddDrawer extends React.Component {
           <Form.Item
             prop="network"
             label="网络"
+            required
             rules={[required]}
             wrapperCol={{ sm: { span: 16 } }}
             hidden={!this.state.fetchData}

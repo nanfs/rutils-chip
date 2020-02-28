@@ -75,6 +75,7 @@ export default class ModalDemo extends React.Component {
           <Form.Item
             prop="oldPassword"
             label="旧密码"
+            required
             rules={[
               {
                 required: true,
@@ -89,6 +90,7 @@ export default class ModalDemo extends React.Component {
           <Form.Item
             prop="newPassword"
             label="新密码"
+            required
             rules={[required, checkPassword]}
             labelCol={{ sm: { span: 5 } }}
             wrapperCol={{ sm: { span: 16 } }}
@@ -98,6 +100,7 @@ export default class ModalDemo extends React.Component {
           <Form.Item
             prop="confirmPassword"
             label="确认新密码"
+            required
             rules={[required, this.comparePwd]}
             labelCol={{ sm: { span: 5 } }}
             wrapperCol={{ sm: { span: 16 } }}

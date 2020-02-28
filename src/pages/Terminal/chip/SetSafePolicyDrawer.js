@@ -34,26 +34,6 @@ export default class SetSafePolicyDrawer extends React.Component {
     switchStatus: true
   }
 
-  onClose = () => {
-    this.setState(
-      {
-        totalSelection: [],
-        tableCfg: createTableCfg({
-          columns,
-          apiMethod,
-          selection: [],
-          paging: { size: 5 },
-          rowKey: record => `${record.id}&${record.name}`,
-          searchs: {},
-          pageSizeOptions: ['5', '10']
-        }),
-        switchDisable: true,
-        switchStatus: true
-      },
-      this.props.onClose()
-    )
-  }
-
   onSelectChange = selection => {
     const newSelection = selection
     this.setState(
@@ -86,7 +66,6 @@ export default class SetSafePolicyDrawer extends React.Component {
 
   renderSelectDevice = () => {
     const { totalSelection } = this.state
-    console.log('totalSelection', totalSelection)
     return totalSelection.map(item => (
       <Tag key={item} closable onClose={() => this.removeDeviceSelection(item)}>
         {item && item.split('&')[1]}
@@ -96,7 +75,18 @@ export default class SetSafePolicyDrawer extends React.Component {
 
   pop = sns => {
     // 如果是一个 获取当前分配的用户
-    this.setState({ sns })
+    this.setState({
+      sns,
+      totalSelection: [],
+      tableCfg: createTableCfg({
+        columns,
+        apiMethod,
+        paging: { size: 5 },
+        rowKey: record => `${record.id}&${record.name}`,
+        searchs: {},
+        pageSizeOptions: ['5', '10']
+      })
+    })
     if (sns && sns.length === 1) {
       terminalApi
         .detail(sns[0])

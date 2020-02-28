@@ -94,6 +94,7 @@ export default class LoginForm extends React.Component {
       >
         <Form.Item
           prop="username"
+          required
           rules={[required]}
           wrapperCol={{ sm: { span: 24 } }}
         >
@@ -106,6 +107,7 @@ export default class LoginForm extends React.Component {
         <Form.Item
           prop="password"
           wrapperCol={{ sm: { span: 24 } }}
+          required
           rules={[
             {
               required: true,
@@ -124,6 +126,7 @@ export default class LoginForm extends React.Component {
           <Form.Item
             prop="pincode"
             wrapperCol={{ sm: { span: 24 } }}
+            required
             rules={[
               {
                 required: true,

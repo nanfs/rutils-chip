@@ -1,6 +1,6 @@
 import React from 'react'
 import deviceApi from '@/services/device'
-import { Icon, Popover } from 'antd'
+import { Icon, Popover, Tag } from 'antd'
 import MyIcon from '@/components/MyIcon'
 
 export const columns = [
@@ -14,7 +14,8 @@ export const columns = [
   },
   {
     title: '已绑定终端数',
-    dataIndex: 'boundTcNum'
+    dataIndex: 'boundTcNum',
+    render: text => <Tag>{text}</Tag>
   },
   {
     title: 'USB外设',

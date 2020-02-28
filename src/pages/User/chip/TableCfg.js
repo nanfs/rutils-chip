@@ -44,7 +44,6 @@ export const columns = [
       { value: 0, text: '正常' }
     ],
     render: value => {
-      console.log(value)
       return value === 0 ? (
         <span>
           <Icon

@@ -7,12 +7,7 @@ import { Tag } from 'antd'
 import { columns, apiMethod } from './AccessTableCfg'
 import terminalApi from '@/services/terminal'
 import produce from 'immer'
-import Tablex, {
-  createTableCfg,
-  TableWrap,
-  ToolBar,
-  BarLeft
-} from '@/components/Tablex'
+import Tablex, { createTableCfg, TableWrap, ToolBar } from '@/components/Tablex'
 
 // 是否翻页保存数据
 export default class SetSafePolicyDrawer extends React.Component {
@@ -29,21 +24,6 @@ export default class SetSafePolicyDrawer extends React.Component {
       rowKey: record => `${record.id}&${record.name}`,
       searchs: {},
       pageSizeOptions: ['5', '10']
-    })
-  }
-
-  onClose = () => {
-    this.setState({
-      totalSelection: [],
-      tableCfg: createTableCfg({
-        columns,
-        apiMethod,
-        selection: [],
-        paging: { size: 5 },
-        rowKey: record => `${record.id}&${record.name}`,
-        searchs: {},
-        pageSizeOptions: ['5', '10']
-      })
     })
   }
 
@@ -77,7 +57,7 @@ export default class SetSafePolicyDrawer extends React.Component {
 
   renderSelectAccess = () => {
     const { totalSelection } = this.state
-    console.log('totalSelection', totalSelection)
+    // console.log('totalSelection', totalSelection)
     return totalSelection.map(item => (
       <Tag key={item} closable onClose={() => this.removeAccessSelection(item)}>
         {item && item.split('&')[1]}
@@ -87,7 +67,18 @@ export default class SetSafePolicyDrawer extends React.Component {
 
   pop = sns => {
     // 如果是一个 获取当前分配的用户
-    this.setState({ sns })
+    this.setState({
+      sns,
+      totalSelection: [],
+      tableCfg: createTableCfg({
+        columns,
+        apiMethod,
+        paging: { size: 5 },
+        rowKey: record => `${record.id}&${record.name}`,
+        searchs: {},
+        pageSizeOptions: ['5', '10']
+      })
+    })
     if (sns && sns.length === 1) {
       terminalApi
         .detail(sns[0])

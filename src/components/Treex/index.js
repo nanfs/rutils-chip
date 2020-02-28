@@ -384,6 +384,7 @@ export default class Treex extends React.Component {
                 onClick={() => {
                   this.editNodeModal.pop()
                 }}
+                disabled={this.state.nodeDeleteDisable}
               >
                 修改
               </Menu.Item>

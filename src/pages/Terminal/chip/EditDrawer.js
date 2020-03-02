@@ -30,7 +30,7 @@ export default class EditDrawer extends React.Component {
   pop = data => {
     this.drawer.show()
     const {
-      id,
+      sn,
       name,
       description,
       loginWay,
@@ -39,7 +39,7 @@ export default class EditDrawer extends React.Component {
       bondKey
     } = data
     this.drawer.form.setFieldsValue({
-      id,
+      sn,
       name,
       description,
       loginWay,
@@ -61,7 +61,7 @@ export default class EditDrawer extends React.Component {
 
   editTerminal = values => {
     const {
-      id,
+      sn,
       name,
       description,
       loginWay,
@@ -78,7 +78,7 @@ export default class EditDrawer extends React.Component {
       bondKey: loginWay === 1 ? bondKey : ''
     }
     terminalApi
-      .editTerminal(id, data)
+      .editTerminal(sn, data)
       .then(res => {
         this.drawer.afterSubmit(res)
       })
@@ -102,7 +102,7 @@ export default class EditDrawer extends React.Component {
       >
         <Formx>
           <Title slot="基础设置"></Title>
-          <Form.Item prop="id" hidden>
+          <Form.Item prop="sn" hidden>
             <Input />
           </Form.Item>
           <Form.Item

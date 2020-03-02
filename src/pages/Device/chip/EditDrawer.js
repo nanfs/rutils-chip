@@ -192,7 +192,7 @@ export default class EditDrawer extends React.Component {
         }}
         onSuccess={this.props.onSuccess}
         onOk={this.updateDev}
-        onClose={this.onClose}
+        onClose={this.props.onClose}
       >
         <Formx
           onRef={ref => {

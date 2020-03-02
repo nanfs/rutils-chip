@@ -217,7 +217,7 @@ export default class User extends React.Component {
   }
 
   onSelect = (value, node) => {
-    this.selectSearch.reset()
+    // this.selectSearch.reset()
     this.setState(
       produce(draft => {
         draft.tableCfg.searchs = {
@@ -225,7 +225,7 @@ export default class User extends React.Component {
           groupId: value[0]
         }
       }),
-      () => this.tablex.refresh(this.state.tableCfg)
+      () => this.tablex.search(this.state.tableCfg)
     )
   }
 

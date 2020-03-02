@@ -28,7 +28,8 @@ export default class DetailDrawer extends React.Component {
       columns: detailTeminalColumns,
       paging: { size: 5 },
       pageSizeOptions: ['5', '10'],
-      hasRowSelection: false
+      hasRowSelection: false,
+      rowKey: 'name'
     }),
     desktopTableCfg: createTableCfg({
       apiMethod: detailDesktopApiMethod,
@@ -36,7 +37,6 @@ export default class DetailDrawer extends React.Component {
       paging: { size: 5 },
       pageSizeOptions: ['5', '10'],
       hasRowSelection: false,
-
       rowKey: 'vmname'
     }),
     initValues: {}

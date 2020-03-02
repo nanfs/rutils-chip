@@ -9,12 +9,12 @@ export const detailDesktopColumns = [
     title: '状态',
     dataIndex: 'status',
     width: 80,
-    filters: [
+    /* filters: [
       { value: [0, 13], text: '关机' },
       { value: [1], text: '开机' },
       { value: [2, 16, 10, 15, 5, 6, 11, 12, 9], text: '运行' },
       { value: [7, 8, 14, -1, 4], text: '异常' }
-    ],
+    ], */
     render: text => vmStatusRender(text)
   },
   {

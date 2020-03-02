@@ -12,7 +12,7 @@ export const detailTeminalColumns = [
   {
     title: '状态',
     dataIndex: 'status',
-    filters: [
+    /* filters: [
       {
         text: '离线',
         value: '0'
@@ -21,8 +21,7 @@ export const detailTeminalColumns = [
         text: '在线',
         value: '1'
       }
-    ],
-    onFilter: (value, record) => record.status === value,
+    ], */
     render: value => {
       return value === 0 ? (
         <Popover content={'离线'}>
@@ -56,7 +55,7 @@ export const detailTeminalColumns = [
   {
     title: '接入状态',
     dataIndex: 'isReg',
-    filters: [
+    /* filters: [
       {
         text: '待接入',
         value: false
@@ -65,8 +64,7 @@ export const detailTeminalColumns = [
         text: '已接入',
         value: true
       }
-    ],
-    onFilter: (value, record) => record.isReg === value,
+    ], */
     render: value => {
       return value ? (
         <Tag color="#ade688">已接入</Tag>

@@ -48,7 +48,7 @@ export default class DetailDrawer extends React.Component {
       produce(draft => {
         draft.initValues = {
           ...data,
-          statusName: data.status && data.status === 0 ? '正常' : '锁定'
+          statusName: data.status === 0 ? '正常' : '锁定'
         }
         draft.terminalTableCfg.searchs = {
           ...draft.terminalTableCfg.searchs,
@@ -94,7 +94,7 @@ export default class DetailDrawer extends React.Component {
             </Col>
             <Col span={8} className="dms-detail-value">
               <Tooltip title={initValues.name}>
-                <span>initValues.name</span>
+                <span>{initValues.name}</span>
               </Tooltip>
             </Col>
           </Row>

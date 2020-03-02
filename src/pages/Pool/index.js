@@ -119,15 +119,15 @@ export default class Pool extends React.Component {
       disbaledButton = {
         ...disbaledButton,
         disabledEdit: true,
-        disabledDelete: true
-      }
-    }
-    if (selection.length === 0) {
-      disbaledButton = {
-        ...disbaledButton,
+        disabledDelete: true,
         disabledSetUser: true
       }
     }
+    // if (selection.length === 0) {
+    //   disbaledButton = {
+    //     ...disbaledButton
+    //   }
+    // }
     this.setState({ disbaledButton })
   }
 

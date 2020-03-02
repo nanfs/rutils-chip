@@ -158,7 +158,7 @@ export default class AddDrawer extends React.Component {
             <InputNumber placeholder="" min={0} max={20} />
           </Form.Item>
           <Form.Item prop="maxAssignedVmsPerUser" label="用户最大虚拟机数">
-            <InputNumber placeholder="" />
+            <InputNumber placeholder="" min={0} max={20} />
           </Form.Item>
           <Form.Item prop="description" label="描述">
             <TextArea placeholder="" />

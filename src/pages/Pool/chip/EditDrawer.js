@@ -117,7 +117,7 @@ export default class EditDrawer extends React.Component {
             label="用户最大虚拟机数"
             rules={[this.compareTotal]}
           >
-            <InputNumber placeholder="" />
+            <InputNumber placeholder="" min={0} max={20} />
           </Form.Item>
           <Form.Item prop="description" label="描述">
             <TextArea placeholder="" />

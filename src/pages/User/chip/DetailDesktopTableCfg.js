@@ -37,17 +37,18 @@ export const detailDesktopColumns = [
     dataIndex: 'consolestatus',
     width: 100,
     render: (text, record) => {
-      const consoleContent = record.consolestatus ? (
-        <div>
-          <MyIcon type="tc-connecting" component="svg" />
-          <span>已连接</span>{' '}
-        </div>
-      ) : (
-        <div>
-          <MyIcon type="storage-unattached" component="svg" />
-          <span>未连接</span>
-        </div>
-      )
+      const consoleContent =
+        record.consolestatus === '已连接' ? (
+          <div>
+            <MyIcon type="tc-connecting" component="svg" />
+            <span>已连接</span>{' '}
+          </div>
+        ) : (
+          <div>
+            <MyIcon type="storage-unattached" component="svg" />
+            <span>未连接</span>
+          </div>
+        )
       return consoleContent
     }
   },

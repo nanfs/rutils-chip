@@ -21,8 +21,9 @@ export default class SetUserDrawer extends React.Component {
     tableCfg: createTableCfg({
       columns,
       apiMethod,
-      paging: { size: 5 },
-      rowKey: record => `${record.uuid}&${record.username}`,
+      paging: { size: 10 },
+      rowKey: record =>
+        `${record.uuid}&${record.username}&${record.username}&${record.groupname}`,
       searchs: { domain: 'internal' },
       pageSizeOptions: ['5', '10']
     })
@@ -75,8 +76,9 @@ export default class SetUserDrawer extends React.Component {
       tableCfg: createTableCfg({
         columns,
         apiMethod,
-        paging: { size: 5 },
-        rowKey: record => `${record.uuid}&${record.username}`,
+        paging: { size: 10 },
+        rowKey: record =>
+          `${record.uuid}&${record.username}&${record.name}&${record.groupname}`,
         searchs: { domain: 'internal' },
         pageSizeOptions: ['5', '10']
       })
@@ -86,7 +88,8 @@ export default class SetUserDrawer extends React.Component {
       .then(res => {
         const { owner } = res.data
         const totalSelection = owner.map(
-          item => `${item.uuid}&${item.username}`
+          item =>
+            `${item.uuid}&${item.username}&${item.name}&${item.department}`
         )
         this.setState(
           produce(draft => {
@@ -108,8 +111,14 @@ export default class SetUserDrawer extends React.Component {
   setUser = () => {
     const { poolId, totalSelection } = this.state
     const users = totalSelection.map(item => {
-      const [uuid, username] = item.split('&')
-      return { uuid, username, domain: 'internal-authz' }
+      const [uuid, username, name, groupname] = item.split('&')
+      return {
+        uuid,
+        username,
+        name,
+        department: groupname,
+        domain: 'internal-authz'
+      }
     })
 
     poolsApi

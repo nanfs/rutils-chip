@@ -36,6 +36,12 @@ export default class DetailDrawer extends React.Component {
         title: '姓名',
         width: 200,
         dataIndex: 'name'
+        /* render: (value, record) => {
+          return (
+            (!record.firstname ? '' : record.firstname) +
+            (!record.lastname ? '' : record.lastname)
+          )
+        } */
       },
       {
         title: '组',

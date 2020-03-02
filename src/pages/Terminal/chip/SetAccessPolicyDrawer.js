@@ -20,7 +20,7 @@ export default class SetSafePolicyDrawer extends React.Component {
     tableCfg: createTableCfg({
       columns,
       apiMethod,
-      paging: { size: 5 },
+      paging: { size: 10 },
       rowKey: record => `${record.id}&${record.name}`,
       searchs: {},
       pageSizeOptions: ['5', '10']
@@ -73,7 +73,7 @@ export default class SetSafePolicyDrawer extends React.Component {
       tableCfg: createTableCfg({
         columns,
         apiMethod,
-        paging: { size: 5 },
+        paging: { size: 10 },
         rowKey: record => `${record.id}&${record.name}`,
         searchs: {},
         pageSizeOptions: ['5', '10']

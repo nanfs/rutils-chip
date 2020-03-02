@@ -21,9 +21,10 @@ export default class SetUserDrawer extends React.Component {
     tableCfg: createTableCfg({
       columns,
       apiMethod,
-      paging: { size: 5 },
+      paging: { size: 10 },
       selection: [],
-      rowKey: record => `${record.uuid}&${record.username}`,
+      rowKey: record =>
+        `${record.uuid}&${record.username}&${record.name}&${record.groupname}`,
       searchs: { domain: 'internal' },
       pageSizeOptions: ['5', '10']
     })
@@ -75,9 +76,10 @@ export default class SetUserDrawer extends React.Component {
       tableCfg: createTableCfg({
         columns,
         apiMethod,
-        paging: { size: 5 },
+        paging: { size: 10 },
         selection: [],
-        rowKey: record => `${record.uuid}&${record.username}`,
+        rowKey: record =>
+          `${record.uuid}&${record.username}&${record.name}&${record.groupname}`,
         searchs: { domain: 'internal' },
         pageSizeOptions: ['5', '10']
       })
@@ -88,7 +90,8 @@ export default class SetUserDrawer extends React.Component {
         .then(res => {
           const { owner } = res.data
           const totalSelection = owner.map(
-            item => `${item.uuid}&${item.username}`
+            item =>
+              `${item.uuid}&${item.username}&${item.name}&${item.department}`
           )
           this.setState(
             produce(draft => {
@@ -114,8 +117,14 @@ export default class SetUserDrawer extends React.Component {
     // TODO 是否是新增 删除 还是直接 传入桌面是单个还是批量
     const { ids, totalSelection } = this.state
     const users = totalSelection.map(item => {
-      const [uuid, username] = item.split('&')
-      return { uuid, username, domain: 'internal-authz' }
+      const [uuid, username, name, groupname] = item.split('&')
+      return {
+        uuid,
+        username,
+        name,
+        department: groupname,
+        domain: 'internal-authz'
+      }
     })
 
     desktopsApi

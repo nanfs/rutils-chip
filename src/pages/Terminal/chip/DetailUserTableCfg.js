@@ -5,7 +5,10 @@ export const detailUserColumns = [
     title: '姓名',
     dataIndex: 'name',
     render: (value, record) => {
-      return record.firstname + record.lastname
+      return (
+        (record.firstname === 'null' ? '' : record.firstname) +
+        (record.lastname === 'null' ? '' : record.lastname)
+      )
     }
   },
   {
@@ -14,6 +17,6 @@ export const detailUserColumns = [
   },
   {
     title: '组',
-    dataIndex: 'groupName'
+    dataIndex: 'department'
   }
 ]

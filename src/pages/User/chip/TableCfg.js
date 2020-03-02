@@ -11,13 +11,13 @@ export const columns = [
   },
   {
     title: '姓名',
-    dataIndex: 'name',
-    render: (value, record) => {
+    dataIndex: 'name'
+    /* render: (value, record) => {
       return (
         (record.firstname === null ? '' : record.firstname) +
         (record.lastname === null ? '' : record.lastname)
       )
-    }
+    } */
   },
   {
     title: '组织',
@@ -45,8 +45,8 @@ export const columns = [
     title: '状态',
     dataIndex: 'status',
     filters: [
-      { value: [1], text: '锁定' },
-      { value: [0], text: '正常' }
+      { value: '1', text: '锁定' },
+      { value: '0', text: '正常' }
     ],
     render: value => {
       return value === 0 ? (

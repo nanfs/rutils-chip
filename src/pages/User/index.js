@@ -118,6 +118,7 @@ export default class User extends React.Component {
         draft.tableCfg.searchs = {
           // ...draft.tableCfg.searchs,
           status: draft.tableCfg.searchs.status,
+          groupId: draft.tableCfg.searchs.groupId,
           ...searchs
         }
       }),
@@ -298,21 +299,24 @@ export default class User extends React.Component {
   }
 
   onTableChange = (a, filter) => {
-    const statusList = []
+    console.log(filter)
+    const status = ''
+
+    /* filter.status.forEach(function(v, i) {
+        status.push(...v)
+      }) */
     filter.status &&
-      filter.status.forEach(function(v, i) {
-        statusList.push(...v)
-      })
-    this.setState(
-      produce(draft => {
-        draft.tableCfg.searchs = {
-          ...draft.tableCfg.searchs,
-          status: statusList
-          // ...filter
-        }
-      }),
-      () => this.tablex.refresh(this.state.tableCfg)
-    )
+      this.setState(
+        produce(draft => {
+          draft.tableCfg.searchs = {
+            ...draft.tableCfg.searchs,
+            groupId: draft.tableCfg.searchs.groupId,
+            status: filter.status.length > 1 ? '' : filter.status[0]
+            // ...filter
+          }
+        }),
+        () => this.tablex.refresh(this.state.tableCfg)
+      )
   }
 
   render() {

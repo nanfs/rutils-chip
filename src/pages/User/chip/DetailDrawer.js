@@ -93,18 +93,8 @@ export default class DetailDrawer extends React.Component {
               姓名：
             </Col>
             <Col span={8} className="dms-detail-value">
-              <Tooltip
-                title={
-                  initValues.firstname &&
-                  initValues.lastname &&
-                  initValues.firstname + initValues.lastname
-                }
-              >
-                <span>
-                  {initValues.firstname &&
-                    initValues.lastname &&
-                    initValues.firstname + initValues.lastname}
-                </span>
+              <Tooltip title={initValues.name}>
+                <span>initValues.name</span>
               </Tooltip>
             </Col>
           </Row>

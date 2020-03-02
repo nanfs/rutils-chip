@@ -40,7 +40,7 @@ export default class Pool extends React.Component {
         <MyIcon
           type="order-up"
           title="开机"
-          disabled={record.status === 1}
+          disabled={record.status !== 0}
           onClick={() => this.sendOrder(record.id, 'start')}
         />
         <MyIcon
@@ -52,7 +52,7 @@ export default class Pool extends React.Component {
         <MyIcon
           type="vm-rebootinprogress"
           title="重启"
-          disabled={record.status === 0}
+          disabled={record.status === 10 || record.status === 0}
           onClick={() => this.sendOrder(record.id, 'restart')}
         />
         {/* //TODO 缺少接口 */}

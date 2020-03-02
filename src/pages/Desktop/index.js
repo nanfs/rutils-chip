@@ -47,7 +47,7 @@ export default class Desktop extends React.Component {
         <MyIcon
           type="order-up"
           title="开机"
-          disabled={record.status === 1}
+          disabled={record.status !== 0}
           onClick={this.sendOrder.bind(this, record.id, 'start')}
         />
         <MyIcon

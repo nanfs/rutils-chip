@@ -83,7 +83,7 @@ export const detailTeminalColumns = [
   },
   {
     title: '外设控制',
-    dataIndex: 'safepolicy',
+    dataIndex: 'numOfsecurityPolicy',
     render: text => (
       <span className="table-action">
         {text ? (
@@ -96,7 +96,7 @@ export const detailTeminalColumns = [
   },
   {
     title: '准入控制',
-    dataIndex: 'admitpolicy',
+    dataIndex: 'numOfZhunruPolicy',
     render: text => (
       <span className="table-action">
         {text ? (

@@ -23,6 +23,7 @@ const webpackConfigProd = {
       // inject: true, // will inject the main bundle to index.html
       title: 'Prod',
       template: cfgPaths.appHtml,
+      favicon: cfgPaths.favicon,
       // 这里列出要加入html中的js文件
       dlls: ['./vendor.dll.js']
     }),

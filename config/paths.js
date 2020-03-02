@@ -11,6 +11,7 @@ module.exports = {
   appSrc: resolveApp('src'),
   appBuildHtml: resolveApp('public/build.html'),
   appHtml: resolveApp('public/index.html'),
+  favicon: resolveApp('public/favicon.ico'),
   appIndexJs: resolveApp('src/index.js'),
   appPolyfills: resolveApp('config/polyfills.js'),
   appConfig: resolveApp('config')

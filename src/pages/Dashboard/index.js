@@ -8,6 +8,7 @@ import LineChart from './chip/LineChart'
 import dashboardApi from '@/services/dashboard'
 import tclogsApi from '@/services/tclogs'
 import vmlogsApi from '@/services/vmlogs'
+import MyIcon from '@/components/MyIcon'
 
 import moment from 'moment'
 
@@ -256,6 +257,7 @@ class Dashboard extends React.Component {
             <Row>
               <Col span={12} style={{ paddingRight: 20, marginBottom: 20 }}>
                 <div className="dashboard-chart-wrap">
+                  <span className="dashboard-chart-wrap-bg dashboard-chart-wrap-bg-desktop"></span>
                   <div className="dashboard-chart-title">
                     <TitleInfo slot="桌面" more="更多&gt;" url="desktop" />
                   </div>
@@ -271,6 +273,7 @@ class Dashboard extends React.Component {
                 </div>
               </Col>
               <Col span={12} className="dashboard-chart-wrap">
+                <span className="dashboard-chart-wrap-bg dashboard-chart-wrap-bg-pool"></span>
                 <div className="dashboard-chart-title">
                   <TitleInfo slot="桌面池" more="更多&gt;" url="pool" />
                 </div>
@@ -288,6 +291,7 @@ class Dashboard extends React.Component {
             <Row>
               <Col span={12} style={{ paddingRight: 20 }}>
                 <div className="dashboard-chart-wrap">
+                  <span className="dashboard-chart-wrap-bg dashboard-chart-wrap-bg-terminal"></span>
                   <div className="dashboard-chart-title">
                     <TitleInfo slot="终端" more="更多&gt;" url="terminal" />
                   </div>
@@ -303,6 +307,7 @@ class Dashboard extends React.Component {
                 </div>
               </Col>
               <Col span={12} className="dashboard-chart-wrap">
+                <span className="dashboard-chart-wrap-bg dashboard-chart-wrap-bg-user"></span>
                 <div className="dashboard-chart-title">
                   <TitleInfo slot="用户" more="更多&gt;" url="user" />
                 </div>

@@ -119,8 +119,8 @@ export default class SetUserDrawer extends React.Component {
       return {
         uuid,
         username,
-        firstname,
-        lastname,
+        firstname: firstname !== 'null' ? firstname : undefined,
+        lastname: lastname !== 'null' ? lastname : undefined,
         department: groupname,
         domain: 'internal-authz'
       }

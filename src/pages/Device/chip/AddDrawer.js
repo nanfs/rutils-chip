@@ -187,7 +187,7 @@ export default class AddDrawer extends React.Component {
         }}
         onSuccess={this.props.onSuccess}
         onOk={this.addDev}
-        onClose={this.onClose}
+        onClose={this.props.onClose}
       >
         <Formx
           onRef={ref => {

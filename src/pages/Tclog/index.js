@@ -115,7 +115,7 @@ export default class tcLog extends React.Component {
       { label: '终端序列号', value: 'tcSn' },
       { label: '终端名称', value: 'tcName' },
       { label: '用户名', value: 'userName' },
-      { label: '用户ip', value: 'userip' }
+      { label: '用户ip', value: 'userIp' }
     ]
     const { disbaledButton } = this.state
     return (

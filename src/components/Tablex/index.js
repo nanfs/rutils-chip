@@ -117,7 +117,7 @@ class Tablex extends React.Component {
       wrapResponse(res)
         .then(() => {
           // 页码超出 显示最大
-          if (res.data.current > res.data.pages) {
+          if (res.data.current > res.data.pages && res.data.pages) {
             const { size } = this.state.paging
             return this.pageChange(res.data.pages, size)
           }
@@ -272,7 +272,7 @@ class Tablex extends React.Component {
           />
           <Pagination
             size="small"
-            total={total}
+            total={total || 1} // 最小显示1
             pageSize={size}
             current={current}
             onChange={this.pageChange}

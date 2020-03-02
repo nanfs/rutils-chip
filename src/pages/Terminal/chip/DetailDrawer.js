@@ -6,7 +6,7 @@ import { detailUserColumns } from './DetailUserTableCfg'
 import { detailSafepolicyColumns } from './DetailSafepolicyTableCfg'
 import { detailAdmitpolicyColumns } from './DetailAdmitpolicyTableCfg'
 import { detailUseTimeColumns } from './DetailUseTimeTableCfg'
-import DetailUseStatisticsChart from './DetailUseStatisticsChart'
+// import DetailUseStatisticsChart from './DetailUseStatisticsChart'
 
 import terminalApi from '@/services/terminal'
 
@@ -69,7 +69,7 @@ export default class DetailDrawer extends React.Component {
           <Title slot="基本信息"></Title>
           <Row className="dms-detail-row">
             <Col span={3} className="dms-detail-label">
-              桌面名称：
+              终端名称：
             </Col>
             <Col span={8} className="dms-detail-value">
               <Tooltip title={initValues.name}>
@@ -85,7 +85,8 @@ export default class DetailDrawer extends React.Component {
               </Tooltip>
             </Col>
           </Row>
-          <Row className="dms-detail-row">
+          {/* // TODO 终端未实现 */}
+          {/* <Row className="dms-detail-row">
             <Col span={3} className="dms-detail-label">
               位置：
             </Col>
@@ -140,14 +141,14 @@ export default class DetailDrawer extends React.Component {
             </Col>
           </Row>
           <Row className="dms-detail-row">
-            {/* <Col span={3} className="dms-detail-label">
+            <Col span={3} className="dms-detail-label">
               自动锁屏时间:
             </Col>
             <Col span={8} className="dms-detail-value">
               <Tooltip title={initValues.autoLockTime}>
                 <span>{initValues.autoLockTime}</span>
               </Tooltip>
-            </Col> */}
+            </Col>
             <Col span={3} className="dms-detail-label">
               认证方式：
             </Col>
@@ -164,7 +165,7 @@ export default class DetailDrawer extends React.Component {
                 <span>{initValues.description}</span>
               </Tooltip>
             </Col>
-          </Row>
+          </Row> */}
           {/* <Row className="dms-detail-row">
             <Col span={3} className="dms-detail-label">
               描述：

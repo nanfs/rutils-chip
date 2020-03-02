@@ -72,10 +72,10 @@ export default class Termina extends React.Component {
         <MyIcon
           type="order-setuser"
           title="分配用户"
-          onClick={this.setUser.bind(this, [record.id])}
+          onClick={this.setUser.bind(this, [record.sn])}
         />
-        <MyIcon
-          type="order-setuser"
+        <Icon
+          type="message"
           title="发送消息"
           onClick={this.sendMessage.bind(this, [record.sn], [record])}
         />
@@ -144,11 +144,8 @@ export default class Termina extends React.Component {
     this.currentDrawer = this.editDrawer
   }
 
-  setUser = () => {
-    this.setState(
-      { inner: '分配用户' },
-      this.setUserDrawer.pop(this.tablex.getSelection())
-    )
+  setUser = sns => {
+    this.setState({ inner: '分配用户' }, this.setUserDrawer.pop(sns))
     this.currentDrawer = this.setUserDrawer
   }
 
@@ -404,7 +401,7 @@ export default class Termina extends React.Component {
                 重启
               </Button>
               <Button
-                onClick={this.setUser}
+                onClick={() => this.setUser(this.tablex.getSelection())}
                 disabled={disbaledButton.disabledSetUser}
               >
                 分配用户

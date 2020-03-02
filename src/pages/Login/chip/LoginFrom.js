@@ -4,7 +4,7 @@ import Formx from '@/components/Formx'
 import loginApi from '@/services/login'
 import { ftInit, getUsbKeyId, getUser } from './ftusbkey'
 import encrypt from './encrypt'
-import { setUserToLocal, reloadAuthorized } from '@/components/Authorized'
+import { setUserToLocal, reloadAuthorized } from '@/utils/auth'
 import { required } from '@/utils/valid'
 
 export default class LoginForm extends React.Component {

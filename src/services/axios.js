@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { message } from 'antd'
-import { push } from 'react-router-redux'
-import { setUserToLocal } from '@/components/Authorized'
+// import { push } from 'react-router-redux'
+import { setUserToLocal, reloadAuthorized } from '@/utils/auth'
 
 const cfg = require('../../config/default')
 
@@ -69,7 +69,9 @@ service.interceptors.response.use(
       if (response.data.code === '203') {
         console.log('203', response.data)
         setUserToLocal({})
-        return push('/login')
+        reloadAuthorized()
+        window.location.hash = 'login'
+        return message.error(response.data.message || '请先登录')
       }
       return response.data
     }

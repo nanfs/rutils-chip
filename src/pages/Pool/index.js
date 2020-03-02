@@ -103,7 +103,7 @@ export default class Pool extends React.Component {
       .then(res => {
         if (res.success) {
           notification.success({ message: '操作成功' })
-          this.vmTablex.refresh(this.state.tableCfg)
+          this.vmTablex.refresh(this.state.vmTableCfg)
         } else {
           message.error(res.message || '操作失败')
         }
@@ -140,6 +140,8 @@ export default class Pool extends React.Component {
     if (selection.length === 0) {
       vmDisbaledButton = {
         ...vmDisbaledButton,
+        disabledUp: true,
+        disabledDown: true,
         disabledDelete: true
       }
     } else {
@@ -175,6 +177,7 @@ export default class Pool extends React.Component {
   deletePool = () => {
     // TODO 添加删除禁用 只能单个删除
     const poolId = this.tablex.getSelection()[0]
+    const self = this
     confirm({
       title: '确定删除所选数据?',
       onOk() {
@@ -183,7 +186,7 @@ export default class Pool extends React.Component {
           .then(res => {
             if (res.success) {
               notification.success({ message: '删除成功' })
-              this.tablex.refresh(this.state.tableCfg)
+              self.tablex.refresh(self.state.tableCfg)
             } else {
               message.error(res.message || '删除失败')
             }
@@ -198,6 +201,7 @@ export default class Pool extends React.Component {
 
   deleteVm = () => {
     const desktopIds = this.vmTablex.getSelection()
+    const self = this
     confirm({
       title: '确定删除所选数据?',
       onOk() {
@@ -206,7 +210,8 @@ export default class Pool extends React.Component {
           .then(res => {
             if (res.success) {
               notification.success({ message: '删除成功' })
-              this.vmTablex.refresh(this.state.tableCfg)
+              self.vmTablex.refresh(self.state.vmTableCfg)
+              self.tablex.replace(self.state.tableCfg)
             } else {
               message.error(res.message || '删除失败')
             }

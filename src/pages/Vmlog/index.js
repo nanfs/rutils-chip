@@ -86,6 +86,7 @@ export default class Vmlog extends React.Component {
 
   deleteLogs = () => {
     const ids = this.tablex.getSelection()
+    const self = this
     confirm({
       title: '确定删除所选数据?',
       onOk() {
@@ -94,7 +95,7 @@ export default class Vmlog extends React.Component {
           .then(res => {
             if (res.success) {
               notification.success({ message: '删除成功' })
-              this.tablex.refresh(this.state.tableCfg)
+              self.tablex.refresh(self.state.tableCfg)
             } else {
               message.error(res.message || '删除失败')
             }

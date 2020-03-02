@@ -67,13 +67,14 @@ export default class Desktop extends React.Component {
 
   delAccess = () => {
     const ids = this.tablex.getSelection()
+    const self = this
     confirm({
       title: '确定删除所选数据?',
       onOk() {
         accessApi.del({ ids }).then(res => {
           if (res.success) {
             notification.success({ message: '删除成功' })
-            this.onSuccess()
+            self.onSuccess()
           } else {
             message.error(res.message || '删除失败')
           }

@@ -91,7 +91,6 @@ class Formx extends React.Component {
 
   render() {
     const { children, className, style, submitting } = this.props
-    console.log('submitting', submitting)
     const formLayout = this.props.formItemLayout || formItemLayout
     return (
       <Form

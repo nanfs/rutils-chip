@@ -217,7 +217,6 @@ export default class Termina extends React.Component {
   deleteTerminal = (sn = undefined) => {
     const sns = sn || this.state.selectSN
     const self = this
-    console.log(sns)
     confirm({
       title: '确定删除所选数据?',
       onOk() {

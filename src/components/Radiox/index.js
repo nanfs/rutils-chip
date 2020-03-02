@@ -68,6 +68,7 @@ export default class Radiox extends React.Component {
       loading,
       getData,
       numProps,
+      disabled,
       options
     } = this.props
     const { expand } = this.state
@@ -75,6 +76,7 @@ export default class Radiox extends React.Component {
     return (
       <Radio.Group
         className={cls}
+        disabled={disabled}
         onChange={this.handleChange}
         value={this.state.value}
       >
@@ -84,6 +86,7 @@ export default class Radiox extends React.Component {
             placeholder=""
             min={numProps.min}
             max={numProps.max}
+            disabled={disabled}
             onChange={this.handleChange}
             value={this.state.value}
           />
@@ -92,13 +95,14 @@ export default class Radiox extends React.Component {
           <Button
             className="expand-btn"
             onClick={this.toggle}
+            disabled={disabled}
             icon={expand ? 'up' : 'down'}
           >
             {expand ? '折叠隐藏' : '展开更多'}
           </Button>
         )}
         {getData && (
-          <Button className="reload-btn" onClick={getData}>
+          <Button className="reload-btn" disabled={disabled} onClick={getData}>
             <Icon type="sync" spin={loading}></Icon>
           </Button>
         )}

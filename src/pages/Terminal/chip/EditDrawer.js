@@ -12,6 +12,17 @@ const { Option } = Select
 const { TextArea } = Input
 
 export default class EditDrawer extends React.Component {
+  checkFieldRequired(fieldValue) {
+    return (rule, value, callback) => {
+      const loginWay = this.drawer.form.getFieldValue('loginWay')
+      console.log(loginWay, value)
+      if (loginWay === fieldValue && !value) {
+        callback(new Error('这是必填项'))
+      }
+      callback()
+    }
+  }
+
   componentDidMount() {
     this.props.onRef && this.props.onRef(this)
   }
@@ -150,7 +161,7 @@ export default class EditDrawer extends React.Component {
             prop="bondKey"
             label="输入keyId"
             required
-            rules={[required, textRange(0, 64), checkKeyId]}
+            rules={[this.checkFieldRequired(1), textRange(0, 64), checkKeyId]}
             hidden={
               this.drawer &&
               this.drawer.form &&
@@ -167,7 +178,7 @@ export default class EditDrawer extends React.Component {
             prop="secretWord"
             label="输入口令"
             required
-            rules={[required, textRange(0, 32)]}
+            rules={[this.checkFieldRequired(2), textRange(0, 32)]}
             hidden={
               this.drawer &&
               this.drawer.form &&

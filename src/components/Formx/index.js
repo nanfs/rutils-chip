@@ -46,7 +46,7 @@ class Formx extends React.Component {
       })
   }
 
-  renderFormItem = child => {
+  renderFormItem = (child, submitting) => {
     if (!React.isValidElement(child)) {
       return child
     }
@@ -68,6 +68,7 @@ class Formx extends React.Component {
         {}
       )(
         React.cloneElement(child.props.children, {
+          disabled: submitting,
           onChange: e => {
             const { onChange } = child.props.children.props
             onChange && onChange(value, values, e)
@@ -89,7 +90,8 @@ class Formx extends React.Component {
   }
 
   render() {
-    const { children, className, style } = this.props
+    const { children, className, style, submitting } = this.props
+    console.log('submitting', submitting)
     const formLayout = this.props.formItemLayout || formItemLayout
     return (
       <Form
@@ -98,7 +100,9 @@ class Formx extends React.Component {
         className={className}
         style={style}
       >
-        {React.Children.map(children, child => this.renderFormItem(child))}
+        {React.Children.map(children, child =>
+          this.renderFormItem(child, submitting)
+        )}
       </Form>
     )
   }

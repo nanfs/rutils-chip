@@ -48,12 +48,13 @@ export default class Checkboxx extends React.Component {
   }
 
   render() {
-    const { className, hasInputNumber, loading, getData } = this.props
+    const { className, hasInputNumber, loading, getData, disabled } = this.props
     const { options, expand } = this.state
     const cls = classnames(className, 'radiox', getData && 'has-fresh')
     return (
       <Checkbox.Group
         className={cls}
+        disabled={disabled}
         onChange={this.handleChange}
         value={this.state.value}
       >
@@ -61,6 +62,7 @@ export default class Checkboxx extends React.Component {
         {hasInputNumber && (
           <InputNumber
             placeholder=""
+            disabled={disabled}
             onChange={this.handleChange}
             value={this.state.value}
           />
@@ -69,13 +71,14 @@ export default class Checkboxx extends React.Component {
           <Button
             className="expand-btn"
             onClick={this.toggle}
+            disabled={disabled}
             icon={expand ? 'up' : 'down'}
           >
             {expand ? '折叠隐藏' : '展开更多'}
           </Button>
         )}
         {getData && (
-          <Button className="reload-btn" onClick={getData}>
+          <Button className="reload-btn" disabled={disabled} onClick={getData}>
             <Icon type="sync" spin={loading}></Icon>
           </Button>
         )}

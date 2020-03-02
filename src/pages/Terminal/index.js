@@ -66,6 +66,7 @@ export default class Termina extends React.Component {
         <MyIcon
           type="tc-imagelocked"
           title="解锁"
+          disabled={true}
           onClick={this.sendOrder.bind(this, 'unlock', [record.sn])}
         />
         {/* //TODO 缺少接口 */}

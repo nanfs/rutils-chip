@@ -146,7 +146,8 @@ class Drawerx extends React.Component {
     // if (this.state.show) {
     return this.hasFormx()
       ? React.cloneElement(this.props.children, {
-          onRef: setFormRef
+          onRef: setFormRef,
+          submitting: this.state.submitting
         })
       : this.props.children
     // }

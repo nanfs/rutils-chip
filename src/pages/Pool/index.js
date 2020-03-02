@@ -7,6 +7,7 @@ import Tablex, {
   BarLeft,
   BarRight
 } from '@/components/Tablex'
+import { downloadVV } from '@/utils/tool'
 import AddDrawer from './chip/AddDrawer'
 import EditDrawer from './chip/EditDrawer'
 import SetUserDrawer from './chip/SetUserDrawer'
@@ -160,20 +161,10 @@ export default class Pool extends React.Component {
     this.setState({ vmDisbaledButton })
   }
 
-  getConsole = () => {
-    const id = this.state.vmTableCfg.selection[0]
-    poolsApi
-      .getVmConsole(id)
-      .then(res => {
-        if (res.success) {
-          notification.success({ message: '获取成功' })
-        } else {
-          message.error(res.message || '获取失败')
-        }
-      })
-      .catch(errors => {
-        console.log(errors)
-      })
+  openConsole = (name, desktopId) => {
+    desktopsApi.openConsole({ desktopId }).then(res => {
+      downloadVV(res, name)
+    })
   }
 
   createPool = () => {

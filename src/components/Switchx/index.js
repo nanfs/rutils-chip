@@ -19,13 +19,14 @@ export default class Switchx extends React.Component {
   }
 
   render() {
-    const { options } = this.props
+    const { options, disabled } = this.props
     const optionsValue = options || [
       { label: 'on', value: 'on' },
       { label: 'off', value: 'off' }
     ]
     return (
       <Radio.Group
+        disabled={disabled}
         buttonStyle="solid"
         onChange={this.handleChange}
         value={this.state.value}

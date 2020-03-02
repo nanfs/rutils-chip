@@ -34,6 +34,7 @@ export default {
     return axios({
       url: '/pools',
       method: 'post',
+      timeout: 60000,
       data: qs.stringify(data)
     })
   },

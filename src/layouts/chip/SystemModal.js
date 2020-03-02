@@ -64,13 +64,13 @@ export default class ConfigModal extends React.Component {
         className="sys-modal"
       >
         <Formx formItemLayout={formItemLayout}>
-          <Form.Item
+          {/* <Form.Item
             prop="sessionTimeOutInterval"
             label="会话超时时间"
             rules={[sessionTime]}
           >
             <InputNumber min={-1} style={{ width: '100%' }} />
-          </Form.Item>
+          </Form.Item> */}
           <Form.Item
             prop="userLoginFailMaxTimes"
             label="登录失败最大次数"
@@ -86,9 +86,9 @@ export default class ConfigModal extends React.Component {
             <InputNumber min={1} style={{ width: '100%' }} max={60} />
           </Form.Item>
 
-          <Form.Item prop="tcSwitcherPassword" label="交换机共享密钥">
+          {/* <Form.Item prop="tcSwitcherPassword" label="交换机共享密钥">
             <Input placeholder="交换机共享密钥" type="password" />
-          </Form.Item>
+          </Form.Item> */}
         </Formx>
       </Modalx>
     )

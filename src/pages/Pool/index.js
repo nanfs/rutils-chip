@@ -40,7 +40,7 @@ export default class Pool extends React.Component {
         <MyIcon
           type="order-up"
           title="开机"
-          disabled={record.status !== 0}
+          disabled={record.status !== 0 && record.status !== 4}
           onClick={() => this.sendOrder(record.id, 'start')}
         />
         <MyIcon
@@ -146,7 +146,7 @@ export default class Pool extends React.Component {
       }
     } else {
       selectData.forEach(item => {
-        if (item.status !== 0) {
+        if (item.status !== 0 && item.status !== 4) {
           vmDisbaledButton = {
             ...vmDisbaledButton,
             disabledUp: true

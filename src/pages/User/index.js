@@ -225,7 +225,7 @@ export default class User extends React.Component {
           groupId: value[0]
         }
       }),
-      () => this.tablex.refresh(this.state.tableCfg)
+      () => this.tablex.search(this.state.tableCfg)
     )
   }
 

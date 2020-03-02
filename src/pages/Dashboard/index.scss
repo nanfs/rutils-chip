@@ -140,3 +140,34 @@ p {
     }
   }
 }
+
+.dashboard-chart-wrap-bg {
+  display: inline-block;
+  position: absolute;
+  bottom: -8px;
+  right: 20px;
+  width: 250px;
+  height: 250px;
+  opacity: 0.8;
+}
+
+.dashboard-chart-wrap-bg-desktop {
+  background: url('../../assets/dashboard-desktop.png') no-repeat;
+	background-size:100% 100%;
+	-moz-background-size:100% 100%;
+}
+.dashboard-chart-wrap-bg-pool {
+  background: url('../../assets/dashboard-pool.png') no-repeat;
+	background-size:100% 100%;
+	-moz-background-size:100% 100%;
+}
+.dashboard-chart-wrap-bg-terminal {
+  background: url('../../assets/dashboard-terminal.png') no-repeat;
+	background-size:100% 100%;
+	-moz-background-size:100% 100%;
+}
+.dashboard-chart-wrap-bg-user {
+  background: url('../../assets/dashboard-user.png') no-repeat;
+	background-size:100% 100%;
+	-moz-background-size:100% 100%;
+}

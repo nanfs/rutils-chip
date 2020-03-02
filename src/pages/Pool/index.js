@@ -273,7 +273,7 @@ export default class Pool extends React.Component {
           status: statusList
         }
       }),
-      () => this.tablex.refresh(this.state.vmTableCfg)
+      () => this.vmTablex.refresh(this.state.vmTableCfg)
     )
   }
 

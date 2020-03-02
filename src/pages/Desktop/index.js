@@ -47,7 +47,7 @@ export default class Desktop extends React.Component {
         <MyIcon
           type="order-up"
           title="开机"
-          disabled={record.status !== 0 && record.status !== 4}
+          disabled={record.status !== 0 && record.status !== 13}
           onClick={this.sendOrder.bind(this, record.id, 'start')}
         />
         <MyIcon
@@ -162,7 +162,7 @@ export default class Desktop extends React.Component {
       }
     } else {
       selectData.forEach(item => {
-        if (item.status !== 0 && item.status !== 4) {
+        if (item.status !== 0 && item.status !== 13) {
           disbaledButton = {
             ...disbaledButton,
             disabledUp: true

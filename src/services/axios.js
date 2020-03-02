@@ -67,7 +67,6 @@ service.interceptors.response.use(
     // localStorage.setItem('cookie', response.headers['set-cookie'])
     if (response.data) {
       if (response.data.code === '203') {
-        console.log('203', response.data)
         setUserToLocal({})
         reloadAuthorized()
         window.location.hash = 'login'
@@ -78,6 +77,13 @@ service.interceptors.response.use(
     return checkStatus(response)
   },
   error => {
+    if (
+      error.code === 'ECONNABORTED' &&
+      error.message.indexOf('timeout') !== -1
+    ) {
+      // eslint-disable-next-line
+      return Promise.reject('接口处理超时!')
+    }
     checkStatus(error.response)
     return Promise.reject(error)
   }

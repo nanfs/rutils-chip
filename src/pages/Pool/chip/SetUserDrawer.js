@@ -22,8 +22,6 @@ export default class SetUserDrawer extends React.Component {
       columns,
       apiMethod,
       paging: { size: 10 },
-      rowKey: record =>
-        `${record.uuid}&${record.username}&${record.username}&${record.groupname}`,
       searchs: { domain: 'internal' },
       pageSizeOptions: ['5', '10']
     })
@@ -31,6 +29,7 @@ export default class SetUserDrawer extends React.Component {
 
   onSelectChange = selection => {
     const newSelection = selection
+    console.log('newSelection', newSelection)
     this.setState(
       produce(draft => {
         draft.totalSelection = newSelection
@@ -78,7 +77,7 @@ export default class SetUserDrawer extends React.Component {
         apiMethod,
         paging: { size: 10 },
         rowKey: record =>
-          `${record.uuid}&${record.username}&${record.name}&${record.groupname}`,
+          `${record.uuid}&${record.username}&${record.firstname}&${record.lastname}&${record.groupname}`,
         searchs: { domain: 'internal' },
         pageSizeOptions: ['5', '10']
       })
@@ -89,7 +88,7 @@ export default class SetUserDrawer extends React.Component {
         const { owner } = res.data
         const totalSelection = owner.map(
           item =>
-            `${item.uuid}&${item.username}&${item.name}&${item.department}`
+            `${item.uuid}&${item.username}&${item.firstname}&${item.lastname}&${item.department}`
         )
         this.setState(
           produce(draft => {
@@ -111,11 +110,12 @@ export default class SetUserDrawer extends React.Component {
   setUser = () => {
     const { poolId, totalSelection } = this.state
     const users = totalSelection.map(item => {
-      const [uuid, username, name, groupname] = item.split('&')
+      const [uuid, username, firstname, lastname, groupname] = item.split('&')
       return {
         uuid,
         username,
-        name,
+        firstname: firstname !== 'null' ? firstname : '',
+        lastname: lastname !== 'null' ? lastname : '',
         department: groupname,
         domain: 'internal-authz'
       }

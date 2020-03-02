@@ -217,7 +217,7 @@ export default class User extends React.Component {
   }
 
   onSelect = (value, node) => {
-    this.selectSearch.reset()
+    // this.selectSearch.reset()
     this.setState(
       produce(draft => {
         draft.tableCfg.searchs = {

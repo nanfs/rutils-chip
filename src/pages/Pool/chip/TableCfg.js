@@ -9,7 +9,7 @@ export const columns = [
   },
   {
     title: '管理类型',
-    dataIndex: 'manageType',
+    dataIndex: 'managerType',
     render: text => (text === 0 ? '自动' : '手动')
   },
   {

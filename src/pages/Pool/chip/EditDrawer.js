@@ -4,7 +4,7 @@ import Drawerx from '@/components/Drawerx'
 import Formx from '@/components/Formx'
 import Title from '@/components/Title'
 import Radiox from '@/components/Radiox'
-import { manageTypeOptions } from '@/utils/formOptions'
+import { managerTypeOptions } from '@/utils/formOptions'
 import poolsApi from '@/services/pools'
 import { required, checkName } from '@/utils/valid'
 
@@ -99,8 +99,8 @@ export default class EditDrawer extends React.Component {
           <Form.Item prop="templateId" label="模板id" hidden>
             <Input placeholder="模板" />
           </Form.Item>
-          <Form.Item prop="manageType" label="管理类型">
-            <Radiox options={manageTypeOptions} />
+          <Form.Item prop="managerType" label="管理类型">
+            <Radiox options={managerTypeOptions} />
           </Form.Item>
           <Form.Item prop="desktopNum" label="增加数量" rules={[this.less20]}>
             <InputNumber placeholder="" min={0} max={20} />

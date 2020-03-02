@@ -7,7 +7,7 @@ import Radiox from '@/components/Radiox'
 import {
   memoryOptions,
   cpuOptions,
-  manageTypeOptions
+  managerTypeOptions
 } from '@/utils/formOptions'
 
 import poolsApi from '@/services/pools'
@@ -111,8 +111,8 @@ export default class AddDrawer extends React.Component {
               onChange={this.onTempalteChange}
             />
           </Form.Item>
-          <Form.Item prop="manageType" label="管理类型">
-            <Radiox options={manageTypeOptions} />
+          <Form.Item prop="managerType" label="管理类型">
+            <Radiox options={managerTypeOptions} />
           </Form.Item>
           <Form.Item
             prop="cpuCores"

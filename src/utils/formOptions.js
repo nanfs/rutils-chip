@@ -18,7 +18,7 @@ export const cpuOptions = [
   { label: '8核', value: '8' }
 ]
 
-export const manageTypeOptions = [
+export const managerTypeOptions = [
   { label: '手动', value: 1 },
   { label: '自动', value: 0 }
 ]

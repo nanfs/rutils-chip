@@ -46,29 +46,32 @@ export default class Termina extends React.Component {
           title="允许接入"
           // disabled={record}
           onClick={this.admitAccessTerminal.bind(this, [record.sn])}
+          disabled={record.isReg}
         />
         <MyIcon
           type="tc-down"
           title="关机"
           // disabled={record}
           onClick={this.sendOrder.bind(this, 'shutdown', [record.sn])}
+          disabled={!record.status}
         />
-        {/* <MyIcon
+        <MyIcon
           type="vm-rebootinprogress"
           title="重启"
           onClick={this.sendOrder.bind(this, 'restart', [record.sn])}
+          disabled={!record.status}
         />
-        <MyIcon
+        {/* <MyIcon
           type="tc-imagelocked"
           title="锁屏"
           onClick={this.sendOrder.bind(this, 'lock', [record.sn])}
-        /> */}
+        />
         <MyIcon
           type="tc-imagelocked"
           title="解锁"
           disabled={true}
           onClick={this.sendOrder.bind(this, 'unlock', [record.sn])}
-        />
+        /> */}
         {/* //TODO 缺少接口 */}
         <MyIcon
           type="order-setuser"
@@ -93,8 +96,6 @@ export default class Termina extends React.Component {
       </div>
     )
   }
-
-  columnsArr = [...columns, this.options]
 
   columnsArr = [...columns, this.options]
 
@@ -326,7 +327,7 @@ export default class Termina extends React.Component {
         >
           暂停
         </Menu.Item> */}
-        <Menu.Item
+        {/* <Menu.Item
           key="4"
           onClick={() => this.sendOrder('lock')}
           disabled={true}
@@ -339,7 +340,7 @@ export default class Termina extends React.Component {
           disabled={true}
         >
           解锁
-        </Menu.Item>
+        </Menu.Item> */}
         <Menu.Item
           key="6"
           onClick={() => this.sendMessage()}

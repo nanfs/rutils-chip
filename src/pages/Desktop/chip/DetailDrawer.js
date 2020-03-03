@@ -16,7 +16,6 @@ export default class DetailDrawer extends React.Component {
       .detail(id)
       .then(res => {
         this.setState({ data: res.data })
-        console.log(res)
       })
       .catch(errors => {
         message.error(errors)
@@ -35,16 +34,10 @@ export default class DetailDrawer extends React.Component {
         title: '姓名',
         width: 200,
         dataIndex: 'name'
-        /* render: (value, record) => {
-          return (
-            (!record.firstname ? '' : record.firstname) +
-            (!record.lastname ? '' : record.lastname)
-          )
-        } */
       },
       {
         title: '组',
-        dataIndex: 'group'
+        dataIndex: 'department'
       }
     ]
     const { data } = this.state
@@ -75,7 +68,7 @@ export default class DetailDrawer extends React.Component {
         </Row>
         <Row className="dms-detail-row">
           <Col span={3} className="dms-detail-label">
-            模板
+            模板：
           </Col>
           <Col span={8} className="dms-detail-value">
             {data.templateName}
@@ -119,6 +112,13 @@ export default class DetailDrawer extends React.Component {
         </Row>
         <Row className="dms-detail-row">
           <Col span={3} className="dms-detail-label">
+            网络：
+          </Col>
+          <Col span={8} className="dms-detail-value">
+            {data.network &&
+              data.network.map(item => `${item.kind}/${item.name}`).join(',')}
+          </Col>
+          <Col span={3} className="dms-detail-label">
             描述：
           </Col>
           <Col span={8} className="dms-detail-value">
@@ -131,6 +131,7 @@ export default class DetailDrawer extends React.Component {
         <Table
           columns={userColums}
           dataSource={data.owner}
+          rowKey="username"
           pagination={{ position: 'none' }}
         ></Table>
         <Diliver />

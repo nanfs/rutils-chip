@@ -276,7 +276,10 @@ export default class Pool extends React.Component {
   afterPoolLoad = () => {
     const data = (this.tablex.getData() && this.tablex.getData()[0]) || {}
     const { id, name } = data
-    this.setState({ currentPool: { id, name } }, this.search())
+    this.setState(
+      { currentPool: { id, name } },
+      this.search('poolId', id, name)
+    )
   }
 
   onSuccess = () => {
@@ -329,7 +332,10 @@ export default class Pool extends React.Component {
               return {
                 onClick: () => {
                   const { id, name } = record
-                  this.setState({ currentPool: { id, name } }, this.search())
+                  this.setState(
+                    { currentPool: { id, name } },
+                    this.search('poolId', id, name)
+                  )
                 }
               }
             }}

@@ -72,7 +72,7 @@ export default class User extends React.Component {
     value: undefined,
     inputValue: 'asd',
     domainlist: [],
-    disbaledButton: {}
+    disabledButton: {}
   }
 
   componentDidMount = () => {
@@ -242,11 +242,11 @@ export default class User extends React.Component {
   }
 
   onSelectChange = (selection, selectData) => {
-    let disbaledButton = {}
+    let disabledButton = {}
     const selectSN = selectData.map(item => item.sn)
     if (selection.length !== 1) {
-      disbaledButton = {
-        ...disbaledButton,
+      disabledButton = {
+        ...disabledButton,
         disabledEdit: true,
         disabledDelete: true, // 删除目前只做单个，后面加批量
         disabledUnlock: true, // 解锁目前只做单个，后面加批量
@@ -254,8 +254,8 @@ export default class User extends React.Component {
       }
     }
     if (selection.length === 0) {
-      disbaledButton = {
-        ...disbaledButton,
+      disabledButton = {
+        ...disabledButton,
         disabledDelete: true,
         disabledUnlock: true,
         disabledLock: true
@@ -265,29 +265,29 @@ export default class User extends React.Component {
       item => item.tccount + item.vmcount > 0
     )
     if (isBoundData && isBoundData.length > 0) {
-      disbaledButton = {
-        ...disbaledButton,
+      disabledButton = {
+        ...disabledButton,
         disabledDelete: true
       }
     }
 
     const isLockData = selectData.filter(item => item.status === 1)
     if (isLockData && isLockData.length > 0) {
-      disbaledButton = {
-        ...disbaledButton,
+      disabledButton = {
+        ...disabledButton,
         disabledLock: true
       }
     }
 
     const unLockData = selectData.filter(item => item.status === 0)
     if (unLockData && unLockData.length > 0) {
-      disbaledButton = {
-        ...disbaledButton,
+      disabledButton = {
+        ...disabledButton,
         disabledUnlock: true
       }
     }
 
-    this.setState({ disbaledButton, selection, selectData, selectSN })
+    this.setState({ disabledButton, selection, selectData, selectSN })
   }
 
   onTableChange = (a, filter) => {
@@ -321,7 +321,7 @@ export default class User extends React.Component {
       treeData,
       initValues,
       domainlist,
-      disbaledButton
+      disabledButton
     } = this.state
     return (
       <React.Fragment>
@@ -348,31 +348,31 @@ export default class User extends React.Component {
                   <Button onClick={this.addUser}>创建</Button>
                   <Button
                     onClick={this.editUser}
-                    disabled={disbaledButton.disabledEdit}
+                    disabled={disabledButton.disabledEdit}
                   >
                     编辑
                   </Button>
                   <Button
                     onClick={this.lockUser}
-                    disabled={disbaledButton.disabledLock}
+                    disabled={disabledButton.disabledLock}
                   >
                     锁定
                   </Button>
                   <Button
                     onClick={this.unlockUser}
-                    disabled={disbaledButton.disabledUnlock}
+                    disabled={disabledButton.disabledUnlock}
                   >
                     解锁
                   </Button>
                   <Button
                     onClick={this.detailUser}
-                    disabled={disbaledButton.disabledEdit}
+                    disabled={disabledButton.disabledEdit}
                   >
                     详情
                   </Button>
                   <Button
                     onClick={this.deleteUser}
-                    disabled={disbaledButton.disabledDelete}
+                    disabled={disabledButton.disabledDelete}
                   >
                     删除
                   </Button>

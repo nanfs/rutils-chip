@@ -21,7 +21,7 @@ export default class Device extends React.Component {
 
     innerPath: undefined,
     initValues: {},
-    disbaledButton: {}
+    disabledButton: {}
   }
 
   onSuccess = () => {
@@ -31,19 +31,19 @@ export default class Device extends React.Component {
   }
 
   onSelectChange = (selection, selectData) => {
-    let disbaledButton = {}
+    let disabledButton = {}
     if (selection.length !== 1) {
-      disbaledButton = { ...disbaledButton, disabledEdit: true }
+      disabledButton = { ...disabledButton, disabledEdit: true }
     }
     if (selection.length === 0) {
-      disbaledButton = { ...disbaledButton, disabledDelete: true }
+      disabledButton = { ...disabledButton, disabledDelete: true }
     }
     selectData.forEach(function(v, i) {
       if (v.boundTcNum !== 0) {
-        disbaledButton = { ...disbaledButton, disabledDelete: true }
+        disabledButton = { ...disabledButton, disabledDelete: true }
       }
     })
-    this.setState({ disbaledButton })
+    this.setState({ disabledButton })
   }
 
   onBack = () => {
@@ -116,7 +116,7 @@ export default class Device extends React.Component {
   }
 
   render() {
-    const { disbaledButton } = this.state
+    const { disabledButton } = this.state
     return (
       <React.Fragment>
         <InnerPath
@@ -130,13 +130,13 @@ export default class Device extends React.Component {
               <Button onClick={this.addDev}>创建</Button>
               <Button
                 onClick={this.editDev}
-                disabled={disbaledButton.disabledEdit}
+                disabled={disabledButton.disabledEdit}
               >
                 编辑
               </Button>
               <Button
                 onClick={this.delDev}
-                disabled={disbaledButton.disabledDelete}
+                disabled={disabledButton.disabledDelete}
               >
                 删除
               </Button>

@@ -85,7 +85,7 @@ export default class Pool extends React.Component {
       pageSizeOptions: ['5', '10', '20', '50']
     }),
     innerPath: undefined,
-    disbaledButton: {},
+    disabledButton: {},
     vmDisbaledButton: {},
     currentPool: {}
   }
@@ -113,21 +113,21 @@ export default class Pool extends React.Component {
   }
 
   onSelectChange = (selection, selectData) => {
-    let disbaledButton = {}
+    let disabledButton = {}
     if (selection.length !== 1) {
-      disbaledButton = {
-        ...disbaledButton,
+      disabledButton = {
+        ...disabledButton,
         disabledEdit: true,
         disabledDelete: true,
         disabledSetUser: true
       }
     }
     // if (selection.length === 0) {
-    //   disbaledButton = {
-    //     ...disbaledButton
+    //   disabledButton = {
+    //     ...disabledButton
     //   }
     // }
-    this.setState({ disbaledButton })
+    this.setState({ disabledButton })
   }
 
   onVmSelectChange = (selection, selectData) => {
@@ -285,7 +285,7 @@ export default class Pool extends React.Component {
 
   render() {
     const searchOptions = [{ label: '名称', value: 'name' }]
-    const { disbaledButton, vmDisbaledButton } = this.state
+    const { disabledButton, vmDisbaledButton } = this.state
 
     return (
       <React.Fragment>
@@ -300,19 +300,19 @@ export default class Pool extends React.Component {
               <Button onClick={this.createPool}>创建池</Button>
               <Button
                 onClick={this.editPool}
-                disabled={disbaledButton.disabledEdit}
+                disabled={disabledButton.disabledEdit}
               >
                 编辑池
               </Button>
               <Button
                 onClick={this.setUser}
-                disabled={disbaledButton.disabledSetUser}
+                disabled={disabledButton.disabledSetUser}
               >
                 分配用户
               </Button>
               <Button
                 onClick={this.deletePool}
-                disabled={disbaledButton.disabledDelete}
+                disabled={disabledButton.disabledDelete}
               >
                 删除池
               </Button>

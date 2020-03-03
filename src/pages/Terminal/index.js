@@ -112,8 +112,8 @@ export default class Termina extends React.Component {
       produce(draft => {
         draft.tableCfg.searchs = {
           // ...draft.tableCfg.searchs,
-          status: draft.tableCfgSave.searchs.status,
-          isReg: draft.tableCfgSave.searchs.isReg,
+          status: draft.tableCfg.searchs.status,
+          isReg: draft.tableCfg.searchs.isReg,
           ...searchs
         }
       }),

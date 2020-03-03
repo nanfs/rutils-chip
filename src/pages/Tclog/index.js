@@ -1,18 +1,11 @@
 import React from 'react'
 import { Button, DatePicker, notification, message, Modal } from 'antd'
-import Tablex, {
-  createTableCfg,
-  TableWrap,
-  ToolBar,
-  BarLeft,
-  BarRight
-} from '@/components/Tablex'
-import InnerPath from '@/components/InnerPath'
-import SelectSearch from '@/components/SelectSearch'
+import { Tablex, InnerPath, SelectSearch } from '@/components'
 import { columns, apiMethod } from './chip/TableCfg'
 import produce from 'immer'
 import tclogsApi from '@/services/tclogs'
 
+const { createTableCfg, TableWrap, ToolBar, BarLeft, BarRight } = Tablex
 const { RangePicker } = DatePicker
 const { confirm } = Modal
 

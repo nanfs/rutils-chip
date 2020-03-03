@@ -1,15 +1,18 @@
 import React from 'react'
-import Drawerx from '@/components/Drawerx'
-import Formx from '@/components/Formx'
-import SelectSearch from '@/components/SelectSearch'
-import Title, { Diliver } from '@/components/Title'
-// import UserButton from '@/components/UserButton'
+import {
+  Drawerx,
+  Formx,
+  Tablex,
+  SelectSearch,
+  Diliver,
+  Title
+} from '@/components'
 import { columns, apiMethod } from './UserTableCfg'
 import { Tag, message } from 'antd'
 import poolsApi from '@/services/pools'
 import produce from 'immer'
-import Tablex, { createTableCfg, TableWrap, ToolBar } from '@/components/Tablex'
 
+const { createTableCfg, TableWrap, ToolBar } = Tablex
 // 是否翻页保存数据
 export default class SetUserDrawer extends React.Component {
   componentDidMount() {

@@ -1,7 +1,6 @@
 import React from 'react'
-import { Form, Input, notification, message } from 'antd'
-import Drawerx from '@/components/Drawerx'
-import Formx from '@/components/Formx'
+import { Form, Input } from 'antd'
+import { Drawerx, Formx } from '@/components'
 import terminalApi from '@/services/terminal'
 import debounce from 'lodash.debounce'
 
@@ -47,6 +46,7 @@ export default class SendMessageDrawer extends React.Component {
         this.drawer.afterSubmit(res)
       })
       .catch(errors => {
+        this.drawer.break(errors)
         console.log(errors)
       })
   }

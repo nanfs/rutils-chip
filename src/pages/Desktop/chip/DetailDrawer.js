@@ -1,7 +1,6 @@
 import React from 'react'
-import Drawerx from '@/components/Drawerx'
+import { Drawerx, Title, Diliver } from '@/components'
 import { Row, Col, Table, Tag, message } from 'antd'
-import Title, { Diliver } from '@/components/Title'
 import desktopsApi from '@/services/desktops'
 
 export default class DetailDrawer extends React.Component {

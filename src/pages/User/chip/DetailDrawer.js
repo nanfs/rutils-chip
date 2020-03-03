@@ -1,9 +1,7 @@
 import React from 'react'
-import { Row, Col, Tooltip, Tabs, message } from 'antd'
+import { Row, Col, Tooltip, Tabs } from 'antd'
 import produce from 'immer'
-import Tablex, { createTableCfg } from '@/components/Tablex'
-import Drawerx from '@/components/Drawerx'
-import Title from '@/components/Title'
+import { Tablex, Drawerx, Title } from '@/components'
 import {
   detailTeminalColumns,
   detailTeminalApiMethod
@@ -13,10 +11,8 @@ import {
   detailDesktopApiMethod
 } from './DetailDesktopTableCfg'
 
-import userApi from '@/services/user'
-
 const { TabPane } = Tabs
-
+const { createTableCfg } = Tablex
 export default class DetailDrawer extends React.Component {
   componentDidMount() {
     this.props.onRef && this.props.onRef(this)

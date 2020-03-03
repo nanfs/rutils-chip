@@ -1,15 +1,18 @@
 import React from 'react'
-import Drawerx from '@/components/Drawerx'
-import Formx from '@/components/Formx'
-import SelectSearch from '@/components/SelectSearch'
-import Title, { Diliver } from '@/components/Title'
-// import UserButton from '@/components/UserButton'
+import {
+  Drawerx,
+  Formx,
+  SelectSearch,
+  Title,
+  Diliver,
+  Tablex
+} from '@/components'
 import { columns, apiMethod } from './UserTableCfg'
 import { Tag, message } from 'antd'
 import desktopsApi from '@/services/desktops'
 import produce from 'immer'
-import Tablex, { createTableCfg, TableWrap, ToolBar } from '@/components/Tablex'
 
+const { createTableCfg, TableWrap, ToolBar } = Tablex
 // 是否翻页保存数据
 export default class SetUserDrawer extends React.Component {
   componentDidMount() {
@@ -132,6 +135,7 @@ export default class SetUserDrawer extends React.Component {
         this.drawer.afterSubmit(res)
       })
       .catch(errors => {
+        this.drawer.break(errors)
         console.log(errors)
       })
   }

@@ -323,6 +323,7 @@ export default class Treex extends React.Component {
             }
           })
           .catch(errors => {
+            message.error(errors)
             console.log(errors)
           })
       },

@@ -1,7 +1,7 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 import { Menu, Icon, Layout, Button } from 'antd'
-import MyIcon from '@/components/MyIcon'
+import { MyIcon } from '@/components'
 import menuConfig from '*/menu'
 
 const { SubMenu } = Menu

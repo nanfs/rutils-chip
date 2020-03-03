@@ -1,7 +1,7 @@
 import React from 'react'
 import deviceApi from '@/services/device'
 import { Icon, Popover, Tag } from 'antd'
-import MyIcon from '@/components/MyIcon'
+import { MyIcon } from '@/components'
 
 export const columns = [
   {

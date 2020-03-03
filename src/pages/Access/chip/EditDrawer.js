@@ -1,10 +1,6 @@
 import React from 'react'
 import { Form, Input, TimePicker, DatePicker, message } from 'antd'
-import Drawerx from '@/components/Drawerx'
-import Formx from '@/components/Formx'
-import Radiox from '@/components/Radiox'
-import Selectx from '@/components/Selectx'
-import Title, { Diliver } from '@/components/Title'
+import { Drawerx, Formx, Radiox, Selectx, Title, Diliver } from '@/components'
 import { weekOptions, typeOptions } from '@/utils/formOptions'
 import '../index.scss'
 import moment from 'moment'
@@ -117,8 +113,7 @@ export default class EditDrawer extends React.Component {
         this.drawer.afterSubmit(res)
       })
       .catch(errors => {
-        this.drawer.break()
-        message.error(errors)
+        this.drawer.break(errors)
         console.log(errors)
       })
   }

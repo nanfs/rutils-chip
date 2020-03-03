@@ -28,8 +28,7 @@ const webpackConfigBase = {
     extensions: ['.js', '.json'],
     alias: {
       '@': cfgPaths.appSrc,
-      '*': cfgPaths.appConfig,
-      '@Reduxform': path.resolve(cfgPaths.appSrc, 'components/Reduxform')
+      '*': cfgPaths.appConfig
     }
   },
   module: {

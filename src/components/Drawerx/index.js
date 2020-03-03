@@ -44,7 +44,10 @@ class Drawerx extends React.Component {
     document.querySelector('.ant-drawer-body .ant-form').style = ''
   }
 
-  break = () => {
+  break = error => {
+    if (error) {
+      message.error(error)
+    }
     this.setState({
       submitting: false
     })

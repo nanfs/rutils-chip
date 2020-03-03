@@ -1,9 +1,6 @@
 import React from 'react'
 import { Form, Input, InputNumber, Button, message } from 'antd'
-import Drawerx from '@/components/Drawerx'
-import Formx from '@/components/Formx'
-import Title from '@/components/Title'
-import Radiox from '@/components/Radiox'
+import { Drawerx, Formx, Title, Radiox } from '@/components'
 import { managerTypeOptions } from '@/utils/formOptions'
 import poolsApi from '@/services/pools'
 import { required, checkName } from '@/utils/valid'
@@ -67,9 +64,7 @@ export default class EditDrawer extends React.Component {
         this.drawer.afterSubmit(res)
       })
       .catch(errors => {
-        message.error(errors)
-
-        console.log(errors)
+        this.drawer.break(errors)
       })
   }
 

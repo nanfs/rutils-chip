@@ -1,9 +1,6 @@
 import React from 'react'
 import { Form, Input, InputNumber, message } from 'antd'
-import Drawerx from '@/components/Drawerx'
-import Formx from '@/components/Formx'
-import Title from '@/components/Title'
-import Radiox from '@/components/Radiox'
+import { Drawerx, Formx, Title, Radiox } from '@/components'
 import {
   memoryOptions,
   cpuOptions,
@@ -74,8 +71,7 @@ export default class AddDrawer extends React.Component {
         this.drawer.afterSubmit(res)
       })
       .catch(errors => {
-        message.error(errors)
-        console.log(errors)
+        this.drawer.break(errors)
       })
   }
 

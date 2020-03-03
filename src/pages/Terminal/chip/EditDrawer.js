@@ -1,10 +1,6 @@
 import React from 'react'
 import { Form, Input, Select } from 'antd'
-import Drawerx from '@/components/Drawerx'
-import Formx from '@/components/Formx'
-import Title from '@/components/Title'
-// import SliderNumber from '@/components/SliderNumber'
-
+import { Drawerx, Formx, Title } from '@/components'
 import terminalApi from '@/services/terminal'
 import { required, checkName, textRange, checkKeyId } from '@/utils/valid'
 
@@ -83,6 +79,7 @@ export default class EditDrawer extends React.Component {
         this.drawer.afterSubmit(res)
       })
       .catch(errors => {
+        this.drawer.break(errors)
         console.log(errors)
       })
   }

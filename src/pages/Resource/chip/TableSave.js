@@ -1,15 +1,9 @@
 import React from 'react'
-import Tablex, {
-  createTableCfg,
-  TableWrap,
-  ToolBar,
-  BarLeft
-} from '@/components/Tablex'
-import SelectSearch from '@/components/SelectSearch'
-import TitleInfo from '@/components/Title/TitleInfo'
+import { Tablex, SelectSearch, TitleInfo } from '@/components'
 import { columnsSave, apiMethodSave } from './TableCfgSave'
 import produce from 'immer'
 
+const { createTableCfg, TableWrap, ToolBar, BarLeft } = Tablex
 export default class Resource extends React.Component {
   state = {
     tableCfgSave: createTableCfg({

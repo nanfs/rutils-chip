@@ -1,11 +1,7 @@
 import React from 'react'
 import { Form, Input, Select } from 'antd'
 
-import Drawerx from '@/components/Drawerx'
-import Formx from '@/components/Formx'
-import TreeSelectx from '@/components/TreeSelectx'
-import Selectx from '@/components/Selectx'
-import Title from '@/components/Title'
+import { Drawerx, Formx, TreeSelectx, Selectx, Title } from '@/components'
 
 import userApi from '@/services/user'
 import {
@@ -30,8 +26,7 @@ export default class AddDrawer extends React.Component {
         onSuccess && onSuccess()
       })
       .catch(errors => {
-        this.drawer.break()
-        console.log(errors)
+        this.drawer.break(errors)
       })
   }
 

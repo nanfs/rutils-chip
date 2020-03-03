@@ -3,7 +3,7 @@ import React from 'react'
 import { Progress, Icon } from 'antd'
 import { vmStatusRender, osStatusRender } from '@/utils/tableRender'
 import { onlineStringTime } from '@/utils/tool'
-import MyIcon from '@/components/MyIcon'
+import { MyIcon } from '@/components'
 
 const iconStyle = {
   check: { fontSize: 20, color: '#1789d8' },

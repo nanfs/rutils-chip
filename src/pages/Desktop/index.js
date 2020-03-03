@@ -9,27 +9,20 @@ import {
   notification,
   message
 } from 'antd'
-import Tablex, {
-  createTableCfg,
-  TableWrap,
-  ToolBar,
-  BarLeft,
-  BarRight
-} from '@/components/Tablex'
+
 import AddDrawer from './chip/AddDrawer'
 import EditDrawer from './chip/EditDrawer'
 import DetailDrawer from './chip/DetailDrawer'
 import SetUserDrawer from './chip/SetUserDrawer'
 import AddTemplateModal from './chip/AddTemplateModal'
-import InnerPath from '@/components/InnerPath'
-import MyIcon from '@/components/MyIcon'
-import SelectSearch from '@/components/SelectSearch'
+import { MyIcon, InnerPath, SelectSearch, Tablex } from '@/components'
 import produce from 'immer'
 import desktopsApi from '@/services/desktops'
 import { downloadVV } from '@/utils/tool'
 import { columns, apiMethod } from './chip/TableCfg'
 import './index.scss'
 
+const { createTableCfg, TableWrap, ToolBar, BarLeft, BarRight } = Tablex
 const { confirm } = Modal
 export default class Desktop extends React.Component {
   options = {

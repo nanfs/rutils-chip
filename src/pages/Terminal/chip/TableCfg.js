@@ -1,7 +1,7 @@
 import React from 'react'
 import terminalApi from '@/services/terminal'
 import { Icon, Popover, Tag } from 'antd'
-import MyIcon from '@/components/MyIcon'
+import { MyIcon } from '@/components'
 
 // TODO antd 样式加载问题
 const iconStyle = {

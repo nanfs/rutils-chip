@@ -1,12 +1,11 @@
 import React from 'react'
-import Modalx, { createModalCfg } from '@/components/Modalx'
-import Formx from '@/components/Formx'
+import { Formx, Modalx } from '@/components'
 import { Form, Input } from 'antd'
 import templateApi from '@/services/template'
 import { required } from '@/utils/valid'
 
 const { TextArea } = Input
-
+const { createModalCfg } = Modalx
 export default class AddTemplateModal extends React.Component {
   componentDidMount() {
     this.props.onRef && this.props.onRef(this)
@@ -24,7 +23,7 @@ export default class AddTemplateModal extends React.Component {
         this.modal.afterSubmit(res)
       })
       .catch(errors => {
-        this.modal.break()
+        this.modal.break(errors)
         console.log(errors)
       })
   }

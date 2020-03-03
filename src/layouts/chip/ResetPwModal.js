@@ -1,12 +1,12 @@
 import React from 'react'
 
 import appApi from '@/services/app'
-import Modalx, { createModalCfg } from '@/components/Modalx'
-import Formx from '@/components/Formx'
+import { Formx, Modalx } from '@/components'
 import { Form, Input, message } from 'antd'
 import { USER } from '@/utils/auth'
 import { required, checkPassword } from '../../utils/valid'
 
+const { createModalCfg } = Modalx
 export default class ModalDemo extends React.Component {
   comparePwd = (rule, value, callback) => {
     const newPassword = this.drawer.form.getFieldValue('newPassword')

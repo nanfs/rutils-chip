@@ -1,17 +1,8 @@
 import React from 'react'
-import { Button, Row, Col, notification, message, Modal } from 'antd'
+import { Button, notification, message, Modal } from 'antd'
 import produce from 'immer'
 
-import Tablex, {
-  createTableCfg,
-  TableWrap,
-  ToolBar,
-  BarLeft,
-  BarRight
-} from '@/components/Tablex'
-import Treex from '@/components/Treex'
-import InnerPath from '@/components/InnerPath'
-import SelectSearch from '@/components/SelectSearch'
+import { Tablex, Treex, InnerPath, SelectSearch } from '@/components'
 
 import { columns, apiMethod } from './chip/TableCfg'
 import AddDrawer from './chip/AddDrawer'
@@ -20,10 +11,9 @@ import EditDrawer from './chip/EditDrawer'
 import userApi from '@/services/user'
 
 import './index.scss'
-import { array, element } from 'prop-types'
 
 const { confirm } = Modal
-
+const { createTableCfg, TableWrap, ToolBar, BarLeft, BarRight } = Tablex
 /* const nodes = [
   {
     id: 'department1',
@@ -106,6 +96,7 @@ export default class User extends React.Component {
         }
       })
       .catch(errors => {
+        message.error(errors)
         console.log(errors)
       })
   }
@@ -166,6 +157,7 @@ export default class User extends React.Component {
             }
           })
           .catch(errors => {
+            message.error(errors)
             console.log(errors)
           })
       },

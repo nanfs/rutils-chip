@@ -30,6 +30,7 @@ export default {
     return axios({
       url: '/desktops/users',
       method: 'post',
+      timeout: 500,
       data: qs.stringify(data, { arrayFormat: 'indices', allowDots: true })
     })
   },

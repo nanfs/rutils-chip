@@ -1,7 +1,7 @@
 import React from 'react'
 import { Icon, Progress } from 'antd'
 import poolsApi from '@/services/pools'
-import MyIcon from '@/components/MyIcon'
+import { MyIcon } from '@/components'
 import { onlineStringTime } from '@/utils/tool'
 import { vmStatusRender, osStatusRender } from '@/utils/tableRender'
 

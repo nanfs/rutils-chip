@@ -1,10 +1,6 @@
 import React from 'react'
 import { Form, Input, message } from 'antd'
-import Drawerx from '@/components/Drawerx'
-import Formx from '@/components/Formx'
-import Title, { Diliver } from '@/components/Title'
-import Radiox from '@/components/Radiox'
-import Checkboxx from '@/components/Checkboxx'
+import { Drawerx, Formx, Title, Radiox, Checkboxx, Diliver } from '@/components'
 
 import { memoryOptions, cpuOptions } from '@/utils/formOptions'
 import desktopsApi from '@/services/desktops'
@@ -52,7 +48,7 @@ export default class AddDrawer extends React.Component {
         this.drawer.afterSubmit(res)
       })
       .catch(errors => {
-        message.error(errors)
+        this.drawer.break(errors)
         console.log(errors)
       })
   }

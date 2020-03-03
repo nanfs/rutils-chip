@@ -1,5 +1,5 @@
 import { push } from 'react-router-redux'
-import { setUserToLocal } from '@/components/Authorized'
+import { setUserToLocal } from '@/utils/auth'
 import { cleanRequest } from './utils'
 
 export default {

@@ -1,8 +1,8 @@
 import React from 'react'
 
 import appApi from '@/services/app'
-import Modalx, { createModalCfg } from '@/components/Modalx'
-import Formx from '@/components/Formx'
+import Formx from '../../Formx'
+import Modalx, { createModalCfg } from '../../Modalx'
 import { Form, Input, message } from 'antd'
 
 export default class EditNodeModal extends React.Component {

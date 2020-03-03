@@ -1,7 +1,6 @@
 import React from 'react'
 import { Row, Col, Tooltip, Table, message } from 'antd'
-import Drawerx from '@/components/Drawerx'
-import Title from '@/components/Title'
+import { Drawerx, Title } from '@/components'
 import { detailUserColumns } from './DetailUserTableCfg'
 import { detailSafepolicyColumns } from './DetailSafepolicyTableCfg'
 import { detailAdmitpolicyColumns } from './DetailAdmitpolicyTableCfg'

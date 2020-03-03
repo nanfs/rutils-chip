@@ -1,6 +1,6 @@
 import React from 'react'
 import { Button, Input, Form, Icon, message } from 'antd'
-import Formx from '@/components/Formx'
+import { Formx } from '@/components'
 import loginApi from '@/services/login'
 import { ftInit, getUsbKeyId, getUser } from './ftusbkey'
 import encrypt from './encrypt'

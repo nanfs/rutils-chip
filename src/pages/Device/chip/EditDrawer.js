@@ -1,8 +1,6 @@
 import React from 'react'
 import { Form, Input, Switch, Icon, Row, Col, notification } from 'antd'
-import Drawerx from '@/components/Drawerx'
-import Formx from '@/components/Formx'
-import Title, { Diliver } from '@/components/Title'
+import { Drawerx, Formx, Title, Diliver } from '@/components'
 import deviceApi from '@/services/device'
 import '../index.scss'
 import { required, checkName, number4, number5 } from '../../../utils/valid'
@@ -130,6 +128,7 @@ export default class EditDrawer extends React.Component {
         this.drawer.afterSubmit(res)
       })
       .catch(errors => {
+        this.drawer.break(errors)
         console.log(errors)
       })
   }

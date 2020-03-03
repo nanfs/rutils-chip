@@ -1,6 +1,6 @@
 import React from 'react'
 import { message, Row, Col } from 'antd'
-import TitleInfo from '@/components/Title/TitleInfo'
+import { TitleInfo } from '@/components'
 import LogList from './chip/LogList'
 import DonutChart from './chip/DonutChart'
 import LineChart from './chip/LineChart'
@@ -8,7 +8,6 @@ import LineChart from './chip/LineChart'
 import dashboardApi from '@/services/dashboard'
 import tclogsApi from '@/services/tclogs'
 import vmlogsApi from '@/services/vmlogs'
-import MyIcon from '@/components/MyIcon'
 
 import moment from 'moment'
 

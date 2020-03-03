@@ -1,14 +1,11 @@
 import React from 'react'
-import Drawerx from '@/components/Drawerx'
-import Formx from '@/components/Formx'
-import SelectSearch from '@/components/SelectSearch'
-import Title, { Diliver } from '@/components/Title'
+import { Tablex, Formx, Drawerx, Title, Diliver } from '@/components'
 import { Tag } from 'antd'
 import { columns, apiMethod } from './AccessTableCfg'
 import terminalApi from '@/services/terminal'
 import produce from 'immer'
-import Tablex, { createTableCfg, TableWrap, ToolBar } from '@/components/Tablex'
 
+const { createTableCfg, TableWrap, ToolBar } = Tablex
 // 是否翻页保存数据
 export default class SetSafePolicyDrawer extends React.Component {
   componentDidMount() {

@@ -1,28 +1,26 @@
 import React from 'react'
 import { Button, notification, Modal, message } from 'antd'
-import Tablex, {
-  createTableCfg,
-  TableWrap,
-  ToolBar,
-  BarLeft,
-  BarRight
-} from '@/components/Tablex'
+import {
+  Tablex,
+  SelectSearch,
+  InnerPath,
+  MyIcon,
+  Diliver,
+  TitleInfo
+} from '@/components'
 import { downloadVV } from '@/utils/tool'
 import AddDrawer from './chip/AddDrawer'
 import EditDrawer from './chip/EditDrawer'
 import SetUserDrawer from './chip/SetUserDrawer'
-import InnerPath from '@/components/InnerPath'
-import MyIcon from '@/components/MyIcon'
-import SelectSearch from '@/components/SelectSearch'
 import produce from 'immer'
 import poolsApi from '@/services/pools'
 import desktopsApi from '@/services/desktops'
-import { Diliver, TitleInfo } from '@/components/Title'
 import { columns, apiMethod } from './chip/TableCfg'
 import { vmColumns, vmApiMethod } from './chip/VmTableCfg'
 import './index.scss'
 
 const { confirm } = Modal
+const { createTableCfg, TableWrap, ToolBar, BarLeft, BarRight } = Tablex
 
 export default class Pool extends React.Component {
   opration = {
@@ -192,6 +190,7 @@ export default class Pool extends React.Component {
             }
           })
           .catch(errors => {
+            message.error(errors)
             console.log(errors)
           })
       },

@@ -10,16 +10,7 @@ import {
 } from 'antd'
 import produce from 'immer'
 
-import Tablex, {
-  createTableCfg,
-  TableWrap,
-  ToolBar,
-  BarLeft,
-  BarRight
-} from '@/components/Tablex'
-import InnerPath from '@/components/InnerPath'
-import SelectSearch from '@/components/SelectSearch'
-import MyIcon from '@/components/MyIcon'
+import { Tablex, InnerPath, SelectSearch, MyIcon } from '@/components'
 
 import EditDrawer from './chip/EditDrawer'
 import DetailDrawer from './chip/DetailDrawer'
@@ -33,7 +24,7 @@ import terminalApi from '@/services/terminal'
 import './index.scss'
 
 const { confirm } = Modal
-
+const { createTableCfg, TableWrap, ToolBar, BarLeft, BarRight } = Tablex
 export default class Termina extends React.Component {
   options = {
     title: '操作',
@@ -232,6 +223,7 @@ export default class Termina extends React.Component {
             }
           })
           .catch(errors => {
+            message.error(errors)
             console.log(errors)
           })
       },

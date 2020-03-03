@@ -1,8 +1,7 @@
 import React from 'react'
 
-import appApi from '@/services/app'
-import Modalx, { createModalCfg } from '@/components/Modalx'
-import Formx from '@/components/Formx'
+import Modalx, { createModalCfg } from '../../Modalx'
+import Formx from '../../Formx'
 import { Form, Input, message } from 'antd'
 
 export default class AddNodeModal extends React.Component {

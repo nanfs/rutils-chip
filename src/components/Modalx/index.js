@@ -48,7 +48,10 @@ class Modalx extends React.Component {
     })
   }
 
-  break = () => {
+  break = error => {
+    if (error) {
+      message.error(error)
+    }
     this.setState({
       submitting: false
     })
@@ -175,4 +178,6 @@ class Modalx extends React.Component {
     )
   }
 }
+Modalx.createModalCfg = createModalCfg
+
 export default Modalx

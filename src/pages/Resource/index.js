@@ -1,5 +1,5 @@
 import React from 'react'
-import InnerPath from '@/components/InnerPath'
+import { InnerPath } from '@/components'
 import TableCompute from './chip/TableCompute'
 import TableSave from './chip/TableSave'
 

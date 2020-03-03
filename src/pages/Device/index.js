@@ -1,18 +1,13 @@
 import React from 'react'
 import { Button, message, Modal, notification, Select } from 'antd'
-import Tablex, {
-  createTableCfg,
-  TableWrap,
-  ToolBar,
-  BarLeft
-} from '@/components/Tablex'
+import { Tablex, InnerPath } from '@/components'
 import EditDrawer from './chip/EditDrawer'
 import AddDrawer from './chip/AddDrawer'
-import InnerPath from '@/components/InnerPath'
 import { columns, apiMethod } from './chip/TableCfg'
 import deviceApi from '@/services/device'
 
 const { confirm } = Modal
+const { createTableCfg, TableWrap, ToolBar, BarLeft } = Tablex
 
 export default class Device extends React.Component {
   state = {

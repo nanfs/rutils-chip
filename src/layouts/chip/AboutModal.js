@@ -1,10 +1,11 @@
 import React from 'react'
-import Modalx, { createModalCfg } from '@/components/Modalx'
+import { Modalx } from '@/components'
 import { Row, Col } from 'antd'
 import './index.scss'
 
 const src = require('@/assets/logo.png')
 
+const { createModalCfg } = Modalx
 export default class AboutModal extends React.Component {
   componentDidMount() {
     this.props.onRef && this.props.onRef(this)

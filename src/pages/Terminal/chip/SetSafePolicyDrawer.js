@@ -1,14 +1,12 @@
 import React from 'react'
-import Drawerx from '@/components/Drawerx'
-import Formx from '@/components/Formx'
 import { Tag, Switch, message } from 'antd'
-import Title, { Diliver } from '@/components/Title'
 import { columns, apiMethod } from '@/pages/Device/chip/TableCfg'
 import terminalApi from '@/services/terminal'
 import produce from 'immer'
-import Tablex, { createTableCfg, TableWrap, ToolBar } from '@/components/Tablex'
+import { Drawerx, Formx, Tablex, Diliver, Title } from '@/components'
 
 // 是否翻页保存数据
+const { createTableCfg, TableWrap, ToolBar } = Tablex
 export default class SetSafePolicyDrawer extends React.Component {
   componentDidMount() {
     this.props.onRef && this.props.onRef(this)
@@ -143,8 +141,7 @@ export default class SetSafePolicyDrawer extends React.Component {
         this.drawer.afterSubmit(res)
       })
       .catch(errors => {
-        console.log(errors)
-        message.error(errors)
+        this.drawer.break(errors)
       })
   }
 

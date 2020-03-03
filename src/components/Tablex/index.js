@@ -286,5 +286,10 @@ class Tablex extends React.Component {
     )
   }
 }
-export { TableWrap, ToolBar, BarLeft, BarRight }
+Tablex.createTableCfg = createTableCfg
+Tablex.TableWrap = TableWrap
+Tablex.ToolBar = ToolBar
+Tablex.BarLeft = BarLeft
+Tablex.BarRight = BarRight
+// export { TableWrap, ToolBar, BarLeft, BarRight }
 export default Tablex

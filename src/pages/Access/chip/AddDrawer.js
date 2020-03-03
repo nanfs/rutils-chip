@@ -1,10 +1,6 @@
 import React from 'react'
-import { Form, Input, TimePicker, DatePicker, message } from 'antd'
-import Drawerx from '@/components/Drawerx'
-import Formx from '@/components/Formx'
-import Radiox from '@/components/Radiox'
-import Selectx from '@/components/Selectx'
-import Title, { Diliver } from '@/components/Title'
+import { Form, Input, TimePicker, DatePicker } from 'antd'
+import { Drawerx, Title, Diliver, Radiox, Selectx, Formx } from '@/components'
 import { weekOptions, typeOptions } from '@/utils/formOptions'
 import '../index.scss'
 import accessApi from '@/services/access'
@@ -84,7 +80,6 @@ export default class AddDrawer extends React.Component {
       .catch(errors => {
         this.drawer.break()
         console.log(errors)
-        message.error(errors)
       })
   }
 

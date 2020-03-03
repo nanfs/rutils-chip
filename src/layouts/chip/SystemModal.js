@@ -1,11 +1,11 @@
 import React from 'react'
 import systemsApi from '@/services/systems'
-import Modalx, { createModalCfg } from '@/components/Modalx'
-import Formx from '@/components/Formx'
-import { Form, message, InputNumber } from 'antd'
+import { Formx, Modalx } from '@/components'
+import { Form, InputNumber } from 'antd'
 import './index.scss'
 import { lessThanValue, moreThanValue } from '@/utils/valid'
 
+const { createModalCfg } = Modalx
 const formItemLayout = {
   labelCol: {
     xs: { span: 24 },
@@ -30,8 +30,7 @@ export default class ConfigModal extends React.Component {
         this.modal.form.setFieldsValue(res.data)
       })
       .catch(errors => {
-        message.error(errors)
-        console.log(errors)
+        this.modal.break(errors)
       })
   }
 
@@ -42,8 +41,7 @@ export default class ConfigModal extends React.Component {
         this.modal.afterSubmit(res)
       })
       .catch(errors => {
-        message.error(errors)
-        console.log(errors)
+        this.modal.break(errors)
       })
   }
 

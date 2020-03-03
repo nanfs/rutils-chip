@@ -1,6 +1,6 @@
 import React from 'react'
 import { Icon } from 'antd'
-import MyIcon from '@/components/MyIcon'
+import { MyIcon } from '@/components'
 
 export const severityOptions = [
   {

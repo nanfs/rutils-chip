@@ -1,8 +1,6 @@
 import React from 'react'
 import { Form, Input, Slider, InputNumber, Row, Col, Select } from 'antd'
-import Drawerx from '@/components/Drawerx'
-import Formx from '@/components/Formx'
-import Title from '@/components/Title'
+import { Drawerx, Formx, Title } from '@/components'
 
 import terminalApi from '@/services/terminal'
 
@@ -32,6 +30,7 @@ export default class AddDrawer extends React.Component {
         this.drawer.afterSubmit(res)
       })
       .catch(errors => {
+        this.drawer.break(errors)
         console.log(errors)
       })
   }

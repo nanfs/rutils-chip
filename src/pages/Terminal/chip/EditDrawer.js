@@ -142,23 +142,33 @@ export default class EditDrawer extends React.Component {
           </Form.Item> */}
           <Form.Item
             prop="location"
-            label="信息位置"
-            required
-            rules={[required, textRange(0, 50)]}
+            label="终端位置"
+            // required
+            rules={[/* required, */ textRange(0, 50)]}
           >
-            <Input placeholder="信息位置" />
+            <Input placeholder="终端位置" />
           </Form.Item>
-          <Form.Item prop="loginWay" label="认证方式" rules={[required]}>
+          <Form.Item
+            prop="loginWay"
+            label="认证方式"
+            required
+            rules={[required]}
+          >
             <Select onChange={this.selectChange}>
-              <Option value={1}>keyId</Option>
+              <Option value={1}>KEYID</Option>
               <Option value={2}>安全口令</Option>
             </Select>
           </Form.Item>
           <Form.Item
             prop="bondKey"
-            label="输入keyId"
-            required
-            rules={[this.checkFieldRequired(1), textRange(0, 64), checkKeyId]}
+            label="输入KEYID"
+            // required
+            rules={[
+              /* this.checkFieldRequired(1), */
+
+              textRange(0, 64),
+              checkKeyId
+            ]}
             hidden={
               this.drawer &&
               this.drawer.form &&
@@ -166,8 +176,8 @@ export default class EditDrawer extends React.Component {
             }
           >
             <Input
-              placeholder="输入keyId"
-              type="password"
+              placeholder="输入KEYID"
+              // type="password"
               autoComplete="new-password"
             />
           </Form.Item>

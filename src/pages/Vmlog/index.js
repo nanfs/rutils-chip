@@ -18,7 +18,7 @@ export default class Vmlog extends React.Component {
       paging: { size: 10 },
       pageSizeOptions: ['5', '10', '20', '50']
     }),
-    disbaledButton: {}
+    disabledButton: {}
   }
 
   selectDate = rangeDate => {
@@ -67,14 +67,14 @@ export default class Vmlog extends React.Component {
   }
 
   onSelectChange = selection => {
-    let disbaledButton = {}
+    let disabledButton = {}
     if (selection.length === 0) {
-      disbaledButton = {
-        ...disbaledButton,
+      disabledButton = {
+        ...disabledButton,
         disabledDelete: true
       }
     }
-    this.setState({ disbaledButton })
+    this.setState({ disabledButton })
   }
 
   deleteLogs = () => {
@@ -111,7 +111,7 @@ export default class Vmlog extends React.Component {
       { label: '集群名称', value: 'clusterName' },
       { label: '主机名', value: 'hostName' }
     ]
-    const { disbaledButton } = this.state
+    const { disabledButton } = this.state
     return (
       <React.Fragment>
         <InnerPath location="系统日志-桌面" />
@@ -120,7 +120,7 @@ export default class Vmlog extends React.Component {
             <BarLeft span={10}>
               <Button
                 onClick={this.deleteLogs}
-                disabled={disbaledButton.disabledDelete}
+                disabled={disabledButton.disabledDelete}
               >
                 删除
               </Button>

@@ -17,7 +17,7 @@ export default class tcLog extends React.Component {
       paging: { size: 10 },
       pageSizeOptions: ['5', '10', '20', '50']
     }),
-    disbaledButton: {}
+    disabledButton: {}
   }
 
   selectDate = rangeDate => {
@@ -66,15 +66,15 @@ export default class tcLog extends React.Component {
   }
 
   onSelectChange = selection => {
-    let disbaledButton = {}
+    let disabledButton = {}
 
     if (selection.length === 0) {
-      disbaledButton = {
-        ...disbaledButton,
+      disabledButton = {
+        ...disabledButton,
         disabledDelete: true
       }
     }
-    this.setState({ disbaledButton })
+    this.setState({ disabledButton })
   }
 
   deleteLogs = () => {
@@ -111,7 +111,7 @@ export default class tcLog extends React.Component {
       { label: '用户名', value: 'userName' },
       { label: '用户ip', value: 'userIp' }
     ]
-    const { disbaledButton } = this.state
+    const { disabledButton } = this.state
     return (
       <React.Fragment>
         <InnerPath location="系统日志-终端" />
@@ -120,7 +120,7 @@ export default class tcLog extends React.Component {
             <BarLeft span={10}>
               <Button
                 onClick={this.deleteLogs}
-                disabled={disbaledButton.disabledDelete}
+                disabled={disabledButton.disabledDelete}
               >
                 删除
               </Button>

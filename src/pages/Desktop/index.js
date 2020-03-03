@@ -107,7 +107,7 @@ export default class Desktop extends React.Component {
       pageSizeOptions: ['5', '10', '20', '50']
     }),
     innerPath: undefined,
-    disbaledButton: {}
+    disabledButton: {}
   }
 
   onBack = () => {
@@ -139,13 +139,13 @@ export default class Desktop extends React.Component {
   }
 
   onSelectChange = (selection, selectData) => {
-    let disbaledButton = {}
+    let disabledButton = {}
     if (selection.length !== 1) {
-      disbaledButton = { ...disbaledButton, disabledEdit: true }
+      disabledButton = { ...disabledButton, disabledEdit: true }
     }
     if (selection.length === 0) {
-      disbaledButton = {
-        ...disbaledButton,
+      disabledButton = {
+        ...disabledButton,
         disabledDelete: true,
         disabledSetUser: true,
         disabledUp: true,
@@ -156,26 +156,26 @@ export default class Desktop extends React.Component {
     } else {
       selectData.forEach(item => {
         if (item.status !== 0 && item.status !== 13) {
-          disbaledButton = {
-            ...disbaledButton,
+          disabledButton = {
+            ...disabledButton,
             disabledUp: true
           }
         } else if (item.status === 0) {
-          disbaledButton = {
-            ...disbaledButton,
+          disabledButton = {
+            ...disabledButton,
             disabledDown: true,
             disabledRestart: true,
             disabledOff: true
           }
         } else if (item.status === 10) {
-          disbaledButton = {
-            ...disbaledButton,
+          disabledButton = {
+            ...disabledButton,
             disabledRestart: true
           }
         }
       })
     }
-    this.setState({ disbaledButton })
+    this.setState({ disabledButton })
   }
 
   createVm = () => {
@@ -268,40 +268,40 @@ export default class Desktop extends React.Component {
   // TODO 修改开关机等 禁用条件
   render() {
     const searchOptions = [{ label: '名称', value: 'name' }]
-    const { disbaledButton } = this.state
+    const { disabledButton } = this.state
     const moreButton = (
       <Menu>
         <Menu.Item
           key="1"
           onClick={this.deleteVm}
-          disabled={disbaledButton.disabledDelete}
+          disabled={disabledButton.disabledDelete}
         >
           删除
         </Menu.Item>
         <Menu.Item
           key="2"
-          disabled={disbaledButton.disabledUp}
+          disabled={disabledButton.disabledUp}
           onClick={() => this.patchOrder('start')}
         >
           开机
         </Menu.Item>
         <Menu.Item
           key="3"
-          disabled={disbaledButton.disabledDown}
+          disabled={disabledButton.disabledDown}
           onClick={() => this.patchOrder('shutdown')}
         >
           关机
         </Menu.Item>
         <Menu.Item
           key="4"
-          disabled={disbaledButton.disabledOff}
+          disabled={disabledButton.disabledOff}
           onClick={() => this.patchOrder('poweroff')}
         >
           断电
         </Menu.Item>
         <Menu.Item
           key="5"
-          disabled={disbaledButton.disabledRestart}
+          disabled={disabledButton.disabledRestart}
           onClick={() => this.patchOrder('restart')}
         >
           重启
@@ -321,7 +321,7 @@ export default class Desktop extends React.Component {
               <Button onClick={this.createVm}>创建桌面</Button>
               <Button
                 onClick={() => this.setUser(this.tablex.getSelection())}
-                disabled={disbaledButton.disabledSetUser}
+                disabled={disabledButton.disabledSetUser}
               >
                 分配用户
               </Button>

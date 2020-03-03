@@ -49,7 +49,7 @@ export default class AddDrawer extends React.Component {
 
   pop = () => {
     this.drawer.show()
-    this.drawer.form.setFieldsValue({ type: 0 })
+    this.drawer.form.setFieldsValue({ type: 0, weeks: [] })
     this.setState({
       checkWeeksRequired: true,
       checkDayRequired: false

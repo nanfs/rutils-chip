@@ -9,11 +9,11 @@ const { createModalCfg } = Modalx
 const formItemLayout = {
   labelCol: {
     xs: { span: 24 },
-    sm: { span: 7, pull: 1 }
+    sm: { span: 8, pull: 1 }
   },
   wrapperCol: {
     xs: { span: 24 },
-    sm: { span: 14 }
+    sm: { span: 10 }
   }
 }
 
@@ -55,8 +55,9 @@ export default class ConfigModal extends React.Component {
         modalCfg={modalCfg}
         onOk={this.onOk}
         className="sys-modal"
+        formItemLayout={formItemLayout}
       >
-        <Formx formItemLayout={formItemLayout}>
+        <Formx>
           {/* <Form.Item
             prop="sessionTimeOutInterval"
             label="会话超时时间"
@@ -66,14 +67,14 @@ export default class ConfigModal extends React.Component {
           </Form.Item> */}
           <Form.Item
             prop="userLoginFailMaxTimes"
-            label="登录失败最大次数"
+            label="登录失败最大次数(次)"
             rules={[lessThanValue(10), moreThanValue(1)]}
           >
             <InputNumber min={1} style={{ width: '100%' }} max={10} />
           </Form.Item>
           <Form.Item
             prop="userLoginFailLockTimeThreshold"
-            label="登录失败锁定时间"
+            label="登录失败锁定时间(分钟)"
             rules={[lessThanValue(60), moreThanValue(1)]}
           >
             <InputNumber min={1} style={{ width: '100%' }} max={60} />

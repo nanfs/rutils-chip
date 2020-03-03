@@ -1,7 +1,7 @@
 import React from 'react'
 import { Icon, InputNumber, Button, Checkbox } from 'antd'
 import classnames from 'classnames'
-import './index.scss'
+import './index.less'
 
 export default class Checkboxx extends React.Component {
   state = {

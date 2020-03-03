@@ -1,6 +1,6 @@
 import React from 'react'
 import { Button } from 'antd'
-import './index.scss'
+import './index.less'
 
 export default function InnerPath(props) {
   const { inner, location, onBack } = props

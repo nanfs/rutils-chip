@@ -11,7 +11,7 @@ import vmlogsApi from '@/services/vmlogs'
 
 import moment from 'moment'
 
-import './index.scss'
+import './index.less'
 
 class Dashboard extends React.Component {
   componentDidMount() {

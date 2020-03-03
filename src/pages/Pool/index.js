@@ -86,7 +86,8 @@ export default class Pool extends React.Component {
     }),
     innerPath: undefined,
     disbaledButton: {},
-    vmDisbaledButton: {}
+    vmDisbaledButton: {},
+    currentPool: {}
   }
 
   onBack = () => {
@@ -241,7 +242,7 @@ export default class Pool extends React.Component {
   }
 
   search = (key, value, name) => {
-    const searchs = {}
+    const searchs = { poolId: this.state.currentPool.id }
     searchs[key] = value
     this.setState(
       produce(draft => {
@@ -273,11 +274,9 @@ export default class Pool extends React.Component {
   }
 
   afterPoolLoad = () => {
-    this.search(
-      'poolId',
-      this.tablex.getData() && this.tablex.getData()[0].id,
-      this.tablex.getData() && this.tablex.getData()[0].name
-    )
+    const data = (this.tablex.getData() && this.tablex.getData()[0]) || {}
+    const { id, name } = data
+    this.setState({ currentPool: { id, name } }, this.search())
   }
 
   onSuccess = () => {
@@ -329,7 +328,8 @@ export default class Pool extends React.Component {
             onRow={record => {
               return {
                 onClick: () => {
-                  this.search('poolId', record.id, record.name)
+                  const { id, name } = record
+                  this.setState({ currentPool: { id, name } }, this.search())
                 }
               }
             }}

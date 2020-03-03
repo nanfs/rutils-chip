@@ -14,17 +14,13 @@ export default class AddDrawer extends React.Component {
   }
 
   state = {
-    templateOptions: [],
-    networkOptions: [],
-    networks: [],
-    clusterId: undefined,
     templateLoading: false,
     networkLoading: false
   }
 
   pop = () => {
     this.drawer.show()
-    this.setState({ fetchData: true })
+    this.setState({ fetchData: true, networkOptions: [], templateOptions: [] })
     this.getTemplate()
   }
 
@@ -81,8 +77,9 @@ export default class AddDrawer extends React.Component {
     this.setState({ networkLoading: true })
     if (!queryClusterId) {
       this.setState({ networkLoading: false })
+      message.error('请先选择模板')
       return Promise.reject().catch(errors => {
-        message.error(errors)
+        console.log(errors)
       })
     }
     desktopsApi

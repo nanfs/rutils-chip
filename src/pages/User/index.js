@@ -396,7 +396,7 @@ export default class User extends React.Component {
                 tableCfg={this.state.tableCfg}
                 onSelectChange={this.onSelectChange}
                 onChange={this.onTableChange}
-                stopFetch={true}
+                stopAutoFetch={true}
               />
               <AddDrawer
                 onRef={ref => {

@@ -377,7 +377,7 @@ export default class Pool extends React.Component {
             onRef={ref => {
               this.vmTablex = ref
             }}
-            stopFetch={true}
+            stopAutoFetch={true}
             className="no-select-bg"
             tableCfg={this.state.vmTableCfg}
             onChange={this.onVmTableChange}

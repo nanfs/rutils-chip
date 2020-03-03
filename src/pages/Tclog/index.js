@@ -67,6 +67,7 @@ export default class tcLog extends React.Component {
 
   onSelectChange = selection => {
     let disbaledButton = {}
+
     if (selection.length === 0) {
       disbaledButton = {
         ...disbaledButton,
@@ -138,6 +139,7 @@ export default class tcLog extends React.Component {
             }}
             tableCfg={this.state.tableCfg}
             onChange={this.onTableChange}
+            onSelectChange={this.onSelectChange}
           />
         </TableWrap>
       </React.Fragment>

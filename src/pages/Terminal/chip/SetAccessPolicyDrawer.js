@@ -160,7 +160,7 @@ export default class SetSafePolicyDrawer extends React.Component {
               onRef={ref => {
                 this.accessTablex = ref
               }}
-              stopFetch={true}
+              stopAutoFetch={true}
               saveSelection={true}
               tableCfg={this.state.tableCfg}
               onSelectChange={this.onSelectChange}

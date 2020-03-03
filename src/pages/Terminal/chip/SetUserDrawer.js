@@ -176,7 +176,7 @@ export default class SetUserDrawer extends React.Component {
               onRef={ref => {
                 this.userTablex = ref
               }}
-              stopFetch={true}
+              stopAutoFetch={true}
               saveSelection={true}
               tableCfg={this.state.tableCfg}
               onSelectChange={this.onSelectChange}

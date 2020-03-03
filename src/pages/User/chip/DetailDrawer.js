@@ -160,7 +160,7 @@ export default class DetailDrawer extends React.Component {
               onSelectChange={(selection, selectData) => {
                 this.setState({ selection, selectData })
               }}
-              stopFetch={true}
+              stopAutoFetch={true}
             />
           </TabPane>
           <TabPane tab="已分配终端" key="2" forceRender={true}>
@@ -173,7 +173,7 @@ export default class DetailDrawer extends React.Component {
               onSelectChange={(selection, selectData) => {
                 this.setState({ selection, selectData })
               }}
-              stopFetch={true}
+              stopAutoFetch={true}
             />
           </TabPane>
         </Tabs>

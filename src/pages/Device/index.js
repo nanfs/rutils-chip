@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, message, Modal, notification, Select } from 'antd'
+import { Button, message, Modal, notification } from 'antd'
 import { Tablex, InnerPath } from '@/components'
 import EditDrawer from './chip/EditDrawer'
 import AddDrawer from './chip/AddDrawer'

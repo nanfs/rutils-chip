@@ -76,6 +76,10 @@ export const columns = [
     }
   },
   {
+    title: 'sn',
+    dataIndex: 'sn'
+  },
+  {
     title: '位置',
     dataIndex: 'location'
   },

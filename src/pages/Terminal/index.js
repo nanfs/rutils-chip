@@ -73,6 +73,7 @@ export default class Termina extends React.Component {
           type="message"
           title="发送消息"
           onClick={this.sendMessage.bind(this, [record.sn], [record])}
+          disabled={!record.isReg}
         />
         <Icon
           type="form"
@@ -102,7 +103,7 @@ export default class Termina extends React.Component {
     // initValues: {},
     selectData: [],
     selectSN: [],
-    disbaledButton: {}
+    disabledButton: {}
   }
 
   search = (key, value) => {
@@ -232,38 +233,45 @@ export default class Termina extends React.Component {
   }
 
   onSelectChange = (selection, selectData) => {
-    let disbaledButton = {}
+    let disabledButton = {}
     const selectSN = selectData.map(item => item.sn)
     if (selection.length !== 1) {
-      disbaledButton = { ...disbaledButton, disabledEdit: true }
+      disabledButton = { ...disabledButton, disabledEdit: true }
     }
     if (selection.length === 0) {
-      disbaledButton = {
-        ...disbaledButton,
+      disabledButton = {
+        ...disabledButton,
         disabledDelete: true,
         disabledSetUser: true,
         disabledAdmitAccess: true,
-        disabledShutdown: true
+        disabledShutdown: true,
+        disabledSendMessage: true
       }
     } else {
       const isAccessData = selectData.filter(item => item.isReg)
+      const notAccessData = selectData.filter(item => !item.isReg)
       if (isAccessData && isAccessData.length > 0) {
-        disbaledButton = {
-          ...disbaledButton,
+        disabledButton = {
+          ...disabledButton,
           disabledAdmitAccess: true
         }
       }
-
+      if (notAccessData && notAccessData.length > 0) {
+        disabledButton = {
+          ...disabledButton,
+          disabledSendMessage: true
+        }
+      }
       const isOffData = selectData.filter(item => !item.status)
       if (isOffData && isOffData.length > 0) {
-        disbaledButton = {
-          ...disbaledButton,
+        disabledButton = {
+          ...disabledButton,
           disabledShutdown: true
         }
       }
     }
 
-    this.setState({ disbaledButton, selection, selectData, selectSN })
+    this.setState({ disabledButton, selection, selectData, selectSN })
   }
 
   onTableChange = (a, filter) => {
@@ -295,27 +303,27 @@ export default class Termina extends React.Component {
       { label: '位置', value: 'location' },
       { label: 'IP', value: 'ip' }
     ]
-    const { disbaledButton } = this.state
+    const { disabledButton } = this.state
     const moreButton = (
       <Menu>
         <Menu.Item
           key="1"
           onClick={() => this.deleteTerminal()}
-          disabled={disbaledButton.disabledDelete}
+          disabled={disabledButton.disabledDelete}
         >
           删除
         </Menu.Item>
         <Menu.Item
           key="2"
           onClick={() => this.detailTerminal()}
-          disabled={disbaledButton.disabledEdit}
+          disabled={disabledButton.disabledEdit}
         >
           查看详情
         </Menu.Item>
         {/* <Menu.Item
           key="3"
           onClick={() => this.sendOrder('suspend')}
-          disabled={disbaledButton.disabledDelete}
+          disabled={disabledButton.disabledDelete}
         >
           暂停
         </Menu.Item> */}
@@ -336,21 +344,21 @@ export default class Termina extends React.Component {
         <Menu.Item
           key="6"
           onClick={() => this.sendMessage()}
-          disabled={disbaledButton.disabledDelete}
+          disabled={disabledButton.disabledSendMessage}
         >
           发送消息
         </Menu.Item>
         <Menu.Item
           key="7"
           onClick={() => this.setSafePolicy()}
-          disabled={disbaledButton.disabledDelete}
+          disabled={disabledButton.disabledDelete}
         >
           设置外设控制
         </Menu.Item>
         <Menu.Item
           key="8"
           onClick={() => this.setAccessPolicy()}
-          disabled={disbaledButton.disabledDelete}
+          disabled={disabledButton.disabledDelete}
         >
           设置准入控制
         </Menu.Item>
@@ -368,7 +376,7 @@ export default class Termina extends React.Component {
             <BarLeft>
               {/* <Button
                 onClick={() => this.editTerminal()}
-                disabled={disbaledButton.disabledEdit}
+                disabled={disabledButton.disabledEdit}
               >
                 编辑
               </Button> */}
@@ -383,25 +391,25 @@ export default class Termina extends React.Component {
               </Button> */}
               <Button
                 onClick={() => this.sendOrder('shutdown')}
-                disabled={disbaledButton.disabledShutdown}
+                disabled={disabledButton.disabledShutdown}
               >
                 关机
               </Button>
               <Button
                 onClick={() => this.sendOrder('restart')}
-                disabled={disbaledButton.disabledShutdown}
+                disabled={disabledButton.disabledShutdown}
               >
                 重启
               </Button>
               <Button
                 onClick={() => this.setUser(this.tablex.getSelection())}
-                disabled={disbaledButton.disabledSetUser}
+                disabled={disabledButton.disabledSetUser}
               >
                 分配用户
               </Button>
               <Button
                 onClick={() => this.admitAccessTerminal()}
-                disabled={disbaledButton.disabledAdmitAccess}
+                disabled={disabledButton.disabledAdmitAccess}
               >
                 允许接入
               </Button>

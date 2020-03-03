@@ -232,11 +232,8 @@ export default class Desktop extends React.Component {
     })
   }
 
-  setUser = () => {
-    this.setState(
-      { inner: '分配用户' },
-      this.setUserDrawer.pop(this.tablex.getSelection())
-    )
+  setUser = ids => {
+    this.setState({ inner: '分配用户' }, this.setUserDrawer.pop(ids))
     this.currentDrawer = this.setUserDrawer
   }
 
@@ -330,7 +327,7 @@ export default class Desktop extends React.Component {
             <BarLeft>
               <Button onClick={this.createVm}>创建桌面</Button>
               <Button
-                onClick={this.setUser}
+                onClick={() => this.setUser(this.tablex.getSelection())}
                 disabled={disbaledButton.disabledSetUser}
               >
                 分配用户

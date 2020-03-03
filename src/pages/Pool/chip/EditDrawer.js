@@ -3,7 +3,7 @@ import { Form, Input, InputNumber, Button, message } from 'antd'
 import { Drawerx, Formx, Title, Radiox } from '@/components'
 import { managerTypeOptions } from '@/utils/formOptions'
 import poolsApi from '@/services/pools'
-import { required, checkName } from '@/utils/valid'
+import { required, checkName, lessThanValue } from '@/utils/valid'
 
 const { TextArea } = Input
 
@@ -89,7 +89,11 @@ export default class EditDrawer extends React.Component {
           <Form.Item prop="managerType" label="管理类型">
             <Radiox options={managerTypeOptions} disabled />
           </Form.Item>
-          <Form.Item prop="desktopNum" label="增加数量">
+          <Form.Item
+            prop="desktopNum"
+            label="增加数量"
+            rules={[lessThanValue(20)]}
+          >
             <InputNumber placeholder="" min={0} max={20} />
           </Form.Item>
           <Form.Item

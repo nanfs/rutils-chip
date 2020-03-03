@@ -1,7 +1,7 @@
 import React from 'react'
 import { Radio, Icon, InputNumber, Button } from 'antd'
 import classnames from 'classnames'
-import './index.scss'
+import './index.less'
 
 export default class Radiox extends React.Component {
   state = {

@@ -1,6 +1,5 @@
 import React from 'react'
 import { Radio } from 'antd'
-import './index.scss'
 
 export default class Switchx extends React.Component {
   state = {

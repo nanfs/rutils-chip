@@ -21,7 +21,7 @@ import SendMessageDrawer from './chip/SendMessageDrawer'
 import { columns, apiMethod } from './chip/TableCfg'
 import terminalApi from '@/services/terminal'
 
-import './index.scss'
+import './index.less'
 
 const { confirm } = Modal
 const { createTableCfg, TableWrap, ToolBar, BarLeft, BarRight } = Tablex

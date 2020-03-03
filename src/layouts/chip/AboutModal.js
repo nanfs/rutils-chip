@@ -1,7 +1,7 @@
 import React from 'react'
 import { Modalx } from '@/components'
 import { Row, Col } from 'antd'
-import './index.scss'
+import './index.less'
 
 const src = require('@/assets/logo.png')
 

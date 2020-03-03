@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import './fonts/iconfont'
 import './fonts/iconfont.css'
-import './icon.scss'
+import './icon.less'
 
 function onClick(props) {
   if (props.disabled) {

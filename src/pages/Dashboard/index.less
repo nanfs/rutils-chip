@@ -1,0 +1,173 @@
+p {
+  margin-bottom: 0;
+}
+.dashboard-wrap {
+  position: relative;
+  margin: 20px 20px 0;
+  height: 100%;
+
+  .dashboard-charts {
+    //background-color: #fff;
+    //height: 100%;
+    margin-right: 470px;
+
+    .dashboard-chart-wrap {
+      height: 400px;
+      border-top: 5px solid #1b68b3;
+
+      .dashboard-chart-title {
+        padding: 10px;
+        background-color: #fff;
+      }
+
+      .dashboard-chart {
+        width: 100%;
+        background-color: #fff;
+      }
+      .dashboard-linechart {
+        height: 150px;
+        padding: 0 50px 0 25px;
+
+        canvas {
+          margin-top: -25px;
+        }
+      }
+      .dashboard-donutchart {
+        padding: 0 100px 0 20px;
+        margin-bottom: 5px;
+      }
+    }
+
+  }
+
+  .dashboard-tclog{
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 23px;
+    width: 450px;
+    background-color: #fff;
+    
+    .ant-list-item-meta-title {
+      position: relative;
+    }
+
+
+    .ant-list-item-meta {
+      overflow: hidden;
+      text-overflow: ellipsis; /* 支持 IE */
+      -o-text-overflow: ellipsis;    /* 支持 Opera */
+    }
+
+    .ant-list-item-meta-content {
+      width: 100%;
+    }
+
+    .ant-list-item-meta-description span{
+      display: block;
+      width: 400px;
+      overflow: hidden;
+      text-overflow: ellipsis; /* 支持 IE */
+      -o-text-overflow: ellipsis;    /* 支持 Opera */
+      white-space: nowrap;
+    }
+
+    /* .ant-list-item-meta-description span:after{
+      content:"...";
+      position: absolute;
+      right: 3px;
+      top: 30px;
+    }/* 支持 Firefox */
+
+    .dashboard-tclog-title {
+      padding: 10px 12px;
+
+      .dashboard-tclog-title-text {
+        margin-left: 20px;
+        font-size: 16px;
+        font-weight: bold;
+      }
+
+      .dashboard-tclog-title-more {
+        float: right;
+        margin-right: 20px;
+      }
+    }
+
+    .ant-list-item {
+      padding: 12px 15px;
+    }
+
+    .ant-list-item:nth-child(odd) {
+      background:#f6f6f7;
+    }
+    .ant-list-item:nth-child(even) {
+      background:#fff;
+    }
+
+    .ant-list-item-meta-description {
+      padding-left: 16px;
+      color: #4b4b4b;
+    }
+  }
+
+  
+  @media screen and (min-width:1480px) and (max-width:1600px) {
+    .dashboard-charts { 
+      margin-right: 370px;
+    }
+    .dashboard-tclog{
+      width: 350px;
+
+      .ant-list-item-meta-description span {
+        width: 300px;
+      }
+    }
+  }
+
+  @media screen and (max-width:1480px) {
+    .dashboard-charts { 
+      margin-right: 0px;
+      margin-bottom: 20px;
+    }
+    .dashboard-tclog{
+      position: relative;
+      width: 100%;
+
+      .ant-list-item-meta-description span{
+        width: 500px;
+      }
+    }
+  }
+}
+
+.dashboard-chart-wrap-bg {
+  display: inline-block;
+  position: absolute;
+  bottom: -8px;
+  right: 20px;
+  width: 250px;
+  height: 250px;
+  opacity: 0.8;
+}
+
+.dashboard-chart-wrap-bg-desktop {
+  background: url('../../assets/dashboard-desktop.png') no-repeat;
+	background-size:100% 100%;
+	-moz-background-size:100% 100%;
+}
+.dashboard-chart-wrap-bg-pool {
+  background: url('../../assets/dashboard-pool.png') no-repeat;
+	background-size:100% 100%;
+	-moz-background-size:100% 100%;
+}
+.dashboard-chart-wrap-bg-terminal {
+  background: url('../../assets/dashboard-terminal.png') no-repeat;
+	background-size:100% 100%;
+	-moz-background-size:100% 100%;
+}
+.dashboard-chart-wrap-bg-user {
+  background: url('../../assets/dashboard-user.png') no-repeat;
+	background-size:100% 100%;
+	-moz-background-size:100% 100%;
+}

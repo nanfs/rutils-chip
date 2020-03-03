@@ -1,7 +1,7 @@
 import React from 'react'
 import MyIcon from '../MyIcon'
 import { NavLink } from 'react-router-dom'
-import './index.scss'
+import './index.less'
 
 function Diliver(props) {
   const { heigth } = props

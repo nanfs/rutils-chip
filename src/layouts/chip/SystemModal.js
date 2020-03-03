@@ -2,7 +2,7 @@ import React from 'react'
 import systemsApi from '@/services/systems'
 import { Formx, Modalx } from '@/components'
 import { Form, InputNumber } from 'antd'
-import './index.scss'
+import './index.less'
 import { lessThanValue, moreThanValue } from '@/utils/valid'
 
 const { createModalCfg } = Modalx

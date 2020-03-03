@@ -1,7 +1,7 @@
 import React from 'react'
 import { Drawer, Col, Row, Button, notification, message } from 'antd'
 import { wrapResponse } from '@/utils/tool'
-import './index.scss'
+import './index.less'
 
 class Drawerx extends React.Component {
   constructor(props) {

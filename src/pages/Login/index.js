@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import LoginFrom from './chip/LoginFrom'
-import './login.scss'
+import './login.less'
 
 export default class Login extends Component {
   render() {

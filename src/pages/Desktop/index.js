@@ -20,7 +20,7 @@ import produce from 'immer'
 import desktopsApi from '@/services/desktops'
 import { downloadVV } from '@/utils/tool'
 import { columns, apiMethod } from './chip/TableCfg'
-import './index.scss'
+import './index.less'
 
 const { createTableCfg, TableWrap, ToolBar, BarLeft, BarRight } = Tablex
 const { confirm } = Modal

@@ -1,7 +1,7 @@
 import React from 'react'
 import templateApi from '@/services/template'
-import { Icon } from 'antd'
-import styles from '../index.m.scss'
+import { Icon, Tag } from 'antd'
+import styles from '../index.m.less'
 // TODO antd 样式加载问题
 export const columns = [
   {
@@ -12,7 +12,7 @@ export const columns = [
     title: '已使用桌面',
     dataIndex: 'vmUsed',
     render: text => {
-      return <div className={styles.vmBg}>{text}</div>
+      return <Tag>{text}</Tag>
     }
   },
   {

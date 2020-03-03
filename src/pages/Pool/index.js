@@ -17,7 +17,7 @@ import poolsApi from '@/services/pools'
 import desktopsApi from '@/services/desktops'
 import { columns, apiMethod } from './chip/TableCfg'
 import { vmColumns, vmApiMethod } from './chip/VmTableCfg'
-import './index.scss'
+import './index.less'
 
 const { confirm } = Modal
 const { createTableCfg, TableWrap, ToolBar, BarLeft, BarRight } = Tablex

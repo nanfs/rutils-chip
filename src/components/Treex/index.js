@@ -5,7 +5,7 @@ import { nodes2Tree } from '@/utils/tool'
 import AddNodeModal from './chip/AddNodeModal'
 import EditNodeModal from './chip/EditNodeModal'
 
-import './index.scss'
+import './index.less'
 
 const { confirm } = Modal
 const { TreeNode } = Tree

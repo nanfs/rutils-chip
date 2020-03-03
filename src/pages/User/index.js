@@ -10,7 +10,7 @@ import DetailDrawer from './chip/DetailDrawer'
 import EditDrawer from './chip/EditDrawer'
 import userApi from '@/services/user'
 
-import './index.scss'
+import './index.less'
 
 const { confirm } = Modal
 const { createTableCfg, TableWrap, ToolBar, BarLeft, BarRight } = Tablex

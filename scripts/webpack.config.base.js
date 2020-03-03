@@ -46,7 +46,7 @@ const webpackConfigBase = {
         loader: 'happypack/loader?id=happyBabel'
       },
       {
-        test: /\.m\.scss$/,
+        test: /\.m\.less$/,
         include: includePath,
         use: [
           require.resolve('style-loader'),
@@ -57,16 +57,27 @@ const webpackConfigBase = {
               localIdentName: '[local]_[hash:base64:5]'
             }
           },
-          require.resolve('sass-loader')
+          require.resolve('less-loader')
         ]
       },
+      // {
+      //   test: /[^.].\.(scss)$/,
+      //   // include: includePath,
+      //   loader: ExtractTextPlugin.extract({
+      //     fallback: 'style-loader',
+      //     use: 'happypack/loader?id=happyStyle'
+      //   })
+      // },
       {
-        test: /[^.].\.(css|scss)$/,
+        test: /[^.].\.(css|less)$/,
         // include: includePath,
         loader: ExtractTextPlugin.extract({
           fallback: 'style-loader',
-          use: 'happypack/loader?id=happyStyle'
-        })
+          use: 'happypack/loader?id=happyLess'
+        }),
+        options: {
+          modifyVars: { 'primary-color': 'red' }
+        }
       },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
@@ -126,14 +137,24 @@ const webpackConfigBase = {
     }),
     new HappyPack({
       // 用id来标识 happypack处理那里类文件
-      id: 'happyStyle',
+      id: 'happyLess',
       // 如何处理  用法和loader 的配置一样
-      loaders: ['css-loader?sourceMap=true', 'sass-loader?sourceMap=true'],
+      loaders: ['css-loader?sourceMap=true', 'less-loader?sourceMap=true'],
       // 代表共享进程池，即多个 HappyPack 实例都使用同一个共享进程池中的子进程去处理任务，以防止资源占用过多。
       threadPool: happyThreadPool,
       // 允许 HappyPack 输出日志
       verbose: false
     }),
+    // new HappyPack({
+    //   // 用id来标识 happypack处理那里类文件
+    //   id: 'happyStyle',
+    //   // 如何处理  用法和loader 的配置一样
+    //   loaders: ['css-loader?sourceMap=true', 'sass-loader?sourceMap=true'],
+    //   // 代表共享进程池，即多个 HappyPack 实例都使用同一个共享进程池中的子进程去处理任务，以防止资源占用过多。
+    //   threadPool: happyThreadPool,
+    //   // 允许 HappyPack 输出日志
+    //   verbose: false
+    // }),
     // 提取css
     new ExtractTextPlugin({ filename: 'style.[hash:4].css' }),
     new webpack.optimize.CommonsChunkPlugin({

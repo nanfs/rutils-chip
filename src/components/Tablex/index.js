@@ -1,7 +1,7 @@
 import React from 'react'
 import { Table, Pagination, Button, message } from 'antd'
 import { wrapResponse } from '@/utils/tool'
-import './index.scss'
+import './index.less'
 import TableWrap, { BarLeft, BarRight, ToolBar } from './TableWrap'
 // TODO 页码渲染问题
 const tableCfg_init = {

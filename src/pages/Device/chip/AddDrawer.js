@@ -2,7 +2,7 @@ import React from 'react'
 import { Form, Input, Switch, Icon, Row, Col, notification } from 'antd'
 import { Drawerx, Formx, Title, Diliver } from '@/components'
 import deviceApi from '@/services/device'
-import '../index.scss'
+import '../index.less'
 import { required, checkName, number4, number5 } from '@/utils/valid'
 
 const { TextArea } = Input

@@ -6,7 +6,7 @@ import 'moment/locale/zh-cn'
 import { connect } from 'react-redux'
 import RouteView from '@/components/RouteView'
 import { AuthorizedRoute } from '@/components/Authorized'
-import './base.scss'
+import './base.less'
 import Header from './Header'
 import Sider from './Sider'
 

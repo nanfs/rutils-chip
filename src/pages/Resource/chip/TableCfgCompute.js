@@ -1,7 +1,6 @@
 import React from 'react'
 import resourceApi from '@/services/resource'
-import { Progress } from 'antd'
-import styles from '../index.m.scss'
+import { Progress, Tag } from 'antd'
 import { hostStatusRender } from '@/utils/tableRender'
 
 export const columnsCompute = [
@@ -101,7 +100,7 @@ export const columnsCompute = [
     title: '桌面总数',
     dataIndex: 'numOfDesktop',
     render: text => {
-      return <div className={styles.vmBg}>{text}</div>
+      return <Tag>{text}</Tag>
     }
   }
 ]

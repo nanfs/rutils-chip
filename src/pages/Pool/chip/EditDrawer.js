@@ -13,14 +13,6 @@ export default class EditDrawer extends React.Component {
     clusterOptions: []
   }
 
-  less20 = (rule, value, callback) => {
-    const { oldDeskTopNum } = this.state
-    if (oldDeskTopNum + value > 20) {
-      callback(new Error('池最多包含20台虚拟机'))
-    }
-    callback()
-  }
-
   compareTotal = (rule, value, callback) => {
     const { oldDeskTopNum } = this.state
     const desktopNum = this.drawer.form.getFieldValue('desktopNum')
@@ -97,7 +89,7 @@ export default class EditDrawer extends React.Component {
           <Form.Item prop="managerType" label="管理类型">
             <Radiox options={managerTypeOptions} disabled />
           </Form.Item>
-          <Form.Item prop="desktopNum" label="增加数量" rules={[this.less20]}>
+          <Form.Item prop="desktopNum" label="增加数量">
             <InputNumber placeholder="" min={0} max={20} />
           </Form.Item>
           <Form.Item
@@ -105,14 +97,14 @@ export default class EditDrawer extends React.Component {
             label="预启动数量"
             rules={[this.compareTotal]}
           >
-            <InputNumber placeholder="" min={0} max={20} />
+            <InputNumber placeholder="" min={0} />
           </Form.Item>
           <Form.Item
             prop="maxAssignedVmsPerUser"
             label="用户最大虚拟机数"
             rules={[this.compareTotal]}
           >
-            <InputNumber placeholder="" min={0} max={20} />
+            <InputNumber placeholder="" min={0} />
           </Form.Item>
           <Form.Item prop="description" label="描述">
             <TextArea placeholder="" />

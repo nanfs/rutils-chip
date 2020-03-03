@@ -151,10 +151,10 @@ export default class AddDrawer extends React.Component {
             required
             rules={[required, this.compareNum]}
           >
-            <InputNumber placeholder="" min={0} max={20} />
+            <InputNumber placeholder="" min={0} />
           </Form.Item>
           <Form.Item prop="maxAssignedVmsPerUser" label="用户最大虚拟机数">
-            <InputNumber placeholder="" min={0} max={20} />
+            <InputNumber placeholder="" min={0} />
           </Form.Item>
           <Form.Item prop="description" label="描述">
             <TextArea placeholder="" />

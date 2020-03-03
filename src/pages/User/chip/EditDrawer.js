@@ -89,7 +89,7 @@ export default class editDrawer extends React.Component {
             required
             rules={[required, checkName, textRange(0, 29)]}
           >
-            <Input placeholder="名" />
+            <Input placeholder="姓" />
           </Form.Item>
           <Form.Item
             prop="lastname"

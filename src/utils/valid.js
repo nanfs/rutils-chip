@@ -128,7 +128,7 @@ export function checkPassword(rule, value, callback) {
     strong++
   }
   if (strong < 3) {
-    callback(new Error('字母、数字、特殊字符的三种组合以上'))
+    callback(new Error('字母、数字、特殊字符的三种组合及以上'))
   }
   callback()
 }

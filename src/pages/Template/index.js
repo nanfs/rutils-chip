@@ -14,7 +14,7 @@ export default class Template extends React.Component {
       apiMethod,
       expandedRowRender: false,
       paging: { size: 10 },
-      pageSizeOptions: ['5', '10']
+      pageSizeOptions: ['5', '10', '20', '50']
     }),
     innerPath: undefined
   }

@@ -12,7 +12,7 @@ export default class Resource extends React.Component {
       expandedRowRender: false,
       hasRowSelection: false,
       paging: { size: 5 },
-      pageSizeOptions: ['5', '10']
+      pageSizeOptions: ['5', '10', '20', '50']
     })
   }
 

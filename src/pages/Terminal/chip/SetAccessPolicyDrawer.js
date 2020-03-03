@@ -20,7 +20,7 @@ export default class SetSafePolicyDrawer extends React.Component {
       paging: { size: 10 },
       rowKey: record => `${record.id}&${record.name}`,
       searchs: {},
-      pageSizeOptions: ['5', '10']
+      pageSizeOptions: ['5', '10', '20', '50']
     })
   }
 
@@ -73,7 +73,7 @@ export default class SetSafePolicyDrawer extends React.Component {
         paging: { size: 10 },
         rowKey: record => `${record.id}&${record.name}`,
         searchs: {},
-        pageSizeOptions: ['5', '10']
+        pageSizeOptions: ['5', '10', '20', '50']
       })
     })
     if (sns && sns.length === 1) {

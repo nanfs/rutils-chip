@@ -76,13 +76,13 @@ export default class Pool extends React.Component {
       columns,
       apiMethod,
       paging: { size: 5 },
-      pageSizeOptions: ['5', '10']
+      pageSizeOptions: ['5', '10', '20', '50']
     }),
     vmTableCfg: createTableCfg({
       columns: this.vmColumnsArr,
       apiMethod: vmApiMethod,
-      paging: { size: 5 },
-      pageSizeOptions: ['5', '10']
+      paging: { size: 10 },
+      pageSizeOptions: ['5', '10', '20', '50']
     }),
     innerPath: undefined,
     disbaledButton: {},

@@ -15,8 +15,8 @@ export default class Device extends React.Component {
       columns,
       apiMethod,
       expandedRowRender: false,
-      paging: { size: 5 },
-      pageSizeOptions: ['5', '10']
+      paging: { size: 10 },
+      pageSizeOptions: ['5', '10', '20', '50']
     }),
 
     innerPath: undefined,

@@ -65,7 +65,7 @@ export default class User extends React.Component {
       columns,
       apiMethod,
       paging: { size: 10 },
-      pageSizeOptions: ['5', '10']
+      pageSizeOptions: ['5', '10', '20', '50']
     }),
     innerPath: undefined,
     initValues: {},

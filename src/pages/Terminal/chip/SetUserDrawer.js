@@ -28,7 +28,7 @@ export default class SetUserDrawer extends React.Component {
       rowKey: record =>
         `${record.uuid}&${record.username}&${record.firstname}&${record.lastname}&${record.groupname}`,
       searchs: { domain: 'internal' },
-      pageSizeOptions: ['5', '10']
+      pageSizeOptions: ['5', '10', '20', '50']
     })
   }
 
@@ -82,7 +82,7 @@ export default class SetUserDrawer extends React.Component {
         rowKey: record =>
           `${record.uuid}&${record.username}&${record.firstname}&${record.lastname}&${record.groupname}`,
         searchs: { domain: 'internal' },
-        pageSizeOptions: ['5', '10']
+        pageSizeOptions: ['5', '10', '20', '50']
       })
     })
     if (sns && sns.length === 1) {

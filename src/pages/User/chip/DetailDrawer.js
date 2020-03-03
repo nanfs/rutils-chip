@@ -23,7 +23,7 @@ export default class DetailDrawer extends React.Component {
       apiMethod: detailTeminalApiMethod,
       columns: detailTeminalColumns,
       paging: { size: 5 },
-      pageSizeOptions: ['5', '10'],
+      pageSizeOptions: ['5', '10', '20', '50'],
       hasRowSelection: false,
       rowKey: 'name'
     }),
@@ -31,7 +31,7 @@ export default class DetailDrawer extends React.Component {
       apiMethod: detailDesktopApiMethod,
       columns: detailDesktopColumns,
       paging: { size: 5 },
-      pageSizeOptions: ['5', '10'],
+      pageSizeOptions: ['5', '10', '20', '50'],
       hasRowSelection: false,
       rowKey: 'vmname'
     }),

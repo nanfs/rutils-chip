@@ -95,7 +95,7 @@ export default class EditDrawer extends React.Component {
             <Input placeholder="模板" />
           </Form.Item>
           <Form.Item prop="managerType" label="管理类型">
-            <Radiox options={managerTypeOptions} />
+            <Radiox options={managerTypeOptions} disabled />
           </Form.Item>
           <Form.Item prop="desktopNum" label="增加数量" rules={[this.less20]}>
             <InputNumber placeholder="" min={0} max={20} />

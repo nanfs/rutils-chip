@@ -68,7 +68,7 @@ class Formx extends React.Component {
         {}
       )(
         React.cloneElement(child.props.children, {
-          disabled: submitting,
+          disabled: child.props.children.props.disabled || submitting,
           onChange: e => {
             const { onChange } = child.props.children.props
             onChange && onChange(value, values, e)

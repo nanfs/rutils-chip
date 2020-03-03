@@ -1,6 +1,5 @@
 import React from 'react'
 
-import appApi from '@/services/app'
 import Formx from '../../Formx'
 import Modalx, { createModalCfg } from '../../Modalx'
 import { Form, Input, message } from 'antd'

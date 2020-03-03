@@ -246,7 +246,7 @@ export default class Pool extends React.Component {
     searchs[key] = value
     this.setState(
       produce(draft => {
-        draft.currentName = name
+        draft.currentName = name || this.state.currentPool.name
         draft.vmTableCfg.searchs = {
           // ...draft.vmTableCfg.searchs,
           status: draft.vmTableCfg.searchs.status,

@@ -154,6 +154,14 @@ export function wrapResponse(res) {
         resolve(res.data)
         break
 
+      case 201:
+        if (res.success !== undefined && res.success === false) {
+          reject()
+          break
+        }
+        resolve(res.data)
+        break
+
       case 404:
         reject()
         break

@@ -132,7 +132,7 @@ class Modalx extends React.Component {
     return this.hasFormx()
       ? React.cloneElement(this.props.children, {
           onRef: setFormRef,
-          formItemLayout
+          formItemLayout: this.props.formItemLayout || formItemLayout
         })
       : this.props.children
     // }

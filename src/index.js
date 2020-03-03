@@ -1,5 +1,4 @@
 import createApp from '../mint'
-import reduxFormReducer from '@/components/ReduxForm/reducer'
 import axios from 'axios'
 
 import 'rxjs/add/observable/of'
@@ -13,12 +12,12 @@ import 'rxjs/add/operator/catch'
 import globalModel from './models/global'
 import router from './router'
 
-const app = createApp({
-  extraReducers: {
-    form: reduxFormReducer
-  }
-})
-
+// const app = createApp({
+//   extraReducers: {
+//     form: reduxFormReducer
+//   }
+// })
+const app = createApp()
 app.model(globalModel)
 app.router(router)
 axios.defaults.withCredentials = true

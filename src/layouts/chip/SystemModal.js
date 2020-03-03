@@ -2,14 +2,9 @@ import React from 'react'
 import systemsApi from '@/services/systems'
 import Modalx, { createModalCfg } from '@/components/Modalx'
 import Formx from '@/components/Formx'
-import { Form, Input, message, InputNumber } from 'antd'
+import { Form, message, InputNumber } from 'antd'
 import './index.scss'
-import {
-  sessionTime,
-  lessThanValue,
-  moreThanValue,
-  checkPassword
-} from '@/utils/valid'
+import { lessThanValue, moreThanValue } from '@/utils/valid'
 
 const formItemLayout = {
   labelCol: {

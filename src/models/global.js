@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs/Observable'
 import { notification, message } from 'antd'
-import { getIn, setIn, deleteIn } from '@/components/ReduxForm/structure'
+import { getIn, setIn, deleteIn } from './structure'
 
 export default {
   namespace: 'global',

@@ -6,7 +6,7 @@ function getRouterConfig(app) {
       path: '/login',
       component: dynamic({
         app,
-        models: () => [import('../src/models/login')],
+        models: () => [],
         component: () => import('../src/pages/Login')
       })
     },

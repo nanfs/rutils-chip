@@ -37,9 +37,6 @@ export default class Switchx extends React.Component {
             {item.label}
           </Radio.Button>
         ))}
-        {/* <span className="switch-btn">
-          {value && value !== '0' ? '启用' : '禁用'}
-        </span> */}
       </Radio.Group>
     )
   }

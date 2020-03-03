@@ -44,21 +44,15 @@ export default class Radiox extends React.Component {
       ))
     }
     const someOptions = options.slice(0, 8)
-    return (
-      // <Row>
-      someOptions.map(item => (
-        // <Col span={6} key={index}>
-        <Radio.Button
-          value={item.value}
-          key={item.value}
-          disabled={item.disabled}
-        >
-          {item.label}
-        </Radio.Button>
-        // </Col>
-      ))
-      // </Row>
-    )
+    return someOptions.map(item => (
+      <Radio.Button
+        value={item.value}
+        key={item.value}
+        disabled={item.disabled}
+      >
+        {item.label}
+      </Radio.Button>
+    ))
   }
 
   render() {

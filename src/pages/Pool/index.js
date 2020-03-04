@@ -180,20 +180,24 @@ export default class Pool extends React.Component {
     confirm({
       title: '确定删除所选数据?',
       onOk() {
-        poolsApi
-          .delPool(poolId)
-          .then(res => {
-            if (res.success) {
-              notification.success({ message: '删除成功' })
-              self.tablex.refresh(self.state.tableCfg)
-            } else {
-              message.error(res.message || '删除失败')
-            }
-          })
-          .catch(errors => {
-            message.error(errors)
-            console.log(errors)
-          })
+        return new Promise((resolve, reject) => {
+          poolsApi
+            .delPool(poolId)
+            .then(res => {
+              if (res.success) {
+                notification.success({ message: '删除成功' })
+                self.tablex.refresh(self.state.tableCfg)
+              } else {
+                message.error(res.message || '删除失败')
+              }
+              resolve()
+            })
+            .catch(errors => {
+              message.error(errors)
+              console.log(errors)
+              resolve()
+            })
+        })
       },
       onCancel() {}
     })
@@ -205,21 +209,25 @@ export default class Pool extends React.Component {
     confirm({
       title: '确定删除所选数据?',
       onOk() {
-        desktopsApi
-          .delVm({ desktopIds })
-          .then(res => {
-            if (res.success) {
-              notification.success({ message: '删除成功' })
-              self.vmTablex.refresh(self.state.vmTableCfg)
-              self.tablex.replace(self.state.tableCfg)
-            } else {
-              message.error(res.message || '删除失败')
-            }
-          })
-          .catch(errors => {
-            message.error(errors || 'catch error')
-            console.log(errors)
-          })
+        return new Promise((resolve, reject) => {
+          desktopsApi
+            .delVm({ desktopIds })
+            .then(res => {
+              if (res.success) {
+                notification.success({ message: '删除成功' })
+                self.vmTablex.refresh(self.state.vmTableCfg)
+                self.tablex.replace(self.state.tableCfg)
+              } else {
+                message.error(res.message || '删除失败')
+              }
+              resolve()
+            })
+            .catch(errors => {
+              message.error(errors || 'catch error')
+              resolve()
+              console.log(errors)
+            })
+        })
       },
       onCancel() {}
     })

@@ -83,20 +83,24 @@ export default class tcLog extends React.Component {
     confirm({
       title: '确定删除所选数据?',
       onOk() {
-        tclogsApi
-          .delete({ ids })
-          .then(res => {
-            if (res.success) {
-              notification.success({ message: '删除成功' })
-              self.tablex.refresh(self.state.tableCfg)
-            } else {
-              message.error(res.message || '删除失败')
-            }
-          })
-          .catch(errors => {
-            message.error(errors)
-            console.log(errors)
-          })
+        return new Promise((resolve, reject) => {
+          tclogsApi
+            .delete({ ids })
+            .then(res => {
+              if (res.success) {
+                notification.success({ message: '删除成功' })
+                self.tablex.refresh(self.state.tableCfg)
+              } else {
+                message.error(res.message || '删除失败')
+              }
+              resolve()
+            })
+            .catch(errors => {
+              message.error(errors)
+              resolve()
+              console.log(errors)
+            })
+        })
       },
       onCancel() {}
     })

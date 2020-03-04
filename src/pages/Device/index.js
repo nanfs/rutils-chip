@@ -89,24 +89,29 @@ export default class Device extends React.Component {
       confirm({
         title: '确定删除所选数据?',
         onOk() {
-          deviceApi
-            .delDev({ ids: selectDev })
-            .then(res => {
-              if (res.success) {
-                notification.success({ message: '删除成功' })
-                self.tablex.refresh(self.state.tableCfg)
-                self.tablex.clearSelection()
-                self.setState({
-                  selection: [],
-                  selectData: []
-                })
-              } else {
-                message.error(res.message || '删除失败')
-              }
-            })
-            .catch(errors => {
-              console.log(errors)
-            })
+          return new Promise((resolve, reject) => {
+            deviceApi
+              .delDev({ ids: selectDev })
+              .then(res => {
+                if (res.success) {
+                  notification.success({ message: '删除成功' })
+                  self.tablex.refresh(self.state.tableCfg)
+                  self.tablex.clearSelection()
+                  self.setState({
+                    selection: [],
+                    selectData: []
+                  })
+                } else {
+                  message.error(res.message || '删除失败')
+                }
+                resolve()
+              })
+              .catch(errors => {
+                message.error(errors || 'catch error')
+                console.log(errors)
+                resolve()
+              })
+          })
         },
         onCancel() {}
       })

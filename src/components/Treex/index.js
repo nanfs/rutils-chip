@@ -311,21 +311,25 @@ export default class Treex extends React.Component {
     confirm({
       title: '确认删除该节点吗？',
       onOk() {
-        deleteNodeApiMethod({
-          id: parseInt(self.state.rightClickNodeTreeItem.id, 10)
+        return new Promise((resolve, reject) => {
+          deleteNodeApiMethod({
+            id: parseInt(self.state.rightClickNodeTreeItem.id, 10)
+          })
+            .then(res => {
+              if (res.success) {
+                notification.success({ message: '删除成功' })
+                self.getTreeData()
+              } else {
+                message.error(res.message || '删除失败')
+              }
+              resolve()
+            })
+            .catch(errors => {
+              message.error(errors)
+              resolve()
+              console.log(errors)
+            })
         })
-          .then(res => {
-            if (res.success) {
-              notification.success({ message: '删除成功' })
-              self.getTreeData()
-            } else {
-              message.error(res.message || '删除失败')
-            }
-          })
-          .catch(errors => {
-            message.error(errors)
-            console.log(errors)
-          })
       },
       onCancel() {}
     })

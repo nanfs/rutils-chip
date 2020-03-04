@@ -65,13 +65,23 @@ export default class Desktop extends React.Component {
     confirm({
       title: '确定删除所选数据?',
       onOk() {
-        accessApi.del({ ids }).then(res => {
-          if (res.success) {
-            notification.success({ message: '删除成功' })
-            self.onSuccess()
-          } else {
-            message.error(res.message || '删除失败')
-          }
+        return new Promise((resolve, reject) => {
+          accessApi
+            .del({ ids })
+            .then(res => {
+              if (res.success) {
+                notification.success({ message: '删除成功' })
+                self.onSuccess()
+              } else {
+                message.error(res.message || '删除失败')
+              }
+              resolve()
+            })
+            .catch(errors => {
+              message.error(errors)
+              resolve()
+              console.log(errors)
+            })
         })
       },
       onCancel() {}

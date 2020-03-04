@@ -70,7 +70,6 @@ export default class User extends React.Component {
     innerPath: undefined,
     initValues: {},
     value: undefined,
-    inputValue: 'asd',
     domainlist: [],
     disabledButton: {}
   }
@@ -128,7 +127,7 @@ export default class User extends React.Component {
 
   addUser = () => {
     this.setState({ inner: '创建用户' })
-    this.addDrawer.drawer.show()
+    this.addDrawer.pop()
     this.currentDrawer = this.addDrawer
   }
 
@@ -320,13 +319,7 @@ export default class User extends React.Component {
       { label: '用户名', value: 'username' },
       { label: '姓名', value: 'name' }
     ]
-    const {
-      inputValue,
-      treeData,
-      initValues,
-      domainlist,
-      disabledButton
-    } = this.state
+    const { treeData, initValues, domainlist, disabledButton } = this.state
     return (
       <React.Fragment>
         <InnerPath
@@ -388,7 +381,6 @@ export default class User extends React.Component {
                     }}
                     options={searchOptions}
                     onSearch={this.search}
-                    inputValue={inputValue}
                   ></SelectSearch>
                 </BarRight>
               </ToolBar>

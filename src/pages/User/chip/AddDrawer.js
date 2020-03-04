@@ -17,6 +17,10 @@ export default class AddDrawer extends React.Component {
     this.props.onRef && this.props.onRef(this)
   }
 
+  pop = () => {
+    this.drawer.show()
+  }
+
   addUser = values => {
     const { onSuccess } = this.props
     userApi
@@ -39,12 +43,12 @@ export default class AddDrawer extends React.Component {
         onRef={ref => {
           this.drawer = ref
         }}
+        onClose={this.props.onClose}
+        onSuccess={this.props.onSuccess}
         onOk={values => {
           console.log(values)
           this.addUser(values)
         }}
-        onClose={this.props.onClose}
-        onSuccess={this.props.onSuccess}
       >
         <Formx
           onRef={ref => {
@@ -85,17 +89,17 @@ export default class AddDrawer extends React.Component {
             required
             rules={[required, checkPassword]}
           >
-            <Input
+            <Input.Password
               placeholder="密码"
-              type="password"
+              // type="password"
               autoComplete="new-password"
             />
           </Form.Item>
           <Form.Item prop="groupId" label="组织" required rules={[required]}>
-            <TreeSelectx nodeData={nodeData} />
+            <TreeSelectx nodeData={nodeData} placeholder="请选择" />
           </Form.Item>
-          <Form.Item prop="email" label="邮件" rules={[checkEmail]}>
-            <Input placeholder="邮件" />
+          <Form.Item prop="email" label="邮箱" rules={[checkEmail]}>
+            <Input placeholder="邮箱" />
           </Form.Item>
         </Formx>
       </Drawerx>

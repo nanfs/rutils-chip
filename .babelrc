@@ -19,7 +19,7 @@
       {
         "libraryName": "antd",
         "libraryDirectory": "lib",
-        "style": "css"
+        "style": true
       },
       "ant"
     ],

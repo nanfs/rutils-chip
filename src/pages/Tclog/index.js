@@ -14,6 +14,7 @@ export default class tcLog extends React.Component {
     tableCfg: createTableCfg({
       columns,
       apiMethod,
+      rowKey: 'tcLogId',
       paging: { size: 10 },
       pageSizeOptions: ['5', '10', '20', '50']
     }),

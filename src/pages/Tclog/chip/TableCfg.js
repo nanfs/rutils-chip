@@ -15,7 +15,9 @@ export const columns = [
   },
   {
     title: '信息',
-    dataIndex: 'message'
+    dataIndex: 'message',
+    width: '30%',
+    ellipsis: true
   },
   {
     title: '序列号',

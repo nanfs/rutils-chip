@@ -15,7 +15,8 @@ export const columns = [
   {
     title: '信息',
     width: '30%',
-    dataIndex: 'message'
+    dataIndex: 'message',
+    ellipsis: true
   },
   {
     title: 'IP',

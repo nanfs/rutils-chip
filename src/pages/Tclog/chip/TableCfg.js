@@ -20,7 +20,7 @@ export const columns = [
     ellipsis: true
   },
   {
-    title: '序列号',
+    title: '终端SN',
     dataIndex: 'tcSn'
   },
   {

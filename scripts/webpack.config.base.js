@@ -47,7 +47,6 @@ const webpackConfigBase = {
       },
       {
         test: /\.m\.less$/,
-        include: includePath,
         use: [
           require.resolve('style-loader'),
           {
@@ -61,6 +60,15 @@ const webpackConfigBase = {
         ]
       },
       // {
+      //   test: /[^.].\.(css|less)$/,
+      //   use: [
+      //     require.resolve('style-loader'),
+      //     {
+      //       loader: 'happypack/loader?id=happyLess'
+      //     }
+      //   ]
+      // },
+      // {
       //   test: /[^.].\.(scss)$/,
       //   // include: includePath,
       //   loader: ExtractTextPlugin.extract({
@@ -73,11 +81,9 @@ const webpackConfigBase = {
         // include: includePath,
         loader: ExtractTextPlugin.extract({
           fallback: 'style-loader',
-          use: 'happypack/loader?id=happyLess'
-        }),
-        options: {
-          modifyVars: { 'primary-color': 'red' }
-        }
+          use: 'happypack/loader?id=happyLess',
+          disable: true
+        })
       },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
@@ -139,7 +145,16 @@ const webpackConfigBase = {
       // 用id来标识 happypack处理那里类文件
       id: 'happyLess',
       // 如何处理  用法和loader 的配置一样
-      loaders: ['css-loader?sourceMap=true', 'less-loader?sourceMap=true'],
+      loaders: [
+        'css-loader?sourceMap=true',
+        {
+          loader: 'less-loader',
+          options: {
+            javascriptEnabled: true
+            // modifyVars: { 'primary-color': 'red' }
+          }
+        }
+      ],
       // 代表共享进程池，即多个 HappyPack 实例都使用同一个共享进程池中的子进程去处理任务，以防止资源占用过多。
       threadPool: happyThreadPool,
       // 允许 HappyPack 输出日志

@@ -4,12 +4,12 @@ const Copy = require('copy-webpack-plugin')
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
-// const ParallelUglifyPlugin = require('webpack-parallel-uglify-plugin')
 const CompressionWebpackPlugin = require('compression-webpack-plugin')
 const webpackConfigBase = require('./webpack.config.base')
 const cfgPaths = require('../config/paths')
 
 const webpackConfigProd = {
+  mode: 'produciton',
   output: {
     path: cfgPaths.appDist
   },
@@ -22,29 +22,19 @@ const webpackConfigProd = {
     new HtmlWebpackPlugin({
       // inject: true, // will inject the main bundle to index.html
       title: 'Prod',
+      inject: true,
       template: cfgPaths.appHtml,
       favicon: cfgPaths.favicon,
       // 这里列出要加入html中的js文件
-      dlls: ['./vendor.dll.js']
+      dlls: ['./vendor.dll.js'],
+      minify: {
+        removeComments: true,
+        collapseWhitespace: true,
+        removeAttributeQuotes: true
+      },
+      chunks: ['manifest', 'vendor'],
+      chunksSortMode: 'manual'
     }),
-    /* 多核压缩代码 */
-    /* new ParallelUglifyPlugin({
-      cacheDir: '.cache/',
-      uglifyJS: {
-        output: {
-          comments: false
-        },
-        warnings: false,
-        compress: {
-          drop_debugger: true,
-          drop_console: true
-        }
-        // compress: {
-        //   warnings: false
-        // }
-      }
-    }), */
-    // 分析代码
     new BundleAnalyzerPlugin({ analyzerMode: 'static' }),
     new Copy([{ from: './scripts/dll', to: './' }]),
     new CleanWebpackPlugin(['dist'], {
@@ -52,6 +42,7 @@ const webpackConfigProd = {
       verbose: false
       // exclude:['img']//不删除img静态资源
     }),
+
     new CompressionWebpackPlugin({
       asset: '[path].gz[query]',
       algorithm: 'gzip',

@@ -9,7 +9,7 @@ import dashboardApi from '@/services/dashboard'
 import tclogsApi from '@/services/tclogs'
 import vmlogsApi from '@/services/vmlogs'
 
-import moment from 'moment'
+import dayjs from 'dayjs'
 
 import './index.less'
 
@@ -224,7 +224,7 @@ class Dashboard extends React.Component {
     return function(a, b) {
       const value1 = a[property]
       const value2 = b[property]
-      return moment(value2) - moment(value1)
+      return dayjs(value2) - dayjs(value1)
     }
   }
 

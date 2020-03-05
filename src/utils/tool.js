@@ -1,11 +1,11 @@
-import moment from 'moment'
+import dayjs from 'dayjs'
 
 // 时间格式化
 export function dateFormat(val, format = 'YYYY-MM-DD HH:mm:ss') {
   if (!val) {
     return val
   }
-  return moment(val).format(format)
+  return dayjs(val).format(format)
 }
 // // 对象转数组
 export function obj2KeyValueArray(obj) {

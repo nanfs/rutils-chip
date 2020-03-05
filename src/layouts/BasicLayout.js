@@ -1,8 +1,8 @@
 import React from 'react'
 import { ConfigProvider, Layout } from 'antd'
 import zhCN from 'antd/es/locale/zh_CN'
-import moment from 'moment' // 设置antd时间控件显示为中文
-import 'moment/locale/zh-cn'
+import dayjs from 'dayjs' // 设置antd时间控件显示为中文
+import 'dayjs/locale/zh-cn'
 import { connect } from 'react-redux'
 import RouteView from '@/components/RouteView'
 import { AuthorizedRoute } from '@/components/Authorized'
@@ -13,7 +13,7 @@ import Sider from './Sider'
 const { Content, Footer } = Layout
 // import ProLayout from '@ant-design/pro-layout'
 
-moment.locale('zh-cn')
+dayjs.locale('zh-cn')
 
 class BasicLayout extends React.Component {
   render() {

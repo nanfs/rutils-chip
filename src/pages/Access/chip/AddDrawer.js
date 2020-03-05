@@ -5,7 +5,7 @@ import { weekOptions, typeOptions } from '@/utils/formOptions'
 import '../index.less'
 import accessApi from '@/services/access'
 import { required, checkName, number5 } from '@/utils/valid'
-import moment from 'moment'
+import dayjs from 'dayjs'
 
 const { TextArea } = Input
 const { RangePicker } = DatePicker
@@ -18,7 +18,7 @@ export default class AddDrawer extends React.Component {
   compareTime = (rule, value, callback) => {
     const startTime = this.drawer.form.getFieldValue('startTime')
     if (startTime) {
-      if (!moment(startTime).isBefore(value)) {
+      if (!dayjs(startTime).isBefore(value)) {
         callback(new Error('结束时间必须晚于开始时间'))
       }
     }
@@ -67,8 +67,8 @@ export default class AddDrawer extends React.Component {
             values.type === 0
               ? values.weeks.join(',')
               : values.day.map(item => item.format('YYYY-MM-DD')).join('<>'),
-          startTime: moment(values.startTime).format('HH:mm'),
-          endTime: moment(values.endTime).format('HH:mm')
+          startTime: dayjs(values.startTime).format('HH:mm'),
+          endTime: dayjs(values.endTime).format('HH:mm')
         }
       ]
     }

@@ -59,32 +59,23 @@ const webpackConfigBase = {
           require.resolve('less-loader')
         ]
       },
-      // {
-      //   test: /[^.].\.(css|less)$/,
-      //   use: [
-      //     require.resolve('style-loader'),
-      //     {
-      //       loader: 'happypack/loader?id=happyLess'
-      //     }
-      //   ]
-      // },
-      // {
-      //   test: /[^.].\.(scss)$/,
-      //   // include: includePath,
-      //   loader: ExtractTextPlugin.extract({
-      //     fallback: 'style-loader',
-      //     use: 'happypack/loader?id=happyStyle'
-      //   })
-      // },
       {
         test: /[^.].\.(css|less)$/,
-        // include: includePath,
-        loader: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: 'happypack/loader?id=happyLess',
-          disable: true
-        })
+        use: [
+          require.resolve('style-loader'),
+          {
+            loader: 'happypack/loader?id=happyLess'
+          }
+        ]
       },
+      // {
+      //   test: /[^.].\.(css|less)$/,
+      //   loader: ExtractTextPlugin.extract({
+      //     fallback: 'style-loader',
+      //     use: 'happypack/loader?id=happyLess',
+      //     allChunks: true
+      //   })
+      // },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
         exclude: /node_modules/,
@@ -108,7 +99,7 @@ const webpackConfigBase = {
   plugins: [
     // 去除moment的语言包
     new ProgressBarPlugin(),
-    new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /de|fr|hu/),
+    // new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /de|fr|hu/),
     new CaseSensitivePathsPlugin(),
     new HappyPack({
       // 用id来标识 happypack处理那里类文件
@@ -172,10 +163,10 @@ const webpackConfigBase = {
     // }),
     // 提取css
     new ExtractTextPlugin({ filename: 'style.[hash:4].css' }),
-    new webpack.optimize.CommonsChunkPlugin({
-      async: 'async-common',
-      minChunks: 3
-    }),
+    // new webpack.optimize.CommonsChunkPlugin({
+    //   async: 'async-common',
+    //   minChunks: 3
+    // }),
     // 关联dll拆分出去的依赖
     new webpack.DllReferencePlugin({
       manifest: path.resolve(cfgPaths.appDll, 'vendor-manifest.json'),

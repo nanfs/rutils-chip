@@ -19,10 +19,10 @@ export default class AddDrawer extends React.Component {
 
   pop = () => {
     this.drawer.show()
-    this.drawer.form.setFieldsValue({
-      username: '',
-      password: ''
-    })
+    // this.drawer.form.setFieldsValue({
+    //   username: '',
+    //   password: ''
+    // })
   }
 
   addUser = values => {
@@ -96,7 +96,7 @@ export default class AddDrawer extends React.Component {
             <Input.Password
               placeholder="密码"
               // type="password"
-              // autoComplete="new-password"
+              autoComplete="new-password"
             />
           </Form.Item>
           <Form.Item prop="groupId" label="组织" required rules={[required]}>

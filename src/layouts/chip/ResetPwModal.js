@@ -9,7 +9,7 @@ import { required, checkPassword } from '../../utils/valid'
 const { createModalCfg } = Modalx
 export default class ModalDemo extends React.Component {
   comparePwd = (rule, value, callback) => {
-    const newPassword = this.drawer.form.getFieldValue('newPassword')
+    const newPassword = this.modal.form.getFieldValue('newPassword')
     if (newPassword) {
       if (newPassword !== value) {
         callback(new Error('两次密码不一致'))
@@ -24,24 +24,19 @@ export default class ModalDemo extends React.Component {
 
   getResult = values => {
     console.log(USER)
-    return new Promise(resolve => {
-      setTimeout(() => {
-        appApi
-          .updatePwd({
-            ...values,
-            domain: 'internal',
-            username: USER
-          })
-          .then(res => {
-            this.modal.afterSubmit(res)
-            resolve(res)
-          })
-          .catch(errors => {
-            message.error(errors)
-            console.log(errors)
-          })
-      }, 1000)
-    })
+    appApi
+      .updatePwd({
+        ...values,
+        domain: 'internal',
+        username: USER
+      })
+      .then(res => {
+        this.modal.afterSubmit(res)
+      })
+      .catch(errors => {
+        message.error(errors)
+        console.log(errors)
+      })
   }
 
   pop = () => {
@@ -76,12 +71,7 @@ export default class ModalDemo extends React.Component {
             prop="oldPassword"
             label="旧密码"
             required
-            rules={[
-              {
-                required: true,
-                message: '请输入旧密码'
-              }
-            ]}
+            rules={[required]}
             labelCol={{ sm: { span: 5 } }}
             wrapperCol={{ sm: { span: 16 } }}
           >

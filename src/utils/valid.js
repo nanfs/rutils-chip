@@ -1,7 +1,7 @@
 /* eslint-disable no-plusplus */
 export function required(rule, value, callback) {
   if (value === undefined || value === null || value.length === 0) {
-    callback(new Error('这是必填项'))
+    return callback(new Error('这是必填项'))
   }
   callback()
 }
@@ -104,7 +104,7 @@ export function number4(rule, value, callback) {
 
 export function checkPassword(rule, value, callback) {
   if (!value) {
-    callback()
+    return callback()
   }
   if (value.length < 10 || value.length > 20) {
     callback(new Error('输入长度限制为10-20位'))
@@ -128,7 +128,7 @@ export function checkPassword(rule, value, callback) {
     strong++
   }
   if (strong < 3) {
-    callback(new Error('字母、数字、特殊字符的三种组合以上'))
+    callback(new Error('字母、数字、特殊字符的三种组合及以上'))
   }
   callback()
 }

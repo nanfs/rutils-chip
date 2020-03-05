@@ -4,6 +4,8 @@ import Formx from '../../Formx'
 import Modalx, { createModalCfg } from '../../Modalx'
 import { Form, Input, message } from 'antd'
 
+import { required, checkName, textRange } from '@/utils/valid'
+
 export default class EditNodeModal extends React.Component {
   componentDidMount() {
     this.props.onRef && this.props.onRef(this)
@@ -51,12 +53,7 @@ export default class EditNodeModal extends React.Component {
             prop="name"
             label="名称"
             required
-            rules={[
-              {
-                required: true,
-                message: '请输入名称'
-              }
-            ]}
+            rules={[required, checkName, textRange(0, 10)]}
             labelCol={{ sm: { span: 5 } }}
             wrapperCol={{ sm: { span: 16 } }}
           >

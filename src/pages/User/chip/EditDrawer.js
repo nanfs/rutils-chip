@@ -89,7 +89,7 @@ export default class editDrawer extends React.Component {
             required
             rules={[required, checkName, textRange(0, 29)]}
           >
-            <Input placeholder="名" />
+            <Input placeholder="姓" />
           </Form.Item>
           <Form.Item
             prop="lastname"
@@ -122,8 +122,8 @@ export default class editDrawer extends React.Component {
           <Form.Item prop="groupId" label="组织" required rules={[required]}>
             <TreeSelectx nodeData={nodeData} />
           </Form.Item>
-          <Form.Item prop="email" label="邮件" rules={[checkEmail]}>
-            <Input placeholder="邮件" />
+          <Form.Item prop="email" label="邮箱" rules={[checkEmail]}>
+            <Input placeholder="邮箱" />
           </Form.Item>
         </Formx>
       </Drawerx>

@@ -14,6 +14,7 @@ export default class tcLog extends React.Component {
     tableCfg: createTableCfg({
       columns,
       apiMethod,
+      rowKey: 'tcLogId',
       paging: { size: 10 },
       pageSizeOptions: ['5', '10', '20', '50']
     }),
@@ -83,20 +84,24 @@ export default class tcLog extends React.Component {
     confirm({
       title: '确定删除所选数据?',
       onOk() {
-        tclogsApi
-          .delete({ ids })
-          .then(res => {
-            if (res.success) {
-              notification.success({ message: '删除成功' })
-              self.tablex.refresh(self.state.tableCfg)
-            } else {
-              message.error(res.message || '删除失败')
-            }
-          })
-          .catch(errors => {
-            message.error(errors)
-            console.log(errors)
-          })
+        return new Promise((resolve, reject) => {
+          tclogsApi
+            .delete({ ids })
+            .then(res => {
+              if (res.success) {
+                notification.success({ message: '删除成功' })
+                self.tablex.refresh(self.state.tableCfg)
+              } else {
+                message.error(res.message || '删除失败')
+              }
+              resolve()
+            })
+            .catch(errors => {
+              message.error(errors)
+              resolve()
+              console.log(errors)
+            })
+        })
       },
       onCancel() {}
     })
@@ -105,11 +110,11 @@ export default class tcLog extends React.Component {
   render() {
     const searchOptions = [
       { label: '信息', value: 'message' },
-      { label: '终端ip', value: 'tcIp' },
-      { label: '终端序列号', value: 'tcSn' },
+      { label: '终端IP', value: 'tcIp' },
+      { label: '终端SN', value: 'tcSn' },
       { label: '终端名称', value: 'tcName' },
       { label: '用户名', value: 'userName' },
-      { label: '用户ip', value: 'userIp' }
+      { label: '用户IP', value: 'userIp' }
     ]
     const { disabledButton } = this.state
     return (

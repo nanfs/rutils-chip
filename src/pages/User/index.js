@@ -70,7 +70,6 @@ export default class User extends React.Component {
     innerPath: undefined,
     initValues: {},
     value: undefined,
-    inputValue: 'asd',
     domainlist: [],
     disabledButton: {}
   }
@@ -128,7 +127,7 @@ export default class User extends React.Component {
 
   addUser = () => {
     this.setState({ inner: '创建用户' })
-    this.addDrawer.drawer.show()
+    this.addDrawer.pop()
     this.currentDrawer = this.addDrawer
   }
 
@@ -146,20 +145,24 @@ export default class User extends React.Component {
     confirm({
       title: '确定删除所选数据?',
       onOk() {
-        userApi
-          .deleteUser({ userId: ids[0] })
-          .then(res => {
-            if (res.success) {
-              notification.success({ message: '删除成功' })
-              self.tablex.refresh(self.state.tableCfg)
-            } else {
-              message.error(res.message || '删除失败')
-            }
-          })
-          .catch(errors => {
-            message.error(errors)
-            console.log(errors)
-          })
+        return new Promise((resolve, reject) => {
+          userApi
+            .deleteUser({ userId: ids[0] })
+            .then(res => {
+              if (res.success) {
+                notification.success({ message: '删除成功' })
+                self.tablex.refresh(self.state.tableCfg)
+              } else {
+                message.error(res.message || '删除失败')
+              }
+              resolve()
+            })
+            .catch(errors => {
+              message.error(errors)
+              resolve()
+              console.log(errors)
+            })
+        })
       },
       onCancel() {}
     })
@@ -316,13 +319,7 @@ export default class User extends React.Component {
       { label: '用户名', value: 'username' },
       { label: '姓名', value: 'name' }
     ]
-    const {
-      inputValue,
-      treeData,
-      initValues,
-      domainlist,
-      disabledButton
-    } = this.state
+    const { treeData, initValues, domainlist, disabledButton } = this.state
     return (
       <React.Fragment>
         <InnerPath
@@ -384,7 +381,6 @@ export default class User extends React.Component {
                     }}
                     options={searchOptions}
                     onSearch={this.search}
-                    inputValue={inputValue}
                   ></SelectSearch>
                 </BarRight>
               </ToolBar>

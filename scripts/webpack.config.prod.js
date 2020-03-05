@@ -9,15 +9,15 @@ const webpackConfigBase = require('./webpack.config.base')
 const cfgPaths = require('../config/paths')
 
 const webpackConfigProd = {
-  mode: 'produciton',
+  mode: 'production',
   output: {
     path: cfgPaths.appDist
   },
   plugins: [
     // 定义环境变量为开发环境
-    new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify('production')
-    }),
+    // new webpack.DefinePlugin({
+    //   'process.env.NODE_ENV': JSON.stringify('production')
+    // }),
     // 将打包后的资源注入到html文件内
     new HtmlWebpackPlugin({
       // inject: true, // will inject the main bundle to index.html
@@ -27,11 +27,11 @@ const webpackConfigProd = {
       favicon: cfgPaths.favicon,
       // 这里列出要加入html中的js文件
       dlls: ['./vendor.dll.js'],
-      minify: {
-        removeComments: true,
-        collapseWhitespace: true,
-        removeAttributeQuotes: true
-      },
+      // minify: {
+      //   removeComments: true,
+      //   collapseWhitespace: true,
+      //   removeAttributeQuotes: true
+      // },
       chunks: ['manifest', 'vendor'],
       chunksSortMode: 'manual'
     }),

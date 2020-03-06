@@ -124,6 +124,7 @@ export default class Termina extends React.Component {
 
   onSuccess = () => {
     this.tablex.refresh(this.state.tableCfg)
+    this.setState({ inner: undefined })
   }
 
   onBack = () => {

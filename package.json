@@ -1,14 +1,14 @@
 {
-  "name": "oa",
-  "version": "0.1.0",
+  "name": "dms",
+  "version": "1.0.0",
   "main": "index.js",
-  "author": "lulu_py",
+  "author": "nanfs",
   "license": "MIT",
   "scripts": {
-    "serve": "cross-env NODE_ENV='development' webpack-dev-server --config ./scripts/webpack.config.dev.js",
+    "serve": "webpack-dev-server --config ./scripts/webpack.config.dev.js",
     "start": "yarn serve",
-    "dll": "cross-env NODE_ENV='development' webpack --config ./scripts/webpack.config.dll.js",
-    "build": "cross-env NODE_ENV='production' webpack --config ./scripts/webpack.config.dll.js && webpack --config ./scripts/webpack.config.prod.js",
+    "dll": "webpack --config ./scripts/webpack.config.dll.js",
+    "build": "webpack --config ./scripts/webpack.config.dll.js && webpack --config ./scripts/webpack.config.prod.js",
     "mock": "nodemon mock/server.js",
     "lint": "eslint --fix --ext .js,.jsx src"
   },
@@ -16,7 +16,6 @@
     "@antv/data-set": "^0.10.2",
     "antd": "^3.26.3",
     "axios": "^0.19.0",
-    "babel-plugin-import": "^1.13.0",
     "bizcharts": "^3.5.6",
     "classnames": "^2.2.6",
     "dayjs": "^1.8.21",
@@ -64,7 +63,6 @@
     "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-react": "^7.12.4",
     "eslint-plugin-react-hooks": "^2.0.1",
-    "extract-text-webpack-plugin": "^4.0.0-beta.0",
     "file-loader": "^1.1.6",
     "happypack": "^5.0.1",
     "html-webpack-plugin": "^3.2.0",
@@ -74,8 +72,10 @@
     "less": "^3.11.1",
     "less-loader": "^5.0.0",
     "lodash": "^4.17.15",
+    "mini-css-extract-plugin": "^0.9.0",
     "nodemon": "^1.19.4",
     "open-browser-webpack-plugin": "^0.0.5",
+    "optimize-css-assets-webpack-plugin": "^5.0.3",
     "prettier": "^1.19.1",
     "progress-bar-webpack-plugin": "^1.12.1",
     "style-loader": "^0.20.1",
@@ -85,6 +85,7 @@
     "webpack-bundle-analyzer": "2.9.0",
     "webpack-cli": "^3.3.11",
     "webpack-dev-server": "^3.10.3",
-    "webpack-merge": "^4.2.2"
+    "webpack-merge": "^4.2.2",
+    "webpack-sftp-client": "^1.2.1"
   }
 }

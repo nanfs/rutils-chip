@@ -30,6 +30,7 @@ console.log(
   `局域网访问：http://${getIPAddress()}:${port}`
 )
 const webpackConfigDev = {
+  mode: 'development',
   stats: 'errors-only',
   plugins: [
     // 定义环境变量为开发环境

@@ -1,7 +1,5 @@
 module.exports = {
   port: 9567,
-  // baseURL: '/ovirt-engine/desktop',
-  // baseURL: '/api',
   baseURL: '/ovirt-engine/desktop',
   proxy: {
     '/ovirt-engine/desktop': {

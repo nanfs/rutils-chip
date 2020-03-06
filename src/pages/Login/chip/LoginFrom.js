@@ -17,18 +17,6 @@ export default class LoginForm extends React.Component {
     }
   }
 
-  // TODO 获取文件
-  // componentDidMount() {
-  //   loginApi
-  //     .getProperties()
-  //     .then(res => {
-  //       // {hasPin:false}
-  //       this.setState({ hasPin: res.hasPin })
-  //       console.log(res)
-  //     })
-  //     .catch(e => console.log(e))
-  // }
-
   checkUsbkey(username, pincode) {
     let user
     try {

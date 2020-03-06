@@ -1,11 +1,9 @@
 module.exports = {
   port: 9567,
-  // baseURL: '/ovirt-engine/desktop',
-  // baseURL: '/api',
   baseURL: '/ovirt-engine/desktop',
   proxy: {
     '/ovirt-engine/desktop': {
-      target: 'http://192.168.254.211/ovirt-engine/desktop',
+      target: 'http://192.168.254.204/ovirt-engine/desktop',
       changeOrigin: true,
       pathRewrite: { '^/ovirt-engine/desktop': '' },
       secure: false

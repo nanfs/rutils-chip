@@ -1,18 +1,19 @@
 const path = require('path')
 const webpack = require('webpack')
 const HappyPack = require('happypack')
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
 const WebpackBuildNotifierPlugin = require('webpack-build-notifier')
 const os = require('os')
+
+const OptimizeCss = require('optimize-css-assets-webpack-plugin')
 
 const happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length })
 
 const ProgressBarPlugin = require('progress-bar-webpack-plugin')
 const cfgPaths = require('../config/paths')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 const includePath = [cfgPaths.appSrc]
-
 const webpackConfigBase = {
   stats: 'errors-only',
   entry: {
@@ -62,20 +63,17 @@ const webpackConfigBase = {
       {
         test: /[^.].\.(css|less)$/,
         use: [
-          require.resolve('style-loader'),
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              publicPath: '../'
+            }
+          },
           {
             loader: 'happypack/loader?id=happyLess'
           }
         ]
       },
-      // {
-      //   test: /[^.].\.(css|less)$/,
-      //   loader: ExtractTextPlugin.extract({
-      //     fallback: 'style-loader',
-      //     use: 'happypack/loader?id=happyLess',
-      //     allChunks: true
-      //   })
-      // },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
         exclude: /node_modules/,
@@ -99,7 +97,6 @@ const webpackConfigBase = {
   plugins: [
     // 去除moment的语言包
     new ProgressBarPlugin(),
-    // new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /de|fr|hu/),
     new CaseSensitivePathsPlugin(),
     new HappyPack({
       // 用id来标识 happypack处理那里类文件
@@ -124,7 +121,7 @@ const webpackConfigBase = {
       // 如何处理  用法和loader 的配置一样
       loaders: [
         {
-          loader: 'babel-loader?cacheDirectory=true'
+          loader: 'babel-loader'
         }
       ],
       // 代表共享进程池，即多个 HappyPack 实例都使用同一个共享进程池中的子进程去处理任务，以防止资源占用过多。
@@ -137,7 +134,7 @@ const webpackConfigBase = {
       id: 'happyLess',
       // 如何处理  用法和loader 的配置一样
       loaders: [
-        'css-loader?sourceMap=true',
+        'css-loader',
         {
           loader: 'less-loader',
           options: {
@@ -151,27 +148,17 @@ const webpackConfigBase = {
       // 允许 HappyPack 输出日志
       verbose: false
     }),
-    // new HappyPack({
-    //   // 用id来标识 happypack处理那里类文件
-    //   id: 'happyStyle',
-    //   // 如何处理  用法和loader 的配置一样
-    //   loaders: ['css-loader?sourceMap=true', 'sass-loader?sourceMap=true'],
-    //   // 代表共享进程池，即多个 HappyPack 实例都使用同一个共享进程池中的子进程去处理任务，以防止资源占用过多。
-    //   threadPool: happyThreadPool,
-    //   // 允许 HappyPack 输出日志
-    //   verbose: false
-    // }),
     // 提取css
-    new ExtractTextPlugin({ filename: 'style.[hash:4].css' }),
-    // new webpack.optimize.CommonsChunkPlugin({
-    //   async: 'async-common',
-    //   minChunks: 3
-    // }),
     // 关联dll拆分出去的依赖
     new webpack.DllReferencePlugin({
       manifest: path.resolve(cfgPaths.appDll, 'vendor-manifest.json'),
       context: cfgPaths.appDirectory
     }),
+    new MiniCssExtractPlugin({
+      filename: 'css/[name][hash].css',
+      chunkFilename: 'css/[id][hash].css'
+    }),
+    new OptimizeCss({}),
     new WebpackBuildNotifierPlugin({
       title: '编译好了 看看吧',
       suppressSuccess: true

@@ -1,57 +1,41 @@
-const webpack = require('webpack')
 const merge = require('webpack-merge')
 const Copy = require('copy-webpack-plugin')
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
-// const ParallelUglifyPlugin = require('webpack-parallel-uglify-plugin')
 const CompressionWebpackPlugin = require('compression-webpack-plugin')
 const webpackConfigBase = require('./webpack.config.base')
+const WebpackSftpClient = require('webpack-sftp-client')
 const cfgPaths = require('../config/paths')
 
 const webpackConfigProd = {
+  mode: 'production',
   output: {
     path: cfgPaths.appDist
   },
+  // TODO 关闭压缩后报错
+  optimization: {
+    minimize: false
+  },
   plugins: [
-    // 定义环境变量为开发环境
-    new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify('production')
-    }),
-    // 将打包后的资源注入到html文件内
-    new HtmlWebpackPlugin({
-      // inject: true, // will inject the main bundle to index.html
-      title: 'Prod',
-      template: cfgPaths.appHtml,
-      favicon: cfgPaths.favicon,
-      // 这里列出要加入html中的js文件
-      dlls: ['./vendor.dll.js']
-    }),
-    /* 多核压缩代码 */
-    /* new ParallelUglifyPlugin({
-      cacheDir: '.cache/',
-      uglifyJS: {
-        output: {
-          comments: false
-        },
-        warnings: false,
-        compress: {
-          drop_debugger: true,
-          drop_console: true
-        }
-        // compress: {
-        //   warnings: false
-        // }
-      }
-    }), */
-    // 分析代码
-    new BundleAnalyzerPlugin({ analyzerMode: 'static' }),
-    new Copy([{ from: './scripts/dll', to: './' }]),
     new CleanWebpackPlugin(['dist'], {
       root: cfgPaths.appDirectory,
       verbose: false
-      // exclude:['img']//不删除img静态资源
     }),
+    new HtmlWebpackPlugin({
+      title: 'Prod',
+      template: cfgPaths.appHtml,
+      favicon: cfgPaths.favicon,
+      dlls: ['./vendor.dll.js'],
+      hash: true
+      // minify: {
+      //   caseSensitive: false,
+      //   removeComment: true, // 移除注释
+      //   collapseWhitespace: false // 移除多余空格
+      // }
+    }),
+    new BundleAnalyzerPlugin({ analyzerMode: 'static' }),
+    new Copy([{ from: './scripts/dll', to: './' }]),
     new CompressionWebpackPlugin({
       asset: '[path].gz[query]',
       algorithm: 'gzip',
@@ -59,6 +43,16 @@ const webpackConfigProd = {
       threshold: 10240,
       minRatio: 0.8
     })
+    // new WebpackSftpClient({
+    //   port: '22',
+    //   host: '192.168.254.211',
+    //   username: 'root',
+    //   password: '123456',
+    //   path: './dist/', // 本地上传目录
+    //   remotePath:
+    //     '/usr/share/ovirt-engine/engine.ear/cetccloud-desktop.war/WEB-INF/classes/static', // 服务器目标目录
+    //   verbose: true
+    // })
   ]
 }
 

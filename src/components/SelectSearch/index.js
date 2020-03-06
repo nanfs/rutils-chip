@@ -46,6 +46,7 @@ class SelectSearch extends React.Component {
               <Select.Option
                 key={option.value}
                 value={option.value}
+                title={option.label}
                 disabled={option.disabled}
               >
                 {option.label}

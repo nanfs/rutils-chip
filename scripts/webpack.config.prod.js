@@ -9,7 +9,7 @@ const webpackConfigBase = require('./webpack.config.base')
 const cfgPaths = require('../config/paths')
 
 const webpackConfigProd = {
-  mode: 'produciton',
+  mode: 'production',
   output: {
     path: cfgPaths.appDist
   },

@@ -54,22 +54,19 @@ export const columnsSave = [
         <Progress
           strokeWidth={16}
           percent={
-            (parseFloat(record.usedDiskSize) /
-              parseFloat(record.availableDiskSize)) *
+            (+record.usedDiskSize /
+              (record.usedDiskSize * 1 + record.availableDiskSize * 1)) *
             100
           }
           format={() => {
             if (!record.usedDiskSize || !record.availableDiskSize) {
               return 'N/A'
             } else {
-              return `${record.usedDiskSize}G/${record.availableDiskSize}G`
+              return `${record.usedDiskSize}G/${record.usedDiskSiz * 1 +
+                record.availableDiskSize * 1}G`
             }
           }}
-          status={
-            record.usedDiskSize !== record.availableDiskSize
-              ? 'active'
-              : 'exception'
-          }
+          status={record.availableDiskSize !== '0' ? 'active' : 'exception'}
         ></Progress>
       )
     }

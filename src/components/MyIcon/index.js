@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import './fonts/iconfont'
 import './fonts/iconfont.css'
@@ -13,7 +12,14 @@ function onClick(props) {
   }
 }
 function MyIcon(props) {
-  const { prefixCls, spin, component, title, className, ...other } = props
+  const {
+    prefixCls = 'v-icon',
+    spin,
+    component,
+    title,
+    className,
+    ...other
+  } = props
   const type = props.type || 'vm-unknown'
   const classes = {
     [`icon-${type}`]: type,
@@ -45,20 +51,5 @@ function MyIcon(props) {
     />
   )
 }
-
-const propTypes = {
-  component: PropTypes.string.oneOf(['svg', 'font']),
-  prefixCls: PropTypes.string,
-  spin: PropTypes.bool,
-  type: PropTypes.string.isRequired
-}
-
-const defaultProps = {
-  prefixCls: 'v-icon',
-  spin: false
-}
-
-MyIcon.propTypes = propTypes
-MyIcon.defaultProps = defaultProps
 
 export default MyIcon

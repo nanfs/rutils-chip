@@ -78,6 +78,7 @@ export default class LoginForm extends React.Component {
         }
       })
       .catch(errors => {
+        message.error(errors)
         console.log(errors)
       })
     return false

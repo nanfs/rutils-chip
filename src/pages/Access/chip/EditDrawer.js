@@ -3,7 +3,7 @@ import { Form, Input, TimePicker, DatePicker, message } from 'antd'
 import { Drawerx, Formx, Radiox, Selectx, Title, Diliver } from '@/components'
 import { weekOptions, typeOptions } from '@/utils/formOptions'
 import '../index.less'
-import moment from 'moment'
+import dayjs from 'dayjs'
 import accessApi from '@/services/access'
 import { required, checkName, number5 } from '@/utils/valid'
 
@@ -19,7 +19,7 @@ export default class EditDrawer extends React.Component {
   compareTime = (rule, value, callback) => {
     const startTime = this.drawer.form.getFieldValue('startTime')
     if (startTime) {
-      if (!moment(startTime).isBefore(value)) {
+      if (!dayjs(startTime).isBefore(value)) {
         callback(new Error('结束时间必须晚于开始时间'))
       }
     }
@@ -51,10 +51,10 @@ export default class EditDrawer extends React.Component {
     const week = type === 0 ? date.split(',') : undefined
     const day =
       type === 1
-        ? date.split('<>').map(item => moment(item, 'YYYY/MM/DD'))
+        ? date.split('<>').map(item => dayjs(item, 'YYYY/MM/DD'))
         : undefined
-    const startTime = moment(startTimeStr, 'HH:mm')
-    const endTime = moment(endTimeStr, 'HH:mm')
+    const startTime = dayjs(startTimeStr, 'HH:mm')
+    const endTime = dayjs(endTimeStr, 'HH:mm')
     this.drawer.form.setFieldsValue({
       id,
       name,
@@ -102,8 +102,8 @@ export default class EditDrawer extends React.Component {
             type === 0
               ? week.join(',')
               : day.map(item => item.format('YYYY-MM-DD')).join('<>'),
-          startTime: moment(startTime).format('HH:mm'),
-          endTime: moment(endTime).format('HH:mm')
+          startTime: dayjs(startTime).format('HH:mm'),
+          endTime: dayjs(endTime).format('HH:mm')
         }
       ]
     }

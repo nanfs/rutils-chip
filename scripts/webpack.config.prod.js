@@ -13,6 +13,7 @@ const webpackConfigProd = {
   output: {
     path: cfgPaths.appDist
   },
+  // TODO 关闭压缩后报错
   optimization: {
     minimize: false
   },
@@ -26,12 +27,12 @@ const webpackConfigProd = {
       template: cfgPaths.appHtml,
       favicon: cfgPaths.favicon,
       dlls: ['./vendor.dll.js'],
-      hash: true,
-      minify: {
-        caseSensitive: false,
-        removeComment: true, // 移除注释
-        collapseWhitespace: false // 移除多余空格
-      }
+      hash: true
+      // minify: {
+      //   caseSensitive: false,
+      //   removeComment: true, // 移除注释
+      //   collapseWhitespace: false // 移除多余空格
+      // }
     }),
     new BundleAnalyzerPlugin({ analyzerMode: 'static' }),
     new Copy([{ from: './scripts/dll', to: './' }]),

@@ -14,7 +14,6 @@ const cfgPaths = require('../config/paths')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 const includePath = [cfgPaths.appSrc]
-
 const webpackConfigBase = {
   stats: 'errors-only',
   entry: {
@@ -64,21 +63,17 @@ const webpackConfigBase = {
       {
         test: /[^.].\.(css|less)$/,
         use: [
-          MiniCssExtractPlugin.loader,
-          // require.resolve('style-loader'),
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              publicPath: '../'
+            }
+          },
           {
             loader: 'happypack/loader?id=happyLess'
           }
         ]
       },
-      // {
-      //   test: /[^.].\.(css|less)$/,
-      //   loader: ExtractTextPlugin.extract({
-      //     fallback: 'style-loader',
-      //     use: 'happypack/loader?id=happyLess',
-      //     allChunks: true
-      //   })
-      // },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
         exclude: /node_modules/,
@@ -102,7 +97,6 @@ const webpackConfigBase = {
   plugins: [
     // 去除moment的语言包
     new ProgressBarPlugin(),
-    // new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /de|fr|hu/),
     new CaseSensitivePathsPlugin(),
     new HappyPack({
       // 用id来标识 happypack处理那里类文件
@@ -127,7 +121,7 @@ const webpackConfigBase = {
       // 如何处理  用法和loader 的配置一样
       loaders: [
         {
-          loader: 'babel-loader?cacheDirectory=true'
+          loader: 'babel-loader'
         }
       ],
       // 代表共享进程池，即多个 HappyPack 实例都使用同一个共享进程池中的子进程去处理任务，以防止资源占用过多。
@@ -140,7 +134,7 @@ const webpackConfigBase = {
       id: 'happyLess',
       // 如何处理  用法和loader 的配置一样
       loaders: [
-        'css-loader?sourceMap=true',
+        'css-loader',
         {
           loader: 'less-loader',
           options: {
@@ -155,15 +149,14 @@ const webpackConfigBase = {
       verbose: false
     }),
     // 提取css
-    // new ExtractTextPlugin({ filename: 'style.[hash:4].css' }),
     // 关联dll拆分出去的依赖
     new webpack.DllReferencePlugin({
       manifest: path.resolve(cfgPaths.appDll, 'vendor-manifest.json'),
       context: cfgPaths.appDirectory
     }),
     new MiniCssExtractPlugin({
-      filename: '[name].css',
-      chunkFilename: '[id].css'
+      filename: 'css/[name][hash].css',
+      chunkFilename: 'css/[id][hash].css'
     }),
     new OptimizeCss({}),
     new WebpackBuildNotifierPlugin({

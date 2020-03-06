@@ -90,6 +90,7 @@ export default class Desktop extends React.Component {
 
   onSuccess = () => {
     this.tablex.refresh(this.state.tableCfg)
+    this.setState({ inner: undefined })
   }
 
   render() {

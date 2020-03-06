@@ -61,6 +61,11 @@ export default class Template extends React.Component {
     })
   }
 
+  onSuccess = () => {
+    this.tablex.refresh(this.state.tableCfg)
+    this.setState({ inner: undefined })
+  }
+
   render() {
     return (
       <React.Fragment>

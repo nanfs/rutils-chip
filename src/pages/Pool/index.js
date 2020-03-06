@@ -292,6 +292,7 @@ export default class Pool extends React.Component {
 
   onSuccess = () => {
     this.tablex.refresh(this.state.tableCfg)
+    this.setState({ inner: undefined })
   }
 
   render() {

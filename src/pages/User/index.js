@@ -226,6 +226,7 @@ export default class User extends React.Component {
 
   onSuccess = () => {
     this.tablex.refresh(this.state.tableCfg)
+    this.setState({ inner: undefined })
   }
 
   treeRenderSuccess = (selectNode, treeData) => {

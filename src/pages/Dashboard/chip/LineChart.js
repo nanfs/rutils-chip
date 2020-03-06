@@ -29,7 +29,7 @@ const dv = ds
   })
 
 console.log(dv) */
-/* G2.Shape.registerShape('interval', 'top', {
+/* Shape.registerShape('interval', 'top', {
   draw(cfg, container) {
     *
      * 柱状图由四个点连线而成

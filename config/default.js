@@ -4,6 +4,7 @@ module.exports = {
   proxy: {
     '/ovirt-engine/desktop': {
       target: 'http://192.168.254.204/ovirt-engine/desktop',
+      // target: 'http://192.168.254.204/ovirt-engine/desktop',
       changeOrigin: true,
       pathRewrite: { '^/ovirt-engine/desktop': '' },
       secure: false

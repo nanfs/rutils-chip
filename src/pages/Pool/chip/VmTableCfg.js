@@ -29,19 +29,33 @@ export const vmColumns = [
       )
     }
   },
+
+  // TODO桌面主机列表  筛选 IP
   {
     title: '主机',
-    dataIndex: 'hostName'
+    dataIndex: 'hostName',
+    render: (text, record) => {
+      return `${record.ip}/${record.hostName}`
+    }
   },
+  // TODO 升降序排序
   {
     title: 'IP',
-    dataIndex: 'ip'
+    dataIndex: 'clientIp'
   },
   {
-    title: '上线时间',
-    key: 'onlineTime',
-    dataIndex: 'onlineTime',
-    render: text => onlineStringTime(text)
+    title: '数据中心/集群',
+    dataIndex: 'datacenterName',
+    // TODO 数据中心过滤
+    filters: [
+      { value: [0, 13], text: '关机' },
+      { value: [1], text: '开机' },
+      { value: [2, 16, 10, 15, 5, 6, 11, 12, 9], text: '运行' },
+      { value: [7, 8, 14, -1, 4], text: '异常' }
+    ],
+    render: (text, record) => {
+      return `${record.datacenterName}/${record.clusterName}`
+    }
   },
   {
     title: '已分配用户',
@@ -66,7 +80,12 @@ export const vmColumns = [
       return consoleContent
     }
   },
-
+  {
+    title: '本次运行时长',
+    key: 'onlineTime',
+    dataIndex: 'onlineTime',
+    render: text => onlineStringTime(text)
+  },
   {
     title: 'CPU',
     dataIndex: 'cpuUsageRate',

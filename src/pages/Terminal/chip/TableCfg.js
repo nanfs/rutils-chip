@@ -54,6 +54,16 @@ export const columns = [
     dataIndex: 'name'
   },
   {
+    title: 'IP',
+    dataIndex: 'ip'
+  },
+  // TODO mac 地址
+
+  {
+    title: 'Mac',
+    dataIndex: 'mac'
+  },
+  {
     title: '接入状态',
     dataIndex: 'isReg',
     filters: [
@@ -83,10 +93,7 @@ export const columns = [
     title: '位置',
     dataIndex: 'location'
   },
-  {
-    title: 'IP',
-    dataIndex: 'ip'
-  },
+
   {
     title: '外设控制',
     dataIndex: 'numOfSafePolicyBounded',

@@ -168,10 +168,10 @@ export default class User extends React.Component {
     })
   }
 
-  lockUser = () => {
+  disableUser = () => {
     const ids = this.tablex.getSelection()
     userApi
-      .lockUser({ userId: ids[0] })
+      .disableUser({ userId: ids[0] })
       .then(res => {
         if (res.success) {
           notification.success({ message: '锁定成功' })
@@ -186,10 +186,10 @@ export default class User extends React.Component {
       })
   }
 
-  unlockUser = () => {
+  enableUser = () => {
     const ids = this.tablex.getSelection()
     userApi
-      .unlockUser({ userId: ids[0] })
+      .enableUser({ userId: ids[0] })
       .then(res => {
         if (res.success) {
           notification.success({ message: '解锁成功' })
@@ -253,16 +253,16 @@ export default class User extends React.Component {
         ...disabledButton,
         disabledEdit: true,
         disabledDelete: true, // 删除目前只做单个，后面加批量
-        disabledUnlock: true, // 解锁目前只做单个，后面加批量
-        disabledLock: true // // 锁定目前只做单个，后面加批量
+        disabledEnable: true, // 解锁目前只做单个，后面加批量
+        disabledDisable: true // // 锁定目前只做单个，后面加批量
       }
     }
     if (selection.length === 0) {
       disabledButton = {
         ...disabledButton,
         disabledDelete: true,
-        disabledUnlock: true,
-        disabledLock: true
+        disabledEnable: true,
+        disabledDisable: true
       }
     }
     const isBoundData = selectData.filter(
@@ -275,19 +275,19 @@ export default class User extends React.Component {
       }
     }
 
-    const isLockData = selectData.filter(item => item.status === 1)
-    if (isLockData && isLockData.length > 0) {
+    const disabledData = selectData.filter(item => item.status === 1)
+    if (disabledData && disabledData.length > 0) {
       disabledButton = {
         ...disabledButton,
-        disabledLock: true
+        disabledDisable: true
       }
     }
 
-    const unLockData = selectData.filter(item => item.status === 0)
-    if (unLockData && unLockData.length > 0) {
+    const enabledData = selectData.filter(item => item.status === 0)
+    if (enabledData && enabledData.length > 0) {
       disabledButton = {
         ...disabledButton,
-        disabledUnlock: true
+        disabledEnable: true
       }
     }
 
@@ -351,16 +351,16 @@ export default class User extends React.Component {
                     编辑
                   </Button>
                   <Button
-                    onClick={this.lockUser}
-                    disabled={disabledButton.disabledLock}
+                    onClick={this.disableUser}
+                    disabled={disabledButton.disabledDisable}
                   >
-                    锁定
+                    禁用
                   </Button>
                   <Button
-                    onClick={this.unlockUser}
-                    disabled={disabledButton.disabledUnlock}
+                    onClick={this.enableUser}
+                    disabled={disabledButton.disabledEnable}
                   >
-                    解锁
+                    启用
                   </Button>
                   <Button
                     onClick={this.detailUser}

@@ -75,14 +75,14 @@ export default {
       data: qs.stringify(data)
     })
   },
-  lockUser(data) {
+  disableUser(data) {
     return axios({
       url: '/user/locked',
       method: 'post',
       data: qs.stringify(data)
     })
   },
-  unlockUser(data) {
+  enableUser(data) {
     return axios({
       url: '/user/unlocked',
       method: 'post',

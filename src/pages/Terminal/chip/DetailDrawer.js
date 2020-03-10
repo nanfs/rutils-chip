@@ -186,7 +186,7 @@ export default class DetailDrawer extends React.Component {
           />
         </div>
         <div className="dms-detail-section">
-          <Title slot="安全控制"></Title>
+          <Title slot="外设控制"></Title>
           <Table
             columns={detailSafepolicyColumns}
             dataSource={initValues.safePolicys}

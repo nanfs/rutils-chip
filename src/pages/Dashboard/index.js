@@ -23,11 +23,11 @@ class Dashboard extends React.Component {
             this.setState({
               desktopsStatisticsDountData: [
                 {
-                  name: '正在运行',
+                  name: '已开机',
                   count: res.data.running
                 },
                 {
-                  name: '已停止',
+                  name: '未开机',
                   count: res.data.stopped
                 }
               ],
@@ -62,11 +62,11 @@ class Dashboard extends React.Component {
             this.setState({
               poolsStatisticsDountData: [
                 {
-                  name: '正在运行',
+                  name: '已开机',
                   count: res.data.running
                 },
                 {
-                  name: '已停止',
+                  name: '未开机',
                   count: res.data.stopped
                 }
               ],

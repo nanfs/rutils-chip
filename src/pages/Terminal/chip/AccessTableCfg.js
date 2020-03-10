@@ -29,9 +29,7 @@ export const columns = [
     title: '已绑定终端数',
     width: 150,
     dataIndex: 'boundTcNum',
-    render: text => <Tag>{text}</Tag>,
-    sorter: (a, b) => a.boundTcNum - b.boundTcNum,
-    sortDirections: ['descend', 'ascend']
+    render: text => <Tag>{text}</Tag>
   },
   {
     title: '准入类型',
@@ -39,8 +37,7 @@ export const columns = [
     filters: typeOptions,
     render: (text, record) => {
       return typeArr[record.admitInterval[0].type]
-    },
-    onFilter: (value, record) => record.admitInterval[0].type === value
+    }
   },
   {
     title: '日期',

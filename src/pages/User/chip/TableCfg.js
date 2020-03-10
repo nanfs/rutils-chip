@@ -45,7 +45,7 @@ export const columns = [
     title: '状态',
     dataIndex: 'status',
     filters: [
-      { value: '1', text: '锁定' },
+      { value: '1', text: '禁用' },
       { value: '0', text: '正常' }
     ],
     render: value => {
@@ -83,7 +83,7 @@ export const columns = [
               color: '#e80d0c'
             }}
           >
-            &nbsp;锁定
+            &nbsp;禁用
           </span>
         </span>
       )

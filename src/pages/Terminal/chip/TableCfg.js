@@ -57,8 +57,6 @@ export const columns = [
     title: 'IP',
     dataIndex: 'ip'
   },
-  // TODO mac 地址
-
   {
     title: 'Mac',
     dataIndex: 'mac'

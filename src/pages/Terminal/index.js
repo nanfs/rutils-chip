@@ -89,7 +89,22 @@ export default class Termina extends React.Component {
     )
   }
 
-  columnsArr = [...columns, this.options]
+  tcName = {
+    title: '终端名称',
+    dataIndex: 'name',
+    render: (text, record) => {
+      return (
+        <a
+          className="detail-link"
+          onClick={() => this.detailTerminal(record.name, record.sn)}
+        >
+          <span>{record.name}</span>
+        </a>
+      )
+    }
+  }
+
+  columnsArr = [this.tcName, ...columns]
 
   state = {
     tableCfg: createTableCfg({
@@ -167,9 +182,9 @@ export default class Termina extends React.Component {
     this.currentDrawer = this.sendMessageDrawer
   }
 
-  detailTerminal = (sn = undefined) => {
-    this.setState({ inner: '查看详情' })
-    this.detailDrawer.pop(sn || this.state.selectSN)
+  detailTerminal = (name, sn) => {
+    this.setState({ inner: name })
+    this.detailDrawer.pop(sn)
     this.currentDrawer = this.detailDrawer
   }
 
@@ -435,7 +450,6 @@ export default class Termina extends React.Component {
             onRef={ref => {
               this.tablex = ref
             }}
-            className="no-select-bg"
             tableCfg={this.state.tableCfg}
             onSelectChange={this.onSelectChange}
             onChange={this.onTableChange}

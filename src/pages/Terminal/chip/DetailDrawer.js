@@ -16,10 +16,10 @@ export default class DetailDrawer extends React.Component {
 
   state = { initValues: { useTime: [] } }
 
-  pop = sns => {
+  pop = sn => {
     this.drawer.show()
     terminalApi
-      .terminalsdetail(sns[0])
+      .terminalsdetail(sn)
       .then(res => {
         if (res.success) {
           const onlineTimeArray = res.data.onlineTime.split(',')

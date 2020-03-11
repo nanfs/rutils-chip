@@ -1,10 +1,25 @@
 import React from 'react'
-import { Row, Col, Table, Tag } from 'antd'
+import { Row, Col, Table, Tag, message, Spin } from 'antd'
 import { Title, Diliver } from '@/components'
+import desktopsApi from '@/services/desktops'
 
 export default class BaseInfo extends React.Component {
+  componentDidMount() {
+    this.setState({ loading: true })
+    desktopsApi
+      .detail(this.props.id)
+      .then(res => {
+        this.setState({ loading: false, data: res.data })
+      })
+      .catch(errors => {
+        this.setState({ loading: false })
+
+        message.error(errors)
+        console.log(errors)
+      })
+  }
+
   render() {
-    const data = this.props.data || {}
     const userColums = [
       {
         title: '用户名',
@@ -21,8 +36,9 @@ export default class BaseInfo extends React.Component {
         dataIndex: 'department'
       }
     ]
+    const { loading, data = {} } = this.state || {}
     return (
-      <React.Fragment>
+      <Spin spinning={loading}>
         <Title slot="基础设置"></Title>
         <Row className="dms-detail-row">
           <Col span={3} className="dms-detail-label">
@@ -112,7 +128,7 @@ export default class BaseInfo extends React.Component {
               data.appList.split(',').map(item => <Tag key={item}>{item}</Tag>)}
           </div>
         </Row>
-      </React.Fragment>
+      </Spin>
     )
   }
 }

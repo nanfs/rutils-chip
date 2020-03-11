@@ -105,7 +105,10 @@ export default class Desktop extends React.Component {
       return (
         <a
           className="detail-link"
-          onClick={() => this.detailVm(record.name, record.id)}
+          onClick={() =>
+            // e.stopPropagation()
+            this.detailVm(record.name, record.id)
+          }
         >
           <span>
             {osStatusRender(record.os)} {record.name}
@@ -367,13 +370,13 @@ export default class Desktop extends React.Component {
               <Button onClick={this.createVm}>创建桌面</Button>
               <Button
                 onClick={this.editVm}
-                disabled={disabledButton.disabledSetUser}
+                disabled={disabledButton.disabledEdit}
               >
                 编辑桌面
               </Button>
               <Button
                 onClick={() => this.setUser(this.tablex.getSelection())}
-                disabled={disabledButton.disabledEdit}
+                disabled={disabledButton.disabledSetUser}
               >
                 分配用户
               </Button>
@@ -403,6 +406,14 @@ export default class Desktop extends React.Component {
             tableCfg={this.state.tableCfg}
             onSelectChange={this.onSelectChange}
             onChange={this.onTableChange}
+            // TODO 是否开启行点 选中
+            // onRow={record => {
+            //   return {
+            //     onClick: () => {
+            //       console.log(record)
+            //     }
+            //   }
+            // }}
           />
           <AddDrawer
             onRef={ref => {

@@ -1,7 +1,6 @@
 import React from 'react'
-import { Drawerx } from '@/components'
-import { message, Tabs } from 'antd'
-import desktopsApi from '@/services/desktops'
+import { Drawerx, Tabsx } from '@/components'
+import { Tabs } from 'antd'
 import BaseInfo from './detail/BaseInfo'
 
 const { TabPane } = Tabs
@@ -14,19 +13,14 @@ export default class DetailDrawer extends React.Component {
 
   pop = id => {
     this.drawer.show()
-    desktopsApi
-      .detail(id)
-      .then(res => {
-        this.setState({ data: res.data })
-      })
-      .catch(errors => {
-        message.error(errors)
-        console.log(errors)
-      })
+    // 置空 不然有保存 state
+    this.setState({ defaultActiveKey: '' }, () =>
+      this.setState({ defaultActiveKey: '1', id })
+    )
   }
 
   render() {
-    const { data } = this.state
+    const { id, defaultActiveKey } = this.state
     return (
       <Drawerx
         onRef={ref => {
@@ -37,9 +31,9 @@ export default class DetailDrawer extends React.Component {
           console.log(values)
         }}
       >
-        <Tabs defaultActiveKey="1">
+        <Tabsx defaultActiveKey={defaultActiveKey}>
           <TabPane tab="基础信息" key="1">
-            <BaseInfo data={data}></BaseInfo>
+            <BaseInfo id={id}></BaseInfo>
           </TabPane>
           <TabPane tab="磁盘管理" key="2">
             磁盘管理
@@ -47,7 +41,7 @@ export default class DetailDrawer extends React.Component {
           <TabPane tab="快照管理" key="3">
             快照管理
           </TabPane>
-        </Tabs>
+        </Tabsx>
       </Drawerx>
     )
   }

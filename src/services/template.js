@@ -33,5 +33,12 @@ export default {
       method: 'put',
       data: qs.stringify(reqData, { arrayFormat: 'indices', allowDots: true })
     })
+  },
+  detailTem(data) {
+    return axios({
+      url: '/desktops',
+      method: 'get',
+      params: data
+    })
   }
 }

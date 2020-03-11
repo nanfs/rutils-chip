@@ -2,15 +2,35 @@ import React from 'react'
 import { Button, message, Modal, notification } from 'antd'
 import { Tablex, InnerPath } from '@/components'
 import EditDrawer from './chip/EditDrawer'
+import DetailDrawer from './chip/DetailDrawer'
 import { columns, apiMethod } from './chip/TableCfg'
 import templateApi from '@/services/template'
 
 const { confirm } = Modal
 const { createTableCfg, TableWrap, ToolBar, BarLeft } = Tablex
 export default class Template extends React.Component {
+  options = {
+    title: '模板名称',
+    dataIndex: 'name',
+    render: (text, record) => {
+      return (
+        <a
+          onClick={() => {
+            this.setState({ inner: '模板详情' }, this.infoDrawer.pop(record))
+            this.currentDrawer = this.infoDrawer
+          }}
+        >
+          {text}
+        </a>
+      )
+    }
+  }
+
+  columnsArr = [this.options, ...columns]
+
   state = {
     tableCfg: createTableCfg({
-      columns,
+      columns: this.columnsArr,
       apiMethod,
       expandedRowRender: false,
       paging: { size: 10 },
@@ -111,6 +131,12 @@ export default class Template extends React.Component {
               this.onBack()
               this.tablex.refresh(this.state.tableCfg)
             }}
+          />
+          <DetailDrawer
+            onRef={ref => {
+              this.infoDrawer = ref
+            }}
+            onClose={this.onBack}
           />
         </TableWrap>
       </React.Fragment>

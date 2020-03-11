@@ -4,10 +4,13 @@ import { Icon, Tag } from 'antd'
 import styles from '../index.m.less'
 // TODO antd 样式加载问题
 export const columns = [
-  {
-    title: '模板名称',
-    dataIndex: 'name'
-  },
+  // {
+  //   title: '模板名称',
+  //   dataIndex: 'name',
+  //   render: text => {
+  //     return <a onClick={() => {}}>{text}</a>
+  //   }
+  // },
   {
     title: '已使用桌面',
     dataIndex: 'vmUsed',

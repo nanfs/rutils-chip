@@ -1,8 +1,9 @@
 import React from 'react'
 import { Drawerx } from '@/components'
 import { message, Tabs } from 'antd'
-import desktopsApi from '@/services/desktops'
+import poolsApi from '@/services/pools'
 import BaseInfo from './detail/BaseInfo'
+import Vmlist from './detail/Vmlist'
 
 const { TabPane } = Tabs
 export default class DetailDrawer extends React.Component {
@@ -14,7 +15,7 @@ export default class DetailDrawer extends React.Component {
 
   pop = id => {
     this.drawer.show()
-    desktopsApi
+    poolsApi
       .detail(id)
       .then(res => {
         this.setState({ data: res.data })
@@ -41,12 +42,10 @@ export default class DetailDrawer extends React.Component {
           <TabPane tab="基础信息" key="1">
             <BaseInfo data={data}></BaseInfo>
           </TabPane>
-          <TabPane tab="磁盘管理" key="2">
-            磁盘管理
+          <TabPane tab="桌面列表" key="2">
+            <Vmlist data={data}></Vmlist>
           </TabPane>
-          <TabPane tab="快照管理" key="3">
-            快照管理
-          </TabPane>
+          {/* <TabPane tab="已分配用户" key="3"></TabPane> */}
         </Tabs>
       </Drawerx>
     )

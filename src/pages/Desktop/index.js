@@ -19,6 +19,7 @@ import { MyIcon, InnerPath, SelectSearch, Tablex } from '@/components'
 import produce from 'immer'
 import desktopsApi from '@/services/desktops'
 import { downloadVV } from '@/utils/tool'
+import { osStatusRender } from '@/utils/tableRender'
 import { columns, apiMethod } from './chip/TableCfg'
 import './index.less'
 
@@ -97,7 +98,24 @@ export default class Desktop extends React.Component {
     )
   }
 
-  columnsArr = [...columns, this.options]
+  vmName = {
+    title: '基本信息',
+    dataIndex: 'name',
+    render: (text, record) => {
+      return (
+        <a
+          className="detail-link"
+          onClick={() => this.detailVm(record.name, record.id)}
+        >
+          <span>
+            {osStatusRender(record.os)} {record.name}
+          </span>
+        </a>
+      )
+    }
+  }
+
+  columnsArr = [this.vmName, ...columns]
 
   state = {
     tableCfg: createTableCfg({
@@ -141,7 +159,11 @@ export default class Desktop extends React.Component {
   onSelectChange = (selection, selectData) => {
     let disabledButton = {}
     if (selection.length !== 1) {
-      disabledButton = { ...disabledButton, disabledEdit: true }
+      disabledButton = {
+        ...disabledButton,
+        disabledEdit: true,
+        disabledAddTem: true
+      }
     }
     if (selection.length === 0) {
       disabledButton = {
@@ -151,23 +173,33 @@ export default class Desktop extends React.Component {
         disabledUp: true,
         disabledDown: true,
         disabledOff: true,
-        disabledRestart: true
+        disabledRestart: true,
+        disabledOpenConsole: true
       }
     } else {
       selectData.forEach(item => {
         if (item.status !== 0 && item.status !== 13) {
           disabledButton = {
             ...disabledButton,
-            disabledUp: true
+            disabledUp: true,
+            disabledOpenConsole: true
           }
-        } else if (item.status === 0) {
+        }
+        if (item.status !== 1) {
+          disabledButton = {
+            ...disabledButton,
+            disabledOpenConsole: true
+          }
+        }
+        if (item.status === 0) {
           disabledButton = {
             ...disabledButton,
             disabledDown: true,
             disabledRestart: true,
             disabledOff: true
           }
-        } else if (item.status === 10) {
+        }
+        if (item.status === 10) {
           disabledButton = {
             ...disabledButton,
             disabledRestart: true
@@ -212,19 +244,21 @@ export default class Desktop extends React.Component {
     })
   }
 
-  editVm = id => {
+  editVm = () => {
+    const id = this.tablex.getSelection()[0]
     this.setState({ inner: '编辑桌面' }, this.editDrawer.pop(id))
     this.currentDrawer = this.editDrawer
   }
 
-  detailVm = id => {
-    this.setState({ inner: '桌面详情' }, this.detailDrawer.pop(id))
+  detailVm = (name, id) => {
+    this.setState({ inner: name }, this.detailDrawer.pop(id))
     this.currentDrawer = this.detailDrawer
   }
 
   // TODO 格式不一致
-  openConsole = (name, desktopId) => {
-    desktopsApi.openConsole({ desktopId }).then(res => {
+  openConsole = () => {
+    const { name, id } = this.tablex.getSelection()[0]
+    desktopsApi.openConsole({ desktopId: id }).then(res => {
       downloadVV(res, name)
     })
   }
@@ -311,6 +345,13 @@ export default class Desktop extends React.Component {
         >
           重启
         </Menu.Item>
+        <Menu.Item
+          key="6"
+          disabled={disabledButton.disabledAddTem}
+          onClick={() => this.addTemplateModal(this.getSelection()[0])}
+        >
+          创建模板
+        </Menu.Item>
       </Menu>
     )
     return (
@@ -325,12 +366,23 @@ export default class Desktop extends React.Component {
             <BarLeft>
               <Button onClick={this.createVm}>创建桌面</Button>
               <Button
-                onClick={() => this.setUser(this.tablex.getSelection())}
+                onClick={this.editVm}
                 disabled={disabledButton.disabledSetUser}
+              >
+                编辑桌面
+              </Button>
+              <Button
+                onClick={() => this.setUser(this.tablex.getSelection())}
+                disabled={disabledButton.disabledEdit}
               >
                 分配用户
               </Button>
-
+              <Button
+                onClick={this.openConsole}
+                disabled={disabledButton.disabledOpenConsole}
+              >
+                打开控制台
+              </Button>
               <Dropdown overlay={moreButton}>
                 <Button>
                   更多操作 <Icon type="down" />
@@ -348,7 +400,6 @@ export default class Desktop extends React.Component {
             onRef={ref => {
               this.tablex = ref
             }}
-            className="no-select-bg"
             tableCfg={this.state.tableCfg}
             onSelectChange={this.onSelectChange}
             onChange={this.onTableChange}

@@ -4,10 +4,6 @@ import { Tag } from 'antd'
 // TODO antd 样式加载问题
 export const columns = [
   {
-    title: '名称',
-    dataIndex: 'name'
-  },
-  {
     title: '管理类型',
     dataIndex: 'managerType',
     render: text => (text === 0 ? '自动' : '手动')

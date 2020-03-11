@@ -5,12 +5,14 @@ export const columns = [
   {
     title: '级别',
     dataIndex: 'severity',
+    width: 70,
     filters: severityOptions,
     render: renderServerityOptions
   },
   {
     title: '时间',
-    dataIndex: 'logTime'
+    dataIndex: 'logTime',
+    ellipsis: true
   },
   {
     title: '信息',
@@ -20,28 +22,35 @@ export const columns = [
   },
   {
     title: 'IP',
-    dataIndex: 'userIp'
+    dataIndex: 'userIp',
+    ellipsis: true
   },
   {
     title: '用户',
-    dataIndex: 'userName'
+    dataIndex: 'userName',
+    ellipsis: true
   },
 
   {
     title: '桌面',
-    dataIndex: 'desktopName'
+    dataIndex: 'desktopName',
+    ellipsis: true
   },
   {
     title: '主机',
-    dataIndex: 'hostName'
+    dataIndex: 'hostName',
+    width: 140,
+    ellipsis: true
   },
   {
     title: '数据中心',
-    dataIndex: 'datacenterName'
+    dataIndex: 'datacenterName',
+    ellipsis: true
   },
   {
     title: '集群',
-    dataIndex: 'clusterName'
+    dataIndex: 'clusterName',
+    ellipsis: true
   }
 ]
 export const apiMethod = vmlogsApi.list

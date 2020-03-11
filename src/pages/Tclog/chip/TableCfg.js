@@ -5,13 +5,14 @@ export const columns = [
   {
     title: '级别',
     dataIndex: 'severity',
-    width: 100,
+    width: 70,
     filters: severityOptions,
     render: renderServerityOptions
   },
   {
     title: '时间',
-    dataIndex: 'logTime'
+    dataIndex: 'logTime',
+    ellipsis: true
   },
   {
     title: '信息',
@@ -21,19 +22,25 @@ export const columns = [
   },
   {
     title: '终端SN',
-    dataIndex: 'tcSn'
+    dataIndex: 'tcSn',
+    width: 280,
+    ellipsis: true
   },
   {
     title: '终端IP',
-    dataIndex: 'tcIp'
+    dataIndex: 'tcIp',
+    ellipsis: true
   },
   {
     title: '用户',
-    dataIndex: 'userName'
+    dataIndex: 'userName',
+    ellipsis: true
   },
   {
     title: '用户IP',
-    dataIndex: 'userIp'
+    dataIndex: 'userIp',
+    width: 140,
+    ellipsis: true
   }
 ]
 export const apiMethod = tclogsApi.list

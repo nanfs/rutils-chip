@@ -213,6 +213,11 @@ export default class User extends React.Component {
 
   onSelect = (value, node) => {
     // this.selectSearch.reset()
+    if (node.node.props.type === 'ad') {
+      this.groupTreex.cleanSelected()
+    } else {
+      this.ADdomainTreex.cleanSelected()
+    }
     this.setState(
       produce(draft => {
         draft.tableCfg.searchs = {
@@ -332,12 +337,26 @@ export default class User extends React.Component {
           <div className="user-wrap">
             <div className="user-tree">
               <Treex
+                onRef={ref => {
+                  this.groupTreex = ref
+                }}
                 apiMethod={userApi.groupQuery}
                 onSelect={this.onSelect}
                 addNodeApiMethod={userApi.groupCreate}
                 editNodeApiMethod={userApi.groupUpdate}
                 deleteNodeApiMethod={userApi.groupDelete}
                 treeRenderSuccess={this.treeRenderSuccess}
+                showRightClinkMenu={true}
+                showSearch={false}
+              ></Treex>
+              <Treex
+                onRef={ref => {
+                  this.ADdomainTreex = ref
+                }}
+                onSelect={this.onSelect}
+                apiMethod={userApi.groupQuery}
+                showSearch={false}
+                defaultSelectRootNode={false}
               ></Treex>
             </div>
             <div className="user-table">

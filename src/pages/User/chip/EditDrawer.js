@@ -26,6 +26,7 @@ export default class editDrawer extends React.Component {
       password,
       groupId,
       email
+      // isAdDomain = false
     } = data
     this.drawer.form.setFieldsValue({
       id,
@@ -120,7 +121,7 @@ export default class editDrawer extends React.Component {
             />
           </Form.Item>
           <Form.Item prop="groupId" label="组织" required rules={[required]}>
-            <TreeSelectx nodeData={nodeData} />
+            <TreeSelectx nodeData={nodeData} /* disabled={isAdDomain} */ />
           </Form.Item>
           <Form.Item prop="email" label="邮箱" rules={[checkEmail]}>
             <Input placeholder="邮箱" />

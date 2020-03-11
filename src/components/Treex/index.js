@@ -10,6 +10,7 @@ import './index.less'
 const { confirm } = Modal
 const { TreeNode } = Tree
 const { Search } = Input
+
 // 获取节点的父节点key
 const getParentKey = (key, tree) => {
   let parentKey
@@ -61,6 +62,7 @@ export default class Treex extends React.Component {
   }
 
   componentDidMount() {
+    this.props.onRef && this.props.onRef(this)
     // document.addEventListener('contextmenu', this._handleContextMenu)
     document.addEventListener('click', this._handleClick)
 
@@ -73,60 +75,14 @@ export default class Treex extends React.Component {
   }
 
   getTreeData = () => {
-    const { apiMethod, treeRenderSuccess } = this.props
+    const {
+      apiMethod,
+      treeRenderSuccess,
+      defaultSelectRootNode = true
+    } = this.props
     if (!apiMethod) {
       throw new Error('没有树请求方法')
     }
-    /* const nodes = [
-      {
-        id: '0',
-        key: '0',
-        title: '用户组',
-        parentId: null
-      },
-      {
-        id: '1',
-        key: '1',
-        title: '成都研发中心',
-        parentId: '0'
-      },
-      {
-        id: '2',
-        key: '2',
-        title: '设计组',
-        parentId: '5'
-      },
-      {
-        id: '3',
-        key: '3',
-        title: '前端组',
-        parentId: '1'
-      },
-      {
-        id: '4',
-        key: '4',
-        title: '北京研发中心',
-        parentId: '1'
-      },
-      {
-        id: '5',
-        key: '5',
-        title: '前端组',
-        parentId: '4'
-      }
-    ]
-    if (!Array.isArray(nodes) || !Object.keys(nodes[0]).includes('key')) {
-      throw new Error('数据格式不符合')
-    }
-    const { allKey, nodeList } = generateList(nodes)
-    this.setState({
-      expandedKeys: allKey,
-      selectedKeys: [nodes[0].key],
-      nodeList,
-      nodes,
-      loading: false
-    })
-    treeRenderSuccess && treeRenderSuccess(nodes[0].key) */
     apiMethod()
       .then(res => {
         if (res.success) {
@@ -150,12 +106,14 @@ export default class Treex extends React.Component {
           const { allKey, nodeList } = generateList(nodes)
           this.setState({
             expandedKeys: allKey,
-            selectedKeys: [nodes[0].key],
+            selectedKeys: defaultSelectRootNode && [nodes[0].key], // 是否默认选中根节点
             nodeList,
             nodes,
             loading: false
           })
-          treeRenderSuccess && treeRenderSuccess(nodes[0].key, nodes)
+          defaultSelectRootNode &&
+            treeRenderSuccess &&
+            treeRenderSuccess(nodes[0].key, nodes)
         } else {
           this.nodes = []
           this.setState({ loading: false })
@@ -201,7 +159,7 @@ export default class Treex extends React.Component {
         }
         return null
       })
-      .filter((item, i, self) => item && self.indexOf(item) === i)
+      .filter((item, i, self) => item && self.indexbuOf(item) === i)
     this.setState({
       expandedKeys,
       searchValue: value,
@@ -242,6 +200,7 @@ export default class Treex extends React.Component {
             data-key={item.id}
             data-title={item.title}
             parentId={item.parentId}
+            type={item.type}
           >
             {this.renderTreeNode(item.children, searchValue)}
           </TreeNode>
@@ -254,6 +213,7 @@ export default class Treex extends React.Component {
           data-key={item.id}
           data-title={item.title}
           parentId={item.parentId}
+          type={item.type}
         />
       )
     })
@@ -335,9 +295,16 @@ export default class Treex extends React.Component {
     })
   }
 
+  cleanSelected = () => {
+    this.setState({
+      selectedKeys: []
+    })
+  }
+
   render() {
     const {
       showSearch = true,
+      showRightClinkMenu = false,
       addNodeApiMethod,
       editNodeApiMethod
     } = this.props
@@ -366,7 +333,7 @@ export default class Treex extends React.Component {
           onSelect={this.onSelect}
           expandedKeys={expandedKeys}
           autoExpandParent={autoExpandParent}
-          onRightClick={this.onRightClick}
+          onRightClick={showRightClinkMenu && this.onRightClick}
         >
           {this.renderTreeNode(nodes2Tree(nodes), searchValue)}
         </Tree>

@@ -16,7 +16,7 @@ export default class Template extends React.Component {
       return (
         <a
           onClick={() => {
-            this.setState({ inner: '模板详情' }, this.infoDrawer.pop(record))
+            this.setState({ inner: text }, this.infoDrawer.pop(record))
             this.currentDrawer = this.infoDrawer
           }}
         >

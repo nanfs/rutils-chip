@@ -70,14 +70,16 @@ export default class DetailDrawer extends React.Component {
             <Row gutter={32} className={styles.rowMargin}>
               <Col span={4}>父模板：</Col>
               <Col span={8}>{data.parentName}</Col>
-              <Col span={4}>数据中心/集群：</Col>
-              <Col span={8}>
-                {data.datacenterName}/{data.clusterName}
-              </Col>
+              <Col span={4}>数据中心</Col>
+              <Col span={8}>{data.datacenterName}</Col>
             </Row>
             <Row gutter={32} className={styles.rowMargin}>
+              <Col span={4}>集群：</Col>
+              <Col span={8}>{data.clusterName}</Col>
               <Col span={4}>描述：</Col>
               <Col span={8}>{data.description}</Col>
+            </Row>
+            <Row>
               <Col span={4}>状态：</Col>
               {data.status == '1' && (
                 <Col span={8}>
@@ -96,7 +98,7 @@ export default class DetailDrawer extends React.Component {
               )}
             </Row>
           </TabPane>
-          <TabPane tab="使用桌面列表" key="bindVmList">
+          <TabPane tab="桌面列表" key="bindVmList">
             <Tablex
               onRef={ref => {
                 this.vmtablex = ref

@@ -83,7 +83,7 @@ export const columns = [
       const consoleContent = record.consoleUserName ? (
         <div>
           <MyIcon type="tc-connecting" component="svg" />
-          <span>已连接</span>{' '}
+          <span>已连接</span>
         </div>
       ) : (
         <div>

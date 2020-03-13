@@ -67,14 +67,14 @@ const menu = [
     authority: 'admin',
     children: [
       {
-        title: '桌面日志',
+        title: '桌面管理',
         icon: 'log',
         iconComonpent: 'MyIcon',
         path: '/vmlog',
         authority: 'admin'
       },
       {
-        title: '终端日志',
+        title: '终端管理',
         icon: 'log',
         iconComonpent: 'MyIcon',
         path: '/tclog',

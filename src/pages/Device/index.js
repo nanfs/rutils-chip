@@ -38,11 +38,11 @@ export default class Device extends React.Component {
     if (selection.length === 0) {
       disabledButton = { ...disabledButton, disabledDelete: true }
     }
-    selectData.forEach(function(v, i) {
-      if (v.boundTcNum !== 0) {
-        disabledButton = { ...disabledButton, disabledDelete: true }
-      }
-    })
+    // selectData.forEach(function(v, i) {
+    //   if (v.boundTcNum !== 0) {
+    //     disabledButton = { ...disabledButton, disabledDelete: true }
+    //   }
+    // })
     this.setState({ disabledButton })
   }
 

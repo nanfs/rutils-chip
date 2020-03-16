@@ -14,16 +14,19 @@ export const columns = [
   {
     title: '已使用桌面',
     dataIndex: 'vmUsed',
+    width: 100,
     render: text => {
       return <Tag>{text}</Tag>
     }
   },
   {
     title: '父模板',
+    ellipsis: true,
     dataIndex: 'parentName'
   },
   {
     title: '数据中心/集群',
+    ellipsis: true,
     dataIndex: 'vm',
     render: (text, record) => {
       return `${record.datacenterName}/${record.clusterName}`
@@ -31,11 +34,13 @@ export const columns = [
   },
   {
     title: '描述',
+    ellipsis: true,
     dataIndex: 'description'
   },
   {
     title: '状态',
     dataIndex: 'status',
+    width: 100,
     render: text => {
       if (text == '1') {
         return (

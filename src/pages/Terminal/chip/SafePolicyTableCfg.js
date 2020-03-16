@@ -6,20 +6,23 @@ import { MyIcon } from '@/components'
 export const columns = [
   {
     title: '名称',
-    dataIndex: 'name'
+    dataIndex: 'name',
+    ellipsis: true
   },
   {
     title: '描述',
-    dataIndex: 'description'
+    dataIndex: 'description',
+    ellipsis: true
   },
   {
     title: '已绑定终端数',
     dataIndex: 'boundTcNum',
+    width: 150,
     render: text => <Tag>{text}</Tag>
   },
   {
     title: 'USB外设',
-    width: 120,
+    width: 150,
     dataIndex: 'usagePeripherals',
     render: text => {
       if (text === '1') {
@@ -40,6 +43,7 @@ export const columns = [
   {
     title: '名单',
     dataIndex: 'usb',
+    width: 150,
     render: (text, record) => {
       const info = record.usbs.map((item, index) => (
         <p key={index}>

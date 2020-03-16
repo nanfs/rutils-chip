@@ -92,13 +92,14 @@ export default class Termina extends React.Component {
   tcName = {
     title: '终端名称',
     dataIndex: 'name',
+    ellipsis: true,
     render: (text, record) => {
       return (
         <a
           className="detail-link"
           onClick={() => this.detailTerminal(record.name, record.sn)}
         >
-          <span>{record.name}</span>
+          {record.name}
         </a>
       )
     }

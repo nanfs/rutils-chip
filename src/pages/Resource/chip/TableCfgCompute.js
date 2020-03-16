@@ -7,7 +7,7 @@ export const columnsCompute = [
   {
     title: '状态',
     dataIndex: 'status',
-    width: 144,
+    width: 100,
     filters: [
       {
         text: '关机',
@@ -34,14 +34,17 @@ export const columnsCompute = [
   },
   {
     title: '主机名称',
+    ellipsis: true,
     dataIndex: 'name'
   },
   {
     title: '主机IP',
+    ellipsis: true,
     dataIndex: 'ip'
   },
   {
     title: '数据中心/集群',
+    ellipsis: true,
     dataIndex: 'vm',
     render: (text, record) => {
       return `${record.storagePoolName}/${record.clusterName}`
@@ -94,10 +97,12 @@ export const columnsCompute = [
   },
   {
     title: '描述',
+    ellipsis: true,
     dataIndex: 'description'
   },
   {
     title: '桌面总数',
+    width: 100,
     dataIndex: 'numOfDesktop',
     render: text => {
       return <Tag>{text}</Tag>

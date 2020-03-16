@@ -34,14 +34,17 @@ export const columnsSave = [
   },
   {
     title: '存储域名称',
+    ellipsis: true,
     dataIndex: 'name'
   },
   {
     title: '数据中心',
+    ellipsis: true,
     dataIndex: 'storagePoolName'
   },
   {
     title: '类型',
+    ellipsis: true,
     dataIndex: 'storageType',
     render: text => storageTypeRender(text)
   },
@@ -74,6 +77,7 @@ export const columnsSave = [
   },
   {
     title: '描述',
+    ellipsis: true,
     dataIndex: 'description'
   }
 ]

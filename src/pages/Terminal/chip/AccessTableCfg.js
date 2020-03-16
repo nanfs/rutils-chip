@@ -23,7 +23,8 @@ function renderDateText(text) {
 export const columns = [
   {
     title: '名称',
-    dataIndex: 'name'
+    dataIndex: 'name',
+    ellipsis: true
   },
   {
     title: '已绑定终端数',
@@ -34,6 +35,7 @@ export const columns = [
   {
     title: '准入类型',
     dataIndex: 'type',
+    width: 160,
     filters: typeOptions,
     render: (text, record) => {
       return typeArr[record.admitInterval[0].type]
@@ -42,6 +44,7 @@ export const columns = [
   {
     title: '日期',
     dataIndex: 'date',
+    width: '15%',
     render: (text, record) => {
       return renderDateText(record.admitInterval[0].date)
     }
@@ -56,6 +59,7 @@ export const columns = [
   },
   {
     title: '描述',
+    ellipsis: true,
     dataIndex: 'description'
   }
 ]

@@ -12,6 +12,7 @@ export default class Template extends React.Component {
   options = {
     title: '模板名称',
     dataIndex: 'name',
+    ellipsis: true,
     render: (text, record) => {
       return (
         <a

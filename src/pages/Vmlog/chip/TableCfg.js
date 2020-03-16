@@ -12,11 +12,12 @@ export const columns = [
   {
     title: '时间',
     dataIndex: 'logTime',
+    width: 160,
     ellipsis: true
   },
   {
     title: '信息',
-    width: '30%',
+    width: '20%',
     dataIndex: 'message',
     ellipsis: true
   },
@@ -45,6 +46,7 @@ export const columns = [
   {
     title: '数据中心',
     dataIndex: 'datacenterName',
+    width: '9%',
     ellipsis: true
   },
   {

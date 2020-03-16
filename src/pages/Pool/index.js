@@ -16,6 +16,7 @@ const { createTableCfg, TableWrap, ToolBar, BarLeft } = Tablex
 export default class Pool extends React.Component {
   poolName = {
     title: '桌面池名称',
+    ellipsis: true,
     dataIndex: 'name',
     render: (text, record) => {
       return (
@@ -23,7 +24,7 @@ export default class Pool extends React.Component {
           className="detail-link"
           onClick={() => this.detailPool(record.name, record.id)}
         >
-          <span>{record.name}</span>
+          {record.name}
         </a>
       )
     }

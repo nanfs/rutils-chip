@@ -12,18 +12,19 @@ export const columns = [
   {
     title: '时间',
     dataIndex: 'logTime',
+    width: 160,
     ellipsis: true
   },
   {
     title: '信息',
     dataIndex: 'message',
-    width: '30%',
+    width: '20%',
     ellipsis: true
   },
   {
     title: '终端SN',
     dataIndex: 'tcSn',
-    width: 280,
+    width: '20%',
     ellipsis: true
   },
   {
@@ -39,7 +40,7 @@ export const columns = [
   {
     title: '用户IP',
     dataIndex: 'userIp',
-    width: 140,
+    width: '10%',
     ellipsis: true
   }
 ]

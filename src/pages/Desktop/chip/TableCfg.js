@@ -26,6 +26,7 @@ export const columns = [
   // TODO桌面主机列表  筛选 IP
   {
     title: '主机',
+    ellipsis: true,
     dataIndex: 'hostName',
     render: (text, record) => {
       return `${record.ip}/${record.hostName}`
@@ -34,10 +35,12 @@ export const columns = [
   // TODO 升降序排序
   {
     title: 'IP',
+    ellipsis: true,
     dataIndex: 'clientIp'
   },
   {
     title: '数据中心/集群',
+    ellipsis: true,
     dataIndex: 'datacenterName',
     // TODO 数据中心过滤
     filters: [

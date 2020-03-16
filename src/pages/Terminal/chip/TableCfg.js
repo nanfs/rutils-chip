@@ -12,6 +12,7 @@ export const columns = [
   {
     title: '状态',
     dataIndex: 'status',
+    width: 100,
     filters: [
       {
         text: '离线',
@@ -51,15 +52,18 @@ export const columns = [
   },
   {
     title: 'IP',
-    dataIndex: 'ip'
+    dataIndex: 'ip',
+    ellipsis: true
   },
   {
     title: 'Mac',
-    dataIndex: 'mac'
+    dataIndex: 'mac',
+    ellipsis: true
   },
   {
     title: '接入状态',
     dataIndex: 'isReg',
+    width: 100,
     filters: [
       {
         text: '待接入',
@@ -81,15 +85,18 @@ export const columns = [
   },
   {
     title: 'sn',
-    dataIndex: 'sn'
+    dataIndex: 'sn',
+    ellipsis: true
   },
   {
     title: '位置',
-    dataIndex: 'location'
+    dataIndex: 'location',
+    ellipsis: true
   },
 
   {
     title: '外设控制',
+    width: 100,
     dataIndex: 'numOfSafePolicyBounded',
     render: text => (
       <span className="table-action">
@@ -103,6 +110,7 @@ export const columns = [
   },
   {
     title: '准入控制',
+    width: 100,
     dataIndex: 'numOfAdmitPolicyBounded',
     render: text => (
       <span className="table-action">
@@ -116,6 +124,7 @@ export const columns = [
   },
   {
     title: '分配用户',
+    width: 100,
     dataIndex: 'numOfUserBounded',
     render: text => (
       <span className="table-action">

@@ -3,7 +3,7 @@ import systemsApi from '@/services/systems'
 import { Formx, Modalx } from '@/components'
 import { Form, InputNumber } from 'antd'
 import './index.less'
-import { lessThanValue, moreThanValue } from '@/utils/valid'
+import { lessThanValue, moreThanValue, sessionTime } from '@/utils/valid'
 
 const { createModalCfg } = Modalx
 const formItemLayout = {
@@ -58,13 +58,13 @@ export default class ConfigModal extends React.Component {
         formItemLayout={formItemLayout}
       >
         <Formx>
-          {/* <Form.Item
+          <Form.Item
             prop="sessionTimeOutInterval"
             label="会话超时时间"
             rules={[sessionTime]}
           >
             <InputNumber min={-1} style={{ width: '100%' }} />
-          </Form.Item> */}
+          </Form.Item>
           <Form.Item
             prop="userLoginFailMaxTimes"
             label="登录失败最大次数(次)"

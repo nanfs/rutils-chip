@@ -16,8 +16,12 @@ export default class Template extends React.Component {
     render: (text, record) => {
       return (
         <a
+          className="detail-link"
           onClick={() => {
-            this.setState({ inner: text }, this.infoDrawer.pop(record))
+            this.setState(
+              { inner: text },
+              this.infoDrawer.pop(record.id, record)
+            )
             this.currentDrawer = this.infoDrawer
           }}
         >

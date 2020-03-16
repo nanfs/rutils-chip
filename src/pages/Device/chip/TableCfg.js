@@ -5,11 +5,6 @@ import { MyIcon } from '@/components'
 
 export const columns = [
   {
-    title: '名称',
-    dataIndex: 'name',
-    ellipsis: true
-  },
-  {
     title: '描述',
     dataIndex: 'description',
     ellipsis: true

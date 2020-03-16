@@ -5,14 +5,33 @@ import EditDrawer from './chip/EditDrawer'
 import AddDrawer from './chip/AddDrawer'
 import { columns, apiMethod } from './chip/TableCfg'
 import deviceApi from '@/services/device'
+import DetailDrawer from './chip/DetailDrawer'
 
 const { confirm } = Modal
 const { createTableCfg, TableWrap, ToolBar, BarLeft } = Tablex
 
 export default class Device extends React.Component {
+  vmName = {
+    title: '名称',
+    dataIndex: 'name',
+    ellipsis: true,
+    render: (text, record) => {
+      return (
+        <a
+          className="detail-link"
+          onClick={() => this.detailDev(record.name, record)}
+        >
+          {record.name}
+        </a>
+      )
+    }
+  }
+
+  columnsArr = [this.vmName, ...columns]
+
   state = {
     tableCfg: createTableCfg({
-      columns,
+      columns: this.columnsArr,
       apiMethod,
       expandedRowRender: false,
       paging: { size: 10 },
@@ -22,6 +41,11 @@ export default class Device extends React.Component {
     innerPath: undefined,
     initValues: {},
     disabledButton: {}
+  }
+
+  detailDev = (name, data) => {
+    this.setState({ inner: name }, this.detailDrawer.pop(data.id, data))
+    this.currentDrawer = this.detailDrawer
   }
 
   onSuccess = () => {
@@ -168,6 +192,12 @@ export default class Device extends React.Component {
             }}
             onClose={this.onBack}
             onSuccess={this.onSuccess}
+          />
+          <DetailDrawer
+            onRef={ref => {
+              this.detailDrawer = ref
+            }}
+            onClose={this.onBack}
           />
         </TableWrap>
       </React.Fragment>

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Tabs, Row, Col, Icon, message } from 'antd'
-import { Drawerx, Tablex } from '@/components'
+import { Drawerx, Tablex, Tabsx } from '@/components'
 import styles from '../index.m.less'
 import { columns, apiMethod } from './VmTableCfg'
 import produce from 'immer'
@@ -11,7 +11,6 @@ const { createTableCfg } = Tablex
 export default class DetailDrawer extends React.Component {
   state = {
     data: {},
-    id: '',
     tableCfg: createTableCfg({
       columns,
       apiMethod,
@@ -26,40 +25,30 @@ export default class DetailDrawer extends React.Component {
     this.props.onRef && this.props.onRef(this)
   }
 
-  pop = info => {
+  pop = (ids, info) => {
     this.drawer.show()
     this.setState({ data: info })
-    if (this.state.id) {
-      this.setState({ id: info.id })
-      this.setState(
-        produce(draft => {
-          draft.tableCfg.searchs = {
-            id: info.id
-          }
-        }),
-        () => this.vmtablex.replace(this.state.tableCfg)
-      )
-    } else {
-      this.setState({ id: info.id })
-      this.setState(
-        produce(draft => {
-          draft.tableCfg.searchs = {
-            id: info.id
-          }
-        })
-      )
-    }
+    this.setState({ defaultActiveKey: '' }, () =>
+      this.setState({ defaultActiveKey: 'basicInfo', ids })
+    )
+    this.setState(
+      produce(draft => {
+        draft.tableCfg.searchs = {
+          id: ids
+        }
+      })
+    )
   }
 
   render() {
-    const { data } = this.state
+    const { data, defaultActiveKey } = this.state
     return (
       <Drawerx
         onRef={ref => {
           this.drawer = ref
         }}
       >
-        <Tabs>
+        <Tabsx defaultActiveKey={defaultActiveKey}>
           <TabPane tab="基本信息" key="basicInfo">
             <Row gutter={32} className={styles.rowMargin}>
               <Col span={4}>模板名称：</Col>
@@ -70,7 +59,7 @@ export default class DetailDrawer extends React.Component {
             <Row gutter={32} className={styles.rowMargin}>
               <Col span={4}>父模板：</Col>
               <Col span={8}>{data.parentName}</Col>
-              <Col span={4}>数据中心</Col>
+              <Col span={4}>数据中心：</Col>
               <Col span={8}>{data.datacenterName}</Col>
             </Row>
             <Row gutter={32} className={styles.rowMargin}>
@@ -106,7 +95,7 @@ export default class DetailDrawer extends React.Component {
               tableCfg={this.state.tableCfg}
             />
           </TabPane>
-        </Tabs>
+        </Tabsx>
       </Drawerx>
     )
   }

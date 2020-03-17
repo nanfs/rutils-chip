@@ -22,11 +22,6 @@ function renderDateText(text) {
 }
 export const columns = [
   {
-    title: '名称',
-    dataIndex: 'name',
-    ellipsis: true
-  },
-  {
     title: '已绑定终端数',
     width: 150,
     dataIndex: 'boundTcNum',

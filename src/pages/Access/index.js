@@ -5,13 +5,32 @@ import AddDrawer from './chip/AddDrawer'
 import EditDrawer from './chip/EditDrawer'
 import { columns, apiMethod } from './chip/TableCfg'
 import accessApi from '@/services/access'
+import DetailDrawer from './chip/DetailDrawer'
 
 const { confirm } = Modal
 const { createTableCfg, TableWrap, ToolBar, BarLeft } = Tablex
 export default class Desktop extends React.Component {
+  accessName = {
+    title: '名称',
+    dataIndex: 'name',
+    ellipsis: true,
+    render: (text, record) => {
+      return (
+        <a
+          className="detail-link"
+          onClick={() => this.detailDev(record.name, record)}
+        >
+          {record.name}
+        </a>
+      )
+    }
+  }
+
+  columnsArr = [this.accessName, ...columns]
+
   state = {
     tableCfg: createTableCfg({
-      columns,
+      columns: this.columnsArr,
       apiMethod,
       paging: { size: 10 },
       pageSizeOptions: ['5', '10', '20', '50']
@@ -19,6 +38,11 @@ export default class Desktop extends React.Component {
     innerPath: undefined,
     initValues: {},
     disabledButton: {}
+  }
+
+  detailDev = (name, data) => {
+    this.setState({ inner: name }, this.detailDrawer.pop(data.id, data))
+    this.currentDrawer = this.detailDrawer
   }
 
   onBack = () => {
@@ -140,6 +164,12 @@ export default class Desktop extends React.Component {
             }}
             onClose={this.onBack}
             onSuccess={this.onSuccess}
+          />
+          <DetailDrawer
+            onRef={ref => {
+              this.detailDrawer = ref
+            }}
+            onClose={this.onBack}
           />
         </TableWrap>
       </React.Fragment>

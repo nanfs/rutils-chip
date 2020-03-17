@@ -46,6 +46,13 @@ export default {
       data: qs.stringify(data)
     })
   },
+  forbidAccessTerminal(data) {
+    return axios({
+      url: '/terminals/auditforbid',
+      method: 'post',
+      data: qs.stringify(data)
+    })
+  },
   terminalsdetail(id, data) {
     return axios({
       url: `/terminals/${id}`,

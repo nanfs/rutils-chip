@@ -154,6 +154,16 @@ class Dashboard extends React.Component {
                   count: res.data.bounded,
                   sum: res.data.total
                 }
+                /* {
+                  name: '已分配桌面',
+                  count: res.data.boundedDesktop,
+                  sum: res.data.total
+                },
+                {
+                  name: '已分配终端',
+                  count: res.data.boundedTerminal,
+                  sum: res.data.total
+                } */
               ],
               usersStatisticsTotal: res.data.total
             })

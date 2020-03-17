@@ -269,31 +269,27 @@ export default class User extends React.Component {
         disabledEnable: true,
         disabledDisable: true
       }
-    }
-    const isBoundData = selectData.filter(
-      item => item.tccount + item.vmcount > 0
-    )
-    if (isBoundData && isBoundData.length > 0) {
-      disabledButton = {
-        ...disabledButton,
-        disabledDelete: true
-      }
-    }
-
-    const disabledData = selectData.filter(item => item.status === 1)
-    if (disabledData && disabledData.length > 0) {
-      disabledButton = {
-        ...disabledButton,
-        disabledDisable: true
-      }
-    }
-
-    const enabledData = selectData.filter(item => item.status === 0)
-    if (enabledData && enabledData.length > 0) {
-      disabledButton = {
-        ...disabledButton,
-        disabledEnable: true
-      }
+    } else {
+      selectData.forEach(item => {
+        if (item.tccount + item.vmcount > 0) {
+          disabledButton = {
+            ...disabledButton,
+            disabledDelete: true
+          }
+        }
+        if (item.status === 1) {
+          disabledButton = {
+            ...disabledButton,
+            disabledDisable: true
+          }
+        }
+        if (item.status === 0) {
+          disabledButton = {
+            ...disabledButton,
+            disabledEnable: true
+          }
+        }
+      })
     }
 
     this.setState({ disabledButton, selection, selectData, selectSN })
@@ -349,7 +345,7 @@ export default class User extends React.Component {
                 showRightClinkMenu={true}
                 showSearch={false}
               ></Treex>
-              <Treex
+              {/*  <Treex
                 onRef={ref => {
                   this.ADdomainTreex = ref
                 }}
@@ -357,7 +353,7 @@ export default class User extends React.Component {
                 apiMethod={userApi.groupQuery}
                 showSearch={false}
                 defaultSelectRootNode={false}
-              ></Treex>
+              ></Treex> */}
             </div>
             <div className="user-table">
               <ToolBar>

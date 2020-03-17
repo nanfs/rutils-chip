@@ -1,13 +1,15 @@
 import React from 'react'
-import { Row, Col, Tooltip, Table, message } from 'antd'
+import { Row, Col, Tooltip, Table, message, Tabs } from 'antd'
 import { Drawerx, Title } from '@/components'
 import { detailUserColumns } from './DetailUserTableCfg'
 import { detailSafepolicyColumns } from './DetailSafepolicyTableCfg'
-import { detailAdmitpolicyColumns } from './DetailAdmitpolicyTableCfg'
+import { DetailAccesspolicyColumns } from './DetailAccesspolicyTableCfg'
 import { detailUseTimeColumns } from './DetailUseTimeTableCfg'
 // import DetailUseStatisticsChart from './DetailUseStatisticsChart'
 
 import terminalApi from '@/services/terminal'
+
+const { TabPane } = Tabs
 
 export default class DetailDrawer extends React.Component {
   componentDidMount() {
@@ -64,28 +66,30 @@ export default class DetailDrawer extends React.Component {
         }}
         onClose={this.props.onClose}
       >
-        <div className="dms-detail-section">
-          <Title slot="基本信息"></Title>
-          <Row className="dms-detail-row">
-            <Col span={3} className="dms-detail-label">
-              终端名称：
-            </Col>
-            <Col span={8} className="dms-detail-value">
-              <Tooltip title={initValues.name}>
-                <span>{initValues.name}</span>
-              </Tooltip>
-            </Col>
-            <Col span={3} className="dms-detail-label">
-              序列号：
-            </Col>
-            <Col span={8} className="dms-detail-value">
-              <Tooltip title={initValues.sn}>
-                <span>{initValues.sn}</span>
-              </Tooltip>
-            </Col>
-          </Row>
-          {/* // TODO 终端未实现 */}
-          {/* <Row className="dms-detail-row">
+        <Tabs>
+          <TabPane tab="基本信息" key="basicInfo">
+            <div className="dms-detail-section">
+              {/* <Title slot="基本信息"></Title> */}
+              <Row className="dms-detail-row">
+                <Col span={3} className="dms-detail-label">
+                  终端名称：
+                </Col>
+                <Col span={8} className="dms-detail-value">
+                  <Tooltip title={initValues.name}>
+                    <span>{initValues.name}</span>
+                  </Tooltip>
+                </Col>
+                <Col span={3} className="dms-detail-label">
+                  序列号：
+                </Col>
+                <Col span={8} className="dms-detail-value">
+                  <Tooltip title={initValues.sn}>
+                    <span>{initValues.sn}</span>
+                  </Tooltip>
+                </Col>
+              </Row>
+              {/* // TODO 终端未实现 */}
+              {/* <Row className="dms-detail-row">
             <Col span={3} className="dms-detail-label">
               位置：
             </Col>
@@ -165,7 +169,7 @@ export default class DetailDrawer extends React.Component {
               </Tooltip>
             </Col>
           </Row> */}
-          {/* <Row className="dms-detail-row">
+              {/* <Row className="dms-detail-row">
             <Col span={3} className="dms-detail-label">
               描述：
             </Col>
@@ -175,46 +179,48 @@ export default class DetailDrawer extends React.Component {
               </Tooltip>
             </Col>
           </Row> */}
-        </div>
-        <div className="dms-detail-section">
-          <Title slot="所属用户"></Title>
-          <Table
-            columns={detailUserColumns}
-            dataSource={initValues.users}
-            pagination={false}
-            rowKey="userId"
-          />
-        </div>
-        <div className="dms-detail-section">
-          <Title slot="外设控制"></Title>
-          <Table
-            columns={detailSafepolicyColumns}
-            dataSource={initValues.safePolicys}
-            pagination={false}
-            rowKey="id"
-          />
-        </div>
-        <div className="dms-detail-section">
-          <Title slot="准入控制"></Title>
-          <Table
-            columns={detailAdmitpolicyColumns}
-            dataSource={initValues.admitPolicys}
-            pagination={false}
-            rowKey="id"
-          />
-        </div>
-        <div className="dms-detail-section">
-          <Title slot="使用时间"></Title>
-          <Table
-            columns={detailUseTimeColumns}
-            dataSource={initValues.useTime}
-            pagination={false}
-          />
-        </div>
-        {/* <div className="dms-detail-section">
+            </div>
+            <div className="dms-detail-section">
+              <Title slot="所属用户"></Title>
+              <Table
+                columns={detailUserColumns}
+                dataSource={initValues.users}
+                pagination={false}
+                rowKey="userId"
+              />
+            </div>
+            <div className="dms-detail-section">
+              <Title slot="外设控制"></Title>
+              <Table
+                columns={detailSafepolicyColumns}
+                dataSource={initValues.safePolicys}
+                pagination={false}
+                rowKey="id"
+              />
+            </div>
+            <div className="dms-detail-section">
+              <Title slot="准入控制"></Title>
+              <Table
+                columns={DetailAccesspolicyColumns}
+                dataSource={initValues.admitPolicys}
+                pagination={false}
+                rowKey="id"
+              />
+            </div>
+            <div className="dms-detail-section">
+              <Title slot="使用时间"></Title>
+              <Table
+                columns={detailUseTimeColumns}
+                dataSource={initValues.useTime}
+                pagination={false}
+              />
+            </div>
+            {/* <div className="dms-detail-section">
           <Title slot="使用统计"></Title>
           <DetailUseStatisticsChart dataSource={initChartValue} />
         </div> */}
+          </TabPane>
+        </Tabs>
       </Drawerx>
     )
   }

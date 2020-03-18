@@ -38,9 +38,9 @@ export default class EditDrawer extends React.Component {
 
         this.getNetwork()
       })
-      .catch(errors => {
-        message.error(errors)
-        console.log(errors)
+      .catch(error => {
+        message.error(error.message || error)
+        console.log(error)
       })
   }
 

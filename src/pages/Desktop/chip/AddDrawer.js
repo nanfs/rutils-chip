@@ -29,7 +29,7 @@ export default class AddDrawer extends React.Component {
   pop = () => {
     this.drawer.show()
     this.setState({ fetchData: true, networkOptions: [], templateOptions: [] })
-    console.log(this.drawer.form.setFieldsValue({ type: '1', desktopNum: 1 }))
+    this.drawer.form.setFieldsValue({ type: '1', desktopNum: 1 })
     this.getTemplate()
   }
 

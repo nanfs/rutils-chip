@@ -57,9 +57,9 @@ export default class AddDrawer extends React.Component {
         }))
         this.setState({ templateOptions, templateLoading: false })
       })
-      .catch(errors => {
-        message.error(errors)
-        console.log(errors)
+      .catch(error => {
+        message.error(error.message || error)
+        console.log(error)
       })
   }
 
@@ -70,8 +70,8 @@ export default class AddDrawer extends React.Component {
       .then(res => {
         this.drawer.afterSubmit(res)
       })
-      .catch(errors => {
-        this.drawer.break(errors)
+      .catch(error => {
+        this.drawer.break(error)
       })
   }
 

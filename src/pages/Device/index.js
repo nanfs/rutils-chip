@@ -130,9 +130,9 @@ export default class Device extends React.Component {
                 }
                 resolve()
               })
-              .catch(errors => {
-                message.error(errors || 'catch error')
-                console.log(errors)
+              .catch(error => {
+                message.error(error.message || error)
+                console.log(error)
                 resolve()
               })
           })

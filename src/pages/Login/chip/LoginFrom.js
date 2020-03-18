@@ -13,7 +13,8 @@ export default class LoginForm extends React.Component {
     ftInit()
     this.state = {
       error: '',
-      hasPin: false
+      hasPin: false,
+      loading: false
     }
   }
 
@@ -52,9 +53,11 @@ export default class LoginForm extends React.Component {
         // password: encrypt(values.password)
       }
     }
+    this.setState({ loading: true })
     loginApi
       .login(data)
       .then(res => {
+        this.setState({ loading: false })
         if (res.success) {
           setUserToLocal(data.username)
           reloadAuthorized()
@@ -66,6 +69,7 @@ export default class LoginForm extends React.Component {
         }
       })
       .catch(error => {
+        this.setState({ loading: false })
         message.error(error.message || error)
         console.log(error)
       })
@@ -137,6 +141,7 @@ export default class LoginForm extends React.Component {
             type="primary"
             htmlType="submit"
             className="login-form-button"
+            loading={this.state.loading}
           >
             登录
           </Button>

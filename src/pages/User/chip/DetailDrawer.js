@@ -74,83 +74,113 @@ export default class DetailDrawer extends React.Component {
         }}
         onClose={this.props.onClose}
       >
-        <div className="dms-detail-section">
-          <Title slot="基础设置"></Title>
-          <Row className="dms-detail-row">
-            <Col span={3} className="dms-detail-label">
-              用户名：
-            </Col>
-            <Col span={8} className="dms-detail-value">
-              <Tooltip title={initValues.username}>
-                <span>{initValues.username}</span>
-              </Tooltip>
-            </Col>
-            <Col span={3} className="dms-detail-label">
-              姓名：
-            </Col>
-            <Col span={8} className="dms-detail-value">
-              <Tooltip title={initValues.name}>
-                <span>{initValues.name}</span>
-              </Tooltip>
-            </Col>
-          </Row>
-          <Row className="dms-detail-row">
-            <Col span={3} className="dms-detail-label">
-              组织：
-            </Col>
-            <Col span={8} className="dms-detail-value">
-              <Tooltip title={initValues.groupName}>
-                <span>{initValues.groupName}</span>
-              </Tooltip>
-            </Col>
-            <Col span={3} className="dms-detail-label">
-              角色：
-            </Col>
-            <Col span={8} className="dms-detail-value">
-              <Tooltip title={initValues.roleName}>
-                <span>{initValues.roleName}</span>
-              </Tooltip>
-            </Col>
-          </Row>
-          <Row className="dms-detail-row">
-            <Col span={3} className="dms-detail-label">
-              邮箱：
-            </Col>
-            <Col span={8} className="dms-detail-value">
-              <Tooltip title={initValues.email}>
-                <span>{initValues.email}</span>
-              </Tooltip>
-            </Col>
-            <Col span={3} className="dms-detail-label">
-              状态：
-            </Col>
-            <Col span={8} className="dms-detail-value">
-              <Tooltip title={initValues.statusName}>
-                <span>{initValues.statusName}</span>
-              </Tooltip>
-            </Col>
-          </Row>
-          <Row className="dms-detail-row">
-            <Col span={3} className="dms-detail-label">
-              已分配桌面数：
-            </Col>
-            <Col span={8} className="dms-detail-value">
-              <Tooltip title={initValues.vmcount}>
-                <span>{initValues.vmcount}</span>
-              </Tooltip>
-            </Col>
-            <Col span={3} className="dms-detail-label">
-              已分配终端数：
-            </Col>
-            <Col span={8} className="dms-detail-value">
-              <Tooltip title={initValues.tccount}>
-                <span>{initValues.tccount}</span>
-              </Tooltip>
-            </Col>
-          </Row>
-        </div>
         <Tabs defaultActiveKey="1">
-          <TabPane tab="已分配桌面" key="1">
+          <TabPane tab="基本信息" key="1">
+            <div className="dms-detail-section">
+              {/* <Title slot="基础设置"></Title> */}
+              <Row className="dms-detail-row">
+                <Col span={3} className="dms-detail-label">
+                  用户名：
+                </Col>
+                <Col span={8} className="dms-detail-value">
+                  <Tooltip title={initValues.username}>
+                    <span>{initValues.username}</span>
+                  </Tooltip>
+                </Col>
+                <Col span={3} className="dms-detail-label">
+                  姓名：
+                </Col>
+                <Col span={8} className="dms-detail-value">
+                  <Tooltip title={initValues.name}>
+                    <span>{initValues.name}</span>
+                  </Tooltip>
+                </Col>
+              </Row>
+              <Row className="dms-detail-row">
+                <Col span={3} className="dms-detail-label">
+                  组织：
+                </Col>
+                <Col span={8} className="dms-detail-value">
+                  <Tooltip title={initValues.groupName}>
+                    <span>{initValues.groupName}</span>
+                  </Tooltip>
+                </Col>
+                <Col span={3} className="dms-detail-label">
+                  角色：
+                </Col>
+                <Col span={8} className="dms-detail-value">
+                  <Tooltip title={initValues.roleName}>
+                    <span>{initValues.roleName}</span>
+                  </Tooltip>
+                </Col>
+              </Row>
+              <Row className="dms-detail-row">
+                <Col span={3} className="dms-detail-label">
+                  邮箱：
+                </Col>
+                <Col span={8} className="dms-detail-value">
+                  <Tooltip title={initValues.email}>
+                    <span>{initValues.email}</span>
+                  </Tooltip>
+                </Col>
+                <Col span={3} className="dms-detail-label">
+                  状态：
+                </Col>
+                <Col span={8} className="dms-detail-value">
+                  <Tooltip title={initValues.statusName}>
+                    <span>{initValues.statusName}</span>
+                  </Tooltip>
+                </Col>
+              </Row>
+              <Row className="dms-detail-row">
+                <Col span={3} className="dms-detail-label">
+                  已分配桌面数：
+                </Col>
+                <Col span={8} className="dms-detail-value">
+                  <Tooltip title={initValues.vmcount}>
+                    <span>{initValues.vmcount}</span>
+                  </Tooltip>
+                </Col>
+                <Col span={3} className="dms-detail-label">
+                  已分配终端数：
+                </Col>
+                <Col span={8} className="dms-detail-value">
+                  <Tooltip title={initValues.tccount}>
+                    <span>{initValues.tccount}</span>
+                  </Tooltip>
+                </Col>
+              </Row>
+            </div>
+            <div className="dms-detail-section">
+              <Title slot="已分配桌面"></Title>
+              <Tablex
+                onRef={ref => {
+                  this.desktopTablex = ref
+                }}
+                className="no-select-bg"
+                tableCfg={this.state.desktopTableCfg}
+                onSelectChange={(selection, selectData) => {
+                  this.setState({ selection, selectData })
+                }}
+                stopAutoFetch={true}
+              />
+            </div>
+            <div className="dms-detail-section">
+              <Title slot="已分配终端"></Title>
+              <Tablex
+                onRef={ref => {
+                  this.terminalTablex = ref
+                }}
+                className="no-select-bg"
+                tableCfg={this.state.terminalTableCfg}
+                onSelectChange={(selection, selectData) => {
+                  this.setState({ selection, selectData })
+                }}
+                stopAutoFetch={true}
+              />
+            </div>
+          </TabPane>
+          {/* <TabPane tab="已分配桌面" key="2" forceRender={true}>
             <Tablex
               onRef={ref => {
                 this.desktopTablex = ref
@@ -163,7 +193,7 @@ export default class DetailDrawer extends React.Component {
               stopAutoFetch={true}
             />
           </TabPane>
-          <TabPane tab="已分配终端" key="2" forceRender={true}>
+          <TabPane tab="已分配终端" key="3" forceRender={true}>
             <Tablex
               onRef={ref => {
                 this.terminalTablex = ref
@@ -175,7 +205,7 @@ export default class DetailDrawer extends React.Component {
               }}
               stopAutoFetch={true}
             />
-          </TabPane>
+          </TabPane> */}
         </Tabs>
       </Drawerx>
     )

@@ -60,9 +60,27 @@ const { createTableCfg, TableWrap, ToolBar, BarLeft, BarRight } = Tablex
 ] */
 
 export default class User extends React.Component {
+  userName = {
+    title: '用户名',
+    dataIndex: 'name',
+    ellipsis: true,
+    render: (text, record) => {
+      return (
+        <a
+          className="detail-link"
+          onClick={() => this.detailUser(record.username, record)}
+        >
+          {record.username}
+        </a>
+      )
+    }
+  }
+
+  columnsArr = [this.userName, ...columns]
+
   state = {
     tableCfg: createTableCfg({
-      columns,
+      columns: this.columnsArr,
       apiMethod,
       paging: { size: 10 },
       pageSizeOptions: ['5', '10', '20', '50']
@@ -204,9 +222,9 @@ export default class User extends React.Component {
       })
   }
 
-  detailUser = () => {
-    this.setState({ inner: '详情' })
-    this.detailDrawer.pop(this.state.selectData[0])
+  detailUser = (username, id) => {
+    this.setState({ inner: username })
+    this.detailDrawer.pop(id)
     // this.detailDrawer.drawer.show()
     this.currentDrawer = this.detailDrawer
   }
@@ -216,7 +234,7 @@ export default class User extends React.Component {
     if (node.node.props.type === 'ad') {
       this.groupTreex.cleanSelected()
     } else {
-      this.ADdomainTreex.cleanSelected()
+      // this.ADdomainTreex.cleanSelected()
     }
     this.setState(
       produce(draft => {
@@ -377,12 +395,12 @@ export default class User extends React.Component {
                   >
                     启用
                   </Button>
-                  <Button
+                  {/* <Button
                     onClick={this.detailUser}
                     disabled={disabledButton.disabledEdit}
                   >
                     详情
-                  </Button>
+                  </Button> */}
                   <Button
                     onClick={this.deleteUser}
                     disabled={disabledButton.disabledDelete}

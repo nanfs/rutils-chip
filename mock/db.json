@@ -10,6 +10,26 @@
       "domain": "internet"
     }
   },
+  "disks": [
+    {
+      "id": 1,
+      "name": "disk1",
+      "capacity": 100,
+      "boot": true,
+      "description": ""
+    },
+    {
+      "id": 2,
+      "name": "disk2",
+      "capacity": 200,
+      "boot": false,
+      "description": ""
+    }
+  ],
+  "isos": [
+    { "id": 1, "name": "wind_7_test", "type": "ISO" },
+    { "id": 2, "name": "ubuntu_test", "type": "ISO" }
+  ],
   "tclogs": [
     {
       "id": 31803,

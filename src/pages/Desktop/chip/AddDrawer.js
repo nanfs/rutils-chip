@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form, Input, message } from 'antd'
+import { Form, Input, message, InputNumber } from 'antd'
 import { Drawerx, Formx, Title, Radiox, Checkboxx, Diliver } from '@/components'
 
 import { memoryOptions, cpuOptions } from '@/utils/formOptions'
@@ -7,7 +7,13 @@ import desktopsApi from '@/services/desktops'
 import { required, checkName, lessThanValue } from '@/utils/valid'
 
 const { TextArea } = Input
-
+const createType = [
+  { label: '通过模板创建', value: '1' },
+  {
+    label: '通过镜像创建',
+    value: '2'
+  }
+]
 export default class AddDrawer extends React.Component {
   componentDidMount() {
     this.props.onRef && this.props.onRef(this)
@@ -21,6 +27,7 @@ export default class AddDrawer extends React.Component {
   pop = () => {
     this.drawer.show()
     this.setState({ fetchData: true, networkOptions: [], templateOptions: [] })
+    console.log(this.drawer.form.setFieldsValue({ type: '1', desktopNum: 1 }))
     this.getTemplate()
   }
 
@@ -67,9 +74,43 @@ export default class AddDrawer extends React.Component {
       })
   }
 
+  // 需要clusetid 还有 id 无奈
+  getIso = () => {
+    this.setState({ isoLoading: true })
+    desktopsApi
+      .getIso({ current: 1, size: 10000 })
+      .then(res => {
+        const isoOptions = res.data.records.map(item => ({
+          label: item.name,
+          value: item.id
+        }))
+        this.setState({ isoOptions, isoLoading: false })
+      })
+      .catch(errors => {
+        message.error(errors)
+        console.log(errors)
+      })
+  }
+
   onTempalteChange = (a, b, value) => {
     const clusterId = value.split('&clusterId')[1]
     this.setState({ clusterId }, () => this.getNetwork(clusterId))
+  }
+
+  onCreateTypeChange = (a, b, target) => {
+    console.log('onCreateTypeChange', target)
+    if (target === '1') {
+      this.getTemplate()
+    } else {
+      this.getIso()
+    }
+    this.forceUpdate()
+  }
+
+  getSelectType = () => {
+    return (
+      this.drawer && this.drawer.form && this.drawer.form.getFieldValue('type')
+    )
   }
 
   getNetwork = () => {
@@ -118,12 +159,16 @@ export default class AddDrawer extends React.Component {
           >
             <Input placeholder="桌面名称" />
           </Form.Item>
+          <Form.Item prop="type" required label="准入方式">
+            <Radiox options={createType} onChange={this.onCreateTypeChange} />
+          </Form.Item>
           <Form.Item
             prop="templateId"
             label="模板"
             required
-            rules={[required]}
+            rules={this.getSelectType() === '1' ? [required] : undefined}
             wrapperCol={{ sm: { span: 16 } }}
+            hidden={this.getSelectType() === '2'}
           >
             <Radiox
               getData={this.getTemplate}
@@ -132,9 +177,20 @@ export default class AddDrawer extends React.Component {
               onChange={this.onTempalteChange}
             />
           </Form.Item>
-          {/* <Form.Item prop="usbNum" label="USB数量" rules={[required]}>
-            <Radiox options={usbOptions} />
-          </Form.Item> */}
+          <Form.Item
+            prop="isoId"
+            label="镜像"
+            required
+            rules={this.getSelectType() === '2' ? [required] : undefined}
+            wrapperCol={{ sm: { span: 16 } }}
+            hidden={this.getSelectType() === '1'}
+          >
+            <Radiox
+              getData={this.getIso}
+              options={this.state.isoOptions}
+              loading={this.state.isoLoading}
+            />
+          </Form.Item>
           <Form.Item
             prop="cpuCores"
             label="CPU"
@@ -163,6 +219,14 @@ export default class AddDrawer extends React.Component {
           </Form.Item>
           <Form.Item prop="description" label="描述">
             <TextArea placeholder="" />
+          </Form.Item>
+          <Form.Item
+            prop="desktopNum"
+            label="创建数量"
+            required
+            rules={[required, lessThanValue(20)]}
+          >
+            <InputNumber placeholder="" min={1} max={20} />
           </Form.Item>
           <Diliver />
           <Title slot="网络设置"></Title>

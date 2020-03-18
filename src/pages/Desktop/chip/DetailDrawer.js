@@ -2,6 +2,7 @@ import React from 'react'
 import { Drawerx, Tabsx } from '@/components'
 import { Tabs } from 'antd'
 import BaseInfo from './detail/BaseInfo'
+import Disklist from './detail/Disklist'
 
 const { TabPane } = Tabs
 export default class DetailDrawer extends React.Component {
@@ -36,7 +37,7 @@ export default class DetailDrawer extends React.Component {
             <BaseInfo id={id}></BaseInfo>
           </TabPane>
           <TabPane tab="磁盘管理" key="2">
-            磁盘管理
+            <Disklist id={id}></Disklist>
           </TabPane>
           <TabPane tab="快照管理" key="3">
             快照管理

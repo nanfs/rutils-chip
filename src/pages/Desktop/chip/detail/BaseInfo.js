@@ -56,6 +56,20 @@ export default class BaseInfo extends React.Component {
         </Row>
         <Row className="dms-detail-row">
           <Col span={3} className="dms-detail-label">
+            MAC：
+          </Col>
+          <Col span={8} className="dms-detail-value">
+            {data.mac}
+          </Col>
+          <Col span={3} className="dms-detail-label">
+            操作系统：
+          </Col>
+          <Col span={8} className="dms-detail-value">
+            {data.os}
+          </Col>
+        </Row>
+        <Row className="dms-detail-row">
+          <Col span={3} className="dms-detail-label">
             模板：
           </Col>
           <Col span={8} className="dms-detail-value">

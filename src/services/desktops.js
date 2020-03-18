@@ -55,6 +55,14 @@ export default {
       params: data
     })
   },
+  getIso(data) {
+    return axios({
+      url: '/isos',
+      method: 'get',
+      params: data,
+      baseURL: '/api'
+    })
+  },
   sendOrder(data) {
     return axios({
       url: '/desktops/directives ',

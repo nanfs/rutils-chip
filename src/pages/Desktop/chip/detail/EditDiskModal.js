@@ -1,24 +1,33 @@
 import React from 'react'
 import { Formx, Modalx } from '@/components'
 import { Form, Input, message } from 'antd'
-import templateApi from '@/services/template'
+import diskApi from '@/services/disks'
 import { required } from '@/utils/valid'
 
 const { TextArea } = Input
 const { createModalCfg } = Modalx
-export default class AddTemplateModal extends React.Component {
+export default class EditDiskModal extends React.Component {
+  moreThanBefore = (rule, value, callback) => {
+    const beforeSize = this.state.capacity
+    if (value < beforeSize) {
+      callback(new Error('应该不小于之前磁盘大小'))
+    }
+    callback()
+  }
+
   componentDidMount() {
     this.props.onRef && this.props.onRef(this)
   }
 
-  pop = vmId => {
+  pop = initValues => {
     this.modal.show()
-    this.modal.form.setFieldsValue({ vmId })
+    this.setState({ capacity: 100 })
+    this.modal.form.setFieldsValue(initValues)
   }
 
   onOk = values => {
-    templateApi
-      .addTem(values)
+    diskApi
+      .edit(values)
       .then(res => {
         this.modal.afterSubmit(res)
       })
@@ -30,21 +39,27 @@ export default class AddTemplateModal extends React.Component {
   }
 
   render() {
-    const modalCfg = createModalCfg({ title: '创建模板', hasFooter: true })
+    const modalCfg = createModalCfg({ title: '磁盘扩容', hasFooter: true })
     return (
       <Modalx
         onRef={ref => {
           this.modal = ref
         }}
         modalCfg={modalCfg}
-        title={'创建模板'}
         onOk={this.onOk}
       >
         <Formx>
-          <Form.Item prop="vmId" label="模板id" hidden>
+          <Form.Item prop="id" label="id" hidden>
             <Input />
           </Form.Item>
-          <Form.Item prop="templateName" label="模板名称" rules={[required]}>
+          <Form.Item prop="name" label="磁盘名" rules={[required]}>
+            <Input />
+          </Form.Item>
+          <Form.Item
+            prop="capacity"
+            label="磁盘大小"
+            rules={[this.moreThanBefore]}
+          >
             <Input placeholder="模板名称"></Input>
           </Form.Item>
           <Form.Item prop="description" label="描述">

@@ -1,6 +1,6 @@
 import desktopsApi from '@/services/desktops'
 import React from 'react'
-import { Progress, Icon } from 'antd'
+import { Progress, Icon, Popover } from 'antd'
 import { vmStatusRender } from '@/utils/tableRender'
 import { onlineStringTime } from '@/utils/tool'
 import { MyIcon } from '@/components'
@@ -72,10 +72,10 @@ export const columns = [
     width: 100,
     render: (text, record) => {
       const consoleContent = record.consoleUserName ? (
-        <div>
+        <Popover content={record.consoleUserName}>
           <MyIcon type="tc-connecting" component="svg" />
-          <span>已连接</span>{' '}
-        </div>
+          <span>已连接</span>
+        </Popover>
       ) : (
         <div>
           <MyIcon type="storage-unattached" component="svg" />

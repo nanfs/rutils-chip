@@ -20,7 +20,7 @@ import produce from 'immer'
 import desktopsApi from '@/services/desktops'
 import { downloadVV } from '@/utils/tool'
 import { osStatusRender } from '@/utils/tableRender'
-import { columns, apiMethod } from './chip/TableCfg'
+import { columns, apiMethod } from '@/pages/Common/VmTableCfg'
 import './index.less'
 
 const { createTableCfg, TableWrap, ToolBar, BarLeft, BarRight } = Tablex

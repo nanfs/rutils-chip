@@ -1,11 +1,13 @@
 import React from 'react'
-import { Form, Input, message, InputNumber } from 'antd'
+import { Form, Input, message, InputNumber, Row, Col, Typography } from 'antd'
 import { Drawerx, Formx, Title, Radiox, Checkboxx, Diliver } from '@/components'
 
 import { memoryOptions, cpuOptions } from '@/utils/formOptions'
 import desktopsApi from '@/services/desktops'
+import { findArrObj } from '@/utils/tool'
 import { required, checkName, lessThanValue } from '@/utils/valid'
 
+const { Text } = Typography
 const { TextArea } = Input
 const createType = [
   { label: '通过模板创建', value: '1' },
@@ -62,9 +64,10 @@ export default class AddDrawer extends React.Component {
     desktopsApi
       .getTemplate({ current: 1, size: 10000 })
       .then(res => {
+        this.setState({ templateArr: res.data.records })
         const templateOptions = res.data.records.map(item => ({
           label: item.name,
-          value: `${item.id}&clusterId${item.clusterId}`
+          value: item.id
         }))
         this.setState({ templateOptions, templateLoading: false })
       })
@@ -93,8 +96,12 @@ export default class AddDrawer extends React.Component {
   }
 
   onTempalteChange = (a, b, value) => {
-    const clusterId = value.split('&clusterId')[1]
-    this.setState({ clusterId }, () => this.getNetwork(clusterId))
+    const current = findArrObj(this.state.templateArr, 'id', value)
+    console.log('current', current)
+    const { os, description, clusterId } = current
+    this.setState({ clusterId, os, description }, () =>
+      this.getNetwork(clusterId)
+    )
   }
 
   onCreateTypeChange = (a, b, target) => {
@@ -177,6 +184,14 @@ export default class AddDrawer extends React.Component {
               onChange={this.onTempalteChange}
             />
           </Form.Item>
+          <Row hidden={this.getSelectType() === '2' || !this.state.clusterId}>
+            <Col span={16} offset={5}>
+              <Text type="secondary">
+                <span>{this.state.os && `(OS:${this.state.os})`}</span>
+                <span>{this.state.description}</span>
+              </Text>
+            </Col>
+          </Row>
           <Form.Item
             prop="isoId"
             label="镜像"

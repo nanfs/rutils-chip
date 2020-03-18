@@ -119,10 +119,10 @@ export default class Treex extends React.Component {
           this.setState({ loading: false })
         }
       })
-      .catch(errors => {
+      .catch(error => {
         this.setState({ loading: false })
-        message.error(errors)
-        console.log(errors)
+        message.error(error.message || error)
+        console.log(error)
       })
   }
 
@@ -284,10 +284,10 @@ export default class Treex extends React.Component {
               }
               resolve()
             })
-            .catch(errors => {
-              message.error(errors)
+            .catch(error => {
+              message.error(error.message || error)
               resolve()
-              console.log(errors)
+              console.log(error)
             })
         })
       },

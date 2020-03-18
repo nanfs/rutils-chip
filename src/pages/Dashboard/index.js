@@ -50,9 +50,9 @@ class Dashboard extends React.Component {
           message.error(res.message || '查询桌面统计失败')
         }
       })
-      .catch(errors => {
-        message.error(errors)
-        console.log(errors)
+      .catch(error => {
+        message.error(error.message || error)
+        console.log(error)
       })
     dashboardApi
       .poolsStatistics()
@@ -84,9 +84,9 @@ class Dashboard extends React.Component {
           message.error(res.message || '查询桌面池统计失败')
         }
       })
-      .catch(errors => {
-        message.error(errors)
-        console.log(errors)
+      .catch(error => {
+        message.error(error.message || error)
+        console.log(error)
       })
     dashboardApi
       .terminalsStatistics()
@@ -128,9 +128,9 @@ class Dashboard extends React.Component {
           message.error(res.message || '查询终端统计失败')
         }
       })
-      .catch(errors => {
-        message.error(errors)
-        console.log(errors)
+      .catch(error => {
+        message.error(error.message || error)
+        console.log(error)
       })
     dashboardApi
       .usersStatistics()
@@ -172,9 +172,9 @@ class Dashboard extends React.Component {
           message.error(res.message || '查询用户统计失败')
         }
       })
-      .catch(errors => {
-        message.error(errors)
-        console.log(errors)
+      .catch(error => {
+        message.error(error.message || error)
+        console.log(error)
       })
     tclogsApi
       .list()
@@ -189,9 +189,9 @@ class Dashboard extends React.Component {
           message.error(res.message || '获取日志失败')
         }
       })
-      .catch(errors => {
-        message.error(errors)
-        console.log(errors)
+      .catch(error => {
+        message.error(error.message || error)
+        console.log(error)
       })
     vmlogsApi
       .list()
@@ -206,9 +206,9 @@ class Dashboard extends React.Component {
           message.error(res.message || '获取日志失败')
         }
       })
-      .catch(errors => {
-        message.error(errors)
-        console.log(errors)
+      .catch(error => {
+        message.error(error.message || error)
+        console.log(error)
       })
   }
 

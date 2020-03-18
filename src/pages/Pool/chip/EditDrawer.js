@@ -40,10 +40,9 @@ export default class EditDrawer extends React.Component {
         })
         this.drawer.form.setFieldsValue({ ...data, desktopNum: 0 })
       })
-      .catch(errors => {
-        message.error(errors)
-
-        console.log(errors)
+      .catch(error => {
+        message.error(error.message || error)
+        console.log(error)
       })
   }
 

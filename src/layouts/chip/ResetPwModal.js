@@ -33,9 +33,9 @@ export default class ModalDemo extends React.Component {
       .then(res => {
         this.modal.afterSubmit(res)
       })
-      .catch(errors => {
-        message.error(errors)
-        console.log(errors)
+      .catch(error => {
+        message.error(error.message || error)
+        console.log(error)
       })
   }
 

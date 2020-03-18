@@ -1,12 +1,12 @@
 import React from 'react'
 import { Formx, Modalx } from '@/components'
 import { Form, Input, message } from 'antd'
-import templateApi from '@/services/template'
+import desktopApi from '@/services/desktops'
 import { required } from '@/utils/valid'
 
 const { TextArea } = Input
 const { createModalCfg } = Modalx
-export default class AddTemplateModal extends React.Component {
+export default class AddSnapModal extends React.Component {
   componentDidMount() {
     this.props.onRef && this.props.onRef(this)
   }
@@ -17,34 +17,33 @@ export default class AddTemplateModal extends React.Component {
   }
 
   onOk = values => {
-    templateApi
-      .addTem(values)
+    desktopApi
+      .addSnap(values)
       .then(res => {
         this.modal.afterSubmit(res)
       })
-      .catch(error => {
-        this.modal.break(error)
-        console.log(error)
+      .catch(errors => {
+        this.modal.break(errors)
+        console.log(errors)
       })
   }
 
   render() {
-    const modalCfg = createModalCfg({ title: '创建模板', hasFooter: true })
+    const modalCfg = createModalCfg({ title: '创建快照', hasFooter: true })
     return (
       <Modalx
         onRef={ref => {
           this.modal = ref
         }}
         modalCfg={modalCfg}
-        title={'创建模板'}
         onOk={this.onOk}
       >
         <Formx>
-          <Form.Item prop="vmId" label="模板id" hidden>
+          <Form.Item prop="vmId" label="vmId" hidden>
             <Input />
           </Form.Item>
-          <Form.Item prop="templateName" label="模板名称" rules={[required]}>
-            <Input placeholder="模板名称"></Input>
+          <Form.Item prop="name" label="快照名" rules={[required]}>
+            <Input />
           </Form.Item>
           <Form.Item prop="description" label="描述">
             <TextArea style={{ resize: 'none' }} rows={4} placeholder="描述" />

@@ -105,9 +105,9 @@ export default class SetUserDrawer extends React.Component {
             () => this.userTablex.replace(this.state.tableCfg)
           )
         })
-        .catch(errors => {
-          message.error(errors)
-          console.log(errors)
+        .catch(error => {
+          message.error(error.message || error)
+          console.log(error)
         })
     } else {
       this.userTablex.refresh(this.state.tableCfg)
@@ -134,9 +134,9 @@ export default class SetUserDrawer extends React.Component {
       .then(res => {
         this.drawer.afterSubmit(res)
       })
-      .catch(errors => {
-        this.drawer.break(errors)
-        console.log(errors)
+      .catch(error => {
+        this.drawer.break(error)
+        console.log(error)
       })
   }
 

@@ -65,9 +65,9 @@ export default class LoginForm extends React.Component {
           message.error(res.message || '登录失败')
         }
       })
-      .catch(errors => {
-        message.error(errors)
-        console.log(errors)
+      .catch(error => {
+        message.error(error.message || error)
+        console.log(error)
       })
     return false
   }

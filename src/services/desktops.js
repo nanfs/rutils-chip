@@ -83,5 +83,51 @@ export default {
       params: data,
       responseType: 'arraybuffer'
     })
+  },
+  snapList(data) {
+    return axios({
+      url: '/snaps',
+      method: 'get',
+      baseURL: '/api',
+      params: data
+    })
+  },
+  addSnap(data) {
+    return axios({
+      url: '/snaps',
+      method: 'post',
+      data: qs.stringify(data, { arrayFormat: 'indices', allowDots: true })
+    })
+  },
+  checkSnap(data) {
+    return axios({
+      url: '/snaps',
+      method: 'get',
+      baseURL: '/api',
+      params: data
+    })
+  },
+  useSnap(data) {
+    return axios({
+      url: '/snaps',
+      method: 'get',
+      baseURL: '/api',
+      params: data
+    })
+  },
+  cancelSnap(data) {
+    return axios({
+      url: '/snaps',
+      method: 'get',
+      baseURL: '/api',
+      params: data
+    })
+  },
+  deleteSnap(data) {
+    return axios({
+      url: '/snaps',
+      method: 'delete',
+      data: qs.stringify(data)
+    })
   }
 }

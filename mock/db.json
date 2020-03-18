@@ -30,6 +30,24 @@
     { "id": 1, "name": "wind_7_test", "type": "ISO" },
     { "id": 2, "name": "ubuntu_test", "type": "ISO" }
   ],
+  "snaps": [
+    {
+      "id": 1,
+      "name": "快照1",
+      "createtime": "2020-3-20",
+      "description": "shwmomo123",
+      "disk": "disk1,disk2",
+      "applist": "app1,app2,app3"
+    },
+    {
+      "id": 2,
+      "name": "快照2",
+      "createtime": "2020-3-20",
+      "description": "shwmomo123",
+      "disk": "disk1,disk2",
+      "applist": "app1,app2,app3"
+    }
+  ],
   "tclogs": [
     {
       "id": 31803,

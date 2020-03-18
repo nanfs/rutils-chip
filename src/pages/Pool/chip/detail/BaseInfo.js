@@ -12,11 +12,10 @@ export default class BaseInfo extends React.Component {
         console.log('res', res)
         this.setState({ loading: false, data: res.data })
       })
-      .catch(errors => {
+      .catch(error => {
         this.setState({ loading: false })
-
-        message.error(errors)
-        console.log(errors)
+        message.error(error.message || error)
+        console.log(error)
       })
   }
 

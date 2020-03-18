@@ -50,7 +50,7 @@ class Modalx extends React.Component {
 
   break = error => {
     if (error) {
-      message.error(error)
+      message.error(error.message || error)
     }
     this.setState({
       submitting: false
@@ -82,8 +82,8 @@ class Modalx extends React.Component {
           notification.success({ message: res.message || '操作成功' })
           resolve(res)
         })
-        .catch(() => {
-          message.error(res.message || '操作失败')
+        .catch(error => {
+          message.error(error.message || error)
           this.setState({
             submitting: false
           })
@@ -105,8 +105,8 @@ class Modalx extends React.Component {
             onOk(values)
           }
         })
-        .catch(errors => {
-          message.error(errors)
+        .catch(error => {
+          message.error(error.message || error)
           this.setState({
             submitting: false
           })

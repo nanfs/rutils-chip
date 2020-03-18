@@ -4,7 +4,7 @@ import { Icon } from 'antd'
 // TODO antd 样式加载问题
 export const columns = [
   {
-    title: '磁盘名',
+    title: '磁盘别名',
     key: 'name',
     dataIndex: 'name'
   },
@@ -20,7 +20,7 @@ export const columns = [
     render: text =>
       text ? (
         <span>
-          <Icon type="safety" />
+          <Icon type="check-circle" />
         </span>
       ) : (
         undefined

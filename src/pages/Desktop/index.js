@@ -148,9 +148,9 @@ export default class Desktop extends React.Component {
           message.error(res.message || '操作失败')
         }
       })
-      .catch(errors => {
-        message.error(errors)
-        console.log(errors)
+      .catch(error => {
+        message.error(error.message || error)
+        console.log(error)
       })
   }
 
@@ -184,8 +184,7 @@ export default class Desktop extends React.Component {
         if (item.status !== 0 && item.status !== 13) {
           disabledButton = {
             ...disabledButton,
-            disabledUp: true,
-            disabledOpenConsole: true
+            disabledUp: true
           }
         }
         if (item.status !== 1) {
@@ -236,10 +235,10 @@ export default class Desktop extends React.Component {
               }
               resolve()
             })
-            .catch(errors => {
-              message.error(errors || 'catch error')
+            .catch(error => {
+              message.error(error.message || error)
               resolve()
-              console.log(errors)
+              console.log(error)
             })
         })
       },

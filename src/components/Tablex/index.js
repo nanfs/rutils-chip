@@ -102,11 +102,11 @@ class Tablex extends React.Component {
           .then(res => {
             resolve(res)
           })
-          .catch(err => {
+          .catch(error => {
             this.setState({
               loading: false
             })
-            message.error(err)
+            message.error(error.message || error)
           })
       })
     })

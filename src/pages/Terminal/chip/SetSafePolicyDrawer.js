@@ -106,9 +106,9 @@ export default class SetSafePolicyDrawer extends React.Component {
             () => this.deviceTablex.replace(this.state.tableCfg)
           )
         })
-        .catch(errors => {
-          console.log(errors)
-          message.error(errors)
+        .catch(error => {
+          message.error(error.message || error)
+          console.log(error)
         })
     } else {
       this.setState(

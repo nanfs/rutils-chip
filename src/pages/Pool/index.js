@@ -90,9 +90,9 @@ export default class Pool extends React.Component {
               }
               resolve()
             })
-            .catch(errors => {
-              message.error(errors)
-              console.log(errors)
+            .catch(error => {
+              message.error(error.message || error)
+              console.log(error)
               resolve()
             })
         })

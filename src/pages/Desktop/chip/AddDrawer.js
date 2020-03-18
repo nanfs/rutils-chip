@@ -68,9 +68,9 @@ export default class AddDrawer extends React.Component {
         }))
         this.setState({ templateOptions, templateLoading: false })
       })
-      .catch(errors => {
-        message.error(errors)
-        console.log(errors)
+      .catch(error => {
+        message.error(error.message || error)
+        console.log(error)
       })
   }
 
@@ -86,9 +86,9 @@ export default class AddDrawer extends React.Component {
         }))
         this.setState({ isoOptions, isoLoading: false })
       })
-      .catch(errors => {
-        message.error(errors)
-        console.log(errors)
+      .catch(error => {
+        message.error(error.message || error)
+        console.log(error)
       })
   }
 
@@ -119,8 +119,8 @@ export default class AddDrawer extends React.Component {
     if (!queryClusterId) {
       this.setState({ networkLoading: false })
       message.error('请先选择模板')
-      return Promise.reject().catch(errors => {
-        console.log(errors)
+      return Promise.reject().catch(error => {
+        message.error(error.message || error)
       })
     }
     desktopsApi
@@ -133,9 +133,9 @@ export default class AddDrawer extends React.Component {
         }))
         this.setState({ networkOptions, networkLoading: false })
       })
-      .catch(errors => {
+      .catch(error => {
         this.setState({ networkLoading: false })
-        message.error(errors)
+        message.error(error.message || error)
       })
   }
 

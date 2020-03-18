@@ -46,7 +46,7 @@ class Drawerx extends React.Component {
 
   break = error => {
     if (error) {
-      message.error(error)
+      message.error(error.message || error)
     }
     this.setState({
       submitting: false
@@ -101,9 +101,9 @@ class Drawerx extends React.Component {
             this.break()
           }
         })
-        .catch(err => {
+        .catch(error => {
           this.break()
-          message.error(err)
+          message.error(error.message || error)
         })
     } else {
       onOk && onOk()

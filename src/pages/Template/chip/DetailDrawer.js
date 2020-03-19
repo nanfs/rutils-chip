@@ -1,7 +1,7 @@
 import React from 'react'
-import { Tabs, Row, Col, Icon, message } from 'antd'
+import { Tabs, Row, Col, Icon, message, Tooltip } from 'antd'
 import { Drawerx, Tablex, Tabsx } from '@/components'
-import styles from '../index.m.less'
+import '../index.less'
 import { columns, apiMethod } from './VmTableCfg'
 import produce from 'immer'
 
@@ -50,42 +50,83 @@ export default class DetailDrawer extends React.Component {
       >
         <Tabsx defaultActiveKey={defaultActiveKey}>
           <TabPane tab="基本信息" key="basicInfo">
-            <Row gutter={32} className={styles.rowMargin}>
-              <Col span={4}>模板名称：</Col>
-              <Col span={8}>{data.name}</Col>
-              <Col span={4}>已使用桌面：</Col>
-              <Col span={8}>{data.vmUsed}</Col>
-            </Row>
-            <Row gutter={32} className={styles.rowMargin}>
-              <Col span={4}>父模板：</Col>
-              <Col span={8}>{data.parentName}</Col>
-              <Col span={4}>数据中心：</Col>
-              <Col span={8}>{data.datacenterName}</Col>
-            </Row>
-            <Row gutter={32} className={styles.rowMargin}>
-              <Col span={4}>集群：</Col>
-              <Col span={8}>{data.clusterName}</Col>
-              <Col span={4}>描述：</Col>
-              <Col span={8}>{data.description}</Col>
-            </Row>
-            <Row>
-              <Col span={4}>状态：</Col>
-              {data.status == '1' && (
-                <Col span={8}>
-                  <Icon type="lock" className={styles.lock} /> 锁定
+            <div className="dms-detail-section">
+              {/* <Title slot="基础设置"></Title> */}
+              <Row className="dms-detail-row">
+                <Col span={3} className="dms-detail-label">
+                  模板名称：
                 </Col>
-              )}
-              {data.status == '0' && (
-                <Col span={8} className={styles['can-use']}>
-                  <Icon type="check-circle" /> 可用
+                <Col span={8} className="dms-detail-value">
+                  <Tooltip title={data.name}>
+                    <span>{data.name}</span>
+                  </Tooltip>
                 </Col>
-              )}
-              {data.status == '2' && (
-                <Col span={8} className={styles.safety}>
-                  <Icon type="safety" /> 合法
+                <Col span={3} className="dms-detail-label">
+                  已使用桌面：
                 </Col>
-              )}
-            </Row>
+                <Col span={8} className="dms-detail-value">
+                  <Tooltip title={data.boundTcNum}>
+                    <span>{data.boundTcNum}</span>
+                  </Tooltip>
+                </Col>
+              </Row>
+              <Row className="dms-detail-row">
+                <Col span={3} className="dms-detail-label">
+                  父模板：
+                </Col>
+                <Col span={8} className="dms-detail-value">
+                  <Tooltip title={data.parentName}>
+                    <span>{data.parentName}</span>
+                  </Tooltip>
+                </Col>
+                <Col span={3} className="dms-detail-label">
+                  数据中心：
+                </Col>
+                <Col span={8} className="dms-detail-value">
+                  <Tooltip title={data.datacenterName}>
+                    <span>{data.datacenterName}</span>
+                  </Tooltip>
+                </Col>
+              </Row>
+              <Row className="dms-detail-row">
+                <Col span={3} className="dms-detail-label">
+                  集群：
+                </Col>
+                <Col span={8} className="dms-detail-value">
+                  <Tooltip title={data.clusterName}>
+                    <span>{data.clusterName}</span>
+                  </Tooltip>
+                </Col>
+                <Col span={3} className="dms-detail-label">
+                  描述：
+                </Col>
+                <Col span={8} className="dms-detail-value">
+                  <Tooltip title={data.description}>
+                    <span>{data.description}</span>
+                  </Tooltip>
+                </Col>
+              </Row>
+              <Row className="dms-detail-row">
+                <Col span={3} className="dms-detail-label">
+                  状态：
+                </Col>
+                {data.status == '1' && (
+                  <Col span={8} className="dms-detail-value">
+                    <Icon type="lock" className="lock" /> 锁定
+                  </Col>
+                )}
+                {data.status == '0' && (
+                  <Col span={8} className="dms-detail-value can-use">
+                    <Icon type="check-circle" /> 可用
+                  </Col>
+                )}
+                {data.status == '2' && (
+                  <Col span={8} className="dms-detail-value safety">
+                    <Icon type="safety" /> 合法
+                  </Col>
+                )}
+              </Row>
+            </div>
           </TabPane>
           <TabPane tab="桌面列表" key="bindVmList">
             <Tablex

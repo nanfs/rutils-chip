@@ -1,7 +1,7 @@
 import React from 'react'
 import templateApi from '@/services/template'
 import { Icon, Tag } from 'antd'
-import styles from '../index.m.less'
+import '../index.less'
 // TODO antd 样式加载问题
 export const columns = [
   // {
@@ -45,18 +45,18 @@ export const columns = [
       if (text == '1') {
         return (
           <span>
-            <Icon type="lock" className={styles.lock} /> 锁定
+            <Icon type="lock" className="lock" /> 锁定
           </span>
         )
       } else if (text == '0') {
         return (
-          <span className={styles['can-use']}>
+          <span className="can-use">
             <Icon type="check-circle" /> 可用
           </span>
         )
       } else {
         return (
-          <span className={styles.safety}>
+          <span className="safety">
             <Icon type="safety" /> 合法
           </span>
         )

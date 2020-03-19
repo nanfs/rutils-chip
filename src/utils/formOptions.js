@@ -11,6 +11,12 @@ export const memoryOptions = [
   { label: '4G', value: '4' },
   { label: '8G', value: '8' }
 ]
+export const diskOptions = [
+  { label: '80G', value: '80' },
+  { label: '100G', value: '100' },
+  { label: '200G', value: '200' },
+  { label: '500G', value: '500' }
+]
 export const cpuOptions = [
   { label: '1核', value: '1' },
   { label: '2核', value: '2' },

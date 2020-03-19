@@ -10,6 +10,16 @@
       "domain": "internet"
     }
   },
+  "clusters": [
+    {
+      "id": "452fa57c-ef7f-4f9e-a37d-5d6d870d167f",
+      "name": "clusters1"
+    },
+    {
+      "id": "0503a39b-52e7-4ec4-b2ac-2fc5fc04ec5d",
+      "name": "clusters2"
+    }
+  ],
   "disks": [
     {
       "id": 1,

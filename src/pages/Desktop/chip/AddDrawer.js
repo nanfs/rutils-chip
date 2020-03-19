@@ -2,8 +2,10 @@ import React from 'react'
 import { Form, Input, message, InputNumber, Row, Col, Typography } from 'antd'
 import { Drawerx, Formx, Title, Radiox, Checkboxx, Diliver } from '@/components'
 
-import { memoryOptions, cpuOptions } from '@/utils/formOptions'
+import { memoryOptions, cpuOptions, diskOptions } from '@/utils/formOptions'
 import desktopsApi from '@/services/desktops'
+import clustersApi from '@/services/clusters'
+
 import { findArrObj } from '@/utils/tool'
 import { required, checkName, lessThanValue } from '@/utils/valid'
 
@@ -12,7 +14,7 @@ const { TextArea } = Input
 const createType = [
   { label: '通过模板创建', value: '1' },
   {
-    label: '通过镜像创建',
+    label: '创建全新虚拟机',
     value: '2'
   }
 ]
@@ -21,30 +23,31 @@ export default class AddDrawer extends React.Component {
     this.props.onRef && this.props.onRef(this)
   }
 
-  state = {
-    templateLoading: false,
-    networkLoading: false
-  }
+  // state = {
+  //   templateLoading: false,
+  //   networkLoading: false
+  // }
 
+  // 默认选择通过模板创建, 创建数量1
   pop = () => {
+    this.setState({})
     this.drawer.show()
     this.setState({ fetchData: true, networkOptions: [], templateOptions: [] })
     this.drawer.form.setFieldsValue({ type: '1', desktopNum: 1 })
     this.getTemplate()
   }
 
+  // 添加虚拟机 通过镜像创建虚拟机传递需要给后端空白模板
   addVm = values => {
-    const { templateId, network } = values
-    const templateFix = templateId.split('&clusterId')[0]
+    const { type, network, ...rest } = values
     const networkFix = network.map(item => {
       const [kind, name, kindid] = item.split('&')
       return { kind, name, kindid }
     })
-
     const data = {
-      ...values,
+      ...rest,
       cpuNum: 1,
-      templateId: templateFix,
+      template: type === '2' ? 'Blank' : undefined,
       network: networkFix
     }
     desktopsApi
@@ -58,7 +61,7 @@ export default class AddDrawer extends React.Component {
       })
   }
 
-  // 需要clusetid 还有 id 无奈
+  // 获取模板列表
   getTemplate = () => {
     this.setState({ templateLoading: true })
     desktopsApi
@@ -72,24 +75,26 @@ export default class AddDrawer extends React.Component {
         this.setState({ templateOptions, templateLoading: false })
       })
       .catch(error => {
+        this.setState({ templateLoading: false })
         message.error(error.message || error)
         console.log(error)
       })
   }
 
-  // 需要clusetid 还有 id 无奈
-  getIso = () => {
-    this.setState({ isoLoading: true })
-    desktopsApi
-      .getIso({ current: 1, size: 10000 })
+  // 获取群集 后端可能没有分页
+  getCluster = () => {
+    this.setState({ clusterLoading: true })
+    clustersApi
+      .list({ current: 1, size: 10000 })
       .then(res => {
-        const isoOptions = res.data.records.map(item => ({
+        const clusterOptions = res.data.records.map(item => ({
           label: item.name,
           value: item.id
         }))
-        this.setState({ isoOptions, isoLoading: false })
+        this.setState({ clusterOptions, clusterLoading: false })
       })
       .catch(error => {
+        this.setState({ clusterLoading: false })
         message.error(error.message || error)
         console.log(error)
       })
@@ -104,12 +109,16 @@ export default class AddDrawer extends React.Component {
     )
   }
 
+  onClusterChange = (a, b, clusterId) => {
+    this.setState({ clusterId }, () => this.getNetwork(clusterId))
+  }
+
   onCreateTypeChange = (a, b, target) => {
-    console.log('onCreateTypeChange', target)
+    this.setState({ networkOptions: undefined })
     if (target === '1') {
       this.getTemplate()
     } else {
-      this.getIso()
+      this.getCluster()
     }
     this.forceUpdate()
   }
@@ -166,9 +175,19 @@ export default class AddDrawer extends React.Component {
           >
             <Input placeholder="桌面名称" />
           </Form.Item>
-          <Form.Item prop="type" required label="准入方式">
+          <Form.Item prop="type" required label="创建方式">
             <Radiox options={createType} onChange={this.onCreateTypeChange} />
           </Form.Item>
+          <Row
+            hidden={this.getSelectType() === '1'}
+            style={{ margin: '-24px 0px 5px 0px' }}
+          >
+            <Col span={16} offset={5}>
+              <Text type="secondary">
+                选择创建全新虚拟机,请在创建后选择安装操作系统
+              </Text>
+            </Col>
+          </Row>
           <Form.Item
             prop="templateId"
             label="模板"
@@ -179,31 +198,24 @@ export default class AddDrawer extends React.Component {
           >
             <Radiox
               getData={this.getTemplate}
-              options={this.state.templateOptions}
-              loading={this.state.templateLoading}
+              options={this.state?.templateOptions}
+              loading={this.state?.templateLoading}
               onChange={this.onTempalteChange}
             />
           </Form.Item>
-          <Row hidden={this.getSelectType() === '2' || !this.state.clusterId}>
-            <Col span={16} offset={5}>
-              <Text type="secondary">
-                <span>{this.state.os && `(OS:${this.state.os})`}</span>
-                <span>{this.state.description}</span>
-              </Text>
-            </Col>
-          </Row>
           <Form.Item
-            prop="isoId"
-            label="镜像"
+            prop="clusterId"
+            label="集群"
             required
             rules={this.getSelectType() === '2' ? [required] : undefined}
             wrapperCol={{ sm: { span: 16 } }}
             hidden={this.getSelectType() === '1'}
           >
             <Radiox
-              getData={this.getIso}
-              options={this.state.isoOptions}
-              loading={this.state.isoLoading}
+              getData={this.getCluster}
+              options={this.state?.clusterOptions}
+              loading={this.state?.clusterLoading}
+              onChange={this.onClusterChange}
             />
           </Form.Item>
           <Form.Item
@@ -232,6 +244,20 @@ export default class AddDrawer extends React.Component {
               numProps={{ max: 100, min: 1 }}
             />
           </Form.Item>
+          <Form.Item
+            prop="disk"
+            label="磁盘(G)"
+            required
+            hidden={this.getSelectType() === '1'}
+            rules={[required, lessThanValue(10000)]}
+            wrapperCol={{ sm: { span: 16 } }}
+          >
+            <Radiox
+              options={diskOptions}
+              hasInputNumber
+              numProps={{ max: 10000, min: 1 }}
+            />
+          </Form.Item>
           <Form.Item prop="description" label="描述">
             <TextArea placeholder="" />
           </Form.Item>
@@ -239,6 +265,7 @@ export default class AddDrawer extends React.Component {
             prop="desktopNum"
             label="创建数量"
             required
+            hidden={this.getSelectType() === '2'}
             rules={[required, lessThanValue(20)]}
           >
             <InputNumber placeholder="" min={1} max={20} />
@@ -251,12 +278,12 @@ export default class AddDrawer extends React.Component {
             required
             rules={[required]}
             wrapperCol={{ sm: { span: 16 } }}
-            hidden={!this.state.fetchData}
+            hidden={!this.state?.fetchData}
           >
             <Checkboxx
               getData={this.getNetwork}
-              options={this.state.networkOptions}
-              loading={this.state.networkLoading}
+              options={this.state?.networkOptions}
+              loading={this.state?.networkLoading}
             />
           </Form.Item>
         </Formx>

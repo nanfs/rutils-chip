@@ -1,5 +1,5 @@
 import React from 'react'
-import { Tabs, Row, Col, Icon, Popover } from 'antd'
+import { Tabs, Row, Col, Icon, Popover, Tooltip } from 'antd'
 import { Drawerx, Tablex, MyIcon, Tabsx } from '@/components'
 import '../index.less'
 import { columns, apiMethod } from './TerminalTableCfg'
@@ -77,26 +77,63 @@ export default class DetailDrawer extends React.Component {
       >
         <Tabsx defaultActiveKey={defaultActiveKey}>
           <TabPane tab="基本信息" key="basicInfo">
-            <Row gutter={32} className="rowMargin">
-              <Col span={4}>名称：</Col>
-              <Col span={8}>{data.name}</Col>
-              <Col span={4}>已绑定终端数：</Col>
-              <Col span={8}>{data.boundTcNum}</Col>
-            </Row>
-            <Row gutter={32} className="rowMargin">
-              <Col span={4}>准入类型：</Col>
-              <Col span={8}>{type}</Col>
-              <Col span={4}>日期：</Col>
-              <Col span={8}>{date}</Col>
-            </Row>
-            <Row gutter={32} className="rowMargin">
-              <Col span={4}>时间：</Col>
-              <Col span={8}>
-                {startTime} - {endTime}
-              </Col>
-              <Col span={4}>描述：</Col>
-              <Col span={8}>{data.description}</Col>
-            </Row>
+            <div className="dms-detail-section">
+              {/* <Title slot="基础设置"></Title> */}
+              <Row className="dms-detail-row">
+                <Col span={3} className="dms-detail-label">
+                  名称：
+                </Col>
+                <Col span={8} className="dms-detail-value">
+                  <Tooltip title={data.name}>
+                    <span>{data.name}</span>
+                  </Tooltip>
+                </Col>
+                <Col span={3} className="dms-detail-label">
+                  已绑定终端数：
+                </Col>
+                <Col span={8} className="dms-detail-value">
+                  <Tooltip title={data.boundTcNum}>
+                    <span>{data.boundTcNum}</span>
+                  </Tooltip>
+                </Col>
+              </Row>
+              <Row className="dms-detail-row">
+                <Col span={3} className="dms-detail-label">
+                  准入类型：
+                </Col>
+                <Col span={8} className="dms-detail-value">
+                  <Tooltip title={type}>
+                    <span>{type}</span>
+                  </Tooltip>
+                </Col>
+                <Col span={3} className="dms-detail-label">
+                  日期：
+                </Col>
+                <Col span={8} className="dms-detail-value">
+                  <Tooltip title={date}>
+                    <span>{date}</span>
+                  </Tooltip>
+                </Col>
+              </Row>
+              <Row className="dms-detail-row">
+                <Col span={3} className="dms-detail-label">
+                  时间：
+                </Col>
+                <Col span={8} className="dms-detail-value">
+                  <span>
+                    {startTime} - {endTime}
+                  </span>
+                </Col>
+                <Col span={3} className="dms-detail-label">
+                  描述：
+                </Col>
+                <Col span={8} className="dms-detail-value">
+                  <Tooltip title={data.description}>
+                    <span>{data.description}</span>
+                  </Tooltip>
+                </Col>
+              </Row>
+            </div>
           </TabPane>
           <TabPane tab="终端列表" key="bindTerminalList">
             <Tablex

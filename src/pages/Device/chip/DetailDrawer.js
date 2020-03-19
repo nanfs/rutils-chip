@@ -1,5 +1,5 @@
 import React from 'react'
-import { Tabs, Row, Col, Icon, Popover } from 'antd'
+import { Tabs, Row, Col, Icon, Popover, Tooltip } from 'antd'
 import { Drawerx, Tablex, MyIcon, Tabsx } from '@/components'
 import '../index.less'
 import { columns, apiMethod } from './TerminalTableCfg'
@@ -57,43 +57,69 @@ export default class DetailDrawer extends React.Component {
       >
         <Tabsx defaultActiveKey={defaultActiveKey}>
           <TabPane tab="基本信息" key="basicInfo">
-            <Row gutter={32} className="rowMargin">
-              <Col span={4}>名称：</Col>
-              <Col span={8}>{data.name}</Col>
-              <Col span={4}>已绑定终端数：</Col>
-              <Col span={8}>{data.boundTcNum}</Col>
-            </Row>
-            <Row gutter={32} className="rowMargin">
-              <Col span={4}>USB外设：</Col>
-              {data.usagePeripherals == '1' && (
-                <Col span={8}>
-                  <Icon type="check-circle" style={{ color: '#19c0f0' }} /> 开启
+            <div className="dms-detail-section">
+              {/* <Title slot="基础设置"></Title> */}
+              <Row className="dms-detail-row">
+                <Col span={3} className="dms-detail-label">
+                  名称：
                 </Col>
-              )}
-              {data.usagePeripherals == '0' && (
-                <Col span={8}>
-                  <Icon type="stop" style={{ color: '#ee1c3a' }} /> 禁止
+                <Col span={8} className="dms-detail-value">
+                  <Tooltip title={data.name}>
+                    <span>{data.name}</span>
+                  </Tooltip>
                 </Col>
-              )}
-              <Col span={4}>描述：</Col>
-              <Col span={8}>{data.description}</Col>
-            </Row>
-            <Row gutter={32} className="rowMargin">
-              <Col span={4}>名单：</Col>
-              <Col span={8}>
-                {info.length ? (
-                  <Popover content={info}>
-                    <MyIcon
-                      type="order-info"
-                      component="svg"
-                      style={{ cursor: 'pointer' }}
-                    />
-                  </Popover>
-                ) : (
-                  <span>无</span>
+                <Col span={3} className="dms-detail-label">
+                  已绑定终端数：
+                </Col>
+                <Col span={8} className="dms-detail-value">
+                  <Tooltip title={data.boundTcNum}>
+                    <span>{data.boundTcNum}</span>
+                  </Tooltip>
+                </Col>
+              </Row>
+              <Row className="dms-detail-row">
+                <Col span={3} className="dms-detail-label">
+                  USB外设：
+                </Col>
+                {data.usagePeripherals == '1' && (
+                  <Col span={8} className="dms-detail-value">
+                    <Icon type="check-circle" style={{ color: '#19c0f0' }} />{' '}
+                    开启
+                  </Col>
                 )}
-              </Col>
-            </Row>
+                {data.usagePeripherals == '0' && (
+                  <Col span={8} className="dms-detail-value">
+                    <Icon type="stop" style={{ color: '#ee1c3a' }} /> 禁止
+                  </Col>
+                )}
+                <Col span={3} className="dms-detail-label">
+                  描述：
+                </Col>
+                <Col span={8} className="dms-detail-value">
+                  <Tooltip title={data.description}>
+                    <span>{data.boundTcNum}</span>
+                  </Tooltip>
+                </Col>
+              </Row>
+              <Row className="dms-detail-row">
+                <Col span={3} className="dms-detail-label">
+                  名单：
+                </Col>
+                <Col span={8} className="dms-detail-value">
+                  {info.length ? (
+                    <Popover content={info}>
+                      <MyIcon
+                        type="order-info"
+                        component="svg"
+                        style={{ cursor: 'pointer' }}
+                      />
+                    </Popover>
+                  ) : (
+                    <span>无</span>
+                  )}
+                </Col>
+              </Row>
+            </div>
           </TabPane>
           <TabPane tab="终端列表" key="bindTerminalList">
             <Tablex

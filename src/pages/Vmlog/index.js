@@ -111,7 +111,7 @@ export default class Vmlog extends React.Component {
       { label: '信息', value: 'message' },
       { label: '用户', value: 'userName' },
       { label: '桌面名称', value: 'desktopName' },
-      { label: '数据中心名称', value: 'datacenterName' },
+      { label: '数据中心', value: 'datacenterName' },
       { label: '集群名称', value: 'clusterName' },
       { label: '主机名', value: 'hostName' }
     ]

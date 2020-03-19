@@ -17,12 +17,14 @@ export const detailSafepolicyColumns = [
     title: '名单',
     dataIndex: 'usb',
     render: (text, record) => {
-      const info = record.usbs.map((item, index) => (
-        <p key={index}>
-          name：{item.name}，vid：{item.vid}，pid:{item.pid}
-        </p>
-      ))
-      return info.length ? (
+      const info =
+        record.usbs &&
+        record.usbs.map((item, index) => (
+          <p key={index}>
+            name：{item.name}，vid：{item.vid}，pid:{item.pid}
+          </p>
+        ))
+      return info && info.length ? (
         <Popover content={info}>
           <MyIcon
             type="order-info"

@@ -28,7 +28,7 @@ export const DetailAccesspolicyColumns = [
     dataIndex: 'type',
     filters: typeOptions,
     render: (_text, record) => {
-      return typeArr[record.admitInterval[0].type]
+      return record.admitInterval && typeArr[record.admitInterval[0].type]
     },
     onFilter: (value, record) => record.admitInterval[0].type === value
   },
@@ -36,7 +36,9 @@ export const DetailAccesspolicyColumns = [
     title: '日期',
     dataIndex: 'date',
     render: (text, record) => {
-      return renderDateText(record.admitInterval[0].date)
+      return (
+        record.admitInterval && renderDateText(record.admitInterval[0].date)
+      )
     }
   },
   {
@@ -44,7 +46,10 @@ export const DetailAccesspolicyColumns = [
     dataIndex: 'time',
     width: 150,
     render: (text, record) => {
-      return `${record.admitInterval[0].startTime} - ${record.admitInterval[0].endTime}`
+      return (
+        record.admitInterval &&
+        `${record.admitInterval[0].startTime} - ${record.admitInterval[0].endTime}`
+      )
     }
   },
   {

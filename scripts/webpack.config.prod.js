@@ -1,11 +1,10 @@
 const merge = require('webpack-merge')
 const Copy = require('copy-webpack-plugin')
-const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
+// const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 const CompressionWebpackPlugin = require('compression-webpack-plugin')
 const webpackConfigBase = require('./webpack.config.base')
-const WebpackSftpClient = require('webpack-sftp-client')
 const cfgPaths = require('../config/paths')
 
 const webpackConfigProd = {
@@ -26,15 +25,15 @@ const webpackConfigProd = {
       title: 'Prod',
       template: cfgPaths.appHtml,
       favicon: cfgPaths.favicon,
-      dlls: ['./vendor.dll.js'],
-      hash: true
+      hash: true,
+      dlls: ['./vendor.dll.js']
       // minify: {
       //   caseSensitive: false,
       //   removeComment: true, // 移除注释
       //   collapseWhitespace: false // 移除多余空格
       // }
     }),
-    new BundleAnalyzerPlugin({ analyzerMode: 'static' }),
+    // new BundleAnalyzerPlugin({ analyzerMode: 'static' }),
     new Copy([{ from: './scripts/dll', to: './' }]),
     new CompressionWebpackPlugin({
       asset: '[path].gz[query]',

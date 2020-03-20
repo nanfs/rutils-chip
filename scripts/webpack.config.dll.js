@@ -11,7 +11,7 @@ module.exports = {
   },
   entry: {
     vendor: [
-      // 'react',
+      'react',
       'react-dom',
       'redux',
       'react-redux',

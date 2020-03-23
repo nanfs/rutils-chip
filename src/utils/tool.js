@@ -148,7 +148,7 @@ export function wrapResponse(res) {
     switch (res.code) {
       case 200:
         if (res.success !== undefined && res.success === false) {
-          reject()
+          reject(res)
           break
         }
         resolve(res.data)
@@ -156,14 +156,14 @@ export function wrapResponse(res) {
 
       case 201:
         if (res.success !== undefined && res.success === false) {
-          reject()
+          reject(res)
           break
         }
         resolve(res.data)
         break
 
       case 404:
-        reject()
+        reject(res)
         break
 
       default:
@@ -172,7 +172,7 @@ export function wrapResponse(res) {
           res.data.data.errorCode &&
           res.data.data.errorCode.indexOf('TOKEN-') === 0
         ) {
-          reject()
+          reject(res)
           break
         }
     }

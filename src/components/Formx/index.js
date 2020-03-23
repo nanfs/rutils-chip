@@ -37,7 +37,6 @@ class Formx extends React.Component {
     form
       .validateFieldsAndScroll((error, values) => {
         if (!error) {
-          console.log('handleSubmit', values)
           onSubmit && onSubmit(values)
         }
       })
@@ -52,7 +51,6 @@ class Formx extends React.Component {
       return child
     }
     if (child.props.prop) {
-      console.log('this.props.form', this.props.form)
       const {
         getFieldDecorator,
         getFieldValue,
@@ -79,10 +77,6 @@ class Formx extends React.Component {
       )
       return React.cloneElement(child, {}, childNode)
     }
-    // if (child.type.name === 'FormItem') {
-    //   console.log('FormItem')
-    //   return React.cloneElement(child)
-    // }
     if (child.props.children) {
       const sonNode = React.Children.map(child.props.children, son =>
         this.renderFormItem(son)

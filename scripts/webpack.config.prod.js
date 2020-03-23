@@ -4,7 +4,7 @@ const Copy = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const CompressionWebpackPlugin = require('compression-webpack-plugin')
-// const TerserPlugin = require('terser-webpack-plugin')
+const TerserPlugin = require('terser-webpack-plugin')
 const webpackConfigBase = require('./webpack.config.base')
 const cfgPaths = require('../config/paths')
 
@@ -15,14 +15,14 @@ const webpackConfigProd = {
   },
   // TODO 关闭压缩后报错
   optimization: {
-    minimize: false
-    // minimizer: [
-    //   new TerserPlugin({
-    //     cache: true,
-    //     parallel: true,
-    //     sourceMap: true // Must be set to true if using source-maps in production
-    //   })
-    // ]
+    // minimize: false
+    minimizer: [
+      new TerserPlugin({
+        cache: true,
+        parallel: true,
+        sourceMap: true // Must be set to true if using source-maps in production
+      })
+    ]
   },
   plugins: [
     new CleanWebpackPlugin(),

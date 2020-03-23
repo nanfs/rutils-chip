@@ -39,6 +39,7 @@ export default class AddDrawer extends React.Component {
 
   // 添加虚拟机 通过镜像创建虚拟机传递需要给后端空白模板
   addVm = values => {
+    console.log('addVm', this.drawer?.form)
     const { type, network, ...rest } = values
     const networkFix = network.map(item => {
       const [kind, name, kindid] = item.split('&')
@@ -249,7 +250,11 @@ export default class AddDrawer extends React.Component {
             label="磁盘(G)"
             required
             hidden={this.getSelectType() === '1'}
-            rules={[required, lessThanValue(10000)]}
+            rules={
+              this.getSelectType() === '2'
+                ? [required, lessThanValue(10000)]
+                : undefined
+            }
             wrapperCol={{ sm: { span: 16 } }}
           >
             <Radiox

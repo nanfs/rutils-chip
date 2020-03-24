@@ -32,7 +32,8 @@ export default class EditDrawer extends React.Component {
       loginWay,
       location,
       secretWord,
-      bondKey
+      bondKey,
+      lockedWord
     } = data
     this.drawer.form.setFieldsValue({
       sn,
@@ -41,7 +42,8 @@ export default class EditDrawer extends React.Component {
       loginWay,
       location,
       secretWord,
-      bondKey
+      bondKey,
+      lockedWord
     })
   }
 
@@ -63,7 +65,8 @@ export default class EditDrawer extends React.Component {
       loginWay,
       location,
       secretWord,
-      bondKey
+      bondKey,
+      lockedWord
     } = values
     const data = {
       name,
@@ -71,7 +74,8 @@ export default class EditDrawer extends React.Component {
       loginWay,
       location,
       secretWord: loginWay === 2 ? secretWord : '',
-      bondKey: loginWay === 1 ? bondKey : ''
+      bondKey: loginWay === 1 ? bondKey : '',
+      lockedWord
     }
     terminalApi
       .editTerminal(sn, data)
@@ -194,6 +198,18 @@ export default class EditDrawer extends React.Component {
           >
             <Input
               placeholder="输入口令"
+              type="password"
+              autoComplete="new-password"
+            />
+          </Form.Item>
+          <Form.Item
+            prop="lockedWord"
+            label="锁屏密码"
+            required
+            rules={[required]}
+          >
+            <Input
+              placeholder="锁屏密码"
               type="password"
               autoComplete="new-password"
             />

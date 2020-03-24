@@ -14,7 +14,7 @@ const iconStyle = {
   check: { fontSize: 20, color: '#1789d8' },
   close: { fontSize: 18 }
 }
-// 会有不同步问题 后期优化
+// TODO 会有不同步问题 后期优化
 setClusterToSession()
 setDataCenterToSession()
 setHostToSession()
@@ -60,14 +60,11 @@ export const columns = [
   {
     title: '已分配用户',
     dataIndex: 'assignedUsers',
+    sorter: {
+      compare: (a, b) => a.assignedUsers - b.assignedUsers
+    },
     render: text => (
-      <span className="table-action">
-        {text ? (
-          <Icon type="check" style={iconStyle.check} />
-        ) : (
-          <Icon type="close" style={iconStyle.close} />
-        )}
-      </span>
+      <span className="table-action">{text || <Icon type="close" />}</span>
     )
   },
   {
@@ -93,6 +90,9 @@ export const columns = [
     title: '本次运行时长',
     key: 'onlineTime',
     dataIndex: 'onlineTime',
+    sorter: {
+      compare: (a, b) => a.onlineTime - b.onlineTime
+    },
     render: text => onlineStringTime(text)
   },
   {

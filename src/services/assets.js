@@ -2,6 +2,14 @@ import qs from 'qs'
 import axios from './axios'
 
 export default {
+  isos(data) {
+    return axios({
+      url: '/isos',
+      method: 'get',
+      baseURL: '/api',
+      params: data
+    })
+  },
   clusters(data) {
     return axios({
       url: '/clusters',

@@ -149,9 +149,10 @@ export default class Desktop extends React.Component {
 
   onTableChange = (a, filter) => {
     const statusList = []
-    filter.status.forEach(function(v, i) {
-      statusList.push(...v)
-    })
+    filter.status &&
+      filter.status.forEach(function(v, i) {
+        statusList.push(...v)
+      })
     this.setState(
       produce(draft => {
         draft.tableCfg.searchs = {

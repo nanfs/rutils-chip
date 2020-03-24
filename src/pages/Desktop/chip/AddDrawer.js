@@ -4,7 +4,7 @@ import { Drawerx, Formx, Title, Radiox, Checkboxx, Diliver } from '@/components'
 
 import { memoryOptions, cpuOptions, diskOptions } from '@/utils/formOptions'
 import desktopsApi from '@/services/desktops'
-import clustersApi from '@/services/clusters'
+import assetsApi from '@/services/assets'
 
 import { findArrObj } from '@/utils/tool'
 import { required, checkName, lessThanValue } from '@/utils/valid'
@@ -23,11 +23,6 @@ export default class AddDrawer extends React.Component {
     this.props.onRef && this.props.onRef(this)
   }
 
-  // state = {
-  //   templateLoading: false,
-  //   networkLoading: false
-  // }
-
   // 默认选择通过模板创建, 创建数量1
   pop = () => {
     this.setState({})
@@ -39,7 +34,6 @@ export default class AddDrawer extends React.Component {
 
   // 添加虚拟机 通过镜像创建虚拟机传递需要给后端空白模板
   addVm = values => {
-    console.log('addVm', this.drawer?.form)
     const { type, network, ...rest } = values
     const networkFix = network.map(item => {
       const [kind, name, kindid] = item.split('&')
@@ -51,15 +45,28 @@ export default class AddDrawer extends React.Component {
       template: type === '2' ? 'Blank' : undefined,
       network: networkFix
     }
-    desktopsApi
-      .addVm(data)
-      .then(res => {
-        this.drawer.afterSubmit(res)
-      })
-      .catch(errors => {
-        this.drawer.break(errors)
-        console.log(errors)
-      })
+    // 如果批量创建调用单独批量创建的接口
+    if (values.desktopNum && values.desktopNum > 1) {
+      desktopsApi
+        .batchAddVm(data)
+        .then(res => {
+          this.drawer.afterSubmit(res)
+        })
+        .catch(errors => {
+          this.drawer.break(errors)
+          console.log(errors)
+        })
+    } else {
+      desktopsApi
+        .addVm(data)
+        .then(res => {
+          this.drawer.afterSubmit(res)
+        })
+        .catch(errors => {
+          this.drawer.break(errors)
+          console.log(errors)
+        })
+    }
   }
 
   // 获取模板列表
@@ -85,8 +92,8 @@ export default class AddDrawer extends React.Component {
   // 获取群集 后端可能没有分页
   getCluster = () => {
     this.setState({ clusterLoading: true })
-    clustersApi
-      .list({ current: 1, size: 10000 })
+    assetsApi
+      .clusters({ current: 1, size: 10000 })
       .then(res => {
         const clusterOptions = res.data.records.map(item => ({
           label: item.name,

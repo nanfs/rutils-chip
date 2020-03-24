@@ -349,8 +349,6 @@ export default class User extends React.Component {
 
   onTableChange = (a, filter) => {
     console.log(filter)
-    const status = ''
-
     /* filter.status.forEach(function(v, i) {
         status.push(...v)
       }) */

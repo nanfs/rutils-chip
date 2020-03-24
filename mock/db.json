@@ -10,6 +10,29 @@
       "domain": "internet"
     }
   },
+  "isos": ["win7", "win8", "ubutun"],
+  "hosts": [
+    {
+      "id": "452fa57c-ef7f-4f9e-a37d-5d6d870d167f",
+      "ip": "192.168.152.133",
+      "name": ""
+    },
+    {
+      "id": "0503a39b-52e7-4ec4-b2ac-2fc5fc04ec5d",
+      "ip": "192.168.123.3",
+      "name": ""
+    }
+  ],
+  "datacenters": [
+    {
+      "id": "452fa57c-ef7f-4f9e-a37d-5d6d870d167f",
+      "name": "DATA1"
+    },
+    {
+      "id": "0503a39b-52e7-4ec4-b2ac-2fc5fc04ec5d",
+      "name": "DATA2"
+    }
+  ],
   "clusters": [
     {
       "id": "452fa57c-ef7f-4f9e-a37d-5d6d870d167f",
@@ -35,10 +58,6 @@
       "boot": false,
       "description": ""
     }
-  ],
-  "isos": [
-    { "id": 1, "name": "wind_7_test", "type": "ISO" },
-    { "id": 2, "name": "ubuntu_test", "type": "ISO" }
   ],
   "snaps": [
     {

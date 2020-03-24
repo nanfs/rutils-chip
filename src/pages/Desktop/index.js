@@ -29,14 +29,14 @@ export default class Desktop extends React.Component {
   vmName = {
     title: '基本信息',
     dataIndex: 'name',
+    sorter: {
+      compare: (a, b) => a.name - b.name
+    },
     render: (text, record) => {
       return (
         <a
           className="detail-link"
-          onClick={() =>
-            // e.stopPropagation()
-            this.detailVm(record.name, record.id)
-          }
+          onClick={() => this.detailVm(record.name, record.id)}
         >
           <span>
             {osStatusRender(record.os)} {record.name}
@@ -135,6 +135,13 @@ export default class Desktop extends React.Component {
             disabledRestart: true
           }
         }
+        // 如果有分配用户 管理员不能打开控制台
+        if (item.assignedUsers) {
+          disabledButton = {
+            ...disabledButton,
+            disabledOpenConsole: true
+          }
+        }
       })
     }
     this.setState({ disabledButton })
@@ -151,7 +158,7 @@ export default class Desktop extends React.Component {
     confirm({
       title: '确定删除所选数据?',
       onOk() {
-        return new Promise((resolve, reject) => {
+        return new Promise(resolve => {
           desktopsApi
             .delVm({ desktopIds })
             .then(res => {
@@ -218,15 +225,24 @@ export default class Desktop extends React.Component {
     )
   }
 
-  onTableChange = (a, filter) => {
+  onTableChange = (page, filter, sorter) => {
+    const searchs = {}
+    if (sorter) {
+      // 后端排序 使用 0-升序  1-降序
+      const { order, field } = sorter
+      searchs.sort = field || undefined
+      searchs.order = order || undefined
+    }
     const statusList = []
-    filter.status.forEach(function(v, i) {
-      statusList.push(...v)
-    })
+    filter.status &&
+      filter.status.forEach(function(v) {
+        statusList.push(...v)
+      })
     this.setState(
       produce(draft => {
         draft.tableCfg.searchs = {
           ...draft.tableCfg.searchs,
+          ...searchs,
           status: statusList
         }
       }),
@@ -335,14 +351,6 @@ export default class Desktop extends React.Component {
             tableCfg={this.state.tableCfg}
             onSelectChange={this.onSelectChange}
             onChange={this.onTableChange}
-            // TODO 是否开启行点 选中
-            // onRow={record => {
-            //   return {
-            //     onClick: () => {
-            //       console.log(record)
-            //     }
-            //   }
-            // }}
           />
           <AddDrawer
             onRef={ref => {

@@ -4,7 +4,7 @@ import produce from 'immer'
 
 import { Tablex, Treex, InnerPath, SelectSearch } from '@/components'
 
-import { columns, apiMethod } from './chip/TableCfg'
+import { columns } from './chip/TableCfg'
 import AddDrawer from './chip/AddDrawer'
 import DetailDrawer from './chip/DetailDrawer'
 import EditDrawer from './chip/EditDrawer'
@@ -81,7 +81,7 @@ export default class User extends React.Component {
   state = {
     tableCfg: createTableCfg({
       columns: this.columnsArr,
-      apiMethod,
+      apiMethod: userApi.queryByGroup,
       paging: { size: 10 },
       pageSizeOptions: ['5', '10', '20', '50']
     }),
@@ -89,7 +89,9 @@ export default class User extends React.Component {
     initValues: {},
     value: undefined,
     domainlist: [],
-    disabledButton: {}
+    disabledButton: {},
+    domainTreeData: undefined,
+    groupTreeData: []
   }
 
   componentDidMount = () => {
@@ -100,8 +102,22 @@ export default class User extends React.Component {
           // notification.success({ message: '查询域成功' })
           const domainlist = res.data.map(item => {
             const obj = {}
-            obj.label = item === 'internal' ? '本地组' : '域'
+            obj.label = item === 'internal' ? '本地组' : item
             obj.value = item
+            if (item !== 'internal') {
+              this.setState({
+                domainTreeData: [
+                  {
+                    key: 'ad',
+                    id: 'ad',
+                    value: 'ad',
+                    parentId: '-2',
+                    title: item,
+                    type: 'ad'
+                  }
+                ]
+              })
+            }
             return obj
           })
 
@@ -231,20 +247,38 @@ export default class User extends React.Component {
 
   onSelect = (value, node) => {
     // this.selectSearch.reset()
+    console.log(value)
     if (node.node.props.type === 'ad') {
       this.groupTreex.cleanSelected()
+      this.setState(
+        produce(draft => {
+          draft.tableCfg = {
+            ...draft.tableCfg,
+            apiMethod: userApi.queryByAD,
+            searchs: {
+              ...draft.tableCfg.searchs,
+              domain: value
+            }
+          }
+        }),
+        () => this.tablex.search(this.state.tableCfg)
+      )
     } else {
-      // this.ADdomainTreex.cleanSelected()
+      this.ADdomainTreex.cleanSelected()
+      this.setState(
+        produce(draft => {
+          draft.tableCfg = {
+            ...draft.tableCfg,
+            apiMethod: userApi.queryByGroup,
+            searchs: {
+              ...draft.tableCfg.searchs,
+              groupId: value
+            }
+          }
+        }),
+        () => this.tablex.search(this.state.tableCfg)
+      )
     }
-    this.setState(
-      produce(draft => {
-        draft.tableCfg.searchs = {
-          ...draft.tableCfg.searchs,
-          groupId: value[0]
-        }
-      }),
-      () => this.tablex.search(this.state.tableCfg)
-    )
   }
 
   onSuccess = () => {
@@ -254,7 +288,7 @@ export default class User extends React.Component {
 
   treeRenderSuccess = (selectNode, treeData) => {
     this.setState({
-      treeData
+      groupTreeData: treeData
     })
     this.setState(
       produce(draft => {
@@ -262,7 +296,7 @@ export default class User extends React.Component {
           ...draft.tableCfg.searchs,
           groupId: selectNode
         }
-        // draft.treeData = treeData
+        // draft.groupTreeData = groupTreeData
       }),
       () => this.tablex.refresh(this.state.tableCfg)
     )
@@ -339,7 +373,13 @@ export default class User extends React.Component {
       { label: '用户名', value: 'username' },
       { label: '姓名', value: 'name' }
     ]
-    const { treeData, initValues, domainlist, disabledButton } = this.state
+    const {
+      groupTreeData,
+      initValues,
+      domainlist,
+      disabledButton,
+      domainTreeData
+    } = this.state
     return (
       <React.Fragment>
         <InnerPath
@@ -363,15 +403,15 @@ export default class User extends React.Component {
                 showRightClinkMenu={true}
                 showSearch={false}
               ></Treex>
-              {/*  <Treex
+              <Treex
                 onRef={ref => {
                   this.ADdomainTreex = ref
                 }}
                 onSelect={this.onSelect}
-                apiMethod={userApi.groupQuery}
+                treeData={domainTreeData}
                 showSearch={false}
                 defaultSelectRootNode={false}
-              ></Treex> */}
+              ></Treex>
             </div>
             <div className="user-table">
               <ToolBar>
@@ -434,7 +474,7 @@ export default class User extends React.Component {
                 }}
                 onClose={this.onBack}
                 onSuccess={this.onSuccess}
-                nodeData={treeData}
+                nodeData={groupTreeData}
                 domainlist={domainlist}
               />
               <EditDrawer
@@ -444,7 +484,7 @@ export default class User extends React.Component {
                 onClose={this.onBack}
                 onSuccess={this.onSuccess}
                 initValues={initValues}
-                nodeData={treeData}
+                nodeData={groupTreeData}
                 domainlist={domainlist}
               />
               <DetailDrawer

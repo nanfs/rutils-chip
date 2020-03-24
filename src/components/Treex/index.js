@@ -74,14 +74,26 @@ export default class Treex extends React.Component {
     document.removeEventListener('click', this._handleClick)
   }
 
+  componentDidUpdate(prep) {
+    if (this.props.treeData !== prep.value && prep.treeData === undefined) {
+      this.setState({ nodes: this.props.treeData })
+    }
+  }
+
   getTreeData = () => {
     const {
       apiMethod,
       treeRenderSuccess,
-      defaultSelectRootNode = true
+      defaultSelectRootNode = true,
+      treeData
     } = this.props
+
     if (!apiMethod) {
-      throw new Error('没有树请求方法')
+      this.setState({
+        nodes: treeData,
+        loading: false
+      })
+      return false
     }
     apiMethod()
       .then(res => {

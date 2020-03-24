@@ -44,9 +44,19 @@ export default {
       params: data
     })
   },
-  list(data) {
+  queryByGroup(data) {
     return axios({
       url: '/user/querybygroup',
+      method: 'get',
+      params: data,
+      paramsSerializer: params => {
+        return qs.stringify(params, { arrayFormat: 'indices' })
+      }
+    })
+  },
+  queryByAD(data) {
+    return axios({
+      url: '/user/list',
       method: 'get',
       params: data,
       paramsSerializer: params => {

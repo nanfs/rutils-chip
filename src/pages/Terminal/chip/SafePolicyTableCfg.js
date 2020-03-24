@@ -50,7 +50,7 @@ export const columns = [
           name：{item.name}，vid：{item.vid}，pid:{item.pid}
         </p>
       ))
-      return info.length ? (
+      return info?.length ? (
         <Popover content={info}>
           <MyIcon
             type="order-info"

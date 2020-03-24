@@ -50,7 +50,7 @@ class Formx extends React.Component {
     if (!React.isValidElement(child)) {
       return child
     }
-    if (child.type.name === 'FormItem' && child.props.prop) {
+    if (child.props.prop) {
       const {
         getFieldDecorator,
         getFieldValue,
@@ -76,9 +76,6 @@ class Formx extends React.Component {
         })
       )
       return React.cloneElement(child, {}, childNode)
-    }
-    if (child.type.name === 'FormItem') {
-      return React.cloneElement(child)
     }
     if (child.props.children) {
       const sonNode = React.Children.map(child.props.children, son =>

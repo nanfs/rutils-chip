@@ -23,8 +23,8 @@ export default class AddTemplateModal extends React.Component {
         this.modal.afterSubmit(res)
       })
       .catch(error => {
-        this.modal.break(error)
         console.log(error)
+        this.modal.break(error)
       })
   }
 

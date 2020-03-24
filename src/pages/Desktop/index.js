@@ -15,7 +15,7 @@ import EditDrawer from './chip/EditDrawer'
 import DetailDrawer from './chip/DetailDrawer'
 import SetUserDrawer from './chip/SetUserDrawer'
 import AddTemplateModal from './chip/AddTemplateModal'
-import { MyIcon, InnerPath, SelectSearch, Tablex } from '@/components'
+import { InnerPath, SelectSearch, Tablex } from '@/components'
 import produce from 'immer'
 import desktopsApi from '@/services/desktops'
 import { downloadVV } from '@/utils/tool'
@@ -26,78 +26,6 @@ import './index.less'
 const { createTableCfg, TableWrap, ToolBar, BarLeft, BarRight } = Tablex
 const { confirm } = Modal
 export default class Desktop extends React.Component {
-  options = {
-    title: '操作',
-    dataIndex: 'opration',
-    className: 'opration',
-    render: (text, record) => (
-      <div>
-        <MyIcon
-          type="order-down"
-          title="关机"
-          disabled={record.status === 0}
-          onClick={this.sendOrder.bind(this, record.id, 'shutdown')}
-        />
-        <MyIcon
-          type="order-up"
-          title="开机"
-          disabled={record.status !== 0 && record.status !== 13}
-          onClick={this.sendOrder.bind(this, record.id, 'start')}
-        />
-        <MyIcon
-          type="order-poweroff"
-          title="断电"
-          disabled={record.status === 0}
-          onClick={this.sendOrder.bind(this, record.id, 'poweroff')}
-        />
-        <MyIcon
-          type="order-paused"
-          title="暂停"
-          disabled={record.status !== 1}
-          onClick={this.sendOrder.bind(this, record.id, 'pause')}
-        />
-        <MyIcon
-          type="vm-rebootinprogress"
-          title="重启"
-          disabled={record.status === 10 || record.status === 0}
-          onClick={this.sendOrder.bind(this, record.id, 'restart')}
-        />
-        {/* //TODO 缺少接口 */}
-        {/* <MyIcon
-          type="order-console-end"
-          title="关闭控制台"
-          onClick={this.sendOrder.bind(this, record.id, 'start')}
-        /> */}
-        <MyIcon
-          type="order-console"
-          title="打开控制台"
-          disabled={record.status !== 1}
-          onClick={this.openConsole.bind(this, record.name, record.id)}
-        />
-        <MyIcon
-          type="order-setuser"
-          title="分配用户"
-          onClick={this.setUser.bind(this, [record.id])}
-        />
-        <MyIcon
-          type="template1"
-          title="创建模板"
-          onClick={() => this.addTemplateModal.pop(record.id)}
-        />
-        <Icon
-          type="form"
-          title="编辑"
-          onClick={this.editVm.bind(this, record.id)}
-        />
-        <MyIcon
-          type="order-info"
-          title="详情"
-          onClick={this.detailVm.bind(this, record.id)}
-        />
-      </div>
-    )
-  }
-
   vmName = {
     title: '基本信息',
     dataIndex: 'name',
@@ -350,7 +278,9 @@ export default class Desktop extends React.Component {
         <Menu.Item
           key="6"
           disabled={disabledButton.disabledAddTem}
-          onClick={() => this.addTemplateModal(this.getSelection()[0])}
+          onClick={() =>
+            this.addTemplateModal.pop(this.tablex.getSelection()[0])
+          }
         >
           创建模板
         </Menu.Item>

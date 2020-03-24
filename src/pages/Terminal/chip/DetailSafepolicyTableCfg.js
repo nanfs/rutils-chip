@@ -24,7 +24,7 @@ export const detailSafepolicyColumns = [
             name：{item.name}，vid：{item.vid}，pid:{item.pid}
           </p>
         ))
-      return info && info.length ? (
+      return info?.length ? (
         <Popover content={info}>
           <MyIcon
             type="order-info"

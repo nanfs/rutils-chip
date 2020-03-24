@@ -1,7 +1,6 @@
 import React from 'react'
 import { Drawerx, Tabsx } from '@/components'
-import { message, Tabs } from 'antd'
-import poolsApi from '@/services/pools'
+import { Tabs } from 'antd'
 import BaseInfo from './detail/BaseInfo'
 import Vmlist from './detail/Vmlist'
 
@@ -16,12 +15,12 @@ export default class DetailDrawer extends React.Component {
   pop = id => {
     this.drawer.show()
     this.setState({ defaultActiveKey: '' }, () =>
-      this.setState({ defaultActiveKey: '1', id })
+      this.setState({ defaultActiveKey: '1', poolId: id })
     )
   }
 
   render() {
-    const { data, id, defaultActiveKey } = this.state
+    const { poolId, defaultActiveKey } = this.state
     return (
       <Drawerx
         onRef={ref => {
@@ -34,10 +33,10 @@ export default class DetailDrawer extends React.Component {
       >
         <Tabsx defaultActiveKey={defaultActiveKey}>
           <TabPane tab="基础信息" key="1">
-            <BaseInfo id={id}></BaseInfo>
+            <BaseInfo poolId={poolId}></BaseInfo>
           </TabPane>
           <TabPane tab="桌面列表" key="2">
-            <Vmlist data={data}></Vmlist>
+            <Vmlist poolId={poolId}></Vmlist>
           </TabPane>
           {/* <TabPane tab="已分配用户" key="3"></TabPane> */}
         </Tabsx>

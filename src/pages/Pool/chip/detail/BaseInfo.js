@@ -7,9 +7,8 @@ export default class BaseInfo extends React.Component {
   componentDidMount() {
     this.setState({ loading: true })
     poolsApi
-      .detail(this.props.id)
+      .detail(this.props.poolId)
       .then(res => {
-        console.log('res', res)
         this.setState({ loading: false, data: res.data })
       })
       .catch(error => {

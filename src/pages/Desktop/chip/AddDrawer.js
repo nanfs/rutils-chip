@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form, Input, message, InputNumber, Row, Col, Typography } from 'antd'
+import { Form, Input, message, InputNumber, Select } from 'antd'
 import { Drawerx, Formx, Title, Radiox, Checkboxx, Diliver } from '@/components'
 
 import { memoryOptions, cpuOptions, diskOptions } from '@/utils/formOptions'
@@ -9,15 +9,16 @@ import assetsApi from '@/services/assets'
 import { findArrObj } from '@/utils/tool'
 import { required, checkName, lessThanValue } from '@/utils/valid'
 
-const { Text } = Typography
 const { TextArea } = Input
 const createType = [
   { label: '通过模板创建', value: '1' },
   {
-    label: '创建全新虚拟机',
+    label: '通过ISO创建',
+    disabled: true,
     value: '2'
   }
 ]
+const { Option, OptGroup } = Select
 export default class AddDrawer extends React.Component {
   componentDidMount() {
     this.props.onRef && this.props.onRef(this)
@@ -126,6 +127,7 @@ export default class AddDrawer extends React.Component {
     if (target === '1') {
       this.getTemplate()
     } else {
+      this.getIso()
       this.getCluster()
     }
     this.forceUpdate()
@@ -135,6 +137,32 @@ export default class AddDrawer extends React.Component {
     return (
       this.drawer && this.drawer.form && this.drawer.form.getFieldValue('type')
     )
+  }
+
+  getIso = () => {
+    desktopsApi
+      .getIso()
+      .then(res => {
+        const win = []
+        const linux = []
+        const domestic = []
+        // TODO ISO命名约定
+        res.data.forEach(item => {
+          const name = item.repoImageTitle
+          if (name.includes('gc')) {
+            return domestic.push(name)
+          }
+          if (name.includes('win')) {
+            return win.push(name)
+          }
+          linux.push(name)
+        })
+        this.setState({ isos: { win, linux, domestic } })
+      })
+      .catch(error => {
+        this.setState({ networkLoading: false })
+        message.error(error.message || error)
+      })
   }
 
   getNetwork = () => {
@@ -186,16 +214,6 @@ export default class AddDrawer extends React.Component {
           <Form.Item prop="type" required label="创建方式">
             <Radiox options={createType} onChange={this.onCreateTypeChange} />
           </Form.Item>
-          <Row
-            hidden={this.getSelectType() === '1'}
-            style={{ margin: '-24px 0px 5px 0px' }}
-          >
-            <Col span={16} offset={5}>
-              <Text type="secondary">
-                选择创建全新虚拟机,请在创建后选择安装操作系统
-              </Text>
-            </Col>
-          </Row>
           <Form.Item
             prop="templateId"
             label="模板"
@@ -210,6 +228,48 @@ export default class AddDrawer extends React.Component {
               loading={this.state?.templateLoading}
               onChange={this.onTempalteChange}
             />
+          </Form.Item>
+          <Form.Item
+            prop="iso"
+            label="ISO"
+            required
+            rules={this.getSelectType() === '2' ? [required] : undefined}
+            wrapperCol={{ sm: { span: 16 } }}
+            hidden={this.getSelectType() === '1'}
+          >
+            <Select
+              defaultValue="lucy"
+              style={{ width: 230 }}
+              placeholder="请选择镜像"
+            >
+              {this.state?.win && (
+                <OptGroup label="windows">
+                  {this.state?.win?.map(item => (
+                    <Option value={item} key={item}>
+                      {item}
+                    </Option>
+                  ))}
+                </OptGroup>
+              )}
+              {this.state?.win && (
+                <OptGroup label="linux">
+                  {this.state?.linux?.map(item => (
+                    <Option value={item} key={item}>
+                      {item}
+                    </Option>
+                  ))}
+                </OptGroup>
+              )}
+              {this.state?.win && (
+                <OptGroup label="国产系统">
+                  {this.state?.domestic?.map(item => (
+                    <Option value={item} key={item}>
+                      {item}
+                    </Option>
+                  ))}
+                </OptGroup>
+              )}
+            </Select>
           </Form.Item>
           <Form.Item
             prop="clusterId"

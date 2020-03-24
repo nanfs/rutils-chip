@@ -15,6 +15,7 @@ export default class Desktop extends React.Component {
     tableCfg: createTableCfg({
       columns,
       apiMethod,
+      searchs: { vmId: this.props.vmId },
       paging: { size: 10 },
       pageSizeOptions: ['5', '10', '20', '50']
     }),
@@ -47,15 +48,19 @@ export default class Desktop extends React.Component {
     this.setState({ disabledButton })
   }
 
-  deleteVm = () => {
-    const desktopIds = this.tablex.getSelection()
+  delete = () => {
+    const disks = this.tablex.getSelectData()
+    const removeDiskVo = disks.map(item => ({
+      diskId: item.id,
+      storageDomainId: item.storage_id
+    }))
     const self = this
     confirm({
       title: '确定删除所选数据?',
       onOk() {
-        return new Promise((resolve, reject) => {
+        return new Promise(resolve => {
           diskApi
-            .delete({ desktopIds })
+            .delete({ vmId: self.props.vmId, removeDiskVo })
             .then(res => {
               if (res.success) {
                 notification.success({ message: '删除成功' })
@@ -87,7 +92,7 @@ export default class Desktop extends React.Component {
             <BarLeft>
               <Button
                 onClick={() => {
-                  this.addDiskModal.pop()
+                  this.addDiskModal.pop(this.props.vmId)
                 }}
               >
                 添加磁盘
@@ -95,14 +100,17 @@ export default class Desktop extends React.Component {
               <Button
                 disabled={disabledButton.disabledEdit}
                 onClick={() => {
-                  this.editDiskModal.pop(this.tablex.getSelectData()[0])
+                  this.editDiskModal.pop({
+                    vmId: this.props.vmId,
+                    ...this.tablex.getSelectData()[0]
+                  })
                 }}
               >
                 磁盘扩容
               </Button>
               <Button
                 disabled={disabledButton.disabledDelete}
-                onClick={this.deleteVm}
+                onClick={this.delete}
               >
                 删除磁盘
               </Button>

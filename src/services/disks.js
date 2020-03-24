@@ -2,28 +2,31 @@ import qs from 'qs'
 import axios from './axios'
 
 export default {
-  list(data) {
+  list({ vmId }) {
     return axios({
-      url: '/disks',
-      method: 'get',
-      params: data,
-      baseURL: '/api'
+      url: `desktops/${vmId}/disks`,
+      method: 'get'
     })
   },
-  add(data) {
+  add({ vmId, ...rest }) {
     return axios({
-      url: '/disks',
+      url: `desktops/${vmId}/disks`,
       method: 'post',
-      baseURL: '/api',
-      data: qs.stringify(data)
+      data: qs.stringify(rest)
     })
   },
-  delete(data) {
+  edit({ vmId, id, ...rest }) {
     return axios({
-      url: '/disks',
-      method: 'delete',
-      baseURL: '/api',
-      data: qs.stringify(data)
+      url: `desktops/${vmId}/disks/${id}`,
+      method: 'post',
+      data: qs.stringify(rest)
+    })
+  },
+  delete({ vmId, ...rest }) {
+    return axios({
+      url: `desktops/${vmId}/disks/delete`,
+      method: 'post',
+      data: qs.stringify(rest, { allowDots: true, arrayFormat: 'indices' })
     })
   }
 }

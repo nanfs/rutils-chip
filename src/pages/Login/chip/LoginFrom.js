@@ -6,7 +6,11 @@ import { ftInit, getUsbKeyId, getUser } from './ftusbkey'
 import encrypt from './encrypt'
 import { setUserToLocal, reloadAuthorized } from '@/utils/auth'
 import { required } from '@/utils/valid'
-import { setClusterToSession, setDataCenterToSession } from '@/utils/storage'
+import {
+  setClusterToSession,
+  setDataCenterToSession,
+  setHostToSession
+} from '@/utils/storage'
 
 export default class LoginForm extends React.Component {
   constructor(props) {
@@ -63,8 +67,10 @@ export default class LoginForm extends React.Component {
           setUserToLocal(data.username)
           reloadAuthorized()
           // 解决第一次加载的问题
-          setClusterToSession()
-          setDataCenterToSession()
+          // TODO 后端暂未联调
+          // setClusterToSession()
+          // setDataCenterToSession()
+          // setHostToSession()
           window.location.hash = 'dashboard'
           message.success('登录成功')
         } else {

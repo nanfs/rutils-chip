@@ -64,10 +64,9 @@ export default {
   },
   getIso(data) {
     return axios({
-      url: '/isos',
+      url: '/desktops/isos',
       method: 'get',
-      params: data,
-      baseURL: '/api'
+      params: data
     })
   },
   sendOrder(data) {

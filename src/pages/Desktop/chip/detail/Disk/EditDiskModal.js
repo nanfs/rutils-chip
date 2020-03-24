@@ -1,6 +1,6 @@
 import React from 'react'
 import { Formx, Modalx } from '@/components'
-import { Form, Input, message } from 'antd'
+import { Form, Input } from 'antd'
 import diskApi from '@/services/disks'
 import { required } from '@/utils/valid'
 
@@ -21,7 +21,7 @@ export default class EditDiskModal extends React.Component {
 
   pop = initValues => {
     this.modal.show()
-    this.setState({ capacity: 100 })
+    this.setState({ capacity: initValues.capacity })
     this.modal.form.setFieldsValue(initValues)
   }
 
@@ -48,7 +48,10 @@ export default class EditDiskModal extends React.Component {
         onOk={this.onOk}
       >
         <Formx>
-          <Form.Item prop="id" label="id" hidden>
+          <Form.Item prop="vmId" label="vmId" hidden>
+            <Input />
+          </Form.Item>
+          <Form.Item prop="id" label="diskId" hidden>
             <Input />
           </Form.Item>
           <Form.Item prop="name" label="磁盘名" rules={[required]}>

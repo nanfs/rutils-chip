@@ -2,41 +2,27 @@ import React from 'react'
 import { Tabs, Row, Col, Icon, message, Tooltip } from 'antd'
 import { Drawerx, Tablex, Tabsx } from '@/components'
 import '../index.less'
-import { columns, apiMethod } from './VmTableCfg'
-import produce from 'immer'
+// import { columns, apiMethod } from './VmTableCfg'
+// import produce from 'immer'
+import Vmlist from './detail/Vmlist'
 
 const { TabPane } = Tabs
-const { createTableCfg } = Tablex
+// const { createTableCfg } = Tablex
 
 export default class DetailDrawer extends React.Component {
   state = {
-    data: {},
-    tableCfg: createTableCfg({
-      columns,
-      apiMethod,
-      expandedRowRender: false,
-      hasRowSelection: false,
-      paging: { size: 10 },
-      pageSizeOptions: ['5', '10', '20', '50']
-    })
+    data: {}
   }
 
   componentDidMount() {
     this.props.onRef && this.props.onRef(this)
   }
 
-  pop = (ids, info) => {
+  pop = (id, info) => {
     this.drawer.show()
     this.setState({ data: info })
     this.setState({ defaultActiveKey: '' }, () =>
-      this.setState({ defaultActiveKey: 'basicInfo', ids })
-    )
-    this.setState(
-      produce(draft => {
-        draft.tableCfg.searchs = {
-          id: ids
-        }
-      })
+      this.setState({ defaultActiveKey: 'basicInfo', id })
     )
   }
 
@@ -129,12 +115,7 @@ export default class DetailDrawer extends React.Component {
             </div>
           </TabPane>
           <TabPane tab="桌面列表" key="bindVmList">
-            <Tablex
-              onRef={ref => {
-                this.vmtablex = ref
-              }}
-              tableCfg={this.state.tableCfg}
-            />
+            <Vmlist templateId={data.id}></Vmlist>
           </TabPane>
         </Tabsx>
       </Drawerx>

@@ -37,6 +37,7 @@ export default class Desktop extends React.Component {
   state = {
     tableCfg: createTableCfg({
       columns: this.columnsArr,
+      searchs: { templateId: this.props.templateId },
       apiMethod,
       paging: { size: 10 },
       pageSizeOptions: ['5', '10', '20', '50']

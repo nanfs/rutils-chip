@@ -60,6 +60,8 @@ export default class Resource extends React.Component {
                     { label: '名称', value: 'name' },
                     { label: 'IP', value: 'ip' },
                     { label: '描述', value: 'description' }
+                    // { label: '数据中心', value: 'storagePoolName' },
+                    // { label: '集群', value: 'clusterName' }
                   ]}
                   onSearch={this.search}
                 ></SelectSearch>

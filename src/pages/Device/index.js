@@ -14,17 +14,18 @@ export default class Device extends React.Component {
   vmName = {
     title: '名称',
     dataIndex: 'name',
-    ellipsis: true,
-    render: (text, record) => {
-      return (
-        <a
-          className="detail-link"
-          onClick={() => this.detailDev(record.name, record)}
-        >
-          {record.name}
-        </a>
-      )
-    }
+    ellipsis: true
+    // TODO详情页
+    // render: (text, record) => {
+    //   return (
+    //     <a
+    //       className="detail-link"
+    //       onClick={() => this.detailDev(record.name, record)}
+    //     >
+    //       {record.name}
+    //     </a>
+    //   )
+    // }
   }
 
   columnsArr = [this.vmName, ...columns]

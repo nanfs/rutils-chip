@@ -1,7 +1,7 @@
 import React from 'react'
 import systemsApi from '@/services/systems'
 import { Formx, Modalx } from '@/components'
-import { Form, InputNumber } from 'antd'
+import { Form, InputNumber, Input } from 'antd'
 import './index.less'
 import { lessThanValue, moreThanValue, sessionTime } from '@/utils/valid'
 
@@ -58,13 +58,13 @@ export default class ConfigModal extends React.Component {
         formItemLayout={formItemLayout}
       >
         <Formx>
-          <Form.Item
+          {/* <Form.Item
             prop="sessionTimeOutInterval"
             label="会话超时时间"
             rules={[sessionTime]}
           >
             <InputNumber min={-1} style={{ width: '100%' }} />
-          </Form.Item>
+          </Form.Item> */}
           <Form.Item
             prop="userLoginFailMaxTimes"
             label="登录失败最大次数(次)"
@@ -80,9 +80,9 @@ export default class ConfigModal extends React.Component {
             <InputNumber min={1} style={{ width: '100%' }} max={60} />
           </Form.Item>
 
-          {/* <Form.Item prop="tcSwitcherPassword" label="交换机共享密钥">
-            <Input placeholder="交换机共享密钥" type="password" />
-          </Form.Item> */}
+          <Form.Item prop="tcAdministratorWord" label="终端管理员密码">
+            <Input placeholder="终端管理员密码" type="password" />
+          </Form.Item>
         </Formx>
       </Modalx>
     )

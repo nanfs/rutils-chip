@@ -34,9 +34,10 @@ export default class Resource extends React.Component {
 
   onTableChange = (a, filter) => {
     const statusList = []
-    filter.status.forEach(function(v, i) {
-      statusList.push(...v)
-    })
+    filter.status &&
+      filter.status.forEach(function(v, i) {
+        statusList.push(...v)
+      })
     this.setState(
       produce(draft => {
         draft.tableCfgSave.searchs = {

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Formx, Modalx } from '@/components'
-import { Form, Input, message } from 'antd'
+import { Form, Input, InputNumber } from 'antd'
 import diskApi from '@/services/disks'
 import { required } from '@/utils/valid'
 
@@ -39,11 +39,14 @@ export default class AddDiskModal extends React.Component {
         onOk={this.onOk}
       >
         <Formx>
+          <Form.Item prop="vmId" label="vmId" hidden>
+            <Input />
+          </Form.Item>
           <Form.Item prop="name" label="磁盘名" rules={[required]}>
             <Input />
           </Form.Item>
           <Form.Item prop="capacity" label="磁盘大小" rules={[required]}>
-            <Input placeholder="模板名称"></Input>
+            <InputNumber min={1} width={300} max={99999999}></InputNumber>
           </Form.Item>
           <Form.Item prop="description" label="描述">
             <TextArea style={{ resize: 'none' }} rows={4} placeholder="描述" />

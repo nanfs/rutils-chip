@@ -33,6 +33,13 @@ export default {
       data: qs.stringify(data, { arrayFormat: 'indices', allowDots: true })
     })
   },
+  batchAddVm(data) {
+    return axios({
+      url: '/desktops/batch',
+      method: 'post',
+      data: qs.stringify(data, { arrayFormat: 'indices', allowDots: true })
+    })
+  },
   addVm(data) {
     return axios({
       url: '/desktops',
@@ -57,10 +64,9 @@ export default {
   },
   getIso(data) {
     return axios({
-      url: '/isos',
+      url: '/desktops/isos',
       method: 'get',
-      params: data,
-      baseURL: '/api'
+      params: data
     })
   },
   sendOrder(data) {

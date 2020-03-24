@@ -7,9 +7,8 @@ export default class BaseInfo extends React.Component {
   componentDidMount() {
     this.setState({ loading: true })
     poolsApi
-      .detail(this.props.id)
+      .detail(this.props.poolId)
       .then(res => {
-        console.log('res', res)
         this.setState({ loading: false, data: res.data })
       })
       .catch(error => {
@@ -37,7 +36,6 @@ export default class BaseInfo extends React.Component {
       }
     ]
     const { loading, data = {} } = this.state || {}
-    console.log(data)
     return (
       <Spin spinning={loading}>
         <Title slot="基础设置"></Title>

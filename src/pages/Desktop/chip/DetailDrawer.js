@@ -35,14 +35,14 @@ export default class DetailDrawer extends React.Component {
       >
         <Tabsx defaultActiveKey={defaultActiveKey}>
           <TabPane tab="基础信息" key="1">
-            <BaseInfo id={id}></BaseInfo>
+            <BaseInfo vmId={id}></BaseInfo>
           </TabPane>
           <TabPane tab="磁盘管理" key="2">
-            <Disklist id={id}></Disklist>
+            <Disklist vmId={id}></Disklist>
           </TabPane>
-          <TabPane tab="快照管理" key="3">
+          {/* <TabPane tab="快照管理" key="3">
             <Snaplist id={id}></Snaplist>
-          </TabPane>
+          </TabPane> */}
         </Tabsx>
       </Drawerx>
     )

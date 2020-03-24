@@ -13,8 +13,9 @@ import {
 import { SelectSearch, Tablex } from '@/components'
 import produce from 'immer'
 import desktopsApi from '@/services/desktops'
+import poolsApi from '@/services/pools'
 import { osStatusRender } from '@/utils/tableRender'
-import { columns, apiMethod } from '@/pages/Common/VmTableCfg'
+import { columns } from '@/pages/Common/VmTableCfg'
 import { downloadVV } from '@/utils/tool'
 
 const { createTableCfg, TableWrap, ToolBar, BarLeft, BarRight } = Tablex
@@ -37,7 +38,8 @@ export default class Desktop extends React.Component {
   state = {
     tableCfg: createTableCfg({
       columns: this.columnsArr,
-      apiMethod,
+      apiMethod: poolsApi.vmList,
+      searchs: { poolId: this.props.poolId },
       paging: { size: 10 },
       pageSizeOptions: ['5', '10', '20', '50']
     }),
@@ -167,9 +169,10 @@ export default class Desktop extends React.Component {
 
   onTableChange = (a, filter) => {
     const statusList = []
-    filter.status.forEach(function(v, i) {
-      statusList.push(...v)
-    })
+    filter.status &&
+      filter.status.forEach(function(v, i) {
+        statusList.push(...v)
+      })
     this.setState(
       produce(draft => {
         draft.tableCfg.searchs = {

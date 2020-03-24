@@ -4,12 +4,16 @@ import { Progress, Icon, Popover } from 'antd'
 import { vmStatusRender } from '@/utils/tableRender'
 import { onlineStringTime } from '@/utils/tool'
 import { MyIcon } from '@/components'
+import {
+  setClusterToSession,
+  setDataCenterToSession,
+  setHostToSession
+} from '@/utils/storage'
 
-const iconStyle = {
-  check: { fontSize: 20, color: '#1789d8' },
-  close: { fontSize: 18 }
-}
-// TODO antd 样式加载问题
+// TODO 会有不同步问题 后期优化
+// setClusterToSession()
+// setDataCenterToSession()
+// setHostToSession()
 export const columns = [
   {
     title: '状态',
@@ -23,47 +27,40 @@ export const columns = [
     ],
     render: text => vmStatusRender(text)
   },
-  // TODO桌面主机列表  筛选 IP
   {
     title: '主机',
     ellipsis: true,
-    dataIndex: 'hostName',
-    render: (text, record) => {
-      return `${record.ip}/${record.hostName}`
-    }
+    dataIndex: 'hostName'
+    // filters: JSON.parse(sessionStorage.getItem('hosts'))
   },
-  // TODO 升降序排序
   {
     title: 'IP',
     ellipsis: true,
-    dataIndex: 'clientIp'
+    dataIndex: 'ip',
+    sorter: {
+      compare: (a, b) => a.ip - b.ip
+    }
   },
   {
-    title: '数据中心/集群',
+    title: '数据中心',
     ellipsis: true,
-    dataIndex: 'datacenterName',
-    // TODO 数据中心过滤
-    filters: [
-      { value: [0, 13], text: '关机' },
-      { value: [1], text: '开机' },
-      { value: [2, 16, 10, 15, 5, 6, 11, 12, 9], text: '运行' },
-      { value: [7, 8, 14, -1, 4], text: '异常' }
-    ],
-    render: (text, record) => {
-      return `${record.datacenterName}/${record.clusterName}`
-    }
+    dataIndex: 'datacenterName'
+    // filters: JSON.parse(sessionStorage.getItem('datacenters'))
+  },
+  {
+    title: '集群',
+    ellipsis: true,
+    dataIndex: 'clusterName'
+    // filters: JSON.parse(sessionStorage.getItem('clusters'))
   },
   {
     title: '已分配用户',
     dataIndex: 'assignedUsers',
+    sorter: {
+      compare: (a, b) => a.assignedUsers - b.assignedUsers
+    },
     render: text => (
-      <span className="table-action">
-        {text ? (
-          <Icon type="check" style={iconStyle.check} />
-        ) : (
-          <Icon type="close" style={iconStyle.close} />
-        )}
-      </span>
+      <span className="table-action">{text || <Icon type="close" />}</span>
     )
   },
   {
@@ -89,6 +86,9 @@ export const columns = [
     title: '本次运行时长',
     key: 'onlineTime',
     dataIndex: 'onlineTime',
+    sorter: {
+      compare: (a, b) => a.onlineTime - b.onlineTime
+    },
     render: text => onlineStringTime(text)
   },
   {

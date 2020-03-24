@@ -7,7 +7,7 @@ export default class BaseInfo extends React.Component {
   componentDidMount() {
     this.setState({ loading: true })
     desktopsApi
-      .detail(this.props.id)
+      .detail(this.props.vmId)
       .then(res => {
         this.setState({ loading: false, data: res.data })
       })

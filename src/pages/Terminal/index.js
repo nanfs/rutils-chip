@@ -54,7 +54,7 @@ export default class Termina extends React.Component {
         />
         <MyIcon
           type="tc-imagelocked"
-          title="锁屏"
+          title="锁定"
           onClick={this.sendOrder.bind(this, 'lock', [record.sn])}
         />
         <MyIcon
@@ -345,56 +345,63 @@ export default class Termina extends React.Component {
     const moreButton = (
       <Menu>
         <Menu.Item
-          key="1"
+          key="delete"
           onClick={() => this.deleteTerminal()}
           disabled={disabledButton.disabledDelete}
         >
           删除
         </Menu.Item>
         {/* <Menu.Item
-          key="2"
+          key="detail"
           onClick={() => this.detailTerminal()}
           disabled={disabledButton.disabledEdit}
         >
           查看详情
         </Menu.Item> */}
         {/* <Menu.Item
-          key="3"
+          key="suspend"
           onClick={() => this.sendOrder('suspend')}
           disabled={disabledButton.disabledDelete}
         >
           暂停
         </Menu.Item> */}
-        {/* <Menu.Item
-          key="4"
+        <Menu.Item
+          key="lock"
           onClick={() => this.sendOrder('lock')}
-          disabled={true}
+          // disabled={true}
         >
-          锁屏
+          锁定
         </Menu.Item>
         <Menu.Item
-          key="5"
+          key="unlock"
           onClick={() => this.sendOrder('unlock')}
-          disabled={true}
+          // disabled={true}
         >
           解锁
-        </Menu.Item> */}
+        </Menu.Item>
         <Menu.Item
-          key="6"
+          key="logout"
+          onClick={() => this.sendOrder('logout')}
+          disabled={disabledButton.disabledShutdown}
+        >
+          登出
+        </Menu.Item>
+        <Menu.Item
+          key="sendMessage"
           onClick={() => this.sendMessage()}
           disabled={disabledButton.disabledSendMessage}
         >
           发送消息
         </Menu.Item>
         <Menu.Item
-          key="7"
+          key="setSafePolicy"
           onClick={() => this.setSafePolicy()}
           disabled={disabledButton.disabledDelete}
         >
           设置外设控制
         </Menu.Item>
         <Menu.Item
-          key="8"
+          key="setAccessPolicy"
           onClick={() => this.setAccessPolicy()}
           disabled={disabledButton.disabledDelete}
         >

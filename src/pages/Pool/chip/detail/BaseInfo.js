@@ -36,7 +36,6 @@ export default class BaseInfo extends React.Component {
       }
     ]
     const { loading, data = {} } = this.state || {}
-    console.log(data)
     return (
       <Spin spinning={loading}>
         <Title slot="基础设置"></Title>

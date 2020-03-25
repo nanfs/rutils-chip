@@ -67,7 +67,6 @@ export default class Checkboxx extends React.Component {
       options
     } = this.props
     const cls = classnames(className, 'radiox', getData && 'has-fresh')
-    console.log(this.state?.loading)
     return (
       <Checkbox.Group
         className={cls}

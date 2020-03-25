@@ -14,7 +14,6 @@ const createType = [
   { label: '通过模板创建', value: '1' },
   {
     label: '通过ISO创建',
-    disabled: true,
     value: '2'
   }
 ]
@@ -31,6 +30,7 @@ export default class AddDrawer extends React.Component {
     this.setState({ fetchData: true, networkOptions: [], templateOptions: [] })
     this.drawer.form.setFieldsValue({ type: '1', desktopNum: 1 })
     this.getTemplate()
+    this.getCluster()
   }
 
   // 添加虚拟机 通过镜像创建虚拟机传递需要给后端空白模板
@@ -72,8 +72,7 @@ export default class AddDrawer extends React.Component {
 
   // 获取模板列表
   getTemplate = () => {
-    this.setState({ templateLoading: true })
-    desktopsApi
+    return desktopsApi
       .getTemplate({ current: 1, size: 10000 })
       .then(res => {
         this.setState({ templateArr: res.data.records })
@@ -81,10 +80,9 @@ export default class AddDrawer extends React.Component {
           label: item.name,
           value: item.id
         }))
-        this.setState({ templateOptions, templateLoading: false })
+        this.setState({ templateOptions })
       })
       .catch(error => {
-        this.setState({ templateLoading: false })
         message.error(error.message || error)
         console.log(error)
       })
@@ -92,18 +90,16 @@ export default class AddDrawer extends React.Component {
 
   // 获取群集 后端可能没有分页
   getCluster = () => {
-    this.setState({ clusterLoading: true })
-    assetsApi
+    return assetsApi
       .clusters({ current: 1, size: 10000 })
       .then(res => {
         const clusterOptions = res.data.records.map(item => ({
           label: item.name,
           value: item.id
         }))
-        this.setState({ clusterOptions, clusterLoading: false })
+        this.setState({ clusterOptions })
       })
       .catch(error => {
-        this.setState({ clusterLoading: false })
         message.error(error.message || error)
         console.log(error)
       })
@@ -119,16 +115,16 @@ export default class AddDrawer extends React.Component {
   }
 
   onClusterChange = (a, b, clusterId) => {
-    this.setState({ clusterId }, () => this.getNetwork(clusterId))
+    this.setState({ clusterId })
   }
 
   onCreateTypeChange = (a, b, target) => {
     this.setState({ networkOptions: undefined })
     if (target === '1') {
       this.getTemplate()
+      this.getNetwork()
     } else {
       this.getIso()
-      this.getCluster()
     }
     this.forceUpdate()
   }
@@ -140,16 +136,16 @@ export default class AddDrawer extends React.Component {
   }
 
   getIso = () => {
-    desktopsApi
-      .getIso()
+    return desktopsApi
+      .getIso(this.state.clusterId)
       .then(res => {
         const win = []
         const linux = []
         const domestic = []
         // TODO ISO命名约定
-        res.data.forEach(item => {
-          const name = item.repoImageTitle
-          if (name.includes('gc')) {
+        res.data.records.forEach(item => {
+          const name = item.repoImageId
+          if (name.includes('szwx')) {
             return domestic.push(name)
           }
           if (name.includes('win')) {
@@ -157,6 +153,7 @@ export default class AddDrawer extends React.Component {
           }
           linux.push(name)
         })
+        console.log(win, linux, domestic)
         this.setState({ isos: { win, linux, domestic } })
       })
       .catch(error => {
@@ -166,27 +163,17 @@ export default class AddDrawer extends React.Component {
   }
 
   getNetwork = () => {
-    const queryClusterId = this.state.clusterId
-    this.setState({ networkLoading: true })
-    if (!queryClusterId) {
-      this.setState({ networkLoading: false })
-      message.error('请先选择模板')
-      return Promise.reject().catch(error => {
-        message.error(error.message || error)
-      })
-    }
-    desktopsApi
-      .getNetwork(queryClusterId)
+    return desktopsApi
+      .getNetwork(this.state.clusterId)
       .then(res => {
         const network = res.data.records
         const networkOptions = network.map(item => ({
           label: `${item.kind}/${item.name}`,
           value: `${item.kind}&${item.name}&${item.kindid}`
         }))
-        this.setState({ networkOptions, networkLoading: false })
+        this.setState({ networkOptions })
       })
       .catch(error => {
-        this.setState({ networkLoading: false })
         message.error(error.message || error)
       })
   }
@@ -211,6 +198,19 @@ export default class AddDrawer extends React.Component {
           >
             <Input placeholder="桌面名称" />
           </Form.Item>
+          <Form.Item
+            prop="clusterId"
+            label="集群"
+            required
+            rules={[required]}
+            wrapperCol={{ sm: { span: 16 } }}
+          >
+            <Radiox
+              getData={this.getCluster}
+              options={this.state?.clusterOptions}
+              onChange={this.onClusterChange}
+            />
+          </Form.Item>
           <Form.Item prop="type" required label="创建方式">
             <Radiox options={createType} onChange={this.onCreateTypeChange} />
           </Form.Item>
@@ -225,7 +225,6 @@ export default class AddDrawer extends React.Component {
             <Radiox
               getData={this.getTemplate}
               options={this.state?.templateOptions}
-              loading={this.state?.templateLoading}
               onChange={this.onTempalteChange}
             />
           </Form.Item>
@@ -242,27 +241,27 @@ export default class AddDrawer extends React.Component {
               style={{ width: 230 }}
               placeholder="请选择镜像"
             >
-              {this.state?.win && (
+              {this.state?.isos?.win && (
                 <OptGroup label="windows">
-                  {this.state?.win?.map(item => (
+                  {this.state?.isos?.win?.map(item => (
                     <Option value={item} key={item}>
                       {item}
                     </Option>
                   ))}
                 </OptGroup>
               )}
-              {this.state?.win && (
+              {this.state?.isos?.linux && (
                 <OptGroup label="linux">
-                  {this.state?.linux?.map(item => (
+                  {this.state?.isos?.linux?.map(item => (
                     <Option value={item} key={item}>
                       {item}
                     </Option>
                   ))}
                 </OptGroup>
               )}
-              {this.state?.win && (
+              {this.state?.isos?.domestic && (
                 <OptGroup label="国产系统">
-                  {this.state?.domestic?.map(item => (
+                  {this.state?.isos?.domestic?.map(item => (
                     <Option value={item} key={item}>
                       {item}
                     </Option>
@@ -271,21 +270,7 @@ export default class AddDrawer extends React.Component {
               )}
             </Select>
           </Form.Item>
-          <Form.Item
-            prop="clusterId"
-            label="集群"
-            required
-            rules={this.getSelectType() === '2' ? [required] : undefined}
-            wrapperCol={{ sm: { span: 16 } }}
-            hidden={this.getSelectType() === '1'}
-          >
-            <Radiox
-              getData={this.getCluster}
-              options={this.state?.clusterOptions}
-              loading={this.state?.clusterLoading}
-              onChange={this.onClusterChange}
-            />
-          </Form.Item>
+
           <Form.Item
             prop="cpuCores"
             label="CPU"
@@ -355,7 +340,6 @@ export default class AddDrawer extends React.Component {
             <Checkboxx
               getData={this.getNetwork}
               options={this.state?.networkOptions}
-              loading={this.state?.networkLoading}
             />
           </Form.Item>
         </Formx>

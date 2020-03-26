@@ -1,5 +1,13 @@
 import React from 'react'
-import { Button, notification, message, Modal } from 'antd'
+import {
+  Button,
+  notification,
+  message,
+  Modal,
+  Menu,
+  Dropdown,
+  Icon
+} from 'antd'
 import produce from 'immer'
 
 import { Tablex, Treex, InnerPath, SelectSearch } from '@/components'
@@ -67,7 +75,7 @@ export default class User extends React.Component {
     render: (text, record) => {
       return (
         <a
-          className="detail-link"
+          // className="detail-link"
           onClick={() => this.detailUser(record.username, record)}
         >
           {record.username}
@@ -76,7 +84,61 @@ export default class User extends React.Component {
     }
   }
 
-  columnsArr = [this.userName, ...columns]
+  options = {
+    title: '操作',
+    dataIndex: 'opration',
+    width: 130,
+    render: (text, record) => {
+      const moreAction = (
+        <Menu>
+          <Menu.Item
+            key="1"
+            onClick={() => {
+              this.setState({ inner: '编辑用户' })
+              this.editDrawer.pop(record)
+              this.currentDrawer = this.editDrawer
+            }}
+          >
+            编辑
+          </Menu.Item>
+          <Menu.Item
+            key="2"
+            onClick={this.disableUser.bind(this, [record.id])}
+            disabled={record.status === 1}
+          >
+            禁用
+          </Menu.Item>
+          <Menu.Item
+            key="3"
+            onClick={this.enableUser.bind(this, [record.id])}
+            disabled={record.status === 0}
+          >
+            启用
+          </Menu.Item>
+        </Menu>
+      )
+      return (
+        <span>
+          <a
+            style={{ marginRight: 16 }}
+            onClick={() => {
+              this.deleteUser(record.id)
+            }}
+          >
+            删除
+          </a>
+
+          <Dropdown overlay={moreAction} placement="bottomRight">
+            <a>
+              更多 <Icon type="down" />
+            </a>
+          </Dropdown>
+        </span>
+      )
+    }
+  }
+
+  columnsArr = [this.userName, ...columns, this.options]
 
   state = {
     tableCfg: createTableCfg({
@@ -173,8 +235,8 @@ export default class User extends React.Component {
   }
 
   // 删除目前只做单个，后面加批量
-  deleteUser = () => {
-    const ids = this.tablex.getSelection()
+  deleteUser = (id = undefined) => {
+    const ids = id || this.tablex.getSelection()
     const self = this
     confirm({
       title: '确定删除所选数据?',
@@ -202,8 +264,8 @@ export default class User extends React.Component {
     })
   }
 
-  disableUser = () => {
-    const ids = this.tablex.getSelection()
+  disableUser = (id = undefined) => {
+    const ids = id || this.tablex.getSelection()
     userApi
       .disableUser({ userId: ids[0] })
       .then(res => {
@@ -220,8 +282,8 @@ export default class User extends React.Component {
       })
   }
 
-  enableUser = () => {
-    const ids = this.tablex.getSelection()
+  enableUser = (id = undefined) => {
+    const ids = id || this.tablex.getSelection()
     userApi
       .enableUser({ userId: ids[0] })
       .then(res => {

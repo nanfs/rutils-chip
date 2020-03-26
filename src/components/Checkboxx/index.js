@@ -4,12 +4,6 @@ import classnames from 'classnames'
 import './index.less'
 
 export default class Checkboxx extends React.Component {
-  state = {
-    value: undefined,
-    options: this.props.options || [],
-    expand: false
-  }
-
   componentDidUpdate(prep) {
     if (this.props.value !== prep.value) {
       this.setState({ value: this.props.value })
@@ -23,16 +17,26 @@ export default class Checkboxx extends React.Component {
   }
 
   toggle = () => {
-    this.setState({ expand: !this.state.expand })
+    this.setState({ expand: !this.state?.expand })
+  }
+
+  handleGetData = async () => {
+    const { getData } = this.props
+    this.setState({ loading: true })
+    try {
+      await getData()
+      this.setState({ loading: false })
+    } catch (error) {
+      this.setState({ loading: false })
+    }
   }
 
   renderOptions = () => {
-    const { options } = this.props
-    const { expand } = this.state
+    const { options, showExpand } = this.props
     if (!options || !options.length) {
       return <span>暂无数据</span>
     }
-    if (expand) {
+    if (this.state?.expand || !showExpand) {
       return options.map(item => (
         <Checkbox value={item.value} key={item.value} disabled={item.disabled}>
           {item.label}
@@ -48,15 +52,21 @@ export default class Checkboxx extends React.Component {
   }
 
   render() {
-    const { className, hasInputNumber, loading, getData, disabled } = this.props
-    const { options, expand } = this.state
+    const {
+      className,
+      hasInputNumber,
+      loading,
+      getData,
+      disabled,
+      options
+    } = this.props
     const cls = classnames(className, 'radiox', getData && 'has-fresh')
     return (
       <Checkbox.Group
         className={cls}
         disabled={disabled}
         onChange={this.handleChange}
-        value={this.state.value}
+        value={this.state?.value}
       >
         {this.renderOptions()}
         {hasInputNumber && (
@@ -64,7 +74,7 @@ export default class Checkboxx extends React.Component {
             placeholder=""
             disabled={disabled}
             onChange={this.handleChange}
-            value={this.state.value}
+            value={this.state?.value}
           />
         )}
         {options && options.length > 8 && (
@@ -72,14 +82,18 @@ export default class Checkboxx extends React.Component {
             className="expand-btn"
             onClick={this.toggle}
             disabled={disabled}
-            icon={expand ? 'up' : 'down'}
+            icon={this.state?.expand ? 'up' : 'down'}
           >
-            {expand ? '折叠隐藏' : '展开更多'}
+            {this.state?.expand ? '折叠隐藏' : '展开更多'}
           </Button>
         )}
         {getData && (
-          <Button className="reload-btn" disabled={disabled} onClick={getData}>
-            <Icon type="sync" spin={loading}></Icon>
+          <Button
+            className="reload-btn"
+            disabled={this.state?.loading || disabled}
+            onClick={this.handleGetData}
+          >
+            <Icon type="sync" spin={loading || this.state?.loading}></Icon>
           </Button>
         )}
       </Checkbox.Group>

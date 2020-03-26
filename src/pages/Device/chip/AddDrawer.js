@@ -27,6 +27,7 @@ export default class AddDrawer extends React.Component {
       usbsObj[`usbpid[${index}]`] = item.pid
       usbsObj[`usbvid[${index}]`] = item.vid
     })
+    console.log(this.drawer)
     this.drawer.form.setFieldsValue({
       id,
       name,

@@ -60,7 +60,7 @@ export default class DonutChart extends React.Component {
               fontSize: '14' // 文本大小
               // fontWeight: 'bold', // 文本粗细
             }}
-            marker="square"
+            marker="circle"
             itemFormatter={val => {
               let count = 0
               DonutChartData.forEach(item => {

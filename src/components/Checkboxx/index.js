@@ -38,20 +38,12 @@ export default class Checkboxx extends React.Component {
   }
 
   renderOptions = () => {
-<<<<<<< HEAD
     const { options, showExpand } = this.props
     const { expand } = this.state
     if (!options || !options.length) {
       return <span>暂无数据</span>
     }
     if (expand || !showExpand) {
-=======
-    const { options } = this.props
-    if (!options || !options.length) {
-      return <span>暂无数据</span>
-    }
-    if (this.state?.expand) {
->>>>>>> af2c21f... [公共组件] 修改checkboxx radiox selectx异步操作
       return options.map(item => (
         <Checkbox value={item.value} key={item.value} disabled={item.disabled}>
           {item.label}

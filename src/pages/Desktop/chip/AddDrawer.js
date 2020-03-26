@@ -17,6 +17,11 @@ const createType = [
     value: '2'
   }
 ]
+const driveType = [
+  { label: 'x64', value: 'x64' },
+  { label: 'x86', value: 'x86' },
+  { label: '不需要', value: '' }
+]
 const { Option, OptGroup } = Select
 export default class AddDrawer extends React.Component {
   componentDidMount() {
@@ -105,30 +110,6 @@ export default class AddDrawer extends React.Component {
       })
   }
 
-  onTempalteChange = (a, b, value) => {
-    const current = findArrObj(this.state.templateArr, 'id', value)
-    console.log('current', current)
-    const { os, description, clusterId } = current
-    this.setState({ clusterId, os, description }, () =>
-      this.getNetwork(clusterId)
-    )
-  }
-
-  onClusterChange = (a, b, clusterId) => {
-    this.setState({ clusterId })
-  }
-
-  onCreateTypeChange = (a, b, target) => {
-    this.setState({ networkOptions: undefined })
-    if (target === '1') {
-      this.getTemplate()
-      this.getNetwork()
-    } else {
-      this.getIso()
-    }
-    this.forceUpdate()
-  }
-
   getSelectType = () => {
     return (
       this.drawer && this.drawer.form && this.drawer.form.getFieldValue('type')
@@ -144,7 +125,7 @@ export default class AddDrawer extends React.Component {
         const domestic = []
         // TODO ISO命名约定
         res.data.records.forEach(item => {
-          const name = item.repoImageId
+          const name = item.repoImageId.toLowerCase()
           if (name.includes('szwx')) {
             return domestic.push(name)
           }
@@ -176,6 +157,41 @@ export default class AddDrawer extends React.Component {
       .catch(error => {
         message.error(error.message || error)
       })
+  }
+
+  onTempalteChange = (a, b, value) => {
+    const current = findArrObj(this.state.templateArr, 'id', value)
+    console.log('current', current)
+    const { os, description, clusterId } = current
+    this.setState({ clusterId, os, description }, () =>
+      this.getNetwork(clusterId)
+    )
+  }
+
+  onClusterChange = (a, b, clusterId) => {
+    this.setState({ clusterId })
+  }
+
+  onCreateTypeChange = (a, b, target) => {
+    this.setState({ networkOptions: undefined })
+    if (target === '1') {
+      this.getTemplate()
+      this.getNetwork()
+    } else {
+      this.getIso()
+    }
+    this.forceUpdate()
+  }
+
+  onIsoChange = (a, b, target) => {
+    console.log('target', target)
+    if (target.includes('x64')) {
+      return this.drawer.form.setFieldsValue({ drive: 'x64' })
+    }
+    if (target.includes('x86')) {
+      return this.drawer.form.setFieldsValue({ drive: 'x86' })
+    }
+    this.drawer.form.setFieldsValue({ drive: '' })
   }
 
   render() {
@@ -237,9 +253,9 @@ export default class AddDrawer extends React.Component {
             hidden={this.getSelectType() === '1'}
           >
             <Select
-              defaultValue="lucy"
               style={{ width: 230 }}
               placeholder="请选择镜像"
+              onChange={this.onIsoChange}
             >
               {this.state?.isos?.win && (
                 <OptGroup label="windows">
@@ -270,7 +286,14 @@ export default class AddDrawer extends React.Component {
               )}
             </Select>
           </Form.Item>
-
+          <Form.Item
+            prop="drive"
+            required
+            label="驱动类型"
+            hidden={this.getSelectType() === '1'}
+          >
+            <Radiox options={driveType} />
+          </Form.Item>
           <Form.Item
             prop="cpuCores"
             label="CPU"

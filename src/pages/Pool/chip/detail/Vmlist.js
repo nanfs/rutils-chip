@@ -22,18 +22,83 @@ const { createTableCfg, TableWrap, ToolBar, BarLeft, BarRight } = Tablex
 const { confirm } = Modal
 export default class Desktop extends React.Component {
   vmName = {
-    title: '基本信息',
+    title: '桌面名称',
     dataIndex: 'name',
     render: (text, record) => {
+      return <span>{record.name}</span>
+    }
+  }
+
+  action = {
+    title: '操作',
+    width: 130,
+    dataIndex: 'action',
+    render: (text, record) => {
+      const moreAction = (
+        <Menu>
+          <Menu.Item
+            key="8"
+            onClick={() => {
+              desktopsApi.openConsole({ desktopId: record.id }).then(res => {
+                downloadVV(res, record.name)
+              })
+            }}
+            disabled={record.status !== 1 || record.assignedUsers}
+          >
+            打开控制台
+          </Menu.Item>
+          <Menu.Item
+            key="2"
+            disabled={record.status !== 0 && record.status !== 13}
+            onClick={() => this.patchOrder(record.id, 'start')}
+          >
+            开机
+          </Menu.Item>
+          <Menu.Item
+            key="3"
+            disabled={record.status === 0}
+            onClick={() => this.patchOrder(record.id, 'shutdown')}
+          >
+            关机
+          </Menu.Item>
+          <Menu.Item
+            key="4"
+            disabled={record.status === 0}
+            onClick={() => this.patchOrder(record.id, 'poweroff')}
+          >
+            断电
+          </Menu.Item>
+          <Menu.Item
+            key="5"
+            disabled={record.status === 0 || record.status === 10}
+            onClick={() => this.patchOrder(record.id, 'restart')}
+          >
+            重启
+          </Menu.Item>
+        </Menu>
+      )
       return (
         <span>
-          {osStatusRender(record.os)} {record.name}
+          <a
+            style={{ marginRight: 16 }}
+            onClick={() => {
+              this.deleteVm(record.id)
+            }}
+          >
+            删除
+          </a>
+
+          <Dropdown overlay={moreAction} placement="bottomRight">
+            <a>
+              更多 <Icon type="down" />
+            </a>
+          </Dropdown>
         </span>
       )
     }
   }
 
-  columnsArr = [this.vmName, ...columns]
+  columnsArr = [this.vmName, ...columns, this.action]
 
   state = {
     tableCfg: createTableCfg({
@@ -100,9 +165,13 @@ export default class Desktop extends React.Component {
     this.setState({ disabledButton })
   }
 
-  patchOrder = directive => {
+  patchOrders = directive => {
     const ids = this.tablex.getSelection()
     this.sendOrder(ids, directive)
+  }
+
+  patchOrder = (id, directive) => {
+    this.sendOrder(id, directive)
   }
 
   sendOrder = (id, directive) => {
@@ -123,13 +192,42 @@ export default class Desktop extends React.Component {
       })
   }
 
-  deleteVm = () => {
+  deleteVms = () => {
     const desktopIds = this.tablex.getSelection()
     const self = this
     confirm({
       title: '确定删除所选数据?',
       onOk() {
-        return new Promise((resolve, reject) => {
+        return new Promise(resolve => {
+          desktopsApi
+            .delVm({ desktopIds })
+            .then(res => {
+              if (res.success) {
+                notification.success({ message: '删除成功' })
+                self.tablex.refresh(self.state.tableCfg)
+              } else {
+                message.error(res.message || '删除失败')
+              }
+              resolve()
+            })
+            .catch(error => {
+              message.error(error.message || error)
+              resolve()
+              console.log(error)
+            })
+        })
+      },
+      onCancel() {}
+    })
+  }
+
+  deleteVm = id => {
+    const desktopIds = [id]
+    const self = this
+    confirm({
+      title: '确定删除该条数据?',
+      onOk() {
+        return new Promise(resolve => {
           desktopsApi
             .delVm({ desktopIds })
             .then(res => {
@@ -199,7 +297,7 @@ export default class Desktop extends React.Component {
       <Menu>
         <Menu.Item
           key="1"
-          onClick={this.deleteVm}
+          onClick={this.deleteVms}
           disabled={disabledButton.disabledDelete}
         >
           删除
@@ -207,14 +305,14 @@ export default class Desktop extends React.Component {
         <Menu.Item
           key="4"
           disabled={disabledButton.disabledOff}
-          onClick={() => this.patchOrder('poweroff')}
+          onClick={() => this.patchOrders('poweroff')}
         >
           断电
         </Menu.Item>
         <Menu.Item
           key="5"
           disabled={disabledButton.disabledRestart}
-          onClick={() => this.patchOrder('restart')}
+          onClick={() => this.patchOrders('restart')}
         >
           重启
         </Menu.Item>
@@ -227,13 +325,13 @@ export default class Desktop extends React.Component {
             <BarLeft>
               <Button
                 disabled={disabledButton.disabledUp}
-                onClick={() => this.patchOrder('start')}
+                onClick={() => this.patchOrders('start')}
               >
                 开机
               </Button>
               <Button
                 disabled={disabledButton.disabledDown}
-                onClick={() => this.patchOrder('shutdown')}
+                onClick={() => this.patchOrders('shutdown')}
               >
                 关机
               </Button>

@@ -47,6 +47,13 @@ export default {
       data: qs.stringify(data, { arrayFormat: 'indices', allowDots: true })
     })
   },
+  addVmByIso(data) {
+    return axios({
+      url: '/desktops/iso_create',
+      method: 'post',
+      data: qs.stringify(data, { arrayFormat: 'indices', allowDots: true })
+    })
+  },
   editVm(data) {
     const { id, ...values } = data
     return axios({
@@ -64,9 +71,8 @@ export default {
   },
   getIso(data) {
     return axios({
-      url: '/isos',
+      url: 'desktops/isos',
       method: 'get',
-      baseURL: '/api',
       params: data
     })
   },

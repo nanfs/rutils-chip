@@ -34,51 +34,13 @@ export default class AddDrawer extends React.Component {
     this.drawer.show()
     this.setState({ fetchData: true, networkOptions: [], templateOptions: [] })
     this.drawer.form.setFieldsValue({ type: '1', desktopNum: 1 })
-    this.getTemplate()
     this.getCluster()
-  }
-
-  // 添加虚拟机 通过镜像创建虚拟机传递需要给后端空白模板
-  addVm = values => {
-    const { type, network, ...rest } = values
-    const networkFix = network.map(item => {
-      const [kind, name, kindid] = item.split('&')
-      return { kind, name, kindid }
-    })
-    const data = {
-      ...rest,
-      cpuNum: 1,
-      template: type === '2' ? 'Blank' : undefined,
-      network: networkFix
-    }
-    // 如果批量创建调用单独批量创建的接口
-    if (values.desktopNum && values.desktopNum > 1) {
-      desktopsApi
-        .batchAddVm(data)
-        .then(res => {
-          this.drawer.afterSubmit(res)
-        })
-        .catch(errors => {
-          this.drawer.break(errors)
-          console.log(errors)
-        })
-    } else {
-      desktopsApi
-        .addVm(data)
-        .then(res => {
-          this.drawer.afterSubmit(res)
-        })
-        .catch(errors => {
-          this.drawer.break(errors)
-          console.log(errors)
-        })
-    }
   }
 
   // 获取模板列表
   getTemplate = () => {
     return desktopsApi
-      .getTemplate({ current: 1, size: 10000 })
+      .getTemplate({ current: 1, size: 10000, clusterId: this.state.clusterId })
       .then(res => {
         this.setState({ templateArr: res.data.records })
         const templateOptions = res.data.records.map(item => ({
@@ -98,7 +60,8 @@ export default class AddDrawer extends React.Component {
     return assetsApi
       .clusters({ current: 1, size: 10000 })
       .then(res => {
-        const clusterOptions = res.data.records.map(item => ({
+        this.setState({ clusterArr: res.data })
+        const clusterOptions = res.data.map(item => ({
           label: item.name,
           value: item.id
         }))
@@ -117,14 +80,15 @@ export default class AddDrawer extends React.Component {
   }
 
   getIso = () => {
+    const { storagePoolId } = this.state
     return desktopsApi
-      .getIso(this.state.clusterId)
+      .getIso({ storagePoolId })
       .then(res => {
         const win = []
         const linux = []
         const domestic = []
         // TODO ISO命名约定
-        res.data.records.forEach(item => {
+        res.data.forEach(item => {
           const name = item.repoImageId.toLowerCase()
           if (name.includes('szwx')) {
             return domestic.push(name)
@@ -134,7 +98,6 @@ export default class AddDrawer extends React.Component {
           }
           linux.push(name)
         })
-        console.log(win, linux, domestic)
         this.setState({ isos: { win, linux, domestic } })
       })
       .catch(error => {
@@ -159,17 +122,16 @@ export default class AddDrawer extends React.Component {
       })
   }
 
-  onTempalteChange = (a, b, value) => {
-    const current = findArrObj(this.state.templateArr, 'id', value)
-    console.log('current', current)
-    const { os, description, clusterId } = current
-    this.setState({ clusterId, os, description }, () =>
-      this.getNetwork(clusterId)
-    )
+  onTempalteChange = () => {
+    this.getNetwork(this.state.clusterId)
   }
 
   onClusterChange = (a, b, clusterId) => {
-    this.setState({ clusterId })
+    const current = findArrObj(this.state.clusterArr, 'id', clusterId)
+    const { storagePoolId } = current
+    this.setState({ clusterId, storagePoolId })
+    this.getTemplate()
+    this.getNetwork()
   }
 
   onCreateTypeChange = (a, b, target) => {
@@ -184,14 +146,74 @@ export default class AddDrawer extends React.Component {
   }
 
   onIsoChange = (a, b, target) => {
-    console.log('target', target)
     if (target.includes('x64')) {
-      return this.drawer.form.setFieldsValue({ drive: 'x64' })
+      return this.drawer.form.setFieldsValue({ isoBit: 'x64' })
     }
     if (target.includes('x86')) {
-      return this.drawer.form.setFieldsValue({ drive: 'x86' })
+      return this.drawer.form.setFieldsValue({ isoBit: 'x86' })
     }
-    this.drawer.form.setFieldsValue({ drive: '' })
+    this.drawer.form.setFieldsValue({ isoBit: '' })
+  }
+
+  checkIsoType(isoName) {
+    if (isoName.includes('szwx')) {
+      return 'domestic'
+    }
+    if (isoName.includes('win')) {
+      return 'windows'
+    }
+    return 'linux'
+  }
+
+  addVm = values => {
+    const { type, network, ...rest } = values
+    const networkFix = network.map(item => {
+      const [kind, name, kindid] = item.split('&')
+      return { kind, name, kindid }
+    })
+    const data = {
+      ...rest,
+      cpuNum: 1,
+      network: networkFix
+    }
+    // 如果通过ISO创建用户
+    if (type === '2') {
+      const { isoName } = values
+      const isoType = this.checkIsoType(isoName)
+      const reqData = { isoType, ...data }
+      return desktopsApi
+        .addVmByIso(reqData)
+        .then(res => {
+          this.drawer.afterSubmit(res)
+        })
+        .catch(errors => {
+          this.drawer.break(errors)
+          console.log(errors)
+        })
+    }
+    // 如果批量创建调用单独批量创建的接口
+    if (values.desktopNum && values.desktopNum > 1) {
+      return desktopsApi
+        .batchAddVm(data)
+        .then(res => {
+          this.drawer.afterSubmit(res)
+        })
+        .catch(errors => {
+          this.drawer.break(errors)
+          console.log(errors)
+        })
+    } else {
+      // 普通通过模板创建
+      desktopsApi
+        .addVm(data)
+        .then(res => {
+          this.drawer.afterSubmit(res)
+        })
+        .catch(errors => {
+          this.drawer.break(errors)
+          console.log(errors)
+        })
+    }
   }
 
   render() {
@@ -245,7 +267,7 @@ export default class AddDrawer extends React.Component {
             />
           </Form.Item>
           <Form.Item
-            prop="iso"
+            prop="isoName"
             label="ISO"
             required
             rules={this.getSelectType() === '2' ? [required] : undefined}
@@ -287,7 +309,7 @@ export default class AddDrawer extends React.Component {
             </Select>
           </Form.Item>
           <Form.Item
-            prop="drive"
+            prop="isoBit"
             required
             label="驱动类型"
             hidden={this.getSelectType() === '1'}

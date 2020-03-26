@@ -16,7 +16,7 @@ export default class AddDrawer extends React.Component {
   }
 
   compareTime = (rule, value, callback) => {
-    const startTime = this.drawer.form.getFieldValue('startTime')
+    const startTime = this.drawer?.form.getFieldValue('startTime')
     if (startTime) {
       if (!dayjs(startTime).isBefore(value)) {
         callback(new Error('结束时间必须晚于开始时间'))
@@ -29,24 +29,6 @@ export default class AddDrawer extends React.Component {
     this.props.onRef && this.props.onRef(this)
   }
 
-  componentDidUpdate() {
-    const type = this.drawer.form.getFieldValue('type')
-    if (type === 1) {
-      this.drawer.form.validateFields(['weeks'], this.state.checkWeeksRequired)
-    } else {
-      this.drawer.form.validateFields(['day'], this.state.checkDayRequired)
-    }
-  }
-
-  onChange = e => {
-    if (e === 1) {
-      this.setState({ checkWeeksRequired: true, checkDayRequired: false })
-    } else {
-      this.setState({ checkWeeksRequired: false, checkDayRequired: true })
-    }
-    this.forceUpdate()
-  }
-
   pop = () => {
     this.drawer.show()
     this.drawer.form.setFieldsValue({ type: 0, weeks: [] })
@@ -54,6 +36,14 @@ export default class AddDrawer extends React.Component {
       checkWeeksRequired: true,
       checkDayRequired: false
     })
+  }
+
+  getSelectType = () => {
+    return this.drawer?.form?.getFieldValue('type')
+  }
+
+  onTypeChange = () => {
+    this.forceUpdate()
   }
 
   add = values => {
@@ -84,7 +74,6 @@ export default class AddDrawer extends React.Component {
   }
 
   render() {
-    const { checkWeeksRequired, checkDayRequired } = this.state
     return (
       <Drawerx
         onRef={ref => {
@@ -115,19 +104,15 @@ export default class AddDrawer extends React.Component {
           <Diliver />
           <Title slot="准入设置"></Title>
           <Form.Item prop="type" required label="准入方式">
-            <Radiox options={typeOptions} onChange={this.onChange} />
+            <Radiox options={typeOptions} onChange={this.onTypeChange} />
           </Form.Item>
           <Form.Item
             required
             prop="weeks"
             label="准入时间"
             className="time-wrap"
-            rules={[{ required: checkWeeksRequired, message: '这是必填项' }]}
-            hidden={
-              this.drawer &&
-              this.drawer.form &&
-              this.drawer.form.getFieldValue('type') === 1
-            }
+            rules={this.getSelectType() === 0 ? [required] : undefined}
+            hidden={this.getSelectType() === 1}
           >
             <Selectx options={weekOptions} mode="multiple" />
           </Form.Item>
@@ -136,12 +121,8 @@ export default class AddDrawer extends React.Component {
             prop="day"
             label="准入时间"
             className="time-wrap"
-            rules={[{ required: checkDayRequired, message: '这是必填项' }]}
-            hidden={
-              this.drawer &&
-              this.drawer.form &&
-              this.drawer.form.getFieldValue('type') === 0
-            }
+            rules={this.getSelectType() === 1 ? [required] : undefined}
+            hidden={this.getSelectType() === 0}
           >
             <RangePicker />
           </Form.Item>

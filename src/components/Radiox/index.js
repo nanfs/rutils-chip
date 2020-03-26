@@ -33,11 +33,10 @@ export default class Radiox extends React.Component {
 
   renderOptions = () => {
     const { options, showExpand } = this.props
-    const { expand } = this.state
     if (!options || !options.length) {
       return <span>暂无数据</span>
     }
-    if (expand || !showExpand) {
+    if (this?.state?.expand || !showExpand) {
       return options.map(item => (
         <Radio.Button
           value={item.value}

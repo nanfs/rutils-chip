@@ -3,6 +3,7 @@ const webpack = require('webpack')
 const HappyPack = require('happypack')
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
 const WebpackBuildNotifierPlugin = require('webpack-build-notifier')
+const AntdDayjsWebpackPlugin = require('antd-dayjs-webpack-plugin')
 const os = require('os')
 
 const OptimizeCss = require('optimize-css-assets-webpack-plugin')
@@ -159,6 +160,7 @@ const webpackConfigBase = {
       chunkFilename: 'css/[id][hash].css'
     }),
     new OptimizeCss({}),
+    new AntdDayjsWebpackPlugin(),
     new WebpackBuildNotifierPlugin({
       title: '编译好了 看看吧',
       suppressSuccess: true

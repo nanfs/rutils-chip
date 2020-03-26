@@ -55,7 +55,7 @@ export default class Desktop extends React.Component {
     }
   }
 
-  columnsArr = [this.vmName, ...columns, this.action]
+  columnsArr = [this.accessName, ...columns, this.action]
 
   state = {
     tableCfg: createTableCfg({

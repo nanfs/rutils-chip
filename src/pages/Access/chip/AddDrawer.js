@@ -10,11 +10,6 @@ import dayjs from 'dayjs'
 const { TextArea } = Input
 const { RangePicker } = DatePicker
 export default class AddDrawer extends React.Component {
-  state = {
-    checkWeeksRequired: true,
-    checkDayRequired: false
-  }
-
   compareTime = (rule, value, callback) => {
     const startTime = this.drawer?.form.getFieldValue('startTime')
     if (startTime) {
@@ -32,10 +27,6 @@ export default class AddDrawer extends React.Component {
   pop = () => {
     this.drawer.show()
     this.drawer.form.setFieldsValue({ type: 0, weeks: [] })
-    this.setState({
-      checkWeeksRequired: true,
-      checkDayRequired: false
-    })
   }
 
   getSelectType = () => {

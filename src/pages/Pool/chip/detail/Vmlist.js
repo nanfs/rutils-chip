@@ -358,6 +358,7 @@ export default class Desktop extends React.Component {
             onRef={ref => {
               this.tablex = ref
             }}
+            autoReplace={true}
             tableCfg={this.state.tableCfg}
             onSelectChange={this.onSelectChange}
             onChange={this.onTableChange}

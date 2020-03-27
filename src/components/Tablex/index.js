@@ -1,8 +1,10 @@
 import React from 'react'
-import { Table, Pagination, Button, message } from 'antd'
+import { Table, Pagination, Button, message, Menu, Select, Icon } from 'antd'
 import { wrapResponse } from '@/utils/tool'
 import './index.less'
 import TableWrap, { BarLeft, BarRight, ToolBar } from './TableWrap'
+
+const { Option } = Select
 // TODO 页码渲染问题
 const tableCfg_init = {
   data: [],
@@ -23,6 +25,8 @@ const tableCfg_init = {
   selection: [],
   // 是否显示页码 默认显示
   hasPaging: true,
+  // 自动刷新时间选项 以\秒\为单位
+  replaceTimeOptions: ['5', '10', '20'],
   pageSizeOptions: ['10', '20', '30', '50', '100'],
   // 选填，在请求发送前，处理请求参数方法，return 处理后的请求数据对象
   handleRequestMethod: undefined,
@@ -36,9 +40,11 @@ export function createTableCfg(myCfg) {
 class Tablex extends React.Component {
   constructor(props) {
     super(props)
+    this.timer = null
     const { paging, selection = [] } = this.props.tableCfg
     this.state = {
       loading: false,
+      replaceTime: '5', //  如果有刷新 默认5s刷新
       selection,
       selectData: [], // 可能会出现不同步到情况
       paging: {
@@ -50,8 +56,18 @@ class Tablex extends React.Component {
   }
 
   componentDidMount() {
+    clearInterval(this.timer)
+    if (this.props.autoReplace) {
+      this.timer = setInterval(() => {
+        !this.props.breakReplace && this.replace(this.props.tableCfg)
+      }, this.state.replaceTime * 1000)
+    }
     this.props.onRef && this.props.onRef(this)
     !this.props.stopAutoFetch && this.refresh({ ...this.props.tableCfg })
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timer)
   }
 
   componentDidUpdate(prevProps) {
@@ -233,6 +249,19 @@ class Tablex extends React.Component {
     )
   }
 
+  setRepalceTime = value => {
+    this.setState({
+      replaceTime: value
+    })
+  }
+
+  renderReplaceTime = () => {
+    const { replaceTimeOptions } = this.props.tableCfg
+    return replaceTimeOptions.map(item => (
+      <Option key={item} value={item}>{`${item}s`}</Option>
+    ))
+  }
+
   render() {
     const { loading, data, selection, paging } = this.state
     const {
@@ -266,10 +295,20 @@ class Tablex extends React.Component {
         />
         <div className="pagination-wrapper">
           <Button
-            className="search-button"
+            className="replace-button"
             icon="sync"
             onClick={() => this.refresh(this.props.tableCfg)}
           />
+          {this.props.autoReplace && (
+            <Select
+              size="small"
+              className="replace-select"
+              value={this.state?.replaceTime}
+              onChange={this.setRepalceTime}
+            >
+              {this.renderReplaceTime()}
+            </Select>
+          )}
           <Pagination
             size="small"
             total={total || 1} // 最小显示1

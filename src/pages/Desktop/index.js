@@ -153,6 +153,7 @@ export default class Desktop extends React.Component {
     tableCfg: createTableCfg({
       columns: this.columnsArr,
       apiMethod,
+      replaceTime: 5000,
       paging: { size: 10 },
       pageSizeOptions: ['5', '10', '20', '50']
     }),
@@ -491,6 +492,8 @@ export default class Desktop extends React.Component {
             onRef={ref => {
               this.tablex = ref
             }}
+            autoReplace={true}
+            replaceBreak={this.state.replaceBreak}
             tableCfg={this.state.tableCfg}
             onSelectChange={this.onSelectChange}
             onChange={this.onTableChange}

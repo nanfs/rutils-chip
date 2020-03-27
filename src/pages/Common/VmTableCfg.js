@@ -63,9 +63,6 @@ export const columns = [
   {
     title: '已分配用户',
     dataIndex: 'assignedUsers',
-    sorter: {
-      compare: (a, b) => a.assignedUsers - b.assignedUsers
-    },
     render: text => (
       <span className="table-action">{text || <Icon type="close" />}</span>
     )

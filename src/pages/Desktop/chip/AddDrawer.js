@@ -137,9 +137,10 @@ export default class AddDrawer extends React.Component {
   onClusterChange = (a, b, clusterId) => {
     const current = findArrObj(this.state.clusterArr, 'id', clusterId)
     const { storagePoolId } = current
-    this.setState({ clusterId, storagePoolId })
-    this.getTemplate()
-    this.getNetwork()
+    this.setState({ clusterId, storagePoolId }, () => {
+      this.getTemplate()
+      this.getNetwork()
+    })
   }
 
   onCreateTypeChange = (a, b, target) => {

@@ -54,12 +54,19 @@ class Tablex extends React.Component {
     }
   }
 
+  autoLoopReplace = () => {
+    return setInterval(() => {
+      // 如果手动暂停 或者正在请求 则不发送请求
+      !this.props.breakReplace &&
+        !this.state.loading &&
+        this.replace(this.props.tableCfg)
+    }, this.state.replaceTime * 1000)
+  }
+
   componentDidMount() {
     clearInterval(this.timer)
     if (this.props.autoReplace) {
-      this.timer = setInterval(() => {
-        !this.props.breakReplace && this.replace(this.props.tableCfg)
-      }, this.state.replaceTime * 1000)
+      this.timer = this.autoLoopReplace()
     }
     this.props.onRef && this.props.onRef(this)
     !this.props.stopAutoFetch && this.refresh({ ...this.props.tableCfg })
@@ -252,6 +259,10 @@ class Tablex extends React.Component {
     this.setState({
       replaceTime: value
     })
+    clearInterval(this.timer)
+    setTimeout(() => {
+      this.timer = this.autoLoopReplace()
+    }, value)
   }
 
   renderReplaceTime = () => {

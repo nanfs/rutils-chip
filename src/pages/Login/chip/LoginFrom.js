@@ -72,7 +72,6 @@ export default class LoginForm extends React.Component {
           // setDataCenterToSession()
           // setHostToSession()
           window.location.hash = 'dashboard'
-          message.success('登录成功')
         } else {
           message.error(res.message || '登录失败')
         }

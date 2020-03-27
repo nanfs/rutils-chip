@@ -72,7 +72,6 @@ export const columnsCompute = [
     render: text => {
       return (
         <Progress
-          strokeColor="#40d00f"
           strokeWidth={16}
           percent={parseFloat(text)}
           status={+text < 100 ? 'active' : 'exception'}
@@ -87,7 +86,6 @@ export const columnsCompute = [
     render: text => {
       return (
         <Progress
-          strokeColor="#40d00f"
           strokeWidth={16}
           percent={parseFloat(text)}
           status={+text < 100 ? 'active' : 'exception'}

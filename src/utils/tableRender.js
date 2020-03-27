@@ -28,6 +28,19 @@ export const severityOptions = [
     color: 'msg'
   }
 ]
+export function renderSatus(statusObj, currentText, isWithText = false) {
+  const current = statusObj.find(item => item.value === currentText) || {}
+  const { text, icon, color } = current
+  const cls = color && `table-icon-${color}`
+  if (isWithText) {
+    return (
+      <span>
+        <Icon type={icon} className={cls} title={text} /> {text}
+      </span>
+    )
+  }
+  return <Icon type={icon} className={cls} title={text} />
+}
 export function renderServerityOptions(recordText) {
   const current = severityOptions.find(item => item.value === recordText) || {}
   const { text, icon, color } = current

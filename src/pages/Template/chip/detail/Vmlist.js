@@ -281,7 +281,7 @@ export default class Desktop extends React.Component {
   }
 
   openConsole = () => {
-    const { name, id } = this.tablex.getSelection()[0]
+    const { name, id } = this.tablex.getSelectData()[0]
     desktopsApi.openConsole({ desktopId: id }).then(res => {
       downloadVV(res, name)
     })

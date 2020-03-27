@@ -10,7 +10,11 @@
       "domain": "internet"
     }
   },
-  "isos": ["win7", "win8", "ubutun"],
+  "isos": [
+    { "repoImageDomainId": "123", "repoImageId": "win7X64.iso" },
+    { "repoImageDomainId": "123", "repoImageId": "win10_szwx.iso" },
+    { "repoImageDomainId": "123", "repoImageId": "ubuntu.iso" }
+  ],
   "hosts": [
     {
       "id": "452fa57c-ef7f-4f9e-a37d-5d6d870d167f",

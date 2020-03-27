@@ -130,7 +130,7 @@ export const columns = [
     render: text => {
       return (
         <Progress
-          strokeWidth={10}
+          strokeWidth={16}
           percent={+text || 0}
           status={+text < 100 ? 'active' : 'exception'}
         ></Progress>

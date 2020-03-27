@@ -70,7 +70,6 @@ export const columnsSave = [
             }
           }}
           status={record.availableDiskSize !== 0 ? 'active' : 'exception'}
-          p
         ></Progress>
       )
     }

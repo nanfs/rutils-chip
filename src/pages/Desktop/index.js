@@ -463,12 +463,6 @@ export default class Desktop extends React.Component {
             <BarLeft>
               <Button onClick={this.createVm}>创建桌面</Button>
               <Button
-                onClick={this.editVm}
-                disabled={disabledButton.disabledEdit}
-              >
-                编辑桌面
-              </Button>
-              <Button
                 onClick={() => this.setUser(this.tablex.getSelection())}
                 disabled={disabledButton.disabledSetUser}
               >

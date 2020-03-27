@@ -67,7 +67,7 @@ service.interceptors.response.use(
     // localStorage.setItem('cookie', response.headers['set-cookie'])
     if (response.data) {
       if (response.data.code === '203') {
-        setUserToLocal({})
+        setUserToLocal(null)
         reloadAuthorized()
         window.location.hash = 'login'
         return message.error(response.data.message || '请先登录')

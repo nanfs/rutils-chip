@@ -3,7 +3,7 @@ import userApi from '@/services/user'
 import { vmStatusRender, osStatusRender } from '@/utils/tableRender'
 import { MyIcon } from '@/components'
 import { onlineStringTime } from '@/utils/tool'
-// TODO antd 样式加载问题
+
 export const detailDesktopColumns = [
   {
     title: '状态',

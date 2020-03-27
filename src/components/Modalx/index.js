@@ -70,7 +70,6 @@ class Modalx extends React.Component {
     onClose && onClose()
   }
 
-  // TODO 修改处理方式
   afterSubmit = res => {
     return new Promise(resolve => {
       wrapResponse(res)

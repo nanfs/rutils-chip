@@ -1,4 +1,3 @@
-// TODO antd 样式加载问题
 // eslint-disable-next-line import/prefer-default-export
 export const detailUserColumns = [
   {

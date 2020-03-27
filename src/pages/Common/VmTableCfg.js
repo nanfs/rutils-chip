@@ -11,9 +11,9 @@ import {
 } from '@/utils/storage'
 
 // TODO 会有不同步问题 后期优化
-// setClusterToSession()
-// setDataCenterToSession()
-// setHostToSession()
+setClusterToSession()
+setDataCenterToSession()
+setHostToSession()
 export const columns = [
   {
     title: '操作系统',
@@ -37,8 +37,8 @@ export const columns = [
   {
     title: '主机',
     ellipsis: true,
-    dataIndex: 'hostName'
-    // filters: JSON.parse(sessionStorage.getItem('hosts'))
+    dataIndex: 'hostName',
+    filters: JSON.parse(sessionStorage.getItem('hosts'))
   },
   {
     title: 'IP',
@@ -51,14 +51,14 @@ export const columns = [
   {
     title: '数据中心',
     ellipsis: true,
-    dataIndex: 'datacenterName'
-    // filters: JSON.parse(sessionStorage.getItem('datacenters'))
+    dataIndex: 'datacenterName',
+    filters: JSON.parse(sessionStorage.getItem('datacenters'))
   },
   {
     title: '集群',
     ellipsis: true,
-    dataIndex: 'clusterName'
-    // filters: JSON.parse(sessionStorage.getItem('clusters'))
+    dataIndex: 'clusterName',
+    filters: JSON.parse(sessionStorage.getItem('clusters'))
   },
   {
     title: '已分配用户',

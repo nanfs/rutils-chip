@@ -155,7 +155,6 @@ export default class Pool extends React.Component {
   }
 
   deletePool = () => {
-    // TODO 添加删除禁用 只能单个删除
     const poolId = this.tablex.getSelection()[0]
     const self = this
     confirm({

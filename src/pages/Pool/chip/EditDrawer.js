@@ -47,7 +47,6 @@ export default class EditDrawer extends React.Component {
   }
 
   editPool = values => {
-    // TODO 是否是新增 删除 还是直接 传入桌面是单个还是批量
     const { poolId } = this.state
     poolsApi
       .editPool({ poolId, ...values })

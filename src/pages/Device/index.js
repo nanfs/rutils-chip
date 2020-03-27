@@ -15,7 +15,6 @@ export default class Device extends React.Component {
     title: '名称',
     dataIndex: 'name',
     ellipsis: true
-    // TODO详情页
     // render: (text, record) => {
     //   return (
     //     <a

@@ -1,7 +1,7 @@
 import poolsApi from '@/services/pools'
 import React from 'react'
 import { Tag } from 'antd'
-// TODO antd 样式加载问题
+
 export const columns = [
   {
     title: '管理类型',

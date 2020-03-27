@@ -3,7 +3,6 @@ import userApi from '@/services/user'
 import { Icon, Tag } from 'antd'
 import { MyIcon } from '@/components'
 
-// TODO antd 样式加载问题
 export const columns = [
   /* {
     title: '用户名',

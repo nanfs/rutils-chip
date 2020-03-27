@@ -11,9 +11,8 @@ export default {
   },
   datacenters(data) {
     return axios({
-      url: '/datacenters',
+      url: '/storagePools',
       method: 'get',
-      baseURL: '/api',
       params: data
     })
   },
@@ -21,7 +20,6 @@ export default {
     return axios({
       url: '/hosts',
       method: 'get',
-      baseURL: '/api',
       params: data
     })
   }

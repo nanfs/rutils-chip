@@ -5,7 +5,7 @@ const setClusterToSession = () => {
     .clusters()
     .then(res => {
       const clusters =
-        res?.data?.records.map(item => ({
+        res?.data?.map(item => ({
           value: item.id,
           text: item.name
         })) || null
@@ -21,7 +21,7 @@ const setDataCenterToSession = () => {
     .datacenters()
     .then(res => {
       const datacenters =
-        res?.data?.records.map(item => ({
+        res?.data?.map(item => ({
           value: item.id,
           text: item.name
         })) || null
@@ -37,9 +37,9 @@ const setHostToSession = () => {
     .hosts()
     .then(res => {
       const hosts =
-        res?.data?.records.map(item => ({
+        res?.data?.map(item => ({
           value: item.id,
-          text: item.ip
+          text: item.name
         })) || null
       sessionStorage.setItem('hosts', JSON.stringify(hosts))
     })

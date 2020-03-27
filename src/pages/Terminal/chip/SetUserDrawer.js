@@ -115,7 +115,6 @@ export default class SetUserDrawer extends React.Component {
   }
 
   setUser = () => {
-    // TODO 是否是新增 删除 还是直接 传入桌面是单个还是批量
     const { sns, totalSelection } = this.state
     const users = totalSelection.map(item => {
       const [uuid, username, firstname, lastname, groupname] = item.split('&')

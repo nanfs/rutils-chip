@@ -363,7 +363,6 @@ export default class Desktop extends React.Component {
   onTableChange = (page, filter, sorter) => {
     const searchs = {}
     if (sorter) {
-      // 后端排序 使用 0-升序  1-降序
       const { order, field } = sorter
       searchs.sort = field || undefined
       searchs.order = order || undefined
@@ -373,6 +372,7 @@ export default class Desktop extends React.Component {
       filter.status.forEach(function(v) {
         statusList.push(...v)
       })
+    const { clusterName, hostName, datacenterName } = filter
     const columnsList = []
     if (filter.action) {
       columns.forEach(function(item) {
@@ -393,16 +393,23 @@ export default class Desktop extends React.Component {
         draft.tableCfg.searchs = {
           ...draft.tableCfg.searchs,
           ...searchs,
-          status: statusList
+          status,
+          cluster: clusterName,
+          hosts: hostName,
+          datacenter: datacenterName
         }
       }),
       () => this.tablex.refresh(this.state.tableCfg)
     )
   }
 
-  // TODO 修改开关机等 禁用条件
   render() {
-    const searchOptions = [{ label: '名称', value: 'name' }]
+    const searchOptions = [
+      { label: '名称', value: 'name' },
+      { label: '主机名', value: 'hostName' },
+      { label: '数据中心', value: 'datacenterName' },
+      { label: '集群', value: 'clusterName' }
+    ]
     const { disabledButton } = this.state
     const moreButton = (
       <Menu>

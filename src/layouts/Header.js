@@ -14,7 +14,6 @@ export default class Header extends React.Component {
       .loginOut()
       .then(res => {
         if (res.success) {
-          // TODO 存储See
           return this.props.history.push('/login')
         } else {
           message.error(res.message || '操作失败')

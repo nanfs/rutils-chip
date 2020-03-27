@@ -5,7 +5,6 @@ import './index.less'
 import TableWrap, { BarLeft, BarRight, ToolBar } from './TableWrap'
 
 const { Option } = Select
-// TODO 页码渲染问题
 const tableCfg_init = {
   data: [],
   columns: undefined,

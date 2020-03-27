@@ -81,7 +81,6 @@ export default class Desktop extends React.Component {
     })
   }
 
-  // TODO 修改开关机等 禁用条件
   render() {
     const { disabledButton } = this.state
 

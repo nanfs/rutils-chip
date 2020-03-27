@@ -12,7 +12,6 @@ export default {
       }
     })
   },
-  // TODO 批量删除
   delete(data) {
     return axios({
       url: '/desktoplogs',

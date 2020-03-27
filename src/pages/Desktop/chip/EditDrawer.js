@@ -73,7 +73,6 @@ export default class EditDrawer extends React.Component {
 
   editVm = values => {
     const { network } = values
-    // TODO 是否是新增 删除 还是直接 传入桌面是单个还是批量
     const networkFix = network.map(item => {
       const [kind, name, kindid] = item.split('&')
       return { kind, name, kindid }

@@ -1,5 +1,4 @@
 /* eslint-disable import/no-mutable-exports */
-// TODO cpfrom auth
 let CURRENT = 'NULL'
 let USER = {}
 function getUserFromlocal() {

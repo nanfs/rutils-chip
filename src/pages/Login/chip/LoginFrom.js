@@ -67,10 +67,9 @@ export default class LoginForm extends React.Component {
           setUserToLocal(data.username)
           reloadAuthorized()
           // 解决第一次加载的问题
-          // TODO 后端暂未联调
-          // setClusterToSession()
-          // setDataCenterToSession()
-          // setHostToSession()
+          setClusterToSession()
+          setDataCenterToSession()
+          setHostToSession()
           window.location.hash = 'dashboard'
         } else {
           message.error(res.message || '登录失败')

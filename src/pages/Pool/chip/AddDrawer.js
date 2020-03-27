@@ -64,7 +64,6 @@ export default class AddDrawer extends React.Component {
   }
 
   addPool = values => {
-    // TODO 是否是新增 删除 还是直接 传入桌面是单个还是批量
     poolsApi
       .addPool({ cpuNum: 1, ...values })
       .then(res => {

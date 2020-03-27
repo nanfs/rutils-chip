@@ -13,7 +13,6 @@ const webpackConfigProd = {
   output: {
     path: cfgPaths.appDist
   },
-  // TODO 关闭压缩后报错
   optimization: {
     // minimize: false
     minimizer: [

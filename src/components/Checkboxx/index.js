@@ -4,12 +4,6 @@ import classnames from 'classnames'
 import './index.less'
 
 export default class Checkboxx extends React.Component {
-  state = {
-    value: undefined,
-    options: this.props.options || [],
-    expand: false
-  }
-
   componentDidUpdate(prep) {
     if (this.props.value !== prep.value) {
       this.setState({ value: this.props.value })
@@ -23,7 +17,18 @@ export default class Checkboxx extends React.Component {
   }
 
   toggle = () => {
-    this.setState({ expand: !this.state.expand })
+    this.setState({ expand: !this.state?.expand })
+  }
+
+  handleGetData = async () => {
+    const { getData } = this.props
+    this.setState({ loading: true })
+    try {
+      await getData()
+      this.setState({ loading: false })
+    } catch (error) {
+      this.setState({ loading: false })
+    }
   }
 
   handleGetData = async () => {
@@ -38,11 +43,11 @@ export default class Checkboxx extends React.Component {
   }
 
   renderOptions = () => {
-    const { options } = this.props
+    const { options, showExpand } = this.props
     if (!options || !options.length) {
       return <span>暂无数据</span>
     }
-    if (this.state?.expand) {
+    if (this.state?.expand || !showExpand) {
       return options.map(item => (
         <Checkbox value={item.value} key={item.value} disabled={item.disabled}>
           {item.label}

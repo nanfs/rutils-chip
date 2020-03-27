@@ -114,7 +114,7 @@ class Drawerx extends React.Component {
     if (
       React.isValidElement(this.props.children) &&
       this.props.children &&
-      this.props.children.type.displayName === 'Form(Formx)'
+      this.props.children?.type?.displayName?.includes('Form')
     ) {
       return true
     }

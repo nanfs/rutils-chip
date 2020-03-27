@@ -1,7 +1,7 @@
 import desktopsApi from '@/services/desktops'
 import React from 'react'
 import { Progress, Icon, Popover } from 'antd'
-import { vmStatusRender } from '@/utils/tableRender'
+import { vmStatusRender, osStatusRender } from '@/utils/tableRender'
 import { onlineStringTime } from '@/utils/tool'
 import { MyIcon } from '@/components'
 import {
@@ -15,6 +15,13 @@ import {
 // setDataCenterToSession()
 // setHostToSession()
 export const columns = [
+  {
+    title: '操作系统',
+    dataIndex: 'os',
+    render: (text, record) => {
+      return <span>{osStatusRender(record.os)}</span>
+    }
+  },
   {
     title: '状态',
     dataIndex: 'status',

@@ -27,7 +27,35 @@ export default class Desktop extends React.Component {
     // }
   }
 
-  columnsArr = [this.accessName, ...columns]
+  action = {
+    title: '操作',
+    dataIndex: 'opration',
+    width: 130,
+    render: (text, record) => {
+      return (
+        <span>
+          <a
+            style={{ marginRight: 16 }}
+            onClick={() => {
+              this.delAccess([record.id])
+            }}
+          >
+            删除
+          </a>
+          <a
+            onClick={() => {
+              this.setState({ inner: '编辑' }, this.editDrawer.pop(record))
+              this.currentDrawer = this.editDrawer
+            }}
+          >
+            编辑
+          </a>
+        </span>
+      )
+    }
+  }
+
+  columnsArr = [this.accessName, ...columns, this.action]
 
   state = {
     tableCfg: createTableCfg({
@@ -84,8 +112,8 @@ export default class Desktop extends React.Component {
     }
   }
 
-  delAccess = () => {
-    const ids = this.tablex.getSelection()
+  delAccess = (id = undefined) => {
+    const ids = id || this.tablex.getSelection()
     const self = this
     confirm({
       title: '确定删除所选数据?',

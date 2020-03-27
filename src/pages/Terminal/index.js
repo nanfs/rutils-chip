@@ -26,67 +26,108 @@ import './index.less'
 const { confirm } = Modal
 const { createTableCfg, TableWrap, ToolBar, BarLeft, BarRight } = Tablex
 export default class Termina extends React.Component {
-  /* options = {
+  options = {
     title: '操作',
     dataIndex: 'opration',
-    className: 'opration',
-    render: (text, record) => (
-      <div>
-        <MyIcon
-          type="tc-connecting"
-          title="允许接入"
-          // disabled={record}
-          onClick={this.admitAccessTerminal.bind(this, [record.sn])}
-          disabled={record.isReg}
-        />
-        <MyIcon
-          type="tc-down"
-          title="关机"
-          // disabled={record}
-          onClick={this.sendOrder.bind(this, 'shutdown', [record.sn])}
-          disabled={!record.status}
-        />
-        <MyIcon
-          type="vm-rebootinprogress"
-          title="重启"
-          onClick={this.sendOrder.bind(this, 'restart', [record.sn])}
-          disabled={!record.status}
-        />
-        <MyIcon
-          type="tc-imagelocked"
-          title="锁定"
-          onClick={this.sendOrder.bind(this, 'lock', [record.sn])}
-        />
-        <MyIcon
-          type="tc-imagelocked"
-          title="解锁"
-          disabled={true}
-          onClick={this.sendOrder.bind(this, 'unlock', [record.sn])}
-        />
-        <MyIcon
-          type="order-setuser"
-          title="分配用户"
-          onClick={this.setUser.bind(this, [record.sn])}
-        />
-        <Icon
-          type="message"
-          title="发送消息"
-          onClick={this.sendMessage.bind(this, [record.sn], [record])}
-          disabled={!record.isReg}
-        />
-        <Icon
-          type="form"
-          title="编辑"
-          onClick={this.editTerminal.bind(this, record)}
-        />
-        <MyIcon
-          type="order-info"
-          title="详情"
-          onClick={this.detailTerminal.bind(this, [record.sn])}
-        />
-      </div>
-    )
-  } */
+    width: 130,
+    render: (text, record) => {
+      const moreAction = (
+        <Menu>
+          <Menu.Item key="8" onClick={this.editTerminal.bind(this, record)}>
+            编辑
+          </Menu.Item>
+          <Menu.Item
+            key="2"
+            onClick={this.sendOrder.bind(this, 'shutdown', [record.sn])}
+            disabled={!record.status}
+          >
+            关机
+          </Menu.Item>
+          <Menu.Item
+            key="3"
+            onClick={this.sendOrder.bind(this, 'restart', [record.sn])}
+            disabled={!record.status}
+          >
+            重启
+          </Menu.Item>
+          <Menu.Item
+            key="4"
+            onClick={this.sendOrder.bind(this, 'lock', [record.sn])}
+          >
+            锁定
+          </Menu.Item>
+          <Menu.Item
+            key="5"
+            onClick={this.sendOrder.bind(this, 'unlock', [record.sn])}
+          >
+            解锁
+          </Menu.Item>
+          <Menu.Item
+            key="9"
+            disabled={!record.status}
+            onClick={this.sendOrder.bind(this, 'logout', [record.sn])}
+          >
+            登出
+          </Menu.Item>
+          <Menu.Item key="6" onClick={this.setUser.bind(this, [record.sn])}>
+            分配用户
+          </Menu.Item>
+          <Menu.Item
+            key="1"
+            onClick={this.admitAccessTerminal.bind(this, [record.sn])}
+            disabled={record.isReg}
+          >
+            允许接入
+          </Menu.Item>
+          <Menu.Item
+            key="7"
+            onClick={this.sendMessage.bind(this, [record.sn], [record])}
+            disabled={!record.isReg}
+          >
+            发送消息
+          </Menu.Item>
+          <Menu.Item
+            key="10"
+            onClick={() => {
+              this.setState({ inner: '设置外设控制' })
+              this.setSafePolicyDrawer.pop([record.id])
+              this.currentDrawer = this.setSafePolicyDrawer
+            }}
+          >
+            设置外设控制
+          </Menu.Item>
+          <Menu.Item
+            key="11"
+            onClick={() => {
+              this.setState({ inner: '设置准入控制' })
+              this.setAccessPolicyDrawer.pop([record.id])
+              this.currentDrawer = this.setAccessPolicyDrawer
+            }}
+          >
+            设置准入控制
+          </Menu.Item>
+        </Menu>
+      )
+      return (
+        <span>
+          <a
+            style={{ marginRight: 16 }}
+            onClick={() => {
+              this.deleteTerminal(record.sn)
+            }}
+          >
+            删除
+          </a>
+
+          <Dropdown overlay={moreAction} placement="bottomRight">
+            <a>
+              更多 <Icon type="down" />
+            </a>
+          </Dropdown>
+        </span>
+      )
+    }
+  }
 
   tcName = {
     title: '终端名称',
@@ -104,7 +145,7 @@ export default class Termina extends React.Component {
     }
   }
 
-  columnsArr = [this.tcName, ...columns]
+  columnsArr = [this.tcName, ...columns, this.options]
 
   state = {
     tableCfg: createTableCfg({

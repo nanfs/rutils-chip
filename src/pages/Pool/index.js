@@ -1,5 +1,13 @@
 import React from 'react'
-import { Button, notification, Modal, message } from 'antd'
+import {
+  Button,
+  notification,
+  Modal,
+  message,
+  Menu,
+  Dropdown,
+  Icon
+} from 'antd'
 import { Tablex, InnerPath } from '@/components'
 import AddDrawer from './chip/AddDrawer'
 import DetailDrawer from './chip/DetailDrawer'
@@ -30,7 +38,82 @@ export default class Pool extends React.Component {
     }
   }
 
-  columnsArr = [this.poolName, ...columns]
+  action = {
+    title: '操作',
+    width: 130,
+    dataIndex: 'action',
+    render: (text, record) => {
+      const moreAction = (
+        <Menu>
+          <Menu.Item
+            key="1"
+            onClick={() => {
+              this.setState({ inner: '编辑池' }, this.editDrawer.pop(record.id))
+              this.currentDrawer = this.editDrawer
+            }}
+          >
+            编辑
+          </Menu.Item>
+          <Menu.Item
+            key="7"
+            onClick={() => {
+              this.setState(
+                { inner: '分配用户' },
+                this.setUserDrawer.pop(record.id)
+              )
+              this.currentDrawer = this.setUserDrawer
+            }}
+          >
+            分配用户
+          </Menu.Item>
+        </Menu>
+      )
+      return (
+        <span>
+          <a
+            style={{ marginRight: 16 }}
+            onClick={() => {
+              const self = this
+              confirm({
+                title: '确定删除该条数据?',
+                onOk() {
+                  return new Promise((resolve, reject) => {
+                    poolsApi
+                      .delPool(record.id)
+                      .then(res => {
+                        if (res.success) {
+                          notification.success({ message: '删除成功' })
+                          self.tablex.refresh(self.state.tableCfg)
+                        } else {
+                          message.error(res.message || '删除失败')
+                        }
+                        resolve()
+                      })
+                      .catch(error => {
+                        message.error(error.message || error)
+                        console.log(error)
+                        resolve()
+                      })
+                  })
+                },
+                onCancel() {}
+              })
+            }}
+          >
+            删除
+          </a>
+
+          <Dropdown overlay={moreAction} placement="bottomRight">
+            <a>
+              更多 <Icon type="down" />
+            </a>
+          </Dropdown>
+        </span>
+      )
+    }
+  }
+
+  columnsArr = [this.poolName, ...columns, this.action]
 
   state = {
     tableCfg: createTableCfg({

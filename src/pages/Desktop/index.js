@@ -19,7 +19,7 @@ import { InnerPath, SelectSearch, Tablex } from '@/components'
 import produce from 'immer'
 import desktopsApi from '@/services/desktops'
 import { downloadVV } from '@/utils/tool'
-import { osStatusRender } from '@/utils/tableRender'
+
 import { columns, apiMethod } from '@/pages/Common/VmTableCfg'
 import './index.less'
 
@@ -27,26 +27,127 @@ const { createTableCfg, TableWrap, ToolBar, BarLeft, BarRight } = Tablex
 const { confirm } = Modal
 export default class Desktop extends React.Component {
   vmName = {
-    title: '基本信息',
+    title: '桌面名称',
     dataIndex: 'name',
-    sorter: {
-      compare: (a, b) => a.name - b.name
-    },
     render: (text, record) => {
+      return <a onClick={() => this.detailVm(record.name, record.id)}>{text}</a>
+    }
+  }
+
+  action = {
+    title: '操作',
+    width: 130,
+    dataIndex: 'action',
+    filters: [
+      { value: 'os', text: '操作系统' },
+      { value: 'status', text: '状态' },
+      { value: 'hostName', text: '主机' },
+      { value: 'ip', text: 'IP' },
+      { value: 'datacenterName', text: '数据中心' },
+      { value: 'clusterName', text: '集群' },
+      { value: 'assignedUsers', text: '已分配用户' },
+      { value: 'isConsole', text: '控制台' },
+      { value: 'onlineTime', text: '本次运行时长' },
+      { value: 'cpuUsageRate', text: 'CPU' },
+      { value: 'memoryUsageRate', text: '内存' },
+      { value: 'networkUsageRate', text: '网络' }
+    ],
+    render: (text, record) => {
+      const moreAction = (
+        <Menu>
+          <Menu.Item
+            key="1"
+            onClick={() => {
+              this.setState(
+                { inner: '编辑桌面' },
+                this.editDrawer.pop(record.id)
+              )
+              this.currentDrawer = this.editDrawer
+            }}
+          >
+            编辑
+          </Menu.Item>
+          <Menu.Item
+            key="7"
+            onClick={() => {
+              this.setState(
+                { inner: '分配用户' },
+                this.setUserDrawer.pop([record.id])
+              )
+              this.currentDrawer = this.setUserDrawer
+            }}
+          >
+            分配用户
+          </Menu.Item>
+          <Menu.Item
+            key="8"
+            onClick={() => {
+              desktopsApi.openConsole({ desktopId: record.id }).then(res => {
+                downloadVV(res, record.name)
+              })
+            }}
+            disabled={record.status !== 1 || record.assignedUsers}
+          >
+            打开控制台
+          </Menu.Item>
+          <Menu.Item
+            key="2"
+            disabled={record.status !== 0 && record.status !== 13}
+            onClick={() => this.patchOrder(record.id, 'start')}
+          >
+            开机
+          </Menu.Item>
+          <Menu.Item
+            key="3"
+            disabled={record.status === 0}
+            onClick={() => this.patchOrder(record.id, 'shutdown')}
+          >
+            关机
+          </Menu.Item>
+          <Menu.Item
+            key="4"
+            disabled={record.status === 0}
+            onClick={() => this.patchOrder(record.id, 'poweroff')}
+          >
+            断电
+          </Menu.Item>
+          <Menu.Item
+            key="5"
+            disabled={record.status === 0 || record.status === 10}
+            onClick={() => this.patchOrder(record.id, 'restart')}
+          >
+            重启
+          </Menu.Item>
+          <Menu.Item
+            key="6"
+            onClick={() => this.addTemplateModal.pop(record.id)}
+          >
+            创建模板
+          </Menu.Item>
+        </Menu>
+      )
       return (
-        <a
-          className="detail-link"
-          onClick={() => this.detailVm(record.name, record.id)}
-        >
-          <span>
-            {osStatusRender(record.os)} {record.name}
-          </span>
-        </a>
+        <span>
+          <a
+            style={{ marginRight: 16 }}
+            onClick={() => {
+              this.deleteVm(record.id)
+            }}
+          >
+            删除
+          </a>
+
+          <Dropdown overlay={moreAction} placement="bottomRight">
+            <a>
+              更多 <Icon type="down" />
+            </a>
+          </Dropdown>
+        </span>
       )
     }
   }
 
-  columnsArr = [this.vmName, ...columns]
+  columnsArr = [this.vmName, ...columns, this.action]
 
   state = {
     tableCfg: createTableCfg({
@@ -82,9 +183,13 @@ export default class Desktop extends React.Component {
       })
   }
 
-  patchOrder = directive => {
+  patchOrders = directive => {
     const ids = this.tablex.getSelection()
     this.sendOrder(ids, directive)
+  }
+
+  patchOrder = (id, directive) => {
+    this.sendOrder(id, directive)
   }
 
   onSelectChange = (selection, selectData) => {
@@ -152,11 +257,40 @@ export default class Desktop extends React.Component {
     this.currentDrawer = this.addDrawer
   }
 
-  deleteVm = () => {
+  deleteVms = () => {
     const desktopIds = this.tablex.getSelection()
     const self = this
     confirm({
       title: '确定删除所选数据?',
+      onOk() {
+        return new Promise(resolve => {
+          desktopsApi
+            .delVm({ desktopIds })
+            .then(res => {
+              if (res.success) {
+                notification.success({ message: '删除成功' })
+                self.tablex.refresh(self.state.tableCfg)
+              } else {
+                message.error(res.message || '删除失败')
+              }
+              resolve()
+            })
+            .catch(error => {
+              message.error(error.message || error)
+              resolve()
+              console.log(error)
+            })
+        })
+      },
+      onCancel() {}
+    })
+  }
+
+  deleteVm = id => {
+    const desktopIds = [id]
+    const self = this
+    confirm({
+      title: '确定删除该条数据?',
       onOk() {
         return new Promise(resolve => {
           desktopsApi
@@ -238,6 +372,21 @@ export default class Desktop extends React.Component {
       filter.status.forEach(function(v) {
         statusList.push(...v)
       })
+    const columnsList = []
+    if (filter.action) {
+      columns.forEach(function(item) {
+        if (filter.action.indexOf(item.dataIndex) !== -1) {
+          columnsList.push(item)
+        }
+      })
+      this.setState({
+        tableCfg: {
+          ...this.state.tableCfg,
+          columns: [this.vmName, ...columnsList, this.action]
+        }
+      })
+    }
+
     this.setState(
       produce(draft => {
         draft.tableCfg.searchs = {
@@ -258,7 +407,7 @@ export default class Desktop extends React.Component {
       <Menu>
         <Menu.Item
           key="1"
-          onClick={this.deleteVm}
+          onClick={this.deleteVms}
           disabled={disabledButton.disabledDelete}
         >
           删除
@@ -266,28 +415,28 @@ export default class Desktop extends React.Component {
         <Menu.Item
           key="2"
           disabled={disabledButton.disabledUp}
-          onClick={() => this.patchOrder('start')}
+          onClick={() => this.patchOrders('start')}
         >
           开机
         </Menu.Item>
         <Menu.Item
           key="3"
           disabled={disabledButton.disabledDown}
-          onClick={() => this.patchOrder('shutdown')}
+          onClick={() => this.patchOrders('shutdown')}
         >
           关机
         </Menu.Item>
         <Menu.Item
           key="4"
           disabled={disabledButton.disabledOff}
-          onClick={() => this.patchOrder('poweroff')}
+          onClick={() => this.patchOrders('poweroff')}
         >
           断电
         </Menu.Item>
         <Menu.Item
           key="5"
           disabled={disabledButton.disabledRestart}
-          onClick={() => this.patchOrder('restart')}
+          onClick={() => this.patchOrders('restart')}
         >
           重启
         </Menu.Item>

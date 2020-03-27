@@ -28,7 +28,49 @@ export default class Device extends React.Component {
     // }
   }
 
-  columnsArr = [this.vmName, ...columns]
+  action = {
+    title: '操作',
+    dataIndex: 'opration',
+    width: 130,
+    render: (text, record) => {
+      return (
+        <span>
+          <a
+            style={{ marginRight: 16 }}
+            onClick={() => {
+              this.delDev([record.id])
+            }}
+          >
+            删除
+          </a>
+          <a
+            onClick={() => {
+              const selectDev = record
+              const initKeys = []
+              selectDev.usbs.forEach(function(v, i) {
+                initKeys.push(i)
+              })
+              if (initKeys.length) {
+                selectDev.initKeys = initKeys
+              } else {
+                selectDev.initKeys = [0]
+              }
+              this.setState(
+                { inner: '编辑', initValues: selectDev },
+                this.editDrawer.pop(selectDev)
+              )
+
+              this.currentDrawer = this.editDrawer
+            }}
+          >
+            编辑
+          </a>
+        </span>
+      )
+    }
+  }
+
+  columnsArr = [this.vmName, ...columns, this.action]
 
   state = {
     tableCfg: createTableCfg({
@@ -107,8 +149,8 @@ export default class Device extends React.Component {
     }
   }
 
-  delDev = () => {
-    const selectDev = this.tablex.getSelection()
+  delDev = (id = undefined) => {
+    const selectDev = id || this.tablex.getSelection()
     const self = this
     if (selectDev.length >= 1) {
       confirm({

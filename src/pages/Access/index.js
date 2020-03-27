@@ -166,7 +166,7 @@ export default class Desktop extends React.Component {
                 编辑
               </Button>
               <Button
-                onClick={this.delAccess}
+                onClick={() => this.delAccess()}
                 disabled={disabledButton.disabledDelete}
               >
                 删除

@@ -37,9 +37,7 @@ export default class Device extends React.Component {
         <span>
           <a
             style={{ marginRight: 16 }}
-            onClick={() => {
-              this.delDev([record.id])
-            }}
+            onClick={this.delDev.bind(this, [record.id])}
           >
             删除
           </a>
@@ -152,39 +150,35 @@ export default class Device extends React.Component {
   delDev = (id = undefined) => {
     const selectDev = id || this.tablex.getSelection()
     const self = this
-    if (selectDev.length >= 1) {
-      confirm({
-        title: '确定删除所选数据?',
-        onOk() {
-          return new Promise((resolve, reject) => {
-            deviceApi
-              .delDev({ ids: selectDev })
-              .then(res => {
-                if (res.success) {
-                  notification.success({ message: '删除成功' })
-                  self.tablex.refresh(self.state.tableCfg)
-                  self.tablex.clearSelection()
-                  self.setState({
-                    selection: [],
-                    selectData: []
-                  })
-                } else {
-                  message.error(res.message || '删除失败')
-                }
-                resolve()
-              })
-              .catch(error => {
-                message.error(error.message || error)
-                console.log(error)
-                resolve()
-              })
-          })
-        },
-        onCancel() {}
-      })
-    } else {
-      message.warning('请选择一条数据进行删除！')
-    }
+    confirm({
+      title: '确定删除所选数据?',
+      onOk() {
+        return new Promise((resolve, reject) => {
+          deviceApi
+            .delDev({ ids: selectDev })
+            .then(res => {
+              if (res.success) {
+                notification.success({ message: '删除成功' })
+                self.tablex.refresh(self.state.tableCfg)
+                self.tablex.clearSelection()
+                self.setState({
+                  selection: [],
+                  selectData: []
+                })
+              } else {
+                message.error(res.message || '删除失败')
+              }
+              resolve()
+            })
+            .catch(error => {
+              message.error(error.message || error)
+              console.log(error)
+              resolve()
+            })
+        })
+      },
+      onCancel() {}
+    })
   }
 
   render() {
@@ -207,7 +201,7 @@ export default class Device extends React.Component {
                 编辑
               </Button>
               <Button
-                onClick={this.delDev}
+                onClick={() => this.delDev()}
                 disabled={disabledButton.disabledDelete}
               >
                 删除

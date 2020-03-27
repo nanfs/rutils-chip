@@ -113,7 +113,7 @@ export default class Termina extends React.Component {
           <a
             style={{ marginRight: 16 }}
             onClick={() => {
-              this.deleteTerminal(record.sn)
+              this.deleteTerminal([record.sn])
             }}
           >
             删除

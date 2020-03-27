@@ -121,8 +121,9 @@ export default class User extends React.Component {
         <span>
           <a
             style={{ marginRight: 16 }}
+            disabled={record.tccount + record.vmcount > 0}
             onClick={() => {
-              this.deleteUser(record.id)
+              this.deleteUser([record.id])
             }}
           >
             删除
@@ -484,13 +485,13 @@ export default class User extends React.Component {
                     编辑
                   </Button>
                   <Button
-                    onClick={this.disableUser}
+                    onClick={() => this.disableUser()}
                     disabled={disabledButton.disabledDisable}
                   >
                     禁用
                   </Button>
                   <Button
-                    onClick={this.enableUser}
+                    onClick={() => this.enableUser()}
                     disabled={disabledButton.disabledEnable}
                   >
                     启用
@@ -502,7 +503,7 @@ export default class User extends React.Component {
                     详情
                   </Button> */}
                   <Button
-                    onClick={this.deleteUser}
+                    onClick={() => this.deleteUser()}
                     disabled={disabledButton.disabledDelete}
                   >
                     删除

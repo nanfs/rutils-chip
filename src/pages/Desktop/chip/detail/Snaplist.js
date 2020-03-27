@@ -116,7 +116,7 @@ export default class Desktop extends React.Component {
             <BarLeft>
               <Button
                 onClick={() => {
-                  this.addSnapModal.pop(this.props.id)
+                  this.addSnapModal.pop(this.props.vmId)
                 }}
               >
                 创建

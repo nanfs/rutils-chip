@@ -1,27 +1,27 @@
 export const usbOptions = [
-  { label: '1', value: '1' },
-  { label: '2', value: '2' },
-  { label: '3', value: '3' },
-  { label: '4', value: '4' }
+  { label: '1', value: 1 },
+  { label: '2', value: 2 },
+  { label: '3', value: 3 },
+  { label: '4', value: 4 }
 ]
 
 export const memoryOptions = [
-  { label: '1G', value: '1' },
-  { label: '2G', value: '2' },
-  { label: '4G', value: '4' },
-  { label: '8G', value: '8' }
+  { label: '1G', value: 1 },
+  { label: '2G', value: 2 },
+  { label: '4G', value: 4 },
+  { label: '8G', value: 8 }
 ]
 export const diskOptions = [
-  { label: '80G', value: '80' },
-  { label: '100G', value: '100' },
-  { label: '200G', value: '200' },
-  { label: '500G', value: '500' }
+  { label: '80G', value: 80 },
+  { label: '100G', value: 100 },
+  { label: '200G', value: 200 },
+  { label: '500G', value: 500 }
 ]
 export const cpuOptions = [
-  { label: '1核', value: '1' },
-  { label: '2核', value: '2' },
-  { label: '4核', value: '4' },
-  { label: '8核', value: '8' }
+  { label: '1核', value: 1 },
+  { label: '2核', value: 2 },
+  { label: '4核', value: 4 },
+  { label: '8核', value: 8 }
 ]
 
 export const managerTypeOptions = [

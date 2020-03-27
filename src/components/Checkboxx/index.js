@@ -31,6 +31,17 @@ export default class Checkboxx extends React.Component {
     }
   }
 
+  handleGetData = async () => {
+    const { getData } = this.props
+    this.setState({ loading: true })
+    try {
+      await getData()
+      this.setState({ loading: false })
+    } catch (error) {
+      this.setState({ loading: false })
+    }
+  }
+
   renderOptions = () => {
     const { options, showExpand } = this.props
     if (!options || !options.length) {

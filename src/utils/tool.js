@@ -257,6 +257,6 @@ export function onlineStringTime(value) {
 }
 
 export function findArrObj(arr, key, target) {
-  const current = arr.find(item => item[key] === target) || {}
+  const current = arr?.find(item => item[key] === target) || {}
   return current
 }

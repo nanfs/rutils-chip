@@ -326,9 +326,9 @@ export default class Desktop extends React.Component {
     this.currentDrawer = this.detailDrawer
   }
 
-  // TODO 格式不一致
   openConsole = () => {
-    const { name, id } = this.tablex.getSelection()[0]
+    console.log(this.tablex.getSelection())
+    const { name, id } = this.tablex.getSelectData()[0]
     desktopsApi.openConsole({ desktopId: id }).then(res => {
       downloadVV(res, name)
     })

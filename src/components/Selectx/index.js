@@ -34,6 +34,8 @@ export default class Selectx extends React.Component {
       mode = '',
       getData,
       disabled,
+      render,
+      style,
       placeholder = '请选择'
     } = this.props
     const cls = classnames(className, 'selectx', getData && 'has-fresh')
@@ -42,11 +44,13 @@ export default class Selectx extends React.Component {
         <Select
           className={cls}
           mode={mode}
+          style={style}
           disabled={disabled}
           placeholder={placeholder}
           onChange={this.handleChange}
           value={this.state?.value}
         >
+          {render}
           {options?.map(item => (
             <Option
               value={item.value}

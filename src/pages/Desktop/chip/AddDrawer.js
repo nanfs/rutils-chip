@@ -1,6 +1,14 @@
 import React from 'react'
 import { Form, Input, message, InputNumber, Select } from 'antd'
-import { Drawerx, Formx, Title, Radiox, Checkboxx, Diliver } from '@/components'
+import {
+  Drawerx,
+  Formx,
+  Title,
+  Radiox,
+  Checkboxx,
+  Diliver,
+  Selectx
+} from '@/components'
 
 import { memoryOptions, cpuOptions, diskOptions } from '@/utils/formOptions'
 import desktopsApi from '@/services/desktops'
@@ -33,7 +41,7 @@ export default class AddDrawer extends React.Component {
     this.setState({})
     this.drawer.show()
     this.setState({ fetchData: true, networkOptions: [], templateOptions: [] })
-    this.drawer.form.setFieldsValue({ type: '1', desktopNum: 1 })
+    this.drawer.form.setFieldsValue({ desktopNum: 1 })
     this.getCluster()
   }
 
@@ -216,6 +224,40 @@ export default class AddDrawer extends React.Component {
     }
   }
 
+  renderOsOptions = () => {
+    return (
+      <React.Fragment>
+        {this.state?.isos?.win && (
+          <OptGroup label="windows">
+            {this.state?.isos?.win?.map(item => (
+              <Option value={item} key={item}>
+                {item}
+              </Option>
+            ))}
+          </OptGroup>
+        )}
+        {this.state?.isos?.linux && (
+          <OptGroup label="linux">
+            {this.state?.isos?.linux?.map(item => (
+              <Option value={item} key={item}>
+                {item}
+              </Option>
+            ))}
+          </OptGroup>
+        )}
+        {this.state?.isos?.domestic && (
+          <OptGroup label="国产系统">
+            {this.state?.isos?.domestic?.map(item => (
+              <Option value={item} key={item}>
+                {item}
+              </Option>
+            ))}
+          </OptGroup>
+        )}
+      </React.Fragment>
+    )
+  }
+
   render() {
     return (
       <Drawerx
@@ -258,7 +300,7 @@ export default class AddDrawer extends React.Component {
             required
             rules={this.getSelectType() === '1' ? [required] : undefined}
             wrapperCol={{ sm: { span: 16 } }}
-            hidden={this.getSelectType() === '2'}
+            hidden={this.getSelectType() !== '1'}
           >
             <Radiox
               getData={this.getTemplate}
@@ -272,47 +314,21 @@ export default class AddDrawer extends React.Component {
             required
             rules={this.getSelectType() === '2' ? [required] : undefined}
             wrapperCol={{ sm: { span: 16 } }}
-            hidden={this.getSelectType() === '1'}
+            hidden={this.getSelectType() !== '2'}
           >
-            <Select
+            <Selectx
               style={{ width: 230 }}
               placeholder="请选择镜像"
               onChange={this.onIsoChange}
-            >
-              {this.state?.isos?.win && (
-                <OptGroup label="windows">
-                  {this.state?.isos?.win?.map(item => (
-                    <Option value={item} key={item}>
-                      {item}
-                    </Option>
-                  ))}
-                </OptGroup>
-              )}
-              {this.state?.isos?.linux && (
-                <OptGroup label="linux">
-                  {this.state?.isos?.linux?.map(item => (
-                    <Option value={item} key={item}>
-                      {item}
-                    </Option>
-                  ))}
-                </OptGroup>
-              )}
-              {this.state?.isos?.domestic && (
-                <OptGroup label="国产系统">
-                  {this.state?.isos?.domestic?.map(item => (
-                    <Option value={item} key={item}>
-                      {item}
-                    </Option>
-                  ))}
-                </OptGroup>
-              )}
-            </Select>
+              render={this.renderOsOptions}
+              getData={this.getIso}
+            />
           </Form.Item>
           <Form.Item
             prop="isoBit"
             required
             label="驱动类型"
-            hidden={this.getSelectType() === '1'}
+            hidden={this.getSelectType() !== '2'}
           >
             <Radiox options={driveType} />
           </Form.Item>
@@ -346,7 +362,7 @@ export default class AddDrawer extends React.Component {
             prop="disk"
             label="磁盘(G)"
             required
-            hidden={this.getSelectType() === '1'}
+            hidden={this.getSelectType() !== '2'}
             rules={
               this.getSelectType() === '2'
                 ? [required, lessThanValue(10000)]
@@ -367,7 +383,7 @@ export default class AddDrawer extends React.Component {
             prop="desktopNum"
             label="创建数量"
             required
-            hidden={this.getSelectType() === '2'}
+            hidden={this.getSelectType() !== '1'}
             rules={[required, lessThanValue(20)]}
           >
             <InputNumber placeholder="" min={1} max={20} />

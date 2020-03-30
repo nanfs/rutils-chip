@@ -250,7 +250,7 @@ export default class Desktop extends React.Component {
   }
 
   search = (key, value) => {
-    const searchs = {}
+    const searchs = { poolId: this.props.poolId }
     searchs[key] = value
     this.setState(
       produce(draft => {
@@ -265,7 +265,7 @@ export default class Desktop extends React.Component {
   }
 
   onTableChange = (page, filter, sorter) => {
-    const searchs = {}
+    const searchs = { poolId: this.props.poolId }
     if (sorter) {
       const { order, field } = sorter
       searchs.sort = field || undefined
@@ -297,7 +297,7 @@ export default class Desktop extends React.Component {
         draft.tableCfg.searchs = {
           ...draft.tableCfg.searchs,
           ...searchs,
-          status,
+          status: statusList,
           cluster: clusterName,
           hosts: hostName,
           datacenter: datacenterName

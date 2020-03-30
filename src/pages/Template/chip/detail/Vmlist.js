@@ -296,7 +296,7 @@ export default class Desktop extends React.Component {
         draft.tableCfg.searchs = {
           ...draft.tableCfg.searchs,
           ...searchs,
-          status,
+          status: statusList,
           cluster: clusterName,
           hosts: hostName,
           datacenter: datacenterName

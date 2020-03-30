@@ -98,13 +98,13 @@ export default class AddDrawer extends React.Component {
         // TODO ISO命名约定
         res.data.forEach(item => {
           const name = item.repoImageId.toLowerCase()
-          if (name.includes('szwx')) {
-            return domestic.push(name)
+          if (this.checkIsoType(name) === 'domestic') {
+            return domestic.push(item.repoImageId)
           }
           if (name.includes('win')) {
-            return win.push(name)
+            return win.push(item.repoImageId)
           }
-          linux.push(name)
+          linux.push(item.repoImageId)
         })
         this.setState({ isos: { win, linux, domestic } })
       })
@@ -139,15 +139,20 @@ export default class AddDrawer extends React.Component {
     const { storagePoolId } = current
     this.setState({ clusterId, storagePoolId }, () => {
       if (this.getSelectType() === '2') {
-        return this.getIso()
+        this.getNetwork()
+        this.getIso()
+      } else {
+        this.getTemplate()
+        this.getNetwork()
       }
-      this.getTemplate()
-      this.getNetwork()
     })
   }
 
   onCreateTypeChange = (a, b, target) => {
     this.setState({ networkOptions: undefined })
+    if (!this.state.clusterId) {
+      return
+    }
     if (target === '1') {
       this.getTemplate()
       this.getNetwork()
@@ -158,17 +163,18 @@ export default class AddDrawer extends React.Component {
   }
 
   onIsoChange = (a, b, target) => {
-    if (target.includes('x64')) {
+    if (target.toLowerCase().includes('x64')) {
       return this.drawer.form.setFieldsValue({ isoBit: 'x64' })
     }
-    if (target.includes('x86')) {
+    if (target.toLowerCase().includes('x86')) {
       return this.drawer.form.setFieldsValue({ isoBit: 'x86' })
     }
     this.drawer.form.setFieldsValue({ isoBit: '' })
   }
 
   checkIsoType(isoName) {
-    if (isoName.includes('szwx')) {
+    const demesticKeyWords = ['szwx', 'kylin', 'isoft', 'deepin']
+    if (demesticKeyWords.some(item => isoName.includes(item))) {
       return 'domestic'
     }
     if (isoName.includes('win')) {

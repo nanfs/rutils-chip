@@ -45,6 +45,7 @@ export default class EditDiskModal extends React.Component {
           this.modal = ref
         }}
         modalCfg={modalCfg}
+        onSuccess={this.props.onSuccess}
         onOk={this.onOk}
       >
         <Formx>
@@ -59,7 +60,7 @@ export default class EditDiskModal extends React.Component {
           </Form.Item>
           <Form.Item
             prop="capacity"
-            label="磁盘大小"
+            label="磁盘大小(G)"
             rules={[this.moreThanBefore]}
           >
             <Input placeholder="模板名称"></Input>

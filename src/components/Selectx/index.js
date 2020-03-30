@@ -34,8 +34,8 @@ export default class Selectx extends React.Component {
       mode = '',
       getData,
       disabled,
-      render,
       style,
+      children,
       placeholder = '请选择'
     } = this.props
     const cls = classnames(className, 'selectx', getData && 'has-fresh')
@@ -50,7 +50,7 @@ export default class Selectx extends React.Component {
           onChange={this.handleChange}
           value={this.state?.value}
         >
-          {render}
+          {children}
           {options?.map(item => (
             <Option
               value={item.value}

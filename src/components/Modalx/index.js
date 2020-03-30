@@ -78,6 +78,7 @@ class Modalx extends React.Component {
             show: false,
             submitting: false
           })
+          this.props.onSuccess && this.props.onSuccess()
           notification.success({ message: res.message || '操作成功' })
           resolve(res)
         })

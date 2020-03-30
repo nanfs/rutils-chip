@@ -1,5 +1,6 @@
 import React from 'react'
-import { Icon } from 'antd'
+
+import { Icon, Tooltip } from 'antd'
 import { MyIcon } from '@/components'
 
 export const severityOptions = [
@@ -34,17 +35,26 @@ export function renderSatus(statusObj, currentText, isWithText = false) {
   const cls = color && `table-icon-${color}`
   if (isWithText) {
     return (
-      <span>
-        <Icon type={icon} className={cls} title={text} /> {text}
-      </span>
+      <Tooltip title={text}>
+        <Icon type={icon} className={cls} /> {text}
+      </Tooltip>
     )
   }
-  return <Icon type={icon} className={cls} title={text} />
+  return (
+    <Tooltip title={text}>
+      <Icon type={icon} className={cls} />
+    </Tooltip>
+  )
 }
 export function renderServerityOptions(recordText) {
   const current = severityOptions.find(item => item.value === recordText) || {}
   const { text, icon, color } = current
-  return <Icon type={icon} className={`table-icon-${color}`} title={text} />
+
+  return (
+    <Tooltip title={text}>
+      <Icon type={icon} className={`table-icon-${color}`} />
+    </Tooltip>
+  )
 }
 export const hostStatusText = {
   'host-unassigned': '未指派的',

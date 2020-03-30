@@ -44,14 +44,14 @@ export const columns = [
     dataIndex: 'hostName',
     filters: JSON.parse(sessionStorage.getItem('hosts'))
   },
-  {
-    title: 'IP',
-    ellipsis: true,
-    dataIndex: 'ip',
-    sorter: {
-      compare: (a, b) => a.ip - b.ip
-    }
-  },
+  // {
+  //   title: 'IP',
+  //   ellipsis: true,
+  //   dataIndex: 'ip',
+  //   sorter: {
+  //     compare: (a, b) => a.ip - b.ip
+  //   }
+  // },
   {
     title: '数据中心',
     ellipsis: true,
@@ -68,7 +68,13 @@ export const columns = [
     title: '已分配用户',
     dataIndex: 'assignedUsers',
     render: text => (
-      <span className="table-action">{text || <Icon type="close" />}</span>
+      <span className="table-action">
+        {text ? (
+          <Icon type="check" className="table-icon-success" />
+        ) : (
+          <Icon type="close" className="table-icon-warn" />
+        )}
+      </span>
     )
   },
   {
@@ -90,15 +96,15 @@ export const columns = [
       return consoleContent
     }
   },
-  {
-    title: '本次运行时长',
-    key: 'onlineTime',
-    dataIndex: 'onlineTime',
-    sorter: {
-      compare: (a, b) => a.onlineTime - b.onlineTime
-    },
-    render: text => onlineStringTime(text)
-  },
+  // {
+  //   title: '本次运行时长',
+  //   key: 'onlineTime',
+  //   dataIndex: 'onlineTime',
+  //   sorter: {
+  //     compare: (a, b) => a.onlineTime - b.onlineTime
+  //   },
+  //   render: text => onlineStringTime(text)
+  // },
   {
     title: 'CPU',
     dataIndex: 'cpuUsageRate',

@@ -2,6 +2,7 @@ import React from 'react'
 import { Row, Col, Table, Tag, message, Spin } from 'antd'
 import { Title, Diliver } from '@/components'
 import desktopsApi from '@/services/desktops'
+import { osTextRender } from '@/utils/tableRender'
 
 export default class BaseInfo extends React.Component {
   componentDidMount() {
@@ -64,7 +65,7 @@ export default class BaseInfo extends React.Component {
             操作系统：
           </Col>
           <Col span={8} className="dms-detail-value">
-            {data.os}
+            {osTextRender(data.os)}
           </Col>
         </Row>
         <Row className="dms-detail-row">

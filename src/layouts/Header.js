@@ -1,6 +1,6 @@
 import React from 'react'
 import { Layout, Menu, message } from 'antd'
-import { USER, setUserToLocal } from '@/utils/auth'
+import { USER, setUserToLocal, reloadAuthorized } from '@/utils/auth'
 import ResetPwModal from './chip/ResetPwModal'
 import SystemModal from './chip/SystemModal'
 import AboutModal from './chip/AboutModal'
@@ -8,12 +8,12 @@ import loginApi from '@/services/login'
 
 export default class Header extends React.Component {
   logOut = () => {
-    setUserToLocal({})
+    setUserToLocal(null)
+    reloadAuthorized()
     loginApi
       .loginOut()
       .then(res => {
         if (res.success) {
-          // TODO 存储See
           return this.props.history.push('/login')
         } else {
           message.error(res.message || '操作失败')

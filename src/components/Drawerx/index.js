@@ -61,7 +61,6 @@ class Drawerx extends React.Component {
     onClose && onClose()
   }
 
-  // TODO 修改处理方式
   afterSubmit = res => {
     const { form } = (this.formRef && this.formRef.props) || {}
     return new Promise(resolve => {

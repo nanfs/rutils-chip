@@ -1,7 +1,7 @@
 import accessApi from '@/services/access'
 import React from 'react'
 import { Tag } from 'antd'
-// TODO antd 样式加载问题
+
 const typeArr = ['按周', '按日期']
 const typeOptions = [
   { text: '按周', value: 0 },

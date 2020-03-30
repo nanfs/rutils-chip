@@ -48,11 +48,11 @@ export default class DetailDrawer extends React.Component {
                   </Tooltip>
                 </Col>
                 <Col span={3} className="dms-detail-label">
-                  已使用桌面：
+                  已使用桌面数：
                 </Col>
                 <Col span={8} className="dms-detail-value">
-                  <Tooltip title={data.boundTcNum}>
-                    <span>{data.boundTcNum}</span>
+                  <Tooltip title={data.vmUsed}>
+                    <span>{data.vmUsed}</span>
                   </Tooltip>
                 </Col>
               </Row>

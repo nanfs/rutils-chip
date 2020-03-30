@@ -44,7 +44,7 @@ export default class DonutChart extends React.Component {
           width={450}
           data={dv}
           scale={cols}
-          padding="auto"
+          padding={[0, 100, 0, 0]}
           forceFit={true}
           className="dashboard-chart dashboard-donutchart"
         >
@@ -52,7 +52,7 @@ export default class DonutChart extends React.Component {
           <Axis name="count" />
           <Legend
             position="right-center"
-            offsetX={50}
+            offsetX={-10}
             offsetY={10}
             clickable={false}
             textStyle={{
@@ -84,7 +84,7 @@ export default class DonutChart extends React.Component {
           <Geom
             type="intervalStack"
             position="count"
-            color={['name', ['#285384', '#ce6463']]}
+            color={['name', ['#295385', '#cf6363']]}
             tooltip={[
               'name*count',
               (name, count) => {

@@ -1,7 +1,7 @@
 import desktopsApi from '@/services/desktops'
 import React from 'react'
 import { Progress, Icon, Popover } from 'antd'
-import { vmStatusRender, osStatusRender } from '@/utils/tableRender'
+import { vmStatusRender, osIconRender, osTextRender } from '@/utils/tableRender'
 import { onlineStringTime } from '@/utils/tool'
 import { MyIcon } from '@/components'
 import {
@@ -11,15 +11,19 @@ import {
 } from '@/utils/storage'
 
 // TODO 会有不同步问题 后期优化
-// setClusterToSession()
-// setDataCenterToSession()
-// setHostToSession()
+setClusterToSession()
+setDataCenterToSession()
+setHostToSession()
 export const columns = [
   {
     title: '操作系统',
     dataIndex: 'os',
-    render: (text, record) => {
-      return <span>{osStatusRender(record.os)}</span>
+    render: text => {
+      return (
+        <span>
+          {osIconRender(text)} {osTextRender(text)}
+        </span>
+      )
     }
   },
   {
@@ -37,8 +41,8 @@ export const columns = [
   {
     title: '主机',
     ellipsis: true,
-    dataIndex: 'hostName'
-    // filters: JSON.parse(sessionStorage.getItem('hosts'))
+    dataIndex: 'hostName',
+    filters: JSON.parse(sessionStorage.getItem('hosts'))
   },
   {
     title: 'IP',
@@ -51,21 +55,18 @@ export const columns = [
   {
     title: '数据中心',
     ellipsis: true,
-    dataIndex: 'datacenterName'
-    // filters: JSON.parse(sessionStorage.getItem('datacenters'))
+    dataIndex: 'datacenterName',
+    filters: JSON.parse(sessionStorage.getItem('datacenters'))
   },
   {
     title: '集群',
     ellipsis: true,
-    dataIndex: 'clusterName'
-    // filters: JSON.parse(sessionStorage.getItem('clusters'))
+    dataIndex: 'clusterName',
+    filters: JSON.parse(sessionStorage.getItem('clusters'))
   },
   {
     title: '已分配用户',
     dataIndex: 'assignedUsers',
-    sorter: {
-      compare: (a, b) => a.assignedUsers - b.assignedUsers
-    },
     render: text => (
       <span className="table-action">{text || <Icon type="close" />}</span>
     )

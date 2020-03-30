@@ -3,7 +3,6 @@ import userApi from '@/services/user'
 import { Icon, Popover, Tag } from 'antd'
 import { MyIcon } from '@/components'
 
-// TODO antd 样式加载问题
 const iconStyle = {
   check: { fontSize: 20, color: '#1789d8' },
   close: { fontSize: 18 }

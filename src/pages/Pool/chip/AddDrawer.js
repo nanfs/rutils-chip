@@ -64,7 +64,6 @@ export default class AddDrawer extends React.Component {
   }
 
   addPool = values => {
-    // TODO 是否是新增 删除 还是直接 传入桌面是单个还是批量
     poolsApi
       .addPool({ cpuNum: 1, ...values })
       .then(res => {
@@ -138,7 +137,7 @@ export default class AddDrawer extends React.Component {
           </Form.Item>
           <Form.Item
             prop="desktopNum"
-            label="创建数量"
+            label="桌面数量"
             required
             rules={[required, lessThanValue(20)]}
           >

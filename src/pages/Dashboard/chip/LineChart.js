@@ -50,7 +50,7 @@ Shape.registerShape('interval', 'top', {
         x: path[0][1],
         y: path[2][2],
         width: path[1][1] - path[0][1],
-        height: 14,
+        height: 16,
         fill:
           cfg.origin._origin.count === 0 && cfg.color !== '#eef0f5'
             ? '#fff'
@@ -96,7 +96,7 @@ export default class LineChart extends React.Component {
           type="interval"
           position="name*sum"
           color="#eef0f5"
-          size={14}
+          size={16}
           shape="top"
         >
           <Label
@@ -105,11 +105,11 @@ export default class LineChart extends React.Component {
               // text 为每条记录 x 属性的值
               // item 为映射后的每条数据记录，是一个对象，可以从里面获取你想要的数据信息
               // index 为每条记录的索引
-              let color = '#1bce88'
+              let color = '#1c68b6'
               if (index === 1) {
-                color = '#1c69b6'
+                color = '#1ccd87'
               } else if (index === 2) {
-                color = '#ce6463'
+                color = '#cf6363'
               }
               // 自定义 html 模板
               return `<span style="display: block;margin-top: -40px;font-size:20px;font-weight: 500;color:${color}">${text}</span>`
@@ -119,8 +119,8 @@ export default class LineChart extends React.Component {
         <Geom
           type="interval"
           position="name*count"
-          size={14}
-          color={['name', ['#1bce88', '#1c69b6', '#ce6463']]}
+          size={16}
+          color={['name', ['#1c68b6', '#1ccd87', '#cf6363']]}
           shape="top"
         ></Geom>
       </Chart>

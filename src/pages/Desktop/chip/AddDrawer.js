@@ -137,9 +137,13 @@ export default class AddDrawer extends React.Component {
   onClusterChange = (a, b, clusterId) => {
     const current = findArrObj(this.state.clusterArr, 'id', clusterId)
     const { storagePoolId } = current
-    this.setState({ clusterId, storagePoolId })
-    this.getTemplate()
-    this.getNetwork()
+    this.setState({ clusterId, storagePoolId }, () => {
+      if (this.getSelectType() === '2') {
+        return this.getIso()
+      }
+      this.getTemplate()
+      this.getNetwork()
+    })
   }
 
   onCreateTypeChange = (a, b, target) => {
@@ -226,9 +230,14 @@ export default class AddDrawer extends React.Component {
 
   renderOsOptions = () => {
     return (
-      <React.Fragment>
+      <Selectx
+        style={{ width: 230 }}
+        placeholder="请选择镜像"
+        onChange={this.onIsoChange}
+        getData={this.getIso}
+      >
         {this.state?.isos?.win && (
-          <OptGroup label="windows">
+          <OptGroup label="windows" key="windows">
             {this.state?.isos?.win?.map(item => (
               <Option value={item} key={item}>
                 {item}
@@ -237,7 +246,7 @@ export default class AddDrawer extends React.Component {
           </OptGroup>
         )}
         {this.state?.isos?.linux && (
-          <OptGroup label="linux">
+          <OptGroup label="linux" key="linux">
             {this.state?.isos?.linux?.map(item => (
               <Option value={item} key={item}>
                 {item}
@@ -246,7 +255,7 @@ export default class AddDrawer extends React.Component {
           </OptGroup>
         )}
         {this.state?.isos?.domestic && (
-          <OptGroup label="国产系统">
+          <OptGroup label="国产系统" key="domestic">
             {this.state?.isos?.domestic?.map(item => (
               <Option value={item} key={item}>
                 {item}
@@ -254,7 +263,7 @@ export default class AddDrawer extends React.Component {
             ))}
           </OptGroup>
         )}
-      </React.Fragment>
+      </Selectx>
     )
   }
 
@@ -316,13 +325,7 @@ export default class AddDrawer extends React.Component {
             wrapperCol={{ sm: { span: 16 } }}
             hidden={this.getSelectType() !== '2'}
           >
-            <Selectx
-              style={{ width: 230 }}
-              placeholder="请选择镜像"
-              onChange={this.onIsoChange}
-              render={this.renderOsOptions}
-              getData={this.getIso}
-            />
+            {this.renderOsOptions()}
           </Form.Item>
           <Form.Item
             prop="isoBit"

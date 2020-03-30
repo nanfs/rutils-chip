@@ -2,7 +2,7 @@ import React from 'react'
 import templateApi from '@/services/template'
 import { Icon, Tag } from 'antd'
 import '../index.less'
-// TODO antd 样式加载问题
+
 export const columns = [
   // {
   //   title: '模板名称',

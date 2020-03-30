@@ -1,7 +1,7 @@
 import desktopApi from '@/services/desktops'
 import React from 'react'
 import { Icon } from 'antd'
-// TODO antd 样式加载问题
+
 export const columns = [
   {
     title: '快照名称',

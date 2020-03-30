@@ -37,6 +37,7 @@ export default class AddDiskModal extends React.Component {
         }}
         modalCfg={modalCfg}
         onOk={this.onOk}
+        onSuccess={this.props.onSuccess}
       >
         <Formx>
           <Form.Item prop="vmId" label="vmId" hidden>
@@ -45,7 +46,7 @@ export default class AddDiskModal extends React.Component {
           <Form.Item prop="name" label="磁盘名" rules={[required]}>
             <Input />
           </Form.Item>
-          <Form.Item prop="capacity" label="磁盘大小" rules={[required]}>
+          <Form.Item prop="capacity" label="磁盘大小(G)" rules={[required]}>
             <InputNumber min={1} width={300} max={99999999}></InputNumber>
           </Form.Item>
           <Form.Item prop="description" label="描述">

@@ -1,9 +1,9 @@
 import React from 'react'
 import userApi from '@/services/user'
-import { vmStatusRender, osStatusRender } from '@/utils/tableRender'
+import { vmStatusRender } from '@/utils/tableRender'
 import { MyIcon } from '@/components'
 import { onlineStringTime } from '@/utils/tool'
-// TODO antd 样式加载问题
+
 export const detailDesktopColumns = [
   {
     title: '状态',
@@ -20,13 +20,6 @@ export const detailDesktopColumns = [
   {
     title: '桌面名称',
     dataIndex: 'vmname'
-    /* render: (text, record) => {
-      return (
-        <span>
-          {osStatusRender(record.os)} {record.name}
-        </span>
-      )
-    } */
   },
   {
     title: 'IP',

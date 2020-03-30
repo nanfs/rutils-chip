@@ -14,7 +14,6 @@ import { SelectSearch, Tablex } from '@/components'
 import produce from 'immer'
 import desktopsApi from '@/services/desktops'
 import poolsApi from '@/services/pools'
-import { osStatusRender } from '@/utils/tableRender'
 import { columns } from '@/pages/Common/VmTableCfg'
 import { downloadVV } from '@/utils/tool'
 
@@ -251,7 +250,7 @@ export default class Desktop extends React.Component {
   }
 
   search = (key, value) => {
-    const searchs = {}
+    const searchs = { poolId: this.props.poolId }
     searchs[key] = value
     this.setState(
       produce(draft => {
@@ -265,17 +264,43 @@ export default class Desktop extends React.Component {
     )
   }
 
-  onTableChange = (a, filter) => {
+  onTableChange = (page, filter, sorter) => {
+    const searchs = { poolId: this.props.poolId }
+    if (sorter) {
+      const { order, field } = sorter
+      searchs.sort = field || undefined
+      searchs.order = order || undefined
+    }
     const statusList = []
     filter.status &&
-      filter.status.forEach(function(v, i) {
+      filter.status.forEach(function(v) {
         statusList.push(...v)
       })
+    const { clusterName, hostName, datacenterName } = filter
+    const columnsList = []
+    if (filter.action) {
+      columns.forEach(function(item) {
+        if (filter.action.indexOf(item.dataIndex) !== -1) {
+          columnsList.push(item)
+        }
+      })
+      this.setState({
+        tableCfg: {
+          ...this.state.tableCfg,
+          columns: [this.vmName, ...columnsList, this.action]
+        }
+      })
+    }
+
     this.setState(
       produce(draft => {
         draft.tableCfg.searchs = {
           ...draft.tableCfg.searchs,
-          status: statusList
+          ...searchs,
+          status: statusList,
+          cluster: clusterName,
+          hosts: hostName,
+          datacenter: datacenterName
         }
       }),
       () => this.tablex.refresh(this.state.tableCfg)
@@ -289,7 +314,6 @@ export default class Desktop extends React.Component {
     })
   }
 
-  // TODO 修改开关机等 禁用条件
   render() {
     const searchOptions = [{ label: '名称', value: 'name' }]
     const { disabledButton } = this.state
@@ -358,6 +382,7 @@ export default class Desktop extends React.Component {
             onRef={ref => {
               this.tablex = ref
             }}
+            autoReplace={true}
             tableCfg={this.state.tableCfg}
             onSelectChange={this.onSelectChange}
             onChange={this.onTableChange}

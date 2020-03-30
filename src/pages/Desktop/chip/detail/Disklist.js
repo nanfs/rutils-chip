@@ -81,7 +81,6 @@ export default class Desktop extends React.Component {
     })
   }
 
-  // TODO 修改开关机等 禁用条件
   render() {
     const { disabledButton } = this.state
 
@@ -129,11 +128,13 @@ export default class Desktop extends React.Component {
           onRef={ref => {
             this.addDiskModal = ref
           }}
+          onSuccess={() => this.tablex.refresh(this.state.tableCfg)}
         ></AddDiskModal>
         <EditDiskModal
           onRef={ref => {
             this.editDiskModal = ref
           }}
+          onSuccess={() => this.tablex.refresh(this.state.tableCfg)}
         ></EditDiskModal>
       </React.Fragment>
     )

@@ -1,9 +1,13 @@
 import usersApi from '@/services/user'
-// TODO antd 样式加载问题
+
 export const columns = [
   {
     title: '用户名',
     dataIndex: 'username'
+  },
+  {
+    title: '姓名',
+    dataIndex: 'name'
   },
   {
     title: '域',

@@ -189,37 +189,46 @@ export const vmStatusRender = status => {
     />
   )
 }
-export const osStatusRender = status => {
-  const statusList = {
-    '9': 'os-redhat',
-    '15': 'os-redhat',
-    '8': 'os-redhat',
-    '14': 'os-redhat',
-    '7': 'os-redhat',
-    '13': 'os-redhat',
-    '18': 'os-redhat',
-    '19': 'os-redhat',
-    '24': 'os-redhat',
-    '1003': 'os-redhat',
-    '1006': 'os-redhat',
-    '1': 'os-windows',
-    '3': 'os-windows',
-    '4': 'os-windows',
-    '10': 'os-windows',
-    '11': 'os-windows',
-    '12': 'os-windows',
-    '16': 'os-windows',
-    '17': 'os-windows',
-    '20': 'os-windows',
-    '21': 'os-windows',
-    '23': 'os-windows',
-    '51': 'os-qilin'
-  }
+const osList = {
+  '9': 'os-redhat',
+  '15': 'os-redhat',
+  '8': 'os-redhat',
+  '14': 'os-redhat',
+  '7': 'os-redhat',
+  '13': 'os-redhat',
+  '18': 'os-redhat',
+  '19': 'os-redhat',
+  '24': 'os-redhat',
+  '1003': 'os-redhat',
+  '1006': 'os-redhat',
+  '1': 'os-windows',
+  '3': 'os-windows',
+  '4': 'os-windows',
+  '10': 'os-windows',
+  '11': 'os-windows',
+  '12': 'os-windows',
+  '16': 'os-windows',
+  '17': 'os-windows',
+  '20': 'os-windows',
+  '21': 'os-windows',
+  '23': 'os-windows',
+  '51': 'os-qilin'
+}
+export const osIconRender = os => {
   return (
     <MyIcon
-      type={statusList[status] || 'os-windows'}
+      type={osList[os] || 'os-windows'}
       component="svg"
       style={{ fontSize: '18px' }}
     />
   )
+}
+export const osTextRender = os => {
+  const osType = osList[os] || 'os-windows'
+  const typeList = {
+    'os-redhat': '红帽',
+    'os-windows': 'Win',
+    'os-qilin': '麒麟'
+  }
+  return typeList[osType]
 }

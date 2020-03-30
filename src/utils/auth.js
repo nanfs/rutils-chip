@@ -1,5 +1,4 @@
 /* eslint-disable import/no-mutable-exports */
-// TODO cpfrom auth
 let CURRENT = 'NULL'
 let USER = {}
 function getUserFromlocal() {
@@ -24,10 +23,12 @@ const reloadAuthorized = () => {
 }
 
 function setUserToLocal(user) {
-  user = user || {}
-  sessionStorage.setItem('d-user', JSON.stringify(user))
+  if (user) {
+    sessionStorage.setItem('d-user', JSON.stringify(user))
+  } else {
+    sessionStorage.removeItem('d-user')
+  }
 }
 
 reloadAuthorized()
-
 export { CURRENT, USER, reloadAuthorized, setUserToLocal, getUserFromlocal }

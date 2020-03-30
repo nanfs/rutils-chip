@@ -23,7 +23,6 @@ export default class AddDrawer extends React.Component {
   }
 
   addTerminal = values => {
-    // TODO 是否是新增 删除 还是直接 传入桌面是单个还是批量
     terminalApi
       .addTerminal({ data: values })
       .then(res => {

@@ -7,7 +7,7 @@ import {
   Diliver,
   Title
 } from '@/components'
-import { columns, apiMethod } from './UserTableCfg'
+import { columns, apiMethod } from '@/pages/Common/UserTableCfg'
 import { Tag, message } from 'antd'
 import poolsApi from '@/services/pools'
 import produce from 'immer'

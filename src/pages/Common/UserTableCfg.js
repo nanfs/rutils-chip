@@ -6,6 +6,10 @@ export const columns = [
     dataIndex: 'username'
   },
   {
+    title: '姓名',
+    dataIndex: 'name'
+  },
+  {
     title: '域',
     dataIndex: 'domain'
   }

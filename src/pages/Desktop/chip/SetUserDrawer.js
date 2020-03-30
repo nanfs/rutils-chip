@@ -7,7 +7,7 @@ import {
   Diliver,
   Tablex
 } from '@/components'
-import { columns, apiMethod } from './UserTableCfg'
+import { columns, apiMethod } from '@/pages/Common/UserTableCfg'
 import { Tag, message } from 'antd'
 import desktopsApi from '@/services/desktops'
 import produce from 'immer'

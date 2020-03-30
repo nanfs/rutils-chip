@@ -1,5 +1,5 @@
 import React from 'react'
-import { columns, apiMethod } from './UserTableCfg'
+import { columns, apiMethod } from '@/pages/Common/UserTableCfg'
 import { Tag, message } from 'antd'
 import terminalApi from '@/services/terminal'
 import produce from 'immer'

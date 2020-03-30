@@ -137,7 +137,7 @@ export default class AddDrawer extends React.Component {
           </Form.Item>
           <Form.Item
             prop="desktopNum"
-            label="创建数量"
+            label="桌面数量"
             required
             rules={[required, lessThanValue(20)]}
           >

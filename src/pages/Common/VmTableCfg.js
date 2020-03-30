@@ -1,7 +1,7 @@
 import desktopsApi from '@/services/desktops'
 import React from 'react'
 import { Progress, Icon, Popover } from 'antd'
-import { vmStatusRender, osStatusRender } from '@/utils/tableRender'
+import { vmStatusRender, osIconRender, osTextRender } from '@/utils/tableRender'
 import { onlineStringTime } from '@/utils/tool'
 import { MyIcon } from '@/components'
 import {
@@ -18,8 +18,12 @@ export const columns = [
   {
     title: '操作系统',
     dataIndex: 'os',
-    render: (text, record) => {
-      return <span>{osStatusRender(record.os)}</span>
+    render: text => {
+      return (
+        <span>
+          {osIconRender(text)} {osTextRender(text)}
+        </span>
+      )
     }
   },
   {

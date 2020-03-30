@@ -249,7 +249,7 @@ export default class Desktop extends React.Component {
   }
 
   search = (key, value) => {
-    const searchs = {}
+    const searchs = { templateId: this.props.templateId }
     searchs[key] = value
     this.setState(
       produce(draft => {
@@ -264,7 +264,7 @@ export default class Desktop extends React.Component {
   }
 
   onTableChange = (page, filter, sorter) => {
-    const searchs = {}
+    const searchs = { templateId: this.props.templateId }
     if (sorter) {
       const { order, field } = sorter
       searchs.sort = field || undefined

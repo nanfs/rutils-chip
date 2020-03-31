@@ -131,6 +131,12 @@ export default class Pool extends React.Component {
     this.currentDrawer.drawer.hide()
   }
 
+  onDeleteAll = () => {
+    this.setState({ inner: undefined })
+    this.currentDrawer.drawer.hide()
+    this.tablex.refresh(this.state.tableCfg)
+  }
+
   onSelectChange = (selection, selectData) => {
     let disabledButton = {}
     if (selection.length !== 1) {
@@ -263,6 +269,7 @@ export default class Pool extends React.Component {
             onRef={ref => {
               this.detailDrawer = ref
             }}
+            onDeleteAll={this.onDeleteAll}
             onClose={this.onBack}
           />
           <SetUserDrawer

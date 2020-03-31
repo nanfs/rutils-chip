@@ -38,7 +38,6 @@ export default class BaseInfo extends React.Component {
     const { loading, data = {} } = this.state || {}
     return (
       <Spin spinning={loading}>
-        <Title slot="基础设置"></Title>
         <Row className="dms-detail-row">
           <Col span={3} className="dms-detail-label">
             桌面池名称：

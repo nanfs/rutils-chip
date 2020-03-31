@@ -36,7 +36,10 @@ export default class DetailDrawer extends React.Component {
             <BaseInfo poolId={poolId}></BaseInfo>
           </TabPane>
           <TabPane tab="桌面列表" key="2">
-            <Vmlist poolId={poolId}></Vmlist>
+            <Vmlist
+              poolId={poolId}
+              onDeleteAll={this.props.onDeleteAll}
+            ></Vmlist>
           </TabPane>
           {/* <TabPane tab="已分配用户" key="3"></TabPane> */}
         </Tabsx>

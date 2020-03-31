@@ -10,14 +10,14 @@ import {
   message
 } from 'antd'
 
-import { SelectSearch, Tablex } from '@/components'
+import { Tablex } from '@/components'
 import produce from 'immer'
 import desktopsApi from '@/services/desktops'
 import poolsApi from '@/services/pools'
 import { columns } from '@/pages/Common/VmTableCfg'
 import { downloadVV } from '@/utils/tool'
 
-const { createTableCfg, TableWrap, ToolBar, BarLeft, BarRight } = Tablex
+const { createTableCfg, TableWrap, ToolBar, BarLeft } = Tablex
 const { confirm } = Modal
 export default class Desktop extends React.Component {
   vmName = {
@@ -203,7 +203,17 @@ export default class Desktop extends React.Component {
             .then(res => {
               if (res.success) {
                 notification.success({ message: '删除成功' })
-                self.tablex.refresh(self.state.tableCfg)
+                self.tablex.refresh(self.state.tableCfg).then(delRes => {
+                  // 如果删除后没有桌面 则重新请求桌面池
+                  if (!delRes.data.total) {
+                    notification.success({
+                      message: '已删除池内所有虚拟机, 池自动删除'
+                    })
+                    setTimeout(() => {
+                      self.props.onDeleteAll()
+                    }, 1000)
+                  }
+                })
               } else {
                 message.error(res.message || '删除失败')
               }
@@ -232,7 +242,17 @@ export default class Desktop extends React.Component {
             .then(res => {
               if (res.success) {
                 notification.success({ message: '删除成功' })
-                self.tablex.refresh(self.state.tableCfg)
+                self.tablex.refresh(self.state.tableCfg).then(delRes => {
+                  // 如果删除后没有桌面 则重新请求桌面池
+                  if (!delRes.data.total) {
+                    notification.success({
+                      message: '已删除池内所有虚拟机, 池自动删除'
+                    })
+                    setTimeout(() => {
+                      self.props.onDeleteAll()
+                    }, 1000)
+                  }
+                })
               } else {
                 message.error(res.message || '删除失败')
               }
@@ -315,7 +335,6 @@ export default class Desktop extends React.Component {
   }
 
   render() {
-    const searchOptions = [{ label: '名称', value: 'name' }]
     const { disabledButton } = this.state
     const moreButton = (
       <Menu>
@@ -371,12 +390,6 @@ export default class Desktop extends React.Component {
                 </Button>
               </Dropdown>
             </BarLeft>
-            <BarRight>
-              <SelectSearch
-                options={searchOptions}
-                onSearch={this.search}
-              ></SelectSearch>
-            </BarRight>
           </ToolBar>
           <Tablex
             onRef={ref => {

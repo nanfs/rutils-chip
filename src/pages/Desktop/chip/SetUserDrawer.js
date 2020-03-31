@@ -164,7 +164,7 @@ export default class SetUserDrawer extends React.Component {
         onOk={this.setUser}
         onSuccess={this.props.onSuccess}
       >
-        <Formx>
+        <Formx className="p25">
           <TableWrap>
             <ToolBar>
               <SelectSearch

@@ -147,7 +147,7 @@ export default class SetSafePolicyDrawer extends React.Component {
         onOk={this.setAccess}
         onSuccess={this.props.onSuccess}
       >
-        <Formx>
+        <Formx className="p25">
           <TableWrap>
             <ToolBar>
               {/* <SelectSearch

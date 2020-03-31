@@ -115,6 +115,7 @@ export default class AddDrawer extends React.Component {
   }
 
   getNetwork = () => {
+    // 网络接口字段和创建网络字段是不匹配的 name 等同于 vnic
     return desktopsApi
       .getNetwork(this.state.clusterId)
       .then(res => {

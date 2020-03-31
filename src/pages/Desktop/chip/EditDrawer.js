@@ -28,7 +28,7 @@ export default class EditDrawer extends React.Component {
         const { data } = res
         const { network } = data
         const networkFix = network.map(
-          item => `${item.kind}&${item.name}&${item.kindid}`
+          item => `${item.kind}&${item.vnic}&${item.kindid}`
         )
         this.setState({
           templateName: data.templateName,
@@ -57,6 +57,7 @@ export default class EditDrawer extends React.Component {
     desktopsApi
       .getNetwork(queryClusterId)
       .then(res => {
+        // 网络接口字段和创建网络字段是不匹配的 name 等同于 vnic
         const network = res.data.records
         const networkOptions = network.map(item => ({
           label: `${item.kind}/${item.name}`,
@@ -73,9 +74,10 @@ export default class EditDrawer extends React.Component {
 
   editVm = values => {
     const { network } = values
-    const networkFix = network.map(item => {
-      const [kind, name, kindid] = item.split('&')
-      return { kind, name, kindid }
+    const networkFix = network.map((item, index) => {
+      const name = `nic${index + 1}`
+      const [kind, vnic, kindid] = item.split('&')
+      return { kind, vnic, kindid, name }
     })
     desktopsApi
       .editVm({ ...values, network: networkFix })

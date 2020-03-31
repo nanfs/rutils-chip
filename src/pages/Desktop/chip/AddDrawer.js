@@ -185,9 +185,10 @@ export default class AddDrawer extends React.Component {
 
   addVm = values => {
     const { type, network, ...rest } = values
-    const networkFix = network.map(item => {
-      const [kind, name, kindid] = item.split('&')
-      return { kind, name, kindid }
+    const networkFix = network.map((item, index) => {
+      const name = `nic${index + 1}`
+      const [kind, vnic, kindid] = item.split('&')
+      return { kind, vnic, kindid, name }
     })
     const data = {
       ...rest,

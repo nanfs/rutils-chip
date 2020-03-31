@@ -115,7 +115,7 @@ export default class BaseInfo extends React.Component {
           </Col>
           <Col span={8} className="dms-detail-value">
             {data.network &&
-              data.network.map(item => `${item.kind}/${item.name}`).join(',')}
+              data.network.map(item => `${item.kind}/${item.vnic}`).join(',')}
           </Col>
           <Col span={3} className="dms-detail-label">
             描述：

@@ -132,6 +132,7 @@ class Modalx extends React.Component {
     return this.hasFormx()
       ? React.cloneElement(this.props.children, {
           onRef: setFormRef,
+          submitting: this.state.submitting,
           formItemLayout: this.props.formItemLayout || formItemLayout
         })
       : this.props.children

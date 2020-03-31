@@ -1,5 +1,5 @@
 import React from 'react'
-import { Formx, Modalx } from '@/components'
+import { Formx, Modalx, SliderNumberx } from '@/components'
 import { Form, Input } from 'antd'
 import diskApi from '@/services/disks'
 import { required } from '@/utils/valid'
@@ -7,13 +7,13 @@ import { required } from '@/utils/valid'
 const { TextArea } = Input
 const { createModalCfg } = Modalx
 export default class EditDiskModal extends React.Component {
-  moreThanBefore = (rule, value, callback) => {
-    const beforeSize = this.state.capacity
-    if (value < beforeSize) {
-      callback(new Error('应该不小于之前磁盘大小'))
-    }
-    callback()
-  }
+  // moreThanBefore = (rule, value, callback) => {
+  //   const beforeSize = this.state.capacity
+  //   if (value < beforeSize) {
+  //     callback(new Error('应该不小于之前磁盘大小'))
+  //   }
+  //   callback()
+  // }
 
   componentDidMount() {
     this.props.onRef && this.props.onRef(this)
@@ -22,12 +22,12 @@ export default class EditDiskModal extends React.Component {
   pop = initValues => {
     this.modal.show()
     this.setState({ capacity: initValues.capacity })
-    this.modal.form.setFieldsValue(initValues)
+    this.modal.form.setFieldsValue({ ...initValues, newCapacity: 0 })
   }
 
   onOk = values => {
     diskApi
-      .edit(values)
+      .edit({ ...values, capacity: values.newCapacity })
       .then(res => {
         this.modal.afterSubmit(res)
       })
@@ -58,12 +58,16 @@ export default class EditDiskModal extends React.Component {
           <Form.Item prop="name" label="磁盘名" rules={[required]}>
             <Input />
           </Form.Item>
-          <Form.Item
-            prop="capacity"
-            label="磁盘大小(G)"
-            rules={[this.moreThanBefore]}
-          >
-            <Input placeholder="模板名称"></Input>
+          <Form.Item prop="capacity" label="当前大小(G)" rules={[required]}>
+            <Input disabled />
+          </Form.Item>
+          <Form.Item prop="newCapacity" label="扩容大小(G)">
+            <SliderNumberx
+              min={0}
+              max={10000}
+              hasInputNumber={true}
+              step={50}
+            />
           </Form.Item>
           <Form.Item prop="description" label="描述">
             <TextArea style={{ resize: 'none' }} rows={4} placeholder="描述" />

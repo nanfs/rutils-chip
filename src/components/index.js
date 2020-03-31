@@ -9,6 +9,7 @@ export { default as Radiox } from './Radiox'
 export { default as SelectSearch } from './SelectSearch'
 
 export { default as Selectx } from './Selectx'
+export { default as SliderNumberx } from './SliderNumberx'
 export { default as Switchx } from './Switchx'
 export { default as Tablex } from './Tablex'
 export { default as TreeSelectx } from './TreeSelectx'

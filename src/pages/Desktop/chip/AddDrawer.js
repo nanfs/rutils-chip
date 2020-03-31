@@ -164,10 +164,10 @@ export default class AddDrawer extends React.Component {
 
   onIsoChange = (a, b, target) => {
     if (target.toLowerCase().includes('x64')) {
-      return this.drawer.form.setFieldsValue({ isoBit: 'x64' })
+      return this.drawer.form.setFieldsValue({ isoBit: '64' })
     }
     if (target.toLowerCase().includes('x86')) {
-      return this.drawer.form.setFieldsValue({ isoBit: 'x86' })
+      return this.drawer.form.setFieldsValue({ isoBit: '86' })
     }
     this.drawer.form.setFieldsValue({ isoBit: '' })
   }

@@ -66,7 +66,7 @@ export default class AddDrawer extends React.Component {
   // 获取群集 后端可能没有分页
   getCluster = () => {
     return assetsApi
-      .clusters({ current: 1, size: 10000 })
+      .clusters({ current: 1, size: 10000, available: 1 })
       .then(res => {
         this.setState({ clusterArr: res.data })
         const clusterOptions = res.data.map(item => ({

@@ -5,7 +5,7 @@ export default {
   // 模板列表
   list(data) {
     return axios({
-      timeout: 10000,
+      // timeout: 10000,
       url: '/templates',
       method: 'get',
       params: data
@@ -22,7 +22,7 @@ export default {
     return axios({
       url: '/templates',
       method: 'delete',
-      timeout: 60000,
+      // timeout: 60000,
       data: qs.stringify(data)
     })
   },

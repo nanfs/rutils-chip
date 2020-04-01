@@ -61,11 +61,15 @@ export default class SetUserDrawer extends React.Component {
 
   renderSelectUser = () => {
     const { totalSelection } = this.state
-    return totalSelection.map(item => (
-      <Tag key={item} closable onClose={() => this.removeUserSelection(item)}>
-        {item && item.split('&')[1]}
-      </Tag>
-    ))
+    return totalSelection.map(item => {
+      const [, username, , , , domain] = item.split('&')
+      const domainFix = domain === 'internal-authz' ? '本地组' : domain
+      return (
+        <Tag key={item} closable onClose={() => this.removeUserSelection(item)}>
+          {`${username}@${domainFix}`}
+        </Tag>
+      )
+    })
   }
 
   pop = ids => {
@@ -80,7 +84,7 @@ export default class SetUserDrawer extends React.Component {
         paging: { size: 10 },
         selection: [],
         rowKey: record =>
-          `${record.uuid}&${record.username}&${record.firstname}&${record.lastname}&${record.groupname}`,
+          `${record.uuid}&${record.username}&${record.firstname}&${record.lastname}&${record.groupname}&${record.domain}`,
         searchs: { domain: 'internal' },
         pageSizeOptions: ['5', '10', '20', '50']
       })
@@ -92,7 +96,7 @@ export default class SetUserDrawer extends React.Component {
           const { owner } = res.data
           const totalSelection = owner.map(
             item =>
-              `${item.uuid}&${item.username}&${item.firstname}&${item.lastname}&${item.department}`
+              `${item.uuid}&${item.username}&${item.firstname}&${item.lastname}&${item.department}&${item.domain}`
           )
           this.setState(
             produce(draft => {
@@ -117,14 +121,21 @@ export default class SetUserDrawer extends React.Component {
   setUser = () => {
     const { ids, totalSelection } = this.state
     const users = totalSelection.map(item => {
-      const [uuid, username, firstname, lastname, groupname] = item.split('&')
+      const [
+        uuid,
+        username,
+        firstname,
+        lastname,
+        groupname,
+        domain
+      ] = item.split('&')
       return {
         uuid,
         username,
         firstname: firstname !== 'null' ? firstname : '',
         lastname: lastname !== 'null' ? lastname : '',
         department: groupname,
-        domain: 'internal-authz'
+        domain
       }
     })
 

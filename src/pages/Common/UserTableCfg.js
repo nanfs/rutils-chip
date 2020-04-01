@@ -10,10 +10,6 @@ export const columns = [
     dataIndex: 'name'
   },
   {
-    title: '域',
-    dataIndex: 'domain'
-  },
-  {
     title: '组',
     dataIndex: 'groupname'
   }

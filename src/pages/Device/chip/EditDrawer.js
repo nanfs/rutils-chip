@@ -63,10 +63,10 @@ export default class EditDrawer extends React.Component {
   }
 
   remove = k => {
-    if (k === 0) {
+    const usbs = this.getUsbs()
+    if (k === 0 && usbs.length <= 1) {
       return false
     }
-    const usbs = this.getUsbs()
     const newUsbs = [...usbs.slice(0, k), ...usbs.slice(k + 1)]
     this.setState({
       ...this.state,
@@ -78,19 +78,19 @@ export default class EditDrawer extends React.Component {
   add = index => {
     const usbs = this.getUsbs()
     if (index >= 9) {
-      notification.warn({ message: '特例最多允许添加10条' })
+      notification.warn({ message: '名单最多允许添加10条' })
       return
     }
     if (usbs[index].name == '' || usbs[index].name == undefined) {
-      notification.warn({ message: '请完善特例名称' })
+      notification.warn({ message: '请完善名单名称' })
       return
     }
     if (usbs[index].vid == '' || usbs[index].vid == undefined) {
-      notification.warn({ message: '请完善特例VendorId' })
+      notification.warn({ message: '请完善名单VendorId' })
       return
     }
     if (usbs[index].pid == '' || usbs[index].pid == undefined) {
-      notification.warn({ message: '请完善特例ProductId' })
+      notification.warn({ message: '请完善名单ProductId' })
       return
     }
     this.setState({

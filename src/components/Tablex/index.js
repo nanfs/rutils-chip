@@ -17,7 +17,7 @@ const tableCfg_init = {
   rowKey: 'id',
   // 选填，设置表格数据请求参数
   searchs: {},
-
+  locale: { filterReset: '清空' },
   // 选填，设置表格是否可选择，默认可选
   hasRowSelection: true,
   // 选填，设置表格选择，一般为空数组

@@ -318,9 +318,9 @@ export default class Desktop extends React.Component {
           ...draft.tableCfg.searchs,
           ...searchs,
           status: statusList,
-          cluster: clusterName,
+          clusters: clusterName,
           hosts: hostName,
-          datacenter: datacenterName
+          datacenters: datacenterName
         }
       }),
       () => this.tablex.refresh(this.state.tableCfg)

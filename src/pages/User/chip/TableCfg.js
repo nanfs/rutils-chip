@@ -43,7 +43,7 @@ export const columns = [
   {
     title: '状态',
     dataIndex: 'status',
-    defaultFilteredValue: ['0', '1'],
+    // defaultFilteredValue: ['0', '1'],
     filters: [
       { value: '1', text: '禁用' },
       { value: '0', text: '正常' }

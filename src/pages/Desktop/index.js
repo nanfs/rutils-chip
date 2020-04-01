@@ -376,10 +376,14 @@ export default class Desktop extends React.Component {
 
   onTableChange = (page, filter, sorter) => {
     const searchs = {}
+    const orderArr = {
+      ascend: 'asc',
+      descend: 'desc'
+    }
     if (sorter) {
       const { order, field } = sorter
-      searchs.sort = field || undefined
-      searchs.order = order || undefined
+      searchs.sortKey = field || undefined
+      searchs.sortValue = (order && orderArr[order]) || undefined
     }
     const statusList = []
     filter.status &&

@@ -63,6 +63,9 @@ export default class EditDrawer extends React.Component {
   }
 
   remove = k => {
+    if (k === 0) {
+      return false
+    }
     const usbs = this.getUsbs()
     const newUsbs = [...usbs.slice(0, k), ...usbs.slice(k + 1)]
     this.setState({

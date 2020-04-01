@@ -6,7 +6,7 @@ export const columns = [
     title: '级别',
     dataIndex: 'severity',
     width: 70,
-    defaultFilteredValue: [0, 1, 2, 10],
+    // defaultFilteredValue: [0, 1, 2, 10],
     filters: severityOptions,
     render: renderServerityOptions
   },

@@ -214,8 +214,8 @@ export default class AddDrawer extends React.Component {
           >
             <Switch
               name="usageFix"
-              checkedChildren="启用"
-              unCheckedChildren="禁用"
+              checkedChildren="启用白名单"
+              unCheckedChildren="启用黑名单"
             />
           </Form.Item>
           <Form.Item prop="description" label="描述" rules={[number5]}>

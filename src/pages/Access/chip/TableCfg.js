@@ -33,6 +33,7 @@ export const columns = [
     title: '准入类型',
     dataIndex: 'type',
     width: 160,
+    defaultFilteredValue: [0, 1],
     filters: typeOptions,
     render: (text, record) => {
       return typeArr[record.admitInterval[0].type]

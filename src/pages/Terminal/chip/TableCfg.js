@@ -12,6 +12,7 @@ export const columns = [
     title: '状态',
     dataIndex: 'status',
     width: 100,
+    defaultFilteredValue: [0, 1],
     filters: [
       {
         text: '离线',
@@ -63,6 +64,7 @@ export const columns = [
     title: '接入状态',
     dataIndex: 'isReg',
     width: 100,
+    defaultFilteredValue: [false, true],
     filters: [
       {
         text: '待接入',

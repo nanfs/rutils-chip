@@ -58,7 +58,8 @@ export default class BaseInfo extends React.Component {
             MAC：
           </Col>
           <Col span={8} className="dms-detail-value">
-            {data.mac}
+            {/* 通过网络信息里面取得MAC信息 */}
+            {data.network?.map(item => item.mac).join(',')}
           </Col>
           <Col span={3} className="dms-detail-label">
             操作系统：

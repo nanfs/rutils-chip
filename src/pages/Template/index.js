@@ -63,7 +63,7 @@ export default class Template extends React.Component {
     confirm({
       title: '确定删除所选数据?',
       onOk() {
-        return new Promise((resolve, reject) => {
+        return new Promise(resolve => {
           templateApi
             .delTem({ ids: selectTem })
             .then(res => {

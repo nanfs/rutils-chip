@@ -390,14 +390,15 @@ export default class AddDrawer extends React.Component {
           <Form.Item prop="description" label="描述">
             <TextArea placeholder="" />
           </Form.Item>
+          {/* 默认创建最多100台 */}
           <Form.Item
             prop="desktopNum"
             label="创建数量"
             required
             hidden={this.getSelectType() !== '1'}
-            rules={[required, lessThanValue(20)]}
+            rules={[required, lessThanValue(100)]}
           >
-            <InputNumber placeholder="" min={1} max={20} />
+            <InputNumber placeholder="" min={1} max={100} />
           </Form.Item>
           <Diliver />
           <Title slot="网络设置"></Title>

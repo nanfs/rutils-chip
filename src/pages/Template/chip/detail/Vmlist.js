@@ -10,13 +10,13 @@ import {
   message
 } from 'antd'
 
-import { SelectSearch, Tablex } from '@/components'
+import { Tablex } from '@/components'
 import produce from 'immer'
 import desktopsApi from '@/services/desktops'
 import { columns, apiMethod } from '@/pages/Common/VmTableCfg'
 import { downloadVV } from '@/utils/tool'
 
-const { createTableCfg, TableWrap, ToolBar, BarLeft, BarRight } = Tablex
+const { createTableCfg, TableWrap, ToolBar, BarLeft } = Tablex
 const { confirm } = Modal
 export default class Desktop extends React.Component {
   vmName = {
@@ -101,7 +101,8 @@ export default class Desktop extends React.Component {
   state = {
     tableCfg: createTableCfg({
       columns: this.columnsArr,
-      searchs: { templateId: this.props.templateId },
+      // 筛选模板ID 不过滤池里面桌面
+      searchs: { templateId: this.props.templateId, neededPoolDesktop: 1 },
       apiMethod,
       paging: { size: 10 },
       pageSizeOptions: ['5', '10', '20', '50']
@@ -248,23 +249,8 @@ export default class Desktop extends React.Component {
     })
   }
 
-  search = (key, value) => {
-    const searchs = { templateId: this.props.templateId }
-    searchs[key] = value
-    this.setState(
-      produce(draft => {
-        draft.tableCfg.searchs = {
-          // ...draft.tableCfg.searchs,
-          status: draft.tableCfg.searchs.status,
-          ...searchs
-        }
-      }),
-      () => this.tablex.refresh(this.state.tableCfg)
-    )
-  }
-
   onTableChange = (page, filter, sorter) => {
-    const searchs = { templateId: this.props.templateId }
+    const searchs = { templateId: this.props.templateId, neededPoolDesktop: 1 }
     if (sorter) {
       const { order, field } = sorter
       searchs.sort = field || undefined
@@ -315,7 +301,6 @@ export default class Desktop extends React.Component {
 
   // TODO 修改开关机等 禁用条件
   render() {
-    const searchOptions = [{ label: '名称', value: 'name' }]
     const { disabledButton } = this.state
     const moreButton = (
       <Menu>
@@ -371,12 +356,6 @@ export default class Desktop extends React.Component {
                 </Button>
               </Dropdown>
             </BarLeft>
-            <BarRight>
-              <SelectSearch
-                options={searchOptions}
-                onSearch={this.search}
-              ></SelectSearch>
-            </BarRight>
           </ToolBar>
           <Tablex
             onRef={ref => {

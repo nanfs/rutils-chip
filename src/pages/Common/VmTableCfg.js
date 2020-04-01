@@ -30,6 +30,12 @@ export const columns = [
     title: '状态',
     dataIndex: 'status',
     width: 80,
+    defaultFilteredValue: [
+      [0, 13],
+      [1],
+      [2, 16, 10, 15, 5, 6, 11, 12, 9],
+      [7, 8, 14, -1, 4]
+    ],
     filters: [
       { value: [0, 13], text: '关机' },
       { value: [1], text: '开机' },
@@ -42,6 +48,11 @@ export const columns = [
     title: '主机',
     ellipsis: true,
     dataIndex: 'hostName',
+    defaultFilteredValue: JSON.parse(sessionStorage.getItem('hosts')).map(
+      item => {
+        return item.value
+      }
+    ),
     filters: JSON.parse(sessionStorage.getItem('hosts'))
   },
   // {
@@ -56,16 +67,27 @@ export const columns = [
     title: '数据中心',
     ellipsis: true,
     dataIndex: 'datacenterName',
+    defaultFilteredValue: JSON.parse(sessionStorage.getItem('datacenters')).map(
+      item => {
+        return item.value
+      }
+    ),
     filters: JSON.parse(sessionStorage.getItem('datacenters'))
   },
   {
     title: '集群',
     ellipsis: true,
     dataIndex: 'clusterName',
+    defaultFilteredValue: JSON.parse(sessionStorage.getItem('clusters')).map(
+      item => {
+        return item.value
+      }
+    ),
     filters: JSON.parse(sessionStorage.getItem('clusters'))
   },
   {
     title: '已分配用户',
+    ellipsis: true,
     dataIndex: 'assignedUsers',
     render: text => (
       <span className="table-action">

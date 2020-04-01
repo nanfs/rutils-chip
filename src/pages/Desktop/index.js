@@ -38,6 +38,20 @@ export default class Desktop extends React.Component {
     title: '操作',
     width: 130,
     dataIndex: 'action',
+    defaultFilteredValue: [
+      'os',
+      'status',
+      'hostName',
+      'ip',
+      'datacenterName',
+      'clusterName',
+      'assignedUsers',
+      'isConsole',
+      'onlineTime',
+      'cpuUsageRate',
+      'memoryUsageRate',
+      'networkUsageRate'
+    ],
     filters: [
       { value: 'os', text: '操作系统' },
       { value: 'status', text: '状态' },

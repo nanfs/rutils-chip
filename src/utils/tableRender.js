@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Icon, Tooltip } from 'antd'
+import { Icon, Tooltip, Popover } from 'antd'
 import { MyIcon } from '@/components'
 
 export const severityOptions = [
@@ -241,4 +241,28 @@ export const osTextRender = os => {
     'os-qilin': '麒麟'
   }
   return typeList[osType]
+}
+
+// 已分配用户显示
+export function assignedUsersRender(value) {
+  if (!value) {
+    return <Icon type="close" className="table-icon-warn" />
+  } else if (value.indexOf(',') !== -1) {
+    const strArr = value.split(',')
+    const info = strArr.map((item, index) => {
+      return <p key={index}>{item}</p>
+    })
+    return (
+      <Popover content={info}>
+        <Icon type="team" className="table-icon-success" />
+      </Popover>
+    )
+  } else {
+    const user = <p>{value}</p>
+    return (
+      <Popover content={user}>
+        <Icon type="user" className="table-icon-success" />
+      </Popover>
+    )
+  }
 }

@@ -1,7 +1,12 @@
 import desktopsApi from '@/services/desktops'
 import React from 'react'
 import { Progress, Icon, Popover } from 'antd'
-import { vmStatusRender, osIconRender, osTextRender } from '@/utils/tableRender'
+import {
+  vmStatusRender,
+  osIconRender,
+  osTextRender,
+  assignedUsersRender
+} from '@/utils/tableRender'
 import { onlineStringTime } from '@/utils/tool'
 import { MyIcon } from '@/components'
 import {
@@ -85,17 +90,9 @@ export const columns = [
   },
   {
     title: '已分配用户',
-    ellipsis: true,
+    // ellipsis: true,
     dataIndex: 'assignedUsers',
-    render: text => (
-      <span className="table-action">
-        {text ? (
-          <Icon type="check" className="table-icon-success" />
-        ) : (
-          <Icon type="close" className="table-icon-warn" />
-        )}
-      </span>
-    )
+    render: text => assignedUsersRender(text)
   },
   {
     title: '控制台',

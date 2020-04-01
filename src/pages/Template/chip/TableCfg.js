@@ -14,7 +14,7 @@ export const columns = [
   {
     title: '已使用桌面',
     dataIndex: 'vmUsed',
-    width: 100,
+    width: 120,
     render: text => {
       return <Tag>{text}</Tag>
     }

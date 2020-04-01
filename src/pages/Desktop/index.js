@@ -169,6 +169,7 @@ export default class Desktop extends React.Component {
       apiMethod,
       replaceTime: 5000,
       paging: { size: 10 },
+      locale: { filterReset: '清空' },
       pageSizeOptions: ['5', '10', '20', '50']
     }),
     innerPath: undefined,

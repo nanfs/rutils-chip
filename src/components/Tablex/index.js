@@ -280,7 +280,8 @@ class Tablex extends React.Component {
       expandedRowRender,
       pageSizeOptions,
       hasRowSelection,
-      scroll
+      scroll,
+      locale
     } = this.props.tableCfg
     const { total, size, current } = paging
     const rowSelection = {
@@ -299,6 +300,7 @@ class Tablex extends React.Component {
           loading={loading}
           pagination={false}
           scroll={scroll}
+          locale={locale}
           expandedRowRender={expandedRowRender}
           onRow={this.props.onRow}
           onChange={onChange}

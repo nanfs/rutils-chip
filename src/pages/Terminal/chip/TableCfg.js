@@ -11,7 +11,7 @@ export const columns = [
   {
     title: '状态',
     dataIndex: 'status',
-    width: 100,
+    width: 80,
     // defaultFilteredValue: [0, 1],
     filters: [
       {
@@ -56,14 +56,14 @@ export const columns = [
     ellipsis: true
   },
   {
-    title: 'Mac',
+    title: '物理地址',
     dataIndex: 'mac',
     ellipsis: true
   },
   {
     title: '接入状态',
     dataIndex: 'isReg',
-    width: 100,
+    width: 110,
     // defaultFilteredValue: [false, true],
     filters: [
       {
@@ -85,7 +85,7 @@ export const columns = [
     }
   },
   {
-    title: 'sn',
+    title: 'SN(序列号)',
     dataIndex: 'sn',
     ellipsis: true
   },

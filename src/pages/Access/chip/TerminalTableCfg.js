@@ -55,7 +55,7 @@ export const columns = [
     ellipsis: true
   },
   {
-    title: 'Mac',
+    title: '物理地址',
     dataIndex: 'mac',
     ellipsis: true
   },

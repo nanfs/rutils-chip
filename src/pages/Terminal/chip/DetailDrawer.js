@@ -88,25 +88,44 @@ export default class DetailDrawer extends React.Component {
                   </Tooltip>
                 </Col>
               </Row>
+              <Row className="dms-detail-row">
+                <Col span={3} className="dms-detail-label">
+                  IP：
+                </Col>
+                <Col span={8} className="dms-detail-value">
+                  <Tooltip title={initValues.ip}>
+                    <span>{initValues.ip}</span>
+                  </Tooltip>
+                </Col>
+                <Col span={3} className="dms-detail-label">
+                  物理地址：
+                </Col>
+                <Col span={8} className="dms-detail-value">
+                  <Tooltip title={initValues.mac}>
+                    <span>{initValues.mac}</span>
+                  </Tooltip>
+                </Col>
+              </Row>
+              <Row className="dms-detail-row">
+                <Col span={3} className="dms-detail-label">
+                  终端类型：
+                </Col>
+                <Col span={8} className="dms-detail-value">
+                  <Tooltip title={initValues.terminalType}>
+                    <span>{initValues.terminalType}</span>
+                  </Tooltip>
+                </Col>
+                <Col span={3} className="dms-detail-label">
+                  位置：
+                </Col>
+                <Col span={8} className="dms-detail-value">
+                  <Tooltip title={initValues.location}>
+                    <span>{initValues.location}</span>
+                  </Tooltip>
+                </Col>
+              </Row>
               {/* // TODO 终端未实现 */}
-              {/* <Row className="dms-detail-row">
-            <Col span={3} className="dms-detail-label">
-              位置：
-            </Col>
-            <Col span={8} className="dms-detail-value">
-              <Tooltip title={initValues.location}>
-                <span>{initValues.location}</span>
-              </Tooltip>
-            </Col>
-            <Col span={3} className="dms-detail-label">
-              终端类型：
-            </Col>
-            <Col span={8} className="dms-detail-value">
-              <Tooltip title={initValues.terminal_type}>
-                <span>{initValues.terminal_type}</span>
-              </Tooltip>
-            </Col>
-          </Row>
+              {/* 
           <Row className="dms-detail-row">
             <Col span={3} className="dms-detail-label">
               版本号：

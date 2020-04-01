@@ -182,7 +182,7 @@ export default class SetSafePolicyDrawer extends React.Component {
         onOk={this.setDevice}
         onSuccess={this.props.onSuccess}
       >
-        <Formx className="p25">
+        <Formx className="pt15">
           <TableWrap>
             <ToolBar>
               <Switch

@@ -29,10 +29,7 @@ export default class AddDrawer extends React.Component {
 
   pop = () => {
     this.drawer.show()
-    // this.drawer.form.setFieldsValue({
-    //   username: '',
-    //   password: ''
-    // })
+    this.drawer.form.setFieldsValue({ domain: '' })
   }
 
   addUser = values => {

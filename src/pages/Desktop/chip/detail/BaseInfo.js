@@ -39,109 +39,118 @@ export default class BaseInfo extends React.Component {
     const { loading, data = {} } = this.state || {}
     return (
       <Spin spinning={loading}>
-        <Row className="dms-detail-row">
-          <Col span={3} className="dms-detail-label">
-            桌面名称：
-          </Col>
-          <Col span={8} className="dms-detail-value">
-            {data.name}
-          </Col>
-          <Col span={3} className="dms-detail-label">
-            数据中心：
-          </Col>
-          <Col span={8} className="dms-detail-value">
-            {data.datacenterName}
-          </Col>
-        </Row>
-        <Row className="dms-detail-row">
-          <Col span={3} className="dms-detail-label">
-            MAC：
-          </Col>
-          <Col span={8} className="dms-detail-value">
-            {/* 通过网络信息里面取得MAC信息 */}
-            {data.network?.map(item => item.mac).join(',')}
-          </Col>
-          <Col span={3} className="dms-detail-label">
-            操作系统：
-          </Col>
-          <Col span={8} className="dms-detail-value">
-            {osTextRender(data.os)}
-          </Col>
-        </Row>
-        <Row className="dms-detail-row">
-          <Col span={3} className="dms-detail-label">
-            模板：
-          </Col>
-          <Col span={8} className="dms-detail-value">
-            {data.templateName}
-          </Col>
-          <Col span={3} className="dms-detail-label">
-            集群：
-          </Col>
-          <Col span={8} className="dms-detail-value">
-            {data.clusterName}
-          </Col>
-        </Row>
-        <Row className="dms-detail-row">
-          <Col span={3} className="dms-detail-label">
-            ID：
-          </Col>
-          <Col span={8} className="dms-detail-value">
-            {data.id}
-          </Col>
-          <Col span={3} className="dms-detail-label">
-            CPU：
-          </Col>
-          <Col span={8} className="dms-detail-value">
-            {data.cpuCores}
-          </Col>
-        </Row>
-        <Row className="dms-detail-row">
-          <Col span={3} className="dms-detail-label">
-            IP：
-          </Col>
-          <Col span={8} className="dms-detail-value">
-            {data.ip}
-          </Col>
-          <Col span={3} className="dms-detail-label">
-            内存：
-          </Col>
-          <Col span={8} className="dms-detail-value">
-            {data.memory} G
-          </Col>
-        </Row>
-        <Row className="dms-detail-row">
-          <Col span={3} className="dms-detail-label">
-            网络：
-          </Col>
-          <Col span={8} className="dms-detail-value">
-            {data.network &&
-              data.network.map(item => `${item.kind}/${item.vnic}`).join(',')}
-          </Col>
-          <Col span={3} className="dms-detail-label">
-            描述：
-          </Col>
-          <Col span={8} className="dms-detail-value">
-            {data.description}
-          </Col>
-        </Row>
-        <Row className="dms-detail-row"></Row>
-        <Diliver />
-        <Title slot="所属用户"></Title>
-        <Table
-          columns={userColums}
-          dataSource={data.owner}
-          rowKey="username"
-          pagination={{ position: 'none' }}
-        ></Table>
-        <Diliver />
-        <Title slot="应用程序"></Title>
-        <Row className="dms-detail-row">
-          <div>
-            {data.appList &&
-              data.appList.split(',').map(item => <Tag key={item}>{item}</Tag>)}
-          </div>
-        </Row>
+        <div className="dms-detail-section">
+          <Row className="dms-detail-row">
+            <Col span={3} className="dms-detail-label">
+              桌面名称：
+            </Col>
+            <Col span={8} className="dms-detail-value">
+              {data.name}
+            </Col>
+            <Col span={3} className="dms-detail-label">
+              数据中心：
+            </Col>
+            <Col span={8} className="dms-detail-value">
+              {data.datacenterName}
+            </Col>
+          </Row>
+          <Row className="dms-detail-row">
+            <Col span={3} className="dms-detail-label">
+              MAC：
+            </Col>
+            <Col span={8} className="dms-detail-value">
+              {/* 通过网络信息里面取得MAC信息 */}
+              {data.network?.map(item => item.mac).join(',')}
+            </Col>
+            <Col span={3} className="dms-detail-label">
+              操作系统：
+            </Col>
+            <Col span={8} className="dms-detail-value">
+              {osTextRender(data.os)}
+            </Col>
+          </Row>
+          <Row className="dms-detail-row">
+            <Col span={3} className="dms-detail-label">
+              模板：
+            </Col>
+            <Col span={8} className="dms-detail-value">
+              {data.templateName}
+            </Col>
+            <Col span={3} className="dms-detail-label">
+              集群：
+            </Col>
+            <Col span={8} className="dms-detail-value">
+              {data.clusterName}
+            </Col>
+          </Row>
+          <Row className="dms-detail-row">
+            <Col span={3} className="dms-detail-label">
+              ID：
+            </Col>
+            <Col span={8} className="dms-detail-value">
+              <span title={data.id}>{data.id}</span>
+            </Col>
+            <Col span={3} className="dms-detail-label">
+              CPU：
+            </Col>
+            <Col span={8} className="dms-detail-value">
+              {data.cpuCores}
+            </Col>
+          </Row>
+          <Row className="dms-detail-row">
+            <Col span={3} className="dms-detail-label">
+              IP：
+            </Col>
+            <Col span={8} className="dms-detail-value">
+              <span title={data.ip}>{data.ip}</span>
+            </Col>
+            <Col span={3} className="dms-detail-label">
+              内存：
+            </Col>
+            <Col span={8} className="dms-detail-value">
+              {data.memory} G
+            </Col>
+          </Row>
+          <Row className="dms-detail-row">
+            <Col span={3} className="dms-detail-label">
+              网络：
+            </Col>
+            <Col span={8} className="dms-detail-value">
+              {data.network &&
+                data.network.map(item => `${item.kind}/${item.vnic}`).join(',')}
+            </Col>
+            <Col span={3} className="dms-detail-label">
+              描述：
+            </Col>
+            <Col span={8} className="dms-detail-value">
+              <span title={data.description}>{data.description}</span>
+            </Col>
+          </Row>
+          <Row className="dms-detail-row"></Row>
+        </div>
+        {/* <Diliver /> */}
+
+        <div className="dms-detail-section">
+          <Title slot="所属用户"></Title>
+          <Table
+            columns={userColums}
+            dataSource={data.owner}
+            rowKey="username"
+            pagination={{ position: 'none' }}
+          ></Table>
+        </div>
+        {/* <Diliver /> */}
+        <div className="dms-detail-section">
+          <Title slot="应用程序"></Title>
+          <Row className="dms-detail-row">
+            <div>
+              {data.appList &&
+                data.appList
+                  .split(',')
+                  .map(item => <Tag key={item}>{item}</Tag>)}
+            </div>
+          </Row>
+        </div>
       </Spin>
     )
   }

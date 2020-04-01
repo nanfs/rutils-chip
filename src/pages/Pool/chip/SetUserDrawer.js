@@ -129,15 +129,16 @@ export default class SetUserDrawer extends React.Component {
       .then(res => {
         this.drawer.afterSubmit(res)
       })
-      .catch(error => {
-        console.log(error)
-        message.error(error.message || error)
+      .catch(errors => {
+        this.drawer.break(errors)
+        console.log(errors)
       })
   }
 
-  search = (key, value) => {
+  search = (domain, username) => {
     const searchs = {}
-    searchs[key] = value
+    searchs.domain = domain
+    searchs.username = username
     this.setState(
       produce(draft => {
         draft.tableCfg.searchs = {
@@ -150,13 +151,13 @@ export default class SetUserDrawer extends React.Component {
   }
 
   render() {
-    const searchOptions = [{ label: '用户名', value: 'username' }]
+    const searchOptions = JSON.parse(sessionStorage.getItem('domains'))
     return (
       <Drawerx
         onRef={ref => {
           this.drawer = ref
         }}
-        onClose={this.onClose}
+        onClose={this.props.onClose}
         onOk={this.setUser}
         onSuccess={this.props.onSuccess}
       >

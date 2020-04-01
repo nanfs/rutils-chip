@@ -89,9 +89,10 @@ export const columns = [
     filters: JSON.parse(sessionStorage.getItem('clusters'))
   },
   {
-    title: '已分配用户',
+    title: '用户',
     // ellipsis: true,
     dataIndex: 'assignedUsers',
+    width: 60,
     render: text => assignedUsersRender(text)
   },
   {
@@ -114,7 +115,7 @@ export const columns = [
     }
   },
   {
-    title: '本次运行时长',
+    title: '已运行',
     key: 'onlineTime',
     dataIndex: 'onlineTime',
     sorter: true,

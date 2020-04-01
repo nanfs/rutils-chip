@@ -59,9 +59,9 @@ export default class Desktop extends React.Component {
       { value: 'ip', text: 'IP' },
       { value: 'datacenterName', text: '数据中心' },
       { value: 'clusterName', text: '集群' },
-      { value: 'assignedUsers', text: '已分配用户' },
+      { value: 'assignedUsers', text: '用户' },
       { value: 'isConsole', text: '控制台' },
-      { value: 'onlineTime', text: '本次运行时长' },
+      { value: 'onlineTime', text: '已运行' },
       { value: 'cpuUsageRate', text: 'CPU' },
       { value: 'memoryUsageRate', text: '内存' },
       { value: 'networkUsageRate', text: '网络' }

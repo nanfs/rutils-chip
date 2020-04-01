@@ -139,9 +139,10 @@ export default class SetUserDrawer extends React.Component {
       })
   }
 
-  search = (key, value) => {
+  search = (domain, username) => {
     const searchs = {}
-    searchs[key] = value
+    searchs.domain = domain
+    searchs.username = username
     this.setState(
       produce(draft => {
         draft.tableCfg.searchs = {
@@ -154,7 +155,7 @@ export default class SetUserDrawer extends React.Component {
   }
 
   render() {
-    const searchOptions = [{ label: '用户名', value: 'username' }]
+    const searchOptions = JSON.parse(sessionStorage.getItem('domains'))
     return (
       <Drawerx
         onRef={ref => {

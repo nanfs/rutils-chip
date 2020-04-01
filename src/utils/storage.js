@@ -1,4 +1,5 @@
 import assetsApi from '@/services/assets'
+import userApi from '@/services/user'
 
 const setClusterToSession = () => {
   assetsApi
@@ -47,5 +48,24 @@ const setHostToSession = () => {
       sessionStorage.setItem('hosts', JSON.stringify([]))
     })
 }
-
-export { setClusterToSession, setDataCenterToSession, setHostToSession }
+const setDomainToSession = () => {
+  userApi
+    .domainlist()
+    .then(res => {
+      const hosts =
+        res?.data?.map(item => ({
+          value: item,
+          label: item
+        })) || null
+      sessionStorage.setItem('domains', JSON.stringify(hosts))
+    })
+    .catch(() => {
+      sessionStorage.setItem('domains', JSON.stringify([]))
+    })
+}
+export {
+  setClusterToSession,
+  setDataCenterToSession,
+  setHostToSession,
+  setDomainToSession
+}

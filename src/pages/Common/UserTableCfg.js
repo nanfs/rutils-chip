@@ -12,6 +12,10 @@ export const columns = [
   {
     title: '域',
     dataIndex: 'domain'
+  },
+  {
+    title: '组',
+    dataIndex: 'groupname'
   }
 ]
 export const apiMethod = usersApi.descrip

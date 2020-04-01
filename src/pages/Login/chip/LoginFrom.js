@@ -9,7 +9,8 @@ import { required } from '@/utils/valid'
 import {
   setClusterToSession,
   setDataCenterToSession,
-  setHostToSession
+  setHostToSession,
+  setDomainToSession
 } from '@/utils/storage'
 
 export default class LoginForm extends React.Component {
@@ -70,6 +71,7 @@ export default class LoginForm extends React.Component {
           setClusterToSession()
           setDataCenterToSession()
           setHostToSession()
+          setDomainToSession()
           window.location.hash = 'dashboard'
         } else {
           message.error(res.message || '登录失败')

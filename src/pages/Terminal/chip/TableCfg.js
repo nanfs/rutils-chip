@@ -15,14 +15,14 @@ export const columns = [
     filters: [
       {
         text: '离线',
-        value: 0
+        value: [0]
       },
       {
         text: '在线',
-        value: 1
+        value: [1]
       }
     ],
-    onFilter: (value, record) => record.status === value,
+    // onFilter: (value, record) => record.status === value,
     render: value => {
       return value === 0 ? (
         <Popover content={'离线'}>

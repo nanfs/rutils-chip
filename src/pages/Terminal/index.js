@@ -90,7 +90,7 @@ export default class Termina extends React.Component {
             key="10"
             onClick={() => {
               this.setState({ inner: '设置外设控制' })
-              this.setSafePolicyDrawer.pop([record.id])
+              this.setSafePolicyDrawer.pop([record.sn])
               this.currentDrawer = this.setSafePolicyDrawer
             }}
           >
@@ -100,7 +100,7 @@ export default class Termina extends React.Component {
             key="11"
             onClick={() => {
               this.setState({ inner: '设置准入控制' })
-              this.setAccessPolicyDrawer.pop([record.id])
+              this.setAccessPolicyDrawer.pop([record.sn])
               this.currentDrawer = this.setAccessPolicyDrawer
             }}
           >

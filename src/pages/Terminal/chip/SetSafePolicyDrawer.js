@@ -1,6 +1,6 @@
 import React from 'react'
 import { Tag, Switch, message } from 'antd'
-import { columns, apiMethod } from '@/pages/Device/chip/TableCfg'
+import { columns, apiMethod } from './SafePolicyTableCfg'
 import terminalApi from '@/services/terminal'
 import produce from 'immer'
 import { Drawerx, Formx, Tablex, Diliver, Title } from '@/components'
@@ -187,8 +187,8 @@ export default class SetSafePolicyDrawer extends React.Component {
             <ToolBar>
               <Switch
                 name="usagePeripherals"
-                checkedChildren="启用外设"
-                unCheckedChildren="禁用外设"
+                checkedChildren="启用白名单"
+                unCheckedChildren="启用黑名单"
                 disabled={this.state.switchDisable}
                 checked={this.state.switchStatus}
                 onChange={this.switchChange}

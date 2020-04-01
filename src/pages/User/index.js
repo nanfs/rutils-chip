@@ -154,7 +154,8 @@ export default class User extends React.Component {
     domainlist: [],
     disabledButton: {},
     domainTreeData: undefined,
-    groupTreeData: []
+    groupTreeData: [],
+    selectedType: 'internal'
   }
 
   componentDidMount = () => {
@@ -171,9 +172,9 @@ export default class User extends React.Component {
               this.setState({
                 domainTreeData: [
                   {
-                    key: 'ad',
-                    id: 'ad',
-                    value: 'ad',
+                    key: item,
+                    id: item,
+                    value: item,
                     parentId: '-2',
                     title: item,
                     type: 'ad'
@@ -200,17 +201,53 @@ export default class User extends React.Component {
   search = (key, value) => {
     const searchs = {}
     searchs[key] = value
-    this.setState(
+    console.log(this.state.selectedType)
+    if (this.state.selectedType === 'internal') {
+      this.setState(
+        produce(draft => {
+          draft.tableCfg = {
+            ...draft.tableCfg,
+            apiMethod: userApi.queryByGroup,
+            searchs: {
+              // ...draft.tableCfg.searchs,
+              groupId: draft.tableCfg.searchs.groupId,
+              ...searchs
+            }
+          }
+          draft.selectedType = 'internal'
+        }),
+        () => this.tablex.search(this.state.tableCfg)
+      )
+    } else {
+      this.setState(
+        produce(draft => {
+          draft.tableCfg = {
+            ...draft.tableCfg,
+            apiMethod: userApi.queryByAD,
+            searchs: {
+              // ...draft.tableCfg.searchs,
+              domain: draft.tableCfg.searchs.domain,
+              ...searchs
+            }
+          }
+          draft.selectedType = value
+        }),
+        () => this.tablex.search(this.state.tableCfg)
+      )
+    }
+
+    /* this.setState(
       produce(draft => {
         draft.tableCfg.searchs = {
           // ...draft.tableCfg.searchs,
           status: draft.tableCfg.searchs.status,
           groupId: draft.tableCfg.searchs.groupId,
+          domain: draft.tableCfg.searchs.domain,
           ...searchs
         }
       }),
       () => this.tablex.refresh(this.state.tableCfg)
-    )
+    ) */
   }
 
   sendOrder = (id, order) => {
@@ -230,7 +267,7 @@ export default class User extends React.Component {
 
   editUser = () => {
     this.setState({ inner: '编辑用户' })
-    this.editDrawer.pop(this.state.selectData[0])
+    this.editDrawer.pop(this.state.selectData[0], this.state.selectedType)
     // this.editDrawer.drawer.show()
     this.currentDrawer = this.editDrawer
   }
@@ -320,9 +357,12 @@ export default class User extends React.Component {
             apiMethod: userApi.queryByAD,
             searchs: {
               ...draft.tableCfg.searchs,
-              domain: value
+              domain: value,
+              groupId: '',
+              userName: ''
             }
           }
+          draft.selectedType = value
         }),
         () => this.tablex.search(this.state.tableCfg)
       )
@@ -335,9 +375,11 @@ export default class User extends React.Component {
             apiMethod: userApi.queryByGroup,
             searchs: {
               ...draft.tableCfg.searchs,
-              groupId: value
+              groupId: value,
+              domain: ''
             }
           }
+          draft.selectedType = 'internal'
         }),
         () => this.tablex.search(this.state.tableCfg)
       )

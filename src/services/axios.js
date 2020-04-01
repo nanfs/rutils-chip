@@ -41,7 +41,7 @@ function checkStatus(response = {}) {
 // TODO 3分钟超时
 const service = axios.create({
   baseURL, // api的base_url
-  timeout: 180000, // 请求超时时间
+  timeout: 30000, // 请求超时时间
   method: 'post',
   withCredentials: true,
   headers: {

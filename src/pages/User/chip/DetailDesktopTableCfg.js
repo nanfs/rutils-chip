@@ -46,7 +46,7 @@ export const detailDesktopColumns = [
     }
   },
   {
-    title: '本次运行时长',
+    title: '已运行',
     key: 'onlineTime',
     dataIndex: 'onlineTime',
     render: text => onlineStringTime(text)

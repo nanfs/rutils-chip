@@ -18,11 +18,6 @@ export default class EditDrawer extends React.Component {
     this.props.onRef && this.props.onRef(this)
   }
 
-  state = {
-    checkWeeksRequired: false,
-    checkDayRequired: false
-  }
-
   /**
    * @memberof access
    * @param data 编辑准入策略时的初始值
@@ -42,7 +37,6 @@ export default class EditDrawer extends React.Component {
         ? date.split('<>').map(item => dayjs(item, 'YYYY/MM/DD'))
         : undefined
     const startTime = dayjs(startTimeStr, 'HH:mm')
-    console.log(startTime, startTimeStr)
     const endTime = dayjs(endTimeStr, 'HH:mm')
     this.drawer.form.setFieldsValue({
       id,

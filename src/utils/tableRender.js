@@ -200,29 +200,38 @@ export const vmStatusRender = status => {
   )
 }
 const osList = {
-  '9': 'os-redhat',
-  '15': 'os-redhat',
-  '8': 'os-redhat',
-  '14': 'os-redhat',
+  '0': 'os-linux',
+  '5': 'os-linux',
   '7': 'os-redhat',
+  '8': 'os-redhat',
+  '9': 'os-redhat',
   '13': 'os-redhat',
+  '14': 'os-redhat',
+  '15': 'os-redhat',
   '18': 'os-redhat',
   '19': 'os-redhat',
   '24': 'os-redhat',
+  '28': 'os-redhat',
+  '30': 'os-redhat',
+  '33': 'os-linux',
+  '51': 'os-qilin',
+  '1002': 'os-linux',
   '1003': 'os-redhat',
+  '1004': 'os-linux',
+  '1005': 'os-ubuntu',
   '1006': 'os-redhat',
-  '1': 'os-windows',
-  '3': 'os-windows',
-  '4': 'os-windows',
-  '10': 'os-windows',
-  '11': 'os-windows',
-  '12': 'os-windows',
-  '16': 'os-windows',
-  '17': 'os-windows',
-  '20': 'os-windows',
-  '21': 'os-windows',
-  '23': 'os-windows',
-  '51': 'os-qilin'
+  '1007': 'os-redhat',
+  '1300': 'os-linux',
+  '2002': 'os-linux',
+  '2004': 'os-linux',
+  '2005': 'os-linux',
+  '1500': 'os-linux',
+  '1501': 'os-linux',
+  '1252': 'os-ubuntu',
+  '1253': 'os-ubuntu',
+  '1254': 'os-ubuntu',
+  '1255': 'os-ubuntu',
+  '1256': 'os-ubuntu'
 }
 export const osIconRender = os => {
   return (
@@ -238,7 +247,9 @@ export const osTextRender = os => {
   const typeList = {
     'os-redhat': '红帽',
     'os-windows': 'Win',
-    'os-qilin': '麒麟'
+    'os-qilin': '麒麟',
+    'os-ubuntu': '乌班图',
+    'os-linux': 'linux'
   }
   return typeList[osType]
 }
@@ -248,7 +259,7 @@ export function assignedUsersRender(value) {
   if (!value) {
     return <Icon type="close" className="table-icon-warn" />
   } else if (value.indexOf(',') !== -1) {
-    const strArr = value.split(',')
+    const strArr = value?.replace(/internal-authz/g, '本地组').split(',')
     const info = strArr.map((item, index) => {
       return <p key={index}>{item}</p>
     })
@@ -262,7 +273,7 @@ export function assignedUsersRender(value) {
       </Popover>
     )
   } else {
-    const user = <p>{value}</p>
+    const user = <p>{value?.replace(/internal-authz/g, '本地组')}</p>
     return (
       <Popover content={user}>
         <Icon

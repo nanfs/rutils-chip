@@ -53,12 +53,14 @@ export default class Termina extends React.Component {
           <Menu.Item
             key="4"
             onClick={this.sendOrder.bind(this, 'lock', [record.sn])}
+            disabled={!record.status}
           >
             锁定
           </Menu.Item>
           <Menu.Item
             key="5"
             onClick={this.sendOrder.bind(this, 'unlock', [record.sn])}
+            disabled={!record.status}
           >
             解锁
           </Menu.Item>
@@ -132,7 +134,7 @@ export default class Termina extends React.Component {
   tcName = {
     title: '终端名称',
     dataIndex: 'name',
-    ellipsis: true,
+    width: 100,
     render: (text, record) => {
       return (
         <a
@@ -378,7 +380,7 @@ export default class Termina extends React.Component {
 
   render() {
     const searchOptions = [
-      { label: '名称', value: 'name' },
+      { label: '终端名称', value: 'name' },
       { label: '位置', value: 'location' },
       { label: 'IP', value: 'ip' }
     ]
@@ -409,14 +411,14 @@ export default class Termina extends React.Component {
         <Menu.Item
           key="lock"
           onClick={() => this.sendOrder('lock')}
-          // disabled={true}
+          disabled={disabledButton.disabledShutdown}
         >
           锁定
         </Menu.Item>
         <Menu.Item
           key="unlock"
           onClick={() => this.sendOrder('unlock')}
-          // disabled={true}
+          disabled={disabledButton.disabledShutdown}
         >
           解锁
         </Menu.Item>

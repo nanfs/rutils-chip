@@ -55,7 +55,7 @@ const setDomainToSession = () => {
       const hosts =
         res?.data?.map(item => ({
           value: item,
-          label: item
+          label: item === 'internal' ? '本地组' : item
         })) || null
       sessionStorage.setItem('domains', JSON.stringify(hosts))
     })

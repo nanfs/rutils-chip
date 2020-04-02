@@ -65,7 +65,14 @@ export const columns = [
     title: '是否系统盘',
     key: 'boot',
     dataIndex: 'isBoot',
-    render: text => (text ? <Icon type="check-circle" /> : '否')
+    render: text =>
+      text ? (
+        <span>
+          <Icon type="check-circle" className="table-icon-success" /> 是
+        </span>
+      ) : (
+        '否'
+      )
   },
   {
     title: '描述',

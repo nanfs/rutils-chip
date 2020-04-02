@@ -97,7 +97,7 @@ export const columns = [
 
   {
     title: '外设控制',
-    width: 100,
+    width: 90,
     dataIndex: 'numOfSafePolicyBounded',
     render: text => (
       <span className="table-action">
@@ -111,7 +111,7 @@ export const columns = [
   },
   {
     title: '准入控制',
-    width: 100,
+    width: 90,
     dataIndex: 'numOfAdmitPolicyBounded',
     render: text => (
       <span className="table-action">
@@ -125,7 +125,7 @@ export const columns = [
   },
   {
     title: '分配用户',
-    width: 100,
+    width: 90,
     dataIndex: 'numOfUserBounded',
     render: text => (
       <span className="table-action">

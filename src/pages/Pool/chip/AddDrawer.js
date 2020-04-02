@@ -45,11 +45,11 @@ export default class AddDrawer extends React.Component {
     this.getTemplate()
   }
 
-  // 需要clusetid 还有 id 无奈
+  // 需要clusetid 还有 id 无奈 模板状态为OK
   getTemplate = () => {
     this.setState({ templateLoading: true })
     poolsApi
-      .getTemplate({ current: 1, size: 10000 })
+      .getTemplate({ current: 1, size: 10000, statusIsOk: 1 })
       .then(res => {
         const templateOptions = res.data.records.map(item => ({
           label: item.name,

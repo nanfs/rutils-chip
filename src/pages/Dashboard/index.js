@@ -260,88 +260,86 @@ class Dashboard extends React.Component {
       .sort(this.compareLogTime('logTime'))
       .slice(0, 10)
     return (
-      <React.Fragment>
-        <div className="dashboard-wrap">
-          <div className="dashboard-charts">
-            <Row>
-              <Col span={12} style={{ paddingRight: 20, marginBottom: 20 }}>
-                <div className="dashboard-chart-wrap">
-                  <span className="dashboard-chart-wrap-bg dashboard-chart-wrap-bg-desktop"></span>
-                  <div className="dashboard-chart-title">
-                    <TitleInfo slot="桌面" more="更多&gt;" url="desktop" />
-                  </div>
-                  <DonutChart
-                    guideTitle="桌面统计"
-                    dataSum={desktopsStatisticsTotal}
-                    DonutChartData={desktopsStatisticsDountData}
-                  />
-                  <LineChart
-                    lineChartData={desktopsStatisticsLineData}
-                    dataSum={desktopsStatisticsTotal}
-                  />
-                </div>
-              </Col>
-              <Col span={12} className="dashboard-chart-wrap">
-                <span className="dashboard-chart-wrap-bg dashboard-chart-wrap-bg-pool"></span>
+      <div className="dashboard-wrap">
+        <div className="dashboard-charts">
+          <Row>
+            <Col span={12} style={{ paddingRight: 20, marginBottom: 20 }}>
+              <div className="dashboard-chart-wrap">
+                <span className="dashboard-chart-wrap-bg dashboard-chart-wrap-bg-desktop"></span>
                 <div className="dashboard-chart-title">
-                  <TitleInfo slot="桌面池" more="更多&gt;" url="pool" />
+                  <TitleInfo slot="桌面" more="更多 &gt;" url="desktop" />
                 </div>
                 <DonutChart
-                  guideTitle="桌面池统计"
-                  dataSum={poolsStatisticsTotal}
-                  DonutChartData={poolsStatisticsDountData}
+                  guideTitle="桌面统计"
+                  dataSum={desktopsStatisticsTotal}
+                  DonutChartData={desktopsStatisticsDountData}
                 />
                 <LineChart
-                  lineChartData={poolsStatisticsLineData}
-                  dataSum={poolsStatisticsTotal}
+                  lineChartData={desktopsStatisticsLineData}
+                  dataSum={desktopsStatisticsTotal}
                 />
-              </Col>
-            </Row>
-            <Row>
-              <Col span={12} style={{ paddingRight: 20 }}>
-                <div className="dashboard-chart-wrap">
-                  <span className="dashboard-chart-wrap-bg dashboard-chart-wrap-bg-terminal"></span>
-                  <div className="dashboard-chart-title">
-                    <TitleInfo slot="终端" more="更多&gt;" url="terminal" />
-                  </div>
-                  <DonutChart
-                    guideTitle="终端统计"
-                    dataSum={terminalsStatisticsTotal}
-                    DonutChartData={terminalsStatisticsDountData}
-                  />
-                  <LineChart
-                    lineChartData={terminalsStatisticsLineData}
-                    dataSum={terminalsStatisticsTotal}
-                  />
-                </div>
-              </Col>
-              <Col span={12} className="dashboard-chart-wrap">
-                <span className="dashboard-chart-wrap-bg dashboard-chart-wrap-bg-user"></span>
+              </div>
+            </Col>
+            <Col span={12} className="dashboard-chart-wrap">
+              <span className="dashboard-chart-wrap-bg dashboard-chart-wrap-bg-pool"></span>
+              <div className="dashboard-chart-title">
+                <TitleInfo slot="桌面池" more="更多 &gt;" url="pool" />
+              </div>
+              <DonutChart
+                guideTitle="桌面池统计"
+                dataSum={poolsStatisticsTotal}
+                DonutChartData={poolsStatisticsDountData}
+              />
+              <LineChart
+                lineChartData={poolsStatisticsLineData}
+                dataSum={poolsStatisticsTotal}
+              />
+            </Col>
+          </Row>
+          <Row>
+            <Col span={12} style={{ paddingRight: 20 }}>
+              <div className="dashboard-chart-wrap">
+                <span className="dashboard-chart-wrap-bg dashboard-chart-wrap-bg-terminal"></span>
                 <div className="dashboard-chart-title">
-                  <TitleInfo slot="用户" more="更多&gt;" url="user" />
+                  <TitleInfo slot="终端" more="更多 &gt;" url="terminal" />
                 </div>
                 <DonutChart
-                  guideTitle="用户统计"
-                  dataSum={usersStatisticsTotal}
-                  DonutChartData={usersStatisticsDountData}
+                  guideTitle="终端统计"
+                  dataSum={terminalsStatisticsTotal}
+                  DonutChartData={terminalsStatisticsDountData}
                 />
                 <LineChart
-                  lineChartData={usersStatisticsLineData}
-                  dataSum={usersStatisticsTotal}
+                  lineChartData={terminalsStatisticsLineData}
+                  dataSum={terminalsStatisticsTotal}
                 />
-              </Col>
-            </Row>
-          </div>
-          <div className="dashboard-tclog">
-            <div className="dashboard-tclog-title">
-              {/* <span className="dashboard-tclog-title-text">日志</span> */}
-              <TitleInfo slot="日志" more="更多&gt;" url="vmlog" />
-              {/* <span className="dashboard-tclog-title-more">更多&gt;</span> */}
-            </div>
-            <LogList logData={logData} />
-          </div>
+              </div>
+            </Col>
+            <Col span={12} className="dashboard-chart-wrap">
+              <span className="dashboard-chart-wrap-bg dashboard-chart-wrap-bg-user"></span>
+              <div className="dashboard-chart-title">
+                <TitleInfo slot="用户" more="更多 &gt;" url="user" />
+              </div>
+              <DonutChart
+                guideTitle="用户统计"
+                dataSum={usersStatisticsTotal}
+                DonutChartData={usersStatisticsDountData}
+              />
+              <LineChart
+                lineChartData={usersStatisticsLineData}
+                dataSum={usersStatisticsTotal}
+              />
+            </Col>
+          </Row>
         </div>
-      </React.Fragment>
+        <div className="dashboard-tclog">
+          <div className="dashboard-tclog-title">
+            {/* <span className="dashboard-tclog-title-text">日志</span> */}
+            <TitleInfo slot="日志" more="更多 &gt;" url="vmlog" />
+            {/* <span className="dashboard-tclog-title-more">更多&gt;</span> */}
+          </div>
+          <LogList logData={logData} />
+        </div>
+      </div>
     )
   }
 }

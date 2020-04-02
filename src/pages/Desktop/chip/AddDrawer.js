@@ -45,10 +45,15 @@ export default class AddDrawer extends React.Component {
     this.getCluster()
   }
 
-  // 获取模板列表
+  // 获取模板列表 传入集群ID 模板状态
   getTemplate = () => {
     return desktopsApi
-      .getTemplate({ current: 1, size: 10000, clusterId: this.state.clusterId })
+      .getTemplate({
+        current: 1,
+        size: 10000,
+        clusterId: this.state.clusterId,
+        statusIsOk: 1
+      })
       .then(res => {
         this.setState({ templateArr: res.data.records })
         const templateOptions = res.data.records.map(item => ({

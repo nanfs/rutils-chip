@@ -39,13 +39,13 @@ export default class BaseInfo extends React.Component {
     return (
       <Spin spinning={loading}>
         <Row className="dms-detail-row">
-          <Col span={3} className="dms-detail-label">
+          <Col span={4} className="dms-detail-label">
             桌面池名称：
           </Col>
           <Col span={8} className="dms-detail-value">
             {data.name}
           </Col>
-          <Col span={3} className="dms-detail-label">
+          <Col span={4} className="dms-detail-label">
             桌面数：
           </Col>
           <Col span={8} className="dms-detail-value">
@@ -53,13 +53,13 @@ export default class BaseInfo extends React.Component {
           </Col>
         </Row>
         <Row className="dms-detail-row">
-          <Col span={3} className="dms-detail-label">
+          <Col span={4} className="dms-detail-label">
             模板：
           </Col>
           <Col span={8} className="dms-detail-value">
             {data.templateName}
           </Col>
-          <Col span={3} className="dms-detail-label">
+          <Col span={4} className="dms-detail-label">
             预启动数量：
           </Col>
           <Col span={8} className="dms-detail-value">
@@ -67,13 +67,13 @@ export default class BaseInfo extends React.Component {
           </Col>
         </Row>
         <Row className="dms-detail-row">
-          <Col span={3} className="dms-detail-label">
+          <Col span={4} className="dms-detail-label">
             管理类型：
           </Col>
           <Col span={8} className="dms-detail-value">
             {data.managerType ? '手动' : '自动'}
           </Col>
-          <Col span={3} className="dms-detail-label">
+          <Col span={4} className="dms-detail-label">
             用户最大虚拟机数：
           </Col>
           <Col span={8} className="dms-detail-value">
@@ -81,17 +81,17 @@ export default class BaseInfo extends React.Component {
           </Col>
         </Row>
         <Row className="dms-detail-row">
-          <Col span={3} className="dms-detail-label">
+          <Col span={4} className="dms-detail-label">
             ID：
           </Col>
           <Col span={8} className="dms-detail-value">
-            {data.id}
+            <span title={data.id}>{data.id}</span>
           </Col>
-          <Col span={3} className="dms-detail-label">
+          <Col span={4} className="dms-detail-label">
             描述：
           </Col>
           <Col span={8} className="dms-detail-value">
-            {data.description}
+            <span title={data.description}>{data.description}</span>
           </Col>
         </Row>
         <Row className="dms-detail-row"></Row>

@@ -327,6 +327,7 @@ export function vmDisabledButton(selection, selectData) {
   }
   selectData.forEach(item => {
     const disabledAction = vmDisableAction(item)
+    console.log('disabledAction', disabledAction)
     disabledButton = {
       ...disabledButton,
       ...disabledAction

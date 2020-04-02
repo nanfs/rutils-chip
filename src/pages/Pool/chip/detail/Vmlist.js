@@ -72,13 +72,6 @@ export default class Desktop extends React.Component {
     disabledButton: {}
   }
 
-  moreButton = getMoreButton({
-    disabledButton: this.state?.disabledButton,
-    deleteFn: () => this.deleteVm(this.tablex.getSelection()),
-    sendOrderFn: order => this.sendOrder(this.tablex.getSelection(), order),
-    isDuplicated: true
-  })
-
   /**
    *
    *  @memberof Desktop
@@ -212,6 +205,12 @@ export default class Desktop extends React.Component {
 
   render() {
     const { disabledButton } = this.state
+    const moreButton = getMoreButton({
+      disabledButton: this.state?.disabledButton,
+      deleteFn: () => this.deleteVm(this.tablex.getSelection()),
+      sendOrderFn: order => this.sendOrder(this.tablex.getSelection(), order),
+      isDuplicated: true
+    })
     return (
       <React.Fragment>
         <TableWrap>
@@ -234,7 +233,7 @@ export default class Desktop extends React.Component {
                 关机
               </Button>
               <Dropdown
-                overlay={this.moreButton}
+                overlay={moreButton}
                 disabled={disabledButton?.disabledMore}
               >
                 <Button>

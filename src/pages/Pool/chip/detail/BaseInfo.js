@@ -39,7 +39,7 @@ export default class BaseInfo extends React.Component {
     return (
       <Spin spinning={loading}>
         <Row className="dms-detail-row">
-          <Col span={4} className="dms-detail-label">
+          <Col span={3} className="dms-detail-label">
             桌面池名称：
           </Col>
           <Col span={8} className="dms-detail-value">
@@ -47,7 +47,7 @@ export default class BaseInfo extends React.Component {
               <span>{data.name}</span>
             </Tooltip>
           </Col>
-          <Col span={4} className="dms-detail-label">
+          <Col span={3} className="dms-detail-label">
             桌面数：
           </Col>
           <Col span={8} className="dms-detail-value">
@@ -57,7 +57,7 @@ export default class BaseInfo extends React.Component {
           </Col>
         </Row>
         <Row className="dms-detail-row">
-          <Col span={4} className="dms-detail-label">
+          <Col span={3} className="dms-detail-label">
             模板：
           </Col>
           <Col span={8} className="dms-detail-value">
@@ -65,7 +65,7 @@ export default class BaseInfo extends React.Component {
               <span>{data.templateName}</span>
             </Tooltip>
           </Col>
-          <Col span={4} className="dms-detail-label">
+          <Col span={3} className="dms-detail-label">
             预启动数量：
           </Col>
           <Col span={8} className="dms-detail-value">
@@ -75,7 +75,7 @@ export default class BaseInfo extends React.Component {
           </Col>
         </Row>
         <Row className="dms-detail-row">
-          <Col span={4} className="dms-detail-label">
+          <Col span={3} className="dms-detail-label">
             管理类型：
           </Col>
           <Col span={8} className="dms-detail-value">
@@ -83,7 +83,7 @@ export default class BaseInfo extends React.Component {
               <span>{data.managerType ? '手动' : '自动'}</span>
             </Tooltip>
           </Col>
-          <Col span={4} className="dms-detail-label">
+          <Col span={3} className="dms-detail-label">
             用户最大虚拟机数：
           </Col>
           <Col span={8} className="dms-detail-value">
@@ -93,7 +93,7 @@ export default class BaseInfo extends React.Component {
           </Col>
         </Row>
         <Row className="dms-detail-row">
-          <Col span={4} className="dms-detail-label">
+          <Col span={3} className="dms-detail-label">
             CPU：
           </Col>
           <Col span={8} className="dms-detail-value">
@@ -102,7 +102,7 @@ export default class BaseInfo extends React.Component {
             </Tooltip>
           </Col>
 
-          <Col span={4} className="dms-detail-label">
+          <Col span={3} className="dms-detail-label">
             内存：
           </Col>
           <Col span={8} className="dms-detail-value">
@@ -112,7 +112,7 @@ export default class BaseInfo extends React.Component {
           </Col>
         </Row>
         <Row className="dms-detail-row">
-          <Col span={4} className="dms-detail-label">
+          <Col span={3} className="dms-detail-label">
             ID：
           </Col>
           <Col span={8} className="dms-detail-value">
@@ -120,7 +120,7 @@ export default class BaseInfo extends React.Component {
               <span>{data.id}</span>
             </Tooltip>
           </Col>
-          <Col span={4} className="dms-detail-label">
+          <Col span={3} className="dms-detail-label">
             描述：
           </Col>
           <Col span={8} className="dms-detail-value">

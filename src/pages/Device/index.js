@@ -117,7 +117,7 @@ export default class Device extends React.Component {
   }
 
   delDev = (id, title = '确定删除所选数据?') => {
-    const ids = Array.isArray(id) ? id : [id]
+    const ids = Array.isArray(id) ? [...id] : [id]
     const self = this
     confirm({
       title,

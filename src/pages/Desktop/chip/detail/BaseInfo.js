@@ -1,5 +1,5 @@
 import React from 'react'
-import { Row, Col, Table, Tag, message, Spin } from 'antd'
+import { Row, Col, Table, Tag, message, Spin, Tooltip } from 'antd'
 import { Title, Diliver } from '@/components'
 import desktopsApi from '@/services/desktops'
 import { osTextRender } from '@/utils/tableRender'
@@ -45,13 +45,19 @@ export default class BaseInfo extends React.Component {
               桌面名称：
             </Col>
             <Col span={8} className="dms-detail-value">
-              {data.name}
+              <Tooltip title={data.name}>
+                <span>{data.name}</span>
+              </Tooltip>
+              {/* {data.name} */}
             </Col>
             <Col span={3} className="dms-detail-label">
               数据中心：
             </Col>
             <Col span={8} className="dms-detail-value">
-              {data.datacenterName}
+              <Tooltip title={data.datacenterName}>
+                <span>{data.datacenterName}</span>
+              </Tooltip>
+              {/* {data.datacenterName} */}
             </Col>
           </Row>
           <Row className="dms-detail-row">
@@ -60,13 +66,19 @@ export default class BaseInfo extends React.Component {
             </Col>
             <Col span={8} className="dms-detail-value">
               {/* 通过网络信息里面取得MAC信息 */}
-              {data.network?.map(item => item.mac).join(',')}
+              <Tooltip title={data.network?.map(item => item.mac).join(',')}>
+                <span>{data.network?.map(item => item.mac).join(',')}</span>
+              </Tooltip>
+              {/* {data.network?.map(item => item.mac).join(',')} */}
             </Col>
             <Col span={3} className="dms-detail-label">
               操作系统：
             </Col>
             <Col span={8} className="dms-detail-value">
-              {osTextRender(data.os)}
+              <Tooltip title={osTextRender(data.os)}>
+                <span>{osTextRender(data.os)}</span>
+              </Tooltip>
+              {/* {osTextRender(data.os)} */}
             </Col>
           </Row>
           <Row className="dms-detail-row">
@@ -74,13 +86,19 @@ export default class BaseInfo extends React.Component {
               模板：
             </Col>
             <Col span={8} className="dms-detail-value">
-              {data.templateName}
+              <Tooltip title={data.templateName}>
+                <span>{data.templateName}</span>
+              </Tooltip>
+              {/* {data.templateName} */}
             </Col>
             <Col span={3} className="dms-detail-label">
               集群：
             </Col>
             <Col span={8} className="dms-detail-value">
-              {data.clusterName}
+              <Tooltip title={data.clusterName}>
+                <span>{data.clusterName}</span>
+              </Tooltip>
+              {/* {data.clusterName} */}
             </Col>
           </Row>
           <Row className="dms-detail-row">
@@ -88,13 +106,19 @@ export default class BaseInfo extends React.Component {
               ID：
             </Col>
             <Col span={8} className="dms-detail-value">
-              <span title={data.id}>{data.id}</span>
+              <Tooltip title={data.id}>
+                <span>{data.id}</span>
+              </Tooltip>
+              {/* <span title={data.id}>{data.id}</span> */}
             </Col>
             <Col span={3} className="dms-detail-label">
               CPU：
             </Col>
             <Col span={8} className="dms-detail-value">
-              {data.cpuCores}
+              <Tooltip title={data.cpuCores}>
+                <span>{data.cpuCores}</span>
+              </Tooltip>
+              {/* {data.cpuCores} */}
             </Col>
           </Row>
           <Row className="dms-detail-row">
@@ -102,13 +126,19 @@ export default class BaseInfo extends React.Component {
               IP：
             </Col>
             <Col span={8} className="dms-detail-value">
-              <span title={data.ip}>{data.ip}</span>
+              <Tooltip title={data.ip}>
+                <span>{data.ip}</span>
+              </Tooltip>
+              {/* <span title={data.ip}>{data.ip}</span> */}
             </Col>
             <Col span={3} className="dms-detail-label">
               内存：
             </Col>
             <Col span={8} className="dms-detail-value">
-              {data.memory} G
+              <Tooltip title={data.memory}>
+                <span>{data.memory} G</span>
+              </Tooltip>
+              {/* {data.memory} G */}
             </Col>
           </Row>
           <Row className="dms-detail-row">
@@ -116,14 +146,32 @@ export default class BaseInfo extends React.Component {
               网络：
             </Col>
             <Col span={8} className="dms-detail-value">
-              {data.network &&
-                data.network.map(item => `${item.kind}/${item.vnic}`).join(',')}
+              <Tooltip
+                title={
+                  data.network &&
+                  data.network
+                    .map(item => `${item.kind}/${item.vnic}`)
+                    .join(',')
+                }
+              >
+                <span>
+                  {data.network &&
+                    data.network
+                      .map(item => `${item.kind}/${item.vnic}`)
+                      .join(',')}
+                </span>
+              </Tooltip>
+              {/* {data.network &&
+                data.network.map(item => `${item.kind}/${item.vnic}`).join(',')} */}
             </Col>
             <Col span={3} className="dms-detail-label">
               描述：
             </Col>
             <Col span={8} className="dms-detail-value">
-              <span title={data.description}>{data.description}</span>
+              <Tooltip title={data.description}>
+                <span>{data.description}</span>
+              </Tooltip>
+              {/* <span title={data.description}>{data.description}</span> */}
             </Col>
           </Row>
           <Row className="dms-detail-row"></Row>

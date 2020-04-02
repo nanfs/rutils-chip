@@ -6,6 +6,7 @@ import EditDrawer from './chip/EditDrawer'
 import { columns, apiMethod } from './chip/TableCfg'
 import accessApi from '@/services/access'
 import DetailDrawer from './chip/DetailDrawer'
+import produce from 'immer'
 
 const { confirm } = Modal
 const { createTableCfg, TableWrap, ToolBar, BarLeft } = Tablex
@@ -13,7 +14,18 @@ export default class Access extends React.Component {
   accessName = {
     title: '名称',
     dataIndex: 'name',
-    ellipsis: true
+    ellipsis: true,
+    sorter: true
+    // render: (text, record) => {
+    //   return (
+    //     <a
+    //       className="detail-link"
+    //       onClick={() => this.detailDev(record.name, record)}
+    //     >
+    //       {record.name}
+    //     </a>
+    //   )
+    // }
   }
 
   action = {
@@ -128,6 +140,28 @@ export default class Access extends React.Component {
     })
   }
 
+  onTableChange = (page, filter, sorter) => {
+    const searchs = {}
+    const orderArr = {
+      ascend: 'asc',
+      descend: 'desc'
+    }
+    if (sorter) {
+      const { order, field } = sorter
+      searchs.sortKey = field || undefined
+      searchs.sortValue = (order && orderArr[order]) || undefined
+    }
+    this.setState(
+      produce(draft => {
+        draft.tableCfg.searchs = {
+          ...draft.tableCfg.searchs,
+          ...searchs
+        }
+      }),
+      () => this.tablex.refresh(this.state.tableCfg)
+    )
+  }
+
   /**
    *
    *
@@ -145,6 +179,7 @@ export default class Access extends React.Component {
    * @memberof Access
    * 成功后删除刷新表格
    */
+
   onSuccess = () => {
     this.tablex.refresh(this.state.tableCfg)
     this.currentDrawer.drawer.hide()
@@ -178,6 +213,7 @@ export default class Access extends React.Component {
             }}
             onSelectChange={this.onSelectChange}
             tableCfg={this.state.tableCfg}
+            onChange={this.onTableChange}
           />
           <AddDrawer
             onRef={ref => {

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Row, Col, Table, message, Spin } from 'antd'
+import { Row, Col, Table, message, Spin, Tooltip } from 'antd'
 import { Title, Diliver } from '@/components'
 import poolsApi from '@/services/pools'
 
@@ -43,13 +43,19 @@ export default class BaseInfo extends React.Component {
             桌面池名称：
           </Col>
           <Col span={8} className="dms-detail-value">
-            {data.name}
+            <Tooltip title={data.name}>
+              <span>{data.name}</span>
+            </Tooltip>
+            {/* {data.name} */}
           </Col>
           <Col span={4} className="dms-detail-label">
             桌面数：
           </Col>
           <Col span={8} className="dms-detail-value">
-            {data.desktopNum}
+            <Tooltip title={data.desktopNum}>
+              <span>{data.desktopNum}</span>
+            </Tooltip>
+            {/* {data.desktopNum} */}
           </Col>
         </Row>
         <Row className="dms-detail-row">
@@ -57,13 +63,19 @@ export default class BaseInfo extends React.Component {
             模板：
           </Col>
           <Col span={8} className="dms-detail-value">
-            {data.templateName}
+            <Tooltip title={data.templateName}>
+              <span>{data.templateName}</span>
+            </Tooltip>
+            {/* {data.templateName} */}
           </Col>
           <Col span={4} className="dms-detail-label">
             预启动数量：
           </Col>
           <Col span={8} className="dms-detail-value">
-            {data.prestartNum}
+            <Tooltip title={data.prestartNum}>
+              <span>{data.prestartNum}</span>
+            </Tooltip>
+            {/* {data.prestartNum} */}
           </Col>
         </Row>
         <Row className="dms-detail-row">
@@ -71,13 +83,19 @@ export default class BaseInfo extends React.Component {
             管理类型：
           </Col>
           <Col span={8} className="dms-detail-value">
-            {data.managerType ? '手动' : '自动'}
+            <Tooltip title={data.managerType ? '手动' : '自动'}>
+              <span>{data.managerType ? '手动' : '自动'}</span>
+            </Tooltip>
+            {/* {data.managerType ? '手动' : '自动'} */}
           </Col>
           <Col span={4} className="dms-detail-label">
             用户最大虚拟机数：
           </Col>
           <Col span={8} className="dms-detail-value">
-            {data.maxAssignedVmsPerUser}
+            <Tooltip title={data.maxAssignedVmsPerUser}>
+              <span>{data.maxAssignedVmsPerUser}</span>
+            </Tooltip>
+            {/* {data.maxAssignedVmsPerUser} */}
           </Col>
         </Row>
         <Row className="dms-detail-row">
@@ -85,13 +103,19 @@ export default class BaseInfo extends React.Component {
             ID：
           </Col>
           <Col span={8} className="dms-detail-value">
-            <span title={data.id}>{data.id}</span>
+            <Tooltip title={data.id}>
+              <span>{data.id}</span>
+            </Tooltip>
+            {/* <span title={data.id}>{data.id}</span> */}
           </Col>
           <Col span={4} className="dms-detail-label">
             描述：
           </Col>
           <Col span={8} className="dms-detail-value">
-            <span title={data.description}>{data.description}</span>
+            <Tooltip title={data.description}>
+              <span>{data.description}</span>
+            </Tooltip>
+            {/* <span title={data.description}>{data.description}</span> */}
           </Col>
         </Row>
         <Row className="dms-detail-row"></Row>

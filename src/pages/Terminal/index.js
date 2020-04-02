@@ -29,7 +29,7 @@ export default class Termina extends React.Component {
   options = {
     title: '操作',
     dataIndex: 'opration',
-    width: 110,
+    width: 130,
     render: (text, record) => {
       const moreAction = (
         <Menu>

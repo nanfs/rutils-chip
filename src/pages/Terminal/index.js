@@ -33,8 +33,13 @@ export default class Termina extends React.Component {
     render: (text, record) => {
       const moreAction = (
         <Menu>
-          <Menu.Item key="8" onClick={this.editTerminal.bind(this, record)}>
-            编辑
+          <Menu.Item
+            key="8"
+            onClick={() => {
+              this.deleteTerminal([record.sn])
+            }}
+          >
+            删除
           </Menu.Item>
           <Menu.Item
             key="2"
@@ -111,15 +116,8 @@ export default class Termina extends React.Component {
         </Menu>
       )
       return (
-        <span>
-          <a
-            style={{ marginRight: 16 }}
-            onClick={() => {
-              this.deleteTerminal([record.sn])
-            }}
-          >
-            删除
-          </a>
+        <span className="opration-btn">
+          <a onClick={this.editTerminal.bind(this, record)}>编辑</a>
 
           <Dropdown overlay={moreAction} placement="bottomRight">
             <a>

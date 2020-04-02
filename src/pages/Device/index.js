@@ -35,13 +35,7 @@ export default class Device extends React.Component {
     width: 130,
     render: (text, record) => {
       return (
-        <span>
-          <a
-            style={{ marginRight: 16 }}
-            onClick={this.delDev.bind(this, [record.id])}
-          >
-            删除
-          </a>
+        <span className="opration-btn">
           <a
             onClick={() => {
               const selectDev = record
@@ -55,7 +49,7 @@ export default class Device extends React.Component {
                 selectDev.initKeys = [0]
               }
               this.setState(
-                { inner: '编辑', initValues: selectDev },
+                { inner: record.name, initValues: selectDev },
                 this.editDrawer.pop(selectDev)
               )
 
@@ -64,6 +58,7 @@ export default class Device extends React.Component {
           >
             编辑
           </a>
+          <a onClick={() => this.delDev(record.id)}>删除</a>
         </span>
       )
     }
@@ -78,25 +73,10 @@ export default class Device extends React.Component {
       expandedRowRender: false,
       paging: { size: 10 },
       pageSizeOptions: ['5', '10', '20', '50']
-    }),
-
-    innerPath: undefined,
-    initValues: {},
-    disabledButton: {}
+    })
   }
 
-  detailDev = (name, data) => {
-    this.setState({ inner: name }, this.detailDrawer.pop(data.id, data))
-    this.currentDrawer = this.detailDrawer
-  }
-
-  onSuccess = () => {
-    this.setState({ inner: '' })
-    this.currentDrawer.drawer.hide()
-    this.tablex.refresh(this.state.tableCfg)
-  }
-
-  onSelectChange = (selection, selectData) => {
+  onSelectChange = selection => {
     let disabledButton = {}
     if (selection.length !== 1) {
       disabledButton = { ...disabledButton, disabledEdit: true }
@@ -104,18 +84,7 @@ export default class Device extends React.Component {
     if (selection.length === 0) {
       disabledButton = { ...disabledButton, disabledDelete: true }
     }
-    // selectData.forEach(function(v, i) {
-    //   if (v.boundTcNum !== 0) {
-    //     disabledButton = { ...disabledButton, disabledDelete: true }
-    //   }
-    // })
     this.setState({ disabledButton })
-  }
-
-  onBack = () => {
-    this.setState({ inner: undefined })
-    // this.tablex.clearSelection()
-    this.currentDrawer.drawer.hide()
   }
 
   addDev = () => {
@@ -138,7 +107,6 @@ export default class Device extends React.Component {
       }
       this.setState(
         { inner: '编辑', initValues: selectDev },
-        // this.editDrawer.drawer.show()
         this.editDrawer.pop(selectDev)
       )
 
@@ -148,24 +116,19 @@ export default class Device extends React.Component {
     }
   }
 
-  delDev = (id = undefined) => {
-    const selectDev = id || this.tablex.getSelection()
+  delDev = (id, title = '确定删除所选数据?') => {
+    const ids = Array.isArray(id) ? id : [id]
     const self = this
     confirm({
-      title: '确定删除所选数据?',
+      title,
       onOk() {
-        return new Promise((resolve, reject) => {
+        return new Promise(resolve => {
           deviceApi
-            .delDev({ ids: selectDev })
+            .delDev({ ids })
             .then(res => {
               if (res.success) {
                 notification.success({ message: '删除成功' })
                 self.tablex.refresh(self.state.tableCfg)
-                self.tablex.clearSelection()
-                self.setState({
-                  selection: [],
-                  selectData: []
-                })
               } else {
                 message.error(res.message || '删除失败')
               }
@@ -204,13 +167,24 @@ export default class Device extends React.Component {
     )
   }
 
+  onBack = () => {
+    this.setState({ inner: undefined })
+    this.currentDrawer.drawer.hide()
+  }
+
+  onSuccess = () => {
+    this.setState({ inner: undefined })
+    this.currentDrawer.drawer.hide()
+    this.tablex.refresh(this.state.tableCfg)
+  }
+
   render() {
     const { disabledButton } = this.state
     return (
       <React.Fragment>
         <InnerPath
           location="外设控制"
-          inner={this.state.inner}
+          inner={this.state?.inner}
           onBack={this.onBack}
         />
         <TableWrap>
@@ -218,14 +192,8 @@ export default class Device extends React.Component {
             <BarLeft>
               <Button onClick={this.addDev}>创建</Button>
               <Button
-                onClick={this.editDev}
-                disabled={disabledButton.disabledEdit}
-              >
-                编辑
-              </Button>
-              <Button
-                onClick={() => this.delDev()}
-                disabled={disabledButton.disabledDelete}
+                onClick={() => this.delDev(this.tablex.selection())}
+                disabled={disabledButton?.disabledDelete}
               >
                 删除
               </Button>
@@ -244,7 +212,6 @@ export default class Device extends React.Component {
               this.editDrawer = ref
             }}
             onClose={this.onBack}
-            initValues={this.state.initValues}
             onSuccess={this.onSuccess}
           />
           <AddDrawer

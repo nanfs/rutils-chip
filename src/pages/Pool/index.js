@@ -47,12 +47,9 @@ export default class Pool extends React.Component {
         <Menu>
           <Menu.Item
             key="1"
-            onClick={() => {
-              this.setState({ inner: '编辑池' }, this.editDrawer.pop(record.id))
-              this.currentDrawer = this.editDrawer
-            }}
+            onClick={() => this.deletePool(record.id, '确定删除本条数据?')}
           >
-            编辑
+            删除
           </Menu.Item>
           <Menu.Item
             key="7"
@@ -69,38 +66,14 @@ export default class Pool extends React.Component {
         </Menu>
       )
       return (
-        <span>
+        <span className="opration-btn">
           <a
-            style={{ marginRight: 16 }}
             onClick={() => {
-              const self = this
-              confirm({
-                title: '确定删除该条数据?',
-                onOk() {
-                  return new Promise((resolve, reject) => {
-                    poolsApi
-                      .delPool(record.id)
-                      .then(res => {
-                        if (res.success) {
-                          notification.success({ message: '删除成功' })
-                          self.tablex.refresh(self.state.tableCfg)
-                        } else {
-                          message.error(res.message || '删除失败')
-                        }
-                        resolve()
-                      })
-                      .catch(error => {
-                        message.error(error.message || error)
-                        console.log(error)
-                        resolve()
-                      })
-                  })
-                },
-                onCancel() {}
-              })
+              this.setState({ inner: '编辑池' }, this.editDrawer.pop(record.id))
+              this.currentDrawer = this.editDrawer
             }}
           >
-            删除
+            编辑
           </a>
 
           <Dropdown overlay={moreAction} placement="bottomRight">
@@ -160,13 +133,12 @@ export default class Pool extends React.Component {
     this.currentDrawer = this.addDrawer
   }
 
-  deletePool = () => {
-    const poolId = this.tablex.getSelection()[0]
+  deletePool = (poolId, title = '确定删除所选数据?') => {
     const self = this
     confirm({
-      title: '确定删除所选数据?',
+      title,
       onOk() {
-        return new Promise((resolve, reject) => {
+        return new Promise(resolve => {
           poolsApi
             .delPool(poolId)
             .then(res => {
@@ -225,22 +197,10 @@ export default class Pool extends React.Component {
             <BarLeft>
               <Button onClick={this.createPool}>创建池</Button>
               <Button
-                onClick={this.editPool}
-                disabled={disabledButton.disabledEdit}
-              >
-                编辑池
-              </Button>
-              <Button
                 onClick={this.setUser}
                 disabled={disabledButton.disabledSetUser}
               >
                 分配用户
-              </Button>
-              <Button
-                onClick={this.deletePool}
-                disabled={disabledButton.disabledDelete}
-              >
-                删除池
               </Button>
             </BarLeft>
           </ToolBar>

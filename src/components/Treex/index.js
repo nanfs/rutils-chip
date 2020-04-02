@@ -196,13 +196,13 @@ export default class Treex extends React.Component {
       const afterStr = item.title.substr(index + searchValue.length)
       const title =
         index > -1 ? (
-          <span>
+          <span title={item.title}>
             {beforeStr}
             <span style={{ color: '#f50' }}>{searchValue}</span>
             {afterStr}
           </span>
         ) : (
-          <span>{item.title}</span>
+          <span title={item.title}>{item.title}</span>
         )
       if (item.children) {
         return (

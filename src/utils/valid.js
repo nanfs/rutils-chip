@@ -79,6 +79,17 @@ export function checkName(rule, value, callback) {
   callback()
 }
 
+export function checkTreeNodeName(rule, value, callback) {
+  const re = new RegExp('^[\u4e00-\u9fffa-zA-Z\\d\\.\\-_()（）]*$')
+  if (value && !re.test(value)) {
+    callback(new Error('请填写中文、字母、数字、中英文括号、"."、"-"、"_"'))
+  }
+  if (value && value.length > 40) {
+    callback(new Error('输入名称长度限定最多40个字符'))
+  }
+  callback()
+}
+
 export function checkKeyId(rule, value, callback) {
   const re = new RegExp('^[A-Za-z0-9-_]+$')
   if (value && !re.test(value)) {

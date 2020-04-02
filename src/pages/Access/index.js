@@ -6,6 +6,7 @@ import EditDrawer from './chip/EditDrawer'
 import { columns, apiMethod } from './chip/TableCfg'
 import accessApi from '@/services/access'
 import DetailDrawer from './chip/DetailDrawer'
+import produce from 'immer'
 
 const { confirm } = Modal
 const { createTableCfg, TableWrap, ToolBar, BarLeft } = Tablex
@@ -13,7 +14,8 @@ export default class Desktop extends React.Component {
   accessName = {
     title: '名称',
     dataIndex: 'name',
-    ellipsis: true
+    ellipsis: true,
+    sorter: true
     // render: (text, record) => {
     //   return (
     //     <a
@@ -140,6 +142,28 @@ export default class Desktop extends React.Component {
     })
   }
 
+  onTableChange = (page, filter, sorter) => {
+    const searchs = {}
+    const orderArr = {
+      ascend: 'asc',
+      descend: 'desc'
+    }
+    if (sorter) {
+      const { order, field } = sorter
+      searchs.sortKey = field || undefined
+      searchs.sortValue = (order && orderArr[order]) || undefined
+    }
+    this.setState(
+      produce(draft => {
+        draft.tableCfg.searchs = {
+          ...draft.tableCfg.searchs,
+          ...searchs
+        }
+      }),
+      () => this.tablex.refresh(this.state.tableCfg)
+    )
+  }
+
   onSuccess = () => {
     this.tablex.refresh(this.state.tableCfg)
     this.setState({ inner: undefined })
@@ -178,6 +202,7 @@ export default class Desktop extends React.Component {
             }}
             onSelectChange={this.onSelectChange}
             tableCfg={this.state.tableCfg}
+            onChange={this.onTableChange}
           />
           <AddDrawer
             onRef={ref => {

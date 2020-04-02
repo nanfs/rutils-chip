@@ -6,6 +6,7 @@ import AddDrawer from './chip/AddDrawer'
 import { columns, apiMethod } from './chip/TableCfg'
 import deviceApi from '@/services/device'
 import DetailDrawer from './chip/DetailDrawer'
+import produce from 'immer'
 
 const { confirm } = Modal
 const { createTableCfg, TableWrap, ToolBar, BarLeft } = Tablex
@@ -14,7 +15,8 @@ export default class Device extends React.Component {
   vmName = {
     title: '名称',
     dataIndex: 'name',
-    ellipsis: true
+    ellipsis: true,
+    sorter: true
     // render: (text, record) => {
     //   return (
     //     <a
@@ -180,6 +182,28 @@ export default class Device extends React.Component {
     })
   }
 
+  onTableChange = (page, filter, sorter) => {
+    const searchs = {}
+    const orderArr = {
+      ascend: 'asc',
+      descend: 'desc'
+    }
+    if (sorter) {
+      const { order, field } = sorter
+      searchs.sortKey = field || undefined
+      searchs.sortValue = (order && orderArr[order]) || undefined
+    }
+    this.setState(
+      produce(draft => {
+        draft.tableCfg.searchs = {
+          ...draft.tableCfg.searchs,
+          ...searchs
+        }
+      }),
+      () => this.tablex.refresh(this.state.tableCfg)
+    )
+  }
+
   render() {
     const { disabledButton } = this.state
     return (
@@ -213,6 +237,7 @@ export default class Device extends React.Component {
             }}
             tableCfg={this.state.tableCfg}
             onSelectChange={this.onSelectChange}
+            onChange={this.onTableChange}
           />
           <EditDrawer
             onRef={ref => {

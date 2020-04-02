@@ -6,7 +6,7 @@ import './index.less'
 const { Option } = Select
 export default class Selectx extends React.Component {
   componentDidUpdate(prep) {
-    if (this.props.value !== prep.value && prep.value === undefined) {
+    if (this.props.value !== prep.value) {
       this.setState({ value: this.props.value })
     }
   }

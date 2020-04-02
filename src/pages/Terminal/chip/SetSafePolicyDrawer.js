@@ -158,6 +158,11 @@ export default class SetSafePolicyDrawer extends React.Component {
     )
   }
 
+  /**
+   * @memberof SetSafePolicyDrawer
+   * @description 切换启用白名单/启用黑名单
+   * @author linghu
+   */
   switchChange = checked => {
     this.setState(
       produce(draft => {

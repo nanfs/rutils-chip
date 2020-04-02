@@ -28,8 +28,7 @@ export const DetailAccesspolicyColumns = [
     filters: typeOptions,
     render: (_text, record) => {
       return record.admitInterval && typeArr[record.admitInterval[0].type]
-    },
-    onFilter: (value, record) => record.admitInterval[0].type === value
+    }
   },
   {
     title: '日期',

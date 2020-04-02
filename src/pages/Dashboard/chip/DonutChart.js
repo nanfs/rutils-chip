@@ -1,22 +1,12 @@
 import React from 'react'
-import {
-  G2,
-  Chart,
-  Geom,
-  Axis,
-  Tooltip,
-  Coord,
-  Label,
-  Legend,
-  View,
-  Guide,
-  Shape,
-  Facet,
-  Util
-} from 'bizcharts'
+import { Chart, Geom, Axis, Tooltip, Coord, Legend, Guide } from 'bizcharts'
 import DataSet from '@antv/data-set'
 
 export default class DonutChart extends React.Component {
+  /**
+   * @memberof DonutChart
+   * @description 父组件传入的DonutChartData格式为{name: 'aa', count: '100'}
+   */
   render() {
     const { DonutChartData, guideTitle, dataSum } = this.props
     const { DataView } = DataSet

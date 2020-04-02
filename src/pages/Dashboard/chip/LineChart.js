@@ -1,42 +1,17 @@
 import React from 'react'
-import {
-  G2,
-  Chart,
-  Geom,
-  Axis,
-  Tooltip,
-  Coord,
-  Label,
-  Legend,
-  View,
-  Guide,
-  Shape,
-  Facet,
-  Util
-} from 'bizcharts'
-import DataSet from '@antv/data-set'
-
-/* const ds = new DataSet()
-const dv = ds
-  .createView()
-  .source(data)
-  .transform({
-    type: 'fold',
-    field: ['isNum', 'notNum'],
-    type: 'type', // key字段
-    value: 'count', // value字段
-    retains: ['name']
-  })
-
-console.log(dv) */
-Shape.registerShape('interval', 'top', {
+import { Chart, Geom, Axis, Coord, Label, Shape } from 'bizcharts'
+/**
+ * @memberof LineChart
+ * @description 柱状图圆角 在<Geom>中配置shape属性
+ */
+Shape.registerShape('interval', 'topRadius', {
   draw(cfg, container) {
     /*  *
      * 柱状图由四个点连线而成
      * points[1] --- points[2]
      *    |              |
-     * points[0] --- points[3] */
-
+     * points[0] --- points[3]
+     */
     const { points } = cfg
     let path = []
     path.push(['M', points[0].x, points[0].y])
@@ -62,11 +37,13 @@ Shape.registerShape('interval', 'top', {
 })
 
 export default class LineChart extends React.Component {
+  /**
+   * @returns
+   * @memberof LineChart
+   * @description 父组件传入的lineChartData格式为{name: 'aa', count: '100', sum:'200'}
+   */
   render() {
     const { lineChartData, dataSum } = this.props
-    const { DataView } = DataSet
-    const { Html } = Guide
-
     const cols = {
       count: {
         ticks: [0, dataSum]
@@ -87,17 +64,12 @@ export default class LineChart extends React.Component {
         <Axis name="count" visible={false} />
         <Axis name="sum" visible={false} />
         <Coord transpose />
-        {/*  <Tooltip
-        crosshairs={{
-          type: 'y'
-        }}
-      /> */}
         <Geom
           type="interval"
           position="name*sum"
           color="#eef0f5"
           size={16}
-          shape="top"
+          shape="topRadius"
         >
           <Label
             content="count"
@@ -121,7 +93,7 @@ export default class LineChart extends React.Component {
           position="name*count"
           size={16}
           color={['name', ['#1c68b6', '#1ccd87', '#cf6363']]}
-          shape="top"
+          shape="topRadius"
         ></Geom>
       </Chart>
     )

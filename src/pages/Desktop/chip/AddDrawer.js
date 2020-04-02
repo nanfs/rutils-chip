@@ -26,8 +26,8 @@ const createType = [
   }
 ]
 const driveType = [
-  { label: 'x64', value: 'x64' },
-  { label: 'x86', value: 'x86' },
+  { label: 'x64', value: '64' },
+  { label: 'x86', value: '86' },
   { label: '不需要', value: '' }
 ]
 const { Option, OptGroup } = Select

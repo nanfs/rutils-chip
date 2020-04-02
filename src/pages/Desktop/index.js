@@ -20,7 +20,12 @@ import produce from 'immer'
 import desktopsApi from '@/services/desktops'
 import { downloadVV } from '@/utils/tool'
 
-import { columns, apiMethod } from '@/pages/Common/VmTableCfg'
+import {
+  columns,
+  apiMethod,
+  defaultColumnsFilters,
+  defaultColumnsValue
+} from '@/pages/Common/VmTableCfg'
 import './index.less'
 
 const { createTableCfg, TableWrap, ToolBar, BarLeft, BarRight } = Tablex
@@ -38,41 +43,15 @@ export default class Desktop extends React.Component {
     title: '操作',
     width: 130,
     dataIndex: 'action',
-    defaultFilteredValue: [
-      'os',
-      'status',
-      'hostName',
-      'ip',
-      'datacenterName',
-      'clusterName',
-      'assignedUsers',
-      'isConsole',
-      'onlineTime',
-      'cpuUsageRate',
-      'memoryUsageRate',
-      'networkUsageRate'
-    ],
-    filters: [
-      { value: 'os', text: '操作系统' },
-      { value: 'status', text: '状态' },
-      { value: 'hostName', text: '主机' },
-      { value: 'ip', text: 'IP' },
-      { value: 'datacenterName', text: '数据中心' },
-      { value: 'clusterName', text: '集群' },
-      { value: 'assignedUsers', text: '用户' },
-      { value: 'isConsole', text: '控制台' },
-      { value: 'onlineTime', text: '已运行' },
-      { value: 'cpuUsageRate', text: 'CPU' },
-      { value: 'memoryUsageRate', text: '内存' },
-      { value: 'networkUsageRate', text: '网络' }
-    ],
+    defaultFilteredValue: defaultColumnsValue,
+    filters: defaultColumnsFilters,
     render: (text, record) => {
       const moreAction = (
         <Menu>
           <Menu.Item
             key="1"
             onClick={() => {
-              this.deleteVm(record.id)
+              this.deleteVm(record.id, '确定删除该条数据?')
             }}
           >
             删除

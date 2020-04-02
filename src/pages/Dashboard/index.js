@@ -230,6 +230,12 @@ class Dashboard extends React.Component {
     logData: []
   }
 
+  /**
+   * @memberof Dashboard
+   * @param 数组中要排序的属性参数property
+   * @description 日志按照LogTime参数排序
+   * @author linghu
+   */
   compareLogTime = property => {
     return function(a, b) {
       const value1 = a[property]

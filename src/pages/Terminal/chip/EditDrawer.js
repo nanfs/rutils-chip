@@ -8,10 +8,16 @@ const { Option } = Select
 const { TextArea } = Input
 
 export default class EditDrawer extends React.Component {
+  /**
+   * @param {string} fieldValue
+   * @returns
+   * @memberof EditDrawer
+   * @author linghu
+   * @description 如果fieldValue与loginWay的值相等，则为必填
+   */
   checkFieldRequired(fieldValue) {
     return (rule, value, callback) => {
       const loginWay = this.drawer.form.getFieldValue('loginWay')
-      console.log(loginWay, value)
       if (loginWay === fieldValue && !value) {
         callback(new Error('这是必填项'))
       }
@@ -23,6 +29,12 @@ export default class EditDrawer extends React.Component {
     this.props.onRef && this.props.onRef(this)
   }
 
+  /**
+   * @memberof EditDrawer
+   * @param data 选中行数据
+   * @description 打开终端编辑抽屉，传入选中行数据回显表单
+   * @author linghu
+   */
   pop = data => {
     this.drawer.show()
     const {
@@ -44,12 +56,6 @@ export default class EditDrawer extends React.Component {
       secretWord,
       bondKey,
       lockedWord
-    })
-  }
-
-  onChange = value => {
-    this.setState({
-      autoLockTime: value
     })
   }
 
@@ -114,36 +120,6 @@ export default class EditDrawer extends React.Component {
           >
             <Input placeholder="终端名称" />
           </Form.Item>
-          {/* <Form.Item
-            prop="autoLockTime"
-            label="自动锁屏时间"
-            rules={[
-              {
-                required: true
-              }
-            ]}
-          >
-            <Row>
-              <Col span={18}>
-                <Slider
-                  min={1}
-                  max={20}
-                  onChange={this.onChange}
-                  value={typeof autoLockTime === 'number' ? autoLockTime : 1}
-                />
-              </Col>
-              <Col span={4}>
-                <InputNumber
-                  min={1}
-                  max={20}
-                  style={{ marginLeft: 16 }}
-                  value={autoLockTime}
-                  onChange={this.onChange}
-                />
-              </Col>
-            </Row>
-            <SliderNumber autoLockTime={'1'} />
-          </Form.Item> */}
           <Form.Item
             prop="location"
             label="终端位置"
@@ -169,7 +145,6 @@ export default class EditDrawer extends React.Component {
             // required
             rules={[
               /* this.checkFieldRequired(1), */
-
               textRange(0, 64),
               checkKeyId
             ]}

@@ -24,44 +24,6 @@ export default class SetSafePolicyDrawer extends React.Component {
     })
   }
 
-  onSelectChange = selection => {
-    const newSelection = selection
-    this.setState(
-      produce(draft => {
-        draft.totalSelection = newSelection
-        draft.tableCfg = {
-          ...draft.tableCfg,
-          selection: newSelection
-        }
-      })
-    )
-  }
-
-  removeAccessSelection = key => {
-    const { totalSelection } = this.state
-    const newSelection = totalSelection.filter(item => item !== key)
-    this.setState(
-      produce(draft => {
-        draft.totalSelection = newSelection
-        draft.tableCfg = {
-          ...draft.tableCfg,
-          selection: newSelection
-        }
-      }),
-      () => this.accessTablex.replace(this.state.tableCfg)
-    )
-  }
-
-  renderSelectAccess = () => {
-    const { totalSelection } = this.state
-    // console.log('totalSelection', totalSelection)
-    return totalSelection.map(item => (
-      <Tag key={item} closable onClose={() => this.removeAccessSelection(item)}>
-        {item && item.split('&')[1]}
-      </Tag>
-    ))
-  }
-
   pop = sns => {
     // 如果是一个 获取当前分配的用户
     this.setState({
@@ -102,6 +64,44 @@ export default class SetSafePolicyDrawer extends React.Component {
       this.accessTablex.refresh(this.state.tableCfg)
     }
     this.drawer.show()
+  }
+
+  onSelectChange = selection => {
+    const newSelection = selection
+    this.setState(
+      produce(draft => {
+        draft.totalSelection = newSelection
+        draft.tableCfg = {
+          ...draft.tableCfg,
+          selection: newSelection
+        }
+      })
+    )
+  }
+
+  removeAccessSelection = key => {
+    const { totalSelection } = this.state
+    const newSelection = totalSelection.filter(item => item !== key)
+    this.setState(
+      produce(draft => {
+        draft.totalSelection = newSelection
+        draft.tableCfg = {
+          ...draft.tableCfg,
+          selection: newSelection
+        }
+      }),
+      () => this.accessTablex.replace(this.state.tableCfg)
+    )
+  }
+
+  renderSelectAccess = () => {
+    const { totalSelection } = this.state
+    // console.log('totalSelection', totalSelection)
+    return totalSelection.map(item => (
+      <Tag key={item} closable onClose={() => this.removeAccessSelection(item)}>
+        {item && item.split('&')[1]}
+      </Tag>
+    ))
   }
 
   setAccess = () => {

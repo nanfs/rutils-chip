@@ -72,14 +72,10 @@ export default class Desktop extends React.Component {
           <Menu.Item
             key="1"
             onClick={() => {
-              this.setState(
-                { inner: '编辑桌面' },
-                this.editDrawer.pop(record.id)
-              )
-              this.currentDrawer = this.editDrawer
+              this.deleteVm(record.id)
             }}
           >
-            编辑
+            删除
           </Menu.Item>
           <Menu.Item
             key="7"
@@ -141,14 +137,17 @@ export default class Desktop extends React.Component {
         </Menu>
       )
       return (
-        <span>
+        <span className="opration-btn">
           <a
-            style={{ marginRight: 16 }}
             onClick={() => {
-              this.deleteVm(record.id)
+              this.setState(
+                { inner: '编辑桌面' },
+                this.editDrawer.pop(record.id)
+              )
+              this.currentDrawer = this.editDrawer
             }}
           >
-            删除
+            编辑
           </a>
 
           <Dropdown overlay={moreAction} placement="bottomRight">

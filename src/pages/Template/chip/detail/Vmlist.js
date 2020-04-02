@@ -76,9 +76,8 @@ export default class Desktop extends React.Component {
         </Menu>
       )
       return (
-        <span>
+        <span className="opration-btn">
           <a
-            style={{ marginRight: 16 }}
             onClick={() => {
               this.deleteVm(record.id)
             }}

@@ -9,21 +9,11 @@ import DetailDrawer from './chip/DetailDrawer'
 
 const { confirm } = Modal
 const { createTableCfg, TableWrap, ToolBar, BarLeft } = Tablex
-export default class Desktop extends React.Component {
+export default class Access extends React.Component {
   accessName = {
     title: '名称',
     dataIndex: 'name',
     ellipsis: true
-    // render: (text, record) => {
-    //   return (
-    //     <a
-    //       className="detail-link"
-    //       onClick={() => this.detailDev(record.name, record)}
-    //     >
-    //       {record.name}
-    //     </a>
-    //   )
-    // }
   }
 
   action = {
@@ -32,22 +22,14 @@ export default class Desktop extends React.Component {
     width: 130,
     render: (text, record) => {
       return (
-        <span>
+        <span className="opration-btn">
+          <a onClick={() => this.editAccess(record.name, record)}>编辑</a>
           <a
-            style={{ marginRight: 16 }}
             onClick={() => {
-              this.delAccess([record.id])
+              this.delAccess(record.id, '确定删除该条数据?')
             }}
           >
             删除
-          </a>
-          <a
-            onClick={() => {
-              this.setState({ inner: '编辑' }, this.editDrawer.pop(record))
-              this.currentDrawer = this.editDrawer
-            }}
-          >
-            编辑
           </a>
         </span>
       )
@@ -62,31 +44,22 @@ export default class Desktop extends React.Component {
       apiMethod,
       paging: { size: 10 },
       pageSizeOptions: ['5', '10', '20', '50']
-    }),
-    innerPath: undefined,
-    initValues: {},
-    disabledButton: {}
+    })
   }
 
-  detailDev = (name, data) => {
-    this.setState({ inner: name }, this.detailDrawer.pop(data.id, data))
-    this.currentDrawer = this.detailDrawer
-  }
-
-  onBack = () => {
-    this.setState({ inner: undefined })
-    this.currentDrawer.drawer.hide()
-  }
-
+  /**
+   *
+   *
+   * @param {*} selection
+   * @param {*} selectData
+   * 删除禁用 如果 有终端使用不能删除 建议放开 实现双向解绑
+   */
   onSelectChange = (selection, selectData) => {
     let disabledButton = {}
-    if (selection.length !== 1) {
-      disabledButton = { ...disabledButton, disabledEdit: true }
-    }
     if (selection.length === 0) {
       disabledButton = { ...disabledButton, disabledDelete: true }
     }
-    selectData.forEach(function(v, i) {
+    selectData.forEach(function(v) {
       if (v.boundTcNum !== 0) {
         disabledButton = { ...disabledButton, disabledDelete: true }
       }
@@ -94,30 +67,45 @@ export default class Desktop extends React.Component {
     this.setState({ disabledButton })
   }
 
+  /**
+   *
+   *
+   * @memberof Access
+   * 创建转入策略
+   */
   addAccess = () => {
     this.setState({ inner: '创建' }, this.addDrawer.pop())
     this.currentDrawer = this.addDrawer
   }
 
-  editAccess = () => {
-    if (this.tablex.getSelection().length === 1) {
-      this.setState(
-        { inner: '编辑' },
-        this.editDrawer.pop(this.tablex.getSelectData()[0])
-      )
-      this.currentDrawer = this.editDrawer
-    } else {
-      message.warning('请选择一条数据进行编辑！')
-    }
+  /**
+   *
+   *
+   * @memberof Access
+   * @param name 准入名称
+   * @param data 准入策略数据( 暂时没有通过单独接口调 直接通过列表取)
+   */
+  editAccess = (name, data) => {
+    this.setState({ inner: name }, this.editDrawer.pop(data))
+    this.currentDrawer = this.editDrawer
   }
 
-  delAccess = (id = undefined) => {
-    const ids = id || this.tablex.getSelection()
+  /**
+   *
+   *
+   * @param {*} id
+   * @param {string} [title='确定删除所选数据?']
+   * @returns
+   * 删除准入策略 可以通过工具条 和表单操作列传入操作 表单操作列传入为单个
+   * 调用都是批量删除接口
+   */
+  delAccess = (id, title = '确定删除所选数据?') => {
+    const ids = Array.isArray(id) ? id : [id]
     const self = this
     confirm({
-      title: '确定删除所选数据?',
+      title,
       onOk() {
-        return new Promise((resolve, reject) => {
+        return new Promise(resolve => {
           accessApi
             .del({ ids })
             .then(res => {
@@ -140,8 +128,26 @@ export default class Desktop extends React.Component {
     })
   }
 
+  /**
+   *
+   *
+   * @memberof Access
+   * 返回后 将inner path 置为空
+   */
+  onBack = () => {
+    this.setState({ inner: undefined })
+    this.currentDrawer.drawer.hide()
+  }
+
+  /**
+   *
+   *
+   * @memberof Access
+   * 成功后删除刷新表格
+   */
   onSuccess = () => {
     this.tablex.refresh(this.state.tableCfg)
+    this.currentDrawer.drawer.hide()
     this.setState({ inner: undefined })
   }
 
@@ -159,14 +165,8 @@ export default class Desktop extends React.Component {
             <BarLeft>
               <Button onClick={this.addAccess}>创建</Button>
               <Button
-                onClick={this.editAccess}
-                disabled={disabledButton.disabledEdit}
-              >
-                编辑
-              </Button>
-              <Button
-                onClick={() => this.delAccess()}
-                disabled={disabledButton.disabledDelete}
+                onClick={() => this.delAccess(this.tablex.getSelection())}
+                disabled={disabledButton?.disabledDelete}
               >
                 删除
               </Button>

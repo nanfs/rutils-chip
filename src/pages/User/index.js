@@ -93,13 +93,12 @@ export default class User extends React.Component {
         <Menu>
           <Menu.Item
             key="1"
+            disabled={record.tccount + record.vmcount > 0}
             onClick={() => {
-              this.setState({ inner: '编辑用户' })
-              this.editDrawer.pop(record)
-              this.currentDrawer = this.editDrawer
+              this.deleteUser([record.id])
             }}
           >
-            编辑
+            删除
           </Menu.Item>
           <Menu.Item
             key="2"
@@ -120,13 +119,13 @@ export default class User extends React.Component {
       return (
         <span>
           <a
-            style={{ marginRight: 16 }}
-            disabled={record.tccount + record.vmcount > 0}
             onClick={() => {
-              this.deleteUser([record.id])
+              this.setState({ inner: '编辑用户' })
+              this.editDrawer.pop(record)
+              this.currentDrawer = this.editDrawer
             }}
           >
-            删除
+            编辑
           </a>
 
           <Dropdown overlay={moreAction} placement="bottomRight">

@@ -5,7 +5,6 @@ import AddDrawer from './chip/AddDrawer'
 import EditDrawer from './chip/EditDrawer'
 import { columns, apiMethod } from './chip/TableCfg'
 import accessApi from '@/services/access'
-import DetailDrawer from './chip/DetailDrawer'
 import produce from 'immer'
 
 const { confirm } = Modal
@@ -16,16 +15,6 @@ export default class Access extends React.Component {
     dataIndex: 'name',
     ellipsis: true,
     sorter: true
-    // render: (text, record) => {
-    //   return (
-    //     <a
-    //       className="detail-link"
-    //       onClick={() => this.detailDev(record.name, record)}
-    //     >
-    //       {record.name}
-    //     </a>
-    //   )
-    // }
   }
 
   action = {
@@ -40,6 +29,7 @@ export default class Access extends React.Component {
             onClick={() => {
               this.delAccess(record.id, '确定删除该条数据?')
             }}
+            disabled={record.boundTcNum !== 0}
           >
             删除
           </a>
@@ -80,10 +70,62 @@ export default class Access extends React.Component {
   }
 
   /**
+   * @param sorter 排序
+   * 支持对名称进行排序
+   */
+  onTableChange = (page, filter, sorter) => {
+    const searchs = {}
+    const orderArr = {
+      ascend: 'asc',
+      descend: 'desc'
+    }
+    if (sorter) {
+      const { order, field } = sorter
+      searchs.sortKey = field || undefined
+      searchs.sortValue = (order && orderArr[order]) || undefined
+    }
+    if (filter) {
+      searchs.type = filter.type
+    }
+    this.setState(
+      produce(draft => {
+        draft.tableCfg.searchs = {
+          ...draft.tableCfg.searchs,
+          ...searchs
+        }
+      }),
+      () => this.tablex.refresh(this.state.tableCfg)
+    )
+  }
+
+  /**
    *
    *
    * @memberof Access
-   * 创建转入策略
+   * 返回后 将inner path 置为空
+   */
+  onBack = () => {
+    this.setState({ inner: undefined })
+    this.currentDrawer.drawer.hide()
+  }
+
+  /**
+   *
+   *
+   * @memberof Access
+   * 成功后刷新表格
+   */
+  onSuccess = () => {
+    this.tablex.refresh(this.state.tableCfg)
+    this.currentDrawer.drawer.hide()
+    this.setState({ inner: undefined })
+  }
+
+  /**
+   *
+   *
+   * @memberof Access
+   * 创建准入策略
    */
   addAccess = () => {
     this.setState({ inner: '创建' }, this.addDrawer.pop())
@@ -140,52 +182,6 @@ export default class Access extends React.Component {
     })
   }
 
-  onTableChange = (page, filter, sorter) => {
-    const searchs = {}
-    const orderArr = {
-      ascend: 'asc',
-      descend: 'desc'
-    }
-    if (sorter) {
-      const { order, field } = sorter
-      searchs.sortKey = field || undefined
-      searchs.sortValue = (order && orderArr[order]) || undefined
-    }
-    this.setState(
-      produce(draft => {
-        draft.tableCfg.searchs = {
-          ...draft.tableCfg.searchs,
-          ...searchs
-        }
-      }),
-      () => this.tablex.refresh(this.state.tableCfg)
-    )
-  }
-
-  /**
-   *
-   *
-   * @memberof Access
-   * 返回后 将inner path 置为空
-   */
-  onBack = () => {
-    this.setState({ inner: undefined })
-    this.currentDrawer.drawer.hide()
-  }
-
-  /**
-   *
-   *
-   * @memberof Access
-   * 成功后删除刷新表格
-   */
-
-  onSuccess = () => {
-    this.tablex.refresh(this.state.tableCfg)
-    this.currentDrawer.drawer.hide()
-    this.setState({ inner: undefined })
-  }
-
   render() {
     const { disabledButton } = this.state
     return (
@@ -228,12 +224,6 @@ export default class Access extends React.Component {
             }}
             onClose={this.onBack}
             onSuccess={this.onSuccess}
-          />
-          <DetailDrawer
-            onRef={ref => {
-              this.detailDrawer = ref
-            }}
-            onClose={this.onBack}
           />
         </TableWrap>
       </React.Fragment>

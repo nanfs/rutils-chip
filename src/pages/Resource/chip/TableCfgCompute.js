@@ -8,13 +8,6 @@ export const columnsCompute = [
     title: '状态',
     dataIndex: 'status',
     width: 100,
-    // defaultFilteredValue: [
-    //   [2],
-    //   [1],
-    //   [3],
-    //   [11],
-    //   [0, 4, 5, 6, 7, 8, 9, 10, 12, 13, 14, 15]
-    // ],
     filters: [
       {
         text: '关机',

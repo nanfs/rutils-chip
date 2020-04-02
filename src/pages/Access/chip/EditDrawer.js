@@ -14,25 +14,19 @@ const { TextArea } = Input
 const { RangePicker } = DatePicker
 
 export default class EditDrawer extends React.Component {
+  componentDidMount() {
+    this.props.onRef && this.props.onRef(this)
+  }
+
   state = {
     checkWeeksRequired: false,
     checkDayRequired: false
   }
 
-  compareTime = (rule, value, callback) => {
-    const startTime = this.drawer.form.getFieldValue('startTime')
-    if (startTime) {
-      if (!dayjs(startTime).isBefore(value)) {
-        callback(new Error('结束时间必须晚于开始时间'))
-      }
-    }
-    callback()
-  }
-
-  componentDidMount() {
-    this.props.onRef && this.props.onRef(this)
-  }
-
+  /**
+   * @memberof access
+   * @param data 编辑准入策略时的初始值
+   */
   pop = data => {
     this.drawer.show()
     const { id, name, description, admitInterval } = data
@@ -62,6 +56,10 @@ export default class EditDrawer extends React.Component {
     })
   }
 
+  /**
+   * @memberof access
+   * 准入方式改变时获取对应的值
+   */
   getSelectType = () => {
     return this.drawer?.form?.getFieldValue('type')
   }
@@ -70,6 +68,28 @@ export default class EditDrawer extends React.Component {
     this.forceUpdate()
   }
 
+  /**
+   * @memberof access
+   * @param rule 验证规则
+   * @param value 传入的值
+   * @param 回调函数
+   * 验证结束时间不能晚于开始时间
+   */
+  compareTime = (rule, value, callback) => {
+    const startTime = this.drawer.form.getFieldValue('startTime')
+    if (startTime) {
+      if (!dayjs(startTime).isBefore(value)) {
+        callback(new Error('结束时间必须晚于开始时间'))
+      }
+    }
+    callback()
+  }
+
+  /**
+   * @memberof access
+   * @param values 传入表单值
+   * 编辑准入策略
+   */
   edit = values => {
     const {
       id,

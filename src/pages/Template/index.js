@@ -44,11 +44,32 @@ export default class Template extends React.Component {
     innerPath: undefined
   }
 
+  /**
+   *
+   *
+   * @memberof Template
+   * 返回后 将inner path 置为空
+   */
   onBack = () => {
     this.setState({ inner: undefined })
     this.currentDrawer.drawer.hide()
   }
 
+  /**
+   *
+   *
+   * @memberof Template
+   * 成功后刷新表格
+   */
+  onSuccess = () => {
+    this.tablex.refresh(this.state.tableCfg)
+    this.setState({ inner: undefined })
+  }
+
+  /**
+   * @memberof Template
+   * 编辑模板
+   */
   editTem = () => {
     this.setState(
       { inner: '编辑模板' },
@@ -57,6 +78,10 @@ export default class Template extends React.Component {
     this.currentDrawer = this.editDrawer
   }
 
+  /**
+   * @memberof Template
+   * 删除 批量删除
+   */
   delTem = () => {
     const selectTem = this.tablex.getSelection()
     const self = this
@@ -84,11 +109,6 @@ export default class Template extends React.Component {
       },
       onCancel() {}
     })
-  }
-
-  onSuccess = () => {
-    this.tablex.refresh(this.state.tableCfg)
-    this.setState({ inner: undefined })
   }
 
   render() {

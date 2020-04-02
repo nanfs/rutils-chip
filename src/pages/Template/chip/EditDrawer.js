@@ -11,6 +11,9 @@ export default class EditDrawer extends React.Component {
     this.props.onRef && this.props.onRef(this)
   }
 
+  /**
+   * @param data 编辑模板的初始值
+   */
   pop = data => {
     this.drawer.show()
     const {
@@ -30,6 +33,11 @@ export default class EditDrawer extends React.Component {
       description
     })
   }
+
+  /**
+   * @param values 传入的表单值
+   * 编辑 模板提交
+   */
 
   editTem = values => {
     templateApi

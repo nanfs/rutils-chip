@@ -8,7 +8,6 @@ export const columnsSave = [
     title: '状态',
     dataIndex: 'status',
     width: 100,
-    // defaultFilteredValue: [[2], [4], [3], [6], [0, 1, 5, 7, 8, 9]],
     filters: [
       {
         text: '激活',

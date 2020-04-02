@@ -17,13 +17,17 @@ export default class Resource extends React.Component {
     })
   }
 
+  /**
+   * @param key 搜索字段
+   * @param value 搜索值
+   * 支持按名称、描述来搜索
+   */
   search = (key, value) => {
     const searchs = {}
     searchs[key] = value
     this.setState(
       produce(draft => {
         draft.tableCfgSave.searchs = {
-          // ...draft.tableCfgSave.searchs,
           status: draft.tableCfgSave.searchs.status,
           ...searchs
         }
@@ -32,6 +36,10 @@ export default class Resource extends React.Component {
     )
   }
 
+  /**
+   * @param filter 筛选对象
+   * 支持按状态来筛选
+   */
   onTableChange = (a, filter) => {
     const statusList = []
     filter.status &&
@@ -60,7 +68,6 @@ export default class Resource extends React.Component {
                 options={[
                   { label: '名称', value: 'name' },
                   { label: '描述', value: 'description' }
-                  // { label: '数据中心', value: 'storagePoolName' }
                 ]}
                 onSearch={this.search}
               ></SelectSearch>

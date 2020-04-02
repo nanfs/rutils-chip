@@ -26,19 +26,15 @@ export const columns = [
     width: 150,
     dataIndex: 'boundTcNum',
     render: text => <Tag>{text}</Tag>
-    // sorter: (a, b) => a.boundTcNum - b.boundTcNum,
-    // sortDirections: ['descend', 'ascend']
   },
   {
     title: '准入类型',
     dataIndex: 'type',
     width: 160,
-    // defaultFilteredValue: [0, 1],
     filters: typeOptions,
     render: (text, record) => {
       return typeArr[record.admitInterval[0].type]
-    },
-    onFilter: (value, record) => record.admitInterval[0].type === value
+    }
   },
   {
     title: '日期',

@@ -10,14 +10,18 @@ const { TabPane } = Tabs
 // const { createTableCfg } = Tablex
 
 export default class DetailDrawer extends React.Component {
-  state = {
-    data: {}
-  }
-
   componentDidMount() {
     this.props.onRef && this.props.onRef(this)
   }
 
+  state = {
+    data: {}
+  }
+
+  /**
+   * @param id 详情数据的id
+   * @param info 详情数据
+   */
   pop = (id, info) => {
     this.drawer.show()
     this.setState({ data: info })
@@ -37,7 +41,6 @@ export default class DetailDrawer extends React.Component {
         <Tabsx defaultActiveKey={defaultActiveKey}>
           <TabPane tab="基本信息" key="basicInfo">
             <div className="dms-detail-section">
-              {/* <Title slot="基础设置"></Title> */}
               <Row className="dms-detail-row">
                 <Col span={3} className="dms-detail-label">
                   模板名称：

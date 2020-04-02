@@ -110,6 +110,9 @@ export default class Desktop extends React.Component {
     disabledButton: {}
   }
 
+  /**
+   *
+   */
   onSelectChange = (selection, selectData) => {
     let disabledButton = {}
     if (selection.length !== 1) {
@@ -161,6 +164,49 @@ export default class Desktop extends React.Component {
       })
     }
     this.setState({ disabledButton })
+  }
+
+  onTableChange = (page, filter, sorter) => {
+    const searchs = { templateId: this.props.templateId, neededPoolDesktop: 1 }
+    if (sorter) {
+      const { order, field } = sorter
+      searchs.sort = field || undefined
+      searchs.order = order || undefined
+    }
+    const statusList = []
+    filter.status &&
+      filter.status.forEach(function(v) {
+        statusList.push(...v)
+      })
+    const { clusterName, hostName, datacenterName } = filter
+    const columnsList = []
+    if (filter.action) {
+      columns.forEach(function(item) {
+        if (filter.action.indexOf(item.dataIndex) !== -1) {
+          columnsList.push(item)
+        }
+      })
+      this.setState({
+        tableCfg: {
+          ...this.state.tableCfg,
+          columns: [this.vmName, ...columnsList, this.action]
+        }
+      })
+    }
+
+    this.setState(
+      produce(draft => {
+        draft.tableCfg.searchs = {
+          ...draft.tableCfg.searchs,
+          ...searchs,
+          status: statusList,
+          clusters: clusterName,
+          hosts: hostName,
+          datacenters: datacenterName
+        }
+      }),
+      () => this.tablex.refresh(this.state.tableCfg)
+    )
   }
 
   patchOrders = directive => {
@@ -246,49 +292,6 @@ export default class Desktop extends React.Component {
       },
       onCancel() {}
     })
-  }
-
-  onTableChange = (page, filter, sorter) => {
-    const searchs = { templateId: this.props.templateId, neededPoolDesktop: 1 }
-    if (sorter) {
-      const { order, field } = sorter
-      searchs.sort = field || undefined
-      searchs.order = order || undefined
-    }
-    const statusList = []
-    filter.status &&
-      filter.status.forEach(function(v) {
-        statusList.push(...v)
-      })
-    const { clusterName, hostName, datacenterName } = filter
-    const columnsList = []
-    if (filter.action) {
-      columns.forEach(function(item) {
-        if (filter.action.indexOf(item.dataIndex) !== -1) {
-          columnsList.push(item)
-        }
-      })
-      this.setState({
-        tableCfg: {
-          ...this.state.tableCfg,
-          columns: [this.vmName, ...columnsList, this.action]
-        }
-      })
-    }
-
-    this.setState(
-      produce(draft => {
-        draft.tableCfg.searchs = {
-          ...draft.tableCfg.searchs,
-          ...searchs,
-          status: statusList,
-          clusters: clusterName,
-          hosts: hostName,
-          datacenters: datacenterName
-        }
-      }),
-      () => this.tablex.refresh(this.state.tableCfg)
-    )
   }
 
   openConsole = () => {

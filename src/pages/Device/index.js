@@ -5,7 +5,6 @@ import EditDrawer from './chip/EditDrawer'
 import AddDrawer from './chip/AddDrawer'
 import { columns, apiMethod } from './chip/TableCfg'
 import deviceApi from '@/services/device'
-import DetailDrawer from './chip/DetailDrawer'
 import produce from 'immer'
 
 const { confirm } = Modal
@@ -17,16 +16,6 @@ export default class Device extends React.Component {
     dataIndex: 'name',
     ellipsis: true,
     sorter: true
-    // render: (text, record) => {
-    //   return (
-    //     <a
-    //       className="detail-link"
-    //       onClick={() => this.detailDev(record.name, record)}
-    //     >
-    //       {record.name}
-    //     </a>
-    //   )
-    // }
   }
 
   action = {
@@ -36,28 +25,7 @@ export default class Device extends React.Component {
     render: (text, record) => {
       return (
         <span className="opration-btn">
-          <a
-            onClick={() => {
-              const selectDev = record
-              const initKeys = []
-              selectDev.usbs.forEach(function(v, i) {
-                initKeys.push(i)
-              })
-              if (initKeys.length) {
-                selectDev.initKeys = initKeys
-              } else {
-                selectDev.initKeys = [0]
-              }
-              this.setState(
-                { inner: record.name, initValues: selectDev },
-                this.editDrawer.pop(selectDev)
-              )
-
-              this.currentDrawer = this.editDrawer
-            }}
-          >
-            编辑
-          </a>
+          <a onClick={() => this.editDev(record)}>编辑</a>
           <a onClick={() => this.delDev(record.id)}>删除</a>
         </span>
       )
@@ -76,46 +44,105 @@ export default class Device extends React.Component {
     })
   }
 
+  /**
+   *
+   *
+   * @param {*} selection
+   * 删除禁用
+   */
   onSelectChange = selection => {
     let disabledButton = {}
-    if (selection.length !== 1) {
-      disabledButton = { ...disabledButton, disabledEdit: true }
-    }
     if (selection.length === 0) {
       disabledButton = { ...disabledButton, disabledDelete: true }
     }
     this.setState({ disabledButton })
   }
 
+  onTableChange = (page, filter, sorter) => {
+    const searchs = {}
+    const orderArr = {
+      ascend: 'asc',
+      descend: 'desc'
+    }
+    if (sorter) {
+      const { order, field } = sorter
+      searchs.sortKey = field || undefined
+      searchs.sortValue = (order && orderArr[order]) || undefined
+    }
+    this.setState(
+      produce(draft => {
+        draft.tableCfg.searchs = {
+          ...draft.tableCfg.searchs,
+          ...searchs
+        }
+      }),
+      () => this.tablex.refresh(this.state.tableCfg)
+    )
+  }
+
+  /**
+   *
+   *
+   * @memberof Device
+   * 返回后 将inner path 置为空
+   */
+  onBack = () => {
+    this.setState({ inner: undefined })
+    this.currentDrawer.drawer.hide()
+  }
+
+  /**
+   *
+   *
+   * @memberof Device
+   * 成功后刷新表格
+   */
+  onSuccess = () => {
+    this.setState({ inner: undefined })
+    this.currentDrawer.drawer.hide()
+    this.tablex.refresh(this.state.tableCfg)
+  }
+
+  /**
+   *
+   *
+   * @memberof Device
+   * 创建外设策略
+   */
   addDev = () => {
     this.setState({ inner: '创建' }, this.addDrawer.pop())
     this.currentDrawer = this.addDrawer
   }
 
-  editDev = () => {
+  /**
+   * @memberof Device
+   * @param record 准入外设策略( 暂时没有通过单独接口调 直接通过列表取)
+   */
+  editDev = record => {
     let selectDev = {}
-    if (this.tablex.getSelection().length === 1) {
-      selectDev = this.tablex.getSelectData()[0]
-      const initKeys = []
-      selectDev.usbs.forEach(function(v, i) {
-        initKeys.push(i)
-      })
-      if (initKeys.length) {
-        selectDev.initKeys = initKeys
-      } else {
-        selectDev.initKeys = [0]
-      }
-      this.setState(
-        { inner: '编辑', initValues: selectDev },
-        this.editDrawer.pop(selectDev)
-      )
-
-      this.currentDrawer = this.editDrawer
+    selectDev = record
+    const initKeys = []
+    selectDev.usbs.forEach(function(v, i) {
+      initKeys.push(i)
+    })
+    if (initKeys.length) {
+      selectDev.initKeys = initKeys
     } else {
-      message.warning('请选择一条数据进行编辑！')
+      selectDev.initKeys = [0]
     }
+    this.setState({ inner: '编辑' }, this.editDrawer.pop(selectDev))
+    this.currentDrawer = this.editDrawer
   }
 
+  /**
+   *
+   *
+   * @param {*} id
+   * @param {string} [title='确定删除所选数据?']
+   * @returns
+   * 删除外设策略 可以通过工具条 和表单操作列传入操作 表单操作列传入为单个
+   * 调用都是批量删除接口
+   */
   delDev = (id, title = '确定删除所选数据?') => {
     const ids = Array.isArray(id) ? id : [id]
     const self = this
@@ -145,39 +172,6 @@ export default class Device extends React.Component {
     })
   }
 
-  onTableChange = (page, filter, sorter) => {
-    const searchs = {}
-    const orderArr = {
-      ascend: 'asc',
-      descend: 'desc'
-    }
-    if (sorter) {
-      const { order, field } = sorter
-      searchs.sortKey = field || undefined
-      searchs.sortValue = (order && orderArr[order]) || undefined
-    }
-    this.setState(
-      produce(draft => {
-        draft.tableCfg.searchs = {
-          ...draft.tableCfg.searchs,
-          ...searchs
-        }
-      }),
-      () => this.tablex.refresh(this.state.tableCfg)
-    )
-  }
-
-  onBack = () => {
-    this.setState({ inner: undefined })
-    this.currentDrawer.drawer.hide()
-  }
-
-  onSuccess = () => {
-    this.setState({ inner: undefined })
-    this.currentDrawer.drawer.hide()
-    this.tablex.refresh(this.state.tableCfg)
-  }
-
   render() {
     const { disabledButton } = this.state
     return (
@@ -192,7 +186,7 @@ export default class Device extends React.Component {
             <BarLeft>
               <Button onClick={this.addDev}>创建</Button>
               <Button
-                onClick={() => this.delDev(this.tablex.selection())}
+                onClick={() => this.delDev(this.tablex.getSelection())}
                 disabled={disabledButton?.disabledDelete}
               >
                 删除
@@ -220,12 +214,6 @@ export default class Device extends React.Component {
             }}
             onClose={this.onBack}
             onSuccess={this.onSuccess}
-          />
-          <DetailDrawer
-            onRef={ref => {
-              this.detailDrawer = ref
-            }}
-            onClose={this.onBack}
           />
         </TableWrap>
       </React.Fragment>

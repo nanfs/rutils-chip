@@ -10,6 +10,13 @@ import dayjs from 'dayjs'
 const { TextArea } = Input
 const { RangePicker } = DatePicker
 export default class AddDrawer extends React.Component {
+  /**
+   * @memberof access
+   * @param rule 验证规则
+   * @param value 传入的值
+   * @param 回调函数
+   * 验证结束时间不能晚于开始时间
+   */
   compareTime = (rule, value, callback) => {
     const startTime = this.drawer?.form.getFieldValue('startTime')
     if (startTime) {
@@ -24,11 +31,19 @@ export default class AddDrawer extends React.Component {
     this.props.onRef && this.props.onRef(this)
   }
 
+  /**
+   * @memberof access
+   * 设置新建准入策略时的默认值
+   */
   pop = () => {
     this.drawer.show()
     this.drawer.form.setFieldsValue({ type: 0, weeks: [] })
   }
 
+  /**
+   * @memberof access
+   * 准入方式改变时获取对应的值
+   */
   getSelectType = () => {
     return this.drawer?.form?.getFieldValue('type')
   }
@@ -37,6 +52,11 @@ export default class AddDrawer extends React.Component {
     this.forceUpdate()
   }
 
+  /**
+   * @memberof access
+   * @param values 传入表单值
+   * 新建准入策略
+   */
   add = values => {
     const data = {
       name: values.name,

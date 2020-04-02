@@ -25,7 +25,7 @@ import './index.less'
 
 const { confirm } = Modal
 const { createTableCfg, TableWrap, ToolBar, BarLeft, BarRight } = Tablex
-export default class Termina extends React.Component {
+export default class Terminal extends React.Component {
   options = {
     title: '操作',
     dataIndex: 'opration',
@@ -41,6 +41,7 @@ export default class Termina extends React.Component {
           >
             删除
           </Menu.Item>
+          l{' '}
           <Menu.Item
             key="2"
             onClick={this.sendOrder.bind(this, 'shutdown', [record.sn])}
@@ -162,154 +163,11 @@ export default class Termina extends React.Component {
     disabledButton: {}
   }
 
-  search = (key, value) => {
-    const searchs = {}
-    searchs[key] = value
-    this.setState(
-      produce(draft => {
-        draft.tableCfg.searchs = {
-          // ...draft.tableCfg.searchs,
-          status: draft.tableCfg.searchs.status,
-          isReg: draft.tableCfg.searchs.isReg,
-          ...searchs
-        }
-      }),
-      () => this.tablex.refresh(this.state.tableCfg)
-    )
-  }
-
-  onSuccess = () => {
-    this.tablex.refresh(this.state.tableCfg)
-    this.setState({ inner: undefined })
-  }
-
-  onBack = () => {
-    this.setState({ inner: undefined })
-    this.currentDrawer.drawer.hide()
-  }
-
-  editTerminal = (record = undefined) => {
-    this.setState({ inner: '编辑终端' })
-    // this.editDrawer.drawer.show()
-    this.editDrawer.pop(record || this.tablex.getSelectData()[0])
-    this.currentDrawer = this.editDrawer
-  }
-
-  setUser = sns => {
-    this.setState({ inner: '分配用户' }, this.setUserDrawer.pop(sns))
-    this.currentDrawer = this.setUserDrawer
-  }
-
-  setSafePolicy = () => {
-    this.setState({ inner: '设置外设控制' })
-    this.setSafePolicyDrawer.pop(this.tablex.getSelection())
-    this.currentDrawer = this.setSafePolicyDrawer
-  }
-
-  setAccessPolicy = () => {
-    this.setState({ inner: '设置准入控制' })
-    this.setAccessPolicyDrawer.pop(this.tablex.getSelection())
-    this.currentDrawer = this.setAccessPolicyDrawer
-  }
-
-  sendMessage = (sn = undefined, selectData = undefined) => {
-    this.setState({ inner: '发送消息' })
-
-    this.sendMessageDrawer.pop(
-      sn || this.state.selectSN,
-      selectData || this.state.selectData
-    )
-    // this.sendMessageDrawer.drawer.show()
-    this.currentDrawer = this.sendMessageDrawer
-  }
-
-  detailTerminal = (name, sn) => {
-    this.setState({ inner: name })
-    this.infoDrawer.pop(sn)
-    this.currentDrawer = this.infoDrawer
-  }
-
-  sendOrder = (order, sn = undefined) => {
-    console.log('sendOrder', sn, order)
-    const sns = sn || this.state.selectSN
-    terminalApi
-      .directiveTerminal({ sns, command: order })
-      .then(res => {
-        if (res.success) {
-          notification.success({ message: '操作成功' })
-          this.tablex.refresh(this.state.tableCfg)
-        } else {
-          message.error(res.message || '操作失败')
-        }
-      })
-      .catch(errors => {
-        console.log(errors)
-      })
-  }
-
-  admitAccessTerminal = (sn = undefined) => {
-    const sns = sn || this.state.selectSN
-    terminalApi
-      .admitAccessTerminal({ sns })
-      .then(res => {
-        if (res.success) {
-          notification.success({ message: '接入成功' })
-          this.tablex.refresh(this.state.tableCfg)
-        } else {
-          message.error(res.message || '接入失败')
-        }
-      })
-      .catch(errors => {
-        console.log(errors)
-      })
-  }
-
-  forbidAccessTerminal = (sn = undefined) => {
-    const sns = sn || this.state.selectSN
-    terminalApi
-      .forbidAccessTerminal({ sns })
-      .then(res => {
-        if (res.success) {
-          notification.success({ message: '禁止接入成功' })
-          this.tablex.refresh(this.state.tableCfg)
-        } else {
-          message.error(res.message || '禁止接入失败')
-        }
-      })
-      .catch(errors => {
-        console.log(errors)
-      })
-  }
-
-  deleteTerminal = (sn = undefined) => {
-    const sns = sn || this.state.selectSN
-    const self = this
-    confirm({
-      title: '确定删除所选数据?',
-      onOk() {
-        return new Promise((resolve, reject) => {
-          terminalApi
-            .deleteTerminal({ sns })
-            .then(res => {
-              if (res.success) {
-                notification.success({ message: '删除成功' })
-                self.tablex.refresh(self.state.tableCfg)
-              } else {
-                message.error(res.message || '删除失败')
-              }
-              resolve()
-            })
-            .catch(error => {
-              message.error(error.message || error)
-              resolve()
-              console.log(error)
-            })
-        })
-      },
-      onCancel() {}
-    })
-  }
-
+  /**
+   * @memberof Terminal
+   * @description 根据选定数据判断按钮状态
+   * @author linghu
+   */
   onSelectChange = (selection, selectData) => {
     let disabledButton = {}
     const selectSN = selectData.map(item => item.sn)
@@ -353,6 +211,11 @@ export default class Termina extends React.Component {
     this.setState({ disabledButton, selection, selectData, selectSN })
   }
 
+  /**
+   * @memberof Terminal
+   * @description 表格onChange的回调
+   * @author linghu
+   */
   onTableChange = (a, filter) => {
     const statusList = []
     filter.status &&
@@ -374,6 +237,182 @@ export default class Termina extends React.Component {
       }),
       () => this.tablex.refresh(this.state.tableCfg)
     )
+  }
+
+  /**
+   * @memberof Terminal
+   * @description 表格搜索
+   */
+  search = (key, value) => {
+    const searchs = {}
+    searchs[key] = value
+    this.setState(
+      produce(draft => {
+        draft.tableCfg.searchs = {
+          // ...draft.tableCfg.searchs,
+          status: draft.tableCfg.searchs.status,
+          isReg: draft.tableCfg.searchs.isReg,
+          ...searchs
+        }
+      }),
+      () => this.tablex.refresh(this.state.tableCfg)
+    )
+  }
+
+  /**
+   * @memberof Terminal
+   * @description 新增、编辑成功后回调
+   * @author linghu
+   */
+  onSuccess = () => {
+    this.tablex.refresh(this.state.tableCfg)
+    this.setState({ inner: undefined })
+  }
+
+  onBack = () => {
+    this.setState({ inner: undefined })
+    this.currentDrawer.drawer.hide()
+  }
+
+  setUser = sns => {
+    this.setState({ inner: '分配用户' }, this.setUserDrawer.pop(sns))
+    this.currentDrawer = this.setUserDrawer
+  }
+
+  setSafePolicy = () => {
+    this.setState({ inner: '设置外设控制' })
+    this.setSafePolicyDrawer.pop(this.tablex.getSelection())
+    this.currentDrawer = this.setSafePolicyDrawer
+  }
+
+  setAccessPolicy = () => {
+    this.setState({ inner: '设置准入控制' })
+    this.setAccessPolicyDrawer.pop(this.tablex.getSelection())
+    this.currentDrawer = this.setAccessPolicyDrawer
+  }
+
+  sendMessage = (sn = undefined, selectData = undefined) => {
+    this.setState({ inner: '发送消息' })
+
+    this.sendMessageDrawer.pop(
+      sn || this.state.selectSN,
+      selectData || this.state.selectData
+    )
+    // this.sendMessageDrawer.drawer.show()
+    this.currentDrawer = this.sendMessageDrawer
+  }
+
+  detailTerminal = (name, sn) => {
+    this.setState({ inner: name })
+    this.infoDrawer.pop(sn)
+    this.currentDrawer = this.infoDrawer
+  }
+
+  /**
+   * @memberof Terminal
+   * @param order 具体指令：lock unclock logout
+   * @param sn 终端sn
+   * @description 向所选终端下发指令
+   * @author linghu
+   */
+  sendOrder = (order, sn = undefined) => {
+    console.log('sendOrder', sn, order)
+    const sns = sn || this.state.selectSN
+    terminalApi
+      .directiveTerminal({ sns, command: order })
+      .then(res => {
+        if (res.success) {
+          notification.success({ message: '操作成功' })
+          this.tablex.refresh(this.state.tableCfg)
+        } else {
+          message.error(res.message || '操作失败')
+        }
+      })
+      .catch(errors => {
+        console.log(errors)
+      })
+  }
+
+  /**
+   * @memberof Terminal
+   * @param sn 终端sn
+   * @description 接入所选终端
+   * @author linghu
+   */
+  admitAccessTerminal = (sn = undefined) => {
+    const sns = sn || this.state.selectSN
+    terminalApi
+      .admitAccessTerminal({ sns })
+      .then(res => {
+        if (res.success) {
+          notification.success({ message: '接入成功' })
+          this.tablex.refresh(this.state.tableCfg)
+        } else {
+          message.error(res.message || '接入失败')
+        }
+      })
+      .catch(errors => {
+        console.log(errors)
+      })
+  }
+
+  /**
+   * @memberof Terminal
+   * @param sn 终端sn
+   * @description 断开所选已接入终端
+   * @author linghu
+   */
+  forbidAccessTerminal = (sn = undefined) => {
+    const sns = sn || this.state.selectSN
+    terminalApi
+      .forbidAccessTerminal({ sns })
+      .then(res => {
+        if (res.success) {
+          notification.success({ message: '断开接入成功' })
+          this.tablex.refresh(this.state.tableCfg)
+        } else {
+          message.error(res.message || '断开接入失败')
+        }
+      })
+      .catch(errors => {
+        console.log(errors)
+      })
+  }
+
+  editTerminal = (record = undefined) => {
+    this.setState({ inner: '编辑终端' })
+    // this.editDrawer.drawer.show()
+    this.editDrawer.pop(record || this.tablex.getSelectData()[0])
+    this.currentDrawer = this.editDrawer
+  }
+
+  deleteTerminal = (sn = undefined) => {
+    const sns = sn || this.state.selectSN
+    const self = this
+    confirm({
+      title: '确定删除所选数据?',
+      onOk() {
+        return new Promise((resolve, reject) => {
+          terminalApi
+            .deleteTerminal({ sns })
+            .then(res => {
+              if (res.success) {
+                notification.success({ message: '删除成功' })
+                self.tablex.refresh(self.state.tableCfg)
+              } else {
+                message.error(res.message || '删除失败')
+              }
+              resolve()
+            })
+            .catch(error => {
+              message.error(error.message || error)
+              resolve()
+              console.log(error)
+            })
+        })
+      },
+      onCancel() {}
+    })
   }
 
   render() {

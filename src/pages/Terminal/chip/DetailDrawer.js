@@ -18,6 +18,12 @@ export default class DetailDrawer extends React.Component {
 
   state = { initValues: { useTime: [] } }
 
+  /**
+   * @memberof DetailDrawer
+   * @param sn 终端sn
+   * @description 打开终端详情抽屉，传入终端sn查询终端详情
+   * @author linghu
+   */
   pop = sn => {
     this.drawer.show()
     terminalApi

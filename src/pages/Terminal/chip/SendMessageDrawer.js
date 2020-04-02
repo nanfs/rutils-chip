@@ -17,19 +17,30 @@ export default class SendMessageDrawer extends React.Component {
     selectData: []
   }
 
+  /**
+   * @memberof SendMessageDrawer
+   * @param {array} sns 选中终端sn数组
+   * @param {array} selectData 选中终端数据数组
+   * @description 打开发送消息抽屉，传入selectData，处理成终端名称的字符串，中间以逗号隔开
+   * @author linghu
+   */
   pop = (sns, selectData) => {
     this.drawer.show()
     let selectName = selectData.map(item => {
       return item.name
     })
     selectName = selectName.join('，')
-    // .substring(0, selectName.join('，').length - 1)
     this.setState({
       sns,
       selectName
     })
   }
 
+  /**
+   * @memberof SendMessageDrawer
+   * @description 监听输入，利用防抖过滤计算出还可以输入多少字符
+   * @author linghu
+   */
   handleChange = (a, b, e) => {
     e.persist()
     debounce(() => {
@@ -39,6 +50,11 @@ export default class SendMessageDrawer extends React.Component {
     }, 1000)()
   }
 
+  /**
+   * @memberof SendMessageDrawer
+   * @description 向后端发送请求
+   * @author linghu
+   */
   sendMessage = (values, sns) => {
     terminalApi
       .directiveTerminal({ sns, command: 'sendMessage', ...values })

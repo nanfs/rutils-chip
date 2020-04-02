@@ -7,13 +7,14 @@ import { required } from '@/utils/valid'
 const { TextArea } = Input
 const { createModalCfg } = Modalx
 export default class EditDiskModal extends React.Component {
-  // moreThanBefore = (rule, value, callback) => {
-  //   const beforeSize = this.state.capacity
-  //   if (value < beforeSize) {
-  //     callback(new Error('应该不小于之前磁盘大小'))
-  //   }
-  //   callback()
-  // }
+  // 单磁盘不能大于2T
+  totalLessThan2000 = (rule, value, callback) => {
+    const beforeSize = this.state.capacity
+    if (value + beforeSize > 2000) {
+      callback(new Error('磁盘最大不超过2000G'))
+    }
+    callback()
+  }
 
   componentDidMount() {
     this.props.onRef && this.props.onRef(this)
@@ -61,13 +62,12 @@ export default class EditDiskModal extends React.Component {
           <Form.Item prop="capacity" label="当前大小(G)" rules={[required]}>
             <Input disabled />
           </Form.Item>
-          <Form.Item prop="newCapacity" label="扩容大小(G)">
-            <SliderNumberx
-              min={0}
-              max={10000}
-              hasInputNumber={true}
-              step={50}
-            />
+          <Form.Item
+            prop="newCapacity"
+            label="扩容大小(G)"
+            rules={[this.totalLessThan2000]}
+          >
+            <SliderNumberx min={0} hasInputNumber={true} step={50} />
           </Form.Item>
           <Form.Item prop="description" label="描述">
             <TextArea style={{ resize: 'none' }} rows={4} placeholder="描述" />

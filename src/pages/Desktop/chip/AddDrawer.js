@@ -19,10 +19,10 @@ import { required, checkName, lessThanValue } from '@/utils/valid'
 
 const { TextArea } = Input
 const createType = [
-  { label: '通过模板创建', value: '1' },
+  { label: '通过模板创建', value: 'byTemp' },
   {
     label: '通过ISO创建',
-    value: '2'
+    value: 'byIso'
   }
 ]
 const driveType = [
@@ -43,6 +43,12 @@ export default class AddDrawer extends React.Component {
     this.setState({ fetchData: true, networkOptions: [], templateOptions: [] })
     this.drawer.form.setFieldsValue({ desktopNum: 1 })
     this.getCluster()
+  }
+
+  getSelectType = () => {
+    return (
+      this.drawer && this.drawer.form && this.drawer.form.getFieldValue('type')
+    )
   }
 
   // 获取模板列表 传入集群ID 模板状态
@@ -86,12 +92,29 @@ export default class AddDrawer extends React.Component {
       })
   }
 
-  getSelectType = () => {
-    return (
-      this.drawer && this.drawer.form && this.drawer.form.getFieldValue('type')
-    )
+  /**
+   *
+   *判断 ISO是属于 国产 还是 windows linux 三类
+   * @param {*} isoName
+   * @returns
+   * @memberof AddDrawer
+   */
+  checkIsoType(isoName) {
+    const demesticKeyWords = ['szwx', 'kylin', 'isoft', 'deepin']
+    if (demesticKeyWords.some(item => isoName.includes(item))) {
+      return 'domestic'
+    }
+    if (isoName.includes('win')) {
+      return 'windows'
+    }
+    return 'linux'
   }
 
+  /**
+   *
+   * 获取ISO列表 判断 加入到对应列表
+   * @memberof AddDrawer
+   */
   getIso = () => {
     const { storagePoolId } = this.state
     return desktopsApi
@@ -100,7 +123,6 @@ export default class AddDrawer extends React.Component {
         const win = []
         const linux = []
         const domestic = []
-        // TODO ISO命名约定
         res.data.forEach(item => {
           const name = item.repoImageId.toLowerCase()
           if (this.checkIsoType(name) === 'domestic') {
@@ -114,13 +136,12 @@ export default class AddDrawer extends React.Component {
         this.setState({ isos: { win, linux, domestic } })
       })
       .catch(error => {
-        this.setState({ networkLoading: false })
         message.error(error.message || error)
       })
   }
 
+  // 网络接口字段和创建网络字段是不匹配的 name 等同于 vnic
   getNetwork = () => {
-    // 网络接口字段和创建网络字段是不匹配的 name 等同于 vnic
     return desktopsApi
       .getNetwork(this.state.clusterId)
       .then(res => {
@@ -136,15 +157,20 @@ export default class AddDrawer extends React.Component {
       })
   }
 
-  onTempalteChange = () => {
-    this.getNetwork(this.state.clusterId)
-  }
+  // 当模板变化的时候 TODO 获取模板信息显示
+  onTempalteChange = () => {}
 
+  /**
+   * 当集群变化的时候 如果是iso 拉取iso 和网络
+   * 如果 不是 就默认拉取网络和模板
+   *
+   * @memberof AddDrawer
+   */
   onClusterChange = (a, b, clusterId) => {
     const current = findArrObj(this.state.clusterArr, 'id', clusterId)
     const { storagePoolId } = current
     this.setState({ clusterId, storagePoolId }, () => {
-      if (this.getSelectType() === '2') {
+      if (this.getSelectType() === 'byIso') {
         this.getNetwork()
         this.getIso()
       } else {
@@ -154,41 +180,45 @@ export default class AddDrawer extends React.Component {
     })
   }
 
+  /**
+   * 操作如上  应对用户选择之前没有选择集群ID
+   *
+   * @memberof AddDrawer
+   */
   onCreateTypeChange = (a, b, target) => {
-    this.setState({ networkOptions: undefined })
     if (!this.state.clusterId) {
+      this.setState({ networkOptions: undefined })
       return
     }
-    if (target === '1') {
+    if (target === 'byTemp') {
       this.getTemplate()
-      this.getNetwork()
     } else {
       this.getIso()
     }
     this.forceUpdate()
   }
 
+  /**
+   * 当ISO改变的时候 后端需要判断 32 还是 64 位
+   *
+   * @memberof AddDrawer
+   */
   onIsoChange = (a, b, target) => {
     if (target.toLowerCase().includes('x64')) {
       return this.drawer.form.setFieldsValue({ isoBit: '64' })
     }
     if (target.toLowerCase().includes('x86')) {
-      return this.drawer.form.setFieldsValue({ isoBit: '86' })
+      return this.drawer.form.setFieldsValue({ isoBit: '32' })
     }
     this.drawer.form.setFieldsValue({ isoBit: '' })
   }
 
-  checkIsoType(isoName) {
-    const demesticKeyWords = ['szwx', 'kylin', 'isoft', 'deepin']
-    if (demesticKeyWords.some(item => isoName.includes(item))) {
-      return 'domestic'
-    }
-    if (isoName.includes('win')) {
-      return 'windows'
-    }
-    return 'linux'
-  }
-
+  /**
+   * 约定 创建最大 磁盘2000G
+   * 最大 内存 128G
+   *
+   * @memberof AddDrawer
+   */
   addVm = values => {
     const { type, network, ...rest } = values
     const networkFix = network.map((item, index) => {
@@ -202,7 +232,7 @@ export default class AddDrawer extends React.Component {
       network: networkFix
     }
     // 如果通过ISO创建用户
-    if (type === '2') {
+    if (type === 'byIso') {
       const { isoName } = values
       const isoType = this.checkIsoType(isoName)
       const reqData = { isoType, ...data }
@@ -244,7 +274,7 @@ export default class AddDrawer extends React.Component {
   renderOsOptions = () => {
     return (
       <Selectx
-        style={{ width: 230 }}
+        style={{ width: 350 }}
         placeholder="请选择镜像"
         onChange={this.onIsoChange}
         getData={this.getIso}
@@ -320,9 +350,9 @@ export default class AddDrawer extends React.Component {
             prop="templateId"
             label="模板"
             required
-            rules={this.getSelectType() === '1' ? [required] : undefined}
+            rules={this.getSelectType() === 'byTemp' ? [required] : undefined}
             wrapperCol={{ sm: { span: 16 } }}
-            hidden={this.getSelectType() !== '1'}
+            hidden={this.getSelectType() !== 'byTemp'}
           >
             <Radiox
               getData={this.getTemplate}
@@ -334,9 +364,9 @@ export default class AddDrawer extends React.Component {
             prop="isoName"
             label="ISO"
             required
-            rules={this.getSelectType() === '2' ? [required] : undefined}
+            rules={this.getSelectType() === 'byIso' ? [required] : undefined}
             wrapperCol={{ sm: { span: 16 } }}
-            hidden={this.getSelectType() !== '2'}
+            hidden={this.getSelectType() !== 'byIso'}
           >
             {this.renderOsOptions()}
           </Form.Item>
@@ -344,7 +374,7 @@ export default class AddDrawer extends React.Component {
             prop="isoBit"
             required
             label="驱动类型"
-            hidden={this.getSelectType() !== '2'}
+            hidden={this.getSelectType() !== 'byIso'}
           >
             <Radiox options={driveType} />
           </Form.Item>
@@ -365,7 +395,7 @@ export default class AddDrawer extends React.Component {
             prop="memory"
             label="内存"
             required
-            rules={[required, lessThanValue(100)]}
+            rules={[required, lessThanValue(128)]}
             wrapperCol={{ sm: { span: 16 } }}
           >
             <Radiox
@@ -378,9 +408,9 @@ export default class AddDrawer extends React.Component {
             prop="disk"
             label="磁盘(G)"
             required
-            hidden={this.getSelectType() !== '2'}
+            hidden={this.getSelectType() !== 'byIso'}
             rules={
-              this.getSelectType() === '2'
+              this.getSelectType() === 'byIso'
                 ? [required, lessThanValue(10000)]
                 : undefined
             }
@@ -389,7 +419,7 @@ export default class AddDrawer extends React.Component {
             <Radiox
               options={diskOptions}
               hasInputNumber
-              numProps={{ max: 10000, min: 1 }}
+              numProps={{ max: 2000, min: 1 }}
             />
           </Form.Item>
           <Form.Item prop="description" label="描述">
@@ -400,7 +430,7 @@ export default class AddDrawer extends React.Component {
             prop="desktopNum"
             label="创建数量"
             required
-            hidden={this.getSelectType() !== '1'}
+            hidden={this.getSelectType() !== 'byTemp'}
             rules={[required, lessThanValue(100)]}
           >
             <InputNumber placeholder="" min={1} max={100} />

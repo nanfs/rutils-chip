@@ -359,6 +359,7 @@ export function vmFilterSorterTransform(filter, sorter) {
       statusList.push(...v)
     })
   searchs = {
+    ...searchs,
     status: statusList,
     clusters: clusterName,
     hosts: hostName,

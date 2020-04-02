@@ -15,7 +15,6 @@ export default class DetailDrawer extends React.Component {
 
   pop = id => {
     this.drawer.show()
-    // 置空 不然有保存 state
     this.setState({ defaultActiveKey: '' }, () =>
       this.setState({ defaultActiveKey: '1', id })
     )

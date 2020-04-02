@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form, Input, Button, message } from 'antd'
+import { Form, Input, message } from 'antd'
 import { Drawerx, Formx, Radiox, Checkboxx, Title, Diliver } from '@/components'
 import { memoryOptions, cpuOptions } from '@/utils/formOptions'
 import desktopsApi from '@/services/desktops'
@@ -10,14 +10,6 @@ const { TextArea } = Input
 export default class EditDrawer extends React.Component {
   componentDidMount() {
     this.props.onRef && this.props.onRef(this)
-  }
-
-  state = {
-    templateOption: [],
-    networkOption: [],
-    initValues: {},
-    templateName: undefined,
-    networkLoading: false
   }
 
   pop = id => {
@@ -35,7 +27,6 @@ export default class EditDrawer extends React.Component {
           clusterId: data.clusterId
         })
         this.drawer.form.setFieldsValue({ ...data, id, network: networkFix })
-
         this.getNetwork()
       })
       .catch(error => {
@@ -44,34 +35,40 @@ export default class EditDrawer extends React.Component {
       })
   }
 
+  /**
+   *  网络接口字段和创建网络字段是不匹配的 name 等同于 vnic
+   *
+   * @memberof EditDrawer
+   */
   getNetwork = () => {
-    const queryClusterId = this.state.clusterId
-    this.setState({ networkLoading: true })
+    const queryClusterId = this.state?.clusterId
     if (!queryClusterId) {
-      this.setState({ networkLoading: false })
       return Promise.reject().catch(error => {
         message.error(error.message || error)
         console.log(error)
       })
     }
-    desktopsApi
+    return desktopsApi
       .getNetwork(queryClusterId)
       .then(res => {
-        // 网络接口字段和创建网络字段是不匹配的 name 等同于 vnic
         const network = res.data.records
         const networkOptions = network.map(item => ({
           label: `${item.kind}/${item.name}`,
           value: `${item.kind}&${item.name}&${item.kindid}`
         }))
-        this.setState({ networkOptions, networkLoading: false })
+        this.setState({ networkOptions })
       })
       .catch(error => {
-        this.setState({ networkLoading: false })
         message.error(error.message || error)
         console.log(error)
       })
   }
 
+  /**
+   * 编辑网络 TODO网络核对
+   *
+   * @memberof EditDrawer
+   */
   editVm = values => {
     const { network } = values
     const networkFix = network.map((item, index) => {
@@ -116,12 +113,7 @@ export default class EditDrawer extends React.Component {
           >
             <Input placeholder="桌面名称" />
           </Form.Item>
-          <Form.Item label="模板">
-            <Button>{this.state.templateName}</Button>
-          </Form.Item>
-          {/* <Form.Item prop="usbNum" label="USB数量">
-            <Radiox options={usbOptions} />
-          </Form.Item> */}
+          <Form.Item label="模板">{this.state?.templateName}</Form.Item>
           <Form.Item
             prop="cpuCores"
             label="CPU"
@@ -155,8 +147,7 @@ export default class EditDrawer extends React.Component {
           <Form.Item prop="network" label="网络">
             <Checkboxx
               getData={this.getNetwork}
-              options={this.state.networkOptions}
-              loading={this.state.networkLoading}
+              options={this.state?.networkOptions}
             />
           </Form.Item>
         </Formx>

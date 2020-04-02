@@ -48,7 +48,6 @@ export default class BaseInfo extends React.Component {
               <Tooltip title={data.name}>
                 <span>{data.name}</span>
               </Tooltip>
-              {/* {data.name} */}
             </Col>
             <Col span={3} className="dms-detail-label">
               数据中心：
@@ -57,7 +56,6 @@ export default class BaseInfo extends React.Component {
               <Tooltip title={data.datacenterName}>
                 <span>{data.datacenterName}</span>
               </Tooltip>
-              {/* {data.datacenterName} */}
             </Col>
           </Row>
           <Row className="dms-detail-row">
@@ -69,7 +67,6 @@ export default class BaseInfo extends React.Component {
               <Tooltip title={data.network?.map(item => item.mac).join(',')}>
                 <span>{data.network?.map(item => item.mac).join(',')}</span>
               </Tooltip>
-              {/* {data.network?.map(item => item.mac).join(',')} */}
             </Col>
             <Col span={3} className="dms-detail-label">
               操作系统：
@@ -78,7 +75,6 @@ export default class BaseInfo extends React.Component {
               <Tooltip title={osTextRender(data.os)}>
                 <span>{osTextRender(data.os)}</span>
               </Tooltip>
-              {/* {osTextRender(data.os)} */}
             </Col>
           </Row>
           <Row className="dms-detail-row">
@@ -89,7 +85,6 @@ export default class BaseInfo extends React.Component {
               <Tooltip title={data.templateName}>
                 <span>{data.templateName}</span>
               </Tooltip>
-              {/* {data.templateName} */}
             </Col>
             <Col span={3} className="dms-detail-label">
               集群：
@@ -98,7 +93,6 @@ export default class BaseInfo extends React.Component {
               <Tooltip title={data.clusterName}>
                 <span>{data.clusterName}</span>
               </Tooltip>
-              {/* {data.clusterName} */}
             </Col>
           </Row>
           <Row className="dms-detail-row">
@@ -109,7 +103,6 @@ export default class BaseInfo extends React.Component {
               <Tooltip title={data.id}>
                 <span>{data.id}</span>
               </Tooltip>
-              {/* <span title={data.id}>{data.id}</span> */}
             </Col>
             <Col span={3} className="dms-detail-label">
               CPU：
@@ -118,7 +111,6 @@ export default class BaseInfo extends React.Component {
               <Tooltip title={data.cpuCores}>
                 <span>{data.cpuCores}</span>
               </Tooltip>
-              {/* {data.cpuCores} */}
             </Col>
           </Row>
           <Row className="dms-detail-row">
@@ -129,7 +121,6 @@ export default class BaseInfo extends React.Component {
               <Tooltip title={data.ip}>
                 <span>{data.ip}</span>
               </Tooltip>
-              {/* <span title={data.ip}>{data.ip}</span> */}
             </Col>
             <Col span={3} className="dms-detail-label">
               内存：
@@ -138,7 +129,6 @@ export default class BaseInfo extends React.Component {
               <Tooltip title={data.memory}>
                 <span>{data.memory} G</span>
               </Tooltip>
-              {/* {data.memory} G */}
             </Col>
           </Row>
           <Row className="dms-detail-row">
@@ -161,8 +151,6 @@ export default class BaseInfo extends React.Component {
                       .join(',')}
                 </span>
               </Tooltip>
-              {/* {data.network &&
-                data.network.map(item => `${item.kind}/${item.vnic}`).join(',')} */}
             </Col>
             <Col span={3} className="dms-detail-label">
               描述：
@@ -171,12 +159,11 @@ export default class BaseInfo extends React.Component {
               <Tooltip title={data.description}>
                 <span>{data.description}</span>
               </Tooltip>
-              {/* <span title={data.description}>{data.description}</span> */}
             </Col>
           </Row>
           <Row className="dms-detail-row"></Row>
         </div>
-        {/* <Diliver /> */}
+        <Diliver />
 
         <div className="dms-detail-section">
           <Title slot="所属用户"></Title>
@@ -187,7 +174,6 @@ export default class BaseInfo extends React.Component {
             pagination={{ position: 'none' }}
           ></Table>
         </div>
-        {/* <Diliver /> */}
         <div className="dms-detail-section">
           <Title slot="应用程序"></Title>
           <Row className="dms-detail-row">

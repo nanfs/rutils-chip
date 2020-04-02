@@ -23,13 +23,13 @@ export const columns = [
       if (text === '1') {
         return (
           <span>
-            <Icon type="check-circle" style={{ color: '#19c0f0' }} /> 开启
+            <Icon type="check-circle" style={{ color: '#19c0f0' }} /> 启用白名单
           </span>
         )
       } else {
         return (
           <span>
-            <Icon type="stop" style={{ color: '#ee1c3a' }} /> 禁止
+            <Icon type="stop" style={{ color: '#ee1c3a' }} /> 启用黑名单
           </span>
         )
       }

@@ -265,14 +265,22 @@ export function assignedUsersRender(value) {
     })
     return (
       <Popover content={info}>
-        <Icon type="team" className="table-icon-success" />
+        <Icon
+          type="team"
+          className="table-icon-success"
+          style={{ cursor: 'pointer' }}
+        />
       </Popover>
     )
   } else {
     const user = <p>{value?.replace(/internal-authz/g, '本地组')}</p>
     return (
       <Popover content={user}>
-        <Icon type="user" className="table-icon-success" />
+        <Icon
+          type="user"
+          className="table-icon-success"
+          style={{ cursor: 'pointer' }}
+        />
       </Popover>
     )
   }

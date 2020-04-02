@@ -12,10 +12,10 @@ export default class DetailDrawer extends React.Component {
     this.props.onRef && this.props.onRef(this)
   }
 
-  pop = id => {
+  pop = poolId => {
     this.drawer.show()
     this.setState({ defaultActiveKey: '' }, () =>
-      this.setState({ defaultActiveKey: '1', poolId: id })
+      this.setState({ defaultActiveKey: '1', poolId })
     )
   }
 
@@ -41,7 +41,6 @@ export default class DetailDrawer extends React.Component {
               onDeleteAll={this.props.onDeleteAll}
             ></Vmlist>
           </TabPane>
-          {/* <TabPane tab="已分配用户" key="3"></TabPane> */}
         </Tabsx>
       </Drawerx>
     )

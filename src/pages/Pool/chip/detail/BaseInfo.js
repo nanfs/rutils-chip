@@ -46,7 +46,6 @@ export default class BaseInfo extends React.Component {
             <Tooltip title={data.name}>
               <span>{data.name}</span>
             </Tooltip>
-            {/* {data.name} */}
           </Col>
           <Col span={4} className="dms-detail-label">
             桌面数：
@@ -55,7 +54,6 @@ export default class BaseInfo extends React.Component {
             <Tooltip title={data.desktopNum}>
               <span>{data.desktopNum}</span>
             </Tooltip>
-            {/* {data.desktopNum} */}
           </Col>
         </Row>
         <Row className="dms-detail-row">
@@ -66,7 +64,6 @@ export default class BaseInfo extends React.Component {
             <Tooltip title={data.templateName}>
               <span>{data.templateName}</span>
             </Tooltip>
-            {/* {data.templateName} */}
           </Col>
           <Col span={4} className="dms-detail-label">
             预启动数量：
@@ -75,7 +72,6 @@ export default class BaseInfo extends React.Component {
             <Tooltip title={data.prestartNum}>
               <span>{data.prestartNum}</span>
             </Tooltip>
-            {/* {data.prestartNum} */}
           </Col>
         </Row>
         <Row className="dms-detail-row">
@@ -86,7 +82,6 @@ export default class BaseInfo extends React.Component {
             <Tooltip title={data.managerType ? '手动' : '自动'}>
               <span>{data.managerType ? '手动' : '自动'}</span>
             </Tooltip>
-            {/* {data.managerType ? '手动' : '自动'} */}
           </Col>
           <Col span={4} className="dms-detail-label">
             用户最大虚拟机数：
@@ -95,7 +90,25 @@ export default class BaseInfo extends React.Component {
             <Tooltip title={data.maxAssignedVmsPerUser}>
               <span>{data.maxAssignedVmsPerUser}</span>
             </Tooltip>
-            {/* {data.maxAssignedVmsPerUser} */}
+          </Col>
+        </Row>
+        <Row className="dms-detail-row">
+          <Col span={4} className="dms-detail-label">
+            CPU：
+          </Col>
+          <Col span={8} className="dms-detail-value">
+            <Tooltip title={data.cpuCores}>
+              <span>{data.cpuCores}</span>
+            </Tooltip>
+          </Col>
+
+          <Col span={4} className="dms-detail-label">
+            内存：
+          </Col>
+          <Col span={8} className="dms-detail-value">
+            <Tooltip title={data.memory}>
+              <span>{data.memory} G</span>
+            </Tooltip>
           </Col>
         </Row>
         <Row className="dms-detail-row">
@@ -106,7 +119,6 @@ export default class BaseInfo extends React.Component {
             <Tooltip title={data.id}>
               <span>{data.id}</span>
             </Tooltip>
-            {/* <span title={data.id}>{data.id}</span> */}
           </Col>
           <Col span={4} className="dms-detail-label">
             描述：
@@ -115,7 +127,6 @@ export default class BaseInfo extends React.Component {
             <Tooltip title={data.description}>
               <span>{data.description}</span>
             </Tooltip>
-            {/* <span title={data.description}>{data.description}</span> */}
           </Col>
         </Row>
         <Row className="dms-detail-row"></Row>

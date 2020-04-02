@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form, Input, InputNumber, Button, message } from 'antd'
+import { Form, Input, InputNumber, message } from 'antd'
 import { Drawerx, Formx, Title, Radiox } from '@/components'
 import { managerTypeOptions } from '@/utils/formOptions'
 import poolsApi from '@/services/pools'
@@ -8,11 +8,6 @@ import { required, checkName, lessThanValue } from '@/utils/valid'
 const { TextArea } = Input
 
 export default class EditDrawer extends React.Component {
-  state = {
-    templateOption: [],
-    clusterOptions: []
-  }
-
   compareTotal = (rule, value, callback) => {
     const { oldDeskTopNum } = this.state
     const desktopNum = this.drawer.form.getFieldValue('desktopNum')
@@ -78,9 +73,7 @@ export default class EditDrawer extends React.Component {
           >
             <Input placeholder="桌面名称" disabled />
           </Form.Item>
-          <Form.Item label="模板">
-            <Button>{this.state.templateName}</Button>
-          </Form.Item>
+          <Form.Item label="模板">{this.state?.templateName}</Form.Item>
           <Form.Item prop="templateId" label="模板id" hidden>
             <Input placeholder="模板" />
           </Form.Item>

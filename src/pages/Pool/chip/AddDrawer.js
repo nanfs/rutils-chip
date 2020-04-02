@@ -23,18 +23,15 @@ export default class AddDrawer extends React.Component {
     callback()
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      templateOption: [],
-      clusterOptions: []
-    }
-  }
-
   componentDidMount() {
     this.props.onRef && this.props.onRef(this)
   }
 
+  /**
+   *
+   *
+   * @memberof AddDrawer
+   */
   pop = () => {
     this.drawer.show()
     this.drawer.form.setFieldsValue({
@@ -45,17 +42,20 @@ export default class AddDrawer extends React.Component {
     this.getTemplate()
   }
 
-  // 需要clusetid 还有 id 无奈 模板状态为OK
+  /**
+   * 取模板列表 状态可用
+   *
+   * @memberof AddDrawer
+   */
   getTemplate = () => {
-    this.setState({ templateLoading: true })
-    poolsApi
+    return poolsApi
       .getTemplate({ current: 1, size: 10000, statusIsOk: 1 })
       .then(res => {
         const templateOptions = res.data.records.map(item => ({
           label: item.name,
           value: item.id
         }))
-        this.setState({ templateOptions, templateLoading: false })
+        this.setState({ templateOptions })
       })
       .catch(error => {
         message.error(error.message || error)
@@ -63,6 +63,11 @@ export default class AddDrawer extends React.Component {
       })
   }
 
+  /**
+   *
+   *  添加桌面池
+   * @memberof AddDrawer
+   */
   addPool = values => {
     poolsApi
       .addPool({ cpuNum: 1, ...values })
@@ -101,9 +106,7 @@ export default class AddDrawer extends React.Component {
           >
             <Radiox
               getData={this.getTemplate}
-              options={this.state.templateOptions}
-              loading={this.state.templateLoading}
-              onChange={this.onTempalteChange}
+              options={this.state?.templateOptions}
             />
           </Form.Item>
           <Form.Item prop="managerType" label="管理类型">

@@ -161,7 +161,8 @@ export const searchOptions = [
  *   disabledButton,
  *   sendOrderFn,
  *   deleteFn,
- *   addTempFn
+ *   addTempFn,
+ * isDuplicated  是否为副本  在桌面池 和模板里面为ture
  * }
  * @returns
  * 表格工具条 更多按钮
@@ -173,13 +174,14 @@ export function getMoreButton({
   addTempFn,
   setUserFn,
   openConsoleFn,
-  isInnerMore = false
+  isInnerMore = false,
+  isDuplicated = false
 }) {
   return (
     <Menu>
       <Menu.Item
         key="0"
-        hidden={!isInnerMore}
+        hidden={!isInnerMore || isDuplicated}
         onClick={setUserFn}
         disabled={disabledButton?.disabledSetUser}
       >
@@ -187,7 +189,7 @@ export function getMoreButton({
       </Menu.Item>
       <Menu.Item
         key="1"
-        hidden={!isInnerMore}
+        hidden={!isInnerMore || isDuplicated}
         onClick={openConsoleFn}
         disabled={disabledButton?.disabledOpenConsole}
       >
@@ -196,12 +198,14 @@ export function getMoreButton({
       <Menu.Item
         key="2"
         disabled={disabledButton?.disabledUp}
+        hidden={isDuplicated}
         onClick={() => sendOrderFn('start')}
       >
         开机
       </Menu.Item>
       <Menu.Item
         key="3"
+        hidden={isDuplicated}
         disabled={disabledButton?.disabledDown}
         onClick={() => sendOrderFn('shutdown')}
       >
@@ -223,7 +227,7 @@ export function getMoreButton({
       </Menu.Item>
       <Menu.Item
         key="6"
-        hidden={!isInnerMore}
+        hidden={!isInnerMore || isDuplicated}
         disabled={disabledButton?.disabledAddTem}
         onClick={addTempFn}
       >
@@ -232,6 +236,7 @@ export function getMoreButton({
       <Menu.Item
         key="10"
         onClick={deleteFn}
+        hidden={isDuplicated && isInnerMore}
         disabled={disabledButton?.disabledDelete}
       >
         删除

@@ -13,7 +13,6 @@ import AddDrawer from './chip/AddDrawer'
 import DetailDrawer from './chip/DetailDrawer'
 import EditDrawer from './chip/EditDrawer'
 import SetUserDrawer from './chip/SetUserDrawer'
-import produce from 'immer'
 import poolsApi from '@/services/pools'
 import { columns, apiMethod } from './chip/TableCfg'
 import './index.less'
@@ -30,7 +29,7 @@ export default class Pool extends React.Component {
       return (
         <a
           className="detail-link"
-          onClick={() => this.detailPool(record.name, record.id)}
+          onClick={() => this.detailPool(record.id, record.name)}
         >
           {record.name}
         </a>
@@ -46,35 +45,22 @@ export default class Pool extends React.Component {
       const moreAction = (
         <Menu>
           <Menu.Item
+            key="0"
+            onClick={() => this.setUser(record.id, record.name)}
+          >
+            分配用户
+          </Menu.Item>
+          <Menu.Item
             key="1"
             onClick={() => this.deletePool(record.id, '确定删除本条数据?')}
           >
             删除
           </Menu.Item>
-          <Menu.Item
-            key="7"
-            onClick={() => {
-              this.setState(
-                { inner: '分配用户' },
-                this.setUserDrawer.pop(record.id)
-              )
-              this.currentDrawer = this.setUserDrawer
-            }}
-          >
-            分配用户
-          </Menu.Item>
         </Menu>
       )
       return (
         <span className="opration-btn">
-          <a
-            onClick={() => {
-              this.setState({ inner: '编辑池' }, this.editDrawer.pop(record.id))
-              this.currentDrawer = this.editDrawer
-            }}
-          >
-            编辑
-          </a>
+          <a onClick={() => this.editPool(record.id, record.name)}>编辑</a>
 
           <Dropdown overlay={moreAction} placement="bottomRight">
             <a>
@@ -104,35 +90,47 @@ export default class Pool extends React.Component {
     this.currentDrawer.drawer.hide()
   }
 
-  onDeleteAll = () => {
-    this.setState({ inner: undefined })
-    this.currentDrawer.drawer.hide()
+  onSuccess = () => {
     this.tablex.refresh(this.state.tableCfg)
+    this.currentDrawer.drawer.hide()
+    this.setState({ inner: undefined })
   }
 
-  onSelectChange = (selection, selectData) => {
-    let disabledButton = {}
-    if (selection.length !== 1) {
-      disabledButton = {
-        ...disabledButton,
-        disabledEdit: true,
-        disabledDelete: true,
-        disabledSetUser: true
-      }
-    }
-    this.setState({ disabledButton })
+  /**
+   *
+   * 桌面池分配用户 不支持批量
+   * @memberof Pool
+   */
+  setUser = (poolId, name) => {
+    this.setState({ inner: name || '分配用户' }, this.setUserDrawer.pop(poolId))
+    this.currentDrawer = this.setUserDrawer
   }
 
-  detailPool = (name, id) => {
-    this.setState({ inner: name }, this.detailDrawer.pop(id))
+  /**
+   *桌面池管理
+   *
+   * @memberof Pool
+   */
+  detailPool = (poolId, name) => {
+    this.setState({ inner: name }, this.detailDrawer.pop(poolId))
     this.currentDrawer = this.detailDrawer
   }
 
+  /**
+   * 创建桌面池
+   *
+   * @memberof Pool
+   */
   createPool = () => {
     this.setState({ inner: '新建池' }, this.addDrawer.pop())
     this.currentDrawer = this.addDrawer
   }
 
+  /**
+   *删除桌面池 不支持批量
+   *
+   * @memberof Pool
+   */
   deletePool = (poolId, title = '确定删除所选数据?') => {
     const self = this
     confirm({
@@ -161,30 +159,28 @@ export default class Pool extends React.Component {
     })
   }
 
-  editPool = () => {
-    this.setState(
-      { inner: '编辑池' },
-      this.editDrawer.pop(this.tablex.getSelection()[0])
-    )
+  /**
+   * 删除所有桌面后调用 重刷
+   *
+   * @memberof Pool
+   */
+  onDeleteAll = () => {
+    this.setState({ inner: undefined })
+    this.currentDrawer.drawer.hide()
+    this.tablex.refresh(this.state.tableCfg)
+  }
+
+  /**
+   *编辑池
+   *
+   * @memberof Pool
+   */
+  editPool = (poolId, name) => {
+    this.setState({ inner: name }, this.editDrawer.pop(poolId))
     this.currentDrawer = this.editDrawer
   }
 
-  setUser = () => {
-    this.setState(
-      { inner: '分配用户' },
-      this.setUserDrawer.pop(this.tablex.getSelection()[0])
-    )
-    this.currentDrawer = this.setUserDrawer
-  }
-
-  onSuccess = () => {
-    this.tablex.refresh(this.state.tableCfg)
-    this.setState({ inner: undefined })
-  }
-
   render() {
-    const { disabledButton } = this.state
-
     return (
       <React.Fragment>
         <InnerPath
@@ -196,12 +192,6 @@ export default class Pool extends React.Component {
           <ToolBar>
             <BarLeft>
               <Button onClick={this.createPool}>创建池</Button>
-              <Button
-                onClick={this.setUser}
-                disabled={disabledButton.disabledSetUser}
-              >
-                分配用户
-              </Button>
             </BarLeft>
           </ToolBar>
           <Tablex

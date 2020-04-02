@@ -33,7 +33,7 @@ export default class Desktop extends React.Component {
     title: '桌面名称',
     dataIndex: 'name',
     render: (text, record) => {
-      return <a onClick={() => this.detailVm(record.name, record.id)}>{text}</a>
+      return <a onClick={() => this.detailVm(record.id, record.name)}>{text}</a>
     }
   }
 
@@ -238,7 +238,7 @@ export default class Desktop extends React.Component {
     this.currentDrawer = this.editDrawer
   }
 
-  detailVm = (name, id) => {
+  detailVm = (id, name) => {
     this.setState({ inner: name }, this.detailDrawer.pop(id))
     this.currentDrawer = this.detailDrawer
   }
@@ -249,14 +249,14 @@ export default class Desktop extends React.Component {
    * @param {*} name 显示现在文件命名
    * @param {*} id
    */
-  openConsole = (name, id) => {
+  openConsole = (id, name) => {
     desktopsApi.openConsole({ desktopId: id }).then(res => {
       downloadVV(res, name)
     })
   }
 
-  setUser = ids => {
-    this.setState({ inner: '分配用户' }, this.setUserDrawer.pop(ids))
+  setUser = (ids, name) => {
+    this.setState({ inner: name || '分配用户' }, this.setUserDrawer.pop(ids))
     this.currentDrawer = this.setUserDrawer
   }
 

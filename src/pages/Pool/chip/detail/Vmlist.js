@@ -1,20 +1,19 @@
 /* eslint-disable react/no-string-refs */
 import React from 'react'
-import {
-  Button,
-  Modal,
-  Dropdown,
-  Menu,
-  Icon,
-  notification,
-  message
-} from 'antd'
-
+import { Button, Modal, Dropdown, Icon, notification, message } from 'antd'
 import { Tablex } from '@/components'
 import produce from 'immer'
 import desktopsApi from '@/services/desktops'
 import poolsApi from '@/services/pools'
-import { columns } from '@/pages/Common/VmTableCfg'
+import {
+  columns,
+  getMoreButton,
+  vmDisabledButton,
+  vmFilterSorterTransform,
+  defaultColumnsValue,
+  defaultColumnsFilters,
+  vmDisableAction
+} from '@/pages/Common/VmTableCfg'
 import { downloadVV } from '@/utils/tool'
 
 const { createTableCfg, TableWrap, ToolBar, BarLeft } = Tablex
@@ -32,60 +31,23 @@ export default class Desktop extends React.Component {
     title: '操作',
     width: 130,
     dataIndex: 'action',
+    defaultFilteredValue: defaultColumnsValue,
+    filters: defaultColumnsFilters,
     render: (text, record) => {
-      const moreAction = (
-        <Menu>
-          <Menu.Item
-            key="8"
-            onClick={() => {
-              desktopsApi.openConsole({ desktopId: record.id }).then(res => {
-                downloadVV(res, record.name)
-              })
-            }}
-            disabled={record.status !== 1 || record.assignedUsers}
-          >
-            打开控制台
-          </Menu.Item>
-          <Menu.Item
-            key="2"
-            disabled={record.status !== 0 && record.status !== 13}
-            onClick={() => this.patchOrder(record.id, 'start')}
-          >
-            开机
-          </Menu.Item>
-          <Menu.Item
-            key="3"
-            disabled={record.status === 0}
-            onClick={() => this.patchOrder(record.id, 'shutdown')}
-          >
-            关机
-          </Menu.Item>
-          <Menu.Item
-            key="4"
-            disabled={record.status === 0}
-            onClick={() => this.patchOrder(record.id, 'poweroff')}
-          >
-            断电
-          </Menu.Item>
-          <Menu.Item
-            key="5"
-            disabled={record.status === 0 || record.status === 10}
-            onClick={() => this.patchOrder(record.id, 'restart')}
-          >
-            重启
-          </Menu.Item>
-        </Menu>
-      )
+      const disabledButton = vmDisableAction(record)
+      const { id, name } = record
+      const moreAction = getMoreButton({
+        disabledButton,
+        sendOrderFn: order => this.sendOrder(id, order),
+        openConsoleFn: () => this.openConsole(id, name),
+        isInnerMore: true,
+        isDuplicated: true
+      })
       return (
         <span className="opration-btn">
-          <a
-            onClick={() => {
-              this.deleteVm(record.id)
-            }}
-          >
+          <a onClick={() => this.deleteVm(record.id, '确定删除该条数据?')}>
             删除
           </a>
-
           <Dropdown overlay={moreAction} placement="bottomRight">
             <a>
               更多 <Icon type="down" />
@@ -110,68 +72,51 @@ export default class Desktop extends React.Component {
     disabledButton: {}
   }
 
+  moreButton = getMoreButton({
+    disabledButton: this.state?.disabledButton,
+    deleteFn: () => this.deleteVm(this.tablex.getSelection()),
+    sendOrderFn: order => this.sendOrder(this.tablex.getSelection(), order),
+    isDuplicated: true
+  })
+
+  /**
+   *
+   *  @memberof Desktop
+   * 调用通用判断 返回disabledButton
+   */
   onSelectChange = (selection, selectData) => {
-    let disabledButton = {}
-    if (selection.length !== 1) {
-      disabledButton = {
-        ...disabledButton,
-        disabledEdit: true,
-        disabledOpenConsole: true,
-        disabledAddTem: true
-      }
-    }
-    if (selection.length === 0) {
-      disabledButton = {
-        ...disabledButton,
-        disabledDelete: true,
-        disabledSetUser: true,
-        disabledUp: true,
-        disabledDown: true,
-        disabledOff: true,
-        disabledRestart: true
-      }
-    } else {
-      selectData.forEach(item => {
-        if (item.status !== 0 && item.status !== 13) {
-          disabledButton = {
-            ...disabledButton,
-            disabledUp: true
-          }
-        }
-        if (item.status === 0) {
-          disabledButton = {
-            ...disabledButton,
-            disabledDown: true,
-            disabledRestart: true,
-            disabledOff: true
-          }
-        }
-        if (item.status === 10) {
-          disabledButton = {
-            ...disabledButton,
-            disabledRestart: true
-          }
-        }
-        if (item.status !== 1) {
-          disabledButton = {
-            ...disabledButton,
-            disabledOpenConsole: true
-          }
-        }
-      })
-    }
+    const disabledButton = vmDisabledButton(selection, selectData)
     this.setState({ disabledButton })
   }
 
-  patchOrders = directive => {
-    const ids = this.tablex.getSelection()
-    this.sendOrder(ids, directive)
+  /**
+   *
+   *
+   * @memberof Desktop
+   * 调用通用处理 返回排序 筛选处理后的search 和columnsList
+   */
+  onTableChange = (page, filter, sorter) => {
+    const { searchs, columnsList } = vmFilterSorterTransform(filter, sorter)
+    this.setState(
+      produce(draft => {
+        draft.tableCfg = {
+          ...draft.tableCfg,
+          columns: [this.vmName, ...columnsList, this.action],
+          searchs: {
+            ...draft.tableCfg.searchs,
+            ...searchs
+          }
+        }
+      }),
+      () => this.tablex.refresh(this.state.tableCfg)
+    )
   }
 
-  patchOrder = (id, directive) => {
-    this.sendOrder(id, directive)
-  }
-
+  /**
+   *
+   *
+   * @memberof Desktop
+   */
   sendOrder = (id, directive) => {
     const ids = !Array.isArray(id) ? [id] : [...id]
     desktopsApi
@@ -190,47 +135,13 @@ export default class Desktop extends React.Component {
       })
   }
 
-  deleteVms = () => {
-    const desktopIds = this.tablex.getSelection()
-    const self = this
-    confirm({
-      title: '确定删除所选数据?',
-      onOk() {
-        return new Promise(resolve => {
-          desktopsApi
-            .delVm({ desktopIds })
-            .then(res => {
-              if (res.success) {
-                notification.success({ message: '删除成功' })
-                self.tablex.refresh(self.state.tableCfg).then(delRes => {
-                  // 如果删除后没有桌面 则重新请求桌面池
-                  if (!delRes.data.total) {
-                    notification.success({
-                      message: '已删除池内所有虚拟机, 池自动删除'
-                    })
-                    setTimeout(() => {
-                      self.props.onDeleteAll()
-                    }, 1000)
-                  }
-                })
-              } else {
-                message.error(res.message || '删除失败')
-              }
-              resolve()
-            })
-            .catch(error => {
-              message.error(error.message || error)
-              resolve()
-              console.log(error)
-            })
-        })
-      },
-      onCancel() {}
-    })
-  }
-
+  /**
+   *
+   *
+   * @memberof Desktop
+   */
   deleteVm = id => {
-    const desktopIds = [id]
+    const desktopIds = Array.isArray(id) ? [...id] : [id]
     const self = this
     confirm({
       title: '确定删除该条数据?',
@@ -268,14 +179,18 @@ export default class Desktop extends React.Component {
     })
   }
 
+  /**
+   *
+   *
+   * @memberof Desktop
+   */
   search = (key, value) => {
     const searchs = { poolId: this.props.poolId }
     searchs[key] = value
     this.setState(
       produce(draft => {
         draft.tableCfg.searchs = {
-          // ...draft.tableCfg.searchs,
-          status: draft.tableCfg.searchs.status,
+          ...draft.tableCfg.searchs,
           ...searchs
         }
       }),
@@ -283,51 +198,13 @@ export default class Desktop extends React.Component {
     )
   }
 
-  onTableChange = (page, filter, sorter) => {
-    const searchs = { poolId: this.props.poolId }
-    if (sorter) {
-      const { order, field } = sorter
-      searchs.sort = field || undefined
-      searchs.order = order || undefined
-    }
-    const statusList = []
-    filter.status &&
-      filter.status.forEach(function(v) {
-        statusList.push(...v)
-      })
-    const { clusterName, hostName, datacenterName } = filter
-    const columnsList = []
-    if (filter.action) {
-      columns.forEach(function(item) {
-        if (filter.action.indexOf(item.dataIndex) !== -1) {
-          columnsList.push(item)
-        }
-      })
-      this.setState({
-        tableCfg: {
-          ...this.state.tableCfg,
-          columns: [this.vmName, ...columnsList, this.action]
-        }
-      })
-    }
-
-    this.setState(
-      produce(draft => {
-        draft.tableCfg.searchs = {
-          ...draft.tableCfg.searchs,
-          ...searchs,
-          status: statusList,
-          clusters: clusterName,
-          hosts: hostName,
-          datacenters: datacenterName
-        }
-      }),
-      () => this.tablex.refresh(this.state.tableCfg)
-    )
-  }
-
-  openConsole = () => {
-    const { name, id } = this.tablex.getSelectData()[0]
+  /**
+   *
+   *
+   * @param {*} name 显示现在文件命名
+   * @param {*} id
+   */
+  openConsole = (id, name) => {
     desktopsApi.openConsole({ desktopId: id }).then(res => {
       downloadVV(res, name)
     })
@@ -335,55 +212,31 @@ export default class Desktop extends React.Component {
 
   render() {
     const { disabledButton } = this.state
-    const moreButton = (
-      <Menu>
-        <Menu.Item
-          key="1"
-          onClick={this.deleteVms}
-          disabled={disabledButton.disabledDelete}
-        >
-          删除
-        </Menu.Item>
-        <Menu.Item
-          key="4"
-          disabled={disabledButton.disabledOff}
-          onClick={() => this.patchOrders('poweroff')}
-        >
-          断电
-        </Menu.Item>
-        <Menu.Item
-          key="5"
-          disabled={disabledButton.disabledRestart}
-          onClick={() => this.patchOrders('restart')}
-        >
-          重启
-        </Menu.Item>
-      </Menu>
-    )
     return (
       <React.Fragment>
         <TableWrap>
           <ToolBar>
             <BarLeft>
               <Button
-                disabled={disabledButton.disabledUp}
-                onClick={() => this.patchOrders('start')}
+                disabled={disabledButton?.disabledUp}
+                onClick={() =>
+                  this.sendOrder(this.tablex.getSelection(), 'start')
+                }
               >
                 开机
               </Button>
               <Button
-                disabled={disabledButton.disabledDown}
-                onClick={() => this.patchOrders('shutdown')}
+                disabled={disabledButton?.disabledDown}
+                onClick={() =>
+                  this.sendOrder(this.tablex.getSelection(), 'shutdown')
+                }
               >
                 关机
               </Button>
-              <Button
-                disabled={disabledButton.disabledOpenConsole}
-                onClick={this.openConsole}
+              <Dropdown
+                overlay={this.moreButton}
+                disabled={disabledButton?.disabledMore}
               >
-                打开控制台
-              </Button>
-              <Dropdown overlay={moreButton}>
                 <Button>
                   更多操作 <Icon type="down" />
                 </Button>

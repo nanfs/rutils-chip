@@ -117,7 +117,7 @@ export default class User extends React.Component {
         </Menu>
       )
       return (
-        <span>
+        <span className="opration-btn">
           <a
             onClick={() => {
               this.setState({ inner: '编辑用户' })
@@ -130,7 +130,8 @@ export default class User extends React.Component {
 
           <Dropdown overlay={moreAction} placement="bottomRight">
             <a>
-              更多 <Icon type="down" />
+              更多
+              <Icon type="down" />
             </a>
           </Dropdown>
         </span>
@@ -519,12 +520,12 @@ export default class User extends React.Component {
               <ToolBar>
                 <BarLeft>
                   <Button onClick={this.addUser}>创建</Button>
-                  <Button
+                  {/* <Button
                     onClick={this.editUser}
                     disabled={disabledButton.disabledEdit}
                   >
                     编辑
-                  </Button>
+                  </Button> */}
                   <Button
                     onClick={() => this.disableUser()}
                     disabled={disabledButton.disabledDisable}
@@ -537,12 +538,6 @@ export default class User extends React.Component {
                   >
                     启用
                   </Button>
-                  {/* <Button
-                    onClick={this.detailUser}
-                    disabled={disabledButton.disabledEdit}
-                  >
-                    详情
-                  </Button> */}
                   <Button
                     onClick={() => this.deleteUser()}
                     disabled={disabledButton.disabledDelete}

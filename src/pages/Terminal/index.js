@@ -41,7 +41,6 @@ export default class Terminal extends React.Component {
           >
             删除
           </Menu.Item>
-          l{' '}
           <Menu.Item
             key="2"
             onClick={this.sendOrder.bind(this, 'shutdown', [record.sn])}
@@ -431,20 +430,6 @@ export default class Terminal extends React.Component {
         >
           删除
         </Menu.Item>
-        {/* <Menu.Item
-          key="detail"
-          onClick={() => this.detailTerminal()}
-          disabled={disabledButton.disabledEdit}
-        >
-          查看详情
-        </Menu.Item> */}
-        {/* <Menu.Item
-          key="suspend"
-          onClick={() => this.sendOrder('suspend')}
-          disabled={disabledButton.disabledDelete}
-        >
-          暂停
-        </Menu.Item> */}
         <Menu.Item
           key="lock"
           onClick={() => this.sendOrder('lock')}
@@ -499,12 +484,12 @@ export default class Terminal extends React.Component {
         <TableWrap>
           <ToolBar>
             <BarLeft>
-              <Button
+              {/*  <Button
                 onClick={() => this.editTerminal()}
                 disabled={disabledButton.disabledEdit}
               >
                 编辑
-              </Button>
+              </Button> */}
 
               {/* <Button
                 onClick={this.onTerminal}

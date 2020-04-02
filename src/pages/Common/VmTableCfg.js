@@ -1,6 +1,6 @@
 import desktopsApi from '@/services/desktops'
 import React from 'react'
-import { Progress, Icon, Popover } from 'antd'
+import { Progress, Menu, Popover } from 'antd'
 import {
   vmStatusRender,
   osIconRender,
@@ -139,9 +139,235 @@ export const columns = [
     }
   }
 ]
+
 export const defaultColumnsFilters = columns.map(item => ({
   value: item.dataIndex,
   text: item.title
 }))
 export const defaultColumnsValue = columns.map(item => item.dataIndex)
 export const apiMethod = desktopsApi.list
+
+export const searchOptions = [
+  { label: '名称', value: 'name' },
+  { label: '主机名', value: 'hostName' },
+  { label: '数据中心', value: 'datacenterName' },
+  { label: '集群', value: 'clusterName' }
+]
+/**
+ *
+ *
+ * @export
+ * @param {*} {
+ *   disabledButton,
+ *   sendOrderFn,
+ *   deleteFn,
+ *   addTempFn
+ * }
+ * @returns
+ * 表格工具条 更多按钮
+ */
+export function getMoreButton({
+  disabledButton,
+  sendOrderFn,
+  deleteFn,
+  addTempFn,
+  setUserFn,
+  openConsoleFn,
+  isInnerMore = false
+}) {
+  return (
+    <Menu>
+      <Menu.Item
+        key="0"
+        hidden={!isInnerMore}
+        onClick={setUserFn}
+        disabled={disabledButton?.disabledSetUser}
+      >
+        分配用户
+      </Menu.Item>
+      <Menu.Item
+        key="1"
+        hidden={!isInnerMore}
+        onClick={openConsoleFn}
+        disabled={disabledButton?.disabledOpenConsole}
+      >
+        打开控制台
+      </Menu.Item>
+      <Menu.Item
+        key="2"
+        disabled={disabledButton?.disabledUp}
+        onClick={() => sendOrderFn('start')}
+      >
+        开机
+      </Menu.Item>
+      <Menu.Item
+        key="3"
+        disabled={disabledButton?.disabledDown}
+        onClick={() => sendOrderFn('shutdown')}
+      >
+        关机
+      </Menu.Item>
+      <Menu.Item
+        key="4"
+        disabled={disabledButton?.disabledPowerOff}
+        onClick={() => sendOrderFn('poweroff')}
+      >
+        断电
+      </Menu.Item>
+      <Menu.Item
+        key="5"
+        disabled={disabledButton?.disabledRestart}
+        onClick={() => sendOrderFn('restart')}
+      >
+        重启
+      </Menu.Item>
+      <Menu.Item
+        key="6"
+        hidden={!isInnerMore}
+        disabled={disabledButton?.disabledAddTem}
+        onClick={addTempFn}
+      >
+        创建模板
+      </Menu.Item>
+      <Menu.Item
+        key="10"
+        onClick={deleteFn}
+        disabled={disabledButton?.disabledDelete}
+      >
+        删除
+      </Menu.Item>
+    </Menu>
+  )
+}
+
+/**
+ *
+ * 通过vm判断 禁用操作 通用表格工具和表格内更多操作
+ * @param {*} vmObj
+ * @returns
+ * 关机和挂起  不能开机
+ * 未开机 不能打开控制台
+ * 关机 不能关机 重启和断电
+ * 正在重启不能重启
+ * 如果有分配用户 管理员不能打开控制台
+ */
+export function vmDisableAction(vmObj) {
+  let disabledButton = {}
+  if (vmObj.status !== 0 && vmObj.status !== 13) {
+    disabledButton = {
+      ...disabledButton,
+      disabledUp: true
+    }
+  }
+  if (vmObj.status !== 1) {
+    disabledButton = {
+      ...disabledButton,
+      disabledOpenConsole: true
+    }
+  }
+  if (vmObj.status === 0) {
+    disabledButton = {
+      ...disabledButton,
+      disabledDown: true,
+      disabledRestart: true,
+      disabledPowerOff: true
+    }
+  }
+  if (vmObj.status === 10) {
+    disabledButton = {
+      ...disabledButton,
+      disabledRestart: true
+    }
+  }
+  if (vmObj.assignedUsers) {
+    disabledButton = {
+      ...disabledButton,
+      disabledOpenConsole: true
+    }
+  }
+  return disabledButton
+}
+/**
+ *
+ *
+ * @export
+ * @param {*} selection
+ * @param {*} selectData
+ * @returns disabledButton
+ * 无选择 禁用更多按钮
+ * 只选择一个 可创建模板
+ */
+export function vmDisabledButton(selection, selectData) {
+  let disabledButton = {}
+  if (selection.length === 0) {
+    disabledButton = {
+      ...disabledButton,
+      disabledMore: true,
+      disabledAddTem: true,
+      disabledDelete: true,
+      disabledSetUser: true,
+      disabledUp: true,
+      disabledDown: true,
+      disabledPowerOff: true,
+      disabledRestart: true,
+      disabledOpenConsole: true
+    }
+    return disabledButton
+  }
+  if (selection.length !== 1) {
+    disabledButton = {
+      ...disabledButton,
+      disabledAddTem: true
+    }
+  }
+  selectData.forEach(item => {
+    const disabledAction = vmDisableAction(item)
+    disabledButton = {
+      ...disabledButton,
+      ...disabledAction
+    }
+  })
+  return disabledButton
+}
+
+/**
+ *
+ *
+ * @export
+ * @param {*} filter
+ * @param {*} sorter
+ * 排序转换 只有一个排序条件 安照后端排序转化 asc  desc
+ * 过滤状态 将状态转为一维数组
+ * 过滤表格列 如果有过滤表格列 返回最新表格列
+ */
+export function vmFilterSorterTransform(filter, sorter) {
+  const { clusterName, hostName, datacenterName } = filter
+  let searchs = {}
+  const statusList = []
+  let columnsList = [...columns]
+  const orderArr = {
+    ascend: 'asc',
+    descend: 'desc'
+  }
+  if (sorter) {
+    const { order, field } = sorter
+    searchs.sortKey = field || undefined
+    searchs.sortValue = (order && orderArr[order]) || undefined
+  }
+  filter.status &&
+    filter.status.forEach(function(v) {
+      statusList.push(...v)
+    })
+  searchs = {
+    status: statusList,
+    clusters: clusterName,
+    hosts: hostName,
+    datacenters: datacenterName
+  }
+  if (filter.action) {
+    columnsList = columnsList.filter(item =>
+      filter.action.includes(item.dataIndex)
+    )
+  }
+  return { searchs, columnsList }
+}

@@ -95,7 +95,7 @@ export default class BaseInfo extends React.Component {
             <Tooltip title={data.maxAssignedVmsPerUser}>
               <span>{data.maxAssignedVmsPerUser}</span>
             </Tooltip>
-            {data.maxAssignedVmsPerUser}
+            {/* {data.maxAssignedVmsPerUser} */}
           </Col>
         </Row>
         <Row className="dms-detail-row">

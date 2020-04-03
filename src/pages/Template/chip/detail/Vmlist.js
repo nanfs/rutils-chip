@@ -38,6 +38,7 @@ export default class Desktop extends React.Component {
       const { id, name } = record
       const moreAction = getMoreButton({
         disabledButton,
+        deleteFn: () => this.deleteVm(id, '确定删除该条数据?'),
         sendOrderFn: order => this.sendOrder(id, order),
         openConsoleFn: () => this.openConsole(id, name),
         isInnerMore: true,
@@ -45,8 +46,11 @@ export default class Desktop extends React.Component {
       })
       return (
         <span className="opration-btn">
-          <a onClick={() => this.deleteVm(record.id, '确定删除该条数据?')}>
-            删除
+          <a
+            onClick={() => this.sendOrder(id, 'start')}
+            disabled={disabledButton.disabledUp}
+          >
+            开机
           </a>
           <Dropdown overlay={moreAction} placement="bottomRight">
             <a>

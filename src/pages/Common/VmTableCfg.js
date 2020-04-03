@@ -205,7 +205,7 @@ export function getMoreButton({
       </Menu.Item>
       <Menu.Item
         key="3"
-        hidden={isDuplicated}
+        hidden={isDuplicated && !isInnerMore}
         disabled={disabledButton?.disabledDown}
         onClick={() => sendOrderFn('shutdown')}
       >
@@ -236,7 +236,6 @@ export function getMoreButton({
       <Menu.Item
         key="10"
         onClick={deleteFn}
-        hidden={isDuplicated && isInnerMore}
         disabled={disabledButton?.disabledDelete}
       >
         删除
@@ -250,7 +249,7 @@ export function getMoreButton({
  * 通过vm判断 禁用操作 通用表格工具和表格内更多操作
  * @param {*} vmObj
  * @returns
- * 关机和挂起  不能开机
+ * 未关机和挂起  不能开机 和删除
  * 未开机 不能打开控制台
  * 关机 不能关机 重启和断电
  * 正在重启不能重启
@@ -261,6 +260,7 @@ export function vmDisableAction(vmObj) {
   if (vmObj.status !== 0 && vmObj.status !== 13) {
     disabledButton = {
       ...disabledButton,
+      disabledDelete: true,
       disabledUp: true
     }
   }
@@ -287,6 +287,7 @@ export function vmDisableAction(vmObj) {
   if (vmObj.assignedUsers) {
     disabledButton = {
       ...disabledButton,
+      disabledDelete: true,
       disabledOpenConsole: true
     }
   }

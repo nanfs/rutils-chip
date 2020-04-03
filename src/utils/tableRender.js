@@ -17,16 +17,16 @@ export const severityOptions = [
     color: 'warn'
   },
   {
-    text: '错误',
-    value: 2,
-    icon: 'close',
-    color: 'alert'
-  },
-  {
     text: '告警',
     value: 10,
     icon: 'alert',
     color: 'msg'
+  },
+  {
+    text: '错误',
+    value: 2,
+    icon: 'close',
+    color: 'alert'
   }
 ]
 export function renderSatus(statusObj, currentText, isWithText = false) {

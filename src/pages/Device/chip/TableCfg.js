@@ -5,11 +5,6 @@ import { MyIcon } from '@/components'
 
 export const columns = [
   {
-    title: '描述',
-    dataIndex: 'description',
-    ellipsis: true
-  },
-  {
     title: '已绑定终端数',
     dataIndex: 'boundTcNum',
     width: 150,
@@ -57,6 +52,11 @@ export const columns = [
         <span>无</span>
       )
     }
+  },
+  {
+    title: '描述',
+    dataIndex: 'description',
+    ellipsis: true
   }
 ]
 export const apiMethod = deviceApi.list

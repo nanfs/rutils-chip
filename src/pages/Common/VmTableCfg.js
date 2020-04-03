@@ -78,8 +78,8 @@ export const columns = [
     dataIndex: 'isConsole',
     width: 100,
     render: (text, record) => {
-      const consoleContent = record.assignedUsers ? (
-        <Popover content={record.clientIp}>
+      const consoleContent = record.clientIp ? (
+        <Popover content={record.assignedUsers}>
           <MyIcon type="tc-connecting" component="svg" />
           <span>已连接</span>
         </Popover>

@@ -1,14 +1,6 @@
 import React from 'react'
-import { Form, Input, message, InputNumber, Select } from 'antd'
-import {
-  Drawerx,
-  Formx,
-  Title,
-  Radiox,
-  Checkboxx,
-  Diliver,
-  Selectx
-} from '@/components'
+import { Form, Input, message, InputNumber, Select, Row, Col, Icon } from 'antd'
+import { Drawerx, Formx, Title, Radiox, Diliver, Selectx } from '@/components'
 
 import { memoryOptions, cpuOptions, diskOptions } from '@/utils/formOptions'
 import desktopsApi from '@/services/desktops'
@@ -26,8 +18,8 @@ const createType = [
   }
 ]
 const driveType = [
-  { label: 'x64', value: '64' },
-  { label: 'x86', value: '32' },
+  { label: '64', value: '64' },
+  { label: '32', value: '32' },
   { label: '不需要', value: '' }
 ]
 const { Option, OptGroup } = Select
@@ -40,9 +32,49 @@ export default class AddDrawer extends React.Component {
   pop = () => {
     this.setState({})
     this.drawer.show()
-    this.setState({ fetchData: true, networkOptions: [], templateOptions: [] })
+    this.setState({
+      hasSetNetValue: true,
+      networkOptions: [],
+      templateOptions: [],
+      nets: ['']
+    })
     this.drawer.form.setFieldsValue({ desktopNum: 1 })
+
     this.getCluster()
+  }
+
+  /**
+   *
+   *
+   * @memberof AddDrawer
+   */
+  remove = k => {
+    const nets = this.drawer.form.getFieldValue('network')
+    if (k === 0 && nets.length <= 1) {
+      return false
+    }
+    const newNets = [...nets.slice(0, k), ...nets.slice(k + 1)]
+    this.setState({
+      nets: newNets
+    })
+    this.drawer.form.setFieldsValue({ network: newNets })
+  }
+
+  /**
+   *
+   * 动态添加网卡数量
+   * @memberof AddDrawer
+   */
+  add = index => {
+    if (index > 4) {
+      return false
+    }
+    const nets = this.drawer.form.getFieldValue('network')
+    const newNets = [...nets, '']
+    this.setState({
+      nets: newNets
+    })
+    this.drawer.form.setFieldsValue({ network: newNets })
   }
 
   getSelectType = () => {
@@ -148,9 +180,9 @@ export default class AddDrawer extends React.Component {
         const network = res.data.records
         const networkOptions = network.map(item => ({
           label: `${item.kind}/${item.name}`,
-          value: `${item.kind}&${item.name}&${item.kindid}`
+          value: item.kindid
         }))
-        this.setState({ networkOptions })
+        this.setState({ networkOptions, netAll: network })
       })
       .catch(error => {
         message.error(error.message || error)
@@ -200,15 +232,21 @@ export default class AddDrawer extends React.Component {
 
   /**
    * 当ISO改变的时候 后端需要判断 32 还是 64 位
+   * 只有当ISO 为windows 类型的时候 设置
    *
    * @memberof AddDrawer
    */
   onIsoChange = (a, b, target) => {
-    if (target.toLowerCase().includes('x64')) {
-      return this.drawer.form.setFieldsValue({ isoBit: '64' })
-    }
-    if (target.toLowerCase().includes('x86')) {
-      return this.drawer.form.setFieldsValue({ isoBit: '32' })
+    const isoType = this.checkIsoType(target.toLowerCase())
+    this.setState({ isoType })
+    if (isoType === 'windows') {
+      if (target.toLowerCase().includes('x64')) {
+        return this.drawer.form.setFieldsValue({ isoBit: '64' })
+      }
+      if (target.toLowerCase().includes('x86')) {
+        return this.drawer.form.setFieldsValue({ isoBit: '32' })
+      }
+      this.drawer.form.setFieldsValue({ isoBit: '' })
     }
     this.drawer.form.setFieldsValue({ isoBit: '' })
   }
@@ -221,15 +259,14 @@ export default class AddDrawer extends React.Component {
    */
   addVm = values => {
     const { type, network, ...rest } = values
-    const networkFix = network.map((item, index) => {
-      const name = `nic${index + 1}`
-      const [kind, vnic, kindid] = item.split('&')
-      return { kind, vnic, kindid, name }
-    })
+    const { netAll } = this.state
+    const networkSelected = network?.map(netId =>
+      netAll.find(item => item.kindid === netId)
+    )
     const data = {
       ...rest,
       cpuNum: 1,
-      network: networkFix
+      network: networkSelected
     }
     // 如果通过ISO创建用户
     if (type === 'byIso') {
@@ -274,7 +311,7 @@ export default class AddDrawer extends React.Component {
   renderOsOptions = () => {
     return (
       <Selectx
-        style={{ width: 350 }}
+        style={{ width: '90%' }}
         placeholder="请选择镜像"
         onChange={this.onIsoChange}
         getData={this.getIso}
@@ -307,6 +344,59 @@ export default class AddDrawer extends React.Component {
           </OptGroup>
         )}
       </Selectx>
+    )
+  }
+
+  renderNetWork = () => {
+    const networks = this.state?.nets
+    return (
+      networks &&
+      networks.map((item, index) => (
+        <Row gutter={16} key={index} className="form-item-wrapper">
+          <Col span={14}>
+            <Form.Item
+              prop={`network[${index}]`}
+              label={index === 0 ? `网络` : ''}
+              key={index}
+              rules={index === 0 ? undefined : [required]}
+              labelCol={{ sm: { span: 7 } }}
+              wrapperCol={{ sm: { push: index === 0 ? 1 : 8, span: 16 } }}
+              hidden={!this.state?.hasSetNetValue}
+            >
+              <Selectx
+                getData={this.getNetwork}
+                showRefresh={false}
+                options={this.state?.networkOptions}
+              />
+            </Form.Item>
+          </Col>
+          {index === networks.length - 1 ? (
+            <Col span={3}>
+              <Icon
+                className="dynamic-button"
+                type="minus-circle-o"
+                disabled={index === 0}
+                onClick={() => this.remove(index)}
+              />
+              <Icon
+                className="dynamic-button"
+                type="plus-circle"
+                disabled={index >= 4}
+                onClick={() => this.add(index)}
+                style={{ marginLeft: 8 }}
+              />
+            </Col>
+          ) : (
+            <Col span={3}>
+              <Icon
+                className="dynamic-button"
+                type="minus-circle-o"
+                onClick={() => this.remove(index)}
+              />
+            </Col>
+          )}
+        </Row>
+      ))
     )
   }
 
@@ -365,16 +455,20 @@ export default class AddDrawer extends React.Component {
             label="ISO"
             required
             rules={this.getSelectType() === 'byIso' ? [required] : undefined}
-            wrapperCol={{ sm: { span: 16 } }}
+            wrapperCol={{ sm: { span: 8 } }}
             hidden={this.getSelectType() !== 'byIso'}
           >
             {this.renderOsOptions()}
           </Form.Item>
+          {/* 如果isoType 不是windows 或者创建方式 不是iso 不显示 */}
           <Form.Item
             prop="isoBit"
             required
-            label="驱动类型"
-            hidden={this.getSelectType() !== 'byIso'}
+            label="系统位数"
+            hidden={
+              this.getSelectType() !== 'byIso' ||
+              this.state?.isoType !== 'windows'
+            }
           >
             <Radiox options={driveType} />
           </Form.Item>
@@ -437,19 +531,7 @@ export default class AddDrawer extends React.Component {
           </Form.Item>
           <Diliver />
           <Title slot="网络设置"></Title>
-          <Form.Item
-            prop="network"
-            label="网络"
-            required
-            rules={[required]}
-            wrapperCol={{ sm: { span: 16 } }}
-            hidden={!this.state?.fetchData}
-          >
-            <Checkboxx
-              getData={this.getNetwork}
-              options={this.state?.networkOptions}
-            />
-          </Form.Item>
+          {this.renderNetWork()}
         </Formx>
       </Drawerx>
     )

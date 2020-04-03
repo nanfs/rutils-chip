@@ -36,6 +36,7 @@ export default class Selectx extends React.Component {
       disabled,
       style,
       children,
+      showRefresh = true,
       placeholder = '请选择'
     } = this.props
     const cls = classnames(className, 'selectx', getData && 'has-fresh')
@@ -61,7 +62,7 @@ export default class Selectx extends React.Component {
             </Option>
           ))}
         </Select>
-        {getData && (
+        {getData && showRefresh && (
           <Button
             className="reload-btn"
             disabled={disabled || this.state?.loading}

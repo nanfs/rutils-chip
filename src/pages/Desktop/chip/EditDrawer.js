@@ -1,6 +1,6 @@
 import React from 'react'
-import { Form, Input, message } from 'antd'
-import { Drawerx, Formx, Radiox, Checkboxx, Title, Diliver } from '@/components'
+import { Form, Input, message, Row, Col, Icon } from 'antd'
+import { Drawerx, Formx, Radiox, Selectx, Title, Diliver } from '@/components'
 import { memoryOptions, cpuOptions } from '@/utils/formOptions'
 import desktopsApi from '@/services/desktops'
 import { required, checkName, lessThanValue } from '@/utils/valid'
@@ -12,6 +12,11 @@ export default class EditDrawer extends React.Component {
     this.props.onRef && this.props.onRef(this)
   }
 
+  /**
+   *
+   *hasSetNetValue 用于显示 网络动态加载 抖动
+   * @memberof EditDrawer
+   */
   pop = id => {
     this.drawer.show()
     desktopsApi
@@ -19,14 +24,14 @@ export default class EditDrawer extends React.Component {
       .then(res => {
         const { data } = res
         const { network } = data
-        const networkFix = network.map(
-          item => `${item.kind}&${item.vnic}&${item.kindid}`
-        )
+        const nets = network?.length ? network.map(item => item.kindid) : ['']
         this.setState({
           templateName: data.templateName,
-          clusterId: data.clusterId
+          clusterId: data.clusterId,
+          nets,
+          hasSetNetValue: true
         })
-        this.drawer.form.setFieldsValue({ ...data, id, network: networkFix })
+        this.drawer.form.setFieldsValue({ ...data, id, network: nets })
         this.getNetwork()
       })
       .catch(error => {
@@ -36,31 +41,57 @@ export default class EditDrawer extends React.Component {
   }
 
   /**
+   *
+   *
+   * @memberof AddDrawer
+   */
+  remove = k => {
+    const nets = this.drawer.form.getFieldValue('network')
+    if (k === 0 && nets.length <= 1) {
+      return false
+    }
+    const newNets = [...nets.slice(0, k), ...nets.slice(k + 1)]
+    this.setState({
+      nets: newNets
+    })
+    this.drawer.form.setFieldsValue({ network: newNets })
+  }
+
+  /**
+   *
+   * 动态添加网卡数量
+   * @memberof AddDrawer
+   */
+  add = index => {
+    if (index > 4) {
+      return false
+    }
+    const nets = this.drawer.form.getFieldValue('network')
+    const newNets = [...nets, '']
+    this.setState({
+      nets: newNets
+    })
+    this.drawer.form.setFieldsValue({ network: newNets })
+  }
+
+  /**
    *  网络接口字段和创建网络字段是不匹配的 name 等同于 vnic
    *
    * @memberof EditDrawer
    */
   getNetwork = () => {
-    const queryClusterId = this.state?.clusterId
-    if (!queryClusterId) {
-      return Promise.reject().catch(error => {
-        message.error(error.message || error)
-        console.log(error)
-      })
-    }
     return desktopsApi
-      .getNetwork(queryClusterId)
+      .getNetwork(this.state.clusterId)
       .then(res => {
         const network = res.data.records
         const networkOptions = network.map(item => ({
           label: `${item.kind}/${item.name}`,
-          value: `${item.kind}&${item.name}&${item.kindid}`
+          value: item.kindid
         }))
-        this.setState({ networkOptions })
+        this.setState({ networkOptions, netAll: network })
       })
       .catch(error => {
         message.error(error.message || error)
-        console.log(error)
       })
   }
 
@@ -71,13 +102,12 @@ export default class EditDrawer extends React.Component {
    */
   editVm = values => {
     const { network } = values
-    const networkFix = network.map((item, index) => {
-      const name = `nic${index + 1}`
-      const [kind, vnic, kindid] = item.split('&')
-      return { kind, vnic, kindid, name }
-    })
+    const { netAll } = this.state
+    const networkSelected = network?.map(netId =>
+      netAll.find(item => item.kindid === netId)
+    )
     desktopsApi
-      .editVm({ ...values, network: networkFix })
+      .editVm({ ...values, network: networkSelected })
       .then(res => {
         this.drawer.afterSubmit(res)
       })
@@ -85,6 +115,59 @@ export default class EditDrawer extends React.Component {
         this.drawer.break(error)
         console.log(error)
       })
+  }
+
+  renderNetWork = () => {
+    const networks = this.state?.nets
+    return (
+      networks &&
+      networks.map((item, index) => (
+        <Row gutter={16} key={index} className="form-item-wrapper">
+          <Col span={14}>
+            <Form.Item
+              prop={`network[${index}]`}
+              label={index === 0 ? `网络` : ''}
+              key={index}
+              rules={index === 0 ? undefined : [required]}
+              labelCol={{ sm: { span: 7 } }}
+              wrapperCol={{ sm: { push: index === 0 ? 1 : 8, span: 16 } }}
+              hidden={!this.state?.hasSetNetValue}
+            >
+              <Selectx
+                getData={this.getNetwork}
+                showRefresh={false}
+                options={this.state?.networkOptions}
+              />
+            </Form.Item>
+          </Col>
+          {index === networks.length - 1 ? (
+            <Col span={3}>
+              <Icon
+                className="dynamic-button"
+                type="minus-circle-o"
+                disabled={index === 0}
+                onClick={() => this.remove(index)}
+              />
+              <Icon
+                className="dynamic-button"
+                type="plus-circle"
+                disabled={index >= 4}
+                onClick={() => this.add(index)}
+                style={{ marginLeft: 8 }}
+              />
+            </Col>
+          ) : (
+            <Col span={3}>
+              <Icon
+                className="dynamic-button"
+                type="minus-circle-o"
+                onClick={() => this.remove(index)}
+              />
+            </Col>
+          )}
+        </Row>
+      ))
+    )
   }
 
   render() {
@@ -144,12 +227,7 @@ export default class EditDrawer extends React.Component {
           </Form.Item>
           <Diliver />
           <Title slot="网络设置"></Title>
-          <Form.Item prop="network" label="网络">
-            <Checkboxx
-              getData={this.getNetwork}
-              options={this.state?.networkOptions}
-            />
-          </Form.Item>
+          {this.renderNetWork()}
         </Formx>
       </Drawerx>
     )

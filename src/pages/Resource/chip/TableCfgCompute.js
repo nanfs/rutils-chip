@@ -45,6 +45,7 @@ export const columnsCompute = [
   {
     title: '数据中心/集群',
     ellipsis: true,
+    width: '12%',
     dataIndex: 'vm',
     render: (text, record) => {
       return `${record.storagePoolName}/${record.clusterName}`

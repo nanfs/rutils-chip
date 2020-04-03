@@ -19,7 +19,7 @@ export default class DetailDrawer extends React.Component {
   }
 
   /**
-   * @param id 详情数据的id
+   * @param id 模板id
    * @param info 详情数据
    */
   pop = (id, info) => {

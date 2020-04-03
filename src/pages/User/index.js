@@ -121,7 +121,7 @@ export default class User extends React.Component {
           <a
             onClick={() => {
               this.setState({ inner: '编辑用户' })
-              this.editDrawer.pop(record)
+              this.editUser(record)
               this.currentDrawer = this.editDrawer
             }}
           >
@@ -265,9 +265,9 @@ export default class User extends React.Component {
     this.currentDrawer = this.addDrawer
   }
 
-  editUser = () => {
+  editUser = record => {
     this.setState({ inner: '编辑用户' })
-    this.editDrawer.pop(this.state.selectData[0], this.state.selectedType)
+    this.editDrawer.pop(record, this.state.selectedType)
     // this.editDrawer.drawer.show()
     this.currentDrawer = this.editDrawer
   }

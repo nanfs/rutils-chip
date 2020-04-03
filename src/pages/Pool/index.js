@@ -191,7 +191,9 @@ export default class Pool extends React.Component {
         <TableWrap>
           <ToolBar>
             <BarLeft>
-              <Button onClick={this.createPool}>创建池</Button>
+              <Button onClick={this.createPool} type="primary">
+                创建
+              </Button>
             </BarLeft>
           </ToolBar>
           <Tablex

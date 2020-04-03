@@ -128,13 +128,13 @@ export default class Template extends React.Component {
                   !this.state.selection || this.state.selection.length !== 1
                 }
               >
-                编辑模板
+                编辑
               </Button>
               <Button
                 onClick={this.delTem}
                 disabled={!this.state.selection || !this.state.selection.length}
               >
-                删除模板
+                删除
               </Button>
             </BarLeft>
           </ToolBar>

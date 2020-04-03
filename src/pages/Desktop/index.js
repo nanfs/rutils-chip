@@ -289,7 +289,7 @@ export default class Desktop extends React.Component {
           <ToolBar>
             <BarLeft>
               <Button onClick={this.createVm} type="primary">
-                创建桌面
+                创建
               </Button>
               <Button
                 onClick={() => this.setUser(this.tablex.getSelection())}

@@ -22,7 +22,7 @@ export const DetailAccesspolicyColumns = [
     title: '名称',
     dataIndex: 'name'
   },
-  {
+  /* {
     title: '准入类型',
     dataIndex: 'type',
     render: (_text, record) => {
@@ -48,7 +48,7 @@ export const DetailAccesspolicyColumns = [
         `${record.admitInterval[0].startTime} - ${record.admitInterval[0].endTime}`
       )
     }
-  },
+  }, */
   {
     title: '描述',
     dataIndex: 'description'

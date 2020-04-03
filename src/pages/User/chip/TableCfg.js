@@ -22,17 +22,18 @@ export const columns = [
           <Icon
             type="check-circle"
             style={{
-              color: '#0f98dc'
+              color: '#85da47'
             }}
+            title="正常"
           />
-          <span
+          {/* <span
             style={{
               display: 'inline-block',
               verticalAlign: 'top'
             }}
           >
             &nbsp;&nbsp;正常
-          </span>
+          </span> */}
         </span>
       ) : (
         <span>
@@ -43,8 +44,9 @@ export const columns = [
               fontSize: '18px'
               // color: value === 0 ? '#ccc' : '#1890ff'
             }}
+            title="禁用"
           />
-          <span
+          {/* <span
             style={{
               display: 'inline-block',
               verticalAlign: 'top',
@@ -52,7 +54,7 @@ export const columns = [
             }}
           >
             &nbsp;禁用
-          </span>
+          </span> */}
         </span>
       )
     }

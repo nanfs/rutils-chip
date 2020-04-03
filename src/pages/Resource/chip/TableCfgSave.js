@@ -5,6 +5,11 @@ import { storageStatusRender, storageTypeRender } from '@/utils/tableRender'
 
 export const columnsSave = [
   {
+    title: '存储域名称',
+    ellipsis: true,
+    dataIndex: 'name'
+  },
+  {
     title: '状态',
     dataIndex: 'status',
     width: 100,
@@ -31,11 +36,6 @@ export const columnsSave = [
       }
     ],
     render: text => storageStatusRender(text)
-  },
-  {
-    title: '存储域名称',
-    ellipsis: true,
-    dataIndex: 'name'
   },
   {
     title: '数据中心',

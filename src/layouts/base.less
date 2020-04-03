@@ -7,17 +7,20 @@ body {
   margin-right: 10px;
 }
 .ant-layout {
-  background: #e5e9f2;
+  background: #eff0f5;
   &-sider-children {
     border-right: 1px solid #dedede;
   }
 }
 // header
 .header {
-  background-color: #295286;
+  background-color: #1b59a6;
   color: white;
   height: 55px;
   padding: 0 20px;
+  background-image: url(../assets/header_mask.png);
+  background-repeat: no-repeat;
+  background-position: 90% bottom;
   .logo {
     width: 214px;
     height: 55px;
@@ -84,8 +87,20 @@ body {
       font-size: 14px;
     }
 
+    .ant-menu-item-selected {
+      &::after {
+        content: '';
+        display: block;
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 1px;
+        height: 50px;
+        background: #1890ff;
+      }
+    }
     &:not(.ant-menu-horizontal) .ant-menu-item-selected {
-      background: #bbd0e5;
+      background: #e1edfb;
     }
   }
   .ant-menu-inline-collapsed {
@@ -158,8 +173,8 @@ body {
 .ant-progress-show-info .ant-progress-outer {
   margin-right: 0 !important;
   padding-right: 0 !important;
-  .ant-progress-inner{
-    background-color: #E5E9F2;
+  .ant-progress-inner {
+    background-color: #eff0f5;
   }
 }
 .ant-progress-text {
@@ -167,9 +182,6 @@ body {
   width: 100% !important;
   margin-left: -100% !important;
   text-align: center !important;
-}
-.ant-progress-status-exception .ant-progress-text {
-  color: #7E8085 !important
 }
 .ant-input-number-handler-wrap {
   opacity: 1 !important;

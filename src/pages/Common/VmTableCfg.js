@@ -21,17 +21,6 @@ setDataCenterToSession()
 setHostToSession()
 export const columns = [
   {
-    title: '操作系统',
-    dataIndex: 'os',
-    render: text => {
-      return (
-        <span>
-          {osIconRender(text)} {osTextRender(text)}
-        </span>
-      )
-    }
-  },
-  {
     title: '状态',
     dataIndex: 'status',
     width: 80,
@@ -42,6 +31,17 @@ export const columns = [
       { value: [7, 8, 14, -1, 4], text: '异常' }
     ],
     render: text => vmStatusRender(text)
+  },
+  {
+    title: '操作系统',
+    dataIndex: 'os',
+    render: text => {
+      return (
+        <span>
+          {osIconRender(text)} {osTextRender(text)}
+        </span>
+      )
+    }
   },
   {
     title: '主机',

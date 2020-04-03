@@ -472,7 +472,9 @@ export default class User extends React.Component {
             <div className="user-table">
               <ToolBar>
                 <BarLeft>
-                  <Button onClick={this.addUser}>创建</Button>
+                  <Button onClick={this.addUser} type="primary">
+                    创建
+                  </Button>
                   {/* <Button
                     onClick={this.editUser}
                     disabled={disabledButton.disabledEdit}

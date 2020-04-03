@@ -52,7 +52,7 @@ export default class Desktop extends React.Component {
     const disks = this.tablex.getSelectData()
     const removeDiskVo = disks.map(item => ({
       diskId: item.id,
-      storageDomainId: item.storage_id
+      storageDomainId: item.storageId
     }))
     const self = this
     confirm({

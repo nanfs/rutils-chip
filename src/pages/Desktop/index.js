@@ -91,6 +91,23 @@ export default class Desktop extends React.Component {
   }
 
   /**
+   * 当搜索条件下来处理
+   *
+   * @memberof Vmlog
+   */
+  onSearchSelectChange = oldKey => {
+    const searchs = { ...this.state.tableCfg.searchs }
+    delete searchs[oldKey]
+    this.setState(
+      produce(draft => {
+        draft.tableCfg.searchs = {
+          ...searchs
+        }
+      })
+    )
+  }
+
+  /**
    *
    *
    * @memberof Desktop
@@ -290,6 +307,7 @@ export default class Desktop extends React.Component {
             <BarRight>
               <SelectSearch
                 options={searchOptions}
+                onSelectChange={this.onSearchSelectChange}
                 onSearch={this.search}
               ></SelectSearch>
             </BarRight>

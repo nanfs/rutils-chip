@@ -47,6 +47,23 @@ export default class tcLog extends React.Component {
   }
 
   /**
+   * 当搜索条件下来处理
+   *
+   * @memberof Vmlog
+   */
+  onSearchSelectChange = oldKey => {
+    const searchs = { ...this.state.tableCfg.searchs }
+    delete searchs[oldKey]
+    this.setState(
+      produce(draft => {
+        draft.tableCfg.searchs = {
+          ...searchs
+        }
+      })
+    )
+  }
+
+  /**
    *
    *
    * @memberof tcLog
@@ -154,6 +171,7 @@ export default class tcLog extends React.Component {
               <RangePicker onChange={this.selectDate} showTime></RangePicker>
               <SelectSearch
                 options={this.searchOptions}
+                onSelectChange={this.onSearchSelectChange}
                 onSearch={this.search}
               ></SelectSearch>
             </BarRight>

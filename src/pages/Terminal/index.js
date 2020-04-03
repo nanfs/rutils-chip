@@ -211,6 +211,23 @@ export default class Terminal extends React.Component {
   }
 
   /**
+   * 当搜索条件下来处理
+   *
+   * @memberof Vmlog
+   */
+  onSearchSelectChange = oldKey => {
+    const searchs = { ...this.state.tableCfg.searchs }
+    delete searchs[oldKey]
+    this.setState(
+      produce(draft => {
+        draft.tableCfg.searchs = {
+          ...searchs
+        }
+      })
+    )
+  }
+
+  /**
    * @memberof Terminal
    * @description 表格onChange的回调
    * @author linghu
@@ -538,6 +555,7 @@ export default class Terminal extends React.Component {
             <BarRight>
               <SelectSearch
                 options={searchOptions}
+                onSelectChange={this.onSearchSelectChange}
                 onSearch={this.search}
               ></SelectSearch>
             </BarRight>

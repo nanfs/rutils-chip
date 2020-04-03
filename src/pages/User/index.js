@@ -22,50 +22,6 @@ import './index.less'
 
 const { confirm } = Modal
 const { createTableCfg, TableWrap, ToolBar, BarLeft, BarRight } = Tablex
-/* const nodes = [
-  {
-    id: 'department1',
-    key: 'department1',
-    value: 'department1',
-    title: '用户组',
-    parentId: null
-  },
-  {
-    id: 'department2',
-    key: 'department2',
-    value: 'department2',
-    title: '成都研发中心',
-    parentId: 'department1'
-  },
-  {
-    id: 'department3',
-    key: 'department3',
-    value: 'department3',
-    title: '北京研发中心',
-    parentId: 'department1'
-  },
-  {
-    id: 'department4',
-    key: 'department4',
-    value: 'department4',
-    title: '前端组',
-    parentId: 'department2'
-  },
-  {
-    id: 'department5',
-    key: 'department5',
-    value: 'department5',
-    title: 'java组',
-    parentId: 'department2'
-  },
-  {
-    id: 'department6',
-    key: 'department6',
-    value: 'department6',
-    title: '前端组',
-    parentId: 'department3'
-  }
-] */
 
 export default class User extends React.Component {
   userName = {
@@ -198,6 +154,70 @@ export default class User extends React.Component {
       })
   }
 
+  onSelectChange = (selection, selectData) => {
+    let disabledButton = {}
+    const selectSN = selectData.map(item => item.sn)
+    if (selection.length !== 1) {
+      disabledButton = {
+        ...disabledButton,
+        disabledEdit: true,
+        disabledDelete: true, // 删除目前只做单个，后面加批量
+        disabledEnable: true, // 解锁目前只做单个，后面加批量
+        disabledDisable: true // // 锁定目前只做单个，后面加批量
+      }
+    }
+    if (selection.length === 0) {
+      disabledButton = {
+        ...disabledButton,
+        disabledDelete: true,
+        disabledEnable: true,
+        disabledDisable: true
+      }
+    } else {
+      selectData.forEach(item => {
+        if (item.tccount + item.vmcount > 0) {
+          disabledButton = {
+            ...disabledButton,
+            disabledDelete: true
+          }
+        }
+        if (item.status === 1) {
+          disabledButton = {
+            ...disabledButton,
+            disabledDisable: true
+          }
+        }
+        if (item.status === 0) {
+          disabledButton = {
+            ...disabledButton,
+            disabledEnable: true
+          }
+        }
+      })
+    }
+
+    this.setState({ disabledButton, selection, selectData, selectSN })
+  }
+
+  onTableChange = (a, filter) => {
+    console.log(filter)
+    /* filter.status.forEach(function(v, i) {
+        status.push(...v)
+      }) */
+    filter.status &&
+      this.setState(
+        produce(draft => {
+          draft.tableCfg.searchs = {
+            ...draft.tableCfg.searchs,
+            groupId: draft.tableCfg.searchs.groupId,
+            status: filter.status.length > 1 ? '' : filter.status[0]
+            // ...filter
+          }
+        }),
+        () => this.tablex.refresh(this.state.tableCfg)
+      )
+  }
+
   search = (key, value) => {
     const searchs = {}
     searchs[key] = value
@@ -210,7 +230,7 @@ export default class User extends React.Component {
             apiMethod: userApi.queryByGroup,
             searchs: {
               // ...draft.tableCfg.searchs,
-              groupId: draft.tableCfg.searchs.groupId,
+              // groupId: draft.tableCfg.searchs.groupId,
               ...searchs
             }
           }
@@ -235,19 +255,74 @@ export default class User extends React.Component {
         () => this.tablex.search(this.state.tableCfg)
       )
     }
+  }
 
-    /* this.setState(
+  onSelect = (value, node) => {
+    // this.selectSearch.reset()
+    console.log(value)
+    if (node.node.props.type === 'ad') {
+      this.groupTreex.cleanSelected()
+      this.setState(
+        produce(draft => {
+          draft.tableCfg = {
+            ...draft.tableCfg,
+            apiMethod: userApi.queryByAD,
+            searchs: {
+              ...draft.tableCfg.searchs,
+              domain: value,
+              groupId: '',
+              userName: ''
+            }
+          }
+          draft.selectedType = value
+        }),
+        () => this.tablex.search(this.state.tableCfg)
+      )
+    } else {
+      this.ADdomainTreex.cleanSelected()
+      this.setState(
+        produce(draft => {
+          draft.tableCfg = {
+            ...draft.tableCfg,
+            apiMethod: userApi.queryByGroup,
+            searchs: {
+              ...draft.tableCfg.searchs,
+              groupId: value,
+              domain: ''
+            }
+          }
+          draft.selectedType = 'internal'
+        }),
+        () => this.tablex.search(this.state.tableCfg)
+      )
+    }
+  }
+
+  onSuccess = () => {
+    this.tablex.refresh(this.state.tableCfg)
+    this.setState({ inner: undefined })
+  }
+
+  /**
+   * @memberof User
+   * @description 树渲染成功后回调，刷新用户列表
+   * @param treeData 用户组数据，用于新增、编辑的用户组树形下拉列表
+   * @author linghu
+   */
+  treeRenderSuccess = (selectNode, treeData) => {
+    this.setState({
+      groupTreeData: treeData
+    })
+    this.setState(
       produce(draft => {
         draft.tableCfg.searchs = {
-          // ...draft.tableCfg.searchs,
-          status: draft.tableCfg.searchs.status,
-          groupId: draft.tableCfg.searchs.groupId,
-          domain: draft.tableCfg.searchs.domain,
-          ...searchs
+          ...draft.tableCfg.searchs,
+          groupId: selectNode
         }
+        // draft.groupTreeData = groupTreeData
       }),
       () => this.tablex.refresh(this.state.tableCfg)
-    ) */
+    )
   }
 
   sendOrder = (id, order) => {
@@ -272,7 +347,11 @@ export default class User extends React.Component {
     this.currentDrawer = this.editDrawer
   }
 
-  // 删除目前只做单个，后面加批量
+  /**
+   * @memberof User
+   * @todo 删除目前只做单个，后面加批量
+   * @author linghu
+   */
   deleteUser = (id = undefined) => {
     const ids = id || this.tablex.getSelection()
     const self = this
@@ -343,132 +422,6 @@ export default class User extends React.Component {
     this.detailDrawer.pop(id)
     // this.detailDrawer.drawer.show()
     this.currentDrawer = this.detailDrawer
-  }
-
-  onSelect = (value, node) => {
-    // this.selectSearch.reset()
-    console.log(value)
-    if (node.node.props.type === 'ad') {
-      this.groupTreex.cleanSelected()
-      this.setState(
-        produce(draft => {
-          draft.tableCfg = {
-            ...draft.tableCfg,
-            apiMethod: userApi.queryByAD,
-            searchs: {
-              ...draft.tableCfg.searchs,
-              domain: value,
-              groupId: '',
-              userName: ''
-            }
-          }
-          draft.selectedType = value
-        }),
-        () => this.tablex.search(this.state.tableCfg)
-      )
-    } else {
-      this.ADdomainTreex.cleanSelected()
-      this.setState(
-        produce(draft => {
-          draft.tableCfg = {
-            ...draft.tableCfg,
-            apiMethod: userApi.queryByGroup,
-            searchs: {
-              ...draft.tableCfg.searchs,
-              groupId: value,
-              domain: ''
-            }
-          }
-          draft.selectedType = 'internal'
-        }),
-        () => this.tablex.search(this.state.tableCfg)
-      )
-    }
-  }
-
-  onSuccess = () => {
-    this.tablex.refresh(this.state.tableCfg)
-    this.setState({ inner: undefined })
-  }
-
-  treeRenderSuccess = (selectNode, treeData) => {
-    this.setState({
-      groupTreeData: treeData
-    })
-    this.setState(
-      produce(draft => {
-        draft.tableCfg.searchs = {
-          ...draft.tableCfg.searchs,
-          groupId: selectNode
-        }
-        // draft.groupTreeData = groupTreeData
-      }),
-      () => this.tablex.refresh(this.state.tableCfg)
-    )
-  }
-
-  onSelectChange = (selection, selectData) => {
-    let disabledButton = {}
-    const selectSN = selectData.map(item => item.sn)
-    if (selection.length !== 1) {
-      disabledButton = {
-        ...disabledButton,
-        disabledEdit: true,
-        disabledDelete: true, // 删除目前只做单个，后面加批量
-        disabledEnable: true, // 解锁目前只做单个，后面加批量
-        disabledDisable: true // // 锁定目前只做单个，后面加批量
-      }
-    }
-    if (selection.length === 0) {
-      disabledButton = {
-        ...disabledButton,
-        disabledDelete: true,
-        disabledEnable: true,
-        disabledDisable: true
-      }
-    } else {
-      selectData.forEach(item => {
-        if (item.tccount + item.vmcount > 0) {
-          disabledButton = {
-            ...disabledButton,
-            disabledDelete: true
-          }
-        }
-        if (item.status === 1) {
-          disabledButton = {
-            ...disabledButton,
-            disabledDisable: true
-          }
-        }
-        if (item.status === 0) {
-          disabledButton = {
-            ...disabledButton,
-            disabledEnable: true
-          }
-        }
-      })
-    }
-
-    this.setState({ disabledButton, selection, selectData, selectSN })
-  }
-
-  onTableChange = (a, filter) => {
-    console.log(filter)
-    /* filter.status.forEach(function(v, i) {
-        status.push(...v)
-      }) */
-    filter.status &&
-      this.setState(
-        produce(draft => {
-          draft.tableCfg.searchs = {
-            ...draft.tableCfg.searchs,
-            groupId: draft.tableCfg.searchs.groupId,
-            status: filter.status.length > 1 ? '' : filter.status[0]
-            // ...filter
-          }
-        }),
-        () => this.tablex.refresh(this.state.tableCfg)
-      )
   }
 
   render() {

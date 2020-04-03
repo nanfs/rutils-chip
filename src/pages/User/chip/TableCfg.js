@@ -9,38 +9,6 @@ export const columns = [
     dataIndex: 'username'
   }, */
   {
-    title: '姓名',
-    dataIndex: 'name'
-    /* render: (value, record) => {
-      return (
-        (record.firstname === null ? '' : record.firstname) +
-        (record.lastname === null ? '' : record.lastname)
-      )
-    } */
-  },
-  {
-    title: '组织',
-    dataIndex: 'groupName'
-  },
-  {
-    title: '角色',
-    dataIndex: 'roleName'
-  },
-  /* {
-    title: '邮件',
-    dataIndex: 'email'
-  }, */
-  {
-    title: '已分配桌面数',
-    dataIndex: 'vmcount',
-    render: text => <Tag>{text}</Tag>
-  },
-  {
-    title: '已分配终端数',
-    dataIndex: 'tccount',
-    render: text => <Tag>{text}</Tag>
-  },
-  {
     title: '状态',
     dataIndex: 'status',
     // defaultFilteredValue: ['0', '1'],
@@ -88,6 +56,38 @@ export const columns = [
         </span>
       )
     }
+  },
+  {
+    title: '姓名',
+    dataIndex: 'name'
+    /* render: (value, record) => {
+      return (
+        (record.firstname === null ? '' : record.firstname) +
+        (record.lastname === null ? '' : record.lastname)
+      )
+    } */
+  },
+  {
+    title: '组织',
+    dataIndex: 'groupName'
+  },
+  {
+    title: '角色',
+    dataIndex: 'roleName'
+  },
+  /* {
+    title: '邮件',
+    dataIndex: 'email'
+  }, */
+  {
+    title: '已分配桌面数',
+    dataIndex: 'vmcount',
+    render: text => <Tag>{text}</Tag>
+  },
+  {
+    title: '已分配终端数',
+    dataIndex: 'tccount',
+    render: text => <Tag>{text}</Tag>
   }
 ]
 export const apiMethod = userApi.list

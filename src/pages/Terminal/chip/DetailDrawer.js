@@ -130,6 +130,34 @@ export default class DetailDrawer extends React.Component {
                   </Tooltip>
                 </Col>
               </Row>
+              <Row className="dms-detail-row">
+                <Col span={3} className="dms-detail-label">
+                  CPU：
+                </Col>
+                <Col span={8} className="dms-detail-value">
+                  <Tooltip title={initValues.cpu}>
+                    <span>{initValues.cpu}</span>
+                  </Tooltip>
+                </Col>
+                <Col span={3} className="dms-detail-label">
+                  内存：
+                </Col>
+                <Col span={8} className="dms-detail-value">
+                  <Tooltip title={initValues.memory}>
+                    <span>{initValues.memory}</span>
+                  </Tooltip>
+                </Col>
+              </Row>
+              <Row className="dms-detail-row">
+                <Col span={3} className="dms-detail-label">
+                  描述：
+                </Col>
+                <Col span={12} className="dms-detail-value">
+                  <Tooltip title={initValues.description}>
+                    <span>{initValues.description}</span>
+                  </Tooltip>
+                </Col>
+              </Row>
               {/* // TODO 终端未实现 */}
               {/* 
           <Row className="dms-detail-row">
@@ -147,24 +175,6 @@ export default class DetailDrawer extends React.Component {
             <Col span={8} className="dms-detail-value">
               <Tooltip title={initValues.os}>
                 <span>{initValues.os}</span>
-              </Tooltip>
-            </Col>
-          </Row>
-          <Row className="dms-detail-row">
-            <Col span={3} className="dms-detail-label">
-              CPU：
-            </Col>
-            <Col span={8} className="dms-detail-value">
-              <Tooltip title={initValues.cpu}>
-                <span>{initValues.cpu}</span>
-              </Tooltip>
-            </Col>
-            <Col span={3} className="dms-detail-label">
-              内存：
-            </Col>
-            <Col span={8} className="dms-detail-value">
-              <Tooltip title={initValues.memory}>
-                <span>{initValues.memory}</span>
               </Tooltip>
             </Col>
           </Row>
@@ -189,16 +199,6 @@ export default class DetailDrawer extends React.Component {
               描述：
             </Col>
             <Col span={8} className="dms-detail-value">
-              <Tooltip title={initValues.description}>
-                <span>{initValues.description}</span>
-              </Tooltip>
-            </Col>
-          </Row> */}
-              {/* <Row className="dms-detail-row">
-            <Col span={3} className="dms-detail-label">
-              描述：
-            </Col>
-            <Col span={12} className="dms-detail-value">
               <Tooltip title={initValues.description}>
                 <span>{initValues.description}</span>
               </Tooltip>

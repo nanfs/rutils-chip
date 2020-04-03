@@ -230,7 +230,7 @@ export default class User extends React.Component {
             apiMethod: userApi.queryByGroup,
             searchs: {
               // ...draft.tableCfg.searchs,
-              // groupId: draft.tableCfg.searchs.groupId,
+              groupId: draft.tableCfg.searchs.groupId,
               ...searchs
             }
           }

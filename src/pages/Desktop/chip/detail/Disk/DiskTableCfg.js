@@ -40,6 +40,11 @@ export const columns = [
     dataIndex: 'name'
   },
   {
+    title: '状态',
+    dataIndex: 'status',
+    render: text => renderSatus(diskStaus, text, true)
+  },
+  {
     title: '大小(GB)',
     key: 'capacity',
     dataIndex: 'capacity',
@@ -55,11 +60,6 @@ export const columns = [
         ></Progress>
       )
     }
-  },
-  {
-    title: '状态',
-    dataIndex: 'status',
-    render: text => renderSatus(diskStaus, text, true)
   },
   {
     title: '是否系统盘',

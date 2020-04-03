@@ -405,7 +405,7 @@ export default class AddDrawer extends React.Component {
             />
           </Form.Item>
           <Form.Item
-            prop="disk"
+            prop="capacity"
             label="磁盘(G)"
             required
             hidden={this.getSelectType() !== 'byIso'}

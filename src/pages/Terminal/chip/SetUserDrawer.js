@@ -45,6 +45,23 @@ export default class SetUserDrawer extends React.Component {
     )
   }
 
+  /**
+   * 当搜索条件下来处理
+   *
+   * @memberof Vmlog
+   */
+  onSearchSelectChange = oldKey => {
+    const searchs = { ...this.state.tableCfg.searchs }
+    delete searchs[oldKey]
+    this.setState(
+      produce(draft => {
+        draft.tableCfg.searchs = {
+          ...searchs
+        }
+      })
+    )
+  }
+
   removeUserSelection = key => {
     const { totalSelection } = this.state
     const newSelection = totalSelection.filter(item => item !== key)
@@ -181,6 +198,7 @@ export default class SetUserDrawer extends React.Component {
             <ToolBar>
               <SelectSearch
                 options={searchOptions}
+                onSelectChange={this.onSearchSelectChange}
                 onSearch={this.search}
               ></SelectSearch>
             </ToolBar>

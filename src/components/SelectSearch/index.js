@@ -22,8 +22,15 @@ class SelectSearch extends React.Component {
     })
   }
 
+  /**
+   * oldKey 是为了删除搜索字段
+   *
+   * @memberof SelectSearch
+   */
   onSelectChange = searchKey => {
+    const oldKey = this.state.searchKey
     this.setState({ searchKey })
+    this.props.onSelectChange && this.props.onSelectChange(oldKey, searchKey)
   }
 
   onChange = e => {

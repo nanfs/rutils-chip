@@ -67,7 +67,12 @@ export default class EditDiskModal extends React.Component {
             label="扩容大小(G)"
             rules={[this.totalLessThan2000]}
           >
-            <SliderNumberx min={0} hasInputNumber={true} step={50} />
+            <SliderNumberx
+              min={0}
+              max={this.state?.capacity ? 2000 - this.state?.capacity : 2000}
+              hasInputNumber={true}
+              step={50}
+            />
           </Form.Item>
           <Form.Item prop="description" label="描述">
             <TextArea style={{ resize: 'none' }} rows={4} placeholder="描述" />

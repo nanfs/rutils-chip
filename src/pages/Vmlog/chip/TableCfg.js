@@ -23,11 +23,6 @@ export const columns = [
     ellipsis: true
   },
   {
-    title: 'IP',
-    dataIndex: 'userIp',
-    ellipsis: true
-  },
-  {
     title: '用户',
     dataIndex: 'userName',
     ellipsis: true

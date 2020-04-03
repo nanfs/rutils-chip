@@ -37,7 +37,7 @@ export default class Desktop extends React.Component {
       }
     } else {
       selectData.forEach(item => {
-        if (item.boot) {
+        if (item.isBoot) {
           disabledButton = {
             ...disabledButton,
             disabledDelete: true

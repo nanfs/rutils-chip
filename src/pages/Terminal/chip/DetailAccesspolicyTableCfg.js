@@ -25,7 +25,6 @@ export const DetailAccesspolicyColumns = [
   {
     title: '准入类型',
     dataIndex: 'type',
-    filters: typeOptions,
     render: (_text, record) => {
       return record.admitInterval && typeArr[record.admitInterval[0].type]
     }

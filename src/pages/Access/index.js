@@ -194,7 +194,9 @@ export default class Access extends React.Component {
         <TableWrap>
           <ToolBar>
             <BarLeft>
-              <Button onClick={this.addAccess}>创建</Button>
+              <Button onClick={this.addAccess} type="primary">
+                创建
+              </Button>
               <Button
                 onClick={() => this.delAccess(this.tablex.getSelection())}
                 disabled={disabledButton?.disabledDelete}

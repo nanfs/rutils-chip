@@ -184,7 +184,9 @@ export default class Device extends React.Component {
         <TableWrap>
           <ToolBar>
             <BarLeft>
-              <Button onClick={this.addDev}>创建</Button>
+              <Button onClick={this.addDev} type="primary">
+                创建
+              </Button>
               <Button
                 onClick={() => this.delDev(this.tablex.getSelection())}
                 disabled={disabledButton?.disabledDelete}

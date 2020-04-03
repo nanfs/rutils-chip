@@ -14,7 +14,7 @@ export default class editDrawer extends React.Component {
   checkFieldRequired(fieldValue) {
     return (rule, value, callback) => {
       const domain = this.drawer.form.getFieldValue('domain')
-      if (domain === fieldValue && !value) {
+      if (domain === fieldValue && value !== 0 && !value) {
         callback(new Error('这是必填项'))
       }
       callback()
@@ -38,6 +38,7 @@ export default class editDrawer extends React.Component {
       // isAdDomain = false
     } = data
     const domain = groupType
+    console.log(groupType)
     this.drawer.form.setFieldsValue({
       id,
       domain,
@@ -51,12 +52,10 @@ export default class editDrawer extends React.Component {
   }
 
   editUser = values => {
-    const { onSuccess } = this.props
     userApi
       .editUser({ ...values })
       .then(res => {
         this.drawer.afterSubmit(res)
-        onSuccess && onSuccess()
       })
       .catch(errors => {
         this.drawer.break(errors)

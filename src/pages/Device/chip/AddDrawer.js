@@ -31,7 +31,6 @@ export default class AddDrawer extends React.Component {
       usbsObj[`usbpid[${index}]`] = item.pid
       usbsObj[`usbvid[${index}]`] = item.vid
     })
-    console.log(this.drawer)
     this.drawer.form.setFieldsValue({
       id,
       name,
@@ -43,7 +42,12 @@ export default class AddDrawer extends React.Component {
 
   pop = () => {
     this.drawer.show()
-    this.setState({ usbs: [{ name: '', pid: '', vid: '' }] })
+    this.setState({
+      name: '',
+      usageFix: false,
+      description: '',
+      usbs: [{ name: '', pid: '', vid: '' }]
+    })
   }
 
   /**
@@ -93,7 +97,6 @@ export default class AddDrawer extends React.Component {
               <Icon
                 className="dynamic-delete-button"
                 type="minus-circle-o"
-                disabled={index === 0}
                 onClick={() => this.remove(index)}
               />
               <Icon
@@ -124,6 +127,14 @@ export default class AddDrawer extends React.Component {
   remove = k => {
     const usbs = this.getUsbs()
     if (k === 0 && usbs.length <= 1) {
+      usbs[k].name = ''
+      usbs[k].vid = ''
+      usbs[k].pid = ''
+      this.setState({
+        ...this.state,
+        ...this.drawer.form.getFieldsValue(),
+        usbs
+      })
       return false
     }
     const newUsbs = [...usbs.slice(0, k), ...usbs.slice(k + 1)]

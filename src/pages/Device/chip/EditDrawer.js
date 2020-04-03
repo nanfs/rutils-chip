@@ -100,7 +100,6 @@ export default class EditDrawer extends React.Component {
               <Icon
                 className="dynamic-delete-button"
                 type="minus-circle-o"
-                disabled={index === 0}
                 onClick={() => this.remove(index)}
               />
               <Icon
@@ -131,6 +130,14 @@ export default class EditDrawer extends React.Component {
   remove = k => {
     const usbs = this.getUsbs()
     if (k === 0 && usbs.length <= 1) {
+      usbs[k].name = ''
+      usbs[k].vid = ''
+      usbs[k].pid = ''
+      this.setState({
+        ...this.state,
+        ...this.drawer.form.getFieldsValue(),
+        usbs
+      })
       return false
     }
     const newUsbs = [...usbs.slice(0, k), ...usbs.slice(k + 1)]

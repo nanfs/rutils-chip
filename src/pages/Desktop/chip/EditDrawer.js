@@ -47,10 +47,8 @@ export default class EditDrawer extends React.Component {
    */
   remove = k => {
     const nets = this.drawer.form.getFieldValue('network')
-    if (k === 0 && nets.length <= 1) {
-      return false
-    }
-    const newNets = [...nets.slice(0, k), ...nets.slice(k + 1)]
+    const newNets =
+      nets?.length === 1 ? [''] : [...nets.slice(0, k), ...nets.slice(k + 1)]
     this.setState({
       nets: newNets
     })
@@ -145,7 +143,6 @@ export default class EditDrawer extends React.Component {
               <Icon
                 className="dynamic-button"
                 type="minus-circle-o"
-                disabled={index === 0}
                 onClick={() => this.remove(index)}
               />
               <Icon

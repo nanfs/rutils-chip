@@ -288,7 +288,9 @@ export default class Desktop extends React.Component {
         <TableWrap>
           <ToolBar>
             <BarLeft>
-              <Button onClick={this.createVm}>创建桌面</Button>
+              <Button onClick={this.createVm} type="primary">
+                创建桌面
+              </Button>
               <Button
                 onClick={() => this.setUser(this.tablex.getSelection())}
                 disabled={disabledButton?.disabledSetUser}

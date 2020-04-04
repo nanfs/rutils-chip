@@ -9,6 +9,57 @@ export const columns = [
     dataIndex: 'username'
   }, */
   {
+    title: '状态',
+    dataIndex: 'status',
+    // defaultFilteredValue: ['0', '1'],
+    filters: [
+      { value: '1', text: '禁用' },
+      { value: '0', text: '正常' }
+    ],
+    render: value => {
+      return value === 0 ? (
+        <span>
+          <Icon
+            type="check-circle"
+            style={{
+              color: '#85da47'
+            }}
+            title="正常"
+          />
+          {/* <span
+            style={{
+              display: 'inline-block',
+              verticalAlign: 'top'
+            }}
+          >
+            &nbsp;&nbsp;正常
+          </span> */}
+        </span>
+      ) : (
+        <span>
+          <MyIcon
+            type="tc-imagelocked"
+            component="svg"
+            style={{
+              fontSize: '18px'
+              // color: value === 0 ? '#ccc' : '#1890ff'
+            }}
+            title="禁用"
+          />
+          {/* <span
+            style={{
+              display: 'inline-block',
+              verticalAlign: 'top',
+              color: '#e80d0c'
+            }}
+          >
+            &nbsp;禁用
+          </span> */}
+        </span>
+      )
+    }
+  },
+  {
     title: '姓名',
     dataIndex: 'name'
     /* render: (value, record) => {
@@ -39,55 +90,6 @@ export const columns = [
     title: '已分配终端数',
     dataIndex: 'tccount',
     render: text => <Tag>{text}</Tag>
-  },
-  {
-    title: '状态',
-    dataIndex: 'status',
-    // defaultFilteredValue: ['0', '1'],
-    filters: [
-      { value: '1', text: '禁用' },
-      { value: '0', text: '正常' }
-    ],
-    render: value => {
-      return value === 0 ? (
-        <span>
-          <Icon
-            type="check-circle"
-            style={{
-              color: '#0f98dc'
-            }}
-          />
-          <span
-            style={{
-              display: 'inline-block',
-              verticalAlign: 'top'
-            }}
-          >
-            &nbsp;&nbsp;正常
-          </span>
-        </span>
-      ) : (
-        <span>
-          <MyIcon
-            type="tc-imagelocked"
-            component="svg"
-            style={{
-              fontSize: '18px'
-              // color: value === 0 ? '#ccc' : '#1890ff'
-            }}
-          />
-          <span
-            style={{
-              display: 'inline-block',
-              verticalAlign: 'top',
-              color: '#e80d0c'
-            }}
-          >
-            &nbsp;禁用
-          </span>
-        </span>
-      )
-    }
   }
 ]
 export const apiMethod = userApi.list

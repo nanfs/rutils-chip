@@ -33,7 +33,7 @@ class Dashboard extends React.Component {
               ],
               desktopsStatisticsLineData: [
                 {
-                  name: '已分配',
+                  name: '已分配用户',
                   count: res.data.bounded,
                   sum: res.data.total
                 },
@@ -72,7 +72,7 @@ class Dashboard extends React.Component {
               ],
               poolsStatisticsLineData: [
                 {
-                  name: '已分配',
+                  name: '已分配用户',
                   count: res.data.bounded,
                   sum: res.data.total
                 }
@@ -150,7 +150,7 @@ class Dashboard extends React.Component {
               ],
               usersStatisticsLineData: [
                 {
-                  name: '已分配用户',
+                  name: '已分配资源',
                   count: res.data.bounded,
                   sum: res.data.total
                 }

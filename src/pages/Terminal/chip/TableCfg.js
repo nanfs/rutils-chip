@@ -26,27 +26,25 @@ export const columns = [
     // onFilter: (value, record) => record.status === value,
     render: value => {
       return value === 0 ? (
-        <Popover content={'离线'}>
-          <MyIcon
-            type="tc-offline"
-            component="svg"
-            style={{
-              fontSize: '20px'
-              // color: value === 0 ? '#ccc' : '#1890ff'
-            }}
-          />
-        </Popover>
+        <MyIcon
+          type="tc-offline"
+          component="svg"
+          title="离线"
+          style={{
+            fontSize: '20px'
+            // color: value === 0 ? '#ccc' : '#1890ff'
+          }}
+        />
       ) : (
-        <Popover content={'在线'}>
-          <MyIcon
-            type="tc-online"
-            component="svg"
-            style={{
-              fontSize: '20px'
-              // color: value === 0 ? '#ccc' : '#1890ff'
-            }}
-          />
-        </Popover>
+        <MyIcon
+          type="tc-online"
+          component="svg"
+          title="在线"
+          style={{
+            fontSize: '20px'
+            // color: value === 0 ? '#ccc' : '#1890ff'
+          }}
+        />
       )
     }
   },

@@ -19,6 +19,10 @@ export default class AddDrawer extends React.Component {
     }
   }
 
+  /**
+   * @memberof device
+   * 设置表单初始值
+   */
   setValues = () => {
     const { id, name, description, usbs, usageFix } = this.state
     const usbsObj = {}
@@ -27,7 +31,6 @@ export default class AddDrawer extends React.Component {
       usbsObj[`usbpid[${index}]`] = item.pid
       usbsObj[`usbvid[${index}]`] = item.vid
     })
-    console.log(this.drawer)
     this.drawer.form.setFieldsValue({
       id,
       name,
@@ -39,9 +42,18 @@ export default class AddDrawer extends React.Component {
 
   pop = () => {
     this.drawer.show()
-    this.setState({ usbs: [{ name: '', pid: '', vid: '' }] })
+    this.setState({
+      name: '',
+      usageFix: false,
+      description: '',
+      usbs: [{ name: '', pid: '', vid: '' }]
+    })
   }
 
+  /**
+   * @memberof device
+   * 处理名单数据
+   */
   getUsbs = () => {
     const data = this.drawer.form.getFieldsValue()
     const { usbname, usbvid, usbpid } = data
@@ -56,9 +68,73 @@ export default class AddDrawer extends React.Component {
     return usbs
   }
 
+  /**
+   * 名单设置是动态表单，新增或删除一条名单时动态渲染输入框组件
+   */
+  renderUsb = () => {
+    const { usbs } = this.state
+    return (
+      usbs &&
+      usbs.map((item, index) => (
+        <Row gutter={16} key={index} className="form-item-wrapper">
+          <Col span={7}>
+            <Form.Item prop={`usbname[${index}]`} rules={[checkName]}>
+              <Input placeholder="名称" />
+            </Form.Item>
+          </Col>
+          <Col span={7}>
+            <Form.Item prop={`usbvid[${index}]`} rules={[number4]}>
+              <Input placeholder="VendorId" />
+            </Form.Item>
+          </Col>
+          <Col span={7}>
+            <Form.Item prop={`usbpid[${index}]`} rules={[number4]}>
+              <Input placeholder="ProductId" />
+            </Form.Item>
+          </Col>
+          {index === usbs.length - 1 ? (
+            <Col span={3}>
+              <Icon
+                className="dynamic-delete-button"
+                type="minus-circle-o"
+                onClick={() => this.remove(index)}
+              />
+              <Icon
+                className="dynamic-delete-button"
+                type="plus-circle"
+                onClick={() => this.add(index)}
+                style={{ marginLeft: 8 }}
+              />
+            </Col>
+          ) : (
+            <Col span={3}>
+              <Icon
+                className="dynamic-delete-button"
+                type="minus-circle-o"
+                onClick={() => this.remove(index)}
+              />
+            </Col>
+          )}
+        </Row>
+      ))
+    )
+  }
+
+  /**
+   * @param k 删除数据的序列号
+   * 删除名单
+   */
   remove = k => {
     const usbs = this.getUsbs()
     if (k === 0 && usbs.length <= 1) {
+      usbs[k].name = ''
+      usbs[k].vid = ''
+      usbs[k].pid = ''
+      this.setState({
+        ...this.state,
+        ...this.drawer.form.getFieldsValue(),
+        usbs
+      })
       return false
     }
     const newUsbs = [...usbs.slice(0, k), ...usbs.slice(k + 1)]
@@ -69,6 +145,11 @@ export default class AddDrawer extends React.Component {
     })
   }
 
+  /**
+   * @param index 新增名单的序列号
+   * 名单最多允许添加10条
+   * 名单设置一条名单必须填完整才会被提交到后台
+   */
   add = index => {
     const usbs = this.getUsbs()
     if (index >= 9) {
@@ -94,6 +175,10 @@ export default class AddDrawer extends React.Component {
     })
   }
 
+  /**
+   * @param values 表单提交数据
+   * 新增外设策略 对提交的数据进行格式处理
+   */
   addDev = values => {
     let usbs = this.getUsbs()
     if (usbs.length === 1) {
@@ -130,56 +215,6 @@ export default class AddDrawer extends React.Component {
         this.drawer.break(errors)
         console.log(errors)
       })
-  }
-
-  renderUsb = () => {
-    const { usbs } = this.state
-    return (
-      usbs &&
-      usbs.map((item, index) => (
-        <Row gutter={16} key={index} className="form-item-wrapper">
-          <Col span={7}>
-            <Form.Item prop={`usbname[${index}]`} rules={[checkName]}>
-              <Input placeholder="名称" />
-            </Form.Item>
-          </Col>
-          <Col span={7}>
-            <Form.Item prop={`usbvid[${index}]`} rules={[number4]}>
-              <Input placeholder="VendorId" />
-            </Form.Item>
-          </Col>
-          <Col span={7}>
-            <Form.Item prop={`usbpid[${index}]`} rules={[number4]}>
-              <Input placeholder="ProductId" />
-            </Form.Item>
-          </Col>
-          {index === usbs.length - 1 ? (
-            <Col span={3}>
-              <Icon
-                className="dynamic-delete-button"
-                type="minus-circle-o"
-                disabled={index === 0}
-                onClick={() => this.remove(index)}
-              />
-              <Icon
-                className="dynamic-delete-button"
-                type="plus-circle"
-                onClick={() => this.add(index)}
-                style={{ marginLeft: 8 }}
-              />
-            </Col>
-          ) : (
-            <Col span={3}>
-              <Icon
-                className="dynamic-delete-button"
-                type="minus-circle-o"
-                onClick={() => this.remove(index)}
-              />
-            </Col>
-          )}
-        </Row>
-      ))
-    )
   }
 
   render() {

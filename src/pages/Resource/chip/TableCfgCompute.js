@@ -5,6 +5,11 @@ import { hostStatusRender } from '@/utils/tableRender'
 
 export const columnsCompute = [
   {
+    title: '主机名称',
+    ellipsis: true,
+    dataIndex: 'name'
+  },
+  {
     title: '状态',
     dataIndex: 'status',
     width: 100,
@@ -33,11 +38,6 @@ export const columnsCompute = [
     render: text => hostStatusRender(text)
   },
   {
-    title: '主机名称',
-    ellipsis: true,
-    dataIndex: 'name'
-  },
-  {
     title: '主机IP',
     ellipsis: true,
     dataIndex: 'ip'
@@ -45,9 +45,18 @@ export const columnsCompute = [
   {
     title: '数据中心/集群',
     ellipsis: true,
+    width: '12%',
     dataIndex: 'vm',
     render: (text, record) => {
       return `${record.storagePoolName}/${record.clusterName}`
+    }
+  },
+  {
+    title: '桌面总数',
+    width: 100,
+    dataIndex: 'numOfDesktop',
+    render: text => {
+      return <Tag>{text}</Tag>
     }
   },
   {
@@ -97,14 +106,6 @@ export const columnsCompute = [
     title: '描述',
     ellipsis: true,
     dataIndex: 'description'
-  },
-  {
-    title: '桌面总数',
-    width: 100,
-    dataIndex: 'numOfDesktop',
-    render: text => {
-      return <Tag>{text}</Tag>
-    }
   }
 ]
 export const apiMethodCompute = resourceApi.listCompute

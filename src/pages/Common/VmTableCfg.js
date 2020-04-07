@@ -79,7 +79,7 @@ export const columns = [
     width: 100,
     render: (text, record) => {
       const consoleContent = record.clientIp ? (
-        <Popover content={record.assignedUsers}>
+        <Popover content={record.clientIp}>
           <MyIcon type="tc-connecting" component="svg" />
           <span>已连接</span>
         </Popover>

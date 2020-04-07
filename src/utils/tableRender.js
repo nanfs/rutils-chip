@@ -34,17 +34,9 @@ export function renderSatus(statusObj, currentText, isWithText = false) {
   const { text, icon, color } = current
   const cls = color && `table-icon-${color}`
   if (isWithText) {
-    return (
-      <Tooltip title={text}>
-        <Icon type={icon} className={cls} /> {text}
-      </Tooltip>
-    )
+    return <Icon type={icon} className={cls} title={text} />
   }
-  return (
-    <Tooltip title={text}>
-      <Icon type={icon} className={cls} />
-    </Tooltip>
-  )
+  return <Icon type={icon} className={cls} title={text} />
 }
 export function renderServerityOptions(recordText) {
   const current = severityOptions.find(item => item.value === recordText) || {}

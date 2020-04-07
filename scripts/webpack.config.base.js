@@ -139,8 +139,8 @@ const webpackConfigBase = {
         {
           loader: 'less-loader',
           options: {
-            javascriptEnabled: true
-            // modifyVars: { 'primary-color': 'red' }
+            javascriptEnabled: true,
+            modifyVars: { 'border-radius-base': '2px' }
           }
         }
       ],

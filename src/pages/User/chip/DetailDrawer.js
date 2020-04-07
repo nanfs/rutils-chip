@@ -44,7 +44,7 @@ export default class DetailDrawer extends React.Component {
       produce(draft => {
         draft.initValues = {
           ...data,
-          statusName: data.status === 0 ? '正常' : '锁定'
+          statusName: data.status === 0 ? '正常' : '禁用'
         }
         draft.terminalTableCfg.searchs = {
           ...draft.terminalTableCfg.searchs,

@@ -39,7 +39,7 @@ export const columns = [
         <span>
           <Icon
             type="stop"
-            title="正常"
+            title="禁用"
             style={{
               color: '#ff4d4f'
             }}

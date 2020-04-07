@@ -148,7 +148,7 @@ export default class AddDrawer extends React.Component {
   /**
    * @param index 新增名单的序列号
    * 名单最多允许添加10条
-   * 名单设置一条名单必须填完整才会被提交到后台
+   * 名单设置 一条名单必须填完整才允许新增下一条名单
    */
   add = index => {
     const usbs = this.getUsbs()
@@ -178,11 +178,14 @@ export default class AddDrawer extends React.Component {
   /**
    * @param values 表单提交数据
    * 新增外设策略 对提交的数据进行格式处理
+   * 名单有一项不为空，提示填完整；全为空，则不提交该数据
    */
   addDev = values => {
     let usbs = this.getUsbs()
     if (usbs.length === 1) {
-      if (
+      if (!usbs[0].name && !usbs[0].vid && !usbs[0].pid) {
+        usbs = undefined
+      } else if (
         usbs[0].name == '' ||
         usbs[0].name == undefined ||
         usbs[0].vid == '' ||
@@ -190,9 +193,15 @@ export default class AddDrawer extends React.Component {
         usbs[0].pid == '' ||
         usbs[0].pid == undefined
       ) {
-        // notification.warn({ message: '请至少添加一例特例' })
-        usbs = undefined
+        this.drawer.break('请完善名单')
+        return false
       }
+    } else if (
+      !usbs[usbs.length - 1].name &&
+      !usbs[usbs.length - 1].vid &&
+      !usbs[usbs.length - 1].pid
+    ) {
+      usbs = usbs.slice(0, usbs.length - 1) // 去掉最后一项
     } else if (
       usbs[usbs.length - 1].name == '' ||
       usbs[usbs.length - 1].name == undefined ||
@@ -201,8 +210,8 @@ export default class AddDrawer extends React.Component {
       usbs[usbs.length - 1].pid == '' ||
       usbs[usbs.length - 1].pid == undefined
     ) {
-      // notification.warn({ message: '请完善特例' })
-      usbs = usbs.slice(0, usbs.length - 1) // 去掉最后一项
+      this.drawer.break('请完善名单')
+      return false
     }
     const { id, name, description, usageFix } = values
     const usagePeripherals = usageFix ? '1' : '0'

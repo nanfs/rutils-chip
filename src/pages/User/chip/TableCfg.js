@@ -37,14 +37,12 @@ export const columns = [
         </span>
       ) : (
         <span>
-          <MyIcon
-            type="tc-imagelocked"
-            component="svg"
+          <Icon
+            type="stop"
+            title="正常"
             style={{
-              fontSize: '18px'
-              // color: value === 0 ? '#ccc' : '#1890ff'
+              color: '#ff4d4f'
             }}
-            title="禁用"
           />
           {/* <span
             style={{

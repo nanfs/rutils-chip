@@ -1,12 +1,87 @@
 import React from 'react'
-import { Layout, Menu, message } from 'antd'
-import { USER, setUserToLocal, reloadAuthorized } from '@/utils/auth'
+import {
+  Layout,
+  Menu,
+  message,
+  Icon,
+  Badge,
+  Dropdown,
+  Tabs,
+  List,
+  Avatar,
+  Skeleton
+} from 'antd'
+import {
+  getUserFromlocal,
+  setUserToLocal,
+  reloadAuthorized
+} from '@/utils/auth'
+import { transform } from '@/utils/dict'
 import ResetPwModal from './chip/ResetPwModal'
 import SystemModal from './chip/SystemModal'
 import AboutModal from './chip/AboutModal'
 import loginApi from '@/services/login'
+import tasksApi from '@/services/tasks'
 
+const { TabPane } = Tabs
 export default class Header extends React.Component {
+  setTaskListShow = e => {
+    e.nativeEvent.stopImmediatePropagation()
+    this.setState({ taskVisible: true })
+  }
+
+  toggleTaskList = e => {
+    e.nativeEvent.stopImmediatePropagation()
+    this.setState({ taskVisible: !this.state.taskVisible })
+  }
+
+  onDocumentClick = () => {
+    this.setState({ taskVisible: false })
+  }
+
+  componentDidMount() {
+    document.addEventListener('click', this.onDocumentClick)
+    this.getTasks()
+  }
+
+  /**
+   *获取任务列表
+   *
+   * @memberof Header
+   */
+  getTasks = () => {
+    tasksApi
+      .list()
+      .then(res => {
+        const taskOnProgress = []
+        const taskOnFinished = []
+        res.data.records.forEach(task => {
+          const { status } = task
+          if (status === 'FINISHED') {
+            taskOnFinished.push(task)
+          }
+          if (status === 'ING') {
+            taskOnProgress.push(task)
+          }
+        })
+        this.setState({
+          taskOnProgress,
+          taskOnFinished,
+          taskTotal: res.data.total
+        })
+        console.log(res)
+      })
+      .catch(error => {
+        message.error(error.message || error)
+        console.log(error)
+      })
+  }
+
+  /**
+   *登出操作
+   *
+   * @memberof Header
+   */
   logOut = () => {
     setUserToLocal(null)
     reloadAuthorized()
@@ -25,6 +100,48 @@ export default class Header extends React.Component {
       })
   }
 
+  renderTaskItem = tasks => {
+    return (
+      <List
+        className="demo-loadmore-list"
+        itemLayout="horizontal"
+        loadMore={this.loadMore}
+        dataSource={tasks}
+        renderItem={item => (
+          <List.Item>
+            <Skeleton avatar title={false} loading={item.loading} active>
+              <List.Item.Meta
+                avatar={
+                  <Avatar style={{ backgroundColor: '#87d068' }}>
+                    <Icon type="sync" spin />
+                  </Avatar>
+                }
+                title={<a>{transform(item.action_type)}</a>}
+                description={transform(item.description)}
+              />
+            </Skeleton>
+          </List.Item>
+        )}
+      />
+    )
+  }
+
+  renderTaskList = () => {
+    const { taskOnProgress, taskOnFinished } = this.state || {}
+    return (
+      <div className="header-task-list" onClick={() => false}>
+        <Tabs animated={false}>
+          <TabPane tab={`进行中(${taskOnProgress?.length})`} key="1">
+            {this.renderTaskItem(taskOnProgress)}
+          </TabPane>
+          <TabPane tab={`已完成(${taskOnFinished?.length})`} key="2">
+            {this.renderTaskItem(taskOnFinished)}
+          </TabPane>
+        </Tabs>
+      </div>
+    )
+  }
+
   render() {
     return (
       <Layout.Header className="header">
@@ -33,7 +150,8 @@ export default class Header extends React.Component {
         </div>
         <Menu mode="horizontal">
           <Menu.Item key="username">
-            <span>{USER.name}</span>
+            <Icon type="user" />
+            <span>{getUserFromlocal()}</span>
           </Menu.Item>
           <Menu.Item
             key="systemConfig"
@@ -41,14 +159,37 @@ export default class Header extends React.Component {
               this.sysModal.pop()
             }}
           >
+            <Icon type="setting" />
             <span>系统设置</span>
           </Menu.Item>
+          <Menu.Item key="task" className="no-padding">
+            <Dropdown
+              overlay={this.renderTaskList()}
+              trigger={['click']}
+              placement="bottomRight"
+              visible={this.state?.taskVisible}
+              onOverlayClick={this.setTaskListShow}
+            >
+              <div
+                onClick={this.toggleTaskList}
+                className={
+                  this.state?.taskVisible ? 'drop-item active' : 'drop-item'
+                }
+              >
+                <Badge count={this.state?.taskTotal}>
+                  <Icon type="bell" />
+                </Badge>
+              </div>
+            </Dropdown>
+          </Menu.Item>
+
           <Menu.Item
             key="about"
             onClick={() => {
               this.aboutModal.pop()
             }}
           >
+            <Icon type="cloud" />
             <span>关于</span>
           </Menu.Item>
           <Menu.Item
@@ -57,9 +198,11 @@ export default class Header extends React.Component {
               this.modal.pop()
             }}
           >
+            <Icon type="lock" />
             <span>修改密码</span>
           </Menu.Item>
           <Menu.Item key="logout" onClick={this.logOut}>
+            <Icon type="logout" />
             <span>注销</span>
           </Menu.Item>
         </Menu>

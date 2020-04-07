@@ -1,5 +1,16 @@
 import React from 'react'
-import { Form, Input, message, InputNumber, Select, Row, Col, Icon } from 'antd'
+import {
+  Form,
+  Input,
+  message,
+  InputNumber,
+  Select,
+  Row,
+  Col,
+  Icon,
+  Alert,
+  Tooltip
+} from 'antd'
 import { Drawerx, Formx, Title, Radiox, Diliver, Selectx } from '@/components'
 
 import { memoryOptions, cpuOptions, diskOptions } from '@/utils/formOptions'
@@ -408,6 +419,11 @@ export default class AddDrawer extends React.Component {
         onSuccess={this.props.onSuccess}
       >
         <Formx>
+          <Alert
+            message="安装windows操作系统的时候，64位操作系统请选择“x64”，32位操作系统请选择“x86”；linux类操作系统选择“不需要”"
+            type="info"
+            showIcon
+          />
           <Title slot="基础设置"></Title>
           <Form.Item
             prop="name"
@@ -461,7 +477,14 @@ export default class AddDrawer extends React.Component {
           <Form.Item
             prop="isoBit"
             required
-            label="系统位数"
+            label={
+              <span>
+                系统位数&nbsp;
+                <Tooltip title="安装windows操作系统的时候，64位操作系统请选择“x64”，32位操作系统请选择“x86”；linux类操作系统选择“不需要”">
+                  <Icon type="question-circle-o" />
+                </Tooltip>
+              </span>
+            }
             hidden={
               this.getSelectType() !== 'byIso' ||
               this.state?.isoType !== 'windows'

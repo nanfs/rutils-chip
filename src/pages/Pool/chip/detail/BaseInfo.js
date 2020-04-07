@@ -33,6 +33,10 @@ export default class BaseInfo extends React.Component {
       {
         title: '组',
         dataIndex: 'department'
+      },
+      {
+        title: '域',
+        dataIndex: 'domain'
       }
     ]
     const { loading, data = {} } = this.state || {}

@@ -172,7 +172,6 @@ class Drawerx extends React.Component {
         title={title}
         style={{ position: 'absolute' }}
         className="drawerx"
-        afterVisibleChange={this.afterVisibleChange}
       >
         {this.renderContent(setFormRef)}
         {this.renderOption()}

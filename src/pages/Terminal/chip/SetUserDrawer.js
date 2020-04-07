@@ -93,6 +93,7 @@ export default class SetUserDrawer extends React.Component {
   pop = sns => {
     // 如果是一个 获取当前分配的用户
     this.drawer.show()
+    this.selectSearch.reset()
     this.setState({
       sns,
       totalSelection: [],
@@ -200,6 +201,9 @@ export default class SetUserDrawer extends React.Component {
                 options={searchOptions}
                 onSelectChange={this.onSearchSelectChange}
                 onSearch={this.search}
+                onRef={ref => {
+                  this.selectSearch = ref
+                }}
               ></SelectSearch>
             </ToolBar>
             <Tablex

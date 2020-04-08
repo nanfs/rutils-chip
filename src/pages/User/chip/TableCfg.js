@@ -62,8 +62,8 @@ export const columns = [
     dataIndex: 'name'
     /* render: (value, record) => {
       return (
-        (record.firstname === null ? '' : record.firstname) +
-        (record.lastname === null ? '' : record.lastname)
+        (record.lastname === null ? '' : record.lastname) +
+        (record.firstname === null ? '' : record.firstname)
       )
     } */
   },

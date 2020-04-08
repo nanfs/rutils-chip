@@ -82,7 +82,13 @@ export default class SetUserDrawer extends React.Component {
       const [, username, , , , domain] = item.split('&')
       const domainFix = domain === 'internal-authz' ? '本地组' : domain
       return (
-        <Tag key={item} closable onClose={() => this.removeUserSelection(item)}>
+        <Tag
+          key={item}
+          closable
+          className="user-tag"
+          color="blue"
+          onClose={() => this.removeUserSelection(item)}
+        >
           {`${username}@${domainFix}`}
         </Tag>
       )

@@ -27,8 +27,7 @@ class Drawerx extends React.Component {
     })
     document.body.style.maxHeight = '100vh'
     // document.body.style.overflow = 'hidden'
-    document.querySelector('.table-wrap').style.minHeight =
-      'calc(100vh - 105px)'
+    document.querySelector('.table-wrap').style.height = 'calc(100vh - 105px)'
     document.querySelector('.table-wrap').style.overflow = 'hidden'
     document.querySelector('.ant-drawer-body .ant-form').style.Height =
       'calc(100vh - 185px)'

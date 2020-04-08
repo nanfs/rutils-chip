@@ -87,6 +87,7 @@ export default class SetUserDrawer extends React.Component {
           color="blue"
           key={item}
           closable
+          className="user-tag"
           onClose={() => this.removeUserSelection(item)}
         >
           {`${username}@${domainFix}`}

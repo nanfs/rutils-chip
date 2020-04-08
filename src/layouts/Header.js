@@ -47,14 +47,14 @@ export default class Header extends React.Component {
    * @date 2020-04-08
    */
   componentDidMount() {
-    document.addEventListener('click', this.onDocumentClick)
-    clearInterval(this.timer)
+    document.body.addEventListener('click', this.onDocumentClick)
+    this.timer && clearInterval(this.timer)
     this.getTasks()
     this.timer = this.loopGetTask()
   }
 
   componentWillUnmount() {
-    clearInterval(this.timer)
+    this.timer && clearInterval(this.timer)
   }
 
   loopGetTask = () => {

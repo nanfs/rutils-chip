@@ -7,6 +7,7 @@ import EditDrawer from './chip/EditDrawer'
 import DetailDrawer from './chip/DetailDrawer'
 import SetUserDrawer from './chip/SetUserDrawer'
 import AddTemplateModal from './chip/AddTemplateModal'
+import AttachIsoModal from './chip/AttachIsoModal'
 import { InnerPath, SelectSearch, Tablex } from '@/components'
 import produce from 'immer'
 import desktopsApi from '@/services/desktops'
@@ -54,6 +55,7 @@ export default class Desktop extends React.Component {
         setUserFn: () => this.setUser(id, name),
         openConsoleFn: () => this.openConsole(id, name),
         addTempFn: () => this.addTemplateModal.pop(id),
+        attachIsoFn: () => this.attachIsoModal.pop(id),
         isInnerMore: true
       })
       return (
@@ -358,6 +360,11 @@ export default class Desktop extends React.Component {
             this.addTemplateModal = ref
           }}
         ></AddTemplateModal>
+        <AttachIsoModal
+          onRef={ref => {
+            this.attachIsoModal = ref
+          }}
+        ></AttachIsoModal>
       </React.Fragment>
     )
   }

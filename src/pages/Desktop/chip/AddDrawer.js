@@ -146,7 +146,7 @@ export default class AddDrawer extends React.Component {
    * @memberof AddDrawer
    */
   checkIsoType(isoName) {
-    const demesticKeyWords = ['szwx', 'kylin', 'isoft', 'deepin']
+    const demesticKeyWords = ['szwx', 'kylin', 'isoft', 'deepin', 'cmge']
     if (demesticKeyWords.some(item => isoName.includes(item))) {
       return 'domestic'
     }

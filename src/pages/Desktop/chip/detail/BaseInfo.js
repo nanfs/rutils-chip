@@ -183,9 +183,11 @@ export default class BaseInfo extends React.Component {
           <Row className="dms-detail-row">
             <div>
               {data.appList &&
-                data.appList
-                  .split(',')
-                  .map(item => <Tag key={item}>{item}</Tag>)}
+                data.appList.split(',').map(item => (
+                  <Tag color="blue" key={item}>
+                    {item}
+                  </Tag>
+                ))}
             </div>
           </Row>
         </div>

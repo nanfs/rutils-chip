@@ -18,19 +18,19 @@ export const columns = [
     title: '正在运行',
     width: 120,
     dataIndex: 'runDesktopNum',
-    render: text => <Tag>{text}</Tag>
+    render: text => <Tag color="blue">{text}</Tag>
   },
   {
     title: '预启动',
     width: 120,
     dataIndex: 'prestartNum',
-    render: text => <Tag>{text}</Tag>
+    render: text => <Tag color="blue">{text}</Tag>
   },
   {
     title: '桌面总数',
     width: 120,
     dataIndex: 'desktopNum',
-    render: text => <Tag>{text}</Tag>
+    render: text => <Tag color="blue">{text}</Tag>
   },
   {
     title: '描述',

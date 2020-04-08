@@ -16,6 +16,8 @@ import {
   setUserToLocal,
   reloadAuthorized
 } from '@/utils/auth'
+import { wrapResponse } from '@/utils/tool'
+
 import { transform } from '@/utils/dict'
 import ResetPwModal from './chip/ResetPwModal'
 import SystemModal from './chip/SystemModal'
@@ -50,31 +52,32 @@ export default class Header extends React.Component {
    * @memberof Header
    */
   getTasks = () => {
-    tasksApi
-      .list()
-      .then(res => {
-        const taskOnProgress = []
-        const taskOnFinished = []
-        res.data.records.forEach(task => {
-          const { status } = task
-          if (status === 'FINISHED') {
-            taskOnFinished.push(task)
-          }
-          if (status === 'ING') {
-            taskOnProgress.push(task)
-          }
+    tasksApi.list().then(res =>
+      wrapResponse(res)
+        .then(() => {
+          const taskOnProgress = []
+          const taskOnFinished = []
+          res.data.records.forEach(task => {
+            const { status } = task
+            if (status === 'FINISHED') {
+              taskOnFinished.push(task)
+            }
+            if (status === 'ING') {
+              taskOnProgress.push(task)
+            }
+          })
+          this.setState({
+            taskOnProgress,
+            taskOnFinished,
+            taskTotal: res.data.total
+          })
+          console.log(res)
         })
-        this.setState({
-          taskOnProgress,
-          taskOnFinished,
-          taskTotal: res.data.total
+        .catch(error => {
+          message.error(error.message || error)
+          console.log(error)
         })
-        console.log(res)
-      })
-      .catch(error => {
-        message.error(error.message || error)
-        console.log(error)
-      })
+    )
   }
 
   /**

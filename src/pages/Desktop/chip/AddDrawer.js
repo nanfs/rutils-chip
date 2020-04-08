@@ -6,7 +6,7 @@ import { memoryOptions, cpuOptions, diskOptions } from '@/utils/formOptions'
 import desktopsApi from '@/services/desktops'
 import assetsApi from '@/services/assets'
 
-import { findArrObj } from '@/utils/tool'
+import { findArrObj, wrapResponse } from '@/utils/tool'
 import { required, checkName, lessThanValue } from '@/utils/valid'
 
 const { TextArea } = Input
@@ -90,36 +90,42 @@ export default class AddDrawer extends React.Component {
         clusterId: this.state.clusterId,
         statusIsOk: 1
       })
-      .then(res => {
-        this.setState({ templateArr: res.data.records })
-        const templateOptions = res.data.records.map(item => ({
-          label: item.name,
-          value: item.id
-        }))
-        this.setState({ templateOptions })
-      })
-      .catch(error => {
-        message.error(error.message || error)
-        console.log(error)
-      })
+      .then(res =>
+        wrapResponse(res)
+          .then(() => {
+            this.setState({ templateArr: res.data.records })
+            const templateOptions = res.data.records.map(item => ({
+              label: item.name,
+              value: item.id
+            }))
+            this.setState({ templateOptions })
+          })
+          .catch(error => {
+            message.error(error.message || error)
+            console.log(error)
+          })
+      )
   }
 
   // 获取群集 后端可能没有分页
   getCluster = () => {
     return assetsApi
       .clusters({ current: 1, size: 10000, available: 1 })
-      .then(res => {
-        this.setState({ clusterArr: res.data })
-        const clusterOptions = res.data.map(item => ({
-          label: item.name,
-          value: item.id
-        }))
-        this.setState({ clusterOptions })
-      })
-      .catch(error => {
-        message.error(error.message || error)
-        console.log(error)
-      })
+      .then(res =>
+        wrapResponse(res)
+          .then(() => {
+            this.setState({ clusterArr: res.data })
+            const clusterOptions = res.data.map(item => ({
+              label: item.name,
+              value: item.id
+            }))
+            this.setState({ clusterOptions })
+          })
+          .catch(error => {
+            message.error(error.message || error)
+            console.log(error)
+          })
+      )
   }
 
   /**
@@ -147,44 +153,46 @@ export default class AddDrawer extends React.Component {
    */
   getIso = () => {
     const { storagePoolId } = this.state
-    return desktopsApi
-      .getIso({ storagePoolId })
-      .then(res => {
-        const win = []
-        const linux = []
-        const domestic = []
-        res.data.forEach(item => {
-          const name = item.repoImageId.toLowerCase()
-          if (this.checkIsoType(name) === 'domestic') {
-            return domestic.push(item.repoImageId)
-          }
-          if (name.includes('win')) {
-            return win.push(item.repoImageId)
-          }
-          linux.push(item.repoImageId)
+    return desktopsApi.getIso({ storagePoolId }).then(res =>
+      wrapResponse(res)
+        .then(() => {
+          const win = []
+          const linux = []
+          const domestic = []
+          res.data.forEach(item => {
+            const name = item.repoImageId.toLowerCase()
+            if (this.checkIsoType(name) === 'domestic') {
+              return domestic.push(item.repoImageId)
+            }
+            if (name.includes('win')) {
+              return win.push(item.repoImageId)
+            }
+            linux.push(item.repoImageId)
+          })
+          this.setState({ isos: { win, linux, domestic } })
         })
-        this.setState({ isos: { win, linux, domestic } })
-      })
-      .catch(error => {
-        message.error(error.message || error)
-      })
+        .catch(error => {
+          message.error(error.message || error)
+        })
+    )
   }
 
   // 网络接口字段和创建网络字段是不匹配的 name 等同于 vnic
   getNetwork = () => {
-    return desktopsApi
-      .getNetwork(this.state.clusterId)
-      .then(res => {
-        const network = res.data.records
-        const networkOptions = network.map(item => ({
-          label: `${item.kind}/${item.name}`,
-          value: item.kindid
-        }))
-        this.setState({ networkOptions, netAll: network })
-      })
-      .catch(error => {
-        message.error(error.message || error)
-      })
+    return desktopsApi.getNetwork(this.state.clusterId).then(res =>
+      wrapResponse(res)
+        .then(() => {
+          const network = res.data.records
+          const networkOptions = network.map(item => ({
+            label: `${item.kind}/${item.name}`,
+            value: item.kindid
+          }))
+          this.setState({ networkOptions, netAll: network })
+        })
+        .catch(error => {
+          message.error(error.message || error)
+        })
+    )
   }
 
   // 当模板变化的时候 TODO 获取模板信息显示

@@ -4,9 +4,8 @@ import axios from './axios'
 export default {
   list(data) {
     return axios({
-      url: '/tasks',
+      url: '/desktops/jobs',
       method: 'get',
-      baseURL: '/api',
       params: data
     })
   }

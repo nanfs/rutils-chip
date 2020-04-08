@@ -8,6 +8,7 @@ import {
   Tablex
 } from '@/components'
 import { columns, apiMethod } from '@/pages/Common/UserTableCfg'
+import { wrapResponse } from '@/utils/tool'
 import { Tag, message } from 'antd'
 import desktopsApi from '@/services/desktops'
 import produce from 'immer'
@@ -113,29 +114,30 @@ export default class SetUserDrawer extends React.Component {
       })
     })
     if (ids && ids.length === 1) {
-      desktopsApi
-        .detail(ids[0])
-        .then(res => {
-          const { owner } = res.data
-          const totalSelection = owner.map(
-            item =>
-              `${item.uuid}&${item.username}&${item.firstname}&${item.lastname}&${item.department}&${item.domain}`
-          )
-          this.setState(
-            produce(draft => {
-              draft.totalSelection = totalSelection
-              draft.tableCfg = {
-                ...draft.tableCfg,
-                selection: totalSelection
-              }
-            }),
-            () => this.userTablex.replace(this.state.tableCfg)
-          )
-        })
-        .catch(error => {
-          message.error(error.message || error)
-          console.log(error)
-        })
+      desktopsApi.detail(ids[0]).then(res =>
+        wrapResponse(res)
+          .then(() => {
+            const { owner } = res.data
+            const totalSelection = owner.map(
+              item =>
+                `${item.uuid}&${item.username}&${item.firstname}&${item.lastname}&${item.department}&${item.domain}`
+            )
+            this.setState(
+              produce(draft => {
+                draft.totalSelection = totalSelection
+                draft.tableCfg = {
+                  ...draft.tableCfg,
+                  selection: totalSelection
+                }
+              }),
+              () => this.userTablex.replace(this.state.tableCfg)
+            )
+          })
+          .catch(error => {
+            message.error(error.message || error)
+            console.log(error)
+          })
+      )
     } else {
       this.userTablex.refresh(this.state.tableCfg)
     }

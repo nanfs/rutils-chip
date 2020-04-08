@@ -35,7 +35,7 @@ export const columns = [
     dataIndex: 'vmUsed',
     width: 120,
     render: text => {
-      return <Tag>{text}</Tag>
+      return <Tag color="blue">{text}</Tag>
     }
   },
   {

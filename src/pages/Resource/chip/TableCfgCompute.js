@@ -56,7 +56,7 @@ export const columnsCompute = [
     width: 100,
     dataIndex: 'numOfDesktop',
     render: text => {
-      return <Tag>{text}</Tag>
+      return <Tag color="blue">{text}</Tag>
     }
   },
   {

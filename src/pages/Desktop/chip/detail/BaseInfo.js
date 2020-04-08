@@ -2,21 +2,23 @@ import React from 'react'
 import { Row, Col, Table, Tag, message, Spin, Tooltip } from 'antd'
 import { Title, Diliver } from '@/components'
 import desktopsApi from '@/services/desktops'
+import { wrapResponse } from '@/utils/tool'
 import { osTextRender } from '@/utils/tableRender'
 
 export default class BaseInfo extends React.Component {
   componentDidMount() {
     this.setState({ loading: true })
-    desktopsApi
-      .detail(this.props.vmId)
-      .then(res => {
-        this.setState({ loading: false, data: res.data })
-      })
-      .catch(error => {
-        this.setState({ loading: false })
-        message.error(error.message || error)
-        console.log(error)
-      })
+    desktopsApi.detail(this.props.vmId).then(res =>
+      wrapResponse(res)
+        .then(() => {
+          this.setState({ loading: false, data: res.data })
+        })
+        .catch(error => {
+          this.setState({ loading: false })
+          message.error(error.message || error)
+          console.log(error)
+        })
+    )
   }
 
   render() {
@@ -183,9 +185,11 @@ export default class BaseInfo extends React.Component {
           <Row className="dms-detail-row">
             <div>
               {data.appList &&
-                data.appList
-                  .split(',')
-                  .map(item => <Tag key={item}>{item}</Tag>)}
+                data.appList.split(',').map(item => (
+                  <Tag color="blue" key={item}>
+                    {item}
+                  </Tag>
+                ))}
             </div>
           </Row>
         </div>

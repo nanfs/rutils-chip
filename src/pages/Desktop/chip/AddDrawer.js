@@ -30,8 +30,7 @@ const createType = [
 ]
 const driveType = [
   { label: '64', value: '64' },
-  { label: '32', value: '32' },
-  { label: '不需要', value: '' }
+  { label: '32', value: '32' }
 ]
 const { Option, OptGroup } = Select
 export default class AddDrawer extends React.Component {
@@ -258,7 +257,6 @@ export default class AddDrawer extends React.Component {
       if (target.toLowerCase().includes('x86')) {
         return this.drawer.form.setFieldsValue({ isoBit: '32' })
       }
-      this.drawer.form.setFieldsValue({ isoBit: '' })
     }
     this.drawer.form.setFieldsValue({ isoBit: '' })
   }

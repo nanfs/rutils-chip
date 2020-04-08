@@ -44,10 +44,10 @@ export default class AddDrawer extends React.Component {
     this.setState({})
     this.drawer.show()
     this.setState({
-      hasSetNetValue: true,
       networkOptions: [],
       templateOptions: [],
-      nets: ['']
+      nets: [''],
+      hasSetNetValue: true
     })
     this.drawer.form.setFieldsValue({ desktopNum: 1 })
 
@@ -158,6 +158,9 @@ export default class AddDrawer extends React.Component {
    */
   getIso = () => {
     const { storagePoolId } = this.state
+    if (!storagePoolId) {
+      return message.error('请先选择集群')
+    }
     return desktopsApi
       .getIso({ storagePoolId })
       .then(res => {

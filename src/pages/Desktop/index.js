@@ -32,6 +32,7 @@ export default class Desktop extends React.Component {
   vmName = {
     title: '桌面名称',
     dataIndex: 'name',
+    sorter: true,
     render: (text, record) => {
       return <a onClick={() => this.detailVm(record.id, record.name)}>{text}</a>
     }
@@ -68,7 +69,7 @@ export default class Desktop extends React.Component {
     }
   }
 
-  columnsArr = [this.vmName, ...columns, this.action]
+  columnsArr = [this.vmName, ...columns.slice(1), this.action]
 
   state = {
     tableCfg: createTableCfg({

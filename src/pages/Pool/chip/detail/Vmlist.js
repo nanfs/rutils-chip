@@ -19,14 +19,6 @@ import { downloadVV } from '@/utils/tool'
 const { createTableCfg, TableWrap, ToolBar, BarLeft } = Tablex
 const { confirm } = Modal
 export default class Desktop extends React.Component {
-  vmName = {
-    title: '桌面名称',
-    dataIndex: 'name',
-    render: (text, record) => {
-      return <span>{record.name}</span>
-    }
-  }
-
   action = {
     title: '操作',
     width: 130,
@@ -62,7 +54,7 @@ export default class Desktop extends React.Component {
     }
   }
 
-  columnsArr = [this.vmName, ...columns, this.action]
+  columnsArr = [...columns, this.action]
 
   state = {
     tableCfg: createTableCfg({
@@ -98,7 +90,7 @@ export default class Desktop extends React.Component {
       produce(draft => {
         draft.tableCfg = {
           ...draft.tableCfg,
-          columns: [this.vmName, ...columnsList, this.action],
+          columns: [...columnsList, this.action],
           searchs: {
             ...draft.tableCfg.searchs,
             ...searchs

@@ -21,6 +21,14 @@ setDataCenterToSession()
 setHostToSession()
 export const columns = [
   {
+    title: '桌面名称',
+    dataIndex: 'name',
+    sorter: true,
+    render: (text, record) => {
+      return <span>{record.name}</span>
+    }
+  },
+  {
     title: '状态',
     dataIndex: 'status',
     width: 80,
@@ -139,12 +147,14 @@ export const columns = [
     }
   }
 ]
-
-export const defaultColumnsFilters = columns.map(item => ({
-  value: item.dataIndex,
-  text: item.title
-}))
-export const defaultColumnsValue = columns.map(item => item.dataIndex)
+// 去掉桌面名称
+export const defaultColumnsFilters = columns
+  .map(item => ({
+    value: item.dataIndex,
+    text: item.title
+  }))
+  .slice(1)
+export const defaultColumnsValue = columns.map(item => item.dataIndex).slice(1)
 export const apiMethod = desktopsApi.list
 
 export const searchOptions = [

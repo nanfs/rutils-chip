@@ -34,6 +34,7 @@ class Drawerx extends React.Component {
       'calc(100vh - 185px)'
   }
 
+  // 隐藏没有重置表单 点取消去重置表单  this is a feature
   hide = () => {
     this.setState({
       show: false,

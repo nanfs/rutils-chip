@@ -428,11 +428,11 @@ export default class AddDrawer extends React.Component {
         onSuccess={this.props.onSuccess}
       >
         <Formx>
-          <Alert
+          {/* <Alert
             message="安装windows操作系统的时候，64位操作系统请选择“x64”，32位操作系统请选择“x86”；linux类操作系统选择“不需要”"
             type="info"
             showIcon
-          />
+          /> */}
           <Title slot="基础设置"></Title>
           <Form.Item
             prop="name"
@@ -489,7 +489,7 @@ export default class AddDrawer extends React.Component {
             label={
               <span>
                 系统位数&nbsp;
-                <Tooltip title="安装windows操作系统的时候，64位操作系统请选择“x64”，32位操作系统请选择“x86”；linux类操作系统选择“不需要”">
+                <Tooltip title="安装windows操作系统的时候，64位操作系统请选择“64”，32位操作系统请选择“32”">
                   <Icon type="question-circle-o" />
                 </Tooltip>
               </span>

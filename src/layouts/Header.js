@@ -41,18 +41,33 @@ export default class Header extends React.Component {
     this.setState({ taskVisible: false })
   }
 
+  /**
+   * @description 启动定时获取 任务列表
+   * @author lishuai
+   * @date 2020-04-08
+   */
   componentDidMount() {
     document.addEventListener('click', this.onDocumentClick)
+    clearInterval(this.timer)
     this.getTasks()
+    this.timer = this.loopGetTask()
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timer)
+  }
+
+  loopGetTask = () => {
+    return setInterval(() => this.getTasks(), 5000)
   }
 
   /**
    *获取任务列表
-   *
+   *taskTotal 显示正在进行的任务
    * @memberof Header
    */
   getTasks = () => {
-    tasksApi.list().then(res =>
+    tasksApi.list({ current: 1, size: 10000 }).then(res =>
       wrapResponse(res)
         .then(() => {
           const taskOnProgress = []
@@ -62,14 +77,14 @@ export default class Header extends React.Component {
             if (status === 'FINISHED') {
               taskOnFinished.push(task)
             }
-            if (status === 'ING') {
+            if (status === 'STARTED') {
               taskOnProgress.push(task)
             }
           })
           this.setState({
             taskOnProgress,
             taskOnFinished,
-            taskTotal: res.data.total
+            taskTotal: taskOnProgress?.length
           })
           console.log(res)
         })

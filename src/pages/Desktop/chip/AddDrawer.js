@@ -163,6 +163,9 @@ export default class AddDrawer extends React.Component {
    */
   getIso = () => {
     const { storagePoolId } = this.state
+    if (!storagePoolId) {
+      return message.error('请先选择集群')
+    }
     return desktopsApi.getIso({ storagePoolId }).then(res =>
       wrapResponse(res)
         .then(() => {

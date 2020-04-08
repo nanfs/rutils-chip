@@ -36,6 +36,8 @@ class Drawerx extends React.Component {
 
   // 隐藏没有重置表单 点取消去重置表单  this is a feature
   hide = () => {
+    const { form } = (this.formRef && this.formRef.props) || {}
+    form && form.resetFields && form.resetFields()
     this.setState({
       show: false,
       submitting: false
@@ -56,8 +58,6 @@ class Drawerx extends React.Component {
 
   onClose = () => {
     this.hide()
-    const { form } = (this.formRef && this.formRef.props) || {}
-    form.resetFields()
     const { onClose } = this.props
     onClose && onClose()
   }

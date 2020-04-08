@@ -100,7 +100,7 @@ export default class Header extends React.Component {
       })
   }
 
-  renderTaskItem = tasks => {
+  renderTaskItem = (tasks, type) => {
     return (
       <List
         className="demo-loadmore-list"
@@ -112,9 +112,15 @@ export default class Header extends React.Component {
             <Skeleton avatar title={false} loading={item.loading} active>
               <List.Item.Meta
                 avatar={
-                  <Avatar style={{ backgroundColor: '#87d068' }}>
-                    <Icon type="sync" spin />
-                  </Avatar>
+                  type === 'onProgress' ? (
+                    <Avatar style={{ backgroundColor: '#1890ff' }}>
+                      <Icon type="sync" spin />
+                    </Avatar>
+                  ) : (
+                    <Avatar style={{ backgroundColor: '#87d068' }}>
+                      <Icon type="check-circle" />
+                    </Avatar>
+                  )
                 }
                 title={<a>{transform(item.action_type)}</a>}
                 description={transform(item.description)}
@@ -132,7 +138,7 @@ export default class Header extends React.Component {
       <div className="header-task-list" onClick={() => false}>
         <Tabs animated={false}>
           <TabPane tab={`进行中(${taskOnProgress?.length})`} key="1">
-            {this.renderTaskItem(taskOnProgress)}
+            {this.renderTaskItem(taskOnProgress, 'onProgress')}
           </TabPane>
           <TabPane tab={`已完成(${taskOnFinished?.length})`} key="2">
             {this.renderTaskItem(taskOnFinished)}

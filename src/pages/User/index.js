@@ -25,7 +25,7 @@ const { createTableCfg, TableWrap, ToolBar, BarLeft, BarRight } = Tablex
 
 export default class User extends React.Component {
   userName = {
-    title: '用户名',
+    title: () => <span title="用户名">用户名</span>,
     dataIndex: 'name',
     ellipsis: true,
     render: (text, record) => {
@@ -43,7 +43,7 @@ export default class User extends React.Component {
   options = {
     title: '操作',
     dataIndex: 'opration',
-    width: 130,
+    width: 120,
     render: (text, record) => {
       const moreAction = (
         <Menu>

@@ -2,6 +2,7 @@ import React from 'react'
 import userApi from '@/services/user'
 import { Icon, Tag } from 'antd'
 import { MyIcon } from '@/components'
+import { width } from 'dom-helpers'
 
 export const columns = [
   /* {
@@ -9,7 +10,7 @@ export const columns = [
     dataIndex: 'username'
   }, */
   {
-    title: '状态',
+    title: () => <span title="状态">状态</span>,
     dataIndex: 'status',
     // defaultFilteredValue: ['0', '1'],
     filters: [
@@ -58,35 +59,37 @@ export const columns = [
     }
   },
   {
-    title: '姓名',
-    dataIndex: 'name'
-    /* render: (value, record) => {
-      return (
-        (record.firstname === null ? '' : record.firstname) +
-        (record.lastname === null ? '' : record.lastname)
-      )
-    } */
+    title: () => <span title="姓名">姓名</span>,
+    dataIndex: 'name',
+    ellipsis: true,
+    render: (value, record) => {
+      return <span title={value}>{value}</span>
+    }
   },
   {
-    title: '组织',
-    dataIndex: 'groupName'
+    title: () => <span title="组织">组织</span>,
+    dataIndex: 'groupName',
+    ellipsis: true
   },
   {
-    title: '角色',
-    dataIndex: 'roleName'
+    title: () => <span title="角色">角色</span>,
+    dataIndex: 'roleName',
+    ellipsis: true
   },
   /* {
     title: '邮件',
     dataIndex: 'email'
   }, */
   {
-    title: '已分配桌面数',
+    title: () => <span title="已分配桌面数">已分配桌面数</span>,
     dataIndex: 'vmcount',
+    ellipsis: true,
     render: text => <Tag>{text}</Tag>
   },
   {
-    title: '已分配终端数',
+    title: () => <span title="已分配终端数">已分配终端数</span>,
     dataIndex: 'tccount',
+    ellipsis: true,
     render: text => <Tag>{text}</Tag>
   }
 ]

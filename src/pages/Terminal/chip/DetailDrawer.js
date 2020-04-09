@@ -159,7 +159,7 @@ export default class DetailDrawer extends React.Component {
                 </Col>
               </Row>
               {/* // TODO 终端未实现 */}
-              {/* 
+              {/*
           <Row className="dms-detail-row">
             <Col span={3} className="dms-detail-label">
               版本号：

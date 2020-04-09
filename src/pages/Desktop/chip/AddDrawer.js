@@ -503,7 +503,7 @@ export default class AddDrawer extends React.Component {
           </Form.Item>
           <Form.Item
             prop="cpuCores"
-            label="CPU"
+            label="CPU(核)"
             required
             rules={[required, lessThanValue(160)]}
             wrapperCol={{ sm: { span: 16 } }}
@@ -516,7 +516,7 @@ export default class AddDrawer extends React.Component {
           </Form.Item>
           <Form.Item
             prop="memory"
-            label="内存"
+            label="内存(G)"
             required
             rules={[required, lessThanValue(128)]}
             wrapperCol={{ sm: { span: 16 } }}

@@ -199,7 +199,7 @@ export default class EditDrawer extends React.Component {
           <Form.Item label="模板">{this.state?.templateName}</Form.Item>
           <Form.Item
             prop="cpuCores"
-            label="CPU(核)"
+            label="CPU"
             required
             rules={[required, lessThanValue(160)]}
             wrapperCol={{ sm: { span: 12 } }}
@@ -212,7 +212,7 @@ export default class EditDrawer extends React.Component {
           </Form.Item>
           <Form.Item
             prop="memory"
-            label="内存(G)"
+            label="内存"
             required
             rules={[required, lessThanValue(100)]}
           >

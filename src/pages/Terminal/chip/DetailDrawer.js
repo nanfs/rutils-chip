@@ -153,7 +153,7 @@ export default class DetailDrawer extends React.Component {
                   描述：
                 </Col>
                 <Col span={12} className="dms-detail-value">
-                  <Tooltip title={initValues.description}>
+                  <Tooltip title={initValues.description} placement="topLeft">
                     <span>{initValues.description}</span>
                   </Tooltip>
                 </Col>

@@ -12,6 +12,7 @@ export const columns = [
   {
     title: () => <span title="状态">状态</span>,
     dataIndex: 'status',
+    width: 80,
     // defaultFilteredValue: ['0', '1'],
     filters: [
       { value: '1', text: '禁用' },

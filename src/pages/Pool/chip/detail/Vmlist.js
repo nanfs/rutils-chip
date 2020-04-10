@@ -20,8 +20,9 @@ const { createTableCfg, TableWrap, ToolBar, BarLeft } = Tablex
 const { confirm } = Modal
 export default class Desktop extends React.Component {
   vmName = {
-    title: '桌面名称',
+    title: () => <span title="桌面名称">桌面名称</span>,
     dataIndex: 'name',
+    ellipsis: true,
     render: (text, record) => {
       return <span>{record.name}</span>
     }
@@ -29,7 +30,7 @@ export default class Desktop extends React.Component {
 
   action = {
     title: '操作',
-    width: 130,
+    width: 120,
     dataIndex: 'action',
     defaultFilteredValue: defaultColumnsValue,
     filters: defaultColumnsFilters,

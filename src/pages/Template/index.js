@@ -10,7 +10,7 @@ const { confirm } = Modal
 const { createTableCfg, TableWrap, ToolBar, BarLeft } = Tablex
 export default class Template extends React.Component {
   options = {
-    title: '模板名称',
+    title: () => <span title="模板名称">模板名称</span>,
     dataIndex: 'name',
     ellipsis: true,
     render: (text, record) => {

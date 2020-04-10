@@ -130,9 +130,10 @@ export default class Terminal extends React.Component {
   }
 
   tcName = {
-    title: '终端名称',
+    title: () => <span title="终端名称">终端名称</span>,
     dataIndex: 'name',
-    width: 100,
+
+    ellipsis: true,
     render: (text, record) => {
       return (
         <a
@@ -448,6 +449,13 @@ export default class Terminal extends React.Component {
           删除
         </Menu.Item>
         <Menu.Item
+          key="restart"
+          onClick={() => this.sendOrder('restart')}
+          disabled={disabledButton.disabledShutdown}
+        >
+          重启
+        </Menu.Item>
+        <Menu.Item
           key="lock"
           onClick={() => this.sendOrder('lock')}
           disabled={disabledButton.disabledShutdown}
@@ -522,12 +530,7 @@ export default class Terminal extends React.Component {
               >
                 关机
               </Button>
-              <Button
-                onClick={() => this.sendOrder('restart')}
-                disabled={disabledButton.disabledShutdown}
-              >
-                重启
-              </Button>
+
               <Button
                 onClick={() => this.setUser(this.tablex.getSelection())}
                 disabled={disabledButton.disabledSetUser}

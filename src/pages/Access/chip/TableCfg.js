@@ -24,6 +24,7 @@ export const columns = [
   {
     title: () => <span title="已绑定终端数">已绑定终端数</span>,
     ellipsis: true,
+    width: 130,
     dataIndex: 'boundTcNum',
     render: text => <Tag>{text}</Tag>
   },
@@ -31,6 +32,7 @@ export const columns = [
     title: () => <span title="准入类型">准入类型</span>,
     dataIndex: 'type',
     ellipsis: true,
+    width: 130,
     filters: typeOptions,
     render: (text, record) => {
       return typeArr[record.admitInterval[0].type]

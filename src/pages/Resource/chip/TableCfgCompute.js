@@ -5,12 +5,12 @@ import { hostStatusRender } from '@/utils/tableRender'
 
 export const columnsCompute = [
   {
-    title: '主机名称',
+    title: () => <span title="主机名称">主机名称</span>,
     ellipsis: true,
     dataIndex: 'name'
   },
   {
-    title: '状态',
+    title: () => <span title="状态">状态</span>,
     dataIndex: 'status',
     width: 100,
     filters: [
@@ -38,31 +38,29 @@ export const columnsCompute = [
     render: text => hostStatusRender(text)
   },
   {
-    title: '主机IP',
+    title: () => <span title="主机IP">主机IP</span>,
     ellipsis: true,
     dataIndex: 'ip'
   },
   {
-    title: '数据中心/集群',
+    title: () => <span title="数据中心/集群">数据中心/集群</span>,
     ellipsis: true,
-    width: '12%',
     dataIndex: 'vm',
     render: (text, record) => {
       return `${record.storagePoolName}/${record.clusterName}`
     }
   },
   {
-    title: '桌面总数',
-    width: 100,
+    title: () => <span title="桌面总数">桌面总数</span>,
+    width: 120,
     dataIndex: 'numOfDesktop',
     render: text => {
       return <Tag>{text}</Tag>
     }
   },
   {
-    title: 'CPU',
+    title: () => <span title="CPU">CPU</span>,
     dataIndex: 'usageCpuPercent',
-    width: '15%',
     render: text => {
       return (
         <Progress
@@ -75,9 +73,8 @@ export const columnsCompute = [
     }
   },
   {
-    title: '内存',
+    title: () => <span title="内存">内存</span>,
     dataIndex: 'usageMemPercent',
-    width: '15%',
     render: text => {
       return (
         <Progress
@@ -89,9 +86,8 @@ export const columnsCompute = [
     }
   },
   {
-    title: '网络',
+    title: () => <span title="网络">网络</span>,
     dataIndex: 'usageNetworkPercent',
-    width: '15%',
     render: text => {
       return (
         <Progress
@@ -103,7 +99,7 @@ export const columnsCompute = [
     }
   },
   {
-    title: '描述',
+    title: () => <span title="描述">描述</span>,
     ellipsis: true,
     dataIndex: 'description'
   }

@@ -22,7 +22,7 @@ const { createTableCfg, TableWrap, ToolBar, BarLeft } = Tablex
 
 export default class Pool extends React.Component {
   poolName = {
-    title: '桌面池名称',
+    title: () => <span title="桌面池名称">桌面池名称</span>,
     ellipsis: true,
     dataIndex: 'name',
     render: (text, record) => {

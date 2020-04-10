@@ -5,7 +5,7 @@ import '../index.less'
 
 export const columns = [
   {
-    title: '状态',
+    title: () => <span title="状态">状态</span>,
     dataIndex: 'status',
     width: 100,
     render: text => {
@@ -31,7 +31,7 @@ export const columns = [
     }
   },
   {
-    title: '已使用桌面',
+    title: () => <span title="已使用桌面">已使用桌面</span>,
     dataIndex: 'vmUsed',
     width: 120,
     render: text => {
@@ -39,12 +39,12 @@ export const columns = [
     }
   },
   {
-    title: '父模板',
+    title: () => <span title="父模板">父模板</span>,
     ellipsis: true,
     dataIndex: 'parentName'
   },
   {
-    title: '数据中心/集群',
+    title: () => <span title="数据中心/集群">数据中心/集群</span>,
     ellipsis: true,
     dataIndex: 'vm',
     render: (text, record) => {
@@ -52,7 +52,7 @@ export const columns = [
     }
   },
   {
-    title: '描述',
+    title: () => <span title="描述">描述</span>,
     ellipsis: true,
     dataIndex: 'description'
   }

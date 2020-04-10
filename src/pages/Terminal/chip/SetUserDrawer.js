@@ -81,7 +81,7 @@ export default class SetUserDrawer extends React.Component {
     const { totalSelection } = this.state
     return totalSelection.map(item => {
       const [, username, , , , domain] = item.split('&')
-      const domainFix = domain === 'internal-authz' ? '本地组' : domain
+      const domainFix = domain === 'internal-authz' ? '@本地组' : '' // 后端返回的ad域的username中带了@aa.com
       return (
         <Tag
           color="blue"
@@ -90,7 +90,7 @@ export default class SetUserDrawer extends React.Component {
           className="user-tag"
           onClose={() => this.removeUserSelection(item)}
         >
-          {`${username}@${domainFix}`}
+          {`${username}${domainFix}`}
         </Tag>
       )
     })

@@ -94,7 +94,7 @@ export default class editDrawer extends React.Component {
             ></Selectx>
           </Form.Item>
           <Form.Item
-            prop="firstname"
+            prop="lastname"
             label="姓"
             required
             rules={[required, checkName, textRange(0, 29)]}
@@ -102,7 +102,7 @@ export default class editDrawer extends React.Component {
             <Input placeholder="姓" />
           </Form.Item>
           <Form.Item
-            prop="lastname"
+            prop="firstname"
             label="名"
             required
             rules={[required, checkName, textRange(0, 28)]}
@@ -138,12 +138,12 @@ export default class editDrawer extends React.Component {
             prop="groupId"
             label="组织"
             required
-            rules={[this.checkFieldRequired('internal')]}
-            hidden={
+            rules={[required /* this.checkFieldRequired('internal') */]}
+            /* hidden={
               this.drawer &&
               this.drawer.form &&
               this.drawer.form.getFieldValue('domain') !== 'internal'
-            }
+            } */
           >
             <TreeSelectx nodeData={nodeData} placeholder="请选择" />
           </Form.Item>

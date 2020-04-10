@@ -210,7 +210,12 @@ export default class DetailDrawer extends React.Component {
               <Table
                 columns={detailUserColumns}
                 dataSource={initValues.users}
-                pagination={false}
+                pagination={{
+                  size: 'small',
+                  showSizeChanger: true,
+                  pageSizeOptions: ['5', '10', '20', '50']
+                }}
+                className="dms-detail-list-hasPagination"
                 rowKey="userId"
               />
             </div>
@@ -219,8 +224,13 @@ export default class DetailDrawer extends React.Component {
               <Table
                 columns={detailSafepolicyColumns}
                 dataSource={initValues.safePolicys}
-                pagination={false}
                 rowKey="id"
+                pagination={{
+                  size: 'small',
+                  showSizeChanger: true,
+                  pageSizeOptions: ['5', '10', '20', '50']
+                }}
+                className="dms-detail-list-hasPagination"
               />
             </div>
             <div className="dms-detail-section">
@@ -228,7 +238,12 @@ export default class DetailDrawer extends React.Component {
               <Table
                 columns={DetailAccesspolicyColumns}
                 dataSource={initValues.admitPolicys}
-                pagination={false}
+                pagination={{
+                  size: 'small',
+                  showSizeChanger: true,
+                  pageSizeOptions: ['5', '10', '20', '50']
+                }}
+                className="dms-detail-list-hasPagination"
                 rowKey="id"
               />
             </div>

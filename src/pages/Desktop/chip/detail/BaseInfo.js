@@ -4,6 +4,7 @@ import { Title, Diliver } from '@/components'
 import desktopsApi from '@/services/desktops'
 import { wrapResponse } from '@/utils/tool'
 import { osTextRender } from '@/utils/tableRender'
+import '../../index.less'
 
 export default class BaseInfo extends React.Component {
   componentDidMount() {
@@ -177,7 +178,12 @@ export default class BaseInfo extends React.Component {
             columns={userColums}
             dataSource={data.owner}
             rowKey="username"
-            pagination={{ position: 'none' }}
+            pagination={{
+              size: 'small',
+              showSizeChanger: true,
+              pageSizeOptions: ['5', '10', '20', '50']
+            }}
+            className="dms-detail-list-hasPagination"
           ></Table>
         </div>
         <div className="dms-detail-section">

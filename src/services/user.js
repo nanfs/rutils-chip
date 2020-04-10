@@ -54,9 +54,9 @@ export default {
       }
     })
   },
-  queryByAD(data) {
+  queryByAd(data) {
     return axios({
-      url: '/user/list',
+      url: '/user/querypublicuser',
       method: 'get',
       params: data,
       paramsSerializer: params => {

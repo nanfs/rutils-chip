@@ -180,6 +180,7 @@ export default class tcLog extends React.Component {
             onRef={ref => {
               this.tablex = ref
             }}
+            autoReplace={true}
             tableCfg={this.state.tableCfg}
             onChange={this.onTableChange}
             onSelectChange={this.onSelectChange}

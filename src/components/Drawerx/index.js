@@ -27,14 +27,16 @@ class Drawerx extends React.Component {
     })
     document.body.style.maxHeight = '100vh'
     // document.body.style.overflow = 'hidden'
-    document.querySelector('.table-wrap').style.minHeight =
-      'calc(100vh - 105px)'
+    document.querySelector('.table-wrap').style.height = 'calc(100vh - 105px)'
     document.querySelector('.table-wrap').style.overflow = 'hidden'
     document.querySelector('.ant-drawer-body .ant-form').style.Height =
       'calc(100vh - 185px)'
   }
 
+  // 隐藏没有重置表单 点取消去重置表单  this is a feature cancel
   hide = () => {
+    const { form } = (this.formRef && this.formRef.props) || {}
+    form && form.resetFields && form.resetFields()
     this.setState({
       show: false,
       submitting: false
@@ -55,8 +57,6 @@ class Drawerx extends React.Component {
 
   onClose = () => {
     this.hide()
-    const { form } = (this.formRef && this.formRef.props) || {}
-    form.resetFields()
     const { onClose } = this.props
     onClose && onClose()
   }
@@ -172,7 +172,6 @@ class Drawerx extends React.Component {
         title={title}
         style={{ position: 'absolute' }}
         className="drawerx"
-        afterVisibleChange={this.afterVisibleChange}
       >
         {this.renderContent(setFormRef)}
         {this.renderOption()}

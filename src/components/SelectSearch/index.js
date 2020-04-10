@@ -3,13 +3,9 @@ import { Select, Input } from 'antd'
 
 const { Search, Group } = Input
 class SelectSearch extends React.Component {
-  constructor(props) {
-    super(props)
-    const { options } = this.props
-    const searchKey = (options && options[0] && options[0].value) || ''
-    this.state = {
-      searchKey
-    }
+  state = {
+    value: '',
+    searchKey: this.props?.options[0]?.value || ''
   }
 
   componentDidMount() {
@@ -17,8 +13,11 @@ class SelectSearch extends React.Component {
   }
 
   reset() {
+    const { options } = this.props
+    const searchKey = (options && options[0] && options[0].value) || ''
     this.setState({
-      value: ''
+      value: '',
+      searchKey
     })
   }
 
@@ -39,7 +38,7 @@ class SelectSearch extends React.Component {
 
   onSearch = value => {
     const { onSearch } = this.props
-    onSearch && onSearch(this.state.searchKey, value)
+    onSearch && onSearch(this.state?.searchKey, value)
   }
 
   render() {

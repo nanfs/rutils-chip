@@ -15,6 +15,53 @@
     { "repoImageDomainId": "123", "repoImageId": "win10_szwx.iso" },
     { "repoImageDomainId": "123", "repoImageId": "ubuntu.iso" }
   ],
+  "tasks": [
+    {
+      "visible": true,
+      "action_type": "GETVm",
+      "owner_id": "0c3ff9cc-6a9c-11ea-9032-00d861eb19f4",
+      "end_time": "2020-04-07T01:33:45.162+0000",
+      "description": "Creating VM xdaaaa in Cluster Default",
+      "is_external": false,
+      "start_time": "2020-04-07T01:33:28.319+0000",
+      "last_update_time": "2020-04-07T01:33:45.162+0000",
+      "job_id": "5586c3b0-09ea-4237-a3aa-cc937c0ccd8f",
+      "engine_session_seq_id": 718,
+      "is_auto_cleared": true,
+      "correlation_id": "5f3daadc",
+      "status": "FINISHED"
+    },
+    {
+      "visible": true,
+      "action_type": "AddVm",
+      "owner_id": "0c3ff9cc-6a9c-11ea-9032-00d861eb19f4",
+      "end_time": "2020-04-07T01:33:45.162+0000",
+      "description": "Creating VM xdaaaa in Cluster Default 12312313131231321321312",
+      "is_external": false,
+      "start_time": "2020-04-07T01:33:28.319+0000",
+      "last_update_time": "2020-04-07T01:33:45.162+0000",
+      "job_id": "5586c3b0-09ea-4237-a3aa-cc937c0ccd8f",
+      "engine_session_seq_id": 718,
+      "is_auto_cleared": true,
+      "correlation_id": "5f3daadc",
+      "status": "ING"
+    },
+    {
+      "visible": true,
+      "action_type": "AddVm",
+      "owner_id": "0c3ff9cc-6a9c-11ea-9032-00d861eb19f4",
+      "end_time": "2020-04-07T01:33:45.162+0000",
+      "description": "Creating VM xdaaaa in Cluster Default",
+      "is_external": false,
+      "start_time": "2020-04-07T01:33:28.319+0000",
+      "last_update_time": "2020-04-07T01:33:45.162+0000",
+      "job_id": "5586c3b0-09ea-4237-a3aa-cc937c0ccd8f",
+      "engine_session_seq_id": 718,
+      "is_auto_cleared": true,
+      "correlation_id": "5f3daadc",
+      "status": "ING"
+    }
+  ],
   "hosts": [
     {
       "id": "452fa57c-ef7f-4f9e-a37d-5d6d870d167f",

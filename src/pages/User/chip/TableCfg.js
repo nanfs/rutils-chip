@@ -82,12 +82,12 @@ export const columns = [
   {
     title: '已分配桌面数',
     dataIndex: 'vmcount',
-    render: text => <Tag>{text}</Tag>
+    render: text => <Tag color="blue">{text}</Tag>
   },
   {
     title: '已分配终端数',
     dataIndex: 'tccount',
-    render: text => <Tag>{text}</Tag>
+    render: text => <Tag color="blue">{text}</Tag>
   }
 ]
 export const apiMethod = userApi.list

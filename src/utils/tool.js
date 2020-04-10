@@ -200,6 +200,13 @@ export function ch2Unicdoe(str) {
   return unicode
 }
 
+/**
+ * @description
+ * @author lishuai
+ * @date 2020-04-08
+ * @param flow
+ * @param name
+ */
 export function downloadVV(flow, name) {
   const blob = new Blob([flow], {
     type: 'application/x-virt-viewer;charset=UTF-8'

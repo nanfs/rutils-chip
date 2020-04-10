@@ -4,6 +4,7 @@ import { Drawerx, Formx, Radiox, Selectx, Title, Diliver } from '@/components'
 import { memoryOptions, cpuOptions } from '@/utils/formOptions'
 import desktopsApi from '@/services/desktops'
 import { required, checkName, lessThanValue } from '@/utils/valid'
+import { wrapResponse } from '@/utils/tool'
 
 const { TextArea } = Input
 
@@ -19,25 +20,26 @@ export default class EditDrawer extends React.Component {
    */
   pop = id => {
     this.drawer.show()
-    desktopsApi
-      .detail(id)
-      .then(res => {
-        const { data } = res
-        const { network } = data
-        const nets = network?.length ? network.map(item => item.kindid) : ['']
-        this.setState({
-          templateName: data.templateName,
-          clusterId: data.clusterId,
-          nets,
-          hasSetNetValue: true
+    desktopsApi.detail(id).then(res =>
+      wrapResponse(res)
+        .then(() => {
+          const { data } = res
+          const { network } = data
+          const nets = network?.length ? network.map(item => item.kindid) : ['']
+          this.setState({
+            templateName: data.templateName,
+            clusterId: data.clusterId,
+            nets,
+            hasSetNetValue: true
+          })
+          this.drawer.form.setFieldsValue({ ...data, id, network: nets })
+          this.getNetwork()
         })
-        this.drawer.form.setFieldsValue({ ...data, id, network: nets })
-        this.getNetwork()
-      })
-      .catch(error => {
-        message.error(error.message || error)
-        console.log(error)
-      })
+        .catch(error => {
+          message.error(error.message || error)
+          console.log(error)
+        })
+    )
   }
 
   /**
@@ -78,19 +80,20 @@ export default class EditDrawer extends React.Component {
    * @memberof EditDrawer
    */
   getNetwork = () => {
-    return desktopsApi
-      .getNetwork(this.state.clusterId)
-      .then(res => {
-        const network = res.data.records
-        const networkOptions = network.map(item => ({
-          label: `${item.kind}/${item.name}`,
-          value: item.kindid
-        }))
-        this.setState({ networkOptions, netAll: network })
-      })
-      .catch(error => {
-        message.error(error.message || error)
-      })
+    return desktopsApi.getNetwork(this.state.clusterId).then(res =>
+      wrapResponse(res)
+        .then(() => {
+          const network = res.data.records
+          const networkOptions = network.map(item => ({
+            label: `${item.kind}/${item.name}`,
+            value: item.kindid
+          }))
+          this.setState({ networkOptions, netAll: network })
+        })
+        .catch(error => {
+          message.error(error.message || error)
+        })
+    )
   }
 
   /**

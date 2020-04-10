@@ -25,7 +25,7 @@ export const columns = [
     title: '已绑定终端数',
     width: 150,
     dataIndex: 'boundTcNum',
-    render: text => <Tag>{text}</Tag>
+    render: text => <Tag color="blue">{text}</Tag>
   },
   {
     title: '准入类型',

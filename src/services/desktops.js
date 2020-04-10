@@ -97,6 +97,13 @@ export default {
       responseType: 'arraybuffer'
     })
   },
+  attachIso(data) {
+    return axios({
+      url: '/desktops/attachiso',
+      method: 'get',
+      params: data
+    })
+  },
   snapList(data) {
     return axios({
       url: '/snaps',

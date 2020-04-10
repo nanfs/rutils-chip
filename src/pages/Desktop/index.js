@@ -7,6 +7,7 @@ import EditDrawer from './chip/EditDrawer'
 import DetailDrawer from './chip/DetailDrawer'
 import SetUserDrawer from './chip/SetUserDrawer'
 import AddTemplateModal from './chip/AddTemplateModal'
+import AttachIsoModal from './chip/AttachIsoModal'
 import { InnerPath, SelectSearch, Tablex } from '@/components'
 import produce from 'immer'
 import desktopsApi from '@/services/desktops'
@@ -32,6 +33,7 @@ export default class Desktop extends React.Component {
   vmName = {
     title: '桌面名称',
     dataIndex: 'name',
+    sorter: true,
     render: (text, record) => {
       return <a onClick={() => this.detailVm(record.id, record.name)}>{text}</a>
     }
@@ -53,6 +55,7 @@ export default class Desktop extends React.Component {
         setUserFn: () => this.setUser(id, name),
         openConsoleFn: () => this.openConsole(id, name),
         addTempFn: () => this.addTemplateModal.pop(id),
+        attachIsoFn: () => this.attachIsoModal.pop(id),
         isInnerMore: true
       })
       return (
@@ -68,7 +71,7 @@ export default class Desktop extends React.Component {
     }
   }
 
-  columnsArr = [this.vmName, ...columns, this.action]
+  columnsArr = [this.vmName, ...columns.slice(1), this.action]
 
   state = {
     tableCfg: createTableCfg({
@@ -357,6 +360,11 @@ export default class Desktop extends React.Component {
             this.addTemplateModal = ref
           }}
         ></AddTemplateModal>
+        <AttachIsoModal
+          onRef={ref => {
+            this.attachIsoModal = ref
+          }}
+        ></AttachIsoModal>
       </React.Fragment>
     )
   }

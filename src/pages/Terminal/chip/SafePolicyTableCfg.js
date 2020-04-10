@@ -18,7 +18,7 @@ export const columns = [
     title: '已绑定终端数',
     dataIndex: 'boundTcNum',
     width: 150,
-    render: text => <Tag>{text}</Tag>
+    render: text => <Tag color="blue">{text}</Tag>
   },
   {
     title: 'USB外设',

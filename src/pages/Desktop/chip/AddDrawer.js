@@ -71,8 +71,6 @@ export default class AddDrawer extends React.Component {
   remove = k => {
     const nets = this.drawer.form.getFieldValue('nic')
     const { netNic } = this.state
-    // const newNets =
-    //   nets?.length === 1 ? [''] : [...nets.slice(0, k), ...nets.slice(k + 1)]
     const newNets = [...nets.slice(0, k), ...nets.slice(k + 1)]
     const newNetNic = [...netNic.slice(0, k), ...netNic.slice(k + 1)]
     this.setState({
@@ -399,15 +397,15 @@ export default class AddDrawer extends React.Component {
       networks &&
       networks.map((item, index) => (
         <Row gutter={16} key={index} className="form-item-wrapper">
-          <Col span={14}>
+          <Col span={12}>
             <Form.Item
               prop={`nic[${index}]`}
               label={`nic${netNic[index]}`}
               key={index}
               hidden={!this.state?.hasSetNetValue}
               rules={index === 0 ? undefined : [required]}
-              labelCol={{ sm: { span: 7 } }}
-              wrapperCol={{ sm: { push: 1, span: 16 } }}
+              labelCol={{ sm: { span: 10, pull: 2 } }}
+              wrapperCol={{ sm: { span: 14 } }}
             >
               {/* 修改 强制刷新页面 设置disabled */}
               <Selectx

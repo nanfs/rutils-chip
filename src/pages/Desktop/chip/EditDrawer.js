@@ -154,8 +154,8 @@ export default class EditDrawer extends React.Component {
               key={index}
               hidden={!this.state?.hasSetNetValue}
               rules={index === 0 ? undefined : [required]}
-              labelCol={{ sm: { span: 7 } }}
-              wrapperCol={{ sm: { push: 1, span: 16 } }}
+              labelCol={{ sm: { span: 10, pull: 2 } }}
+              wrapperCol={{ sm: { span: 14 } }}
             >
               {/* 修改 强制刷新页面 设置disabled */}
               <Selectx

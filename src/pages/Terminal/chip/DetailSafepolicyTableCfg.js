@@ -9,10 +9,6 @@ export const detailSafepolicyColumns = [
     dataIndex: 'name'
   },
   {
-    title: '描述',
-    dataIndex: 'description'
-  },
-  {
     title: 'USB外设',
     width: 150,
     dataIndex: 'usbSupport',
@@ -20,13 +16,13 @@ export const detailSafepolicyColumns = [
       if (text === '1') {
         return (
           <span>
-            <Icon type="check-circle" style={{ color: '#19c0f0' }} /> 开启
+            <Icon type="check-circle" style={{ color: '#19c0f0' }} /> 启用白名单
           </span>
         )
       } else {
         return (
           <span>
-            <Icon type="stop" style={{ color: '#ee1c3a' }} /> 禁止
+            <Icon type="stop" style={{ color: '#ee1c3a' }} /> 启用黑名单
           </span>
         )
       }
@@ -57,5 +53,9 @@ export const detailSafepolicyColumns = [
         <span>无</span>
       )
     }
+  },
+  {
+    title: '描述',
+    dataIndex: 'description'
   }
 ]

@@ -78,7 +78,7 @@ class Formx extends React.Component {
     }
     if (child.props.children) {
       const sonNode = React.Children.map(child.props.children, son =>
-        this.renderFormItem(son)
+        this.renderFormItem(son, submitting)
       )
       return React.cloneElement(child, {}, sonNode)
     }

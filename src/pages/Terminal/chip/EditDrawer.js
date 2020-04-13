@@ -2,7 +2,13 @@ import React from 'react'
 import { Form, Input, Select } from 'antd'
 import { Drawerx, Formx, Title } from '@/components'
 import terminalApi from '@/services/terminal'
-import { required, checkName, textRange, checkKeyId } from '@/utils/valid'
+import {
+  required,
+  checkName,
+  textRange,
+  checkKeyId,
+  checkPassword
+} from '@/utils/valid'
 
 const { Option } = Select
 const { TextArea } = Input
@@ -179,12 +185,12 @@ export default class EditDrawer extends React.Component {
           </Form.Item>
           <Form.Item
             prop="lockedWord"
-            label="锁屏密码"
+            label="锁定密码"
             required
-            rules={[required]}
+            rules={[required, checkPassword]}
           >
             <Input
-              placeholder="锁屏密码"
+              placeholder="锁定密码"
               type="password"
               autoComplete="new-password"
             />

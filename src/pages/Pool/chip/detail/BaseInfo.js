@@ -142,7 +142,12 @@ export default class BaseInfo extends React.Component {
           columns={userColums}
           dataSource={data.owner}
           rowKey="username"
-          pagination={{ position: 'none' }}
+          pagination={{
+            size: 'small',
+            showSizeChanger: true,
+            pageSizeOptions: ['5', '10', '20', '50']
+          }}
+          className="dms-detail-list-hasPagination"
         ></Table>
       </Spin>
     )

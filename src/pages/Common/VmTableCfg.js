@@ -21,15 +21,16 @@ setDataCenterToSession()
 setHostToSession()
 export const columns = [
   {
-    title: '桌面名称',
+    title: () => <span title="桌面名称">桌面名称</span>,
     dataIndex: 'name',
     sorter: true,
+    ellipsis: true,
     render: (text, record) => {
       return <span>{record.name}</span>
     }
   },
   {
-    title: '状态',
+    title: () => <span title="状态">状态</span>,
     dataIndex: 'status',
     width: 80,
     ellipsis: true,

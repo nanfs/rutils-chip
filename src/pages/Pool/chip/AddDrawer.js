@@ -159,7 +159,7 @@ export default class AddDrawer extends React.Component {
             <InputNumber placeholder="" min={0} />
           </Form.Item>
           <Form.Item prop="description" label="描述">
-            <TextArea placeholder="" />
+            <TextArea placeholder="描述" />
           </Form.Item>
         </Formx>
       </Drawerx>

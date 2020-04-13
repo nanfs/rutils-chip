@@ -418,7 +418,7 @@ export default class AddDrawer extends React.Component {
               />
             </Form.Item>
           </Col>
-          <Col span={3}>
+          <Col span={4}>
             <Button
               icon="minus-circle-o"
               className="dynamic-button"
@@ -569,7 +569,7 @@ export default class AddDrawer extends React.Component {
             />
           </Form.Item>
           <Form.Item prop="description" label="描述">
-            <TextArea placeholder="" />
+            <TextArea placeholder="描述" />
           </Form.Item>
           {/* 默认创建最多100台 */}
           <Form.Item

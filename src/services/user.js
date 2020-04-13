@@ -91,16 +91,23 @@ export default {
       data: qs.stringify(data)
     })
   },
-  disableUser(data) {
+  forbiddenUser(data) {
     return axios({
-      url: '/user/locked',
+      url: '/user/forbidden',
       method: 'post',
       data: qs.stringify(data)
     })
   },
   enableUser(data) {
     return axios({
-      url: '/user/unlocked',
+      url: '/user/enable',
+      method: 'post',
+      data: qs.stringify(data)
+    })
+  },
+  unlockUser(data) {
+    return axios({
+      url: '/user/unlock',
       method: 'post',
       data: qs.stringify(data)
     })

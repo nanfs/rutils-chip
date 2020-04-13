@@ -2,6 +2,12 @@ import qs from 'qs'
 import axios from './axios'
 
 export default {
+  checkSession(data) {
+    return axios({
+      url: '/user/session',
+      params: data
+    })
+  },
   groupQuery(data) {
     return axios({
       url: '/group/query',

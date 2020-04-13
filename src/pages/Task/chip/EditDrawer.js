@@ -18,6 +18,7 @@ import '../index.less'
 import dayjs from 'dayjs'
 
 const { createTableCfg, TableWrap, ToolBar, BarLeft } = Tablex
+const { TextArea } = Input
 
 export default class EditDrawer extends React.Component {
   state = {
@@ -44,7 +45,7 @@ export default class EditDrawer extends React.Component {
   pop = data => {
     this.drawer.show()
     this.selectSearch.reset()
-    const { id, name, taskType, cron } = data
+    const { id, name, taskType, cron, description } = data
     let time = ''
     let weeks = []
     let way
@@ -63,7 +64,8 @@ export default class EditDrawer extends React.Component {
       taskType,
       way,
       weeks,
-      time
+      time,
+      description
     })
     this.setState({
       totalSelection: [],
@@ -72,8 +74,7 @@ export default class EditDrawer extends React.Component {
         apiMethod,
         paging: { size: 10 },
         selection: [],
-        rowKey: record =>
-          `${record.id}&${record.name}&${record.clusterName}&${record.datacenterName}`,
+        rowKey: record => `${record.id}&${record.name}`,
         pageSizeOptions: ['5', '10', '20', '50'],
         searchs: {}
       })
@@ -84,10 +85,7 @@ export default class EditDrawer extends React.Component {
       .then(res => {
         const owner = res.data.records
         const totalSelection = owner.length
-          ? owner.map(
-              item =>
-                `${item.objectId}&${item.name}&${item.clusterName}&${item.datacenterName}`
-            )
+          ? owner.map(item => `${item.objectId}&${item.name}`)
           : []
         this.setState(
           produce(draft => {
@@ -188,6 +186,7 @@ export default class EditDrawer extends React.Component {
       const [, name] = item.split('&')
       return (
         <Tag
+          color="blue"
           key={item}
           closable
           onClose={() => this.removeTargetSelection(item)}
@@ -199,7 +198,7 @@ export default class EditDrawer extends React.Component {
   }
 
   editTask = values => {
-    const { id, name, taskType, way, weeks, time } = values
+    const { id, name, taskType, way, weeks, time, description } = values
     let cron = ''
     const timeStrArr = dayjs(time)
       .format('HH:mm')
@@ -210,14 +209,17 @@ export default class EditDrawer extends React.Component {
     } else {
       cron = `0 ${timeStrArr[1]} ${timeStrArr[0]} * * ?`
     }
-    const taskObjects = this.editTargetTablex.getSelectData().map(item => {
-      return { objectId: item.id, objectType: 0 }
+    const { totalSelection } = this.state
+    const taskObjects = totalSelection.map(item => {
+      const [objectIds] = item.split('&')
+      return { objectId: objectIds, objectType: 0 }
     })
     const data = {
       name,
       taskType,
       cron,
-      taskObjects
+      taskObjects,
+      description
     }
     taskApi
       .editTask(id, data)
@@ -285,6 +287,9 @@ export default class EditDrawer extends React.Component {
             className="time-wrap"
           >
             <TimePicker format={'HH:mm'} />
+          </Form.Item>
+          <Form.Item prop="description" label="描述">
+            <TextArea placeholder="描述" />
           </Form.Item>
           <Title slot="执行对象"></Title>
           <TableWrap>

@@ -23,7 +23,7 @@ export const columns = [
   {
     title: () => <span title="桌面数量">桌面数量</span>,
     dataIndex: 'objectCount',
-    render: text => <Tag>{text}</Tag>
+    render: text => <Tag color="blue">{text}</Tag>
   },
   {
     title: () => <span title="任务类型">任务类型</span>,

@@ -18,6 +18,7 @@ import '../index.less'
 import dayjs from 'dayjs'
 
 const { createTableCfg, TableWrap, ToolBar, BarLeft } = Tablex
+const { TextArea } = Input
 
 export default class AddDrawer extends React.Component {
   state = {
@@ -50,8 +51,7 @@ export default class AddDrawer extends React.Component {
         apiMethod,
         paging: { size: 10 },
         selection: [],
-        rowKey: record =>
-          `${record.id}&${record.name}&${record.clusterName}&${record.dataCenter}`,
+        rowKey: record => `${record.id}&${record.name}`,
         pageSizeOptions: ['5', '10', '20', '50'],
         searchs: {}
       })
@@ -152,6 +152,7 @@ export default class AddDrawer extends React.Component {
       const [, name] = item.split('&')
       return (
         <Tag
+          color="blue"
           key={item}
           closable
           onClose={() => this.removeTargetSelection(item)}
@@ -167,7 +168,8 @@ export default class AddDrawer extends React.Component {
    * @description 提交新建计划任务
    */
   addTask = values => {
-    const { name, taskType, way, weeks, time } = values
+    const { name, taskType, way, weeks, time, description } = values
+    const { totalSelection } = this.state
     let cron = ''
     const timeStrArr = dayjs(time)
       .format('HH:mm')
@@ -178,14 +180,16 @@ export default class AddDrawer extends React.Component {
     } else {
       cron = `0 ${timeStrArr[1]} ${timeStrArr[0]} * * ?`
     }
-    const taskObjects = this.addTargetTablex.getSelectData().map(item => {
-      return { objectId: item.id, objectType: 0 }
+    const taskObjects = totalSelection.map(item => {
+      const [objectIds] = item.split('&')
+      return { objectId: objectIds, objectType: 0 }
     })
     const data = {
       name,
       taskType,
       cron,
-      taskObjects
+      taskObjects,
+      description
     }
     taskApi
       .addTask(data)
@@ -251,6 +255,9 @@ export default class AddDrawer extends React.Component {
             rules={[required]}
           >
             <TimePicker format={'HH:mm'} />
+          </Form.Item>
+          <Form.Item prop="description" label="描述">
+            <TextArea placeholder="描述" />
           </Form.Item>
           <Title slot="执行对象"></Title>
           <TableWrap>

@@ -256,7 +256,7 @@ export default class Task extends React.Component {
           <ToolBar>
             <BarLeft>
               <Button onClick={() => this.addTask()} type="primary">
-                新建
+                创建
               </Button>
               <Button
                 onClick={() => this.deleteTask()}

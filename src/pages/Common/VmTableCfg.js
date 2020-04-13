@@ -156,7 +156,7 @@ export const columns = [
 export const defaultColumnsFilters = columns
   .map(item => ({
     value: item.dataIndex,
-    text: item.title
+    text: item.title()
   }))
   .slice(1)
 export const defaultColumnsValue = columns.map(item => item.dataIndex).slice(1)
@@ -398,10 +398,11 @@ export function vmFilterSorterTransform(filter, sorter) {
     hosts: hostName,
     datacenters: datacenterName
   }
+  console.log(columnsList, 'filter.action', filter.action)
   if (filter.action) {
     columnsList = columnsList.filter(item =>
       filter.action.includes(item.dataIndex)
     )
   }
-  return { searchs, columnsList }
+  return { searchs, columnsList: [columns[0], ...columnsList] }
 }

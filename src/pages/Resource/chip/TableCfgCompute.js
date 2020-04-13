@@ -69,7 +69,7 @@ export const columnsCompute = [
           strokeColor="#40d00f"
           strokeWidth={16}
           percent={parseFloat(text)}
-          status={+text < 100 ? 'active' : 'exception'}
+          status={+text < 80 ? 'active' : 'exception'}
         ></Progress>
       )
     }
@@ -83,7 +83,7 @@ export const columnsCompute = [
         <Progress
           strokeWidth={16}
           percent={parseFloat(text)}
-          status={+text < 100 ? 'active' : 'exception'}
+          status={+text < 80 ? 'active' : 'exception'}
         ></Progress>
       )
     }
@@ -97,7 +97,7 @@ export const columnsCompute = [
         <Progress
           strokeWidth={16}
           percent={parseFloat(text)}
-          status={+text < 100 ? 'active' : 'exception'}
+          status={+text < 80 ? 'active' : 'exception'}
         ></Progress>
       )
     }

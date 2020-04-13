@@ -163,7 +163,7 @@ export default class BaseInfo extends React.Component {
               描述：
             </Col>
             <Col span={8} className="dms-detail-value">
-              <Tooltip title={data.description}>
+              <Tooltip title={data.description} placement="topLeft">
                 <span>{data.description}</span>
               </Tooltip>
             </Col>

@@ -87,16 +87,6 @@ export default class DetailDrawer extends React.Component {
                   </Tooltip>
                 </Col>
                 <Col span={3} className="dms-detail-label">
-                  描述：
-                </Col>
-                <Col span={8} className="dms-detail-value">
-                  <Tooltip title={data.description}>
-                    <span>{data.description}</span>
-                  </Tooltip>
-                </Col>
-              </Row>
-              <Row className="dms-detail-row">
-                <Col span={3} className="dms-detail-label">
                   状态：
                 </Col>
                 {data.status == '1' && (
@@ -114,6 +104,16 @@ export default class DetailDrawer extends React.Component {
                     <Icon type="safety" /> 合法
                   </Col>
                 )}
+              </Row>
+              <Row className="dms-detail-row">
+                <Col span={3} className="dms-detail-label">
+                  描述：
+                </Col>
+                <Col span={12} className="dms-detail-value">
+                  <Tooltip title={data.description} placement="topLeft">
+                    <span>{data.description}</span>
+                  </Tooltip>
+                </Col>
               </Row>
             </div>
           </TabPane>

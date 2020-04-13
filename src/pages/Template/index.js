@@ -10,7 +10,7 @@ const { confirm } = Modal
 const { createTableCfg, TableWrap, ToolBar, BarLeft } = Tablex
 export default class Template extends React.Component {
   options = {
-    title: '模板名称',
+    title: () => <span title="名称">名称</span>,
     dataIndex: 'name',
     ellipsis: true,
     render: (text, record) => {
@@ -31,7 +31,27 @@ export default class Template extends React.Component {
     }
   }
 
-  columnsArr = [this.options, ...columns]
+  action = {
+    title: '操作',
+    dataIndex: 'opration',
+    width: 120,
+    render: (text, record) => {
+      return (
+        <span className="opration-btn">
+          <a onClick={() => this.editTem(record.name, record)}>编辑</a>
+          <a
+            onClick={() => {
+              this.delTem(record.id, '确定删除该条数据?')
+            }}
+          >
+            删除
+          </a>
+        </span>
+      )
+    }
+  }
+
+  columnsArr = [this.options, ...columns, this.action]
 
   state = {
     tableCfg: createTableCfg({
@@ -70,11 +90,8 @@ export default class Template extends React.Component {
    * @memberof Template
    * 编辑模板
    */
-  editTem = () => {
-    this.setState(
-      { inner: '编辑模板' },
-      this.editDrawer.pop(this.tablex.getSelectData()[0])
-    )
+  editTem = (name, data) => {
+    this.setState({ inner: name }, this.editDrawer.pop(data))
     this.currentDrawer = this.editDrawer
   }
 
@@ -82,15 +99,15 @@ export default class Template extends React.Component {
    * @memberof Template
    * 删除 批量删除
    */
-  delTem = () => {
-    const selectTem = this.tablex.getSelection()
+  delTem = (id, title = '确定删除所选数据?') => {
+    const ids = Array.isArray(id) ? [...id] : [id]
     const self = this
     confirm({
-      title: '确定删除所选数据?',
+      title,
       onOk() {
         return new Promise(resolve => {
           templateApi
-            .delTem({ ids: selectTem })
+            .delTem({ ids })
             .then(res => {
               if (res.success) {
                 notification.success({ message: '删除成功' })
@@ -123,15 +140,7 @@ export default class Template extends React.Component {
           <ToolBar>
             <BarLeft>
               <Button
-                onClick={this.editTem}
-                disabled={
-                  !this.state.selection || this.state.selection.length !== 1
-                }
-              >
-                编辑
-              </Button>
-              <Button
-                onClick={this.delTem}
+                onClick={() => this.delTem(this.tablex.getSelection())}
                 disabled={!this.state.selection || !this.state.selection.length}
               >
                 删除

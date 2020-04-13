@@ -9,7 +9,7 @@ const iconStyle = {
 }
 export const columns = [
   {
-    title: '状态',
+    title: () => <span title="状态">状态</span>,
     dataIndex: 'status',
     width: 80,
     filters: [
@@ -45,17 +45,17 @@ export const columns = [
     }
   },
   {
-    title: 'IP',
+    title: () => <span title="IP">IP</span>,
     dataIndex: 'ip',
     ellipsis: true
   },
   {
-    title: '物理地址',
+    title: () => <span title="物理地址">物理地址</span>,
     dataIndex: 'mac',
     ellipsis: true
   },
   {
-    title: '接入状态',
+    title: () => <span title="接入状态">接入状态</span>,
     dataIndex: 'isReg',
     width: 110,
     filters: [
@@ -77,18 +77,18 @@ export const columns = [
     }
   },
   {
-    title: 'SN(序列号)',
+    title: () => <span title="SN(序列号)">SN(序列号)</span>,
     dataIndex: 'sn',
     ellipsis: true
   },
   {
-    title: '位置',
+    title: () => <span title="位置">位置</span>,
     dataIndex: 'location',
     ellipsis: true
   },
 
   {
-    title: '外设控制',
+    title: () => <span title="外设控制">外设控制</span>,
     width: 90,
     dataIndex: 'numOfSafePolicyBounded',
     render: text => (
@@ -102,7 +102,7 @@ export const columns = [
     )
   },
   {
-    title: '准入控制',
+    title: () => <span title="准入控制">准入控制</span>,
     width: 90,
     dataIndex: 'numOfAdmitPolicyBounded',
     render: text => (
@@ -116,7 +116,7 @@ export const columns = [
     )
   },
   {
-    title: '分配用户',
+    title: () => <span title="分配用户">分配用户</span>,
     width: 90,
     dataIndex: 'numOfUserBounded',
     render: text => (

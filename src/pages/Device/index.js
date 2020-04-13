@@ -12,20 +12,20 @@ const { createTableCfg, TableWrap, ToolBar, BarLeft } = Tablex
 
 export default class Device extends React.Component {
   vmName = {
-    title: '名称',
+    title: () => <span title="名称">名称</span>,
     dataIndex: 'name',
     ellipsis: true,
     sorter: true
   }
 
   action = {
-    title: '操作',
+    title: () => <span title="操作">操作</span>,
     dataIndex: 'opration',
-    width: 130,
+    width: 120,
     render: (text, record) => {
       return (
         <span className="opration-btn">
-          <a onClick={() => this.editDev(record)}>编辑</a>
+          <a onClick={() => this.editDev(record, record.name)}>编辑</a>
           <a onClick={() => this.delDev(record.id)}>删除</a>
         </span>
       )
@@ -118,7 +118,7 @@ export default class Device extends React.Component {
    * @memberof Device
    * @param record 准入外设策略( 暂时没有通过单独接口调 直接通过列表取)
    */
-  editDev = record => {
+  editDev = (record, name) => {
     let selectDev = {}
     selectDev = record
     const initKeys = []
@@ -130,7 +130,7 @@ export default class Device extends React.Component {
     } else {
       selectDev.initKeys = [0]
     }
-    this.setState({ inner: '编辑' }, this.editDrawer.pop(selectDev))
+    this.setState({ inner: name }, this.editDrawer.pop(selectDev))
     this.currentDrawer = this.editDrawer
   }
 

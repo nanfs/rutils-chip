@@ -27,7 +27,7 @@ const { createTableCfg, TableWrap, ToolBar, BarLeft, BarRight } = Tablex
 
 export default class User extends React.Component {
   userName = {
-    title: '用户名',
+    title: () => <span title="用户名">用户名</span>,
     dataIndex: 'name',
     ellipsis: true,
     render: (text, record) => {
@@ -45,7 +45,7 @@ export default class User extends React.Component {
   options = {
     title: '操作',
     dataIndex: 'opration',
-    width: 130,
+    width: 120,
     render: (text, record) => {
       const moreAction = (
         <Menu>
@@ -78,9 +78,7 @@ export default class User extends React.Component {
         <span className="opration-btn">
           <a
             onClick={() => {
-              this.setState({ inner: '编辑用户' })
-              this.editUser(record)
-              this.currentDrawer = this.editDrawer
+              this.editUser(record, record.name)
             }}
           >
             编辑
@@ -364,10 +362,11 @@ export default class User extends React.Component {
     this.currentDrawer = this.addDrawer
   }
 
-  editUser = record => {
-    this.setState({ inner: '编辑用户' })
-    this.editDrawer.pop(record, this.state.selectedType)
-    // this.editDrawer.drawer.show()
+  editUser = (record, name) => {
+    this.setState(
+      { inner: name },
+      this.editDrawer.pop(record, this.state.selectedType)
+    )
     this.currentDrawer = this.editDrawer
   }
 
@@ -532,6 +531,13 @@ export default class User extends React.Component {
                   ) : (
                     ''
                   )}
+                  <Button
+                    onClick={() => this.disableUser()}
+                    disabled={disabledButton.disabledDisable}
+                  >
+                    禁用
+                  </Button>
+
                   <Button
                     onClick={() => this.deleteUser()}
                     disabled={disabledButton.disabledDelete}

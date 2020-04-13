@@ -51,3 +51,13 @@ export const taskTypeOptions = [
   { label: '定时关机', value: 1 }
   // { label: '空闲关机', value: 2 }// 该版本不做
 ]
+
+export const weekEnOptions = [
+  { label: '周一', value: 'MON' },
+  { label: '周二', value: 'TUE' },
+  { label: '周三', value: 'WED' },
+  { label: '周四', value: 'THU' },
+  { label: '周五', value: 'FRI' },
+  { label: '周六', value: 'SAT' },
+  { label: '周日', value: 'SUN' }
+]

@@ -21,7 +21,15 @@ setDataCenterToSession()
 setHostToSession()
 export const columns = [
   {
-    title: () => <span title="状态">状态</span>,
+    title: '桌面名称',
+    dataIndex: 'name',
+    sorter: true,
+    render: (text, record) => {
+      return <span>{record.name}</span>
+    }
+  },
+  {
+    title: '状态',
     dataIndex: 'status',
     width: 80,
     ellipsis: true,
@@ -111,7 +119,7 @@ export const columns = [
         <Progress
           strokeWidth={16}
           percent={+text || 0}
-          status={+text < 100 ? 'active' : 'exception'}
+          status={+text < 80 ? 'active' : 'exception'}
         ></Progress>
       )
     }
@@ -124,7 +132,7 @@ export const columns = [
         <Progress
           strokeWidth={16}
           percent={+text || 0}
-          status={+text < 100 ? 'active' : 'exception'}
+          status={+text < 80 ? 'active' : 'exception'}
         ></Progress>
       )
     }
@@ -137,18 +145,20 @@ export const columns = [
         <Progress
           strokeWidth={16}
           percent={+text || 0}
-          status={+text < 100 ? 'active' : 'exception'}
+          status={+text < 80 ? 'active' : 'exception'}
         ></Progress>
       )
     }
   }
 ]
-
-export const defaultColumnsFilters = columns.map(item => ({
-  value: item.dataIndex,
-  text: item.title
-}))
-export const defaultColumnsValue = columns.map(item => item.dataIndex)
+// 去掉桌面名称
+export const defaultColumnsFilters = columns
+  .map(item => ({
+    value: item.dataIndex,
+    text: item.title
+  }))
+  .slice(1)
+export const defaultColumnsValue = columns.map(item => item.dataIndex).slice(1)
 export const apiMethod = desktopsApi.list
 
 export const searchOptions = [
@@ -178,6 +188,7 @@ export function getMoreButton({
   addTempFn,
   setUserFn,
   openConsoleFn,
+  attachIsoFn,
   isInnerMore = false,
   isDuplicated = false
 }) {
@@ -199,6 +210,15 @@ export function getMoreButton({
       >
         打开控制台
       </Menu.Item>
+      {/* TODO 联调后端 */}
+      {/* <Menu.Item
+        key="7"
+        hidden={isDuplicated}
+        onClick={attachIsoFn}
+        disabled={disabledButton?.disabledAttachIso}
+      >
+        附加CD
+      </Menu.Item> */}
       <Menu.Item
         key="2"
         disabled={disabledButton?.disabledUp}
@@ -254,7 +274,7 @@ export function getMoreButton({
  * @param {*} vmObj
  * @returns
  * 未关机和挂起  不能开机 和删除
- * 未开机 不能打开控制台
+ * 未开机 不能打开控制台 和 附加CD
  * 关机 不能关机 重启和断电
  * 正在重启不能重启
  * 如果有分配用户 管理员不能打开控制台
@@ -271,6 +291,7 @@ export function vmDisableAction(vmObj) {
   if (vmObj.status !== 1) {
     disabledButton = {
       ...disabledButton,
+      disabledAttachIso: true,
       disabledOpenConsole: true
     }
   }

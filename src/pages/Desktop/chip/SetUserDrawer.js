@@ -8,6 +8,7 @@ import {
   Tablex
 } from '@/components'
 import { columns, apiMethod } from '@/pages/Common/UserTableCfg'
+import { wrapResponse } from '@/utils/tool'
 import { Tag, message } from 'antd'
 import desktopsApi from '@/services/desktops'
 import produce from 'immer'
@@ -81,10 +82,16 @@ export default class SetUserDrawer extends React.Component {
     const { totalSelection } = this.state
     return totalSelection.map(item => {
       const [, username, , , , domain] = item.split('&')
-      const domainFix = domain === 'internal-authz' ? '本地组' : domain
+      const domainFix = domain === 'internal-authz' ? '@本地组' : '' // 后端返回的ad域的username中带了@aa.com
       return (
-        <Tag key={item} closable onClose={() => this.removeUserSelection(item)}>
-          {`${username}@${domainFix}`}
+        <Tag
+          color="blue"
+          key={item}
+          closable
+          className="user-tag"
+          onClose={() => this.removeUserSelection(item)}
+        >
+          {`${username}${domainFix}`}
         </Tag>
       )
     })
@@ -93,6 +100,7 @@ export default class SetUserDrawer extends React.Component {
   pop = ids => {
     // 如果是一个 获取当前分配的用户
     this.drawer.show()
+    this.selectSearch.reset()
     this.setState({
       ids,
       totalSelection: [],
@@ -108,29 +116,30 @@ export default class SetUserDrawer extends React.Component {
       })
     })
     if (ids && ids.length === 1) {
-      desktopsApi
-        .detail(ids[0])
-        .then(res => {
-          const { owner } = res.data
-          const totalSelection = owner.map(
-            item =>
-              `${item.uuid}&${item.username}&${item.firstname}&${item.lastname}&${item.department}&${item.domain}`
-          )
-          this.setState(
-            produce(draft => {
-              draft.totalSelection = totalSelection
-              draft.tableCfg = {
-                ...draft.tableCfg,
-                selection: totalSelection
-              }
-            }),
-            () => this.userTablex.replace(this.state.tableCfg)
-          )
-        })
-        .catch(error => {
-          message.error(error.message || error)
-          console.log(error)
-        })
+      desktopsApi.detail(ids[0]).then(res =>
+        wrapResponse(res)
+          .then(() => {
+            const { owner } = res.data
+            const totalSelection = owner.map(
+              item =>
+                `${item.uuid}&${item.username}&${item.firstname}&${item.lastname}&${item.department}&${item.domain}`
+            )
+            this.setState(
+              produce(draft => {
+                draft.totalSelection = totalSelection
+                draft.tableCfg = {
+                  ...draft.tableCfg,
+                  selection: totalSelection
+                }
+              }),
+              () => this.userTablex.replace(this.state.tableCfg)
+            )
+          })
+          .catch(error => {
+            message.error(error.message || error)
+            console.log(error)
+          })
+      )
     } else {
       this.userTablex.refresh(this.state.tableCfg)
     }
@@ -201,6 +210,9 @@ export default class SetUserDrawer extends React.Component {
                 options={searchOptions}
                 onSelectChange={this.onSearchSelectChange}
                 onSearch={this.search}
+                onRef={ref => {
+                  this.selectSearch = ref
+                }}
               ></SelectSearch>
             </ToolBar>
             <Tablex

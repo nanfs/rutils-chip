@@ -32,7 +32,7 @@ export const columns = [
     width: 130,
     dataIndex: 'boundTcNum',
     className: 'ellipsis-hasTag',
-    render: text => <Tag>{text}</Tag>
+    render: text => <Tag color="blue">{text}</Tag>
   },
   {
     title: () => <span title="准入类型">准入类型</span>,

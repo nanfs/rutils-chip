@@ -92,6 +92,14 @@ function getRouterConfig(app) {
           })
         },
         {
+          path: '/task',
+          component: dynamic({
+            app,
+            models: () => [],
+            component: () => import('../src/pages/Task/index')
+          })
+        },
+        {
           path: '/vmlog',
           component: dynamic({
             app,

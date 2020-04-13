@@ -9,7 +9,7 @@ export const columns = [
     dataIndex: 'boundTcNum',
     width: 150,
     className: 'ellipsis-hasTag',
-    render: text => <Tag>{text}</Tag>
+    render: text => <Tag color="blue">{text}</Tag>
   },
   {
     title: () => <span title="USB外设">USB外设</span>,

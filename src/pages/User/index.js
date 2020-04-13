@@ -13,12 +13,14 @@ import produce from 'immer'
 import { Tablex, Treex, InnerPath, SelectSearch } from '@/components'
 
 import { columns } from './chip/TableCfg'
+import { adColumns } from './chip/AdTableCfg'
 import AddDrawer from './chip/AddDrawer'
 import DetailDrawer from './chip/DetailDrawer'
 import EditDrawer from './chip/EditDrawer'
 import userApi from '@/services/user'
 
 import './index.less'
+import { interval } from 'rxjs'
 
 const { confirm } = Modal
 const { createTableCfg, TableWrap, ToolBar, BarLeft, BarRight } = Tablex
@@ -93,7 +95,28 @@ export default class User extends React.Component {
     }
   }
 
+  adOptions = {
+    title: '操作',
+    dataIndex: 'opration',
+    width: 130,
+    render: (text, record) => {
+      return (
+        <span className="opration-btn">
+          <a
+            onClick={() => {
+              this.deleteUser([record.id])
+            }}
+          >
+            删除
+          </a>
+        </span>
+      )
+    }
+  }
+
   columnsArr = [this.userName, ...columns, this.options]
+
+  adColumnsArr = [this.userName, ...adColumns, this.adOptions]
 
   state = {
     tableCfg: createTableCfg({
@@ -107,7 +130,6 @@ export default class User extends React.Component {
     value: undefined,
     domainlist: [],
     disabledButton: {},
-    domainTreeData: undefined,
     groupTreeData: [],
     selectedType: 'internal'
   }
@@ -122,20 +144,11 @@ export default class User extends React.Component {
             const obj = {}
             obj.label = item === 'internal' ? '本地组' : item
             obj.value = item
-            if (item !== 'internal') {
-              this.setState({
-                domainTreeData: [
-                  {
-                    key: item,
-                    id: item,
-                    value: item,
-                    parentId: '-2',
-                    title: item,
-                    type: 'ad'
-                  }
-                ]
-              })
-            }
+            obj.id = item
+            obj.title = item
+            obj.parentId = item === 'internal' ? '-1' : '-2'
+            obj.type = item === 'internal' ? 'internal' : 'ad'
+
             return obj
           })
 
@@ -241,7 +254,7 @@ export default class User extends React.Component {
         produce(draft => {
           draft.tableCfg = {
             ...draft.tableCfg,
-            apiMethod: userApi.queryByAD,
+            apiMethod: userApi.queryByAd,
             searchs: {
               // ...draft.tableCfg.searchs,
               domain: draft.tableCfg.searchs.domain,
@@ -257,14 +270,20 @@ export default class User extends React.Component {
 
   onSelect = (value, node) => {
     // this.selectSearch.reset()
-    console.log(value)
+    console.log(this)
     if (node.node.props.type === 'ad') {
       this.groupTreex.cleanSelected()
+      this.state.domainlist.forEach((item, index) => {
+        if (item.value !== 'internal') {
+          this[`ADdomainTreex${index}`].cleanSelected()
+        }
+      })
       this.setState(
         produce(draft => {
           draft.tableCfg = {
             ...draft.tableCfg,
-            apiMethod: userApi.queryByAD,
+            apiMethod: userApi.queryByAd,
+            columns: this.adColumnsArr,
             searchs: {
               ...draft.tableCfg.searchs,
               domain: value,
@@ -277,12 +296,17 @@ export default class User extends React.Component {
         () => this.tablex.search(this.state.tableCfg)
       )
     } else {
-      this.ADdomainTreex.cleanSelected()
+      this.state.domainlist.forEach((item, index) => {
+        if (item.value !== 'internal') {
+          this[`ADdomainTreex${index}`].cleanSelected()
+        }
+      })
       this.setState(
         produce(draft => {
           draft.tableCfg = {
             ...draft.tableCfg,
             apiMethod: userApi.queryByGroup,
+            columns: this.columnsArr,
             searchs: {
               ...draft.tableCfg.searchs,
               groupId: value,
@@ -359,7 +383,7 @@ export default class User extends React.Component {
       onOk() {
         return new Promise((resolve, reject) => {
           userApi
-            .deleteUser({ userId: ids[0] })
+            .deleteUser({ userId: ids[0], domain: self.state.selectedType })
             .then(res => {
               if (res.success) {
                 notification.success({ message: '删除成功' })
@@ -386,10 +410,10 @@ export default class User extends React.Component {
       .disableUser({ userId: ids[0] })
       .then(res => {
         if (res.success) {
-          notification.success({ message: '锁定成功' })
+          notification.success({ message: '禁用成功' })
           this.tablex.refresh(this.state.tableCfg)
         } else {
-          message.error(res.message || '锁定失败')
+          message.error(res.message || '禁用失败')
         }
       })
       .catch(error => {
@@ -404,10 +428,10 @@ export default class User extends React.Component {
       .enableUser({ userId: ids[0] })
       .then(res => {
         if (res.success) {
-          notification.success({ message: '解锁成功' })
+          notification.success({ message: '启用成功' })
           this.tablex.refresh(this.state.tableCfg)
         } else {
-          message.error(res.message || '解锁失败')
+          message.error(res.message || '启用失败')
         }
       })
       .catch(error => {
@@ -416,9 +440,9 @@ export default class User extends React.Component {
       })
   }
 
-  detailUser = (username, id) => {
+  detailUser = (username, data) => {
     this.setState({ inner: username })
-    this.detailDrawer.pop(id)
+    this.detailDrawer.pop(data, this.state.selectedType)
     // this.detailDrawer.drawer.show()
     this.currentDrawer = this.detailDrawer
   }
@@ -433,7 +457,7 @@ export default class User extends React.Component {
       initValues,
       domainlist,
       disabledButton,
-      domainTreeData
+      selectedType
     } = this.state
     return (
       <React.Fragment>
@@ -458,34 +482,55 @@ export default class User extends React.Component {
                 showRightClinkMenu={true}
                 showSearch={false}
               ></Treex>
-              <Treex
-                onRef={ref => {
-                  this.ADdomainTreex = ref
-                }}
-                onSelect={this.onSelect}
-                treeData={domainTreeData}
-                showSearch={false}
-                defaultSelectRootNode={false}
-              ></Treex>
+              {domainlist &&
+                domainlist.map((item, index) =>
+                  item.type !== 'internal' ? (
+                    <Treex
+                      key={index}
+                      onRef={ref => {
+                        this[`ADdomainTreex${index}`] = ref
+                      }}
+                      onSelect={this.onSelect}
+                      treeData={[item]}
+                      showSearch={false}
+                      defaultSelectRootNode={false}
+                    ></Treex>
+                  ) : (
+                    ''
+                  )
+                )}
             </div>
             <div className="user-table">
               <ToolBar>
                 <BarLeft>
-                  <Button onClick={this.addUser} type="primary">
-                    创建
-                  </Button>
-                  {/* <Button
-                    onClick={this.editUser}
-                    disabled={disabledButton.disabledEdit}
-                  >
-                    编辑
-                  </Button> */}
-                  <Button
-                    onClick={() => this.enableUser()}
-                    disabled={disabledButton.disabledEnable}
-                  >
-                    启用
-                  </Button>
+                  {selectedType === 'internal' ? (
+                    <Button onClick={this.addUser} type="primary">
+                      创建
+                    </Button>
+                  ) : (
+                    ''
+                  )}
+
+                  {selectedType === 'internal' ? (
+                    <Button
+                      onClick={() => this.enableUser()}
+                      disabled={disabledButton.disabledEnable}
+                    >
+                      启用
+                    </Button>
+                  ) : (
+                    ''
+                  )}
+                  {selectedType === 'internal' ? (
+                    <Button
+                      onClick={() => this.disableUser()}
+                      disabled={disabledButton.disabledDisable}
+                    >
+                      禁用
+                    </Button>
+                  ) : (
+                    ''
+                  )}
                   <Button
                     onClick={() => this.disableUser()}
                     disabled={disabledButton.disabledDisable}
@@ -527,7 +572,7 @@ export default class User extends React.Component {
                 onClose={this.onBack}
                 onSuccess={this.onSuccess}
                 nodeData={groupTreeData}
-                domainlist={domainlist}
+                domainlist={[{ value: 'internal', label: '本地组' }]}
               />
               <EditDrawer
                 onRef={ref => {
@@ -537,7 +582,7 @@ export default class User extends React.Component {
                 onSuccess={this.onSuccess}
                 initValues={initValues}
                 nodeData={groupTreeData}
-                domainlist={domainlist}
+                domainlist={[{ value: 'internal', label: '本地组' }]}
               />
               <DetailDrawer
                 onRef={ref => {

@@ -12,7 +12,6 @@ export const columns = [
     title: () => <span title="状态">状态</span>,
     dataIndex: 'status',
     width: 80,
-    // defaultFilteredValue: [0, 1],
     filters: [
       {
         text: '离线',
@@ -23,7 +22,6 @@ export const columns = [
         value: [1]
       }
     ],
-    // onFilter: (value, record) => record.status === value,
     render: value => {
       return value === 0 ? (
         <MyIcon
@@ -32,7 +30,6 @@ export const columns = [
           title="离线"
           style={{
             fontSize: '20px'
-            // color: value === 0 ? '#ccc' : '#1890ff'
           }}
         />
       ) : (
@@ -42,7 +39,6 @@ export const columns = [
           title="在线"
           style={{
             fontSize: '20px'
-            // color: value === 0 ? '#ccc' : '#1890ff'
           }}
         />
       )
@@ -62,7 +58,6 @@ export const columns = [
     title: () => <span title="接入状态">接入状态</span>,
     dataIndex: 'isReg',
     width: 110,
-    // defaultFilteredValue: [false, true],
     filters: [
       {
         text: '待接入',
@@ -73,7 +68,6 @@ export const columns = [
         value: [true]
       }
     ],
-    // onFilter: (value, record) => record.isReg === value,
     render: value => {
       return value ? (
         <Tag color="#ade688">已接入</Tag>

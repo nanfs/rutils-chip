@@ -69,13 +69,13 @@ export default class Terminal extends React.Component {
           >
             解锁
           </Menu.Item>
-          <Menu.Item
+          {/* <Menu.Item
             key="9"
             disabled={!record.status}
             onClick={this.sendOrder.bind(this, 'logout', [record.sn])}
           >
             登出
-          </Menu.Item>
+          </Menu.Item> */}
           <Menu.Item key="6" onClick={this.setUser.bind(this, [record.sn])}>
             分配用户
           </Menu.Item>
@@ -467,13 +467,13 @@ export default class Terminal extends React.Component {
         >
           解锁
         </Menu.Item>
-        {/* <Menu.Item
+        <Menu.Item
           key="logout"
           onClick={() => this.sendOrder('logout')}
           disabled={disabledButton.disabledShutdown}
         >
           登出
-        </Menu.Item> */}
+        </Menu.Item>
         <Menu.Item
           key="sendMessage"
           onClick={() => this.sendMessage()}

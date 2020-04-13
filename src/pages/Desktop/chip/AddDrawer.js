@@ -1,12 +1,24 @@
 import React from 'react'
-import { Form, Input, message, InputNumber, Select, Row, Col, Icon } from 'antd'
+import {
+  Form,
+  Input,
+  message,
+  InputNumber,
+  Select,
+  Row,
+  Col,
+  Icon,
+  Alert,
+  Button,
+  Tooltip
+} from 'antd'
 import { Drawerx, Formx, Title, Radiox, Diliver, Selectx } from '@/components'
 
 import { memoryOptions, cpuOptions, diskOptions } from '@/utils/formOptions'
 import desktopsApi from '@/services/desktops'
 import assetsApi from '@/services/assets'
 
-import { findArrObj } from '@/utils/tool'
+import { findArrObj, wrapResponse } from '@/utils/tool'
 import { required, checkName, lessThanValue } from '@/utils/valid'
 
 const { TextArea } = Input
@@ -19,8 +31,7 @@ const createType = [
 ]
 const driveType = [
   { label: '64', value: '64' },
-  { label: '32', value: '32' },
-  { label: '不需要', value: '' }
+  { label: '32', value: '32' }
 ]
 const { Option, OptGroup } = Select
 export default class AddDrawer extends React.Component {
@@ -33,46 +44,65 @@ export default class AddDrawer extends React.Component {
     this.setState({})
     this.drawer.show()
     this.setState({
-      hasSetNetValue: true,
       networkOptions: [],
       templateOptions: [],
-      nets: ['']
+      nets: [undefined],
+      netTopIndex: 1,
+      netNic: [1], // 当前可用网络数量
+      hasSetNetValue: true
     })
     this.drawer.form.setFieldsValue({ desktopNum: 1 })
 
     this.getCluster()
   }
 
+  getNicValue(index) {
+    return (
+      this.drawer?.form?.getFieldValue('nic') &&
+      this.drawer?.form?.getFieldValue('nic')[index]
+    )
+  }
+
   /**
    *
-   *
+   * 通过netNic来保存 虚拟网卡编号
    * @memberof AddDrawer
    */
   remove = k => {
-    const nets = this.drawer.form.getFieldValue('network')
-    const newNets =
-      nets?.length === 1 ? [''] : [...nets.slice(0, k), ...nets.slice(k + 1)]
+    const nets = this.drawer.form.getFieldValue('nic')
+    const { netNic } = this.state
+    // const newNets =
+    //   nets?.length === 1 ? [''] : [...nets.slice(0, k), ...nets.slice(k + 1)]
+    const newNets = [...nets.slice(0, k), ...nets.slice(k + 1)]
+    const newNetNic = [...netNic.slice(0, k), ...netNic.slice(k + 1)]
     this.setState({
-      nets: newNets
+      nets: newNets,
+      netNic: newNetNic
     })
-    this.drawer.form.setFieldsValue({ network: newNets })
+    this.drawer.form.setFieldsValue({ nic: newNets })
   }
 
   /**
    *
    * 动态添加网卡数量
+   * 通过netNic来保存 虚拟网卡编号
    * @memberof AddDrawer
    */
-  add = index => {
-    if (index > 4) {
+  add = () => {
+    const nets = this.drawer.form.getFieldValue('nic')
+    const newNets = [...nets, undefined]
+    const newNetTopIndex = this.state.netTopIndex + 1
+
+    const newNetNic = this.state.netNic.concat(newNetTopIndex)
+    if (newNets.length > 5) {
       return false
     }
-    const nets = this.drawer.form.getFieldValue('network')
-    const newNets = [...nets, '']
     this.setState({
+      netTopIndex: newNetTopIndex,
+      netNic: newNetNic,
       nets: newNets
     })
-    this.drawer.form.setFieldsValue({ network: newNets })
+    this.drawer.form.setFieldsValue({ nic: newNets })
   }
 
   getSelectType = () => {
@@ -90,36 +120,42 @@ export default class AddDrawer extends React.Component {
         clusterId: this.state.clusterId,
         statusIsOk: 1
       })
-      .then(res => {
-        this.setState({ templateArr: res.data.records })
-        const templateOptions = res.data.records.map(item => ({
-          label: item.name,
-          value: item.id
-        }))
-        this.setState({ templateOptions })
-      })
-      .catch(error => {
-        message.error(error.message || error)
-        console.log(error)
-      })
+      .then(res =>
+        wrapResponse(res)
+          .then(() => {
+            this.setState({ templateArr: res.data.records })
+            const templateOptions = res.data.records.map(item => ({
+              label: item.name,
+              value: item.id
+            }))
+            this.setState({ templateOptions })
+          })
+          .catch(error => {
+            message.error(error.message || error)
+            console.log(error)
+          })
+      )
   }
 
   // 获取群集 后端可能没有分页
   getCluster = () => {
     return assetsApi
       .clusters({ current: 1, size: 10000, available: 1 })
-      .then(res => {
-        this.setState({ clusterArr: res.data })
-        const clusterOptions = res.data.map(item => ({
-          label: item.name,
-          value: item.id
-        }))
-        this.setState({ clusterOptions })
-      })
-      .catch(error => {
-        message.error(error.message || error)
-        console.log(error)
-      })
+      .then(res =>
+        wrapResponse(res)
+          .then(() => {
+            this.setState({ clusterArr: res.data })
+            const clusterOptions = res.data.map(item => ({
+              label: item.name,
+              value: item.id
+            }))
+            this.setState({ clusterOptions })
+          })
+          .catch(error => {
+            message.error(error.message || error)
+            console.log(error)
+          })
+      )
   }
 
   /**
@@ -130,7 +166,7 @@ export default class AddDrawer extends React.Component {
    * @memberof AddDrawer
    */
   checkIsoType(isoName) {
-    const demesticKeyWords = ['szwx', 'kylin', 'isoft', 'deepin']
+    const demesticKeyWords = ['szwx', 'kylin', 'isoft', 'deepin', 'cmge']
     if (demesticKeyWords.some(item => isoName.includes(item))) {
       return 'domestic'
     }
@@ -147,44 +183,49 @@ export default class AddDrawer extends React.Component {
    */
   getIso = () => {
     const { storagePoolId } = this.state
-    return desktopsApi
-      .getIso({ storagePoolId })
-      .then(res => {
-        const win = []
-        const linux = []
-        const domestic = []
-        res.data.forEach(item => {
-          const name = item.repoImageId.toLowerCase()
-          if (this.checkIsoType(name) === 'domestic') {
-            return domestic.push(item.repoImageId)
-          }
-          if (name.includes('win')) {
-            return win.push(item.repoImageId)
-          }
-          linux.push(item.repoImageId)
+    if (!storagePoolId) {
+      return message.error('请先选择集群')
+    }
+    return desktopsApi.getIso({ storagePoolId }).then(res =>
+      wrapResponse(res)
+        .then(() => {
+          const win = []
+          const linux = []
+          const domestic = []
+          res.data.forEach(item => {
+            const name = item.repoImageId.toLowerCase()
+            if (this.checkIsoType(name) === 'domestic') {
+              return domestic.push(item.repoImageId)
+            }
+            if (name.includes('win')) {
+              return win.push(item.repoImageId)
+            }
+            linux.push(item.repoImageId)
+          })
+          this.setState({ isos: { win, linux, domestic } })
         })
-        this.setState({ isos: { win, linux, domestic } })
-      })
-      .catch(error => {
-        message.error(error.message || error)
-      })
+        .catch(error => {
+          message.error(error.message || error)
+        })
+    )
   }
 
   // 网络接口字段和创建网络字段是不匹配的 name 等同于 vnic
   getNetwork = () => {
-    return desktopsApi
-      .getNetwork(this.state.clusterId)
-      .then(res => {
-        const network = res.data.records
-        const networkOptions = network.map(item => ({
-          label: `${item.kind}/${item.name}`,
-          value: item.kindid
-        }))
-        this.setState({ networkOptions, netAll: network })
-      })
-      .catch(error => {
-        message.error(error.message || error)
-      })
+    return desktopsApi.getNetwork(this.state.clusterId).then(res =>
+      wrapResponse(res)
+        .then(() => {
+          const network = res.data.records
+          const networkOptions = network.map(item => ({
+            label: `${item.kind}/${item.name}`,
+            value: item.kindid
+          }))
+          this.setState({ networkOptions, netAll: network })
+        })
+        .catch(error => {
+          message.error(error.message || error)
+        })
+    )
   }
 
   // 当模板变化的时候 TODO 获取模板信息显示
@@ -244,7 +285,6 @@ export default class AddDrawer extends React.Component {
       if (target.toLowerCase().includes('x86')) {
         return this.drawer.form.setFieldsValue({ isoBit: '32' })
       }
-      this.drawer.form.setFieldsValue({ isoBit: '' })
     }
     this.drawer.form.setFieldsValue({ isoBit: '' })
   }
@@ -256,16 +296,23 @@ export default class AddDrawer extends React.Component {
    * @memberof AddDrawer
    */
   addVm = values => {
-    const { type, network, ...rest } = values
+    console.log('values', values)
+    const { type, nic, ...rest } = values
     const { netAll } = this.state
-    const networkSelected = network?.map(netId =>
+    const networkSelected = nic?.map(netId =>
       netAll.find(item => item.kindid === netId)
     )
+    const { netNic } = this.state
+    const networkFix = networkSelected.map((item, index) => ({
+      vnic: `nic${netNic[index]}`,
+      ...item
+    }))
     const data = {
       ...rest,
       cpuNum: 1,
-      network: networkSelected
+      network: networkFix
     }
+    console.log('data', data)
     // 如果通过ISO创建用户
     if (type === 'byIso') {
       const { isoName } = values
@@ -347,51 +394,47 @@ export default class AddDrawer extends React.Component {
 
   renderNetWork = () => {
     const networks = this.state?.nets
+    const netNic = this.state?.netNic
     return (
       networks &&
       networks.map((item, index) => (
         <Row gutter={16} key={index} className="form-item-wrapper">
           <Col span={14}>
             <Form.Item
-              prop={`network[${index}]`}
-              label={index === 0 ? `网络` : ''}
+              prop={`nic[${index}]`}
+              label={`nic${netNic[index]}`}
               key={index}
+              hidden={!this.state?.hasSetNetValue}
               rules={index === 0 ? undefined : [required]}
               labelCol={{ sm: { span: 7 } }}
-              wrapperCol={{ sm: { push: index === 0 ? 1 : 8, span: 16 } }}
-              hidden={!this.state?.hasSetNetValue}
+              wrapperCol={{ sm: { push: 1, span: 16 } }}
             >
+              {/* 修改 强制刷新页面 设置disabled */}
               <Selectx
                 getData={this.getNetwork}
                 showRefresh={false}
+                onChange={this.onNetSelect}
                 options={this.state?.networkOptions}
               />
             </Form.Item>
           </Col>
-          {index === networks.length - 1 ? (
-            <Col span={3}>
-              <Icon
-                className="dynamic-button"
-                type="minus-circle-o"
-                onClick={() => this.remove(index)}
-              />
-              <Icon
-                className="dynamic-button"
-                type="plus-circle"
-                disabled={index >= 4}
-                onClick={() => this.add(index)}
-                style={{ marginLeft: 8 }}
-              />
-            </Col>
-          ) : (
-            <Col span={3}>
-              <Icon
-                className="dynamic-button"
-                type="minus-circle-o"
-                onClick={() => this.remove(index)}
-              />
-            </Col>
-          )}
+          <Col span={3}>
+            <Button
+              icon="minus-circle-o"
+              className="dynamic-button"
+              disabled={index === 0 && networks.length === 1}
+              onClick={() => this.remove(index)}
+            />
+            <Button
+              hidden={index !== networks.length - 1}
+              disabled={networks.length >= 5}
+              className="dynamic-button"
+              icon="plus-circle"
+              // 如果实际网卡 已经有5个 或者当前下拉没有值 禁用添加新项
+              onClick={() => this.add(index)}
+              style={{ marginLeft: 8 }}
+            />
+          </Col>
         </Row>
       ))
     )
@@ -408,6 +451,11 @@ export default class AddDrawer extends React.Component {
         onSuccess={this.props.onSuccess}
       >
         <Formx>
+          {/* <Alert
+            message="安装windows操作系统的时候，64位操作系统请选择“x64”，32位操作系统请选择“x86”；linux类操作系统选择“不需要”"
+            type="info"
+            showIcon
+          /> */}
           <Title slot="基础设置"></Title>
           <Form.Item
             prop="name"
@@ -461,7 +509,14 @@ export default class AddDrawer extends React.Component {
           <Form.Item
             prop="isoBit"
             required
-            label="系统位数"
+            label={
+              <span>
+                系统位数&nbsp;
+                <Tooltip title="安装windows操作系统的时候，64位操作系统请选择“64”，32位操作系统请选择“32”">
+                  <Icon type="question-circle-o" />
+                </Tooltip>
+              </span>
+            }
             hidden={
               this.getSelectType() !== 'byIso' ||
               this.state?.isoType !== 'windows'

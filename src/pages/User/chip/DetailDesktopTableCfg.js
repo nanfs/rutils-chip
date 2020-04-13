@@ -6,6 +6,10 @@ import { onlineStringTime } from '@/utils/tool'
 
 export const detailDesktopColumns = [
   {
+    title: '桌面名称',
+    dataIndex: 'vmname'
+  },
+  {
     title: '状态',
     dataIndex: 'status',
     width: 80,
@@ -16,10 +20,6 @@ export const detailDesktopColumns = [
       { value: [7, 8, 14, -1, 4], text: '异常' }
     ], */
     render: text => vmStatusRender(text)
-  },
-  {
-    title: '桌面名称',
-    dataIndex: 'vmname'
   },
   {
     title: 'IP',

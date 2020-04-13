@@ -35,24 +35,28 @@ export default class DetailDrawer extends React.Component {
       hasRowSelection: false,
       rowKey: 'vmname'
     }),
-    initValues: {}
+    initValues: {},
+    selectedType: 'internal'
   }
 
-  pop = data => {
+  pop = (data, selectedType) => {
     this.drawer.show()
     this.setState(
       produce(draft => {
+        draft.selectedType = selectedType
         draft.initValues = {
           ...data,
           statusName: data.status === 0 ? '正常' : '禁用'
         }
         draft.terminalTableCfg.searchs = {
           ...draft.terminalTableCfg.searchs,
-          userId: data.id
+          userId: data.id,
+          domain: selectedType
         }
         draft.desktopTableCfg.searchs = {
           ...draft.desktopTableCfg.searchs,
-          userId: data.id
+          userId: data.id,
+          domain: selectedType
         }
       }),
       () => {
@@ -96,42 +100,50 @@ export default class DetailDrawer extends React.Component {
                   </Tooltip>
                 </Col>
               </Row>
-              <Row className="dms-detail-row">
-                <Col span={3} className="dms-detail-label">
-                  组织：
-                </Col>
-                <Col span={8} className="dms-detail-value">
-                  <Tooltip title={initValues.groupName}>
-                    <span>{initValues.groupName}</span>
-                  </Tooltip>
-                </Col>
-                <Col span={3} className="dms-detail-label">
-                  角色：
-                </Col>
-                <Col span={8} className="dms-detail-value">
-                  <Tooltip title={initValues.roleName}>
-                    <span>{initValues.roleName}</span>
-                  </Tooltip>
-                </Col>
-              </Row>
-              <Row className="dms-detail-row">
-                <Col span={3} className="dms-detail-label">
-                  邮箱：
-                </Col>
-                <Col span={8} className="dms-detail-value">
-                  <Tooltip title={initValues.email}>
-                    <span>{initValues.email}</span>
-                  </Tooltip>
-                </Col>
-                <Col span={3} className="dms-detail-label">
-                  状态：
-                </Col>
-                <Col span={8} className="dms-detail-value">
-                  <Tooltip title={initValues.statusName}>
-                    <span>{initValues.statusName}</span>
-                  </Tooltip>
-                </Col>
-              </Row>
+              {this.state.selectedType === 'internal' ? (
+                <Row className="dms-detail-row">
+                  <Col span={3} className="dms-detail-label">
+                    组织：
+                  </Col>
+                  <Col span={8} className="dms-detail-value">
+                    <Tooltip title={initValues.groupName}>
+                      <span>{initValues.groupName}</span>
+                    </Tooltip>
+                  </Col>
+                  <Col span={3} className="dms-detail-label">
+                    角色：
+                  </Col>
+                  <Col span={8} className="dms-detail-value">
+                    <Tooltip title={initValues.roleName}>
+                      <span>{initValues.roleName}</span>
+                    </Tooltip>
+                  </Col>
+                </Row>
+              ) : (
+                ''
+              )}
+              {this.state.selectedType === 'internal' ? (
+                <Row className="dms-detail-row">
+                  <Col span={3} className="dms-detail-label">
+                    邮箱：
+                  </Col>
+                  <Col span={8} className="dms-detail-value">
+                    <Tooltip title={initValues.email}>
+                      <span>{initValues.email}</span>
+                    </Tooltip>
+                  </Col>
+                  <Col span={3} className="dms-detail-label">
+                    状态：
+                  </Col>
+                  <Col span={8} className="dms-detail-value">
+                    <Tooltip title={initValues.statusName}>
+                      <span>{initValues.statusName}</span>
+                    </Tooltip>
+                  </Col>
+                </Row>
+              ) : (
+                ''
+              )}
               <Row className="dms-detail-row">
                 <Col span={3} className="dms-detail-label">
                   已分配桌面数：

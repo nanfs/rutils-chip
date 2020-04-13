@@ -60,6 +60,12 @@ const menu = [
     authority: 'admin'
   },
   {
+    title: '计划任务',
+    icon: 'schedule',
+    path: '/task',
+    authority: 'admin'
+  },
+  {
     title: '系统日志',
     icon: 'log',
     iconComonpent: 'MyIcon',

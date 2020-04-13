@@ -13,6 +13,7 @@ body {
   }
 }
 // header
+
 .header {
   background-color: #1b59a6;
   color: white;
@@ -21,6 +22,28 @@ body {
   background-image: url(../assets/header_mask.png);
   background-repeat: no-repeat;
   background-position: 90% bottom;
+  .drop-item {
+    padding: 0px 15px;
+  }
+  .drop-item.active {
+    background: #1565c0;
+  }
+  &-task-list {
+    max-height: 500px;
+    max-width: 400px;
+    overflow-y: auto;
+    background-color: #fff;
+    border-radius: 4px;
+    box-shadow: 0 6px 16px -8px rgba(0, 0, 0, 0.08),
+      0 9px 28px 0 rgba(0, 0, 0, 0.05), 0 12px 48px 16px rgba(0, 0, 0, 0.03);
+    .ant-tabs-nav-wrap {
+      text-align: center;
+    }
+
+    .ant-list-item {
+      padding: 12px 24px;
+    }
+  }
   .logo {
     width: 214px;
     height: 55px;
@@ -50,6 +73,9 @@ body {
         color: #ddd;
         border-bottom-color: transparent;
       }
+    }
+    .no-padding {
+      padding: 0;
     }
   }
 }
@@ -166,6 +192,11 @@ body {
 
   .v-icon {
     display: inline;
+  }
+}
+.dms-detail-list-hasPagination {
+  .ant-table-pagination.ant-pagination {
+    float: left;
   }
 }
 

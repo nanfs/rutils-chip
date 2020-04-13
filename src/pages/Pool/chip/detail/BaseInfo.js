@@ -1,21 +1,23 @@
 import React from 'react'
 import { Row, Col, Table, message, Spin, Tooltip } from 'antd'
 import { Title, Diliver } from '@/components'
+import { wrapResponse } from '@/utils/tool'
 import poolsApi from '@/services/pools'
 
 export default class BaseInfo extends React.Component {
   componentDidMount() {
     this.setState({ loading: true })
-    poolsApi
-      .detail(this.props.poolId)
-      .then(res => {
-        this.setState({ loading: false, data: res.data })
-      })
-      .catch(error => {
-        this.setState({ loading: false })
-        message.error(error.message || error)
-        console.log(error)
-      })
+    poolsApi.detail(this.props.poolId).then(res =>
+      wrapResponse(res)
+        .then(() => {
+          this.setState({ loading: false, data: res.data })
+        })
+        .catch(error => {
+          this.setState({ loading: false })
+          message.error(error.message || error)
+          console.log(error)
+        })
+    )
   }
 
   render() {
@@ -140,7 +142,12 @@ export default class BaseInfo extends React.Component {
           columns={userColums}
           dataSource={data.owner}
           rowKey="username"
-          pagination={{ position: 'none' }}
+          pagination={{
+            size: 'small',
+            showSizeChanger: true,
+            pageSizeOptions: ['5', '10', '20', '50']
+          }}
+          className="dms-detail-list-hasPagination"
         ></Table>
       </Spin>
     )

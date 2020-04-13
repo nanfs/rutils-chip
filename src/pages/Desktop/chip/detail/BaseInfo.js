@@ -1,5 +1,5 @@
 import React from 'react'
-import { Row, Col, Table, Tag, message, Spin, Tooltip } from 'antd'
+import { Row, Col, Table, Tag, message, Spin, Tooltip, Icon } from 'antd'
 import { Title, Diliver } from '@/components'
 import desktopsApi from '@/services/desktops'
 import { wrapResponse } from '@/utils/tool'
@@ -41,6 +41,60 @@ export default class BaseInfo extends React.Component {
       {
         title: '域',
         dataIndex: 'domain'
+      }
+    ]
+    const schedulerColums = [
+      {
+        title: '名称',
+        width: 200,
+        dataIndex: 'name'
+      },
+      {
+        title: '状态',
+        dataIndex: 'status',
+        render: text => (
+          <span className="table-action">
+            {text !== 0 ? (
+              <Icon
+                type="check-circle"
+                className="table-icon-info"
+                title="允许"
+              />
+            ) : (
+              <Icon type="stop" className="table-icon-warn" title="禁用" />
+            )}
+          </span>
+        )
+      },
+      {
+        title: '任务类型',
+        dataIndex: 'taskType',
+        render: text => (
+          <span className="table-action">
+            {text === 1 ? <span>定时关机</span> : <span>定时开机</span>}
+          </span>
+        )
+      },
+      {
+        title: '执行时间',
+        dataIndex: 'cron',
+        render: text => {
+          const str = text.split(' ')
+          return (
+            <span>
+              {str[2]}:{str[1]}
+            </span>
+          )
+        }
+      },
+      {
+        title: '创建时间',
+        dataIndex: 'createTime',
+        ellipsis: true
+      },
+      {
+        title: '最后编辑',
+        dataIndex: 'updateTime'
       }
     ]
     const { loading, data = {} } = this.state || {}
@@ -178,6 +232,20 @@ export default class BaseInfo extends React.Component {
             columns={userColums}
             dataSource={data.owner}
             rowKey="username"
+            pagination={{
+              size: 'small',
+              showSizeChanger: true,
+              pageSizeOptions: ['5', '10', '20', '50']
+            }}
+            className="dms-detail-list-hasPagination"
+          ></Table>
+        </div>
+        <div className="dms-detail-section">
+          <Title slot="计划任务"></Title>
+          <Table
+            columns={schedulerColums}
+            dataSource={data.schedulerTasks}
+            rowKey="id"
             pagination={{
               size: 'small',
               showSizeChanger: true,

@@ -42,3 +42,12 @@ export const typeOptions = [
   { label: '按周', value: 0 },
   { label: '按日期', value: 1 }
 ]
+export const typeOptions2 = [
+  { label: '按周', value: 0 },
+  { label: '按天', value: 1 }
+]
+export const taskTypeOptions = [
+  { label: '定时开机', value: 0 },
+  { label: '定时关机', value: 1 }
+  // { label: '空闲关机', value: 2 }// 该版本不做
+]

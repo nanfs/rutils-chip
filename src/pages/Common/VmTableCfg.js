@@ -115,7 +115,7 @@ export const columns = [
         <Progress
           strokeWidth={16}
           percent={+text || 0}
-          status={+text < 100 ? 'active' : 'exception'}
+          status={+text < 80 ? 'active' : 'exception'}
         ></Progress>
       )
     }
@@ -128,7 +128,7 @@ export const columns = [
         <Progress
           strokeWidth={16}
           percent={+text || 0}
-          status={+text < 100 ? 'active' : 'exception'}
+          status={+text < 80 ? 'active' : 'exception'}
         ></Progress>
       )
     }
@@ -141,7 +141,7 @@ export const columns = [
         <Progress
           strokeWidth={16}
           percent={+text || 0}
-          status={+text < 100 ? 'active' : 'exception'}
+          status={+text < 80 ? 'active' : 'exception'}
         ></Progress>
       )
     }

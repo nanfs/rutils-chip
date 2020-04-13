@@ -16,7 +16,7 @@ export default class Task extends React.Component {
   options = {
     title: '操作',
     dataIndex: 'opration',
-    width: 130,
+    width: 120,
     render: (text, record) => {
       return (
         <span className="opration-btn">
@@ -29,7 +29,7 @@ export default class Task extends React.Component {
   }
 
   taskName = {
-    title: '名称',
+    title: () => <span title="名称">名称</span>,
     dataIndex: 'name',
     width: 100,
     render: (text, record) => {

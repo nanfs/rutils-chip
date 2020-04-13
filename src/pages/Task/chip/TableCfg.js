@@ -8,7 +8,7 @@ const iconStyle = {
 }
 export const columns = [
   {
-    title: '状态',
+    title: () => <span title="状态">状态</span>,
     dataIndex: 'status',
     render: text => (
       <span className="table-action">
@@ -21,12 +21,12 @@ export const columns = [
     )
   },
   {
-    title: '桌面数量',
+    title: () => <span title="桌面数量">桌面数量</span>,
     dataIndex: 'objectCount',
     render: text => <Tag>{text}</Tag>
   },
   {
-    title: '任务类型',
+    title: () => <span title="任务类型">任务类型</span>,
     dataIndex: 'taskType',
     render: text => (
       <span className="table-action">
@@ -35,7 +35,7 @@ export const columns = [
     )
   },
   {
-    title: '执行时间',
+    title: () => <span title="执行时间">执行时间</span>,
     dataIndex: 'cron',
     render: text => {
       const str = text.split(' ')
@@ -47,12 +47,12 @@ export const columns = [
     }
   },
   {
-    title: '创建时间',
+    title: () => <span title="创建时间">创建时间</span>,
     dataIndex: 'createTime',
     ellipsis: true
   },
   {
-    title: '最后编辑',
+    title: () => <span title="最后编辑">最后编辑</span>,
     dataIndex: 'updateTime'
   }
 ]

@@ -19,7 +19,7 @@ import dayjs from 'dayjs'
 
 const { createTableCfg, TableWrap, ToolBar, BarLeft } = Tablex
 const { TextArea } = Input
-
+const weekEn = ['', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN']
 export default class EditDrawer extends React.Component {
   state = {
     tableCfg: createTableCfg({
@@ -203,7 +203,7 @@ export default class EditDrawer extends React.Component {
     const timeStrArr = dayjs(time)
       .format('HH:mm')
       .split(':')
-    const weeksStr = weeks ? weeks.join(',') : ''
+    const weeksStr = weeks ? weeks.map(item => weekEn[item]).join(',') : ''
     if (way === 0) {
       cron = `0 ${timeStrArr[1]} ${timeStrArr[0]} ? * ${weeksStr}`
     } else {

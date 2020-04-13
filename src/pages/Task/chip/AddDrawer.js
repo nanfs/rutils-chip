@@ -19,6 +19,7 @@ import dayjs from 'dayjs'
 
 const { createTableCfg, TableWrap, ToolBar, BarLeft } = Tablex
 const { TextArea } = Input
+const weekEn = ['', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN']
 
 export default class AddDrawer extends React.Component {
   state = {
@@ -27,8 +28,7 @@ export default class AddDrawer extends React.Component {
       apiMethod,
       rowKey: 'id',
       paging: { size: 10 },
-      pageSizeOptions: ['5', '10', '20', '50'],
-      searchs: {}
+      pageSizeOptions: ['5', '10', '20', '50']
     }),
     totalSelection: []
   }
@@ -52,8 +52,7 @@ export default class AddDrawer extends React.Component {
         paging: { size: 10 },
         selection: [],
         rowKey: record => `${record.id}&${record.name}`,
-        pageSizeOptions: ['5', '10', '20', '50'],
-        searchs: {}
+        pageSizeOptions: ['5', '10', '20', '50']
       })
     })
   }
@@ -174,7 +173,7 @@ export default class AddDrawer extends React.Component {
     const timeStrArr = dayjs(time)
       .format('HH:mm')
       .split(':')
-    const weeksStr = weeks ? weeks.join(',') : ''
+    const weeksStr = weeks ? weeks.map(item => weekEn[item]).join(',') : ''
     if (way === 0) {
       cron = `0 ${timeStrArr[1]} ${timeStrArr[0]} ? * ${weeksStr}`
     } else {

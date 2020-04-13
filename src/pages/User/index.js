@@ -60,7 +60,7 @@ export default class User extends React.Component {
           </Menu.Item>
           <Menu.Item
             key="2"
-            onClick={this.disableUser.bind(this, [record.id])}
+            onClick={this.forbiddenUser.bind(this, [record.id])}
             disabled={record.status === 1}
           >
             禁用
@@ -404,10 +404,10 @@ export default class User extends React.Component {
     })
   }
 
-  disableUser = (id = undefined) => {
+  forbiddenUser = (id = undefined) => {
     const ids = id || this.tablex.getSelection()
     userApi
-      .disableUser({ userId: ids[0] })
+      .forbiddenUser({ userId: ids[0] })
       .then(res => {
         if (res.success) {
           notification.success({ message: '禁用成功' })
@@ -432,6 +432,24 @@ export default class User extends React.Component {
           this.tablex.refresh(this.state.tableCfg)
         } else {
           message.error(res.message || '启用失败')
+        }
+      })
+      .catch(error => {
+        message.error(error.message || error)
+        console.log(error)
+      })
+  }
+
+  unlockUser = (id = undefined) => {
+    const ids = id || this.tablex.getSelection()
+    userApi
+      .unlockUser({ userId: ids[0] })
+      .then(res => {
+        if (res.success) {
+          notification.success({ message: '解锁成功' })
+          this.tablex.refresh(this.state.tableCfg)
+        } else {
+          message.error(res.message || '解锁失败')
         }
       })
       .catch(error => {
@@ -523,7 +541,7 @@ export default class User extends React.Component {
                   )}
                   {selectedType === 'internal' ? (
                     <Button
-                      onClick={() => this.disableUser()}
+                      onClick={() => this.forbiddenUser()}
                       disabled={disabledButton.disabledDisable}
                     >
                       禁用
@@ -532,18 +550,17 @@ export default class User extends React.Component {
                     ''
                   )}
                   <Button
-                    onClick={() => this.disableUser()}
+                    onClick={() => this.unlockUser()}
                     disabled={disabledButton.disabledDisable}
                   >
-                    禁用
+                    解锁
                   </Button>
-
-                  <Button
+                  {/* <Button
                     onClick={() => this.deleteUser()}
                     disabled={disabledButton.disabledDelete}
                   >
                     删除
-                  </Button>
+                  </Button> */}
                 </BarLeft>
                 <BarRight>
                   <SelectSearch

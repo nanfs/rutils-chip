@@ -86,14 +86,14 @@ export const columns = [
     dataIndex: 'vmcount',
     ellipsis: true,
     className: 'ellipsis-hasTag',
-    render: text => <Tag>{text}</Tag>
+    render: text => <Tag color="blue">{text}</Tag>
   },
   {
     title: () => <span title="已分配终端数">已分配终端数</span>,
     dataIndex: 'tccount',
     ellipsis: true,
     className: 'ellipsis-hasTag',
-    render: text => <Tag>{text}</Tag>
+    render: text => <Tag color="blue">{text}</Tag>
   }
 ]
 export const apiMethod = userApi.list

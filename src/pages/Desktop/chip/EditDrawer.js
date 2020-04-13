@@ -40,7 +40,7 @@ export default class EditDrawer extends React.Component {
             netTopIndex,
             hasSetNetValue: true
           })
-          this.drawer.form.setFieldsValue({ ...data, id, network: nets })
+          this.drawer.form.setFieldsValue({ ...data, id, nic: nets })
           this.getNetwork()
         })
         .catch(error => {
@@ -166,7 +166,7 @@ export default class EditDrawer extends React.Component {
               />
             </Form.Item>
           </Col>
-          <Col span={3}>
+          <Col span={4}>
             <Button
               icon="minus-circle-o"
               className="dynamic-button"
@@ -220,7 +220,7 @@ export default class EditDrawer extends React.Component {
             label="CPU"
             required
             rules={[required, lessThanValue(160)]}
-            wrapperCol={{ sm: { span: 12 } }}
+            wrapperCol={{ sm: { span: 16 } }}
           >
             <Radiox
               options={cpuOptions}
@@ -233,6 +233,7 @@ export default class EditDrawer extends React.Component {
             label="内存"
             required
             rules={[required, lessThanValue(100)]}
+            wrapperCol={{ sm: { span: 16 } }}
           >
             <Radiox
               options={memoryOptions}
@@ -241,7 +242,7 @@ export default class EditDrawer extends React.Component {
             />
           </Form.Item>
           <Form.Item prop="description" label="描述">
-            <TextArea placeholder="" />
+            <TextArea placeholder="描述" />
           </Form.Item>
           <Diliver />
           <Title slot="网络设置"></Title>

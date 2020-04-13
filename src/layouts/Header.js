@@ -24,6 +24,7 @@ import SystemModal from './chip/SystemModal'
 import AboutModal from './chip/AboutModal'
 import loginApi from '@/services/login'
 import tasksApi from '@/services/tasks'
+import usersApi from '@/services/user'
 
 const { TabPane } = Tabs
 export default class Header extends React.Component {
@@ -58,7 +59,14 @@ export default class Header extends React.Component {
   }
 
   loopGetTask = () => {
-    return setInterval(() => this.getTasks(), 5000)
+    return setInterval(() => {
+      this.getTasks()
+      this.checkSession()
+    }, 5000)
+  }
+
+  checkSession = () => {
+    usersApi.checkSession().then(res => wrapResponse(res))
   }
 
   /**

@@ -9,6 +9,7 @@ import {
   Col,
   Icon,
   Alert,
+  Button,
   Tooltip
 } from 'antd'
 import { Drawerx, Formx, Title, Radiox, Diliver, Selectx } from '@/components'
@@ -45,7 +46,9 @@ export default class AddDrawer extends React.Component {
     this.setState({
       networkOptions: [],
       templateOptions: [],
-      nets: [''],
+      nets: [undefined],
+      netTopIndex: 1,
+      netNic: [1], // 当前可用网络数量
       hasSetNetValue: true
     })
     this.drawer.form.setFieldsValue({ desktopNum: 1 })
@@ -53,36 +56,53 @@ export default class AddDrawer extends React.Component {
     this.getCluster()
   }
 
+  getNicValue(index) {
+    return (
+      this.drawer?.form?.getFieldValue('nic') &&
+      this.drawer?.form?.getFieldValue('nic')[index]
+    )
+  }
+
   /**
    *
-   *
+   * 通过netNic来保存 虚拟网卡编号
    * @memberof AddDrawer
    */
   remove = k => {
-    const nets = this.drawer.form.getFieldValue('network')
-    const newNets =
-      nets?.length === 1 ? [''] : [...nets.slice(0, k), ...nets.slice(k + 1)]
+    const nets = this.drawer.form.getFieldValue('nic')
+    const { netNic } = this.state
+    // const newNets =
+    //   nets?.length === 1 ? [''] : [...nets.slice(0, k), ...nets.slice(k + 1)]
+    const newNets = [...nets.slice(0, k), ...nets.slice(k + 1)]
+    const newNetNic = [...netNic.slice(0, k), ...netNic.slice(k + 1)]
     this.setState({
-      nets: newNets
+      nets: newNets,
+      netNic: newNetNic
     })
-    this.drawer.form.setFieldsValue({ network: newNets })
+    this.drawer.form.setFieldsValue({ nic: newNets })
   }
 
   /**
    *
    * 动态添加网卡数量
+   * 通过netNic来保存 虚拟网卡编号
    * @memberof AddDrawer
    */
-  add = index => {
-    if (index > 4) {
+  add = () => {
+    const nets = this.drawer.form.getFieldValue('nic')
+    const newNets = [...nets, undefined]
+    const newNetTopIndex = this.state.netTopIndex + 1
+
+    const newNetNic = this.state.netNic.concat(newNetTopIndex)
+    if (newNets.length > 5) {
       return false
     }
-    const nets = this.drawer.form.getFieldValue('network')
-    const newNets = [...nets, '']
     this.setState({
+      netTopIndex: newNetTopIndex,
+      netNic: newNetNic,
       nets: newNets
     })
-    this.drawer.form.setFieldsValue({ network: newNets })
+    this.drawer.form.setFieldsValue({ nic: newNets })
   }
 
   getSelectType = () => {
@@ -276,16 +296,23 @@ export default class AddDrawer extends React.Component {
    * @memberof AddDrawer
    */
   addVm = values => {
-    const { type, network, ...rest } = values
+    console.log('values', values)
+    const { type, nic, ...rest } = values
     const { netAll } = this.state
-    const networkSelected = network?.map(netId =>
+    const networkSelected = nic?.map(netId =>
       netAll.find(item => item.kindid === netId)
     )
+    const { netNic } = this.state
+    const networkFix = networkSelected.map((item, index) => ({
+      vnic: `nic${netNic[index]}`,
+      ...item
+    }))
     const data = {
       ...rest,
       cpuNum: 1,
-      network: networkSelected
+      network: networkFix
     }
+    console.log('data', data)
     // 如果通过ISO创建用户
     if (type === 'byIso') {
       const { isoName } = values
@@ -367,51 +394,47 @@ export default class AddDrawer extends React.Component {
 
   renderNetWork = () => {
     const networks = this.state?.nets
+    const netNic = this.state?.netNic
     return (
       networks &&
       networks.map((item, index) => (
         <Row gutter={16} key={index} className="form-item-wrapper">
           <Col span={14}>
             <Form.Item
-              prop={`network[${index}]`}
-              label={index === 0 ? `网络` : ''}
+              prop={`nic[${index}]`}
+              label={`nic${netNic[index]}`}
               key={index}
+              hidden={!this.state?.hasSetNetValue}
               rules={index === 0 ? undefined : [required]}
               labelCol={{ sm: { span: 7 } }}
-              wrapperCol={{ sm: { push: index === 0 ? 1 : 8, span: 16 } }}
-              hidden={!this.state?.hasSetNetValue}
+              wrapperCol={{ sm: { push: 1, span: 16 } }}
             >
+              {/* 修改 强制刷新页面 设置disabled */}
               <Selectx
                 getData={this.getNetwork}
                 showRefresh={false}
+                onChange={this.onNetSelect}
                 options={this.state?.networkOptions}
               />
             </Form.Item>
           </Col>
-          {index === networks.length - 1 ? (
-            <Col span={3}>
-              <Icon
-                className="dynamic-button"
-                type="minus-circle-o"
-                onClick={() => this.remove(index)}
-              />
-              <Icon
-                className="dynamic-button"
-                type="plus-circle"
-                disabled={index >= 4}
-                onClick={() => this.add(index)}
-                style={{ marginLeft: 8 }}
-              />
-            </Col>
-          ) : (
-            <Col span={3}>
-              <Icon
-                className="dynamic-button"
-                type="minus-circle-o"
-                onClick={() => this.remove(index)}
-              />
-            </Col>
-          )}
+          <Col span={3}>
+            <Button
+              icon="minus-circle-o"
+              className="dynamic-button"
+              disabled={index === 0 && networks.length === 1}
+              onClick={() => this.remove(index)}
+            />
+            <Button
+              hidden={index !== networks.length - 1}
+              disabled={networks.length >= 5}
+              className="dynamic-button"
+              icon="plus-circle"
+              // 如果实际网卡 已经有5个 或者当前下拉没有值 禁用添加新项
+              onClick={() => this.add(index)}
+              style={{ marginLeft: 8 }}
+            />
+          </Col>
         </Row>
       ))
     )

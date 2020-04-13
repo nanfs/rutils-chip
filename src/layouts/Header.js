@@ -86,7 +86,6 @@ export default class Header extends React.Component {
             taskOnFinished,
             taskTotal: taskOnProgress?.length
           })
-          console.log(res)
         })
         .catch(error => {
           message.error(error.message || error)

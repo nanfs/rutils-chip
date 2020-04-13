@@ -207,7 +207,7 @@ export function getMoreButton({
         key="1"
         hidden={!isInnerMore || isDuplicated}
         onClick={openConsoleFn}
-        // disabled={disabledButton?.disabledOpenConsole}
+        disabled={disabledButton?.disabledOpenConsole}
       >
         打开控制台
       </Menu.Item>

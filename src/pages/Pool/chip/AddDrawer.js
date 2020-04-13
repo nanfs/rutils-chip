@@ -97,7 +97,7 @@ export default class AddDrawer extends React.Component {
             required
             rules={[required, checkName]}
           >
-            <Input placeholder="桌面名称" />
+            <Input placeholder="桌面池名称" />
           </Form.Item>
           <Form.Item
             prop="templateId"

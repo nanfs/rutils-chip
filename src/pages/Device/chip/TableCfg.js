@@ -8,6 +8,7 @@ export const columns = [
     title: () => <span title="已绑定终端数">已绑定终端数</span>,
     dataIndex: 'boundTcNum',
     width: 150,
+    className: 'ellipsis-hasTag',
     render: text => <Tag>{text}</Tag>
   },
   {

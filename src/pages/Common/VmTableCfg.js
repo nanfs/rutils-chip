@@ -153,7 +153,7 @@ export const apiMethod = desktopsApi.list
 
 export const searchOptions = [
   { label: '名称', value: 'name' },
-  { label: '主机名', value: 'hostName' },
+  { label: '主机', value: 'hostName' },
   { label: '数据中心', value: 'datacenterName' },
   { label: '集群', value: 'clusterName' }
 ]

@@ -76,9 +76,7 @@ export default class User extends React.Component {
         <span className="opration-btn">
           <a
             onClick={() => {
-              this.setState({ inner: '编辑用户' })
-              this.editUser(record)
-              this.currentDrawer = this.editDrawer
+              this.editUser(record, record.name)
             }}
           >
             编辑
@@ -340,10 +338,11 @@ export default class User extends React.Component {
     this.currentDrawer = this.addDrawer
   }
 
-  editUser = record => {
-    this.setState({ inner: '编辑用户' })
-    this.editDrawer.pop(record, this.state.selectedType)
-    // this.editDrawer.drawer.show()
+  editUser = (record, name) => {
+    this.setState(
+      { inner: name },
+      this.editDrawer.pop(record, this.state.selectedType)
+    )
     this.currentDrawer = this.editDrawer
   }
 
@@ -482,17 +481,18 @@ export default class User extends React.Component {
                     编辑
                   </Button> */}
                   <Button
-                    onClick={() => this.disableUser()}
-                    disabled={disabledButton.disabledDisable}
-                  >
-                    禁用
-                  </Button>
-                  <Button
                     onClick={() => this.enableUser()}
                     disabled={disabledButton.disabledEnable}
                   >
                     启用
                   </Button>
+                  <Button
+                    onClick={() => this.disableUser()}
+                    disabled={disabledButton.disabledDisable}
+                  >
+                    禁用
+                  </Button>
+
                   <Button
                     onClick={() => this.deleteUser()}
                     disabled={disabledButton.disabledDelete}

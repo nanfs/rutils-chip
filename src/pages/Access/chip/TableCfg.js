@@ -26,6 +26,7 @@ export const columns = [
     ellipsis: true,
     width: 130,
     dataIndex: 'boundTcNum',
+    className: 'ellipsis-hasTag',
     render: text => <Tag>{text}</Tag>
   },
   {

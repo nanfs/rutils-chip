@@ -85,12 +85,14 @@ export const columns = [
     title: () => <span title="已分配桌面数">已分配桌面数</span>,
     dataIndex: 'vmcount',
     ellipsis: true,
+    className: 'ellipsis-hasTag',
     render: text => <Tag>{text}</Tag>
   },
   {
     title: () => <span title="已分配终端数">已分配终端数</span>,
     dataIndex: 'tccount',
     ellipsis: true,
+    className: 'ellipsis-hasTag',
     render: text => <Tag>{text}</Tag>
   }
 ]

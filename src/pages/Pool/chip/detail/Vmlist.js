@@ -20,7 +20,7 @@ const { createTableCfg, TableWrap, ToolBar, BarLeft } = Tablex
 const { confirm } = Modal
 export default class Desktop extends React.Component {
   vmName = {
-    title: () => <span title="桌面名称">桌面名称</span>,
+    title: () => <span title="名称">名称</span>,
     dataIndex: 'name',
     ellipsis: true,
     render: (text, record) => {

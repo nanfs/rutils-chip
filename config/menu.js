@@ -34,6 +34,12 @@ const menu = [
     authority: 'admin'
   },
   {
+    title: '计划任务',
+    icon: 'schedule',
+    path: '/task',
+    authority: 'admin'
+  },
+  {
     title: '终端管理',
     icon: 'terminal',
     iconComonpent: 'MyIcon',
@@ -57,12 +63,6 @@ const menu = [
     icon: 'yonghuguanli',
     iconComonpent: 'MyIcon',
     path: '/user',
-    authority: 'admin'
-  },
-  {
-    title: '计划任务',
-    icon: 'schedule',
-    path: '/task',
     authority: 'admin'
   },
   {

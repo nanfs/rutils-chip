@@ -33,8 +33,20 @@ export default class Sider extends React.Component {
   }
 
   renderMenuItem(item) {
+    let menuBorder = false
+    if (
+      item.title === '计划任务' ||
+      item.title === '资源概览' ||
+      item.title === '准入控制' ||
+      item.title === '用户管理'
+    ) {
+      menuBorder = true
+    }
     return (
-      <Menu.Item key={item.path}>
+      <Menu.Item
+        key={item.path}
+        style={{ borderBottom: menuBorder ? '1px solid #e1edfb' : 'none' }}
+      >
         <NavLink to={item.path}>
           {item.iconComonpent ? (
             <MyIcon type={item.icon} component="svg" />

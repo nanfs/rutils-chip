@@ -398,7 +398,6 @@ export function vmFilterSorterTransform(filter, sorter) {
     hosts: hostName,
     datacenters: datacenterName
   }
-  console.log(columnsList, 'filter.action', filter.action)
   if (filter.action) {
     columnsList = columnsList.filter(item =>
       filter.action.includes(item.dataIndex)

@@ -268,13 +268,13 @@ export default class Task extends React.Component {
                 onClick={() => this.admit()}
                 disabled={disabledButton.disabledAdmit}
               >
-                允许
+                启用
               </Button>
               <Button
                 onClick={() => this.forbid()}
                 disabled={disabledButton.disabledForbid}
               >
-                禁用
+                停用
               </Button>
             </BarLeft>
           </ToolBar>

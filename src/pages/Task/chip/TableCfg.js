@@ -13,12 +13,17 @@ export const columns = [
     render: text => (
       <span className="table-action">
         {text !== 0 ? (
-          <Icon type="check-circle" style={iconStyle.check} title="允许" />
+          <Icon type="check-circle" style={iconStyle.check} title="启用" />
         ) : (
-          <Icon type="stop" style={iconStyle.close} title="禁用" />
+          <Icon type="stop" style={iconStyle.close} title="停用" />
         )}
       </span>
     )
+  },
+  {
+    title: '桌面数量',
+    dataIndex: 'objectCount',
+    render: text => <Tag>{text}</Tag>
   },
   {
     title: '任务类型',
@@ -49,11 +54,6 @@ export const columns = [
   {
     title: '最后编辑',
     dataIndex: 'updateTime'
-  },
-  {
-    title: '执行对象',
-    dataIndex: 'objectCount',
-    render: text => <Tag>{text}</Tag>
   }
 ]
 export const apiMethod = taskApi.list

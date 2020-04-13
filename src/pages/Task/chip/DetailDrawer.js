@@ -189,7 +189,7 @@ export default class DetailDrawer extends React.Component {
               </Row>
             </div>
           </TabPane>
-          <TabPane tab="执行对象" key="target">
+          <TabPane tab="桌面列表" key="target">
             <TableWrap>
               <ToolBar>
                 <BarLeft></BarLeft>

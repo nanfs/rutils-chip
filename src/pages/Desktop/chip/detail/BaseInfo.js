@@ -58,10 +58,10 @@ export default class BaseInfo extends React.Component {
               <Icon
                 type="check-circle"
                 className="table-icon-info"
-                title="允许"
+                title="启用"
               />
             ) : (
-              <Icon type="stop" className="table-icon-warn" title="禁用" />
+              <Icon type="stop" className="table-icon-warn" title="停用" />
             )}
           </span>
         )

@@ -21,7 +21,7 @@ const { confirm } = Modal
 export default class Desktop extends React.Component {
   action = {
     title: '操作',
-    width: 130,
+    width: 120,
     dataIndex: 'action',
     defaultFilteredValue: defaultColumnsValue,
     filters: defaultColumnsFilters,

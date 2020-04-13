@@ -5,12 +5,12 @@ import { storageStatusRender, storageTypeRender } from '@/utils/tableRender'
 
 export const columnsSave = [
   {
-    title: '存储域名称',
+    title: () => <span title="存储域名称">存储域名称</span>,
     ellipsis: true,
     dataIndex: 'name'
   },
   {
-    title: '状态',
+    title: () => <span title="状态">状态</span>,
     dataIndex: 'status',
     width: 100,
     filters: [
@@ -38,20 +38,19 @@ export const columnsSave = [
     render: text => storageStatusRender(text)
   },
   {
-    title: '数据中心',
+    title: () => <span title="数据中心">数据中心</span>,
     ellipsis: true,
     dataIndex: 'storagePoolName'
   },
   {
-    title: '类型',
+    title: () => <span title="类型">类型</span>,
     ellipsis: true,
     dataIndex: 'storageType',
     render: text => storageTypeRender(text)
   },
   {
-    title: '使用情况',
+    title: () => <span title="使用情况">使用情况</span>,
     dataIndex: 'usage',
-    width: '20%',
     render: (text, record) => {
       return (
         <Progress
@@ -75,7 +74,7 @@ export const columnsSave = [
     }
   },
   {
-    title: '描述',
+    title: () => <span title="描述">描述</span>,
     ellipsis: true,
     dataIndex: 'description'
   }

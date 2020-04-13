@@ -2,6 +2,7 @@ import React from 'react'
 import userApi from '@/services/user'
 import { Icon, Tag } from 'antd'
 import { MyIcon } from '@/components'
+import { width } from 'dom-helpers'
 
 export const columns = [
   /* {
@@ -9,8 +10,9 @@ export const columns = [
     dataIndex: 'username'
   }, */
   {
-    title: '状态',
+    title: () => <span title="状态">状态</span>,
     dataIndex: 'status',
+    width: 80,
     // defaultFilteredValue: ['0', '1'],
     filters: [
       { value: '1', text: '禁用' },
@@ -58,36 +60,40 @@ export const columns = [
     }
   },
   {
-    title: '姓名',
-    dataIndex: 'name'
-    /* render: (value, record) => {
-      return (
-        (record.lastname === null ? '' : record.lastname) +
-        (record.firstname === null ? '' : record.firstname)
-      )
-    } */
+    title: () => <span title="姓名">姓名</span>,
+    dataIndex: 'name',
+    ellipsis: true,
+    render: (value, record) => {
+      return <span title={value}>{value}</span>
+    }
   },
   {
-    title: '组织',
-    dataIndex: 'groupName'
+    title: () => <span title="组织">组织</span>,
+    dataIndex: 'groupName',
+    ellipsis: true
   },
   {
-    title: '角色',
-    dataIndex: 'roleName'
+    title: () => <span title="角色">角色</span>,
+    dataIndex: 'roleName',
+    ellipsis: true
   },
   /* {
     title: '邮件',
     dataIndex: 'email'
   }, */
   {
-    title: '已分配桌面数',
+    title: () => <span title="已分配桌面数">已分配桌面数</span>,
     dataIndex: 'vmcount',
-    render: text => <Tag color="blue">{text}</Tag>
+    ellipsis: true,
+    className: 'ellipsis-hasTag',
+    render: text => <Tag>{text}</Tag>
   },
   {
-    title: '已分配终端数',
+    title: () => <span title="已分配终端数">已分配终端数</span>,
     dataIndex: 'tccount',
-    render: text => <Tag color="blue">{text}</Tag>
+    ellipsis: true,
+    className: 'ellipsis-hasTag',
+    render: text => <Tag>{text}</Tag>
   }
 ]
 export const apiMethod = userApi.list

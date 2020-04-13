@@ -32,6 +32,7 @@ export const columns = [
     title: '状态',
     dataIndex: 'status',
     width: 80,
+    ellipsis: true,
     filters: [
       { value: [0, 13], text: '关机' },
       { value: [1], text: '开机' },
@@ -41,74 +42,77 @@ export const columns = [
     render: text => vmStatusRender(text)
   },
   {
-    title: '操作系统',
+    title: () => <span title="操作系统">操作系统</span>,
     dataIndex: 'os',
+    ellipsis: true,
     render: text => {
       return (
-        <span>
+        <span title={osTextRender(text)}>
           {osIconRender(text)} {osTextRender(text)}
         </span>
       )
     }
   },
   {
-    title: '主机',
+    title: () => <span title="主机">主机</span>,
     ellipsis: true,
     dataIndex: 'hostName',
     filters: JSON.parse(sessionStorage.getItem('hosts'))
   },
   {
-    title: 'IP',
+    title: () => <span title="IP">IP</span>,
     ellipsis: true,
     dataIndex: 'ip',
     sorter: true
   },
   {
-    title: '数据中心',
+    title: () => <span title="数据中心">数据中心</span>,
     ellipsis: true,
     dataIndex: 'datacenterName',
     filters: JSON.parse(sessionStorage.getItem('datacenters'))
   },
   {
-    title: '集群',
+    title: () => <span title="集群">集群</span>,
     ellipsis: true,
     dataIndex: 'clusterName',
     filters: JSON.parse(sessionStorage.getItem('clusters'))
   },
   {
-    title: '用户',
+    title: () => <span title="用户">用户</span>,
+    width: 70,
     dataIndex: 'assignedUsers',
-    width: 60,
     render: text => assignedUsersRender(text)
   },
   {
-    title: '控制台',
-    dataIndex: 'isConsole',
+    title: () => <span title="控制台">控制台</span>,
     width: 100,
+    dataIndex: 'isConsole',
+    ellipsis: true,
     render: (text, record) => {
       const consoleContent = record.clientIp ? (
         <Popover content={record.clientIp}>
           <MyIcon type="tc-connecting" component="svg" />
-          <span>已连接</span>
+          <span title="已连接">已连接</span>
         </Popover>
       ) : (
-        <div>
+        <div className="ellipsis-noWhiteSpace">
           <MyIcon type="storage-unattached" component="svg" />
-          <span>未连接</span>
+          <span title="未连接">未连接</span>
         </div>
       )
       return consoleContent
     }
   },
   {
-    title: '已运行',
+    title: () => <span title="已运行">已运行</span>,
     key: 'onlineTime',
+    ellipsis: true,
     dataIndex: 'onlineTime',
     sorter: true,
     render: text => onlineStringTime(text)
   },
   {
-    title: 'CPU',
+    title: () => <span title="CPU">CPU</span>,
     dataIndex: 'cpuUsageRate',
     render: text => {
       return (
@@ -121,7 +125,7 @@ export const columns = [
     }
   },
   {
-    title: '内存',
+    title: () => <span title="内存">内存</span>,
     dataIndex: 'memoryUsageRate',
     render: text => {
       return (
@@ -134,7 +138,7 @@ export const columns = [
     }
   },
   {
-    title: '网络',
+    title: () => <span title="网络">网络</span>,
     dataIndex: 'networkUsageRate',
     render: text => {
       return (
@@ -159,7 +163,7 @@ export const apiMethod = desktopsApi.list
 
 export const searchOptions = [
   { label: '名称', value: 'name' },
-  { label: '主机名', value: 'hostName' },
+  { label: '主机', value: 'hostName' },
   { label: '数据中心', value: 'datacenterName' },
   { label: '集群', value: 'clusterName' }
 ]
@@ -202,7 +206,7 @@ export function getMoreButton({
         key="1"
         hidden={!isInnerMore || isDuplicated}
         onClick={openConsoleFn}
-        disabled={disabledButton?.disabledOpenConsole}
+        // disabled={disabledButton?.disabledOpenConsole}
       >
         打开控制台
       </Menu.Item>

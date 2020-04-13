@@ -31,8 +31,9 @@ const { confirm } = Modal
 
 export default class Desktop extends React.Component {
   vmName = {
-    title: '桌面名称',
+    title: () => <span title="名称">名称</span>,
     dataIndex: 'name',
+    ellipsis: true,
     sorter: true,
     render: (text, record) => {
       return <a onClick={() => this.detailVm(record.id, record.name)}>{text}</a>
@@ -40,7 +41,7 @@ export default class Desktop extends React.Component {
   }
 
   action = {
-    title: '操作',
+    title: () => <span title="操作">操作</span>,
     width: 130,
     dataIndex: 'action',
     defaultFilteredValue: defaultColumnsValue,

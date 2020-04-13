@@ -36,7 +36,7 @@ export default class Terminal extends React.Component {
           <Menu.Item
             key="8"
             onClick={() => {
-              this.deleteTerminal([record.sn])
+              this.deleteTerminal(record.sn, '确定删除该条数据?')
             }}
           >
             删除
@@ -117,7 +117,7 @@ export default class Terminal extends React.Component {
       )
       return (
         <span className="opration-btn">
-          <a onClick={this.editTerminal.bind(this, record)}>编辑</a>
+          <a onClick={() => this.editTerminal(record.name, record)}>编辑</a>
 
           <Dropdown overlay={moreAction} placement="bottomRight">
             <a>
@@ -130,9 +130,10 @@ export default class Terminal extends React.Component {
   }
 
   tcName = {
-    title: '终端名称',
+    title: () => <span title="名称">名称</span>,
     dataIndex: 'name',
-    width: 100,
+
+    ellipsis: true,
     render: (text, record) => {
       return (
         <a
@@ -395,18 +396,16 @@ export default class Terminal extends React.Component {
       })
   }
 
-  editTerminal = (record = undefined) => {
-    this.setState({ inner: '编辑终端' })
-    // this.editDrawer.drawer.show()
-    this.editDrawer.pop(record || this.tablex.getSelectData()[0])
+  editTerminal = (name, data) => {
+    this.setState({ inner: name }, this.editDrawer.pop(data))
     this.currentDrawer = this.editDrawer
   }
 
-  deleteTerminal = (sn = undefined) => {
-    const sns = sn || this.state.selectSN
+  deleteTerminal = (sn, title = '确定删除所选数据?') => {
+    const sns = Array.isArray(sn) ? [...sn] : [sn]
     const self = this
     confirm({
-      title: '确定删除所选数据?',
+      title,
       onOk() {
         return new Promise((resolve, reject) => {
           terminalApi
@@ -433,7 +432,7 @@ export default class Terminal extends React.Component {
 
   render() {
     const searchOptions = [
-      { label: '终端名称', value: 'name' },
+      { label: '名称', value: 'name' },
       { label: '位置', value: 'location' },
       { label: 'IP', value: 'ip' }
     ]
@@ -442,10 +441,17 @@ export default class Terminal extends React.Component {
       <Menu>
         <Menu.Item
           key="delete"
-          onClick={() => this.deleteTerminal()}
+          onClick={() => this.deleteTerminal(this.state.selectSN)}
           disabled={disabledButton.disabledDelete}
         >
           删除
+        </Menu.Item>
+        <Menu.Item
+          key="restart"
+          onClick={() => this.sendOrder('restart')}
+          disabled={disabledButton.disabledShutdown}
+        >
+          重启
         </Menu.Item>
         <Menu.Item
           key="lock"
@@ -501,13 +507,6 @@ export default class Terminal extends React.Component {
         <TableWrap>
           <ToolBar>
             <BarLeft>
-              {/*  <Button
-                onClick={() => this.editTerminal()}
-                disabled={disabledButton.disabledEdit}
-              >
-                编辑
-              </Button> */}
-
               {/* <Button
                 onClick={this.onTerminal}
                 disabled={
@@ -522,12 +521,7 @@ export default class Terminal extends React.Component {
               >
                 关机
               </Button>
-              <Button
-                onClick={() => this.sendOrder('restart')}
-                disabled={disabledButton.disabledShutdown}
-              >
-                重启
-              </Button>
+
               <Button
                 onClick={() => this.setUser(this.tablex.getSelection())}
                 disabled={disabledButton.disabledSetUser}

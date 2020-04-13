@@ -5,25 +5,21 @@ import { MyIcon } from '@/components'
 
 export const columns = [
   {
-    title: '名称',
+    title: () => <span title="名称">名称</span>,
     dataIndex: 'name',
     ellipsis: true
   },
   {
-    title: '描述',
-    dataIndex: 'description',
-    ellipsis: true
-  },
-  {
-    title: '已绑定终端数',
+    title: () => <span title="已绑定终端数">已绑定终端数</span>,
     dataIndex: 'boundTcNum',
     width: 150,
+    className: 'ellipsis-hasTag',
     render: text => <Tag color="blue">{text}</Tag>
   },
   {
-    title: 'USB外设',
-    width: 150,
+    title: () => <span title="USB外设">USB外设</span>,
     dataIndex: 'usagePeripherals',
+    width: 150,
     render: text => {
       if (text === '1') {
         return (
@@ -41,9 +37,9 @@ export const columns = [
     }
   },
   {
-    title: '名单',
+    title: () => <span title="名单">名单</span>,
     dataIndex: 'usb',
-    width: 150,
+    width: 120,
     render: (text, record) => {
       const info = record.usbs.map((item, index) => (
         <p key={index}>
@@ -62,6 +58,11 @@ export const columns = [
         <span>无</span>
       )
     }
+  },
+  {
+    title: () => <span title="描述">描述</span>,
+    dataIndex: 'description',
+    ellipsis: true
   }
 ]
 export const apiMethod = deviceApi.list

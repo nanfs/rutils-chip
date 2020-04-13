@@ -5,33 +5,36 @@ import desktopsApi from '@/services/desktops'
 import { required } from '@/utils/valid'
 import { wrapResponse } from '@/utils/tool'
 
-const { TextArea } = Input
 const { createModalCfg } = Modalx
 export default class AttachIsoModal extends React.Component {
   componentDidMount() {
     this.props.onRef && this.props.onRef(this)
   }
 
-  pop = vmId => {
+  pop = (vmId, storagePoolId, currentCd) => {
     this.modal.show()
-    this.getIso()
-    this.modal.form.setFieldsValue({ vmId })
+    this.getIso(storagePoolId)
+    this.modal.form.setFieldsValue({ vmId, isoName: currentCd })
   }
 
   /**
    *
    * 获取ISO列表 判断 加入到对应列表
+   * 增加一个默认弹出的选项
    */
-  getIso = () => {
-    const { storagePoolId } = this.state
+  getIso = storagePoolId => {
     if (!storagePoolId) {
-      return message.error('请先选择集群')
+      return message.error('获取数据中心出错')
     }
     return desktopsApi.getIso({ storagePoolId }).then(res =>
       wrapResponse(res)
         .then(() => {
+          const isoOptions = res.data.map(item => ({
+            value: item,
+            label: item
+          }))
           this.setState({
-            isoOptions: res.data.map(item => ({ value: item, label: item }))
+            isoOptions: [{ value: '', label: '弹出' }, ...isoOptions]
           })
         })
         .catch(error => {
@@ -66,7 +69,7 @@ export default class AttachIsoModal extends React.Component {
           <Form.Item prop="vmId" label="虚拟机id" hidden>
             <Input />
           </Form.Item>
-          <Form.Item prop="templateName" label="CD" rules={[required]}>
+          <Form.Item prop="isoName" label="CD" rules={[required]}>
             <Selectx getData={this.getIso} options={this.state?.isoOptions} />
           </Form.Item>
         </Formx>

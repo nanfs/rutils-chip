@@ -48,7 +48,7 @@ export default class Desktop extends React.Component {
     filters: defaultColumnsFilters,
     render: (text, record) => {
       const disabledButton = vmDisableAction(record)
-      const { id, name } = record
+      const { id, name, datacenterId, currentCd } = record
       const moreAction = getMoreButton({
         disabledButton,
         deleteFn: () => this.deleteVm(id, '确定删除该条数据?'),
@@ -56,7 +56,7 @@ export default class Desktop extends React.Component {
         setUserFn: () => this.setUser(id, name),
         openConsoleFn: () => this.openConsole(id, name),
         addTempFn: () => this.addTemplateModal.pop(id),
-        attachIsoFn: () => this.attachIsoModal.pop(id),
+        attachIsoFn: () => this.attachIsoModal.pop(id, datacenterId, currentCd),
         isInnerMore: true
       })
       return (

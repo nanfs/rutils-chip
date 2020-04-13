@@ -40,7 +40,7 @@ export default class EditDrawer extends React.Component {
             netTopIndex,
             hasSetNetValue: true
           })
-          this.drawer.form.setFieldsValue({ ...data, id, network: nets })
+          this.drawer.form.setFieldsValue({ ...data, id, nic: nets })
           this.getNetwork()
         })
         .catch(error => {

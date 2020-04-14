@@ -98,7 +98,6 @@ export default class SetUserDrawer extends React.Component {
   pop = poolId => {
     // 如果是一个 获取当前分配的用户
     this.drawer.show()
-    this.selectSearch.reset()
     this.userTablex.replace(this.state.tableCfg)
     this.setState({
       poolId,
@@ -203,9 +202,6 @@ export default class SetUserDrawer extends React.Component {
                 options={searchOptions}
                 onSelectChange={this.onSearchSelectChange}
                 onSearch={this.search}
-                onRef={ref => {
-                  this.selectSearch = ref
-                }}
               ></SelectSearch>
             </ToolBar>
             <Tablex

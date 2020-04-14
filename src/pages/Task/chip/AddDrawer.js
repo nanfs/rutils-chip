@@ -46,7 +46,6 @@ export default class AddDrawer extends React.Component {
    */
   pop = () => {
     this.drawer.show()
-    this.selectSearch.reset()
     this.setState(
       {
         totalSelection: [],
@@ -294,9 +293,6 @@ export default class AddDrawer extends React.Component {
             <ToolBar>
               <BarLeft>
                 <SelectSearch
-                  onRef={ref => {
-                    this.selectSearch = ref
-                  }}
                   options={searchOptions}
                   onSelectChange={this.onSearchSelectChange}
                   onSearch={this.search}

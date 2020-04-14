@@ -45,7 +45,7 @@ class Formx extends React.Component {
       })
   }
 
-  renderFormItem = (child, submitting) => {
+  renderFormItem = (child, submitting, isParentShow) => {
     if (!React.isValidElement(child)) {
       return child
     }
@@ -78,15 +78,16 @@ class Formx extends React.Component {
     }
     if (child.props.children) {
       const sonNode = React.Children.map(child.props.children, son =>
-        this.renderFormItem(son, submitting)
+        this.renderFormItem(son, submitting, isParentShow)
       )
       return React.cloneElement(child, {}, sonNode)
     }
-    return child
+    // 刷新除了
+    return isParentShow !== false && child
   }
 
   render() {
-    const { children, className, style, submitting } = this.props
+    const { children, className, style, submitting, isParentShow } = this.props
     const formLayout = this.props.formItemLayout || formItemLayout
     return (
       <Form
@@ -96,7 +97,7 @@ class Formx extends React.Component {
         style={style}
       >
         {React.Children.map(children, child =>
-          this.renderFormItem(child, submitting)
+          this.renderFormItem(child, submitting, isParentShow)
         )}
       </Form>
     )

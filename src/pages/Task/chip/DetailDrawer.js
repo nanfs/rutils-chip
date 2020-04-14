@@ -1,6 +1,13 @@
 import React from 'react'
 import { Row, Col, Tooltip, message, Tabs } from 'antd'
-import { Drawerx, Tablex, SelectSearch, Tabsx } from '@/components'
+import {
+  Drawerx,
+  Tablex,
+  SelectSearch,
+  Tabsx,
+  Diliver,
+  Title
+} from '@/components'
 import { columns } from './TargetTableCfg'
 import taskApi from '@/services/task'
 import produce from 'immer'
@@ -111,17 +118,16 @@ export default class DetailDrawer extends React.Component {
                 <Col span={3} className="dms-detail-label">
                   名称：
                 </Col>
-                <Col span={18} className="dms-detail-value">
+                <Col span={8} className="dms-detail-value">
                   <Tooltip title={initValues.name}>
                     <span>{initValues.name}</span>
                   </Tooltip>
                 </Col>
-              </Row>
-              <Row className="dms-detail-row">
+
                 <Col span={3} className="dms-detail-label">
                   执行时间：
                 </Col>
-                <Col span={18} className="dms-detail-value">
+                <Col span={8} className="dms-detail-value">
                   <Tooltip title={initValues.time}>
                     <span>{initValues.time}</span>
                   </Tooltip>
@@ -131,17 +137,16 @@ export default class DetailDrawer extends React.Component {
                 <Col span={3} className="dms-detail-label">
                   任务类型：
                 </Col>
-                <Col span={18} className="dms-detail-value">
+                <Col span={8} className="dms-detail-value">
                   <Tooltip title={initValues.taskType}>
                     <span>{initValues.taskType}</span>
                   </Tooltip>
                 </Col>
-              </Row>
-              <Row className="dms-detail-row">
+
                 <Col span={3} className="dms-detail-label">
                   状态：
                 </Col>
-                <Col span={18} className="dms-detail-value">
+                <Col span={8} className="dms-detail-value">
                   <Tooltip title={initValues.status}>
                     <span>{initValues.status}</span>
                   </Tooltip>
@@ -151,17 +156,16 @@ export default class DetailDrawer extends React.Component {
                 <Col span={3} className="dms-detail-label">
                   创建人员：
                 </Col>
-                <Col span={18} className="dms-detail-value">
+                <Col span={8} className="dms-detail-value">
                   <Tooltip title={initValues.createBy}>
                     <span>{initValues.createBy}</span>
                   </Tooltip>
                 </Col>
-              </Row>
-              <Row className="dms-detail-row">
+
                 <Col span={3} className="dms-detail-label">
                   创建时间：
                 </Col>
-                <Col span={18} className="dms-detail-value">
+                <Col span={8} className="dms-detail-value">
                   <Tooltip title={initValues.createTime}>
                     <span>{initValues.createTime}</span>
                   </Tooltip>
@@ -171,43 +175,44 @@ export default class DetailDrawer extends React.Component {
                 <Col span={3} className="dms-detail-label">
                   最后修改：
                 </Col>
-                <Col span={18} className="dms-detail-value">
+                <Col span={8} className="dms-detail-value">
                   <Tooltip title={initValues.updateTime}>
                     <span>{initValues.updateTime}</span>
                   </Tooltip>
                 </Col>
-              </Row>
-              <Row className="dms-detail-row">
+
                 <Col span={3} className="dms-detail-label">
                   描述：
                 </Col>
-                <Col span={18} className="dms-detail-value">
+                <Col span={8} className="dms-detail-value">
                   <Tooltip title={initValues.description}>
                     <span>{initValues.description}</span>
                   </Tooltip>
                 </Col>
               </Row>
             </div>
-          </TabPane>
-          <TabPane tab="桌面列表" key="target">
-            <TableWrap>
-              <ToolBar>
-                <BarLeft></BarLeft>
-                <BarRight>
-                  <SelectSearch
-                    options={searchOptions}
-                    onSelectChange={this.onSearchSelectChange}
-                    onSearch={this.search}
-                  ></SelectSearch>
-                </BarRight>
-              </ToolBar>
-              <Tablex
-                onRef={ref => {
-                  this.detailTargetTablex = ref
-                }}
-                tableCfg={this.state.tableCfg}
-              />
-            </TableWrap>
+            <Diliver />
+            <div className="dms-detail-section">
+              <Title slot="桌面列表"></Title>
+              <TableWrap>
+                <ToolBar>
+                  <BarLeft></BarLeft>
+                  <BarRight>
+                    <SelectSearch
+                      options={searchOptions}
+                      onSelectChange={this.onSearchSelectChange}
+                      onSearch={this.search}
+                    ></SelectSearch>
+                  </BarRight>
+                </ToolBar>
+                <Tablex
+                  onRef={ref => {
+                    this.detailTargetTablex = ref
+                  }}
+                  tableCfg={this.state.tableCfg}
+                />
+              </TableWrap>
+            </div>
           </TabPane>
         </Tabsx>
       </Drawerx>

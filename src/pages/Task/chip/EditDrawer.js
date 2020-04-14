@@ -85,7 +85,7 @@ export default class EditDrawer extends React.Component {
     })
     const taskId = id
     taskApi
-      .detail({ id: taskId })
+      .detail({ id: taskId, current: 1, size: 10000 })
       .then(res => {
         const owner = res.data.records
         const totalSelection = owner.length

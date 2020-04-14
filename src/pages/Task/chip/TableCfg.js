@@ -6,6 +6,15 @@ const iconStyle = {
   check: { color: '#1789d8' },
   close: { color: 'red' }
 }
+const weekCh = {
+  MON: '周一',
+  TUE: '周二',
+  WED: '周三',
+  THU: '周四',
+  FRI: '周五',
+  SAT: '周六',
+  SUN: '周日'
+}
 export const columns = [
   {
     title: () => <span title="状态">状态</span>,
@@ -33,6 +42,21 @@ export const columns = [
         {text == 1 ? <span>定时关机</span> : <span>定时开机</span>}
       </span>
     )
+  },
+  {
+    title: () => <span title="执行周期">执行周期</span>,
+    dataIndex: 'cron',
+    render: text => {
+      const str = text.split(' ')
+      const weeks =
+        str[3] === '?'
+          ? str[str.length - 1]
+              .split(',')
+              .map(item => weekCh[item])
+              .join(',')
+          : '每天'
+      return <span>{weeks}</span>
+    }
   },
   {
     title: () => <span title="执行时间">执行时间</span>,

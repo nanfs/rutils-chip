@@ -32,7 +32,10 @@ export default {
     return axios({
       url: `/schedulerTasks/${id}`,
       method: 'get',
-      params: data
+      params: data,
+      paramsSerializer: params => {
+        return qs.stringify(params, { arrayFormat: 'indices' })
+      }
     })
   },
   deleteTask(data) {

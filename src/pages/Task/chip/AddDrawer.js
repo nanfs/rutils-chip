@@ -307,6 +307,7 @@ export default class AddDrawer extends React.Component {
               onRef={ref => {
                 this.addTargetTablex = ref
               }}
+              saveSelection={true}
               tableCfg={this.state.tableCfg}
               onChange={this.onTableChange}
               onSelectChange={this.onSelectChange}

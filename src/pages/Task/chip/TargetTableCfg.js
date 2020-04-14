@@ -3,18 +3,18 @@ import desktopsApi from '@/services/desktops'
 
 export const columns = [
   {
-    title: '桌面名称',
+    title: () => <span title="桌面名称">桌面名称</span>,
     dataIndex: 'name',
     ellipsis: true
   },
   {
-    title: '集群',
+    title: () => <span title="集群">集群</span>,
     dataIndex: 'clusterName',
     ellipsis: true,
     filters: JSON.parse(sessionStorage.getItem('clusters'))
   },
   {
-    title: '数据中心',
+    title: () => <span title="数据中心">数据中心</span>,
     dataIndex: 'datacenterName',
     ellipsis: true,
     filters: JSON.parse(sessionStorage.getItem('datacenters'))

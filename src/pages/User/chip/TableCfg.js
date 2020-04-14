@@ -81,7 +81,7 @@ export const columns = [
     title: () => <span title="锁定状态">锁定状态</span>,
     dataIndex: 'lockStatus',
     ellipsis: true,
-    width: 80,
+    width: 100,
     render: value => {
       return value === 0 ? (
         <span>

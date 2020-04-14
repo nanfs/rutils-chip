@@ -104,6 +104,7 @@ export default class LoginForm extends React.Component {
             prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
             placeholder="用户名"
             style={{ height: 48 }}
+            autoFocus="autofocus"
           />
         </Form.Item>
         <Form.Item

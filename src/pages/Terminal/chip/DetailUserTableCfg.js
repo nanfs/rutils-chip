@@ -2,11 +2,17 @@
 export const detailUserColumns = [
   {
     title: '用户名',
-    dataIndex: 'username'
+    width: 300,
+    ellipsis: true,
+    dataIndex: 'username',
+    render: value => {
+      return value.split('@')[0]
+    }
   },
   {
     title: '姓名',
     dataIndex: 'name',
+    ellipsis: true,
     render: (value, record) => {
       return (
         (record.lastname === 'null' ? '' : record.lastname) +

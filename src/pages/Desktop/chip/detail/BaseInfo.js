@@ -26,12 +26,17 @@ export default class BaseInfo extends React.Component {
     const userColums = [
       {
         title: '用户名',
-        width: 200,
-        dataIndex: 'username'
+        width: 300,
+        ellipsis: true,
+        dataIndex: 'username',
+        render: value => {
+          return value.split('@')[0]
+        }
       },
       {
         title: '姓名',
         width: 200,
+        ellipsis: true,
         dataIndex: 'name'
       },
       {
@@ -224,7 +229,6 @@ export default class BaseInfo extends React.Component {
           </Row>
           <Row className="dms-detail-row"></Row>
         </div>
-        <Diliver />
 
         <div className="dms-detail-section">
           <Title slot="所属用户"></Title>

@@ -4,6 +4,7 @@ import { nodes2Tree } from '@/utils/tool'
 
 import AddNodeModal from './chip/AddNodeModal'
 import EditNodeModal from './chip/EditNodeModal'
+import { MyIcon } from '@/components'
 
 import './index.less'
 
@@ -192,6 +193,12 @@ export default class Treex extends React.Component {
   renderTreeNode = (data, searchValue = '') =>
     data.map(item => {
       const index = item.title.indexOf(searchValue)
+      let iconType = ''
+      if (item.title === '本地组') {
+        iconType = 'yonghuguanli'
+      } else if (item.parentId === '-2') {
+        iconType = 'adyu'
+      }
       const beforeStr = item.title.substr(0, index)
       const afterStr = item.title.substr(index + searchValue.length)
       const title =
@@ -213,6 +220,20 @@ export default class Treex extends React.Component {
             data-title={item.title}
             parentId={item.parentId}
             type={item.type}
+            icon={() =>
+              iconType ? (
+                <MyIcon
+                  type={iconType}
+                  component="svg"
+                  style={{
+                    fontSize: iconType === 'adyu' ? '22px' : '20px',
+                    color: '#1890ff'
+                  }}
+                />
+              ) : (
+                ''
+              )
+            }
           >
             {this.renderTreeNode(item.children, searchValue)}
           </TreeNode>
@@ -226,6 +247,20 @@ export default class Treex extends React.Component {
           data-title={item.title}
           parentId={item.parentId}
           type={item.type}
+          icon={() =>
+            iconType ? (
+              <MyIcon
+                type={iconType}
+                component="svg"
+                style={{
+                  fontSize: iconType === 'adyu' ? '22px' : '20px',
+                  color: '#1890ff'
+                }}
+              />
+            ) : (
+              ''
+            )
+          }
         />
       )
     })
@@ -338,6 +373,7 @@ export default class Treex extends React.Component {
           <Search onChange={this.onChange} className="tree-search"></Search>
         )}
         <Tree
+          showIcon
           defaultExpandAll
           selectedKeys={selectedKeys}
           className="tree-wrap"

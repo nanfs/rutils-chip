@@ -297,9 +297,9 @@ export default class AddDrawer extends React.Component {
     console.log('values', values)
     const { type, nic, ...rest } = values
     const { netAll } = this.state
-    const networkSelected = nic?.map(netId =>
-      netAll.find(item => item.kindid === netId)
-    )
+    const networkSelected = nic
+      ?.filter(item => item)
+      .map(netId => netAll.find(item => item.kindid === netId))
     const { netNic } = this.state
     const networkFix = networkSelected.map((item, index) => ({
       vnic: `nic${netNic[index]}`,

@@ -27,14 +27,6 @@ export const columns = [
     ellipsis: true
   },
   {
-    title: () => <span title="已绑定终端数">已绑定终端数</span>,
-    ellipsis: true,
-    width: 130,
-    dataIndex: 'boundTcNum',
-    className: 'ellipsis-hasTag',
-    render: text => <Tag color="blue">{text}</Tag>
-  },
-  {
     title: () => <span title="准入类型">准入类型</span>,
     dataIndex: 'type',
     ellipsis: true,
@@ -43,6 +35,14 @@ export const columns = [
     render: (text, record) => {
       return typeArr[record.admitInterval[0].type]
     }
+  },
+  {
+    title: () => <span title="已绑定终端数">已绑定终端数</span>,
+    ellipsis: true,
+    width: 130,
+    dataIndex: 'boundTcNum',
+    className: 'ellipsis-hasTag',
+    render: text => <Tag color="blue">{text}</Tag>
   },
   {
     title: () => <span title="日期">日期</span>,

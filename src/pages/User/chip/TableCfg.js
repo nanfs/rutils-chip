@@ -77,6 +77,35 @@ export const columns = [
     dataIndex: 'roleName',
     ellipsis: true
   },
+  {
+    title: () => <span title="锁定状态">锁定状态</span>,
+    dataIndex: 'lockStatus',
+    ellipsis: true,
+    width: 80,
+    render: value => {
+      return value === 0 ? (
+        <span>
+          <Icon
+            type="check-circle"
+            style={{
+              color: '#85da47'
+            }}
+            title="正常"
+          />
+        </span>
+      ) : (
+        <span>
+          <Icon
+            type="lock"
+            title="锁定"
+            style={{
+              color: '#ff4d4f'
+            }}
+          />
+        </span>
+      )
+    }
+  },
   /* {
     title: '邮件',
     dataIndex: 'email'

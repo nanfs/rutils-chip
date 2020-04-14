@@ -14,6 +14,15 @@ import produce from 'immer'
 
 const { TabPane } = Tabs
 const { createTableCfg, TableWrap, ToolBar, BarLeft, BarRight } = Tablex
+const weekCh = {
+  MON: '周一',
+  TUE: '周二',
+  WED: '周三',
+  THU: '周四',
+  FRI: '周五',
+  SAT: '周六',
+  SUN: '周日'
+}
 
 export default class DetailDrawer extends React.Component {
   componentDidMount() {
@@ -42,15 +51,23 @@ export default class DetailDrawer extends React.Component {
   pop = data => {
     this.drawer.show()
     let time = ''
+    let cycle = ''
     if (data.cron) {
       const cronArr = data.cron.split(' ')
       time = `${cronArr[2]}:${cronArr[1]}`
+      cycle =
+        cronArr[3] === '?'
+          ? cronArr[cronArr.length - 1]
+              .split(',')
+              .map(item => weekCh[item])
+              .join(',')
+          : '每天'
     }
     const taskId = data.id
-    const status = data.status === 1 ? '允许' : '禁用'
+    const status = data.status === 1 ? '启用' : '停用'
     const taskType = data.taskType === 1 ? '定时关机' : '定时开机'
     this.setState({
-      initValues: { ...data, status, taskType, time },
+      initValues: { ...data, status, taskType, time, cycle },
       tableCfg: createTableCfg({
         columns,
         apiMethod: taskApi.detail,
@@ -69,7 +86,7 @@ export default class DetailDrawer extends React.Component {
   /**
    * 当搜索条件下来处理
    *
-   * @memberof Vmlog
+   * @memberof Task
    */
   onSearchSelectChange = oldKey => {
     const searchs = { ...this.state.tableCfg.searchs }
@@ -84,8 +101,10 @@ export default class DetailDrawer extends React.Component {
   }
 
   /**
+   *
+   *
    * @memberof Task
-   * @description 表格搜索
+   * 搜索条件触发
    */
   search = (key, value) => {
     const searchs = {}
@@ -101,9 +120,32 @@ export default class DetailDrawer extends React.Component {
     )
   }
 
+  /**
+   *
+   *
+   * @memberof Task
+   * 筛选条件触发
+   */
+  onTableChange = (page, filter, sorter) => {
+    const { clusterName, datacenterName } = filter
+    this.setState(
+      produce(draft => {
+        draft.tableCfg = {
+          ...draft.tableCfg,
+          searchs: {
+            ...draft.tableCfg.searchs,
+            clusters: clusterName,
+            datacenters: datacenterName
+          }
+        }
+      }),
+      () => this.detailTargetTablex.refresh(this.state.tableCfg)
+    )
+  }
+
   render() {
     const { initValues, defaultActiveKey } = this.state
-    const searchOptions = [{ label: '集群', value: 'clusterName' }]
+    const searchOptions = [{ label: '桌面名称', value: 'name' }]
     return (
       <Drawerx
         onRef={ref => {
@@ -125,11 +167,11 @@ export default class DetailDrawer extends React.Component {
                 </Col>
 
                 <Col span={3} className="dms-detail-label">
-                  执行时间：
+                  状态：
                 </Col>
                 <Col span={8} className="dms-detail-value">
-                  <Tooltip title={initValues.time}>
-                    <span>{initValues.time}</span>
+                  <Tooltip title={initValues.status}>
+                    <span>{initValues.status}</span>
                   </Tooltip>
                 </Col>
               </Row>
@@ -144,15 +186,24 @@ export default class DetailDrawer extends React.Component {
                 </Col>
 
                 <Col span={3} className="dms-detail-label">
-                  状态：
+                  执行周期：
                 </Col>
                 <Col span={8} className="dms-detail-value">
-                  <Tooltip title={initValues.status}>
-                    <span>{initValues.status}</span>
+                  <Tooltip title={initValues.cycle}>
+                    <span>{initValues.cycle}</span>
                   </Tooltip>
                 </Col>
               </Row>
               <Row className="dms-detail-row">
+                <Col span={3} className="dms-detail-label">
+                  执行时间：
+                </Col>
+                <Col span={8} className="dms-detail-value">
+                  <Tooltip title={initValues.time}>
+                    <span>{initValues.time}</span>
+                  </Tooltip>
+                </Col>
+
                 <Col span={3} className="dms-detail-label">
                   创建人员：
                 </Col>
@@ -161,7 +212,8 @@ export default class DetailDrawer extends React.Component {
                     <span>{initValues.createBy}</span>
                   </Tooltip>
                 </Col>
-
+              </Row>
+              <Row className="dms-detail-row">
                 <Col span={3} className="dms-detail-label">
                   创建时间：
                 </Col>
@@ -170,17 +222,17 @@ export default class DetailDrawer extends React.Component {
                     <span>{initValues.createTime}</span>
                   </Tooltip>
                 </Col>
-              </Row>
-              <Row className="dms-detail-row">
+
                 <Col span={3} className="dms-detail-label">
-                  最后修改：
+                  最后编辑：
                 </Col>
                 <Col span={8} className="dms-detail-value">
                   <Tooltip title={initValues.updateTime}>
                     <span>{initValues.updateTime}</span>
                   </Tooltip>
                 </Col>
-
+              </Row>
+              <Row className="dms-detail-row">
                 <Col span={3} className="dms-detail-label">
                   描述：
                 </Col>
@@ -209,6 +261,7 @@ export default class DetailDrawer extends React.Component {
                   onRef={ref => {
                     this.detailTargetTablex = ref
                   }}
+                  onChange={this.onTableChange}
                   tableCfg={this.state.tableCfg}
                 />
               </TableWrap>

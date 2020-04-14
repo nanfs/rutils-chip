@@ -10,12 +10,14 @@ export const columns = [
   {
     title: '集群',
     dataIndex: 'clusterName',
-    ellipsis: true
+    ellipsis: true,
+    filters: JSON.parse(sessionStorage.getItem('clusters'))
   },
   {
     title: '数据中心',
     dataIndex: 'datacenterName',
-    ellipsis: true
+    ellipsis: true,
+    filters: JSON.parse(sessionStorage.getItem('datacenters'))
   }
 ]
 export const apiMethod = desktopsApi.list

@@ -23,7 +23,6 @@ import dayjs from 'dayjs'
 
 const { createTableCfg, TableWrap, ToolBar, BarLeft } = Tablex
 const { TextArea } = Input
-// const weekEn = ['', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN']
 
 export default class AddDrawer extends React.Component {
   state = {
@@ -71,7 +70,7 @@ export default class AddDrawer extends React.Component {
   /**
    * 当搜索条件下来处理
    *
-   * @memberof Vmlog
+   * @memberof Task
    */
   onSearchSelectChange = oldKey => {
     const searchs = { ...this.state.tableCfg.searchs }
@@ -86,8 +85,10 @@ export default class AddDrawer extends React.Component {
   }
 
   /**
+   *
+   *
    * @memberof Task
-   * @description 表格搜索
+   * 搜索条件触发
    */
   search = (key, value) => {
     const searchs = {}
@@ -97,6 +98,29 @@ export default class AddDrawer extends React.Component {
         draft.tableCfg.searchs = {
           ...draft.tableCfg.searchs,
           ...searchs
+        }
+      }),
+      () => this.addTargetTablex.refresh(this.state.tableCfg)
+    )
+  }
+
+  /**
+   *
+   *
+   * @memberof Task
+   * 筛选条件触发
+   */
+  onTableChange = (page, filter, sorter) => {
+    const { clusterName, datacenterName } = filter
+    this.setState(
+      produce(draft => {
+        draft.tableCfg = {
+          ...draft.tableCfg,
+          searchs: {
+            ...draft.tableCfg.searchs,
+            clusters: clusterName,
+            datacenters: datacenterName
+          }
         }
       }),
       () => this.addTargetTablex.refresh(this.state.tableCfg)
@@ -209,7 +233,7 @@ export default class AddDrawer extends React.Component {
   }
 
   render() {
-    const searchOptions = [{ label: '集群', value: 'clusterName' }]
+    const searchOptions = [{ label: '桌面名称', value: 'name' }]
     return (
       <Drawerx
         onRef={ref => {
@@ -284,6 +308,7 @@ export default class AddDrawer extends React.Component {
                 this.addTargetTablex = ref
               }}
               tableCfg={this.state.tableCfg}
+              onChange={this.onTableChange}
               onSelectChange={this.onSelectChange}
             />
           </TableWrap>

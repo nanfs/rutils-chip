@@ -369,7 +369,7 @@ export default class AddDrawer extends React.Component {
           </OptGroup>
         )}
         {this.state?.isos?.linux && (
-          <OptGroup label="linux" key="linux">
+          <OptGroup label="linux或其他" key="linux">
             {this.state?.isos?.linux?.map(item => (
               <Option value={item} key={item}>
                 {item}

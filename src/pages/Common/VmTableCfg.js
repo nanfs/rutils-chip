@@ -212,14 +212,14 @@ export function getMoreButton({
         打开控制台
       </Menu.Item>
       {/* TODO 联调后端 */}
-      {/* <Menu.Item
+      <Menu.Item
         key="7"
         hidden={isDuplicated}
         onClick={attachIsoFn}
         disabled={disabledButton?.disabledAttachIso}
       >
         附加CD
-      </Menu.Item> */}
+      </Menu.Item>
       <Menu.Item
         key="2"
         disabled={disabledButton?.disabledUp}

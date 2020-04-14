@@ -97,10 +97,10 @@ export default {
       responseType: 'arraybuffer'
     })
   },
-  attachIso(data) {
+  attachIso({ vmId, ...data }) {
     return axios({
-      url: '/desktops/attachiso',
-      method: 'get',
+      url: `/desktops/${vmId}/changeCd`,
+      method: 'post',
       params: data
     })
   },

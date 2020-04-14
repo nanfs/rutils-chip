@@ -48,17 +48,20 @@ export default class AddDrawer extends React.Component {
   pop = () => {
     this.drawer.show()
     this.selectSearch.reset()
-    this.setState({
-      totalSelection: [],
-      tableCfg: createTableCfg({
-        columns,
-        apiMethod,
-        paging: { size: 10 },
-        selection: [],
-        rowKey: record => `${record.id}&${record.name}`,
-        pageSizeOptions: ['5', '10', '20', '50']
-      })
-    })
+    this.setState(
+      {
+        totalSelection: [],
+        tableCfg: createTableCfg({
+          columns,
+          apiMethod,
+          paging: { size: 10 },
+          selection: [],
+          rowKey: record => `${record.id}&${record.name}`,
+          pageSizeOptions: ['5', '10', '20', '50']
+        })
+      },
+      () => this.addTargetTablex.refresh(this.state.tableCfg)
+    )
   }
 
   onTypeChange = () => {

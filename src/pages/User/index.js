@@ -72,6 +72,13 @@ export default class User extends React.Component {
           >
             启用
           </Menu.Item>
+          <Menu.Item
+            key="4"
+            onClick={this.unlockUser.bind(this, [record.id])}
+            disabled={record.lockStatus === 0}
+          >
+            解锁
+          </Menu.Item>
         </Menu>
       )
       return (
@@ -174,7 +181,8 @@ export default class User extends React.Component {
         disabledEdit: true,
         disabledDelete: true, // 删除目前只做单个，后面加批量
         disabledEnable: true, // 解锁目前只做单个，后面加批量
-        disabledDisable: true // // 锁定目前只做单个，后面加批量
+        disabledDisable: true, //  锁定目前只做单个，后面加批量
+        disabledUnlock: true
       }
     }
     if (selection.length === 0) {
@@ -182,7 +190,8 @@ export default class User extends React.Component {
         ...disabledButton,
         disabledDelete: true,
         disabledEnable: true,
-        disabledDisable: true
+        disabledDisable: true,
+        disabledUnlock: true
       }
     } else {
       selectData.forEach(item => {
@@ -202,6 +211,12 @@ export default class User extends React.Component {
           disabledButton = {
             ...disabledButton,
             disabledEnable: true
+          }
+        }
+        if (item.lockStatus === 0) {
+          disabledButton = {
+            ...disabledButton,
+            disabledUnlock: true
           }
         }
       })
@@ -551,7 +566,7 @@ export default class User extends React.Component {
                   )}
                   <Button
                     onClick={() => this.unlockUser()}
-                    disabled={disabledButton.disabledDisable}
+                    disabled={disabledButton.disabledUnlock}
                   >
                     解锁
                   </Button>

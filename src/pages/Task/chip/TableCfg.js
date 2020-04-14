@@ -3,8 +3,8 @@ import taskApi from '@/services/task'
 import { Icon, Tag } from 'antd'
 
 const iconStyle = {
-  check: { color: '#1789d8' },
-  close: { color: 'red' }
+  check: { color: '#85da47' },
+  close: { color: '#ff4d4f' }
 }
 const weekCh = {
   MON: '周一',

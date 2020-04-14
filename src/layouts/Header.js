@@ -18,7 +18,6 @@ import {
 } from '@/utils/auth'
 import { wrapResponse } from '@/utils/tool'
 
-import { transform } from '@/utils/dict'
 import ResetPwModal from './chip/ResetPwModal'
 import SystemModal from './chip/SystemModal'
 import AboutModal from './chip/AboutModal'
@@ -147,8 +146,8 @@ export default class Header extends React.Component {
                     </Avatar>
                   )
                 }
-                title={<a>{transform(item.action_type)}</a>}
-                description={transform(item.description)}
+                title={<a>{item.action_type}</a>}
+                description={item.description}
               />
             </Skeleton>
           </List.Item>

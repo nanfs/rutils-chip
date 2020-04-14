@@ -192,7 +192,7 @@ export const vmStatusRender = status => {
   )
 }
 const osList = {
-  '0': 'os-other', // other-os
+  '0': 'storage-detaching', // other-os
   '5': 'os-linux',
   '7': 'os-redhat',
   '8': 'os-redhat',
@@ -237,7 +237,7 @@ export const osIconRender = os => {
 export const osTextRender = os => {
   const osType = osList[os] || 'os-windows'
   const typeList = {
-    'os-other': 'OTHER OS',
+    'storage-detaching': 'OTHER OS',
     'os-redhat': '红帽',
     'os-windows': 'Win',
     'os-qilin': '麒麟',

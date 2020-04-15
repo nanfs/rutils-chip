@@ -4,7 +4,7 @@ import { nodes2Tree } from '@/utils/tool'
 
 import AddNodeModal from './chip/AddNodeModal'
 import EditNodeModal from './chip/EditNodeModal'
-import { MyIcon } from '@/components'
+import MyIcon from '../MyIcon'
 
 import './index.less'
 

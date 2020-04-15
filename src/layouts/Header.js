@@ -182,10 +182,7 @@ export default class Header extends React.Component {
           <TabPane tab={`进行中(${taskOnProgress?.length})`} key="1">
             {this.renderTaskItem(taskOnProgress, 'STARTED')}
           </TabPane>
-          <TabPane
-            tab={(`已完成(${taskOnFinished?.length})`, 'FINISHED')}
-            key="2"
-          >
+          <TabPane tab={`已完成(${taskOnFinished?.length})`} key="2">
             {this.renderTaskItem(taskOnFinished, 'FINISHED')}
           </TabPane>
           <TabPane tab={`未成功(${taskOnFailed?.length})`} key="3">

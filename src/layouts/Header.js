@@ -79,6 +79,7 @@ export default class Header extends React.Component {
         .then(() => {
           const taskOnProgress = []
           const taskOnFinished = []
+          const taskOnFailed = []
           res.data.records.forEach(task => {
             const { status } = task
             if (status === 'FINISHED') {
@@ -87,10 +88,14 @@ export default class Header extends React.Component {
             if (status === 'STARTED') {
               taskOnProgress.push(task)
             }
+            if (status === 'FAILED') {
+              taskOnFailed.push(task)
+            }
           })
           this.setState({
             taskOnProgress,
             taskOnFinished,
+            taskOnFailed,
             taskTotal: taskOnProgress?.length
           })
         })
@@ -124,6 +129,28 @@ export default class Header extends React.Component {
       })
   }
 
+  renderAvatar = type => {
+    if (type === 'STARTED') {
+      return (
+        <Avatar style={{ backgroundColor: '#1890ff' }}>
+          <Icon type="sync" spin />
+        </Avatar>
+      )
+    }
+    if (type === 'FINISHED') {
+      return (
+        <Avatar style={{ backgroundColor: '#87d068' }}>
+          <Icon type="check-circle" />
+        </Avatar>
+      )
+    }
+    return (
+      <Avatar style={{ backgroundColor: '#f50' }}>
+        <Icon type="close" />
+      </Avatar>
+    )
+  }
+
   renderTaskItem = (tasks, type) => {
     return (
       <List
@@ -135,17 +162,7 @@ export default class Header extends React.Component {
           <List.Item>
             <Skeleton avatar title={false} loading={item.loading} active>
               <List.Item.Meta
-                avatar={
-                  type === 'onProgress' ? (
-                    <Avatar style={{ backgroundColor: '#1890ff' }}>
-                      <Icon type="sync" spin />
-                    </Avatar>
-                  ) : (
-                    <Avatar style={{ backgroundColor: '#87d068' }}>
-                      <Icon type="check-circle" />
-                    </Avatar>
-                  )
-                }
+                avatar={this.renderAvatar(type)}
                 title={<a>{item.action_type}</a>}
                 description={item.description}
               />
@@ -157,15 +174,21 @@ export default class Header extends React.Component {
   }
 
   renderTaskList = () => {
-    const { taskOnProgress, taskOnFinished } = this.state || {}
+    const { taskOnProgress, taskOnFinished, taskOnFailed } = this.state || {}
     return (
       <div className="header-task-list" onClick={() => false}>
         <Tabs animated={false}>
           <TabPane tab={`进行中(${taskOnProgress?.length})`} key="1">
-            {this.renderTaskItem(taskOnProgress, 'onProgress')}
+            {this.renderTaskItem(taskOnProgress, 'STARTED')}
           </TabPane>
-          <TabPane tab={`已完成(${taskOnFinished?.length})`} key="2">
-            {this.renderTaskItem(taskOnFinished)}
+          <TabPane
+            tab={(`已完成(${taskOnFinished?.length})`, 'FINISHED')}
+            key="2"
+          >
+            {this.renderTaskItem(taskOnFinished, 'FINISHED')}
+          </TabPane>
+          <TabPane tab={`未成功(${taskOnFailed?.length})`} key="3">
+            {this.renderTaskItem(taskOnFailed, 'FAILED')}
           </TabPane>
         </Tabs>
       </div>

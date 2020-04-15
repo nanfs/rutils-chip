@@ -214,7 +214,7 @@ export function getMoreButton({
       {/* TODO 联调后端 */}
       <Menu.Item
         key="7"
-        hidden={isDuplicated}
+        hidden={isDuplicated || !isInnerMore}
         onClick={attachIsoFn}
         disabled={disabledButton?.disabledAttachIso}
       >

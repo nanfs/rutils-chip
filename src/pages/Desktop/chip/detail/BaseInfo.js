@@ -177,7 +177,7 @@ export default class BaseInfo extends React.Component {
             </Col>
             <Col span={8} className="dms-detail-value">
               <Tooltip title={data.cpuCores}>
-                <span>{data.cpuCores}</span>
+                <span>{data.cpuCores} 核</span>
               </Tooltip>
             </Col>
           </Row>

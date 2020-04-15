@@ -1,5 +1,5 @@
 import React from 'react'
-import { Table, Pagination, Button, message, Menu, Select, Icon } from 'antd'
+import { Table, Pagination, Button, message, Select } from 'antd'
 import { wrapResponse } from '@/utils/tool'
 import './index.less'
 import TableWrap, { BarLeft, BarRight, ToolBar } from './TableWrap'
@@ -233,7 +233,7 @@ class Tablex extends React.Component {
     this.setState(
       {
         paging: {
-          total: 1,
+          total: this.state?.paging?.total || 1,
           current: page,
           size
         }
@@ -246,7 +246,7 @@ class Tablex extends React.Component {
     this.setState(
       {
         paging: {
-          total: 1,
+          total: this.state?.paging?.total || 1,
           current: 1,
           size
         }

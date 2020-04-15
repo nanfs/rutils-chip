@@ -182,7 +182,6 @@ export default class Treex extends React.Component {
 
   // 树节点选中
   onSelect = (key, node) => {
-    console.log(node)
     const { onSelect } = this.props
     onSelect && onSelect(node.node.props.eventKey, node)
     this.setState({

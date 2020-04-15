@@ -14,11 +14,13 @@ import {
   setDataCenterToSession,
   setHostToSession
 } from '@/utils/storage'
+import { window } from 'rxjs/operator/window'
 
 // TODO 会有不同步问题 后期优化
 setClusterToSession()
 setDataCenterToSession()
 setHostToSession()
+
 export const columns = [
   {
     title: () => <span title="桌面名称">桌面名称</span>,
@@ -32,7 +34,7 @@ export const columns = [
   {
     title: () => <span title="状态">状态</span>,
     dataIndex: 'status',
-    width: 80,
+    width: '10%',
     ellipsis: true,
     filters: [
       { value: [0, 13], text: '关机' },

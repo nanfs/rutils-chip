@@ -3,11 +3,11 @@ import { Row, Col, Table, Tag, message, Spin, Tooltip, Icon } from 'antd'
 import { Title, Diliver } from '@/components'
 import desktopsApi from '@/services/desktops'
 import { wrapResponse } from '@/utils/tool'
-import { osTextRender } from '@/utils/tableRender'
+import { osTextRender, availableStatusRender } from '@/utils/tableRender'
 import '../../index.less'
 
 const iconStyle = {
-  check: { color: '#85da47' },
+  check: { color: '#17abe3' },
   close: { color: '#ff4d4f' }
 }
 
@@ -65,7 +65,7 @@ export default class BaseInfo extends React.Component {
         render: text => (
           <span className="table-action">
             {text !== 0 ? (
-              <Icon type="check-circle" style={iconStyle.check} title="启用" />
+              availableStatusRender('启用')
             ) : (
               <Icon type="stop" style={iconStyle.close} title="停用" />
             )}

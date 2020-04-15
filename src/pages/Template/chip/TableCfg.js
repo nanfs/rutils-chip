@@ -2,6 +2,7 @@ import React from 'react'
 import templateApi from '@/services/template'
 import { Icon, Tag } from 'antd'
 import '../index.less'
+import { availableStatusRender } from '@/utils/tableRender'
 
 export const columns = [
   {
@@ -16,11 +17,7 @@ export const columns = [
           </span>
         )
       } else if (text == '0') {
-        return (
-          <span className="can-use" title="可用">
-            <Icon type="check-circle" />
-          </span>
-        )
+        return availableStatusRender('可用')
       } else {
         return (
           <span className="safety" title="合法">

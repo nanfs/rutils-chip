@@ -77,7 +77,8 @@ export const columns = [
   },
   {
     title: () => <span title="最后编辑">最后编辑</span>,
-    dataIndex: 'updateTime'
+    dataIndex: 'updateTime',
+    ellipsis: true
   }
 ]
 export const apiMethod = taskApi.list

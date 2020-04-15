@@ -112,6 +112,7 @@ export default class Header extends React.Component {
    * @memberof Header
    */
   logOut = () => {
+    window.removeEventListener('click', this.onDocumentClick)
     setUserToLocal(null)
     reloadAuthorized()
     loginApi

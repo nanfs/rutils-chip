@@ -21,6 +21,15 @@ export default class Vmlog extends React.Component {
     disabledButton: {}
   }
 
+  searchOptions = [
+    { label: '信息', value: 'message' },
+    { label: '用户', value: 'userName' },
+    { label: '桌面名称', value: 'desktopName' },
+    { label: '数据中心', value: 'datacenterName' },
+    { label: '集群名称', value: 'clusterName' },
+    { label: '主机名', value: 'hostName' }
+  ]
+
   selectDate = rangeDate => {
     const [startDate, endDate] = rangeDate
     this.setState(
@@ -37,21 +46,11 @@ export default class Vmlog extends React.Component {
     )
   }
 
-  search = (key, value) => {
-    const searchs = {}
-    searchs[key] = value
-    this.setState(
-      produce(draft => {
-        draft.tableCfg.searchs = {
-          // ...draft.tableCfg.searchs,
-          severity: draft.tableCfg.searchs.severity,
-          ...searchs
-        }
-      }),
-      () => this.tablex.refresh(this.state.tableCfg)
-    )
-  }
-
+  /**
+   *
+   *
+   * @memberof Vmlog
+   */
   onTableChange = (a, filter) => {
     const severityList = []
     severityList.push(...filter.severity)
@@ -66,6 +65,11 @@ export default class Vmlog extends React.Component {
     )
   }
 
+  /**
+   *
+   *
+   * @memberof Vmlog
+   */
   onSelectChange = selection => {
     let disabledButton = {}
     if (selection.length === 0) {
@@ -77,13 +81,49 @@ export default class Vmlog extends React.Component {
     this.setState({ disabledButton })
   }
 
+  /**
+   * 当搜索条件下来处理
+   *
+   * @memberof Vmlog
+   */
+  onSearchSelectChange = oldKey => {
+    const searchs = { ...this.state.tableCfg.searchs }
+    delete searchs[oldKey]
+    this.setState(
+      produce(draft => {
+        draft.tableCfg.searchs = {
+          ...searchs
+        }
+      })
+    )
+  }
+
+  /**
+   *
+   *
+   * @memberof Vmlog
+   */
+  search = (key, value) => {
+    const searchs = {}
+    searchs[key] = value
+    this.setState(
+      produce(draft => {
+        draft.tableCfg.searchs = {
+          ...draft.tableCfg.searchs,
+          ...searchs
+        }
+      }),
+      () => this.tablex.refresh(this.state.tableCfg)
+    )
+  }
+
   deleteLogs = () => {
     const ids = this.tablex.getSelection()
     const self = this
     confirm({
       title: '确定删除所选数据?',
       onOk() {
-        return new Promise((resolve, reject) => {
+        return new Promise(resolve => {
           vmlogsApi
             .delete({ ids })
             .then(res => {
@@ -95,10 +135,10 @@ export default class Vmlog extends React.Component {
               }
               resolve()
             })
-            .catch(errors => {
-              message.error(errors)
+            .catch(error => {
+              message.error(error.message || error)
               resolve()
-              console.log(errors)
+              console.log(error)
             })
         })
       },
@@ -107,14 +147,6 @@ export default class Vmlog extends React.Component {
   }
 
   render() {
-    const searchOptions = [
-      { label: '信息', value: 'message' },
-      { label: '用户', value: 'userName' },
-      { label: '桌面名称', value: 'desktopName' },
-      { label: '数据中心名称', value: 'datacenterName' },
-      { label: '集群名称', value: 'clusterName' },
-      { label: '主机名', value: 'hostName' }
-    ]
     const { disabledButton } = this.state
     return (
       <React.Fragment>
@@ -132,7 +164,8 @@ export default class Vmlog extends React.Component {
             <BarRight span={14}>
               <RangePicker onChange={this.selectDate} showTime></RangePicker>
               <SelectSearch
-                options={searchOptions}
+                options={this.searchOptions}
+                onSelectChange={this.onSearchSelectChange}
                 onSearch={this.search}
               ></SelectSearch>
             </BarRight>
@@ -141,6 +174,7 @@ export default class Vmlog extends React.Component {
             onRef={ref => {
               this.tablex = ref
             }}
+            autoReplace={true}
             tableCfg={this.state.tableCfg}
             onSelectChange={this.onSelectChange}
             onChange={this.onTableChange}

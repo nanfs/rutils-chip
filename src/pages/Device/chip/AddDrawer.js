@@ -19,6 +19,10 @@ export default class AddDrawer extends React.Component {
     }
   }
 
+  /**
+   * @memberof device
+   * 设置表单初始值
+   */
   setValues = () => {
     const { id, name, description, usbs, usageFix } = this.state
     const usbsObj = {}
@@ -38,9 +42,18 @@ export default class AddDrawer extends React.Component {
 
   pop = () => {
     this.drawer.show()
-    this.setState({ usbs: [{ name: '', pid: '', vid: '' }] })
+    this.setState({
+      name: '',
+      usageFix: false,
+      description: '',
+      usbs: [{ name: '', pid: '', vid: '' }]
+    })
   }
 
+  /**
+   * @memberof device
+   * 处理名单数据
+   */
   getUsbs = () => {
     const data = this.drawer.form.getFieldsValue()
     const { usbname, usbvid, usbpid } = data
@@ -55,79 +68,9 @@ export default class AddDrawer extends React.Component {
     return usbs
   }
 
-  remove = k => {
-    const usbs = this.getUsbs()
-    const newUsbs = [...usbs.slice(0, k), ...usbs.slice(k + 1)]
-    this.setState({
-      ...this.state,
-      ...this.drawer.form.getFieldsValue(),
-      usbs: newUsbs
-    })
-  }
-
-  add = index => {
-    const usbs = this.getUsbs()
-    if (index >= 9) {
-      notification.warn({ message: '特例最多允许添加10条' })
-      return
-    }
-    if (usbs[index].name === '' || usbs[index].name === undefined) {
-      notification.warn({ message: '请完善特例名称' })
-      return
-    }
-    if (usbs[index].vid === '' || usbs[index].vid === undefined) {
-      notification.warn({ message: '请完善特例VendorId' })
-      return
-    }
-    if (usbs[index].pid === '' || usbs[index].pid === undefined) {
-      notification.warn({ message: '请完善特例ProductId' })
-      return
-    }
-    this.setState({
-      ...this.state,
-      ...this.drawer.form.getFieldsValue(),
-      usbs: [...usbs, []]
-    })
-  }
-
-  addDev = values => {
-    let usbs = this.getUsbs()
-    if (usbs.length === 1) {
-      if (
-        usbs[0].name == '' ||
-        usbs[0].name == undefined ||
-        usbs[0].vid == '' ||
-        usbs[0].vid == undefined ||
-        usbs[0].pid == '' ||
-        usbs[0].pid == undefined
-      ) {
-        // notification.warn({ message: '请至少添加一例特例' })
-        usbs = undefined
-      }
-    } else if (
-      usbs[usbs.length - 1].name == '' ||
-      usbs[usbs.length - 1].name == undefined ||
-      usbs[usbs.length - 1].vid == '' ||
-      usbs[usbs.length - 1].vid == undefined ||
-      usbs[usbs.length - 1].pid == '' ||
-      usbs[usbs.length - 1].pid == undefined
-    ) {
-      // notification.warn({ message: '请完善特例' })
-      usbs = usbs.slice(0, usbs.length - 1) // 去掉最后一项
-    }
-    const { id, name, description, usageFix } = values
-    const usagePeripherals = usageFix ? '1' : '0'
-    deviceApi
-      .addDev({ id, name, description, usagePeripherals, usbs })
-      .then(res => {
-        this.drawer.afterSubmit(res)
-      })
-      .catch(errors => {
-        this.drawer.break(errors)
-        console.log(errors)
-      })
-  }
-
+  /**
+   * 名单设置是动态表单，新增或删除一条名单时动态渲染输入框组件
+   */
   renderUsb = () => {
     const { usbs } = this.state
     return (
@@ -154,7 +97,6 @@ export default class AddDrawer extends React.Component {
               <Icon
                 className="dynamic-delete-button"
                 type="minus-circle-o"
-                disabled={index === 0}
                 onClick={() => this.remove(index)}
               />
               <Icon
@@ -176,6 +118,112 @@ export default class AddDrawer extends React.Component {
         </Row>
       ))
     )
+  }
+
+  /**
+   * @param k 删除数据的序列号
+   * 删除名单
+   */
+  remove = k => {
+    const usbs = this.getUsbs()
+    if (k === 0 && usbs.length <= 1) {
+      usbs[k].name = ''
+      usbs[k].vid = ''
+      usbs[k].pid = ''
+      this.setState({
+        ...this.state,
+        ...this.drawer.form.getFieldsValue(),
+        usbs
+      })
+      return false
+    }
+    const newUsbs = [...usbs.slice(0, k), ...usbs.slice(k + 1)]
+    this.setState({
+      ...this.state,
+      ...this.drawer.form.getFieldsValue(),
+      usbs: newUsbs
+    })
+  }
+
+  /**
+   * @param index 新增名单的序列号
+   * 名单最多允许添加10条
+   * 名单设置 一条名单必须填完整才允许新增下一条名单
+   */
+  add = index => {
+    const usbs = this.getUsbs()
+    if (index >= 9) {
+      notification.warn({ message: '名单最多允许添加10条' })
+      return
+    }
+    if (usbs[index].name === '' || usbs[index].name === undefined) {
+      notification.warn({ message: '请完善名单名称' })
+      return
+    }
+    if (usbs[index].vid === '' || usbs[index].vid === undefined) {
+      notification.warn({ message: '请完善名单VendorId' })
+      return
+    }
+    if (usbs[index].pid === '' || usbs[index].pid === undefined) {
+      notification.warn({ message: '请完善名单ProductId' })
+      return
+    }
+    this.setState({
+      ...this.state,
+      ...this.drawer.form.getFieldsValue(),
+      usbs: [...usbs, []]
+    })
+  }
+
+  /**
+   * @param values 表单提交数据
+   * 新增外设策略 对提交的数据进行格式处理
+   * 名单有一项不为空，提示填完整；全为空，则不提交该数据
+   */
+  addDev = values => {
+    let usbs = this.getUsbs()
+    if (usbs.length === 1) {
+      if (!usbs[0].name && !usbs[0].vid && !usbs[0].pid) {
+        usbs = undefined
+      } else if (
+        usbs[0].name == '' ||
+        usbs[0].name == undefined ||
+        usbs[0].vid == '' ||
+        usbs[0].vid == undefined ||
+        usbs[0].pid == '' ||
+        usbs[0].pid == undefined
+      ) {
+        this.drawer.break('请完善名单')
+        return false
+      }
+    } else if (
+      !usbs[usbs.length - 1].name &&
+      !usbs[usbs.length - 1].vid &&
+      !usbs[usbs.length - 1].pid
+    ) {
+      usbs = usbs.slice(0, usbs.length - 1) // 去掉最后一项
+    } else if (
+      usbs[usbs.length - 1].name == '' ||
+      usbs[usbs.length - 1].name == undefined ||
+      usbs[usbs.length - 1].vid == '' ||
+      usbs[usbs.length - 1].vid == undefined ||
+      usbs[usbs.length - 1].pid == '' ||
+      usbs[usbs.length - 1].pid == undefined
+    ) {
+      this.drawer.break('请完善名单')
+      return false
+    }
+    const { id, name, description, usageFix } = values
+    const usagePeripherals = usageFix ? '1' : '0'
+    deviceApi
+      .addDev({ id, name, description, usagePeripherals, usbs })
+      .then(res => {
+        this.drawer.afterSubmit(res)
+      })
+      .catch(errors => {
+        this.drawer.break(errors)
+        console.log(errors)
+      })
   }
 
   render() {
@@ -213,8 +261,8 @@ export default class AddDrawer extends React.Component {
           >
             <Switch
               name="usageFix"
-              checkedChildren="启用"
-              unCheckedChildren="禁用"
+              checkedChildren="启用白名单"
+              unCheckedChildren="启用黑名单"
             />
           </Form.Item>
           <Form.Item prop="description" label="描述" rules={[number5]}>

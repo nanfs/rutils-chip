@@ -13,8 +13,8 @@ export default {
   delPool(poolId) {
     return axios({
       url: `/pools/${poolId}`,
-      method: 'delete',
-      timeout: 60000
+      // timeout: 60000,
+      method: 'delete'
     })
   },
   detail(poolId) {
@@ -34,7 +34,7 @@ export default {
     return axios({
       url: '/pools',
       method: 'post',
-      timeout: 60000,
+      // timeout: 60000,
       data: qs.stringify(data)
     })
   },
@@ -43,7 +43,7 @@ export default {
     return axios({
       url: `/pools/${poolId}`,
       method: 'post',
-      timeout: 60000,
+      // timeout: 60000,
       data: qs.stringify(values)
     })
   },

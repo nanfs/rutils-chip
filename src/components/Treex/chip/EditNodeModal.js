@@ -4,7 +4,7 @@ import Formx from '../../Formx'
 import Modalx, { createModalCfg } from '../../Modalx'
 import { Form, Input, message } from 'antd'
 
-import { required, checkName, textRange } from '@/utils/valid'
+import { required, checkTreeNodeName, textRange } from '@/utils/valid'
 
 export default class EditNodeModal extends React.Component {
   componentDidMount() {
@@ -32,8 +32,8 @@ export default class EditNodeModal extends React.Component {
         }
         this.modal.afterSubmit(res)
       })
-      .catch(e => {
-        message.error(e)
+      .catch(error => {
+        message.error(error.message || error)
       })
   }
 
@@ -53,7 +53,7 @@ export default class EditNodeModal extends React.Component {
             prop="name"
             label="名称"
             required
-            rules={[required, checkName, textRange(0, 10)]}
+            rules={[required, checkTreeNodeName, textRange(0, 20)]}
             labelCol={{ sm: { span: 5 } }}
             wrapperCol={{ sm: { span: 16 } }}
           >

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Tag, Switch, message } from 'antd'
-import { columns, apiMethod } from '@/pages/Device/chip/TableCfg'
+import { columns, apiMethod } from './SafePolicyTableCfg'
 import terminalApi from '@/services/terminal'
 import produce from 'immer'
 import { Drawerx, Formx, Tablex, Diliver, Title } from '@/components'
@@ -106,9 +106,9 @@ export default class SetSafePolicyDrawer extends React.Component {
             () => this.deviceTablex.replace(this.state.tableCfg)
           )
         })
-        .catch(errors => {
-          console.log(errors)
-          message.error(errors)
+        .catch(error => {
+          message.error(error.message || error)
+          console.log(error)
         })
     } else {
       this.setState(
@@ -127,7 +127,6 @@ export default class SetSafePolicyDrawer extends React.Component {
   }
 
   setDevice = () => {
-    // TODO 是否是新增 删除 还是直接 传入桌面是单个还是批量
     const { sns, totalSelection } = this.state
     const ids = totalSelection.map(item => {
       const [id, name] = item.split('&')
@@ -159,6 +158,11 @@ export default class SetSafePolicyDrawer extends React.Component {
     )
   }
 
+  /**
+   * @memberof SetSafePolicyDrawer
+   * @description 切换启用白名单/启用黑名单
+   * @author linghu
+   */
   switchChange = checked => {
     this.setState(
       produce(draft => {
@@ -183,13 +187,13 @@ export default class SetSafePolicyDrawer extends React.Component {
         onOk={this.setDevice}
         onSuccess={this.props.onSuccess}
       >
-        <Formx>
+        <Formx className="pt15">
           <TableWrap>
             <ToolBar>
               <Switch
                 name="usagePeripherals"
-                checkedChildren="启用外设"
-                unCheckedChildren="禁用外设"
+                checkedChildren="启用白名单"
+                unCheckedChildren="启用黑名单"
                 disabled={this.state.switchDisable}
                 checked={this.state.switchStatus}
                 onChange={this.switchChange}

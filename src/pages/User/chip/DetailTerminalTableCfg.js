@@ -3,12 +3,15 @@ import userApi from '@/services/user'
 import { Icon, Popover, Tag } from 'antd'
 import { MyIcon } from '@/components'
 
-// TODO antd 样式加载问题
 const iconStyle = {
   check: { fontSize: 20, color: '#1789d8' },
   close: { fontSize: 18 }
 }
 export const detailTeminalColumns = [
+  {
+    title: '名称',
+    dataIndex: 'name'
+  },
   {
     title: '状态',
     dataIndex: 'status',
@@ -49,8 +52,8 @@ export const detailTeminalColumns = [
     }
   },
   {
-    title: '名称',
-    dataIndex: 'name'
+    title: 'IP',
+    dataIndex: 'ip'
   },
   {
     title: '接入状态',
@@ -76,10 +79,6 @@ export const detailTeminalColumns = [
   {
     title: '位置',
     dataIndex: 'location'
-  },
-  {
-    title: 'IP',
-    dataIndex: 'ip'
   },
   {
     title: '外设控制',

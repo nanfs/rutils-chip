@@ -7,7 +7,7 @@ function Diliver(props) {
   const { heigth } = props
   return (
     <div
-      className="drawer-form-diliver"
+      className="drawer-form-diliver diliver"
       style={{ height: heigth || '15px' }}
     ></div>
   )

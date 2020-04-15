@@ -1,22 +1,12 @@
 import React from 'react'
-import {
-  G2,
-  Chart,
-  Geom,
-  Axis,
-  Tooltip,
-  Coord,
-  Label,
-  Legend,
-  View,
-  Guide,
-  Shape,
-  Facet,
-  Util
-} from 'bizcharts'
+import { Chart, Geom, Axis, Tooltip, Coord, Legend, Guide } from 'bizcharts'
 import DataSet from '@antv/data-set'
 
 export default class DonutChart extends React.Component {
+  /**
+   * @memberof DonutChart
+   * @description 父组件传入的DonutChartData格式为{name: 'aa', count: '100'}
+   */
   render() {
     const { DonutChartData, guideTitle, dataSum } = this.props
     const { DataView } = DataSet
@@ -44,7 +34,7 @@ export default class DonutChart extends React.Component {
           width={450}
           data={dv}
           scale={cols}
-          padding="auto"
+          padding={[0, 100, 0, 0]}
           forceFit={true}
           className="dashboard-chart dashboard-donutchart"
         >
@@ -52,7 +42,7 @@ export default class DonutChart extends React.Component {
           <Axis name="count" />
           <Legend
             position="right-center"
-            offsetX={50}
+            offsetX={-10}
             offsetY={10}
             clickable={false}
             textStyle={{
@@ -60,7 +50,7 @@ export default class DonutChart extends React.Component {
               fontSize: '14' // 文本大小
               // fontWeight: 'bold', // 文本粗细
             }}
-            marker="square"
+            marker="circle"
             itemFormatter={val => {
               let count = 0
               DonutChartData.forEach(item => {
@@ -84,7 +74,7 @@ export default class DonutChart extends React.Component {
           <Geom
             type="intervalStack"
             position="count"
-            color={['name', ['#285384', '#ce6463']]}
+            color={['name', ['#295385', '#cf6363']]}
             tooltip={[
               'name*count',
               (name, count) => {

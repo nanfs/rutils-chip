@@ -21,6 +21,15 @@ export default class tcLog extends React.Component {
     disabledButton: {}
   }
 
+  searchOptions = [
+    { label: '信息', value: 'message' },
+    { label: '终端IP', value: 'tcIp' },
+    { label: '终端SN', value: 'tcSn' },
+    { label: '终端名称', value: 'tcName' },
+    { label: '用户名', value: 'userName' },
+    { label: '用户IP', value: 'userIp' }
+  ]
+
   selectDate = rangeDate => {
     const [startDate, endDate] = rangeDate
     this.setState(
@@ -37,21 +46,28 @@ export default class tcLog extends React.Component {
     )
   }
 
-  search = (key, value) => {
-    const searchs = {}
-    searchs[key] = value
+  /**
+   * 当搜索条件下来处理
+   *
+   * @memberof Vmlog
+   */
+  onSearchSelectChange = oldKey => {
+    const searchs = { ...this.state.tableCfg.searchs }
+    delete searchs[oldKey]
     this.setState(
       produce(draft => {
         draft.tableCfg.searchs = {
-          // ...draft.tableCfg.searchs,
-          severity: draft.tableCfg.searchs.severity,
           ...searchs
         }
-      }),
-      () => this.tablex.refresh(this.state.tableCfg)
+      })
     )
   }
 
+  /**
+   *
+   *
+   * @memberof tcLog
+   */
   onTableChange = (a, filter) => {
     const severityList = []
     severityList.push(...filter.severity)
@@ -66,6 +82,11 @@ export default class tcLog extends React.Component {
     )
   }
 
+  /**
+   *
+   *
+   * @memberof tcLog
+   */
   onSelectChange = selection => {
     let disabledButton = {}
 
@@ -78,13 +99,37 @@ export default class tcLog extends React.Component {
     this.setState({ disabledButton })
   }
 
+  /**
+   *
+   *
+   * @memberof tcLog
+   */
+  search = (key, value) => {
+    const searchs = {}
+    searchs[key] = value
+    this.setState(
+      produce(draft => {
+        draft.tableCfg.searchs = {
+          ...draft.tableCfg.searchs,
+          ...searchs
+        }
+      }),
+      () => this.tablex.refresh(this.state.tableCfg)
+    )
+  }
+
+  /**
+   *
+   *
+   * @memberof tcLog
+   */
   deleteLogs = () => {
     const ids = this.tablex.getSelection()
     const self = this
     confirm({
       title: '确定删除所选数据?',
       onOk() {
-        return new Promise((resolve, reject) => {
+        return new Promise(resolve => {
           tclogsApi
             .delete({ ids })
             .then(res => {
@@ -96,10 +141,10 @@ export default class tcLog extends React.Component {
               }
               resolve()
             })
-            .catch(errors => {
-              message.error(errors)
+            .catch(error => {
+              message.error(error.message || error)
               resolve()
-              console.log(errors)
+              console.log(error)
             })
         })
       },
@@ -108,14 +153,6 @@ export default class tcLog extends React.Component {
   }
 
   render() {
-    const searchOptions = [
-      { label: '信息', value: 'message' },
-      { label: '终端IP', value: 'tcIp' },
-      { label: '终端SN', value: 'tcSn' },
-      { label: '终端名称', value: 'tcName' },
-      { label: '用户名', value: 'userName' },
-      { label: '用户IP', value: 'userIp' }
-    ]
     const { disabledButton } = this.state
     return (
       <React.Fragment>
@@ -133,7 +170,8 @@ export default class tcLog extends React.Component {
             <BarRight span={14}>
               <RangePicker onChange={this.selectDate} showTime></RangePicker>
               <SelectSearch
-                options={searchOptions}
+                options={this.searchOptions}
+                onSelectChange={this.onSearchSelectChange}
                 onSearch={this.search}
               ></SelectSearch>
             </BarRight>
@@ -142,6 +180,7 @@ export default class tcLog extends React.Component {
             onRef={ref => {
               this.tablex = ref
             }}
+            autoReplace={true}
             tableCfg={this.state.tableCfg}
             onChange={this.onTableChange}
             onSelectChange={this.onSelectChange}

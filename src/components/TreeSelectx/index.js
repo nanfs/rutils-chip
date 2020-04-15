@@ -25,7 +25,11 @@ export default class TreeSelectx extends React.Component {
 
   render() {
     const { treeData } = this.state
-    const { placeholder = '请选择', onChange = undefined } = this.props
+    const {
+      placeholder = '请选择',
+      onChange = undefined,
+      disabled
+    } = this.props
     return (
       <TreeSelect
         style={{ width: '100%' }}
@@ -36,6 +40,7 @@ export default class TreeSelectx extends React.Component {
         treeData={treeData}
         onChange={onChange}
         value={this.state.value}
+        disabled={disabled}
       ></TreeSelect>
     )
   }

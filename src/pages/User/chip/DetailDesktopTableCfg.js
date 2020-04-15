@@ -1,10 +1,14 @@
 import React from 'react'
 import userApi from '@/services/user'
-import { vmStatusRender, osStatusRender } from '@/utils/tableRender'
+import { vmStatusRender } from '@/utils/tableRender'
 import { MyIcon } from '@/components'
 import { onlineStringTime } from '@/utils/tool'
-// TODO antd 样式加载问题
+
 export const detailDesktopColumns = [
+  {
+    title: '桌面名称',
+    dataIndex: 'vmname'
+  },
   {
     title: '状态',
     dataIndex: 'status',
@@ -16,17 +20,6 @@ export const detailDesktopColumns = [
       { value: [7, 8, 14, -1, 4], text: '异常' }
     ], */
     render: text => vmStatusRender(text)
-  },
-  {
-    title: '桌面名称',
-    dataIndex: 'vmname'
-    /* render: (text, record) => {
-      return (
-        <span>
-          {osStatusRender(record.os)} {record.name}
-        </span>
-      )
-    } */
   },
   {
     title: 'IP',
@@ -53,7 +46,7 @@ export const detailDesktopColumns = [
     }
   },
   {
-    title: '本次运行时长',
+    title: '已运行',
     key: 'onlineTime',
     dataIndex: 'onlineTime',
     render: text => onlineStringTime(text)

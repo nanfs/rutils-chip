@@ -3,69 +3,61 @@ import terminalApi from '@/services/terminal'
 import { Icon, Popover, Tag } from 'antd'
 import { MyIcon } from '@/components'
 
-// TODO antd 样式加载问题
 const iconStyle = {
   check: { fontSize: 20, color: '#1789d8' },
   close: { fontSize: 18 }
 }
 export const columns = [
   {
-    title: '状态',
+    title: () => <span title="状态">状态</span>,
     dataIndex: 'status',
+    width: 80,
     filters: [
       {
         text: '离线',
-        value: 0
+        value: [0]
       },
       {
         text: '在线',
-        value: 1
+        value: [1]
       }
     ],
-    onFilter: (value, record) => record.status === value,
     render: value => {
       return value === 0 ? (
-        <Popover content={'离线'}>
-          <MyIcon
-            type="tc-offline"
-            component="svg"
-            style={{
-              fontSize: '20px'
-              // color: value === 0 ? '#ccc' : '#1890ff'
-            }}
-          />
-        </Popover>
+        <MyIcon
+          type="tc-offline"
+          component="svg"
+          title="离线"
+          style={{
+            fontSize: '20px'
+          }}
+        />
       ) : (
-        <Popover content={'在线'}>
-          <MyIcon
-            type="tc-online"
-            component="svg"
-            style={{
-              fontSize: '20px'
-              // color: value === 0 ? '#ccc' : '#1890ff'
-            }}
-          />
-        </Popover>
+        <MyIcon
+          type="tc-online"
+          component="svg"
+          title="在线"
+          style={{
+            fontSize: '20px'
+          }}
+        />
       )
     }
   },
   {
-    title: '名称',
-    dataIndex: 'name'
+    title: () => <span title="IP">IP</span>,
+    dataIndex: 'ip',
+    ellipsis: true
   },
   {
-    title: 'IP',
-    dataIndex: 'ip'
-  },
-  // TODO mac 地址
-
-  {
-    title: 'Mac',
-    dataIndex: 'mac'
+    title: () => <span title="物理地址">物理地址</span>,
+    dataIndex: 'mac',
+    ellipsis: true
   },
   {
-    title: '接入状态',
+    title: () => <span title="接入状态">接入状态</span>,
     dataIndex: 'isReg',
+    width: 110,
     filters: [
       {
         text: '待接入',
@@ -76,7 +68,6 @@ export const columns = [
         value: [true]
       }
     ],
-    // onFilter: (value, record) => record.isReg === value,
     render: value => {
       return value ? (
         <Tag color="#ade688">已接入</Tag>
@@ -86,16 +77,19 @@ export const columns = [
     }
   },
   {
-    title: 'sn',
-    dataIndex: 'sn'
+    title: () => <span title="SN(序列号)">SN(序列号)</span>,
+    dataIndex: 'sn',
+    ellipsis: true
   },
   {
-    title: '位置',
-    dataIndex: 'location'
+    title: () => <span title="位置">位置</span>,
+    dataIndex: 'location',
+    ellipsis: true
   },
 
   {
-    title: '外设控制',
+    title: () => <span title="外设控制">外设控制</span>,
+    width: 90,
     dataIndex: 'numOfSafePolicyBounded',
     render: text => (
       <span className="table-action">
@@ -108,7 +102,8 @@ export const columns = [
     )
   },
   {
-    title: '准入控制',
+    title: () => <span title="准入控制">准入控制</span>,
+    width: 90,
     dataIndex: 'numOfAdmitPolicyBounded',
     render: text => (
       <span className="table-action">
@@ -121,7 +116,8 @@ export const columns = [
     )
   },
   {
-    title: '分配用户',
+    title: () => <span title="分配用户">分配用户</span>,
+    width: 90,
     dataIndex: 'numOfUserBounded',
     render: text => (
       <span className="table-action">

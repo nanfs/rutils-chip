@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form, Input, TimePicker, DatePicker, message } from 'antd'
+import { Form, Input, TimePicker, DatePicker } from 'antd'
 import { Drawerx, Formx, Radiox, Selectx, Title, Diliver } from '@/components'
 import { weekOptions, typeOptions } from '@/utils/formOptions'
 import '../index.less'
@@ -7,38 +7,21 @@ import dayjs from 'dayjs'
 import accessApi from '@/services/access'
 import { required, checkName, number5 } from '@/utils/valid'
 
+const customParseFormat = require('dayjs/plugin/customParseFormat')
+
+dayjs.extend(customParseFormat)
 const { TextArea } = Input
 const { RangePicker } = DatePicker
 
 export default class EditDrawer extends React.Component {
-  state = {
-    checkWeeksRequired: false,
-    checkDayRequired: false
-  }
-
-  compareTime = (rule, value, callback) => {
-    const startTime = this.drawer.form.getFieldValue('startTime')
-    if (startTime) {
-      if (!dayjs(startTime).isBefore(value)) {
-        callback(new Error('结束时间必须晚于开始时间'))
-      }
-    }
-    callback()
-  }
-
   componentDidMount() {
     this.props.onRef && this.props.onRef(this)
   }
 
-  componentDidUpdate() {
-    const type = this.drawer.form.getFieldValue('type')
-    if (type === 1) {
-      this.drawer.form.validateFields(['weeks'], this.state.checkWeeksRequired)
-    } else {
-      this.drawer.form.validateFields(['day'], this.state.checkDayRequired)
-    }
-  }
-
+  /**
+   * @memberof access
+   * @param data 编辑准入策略时的初始值
+   */
   pop = data => {
     this.drawer.show()
     const { id, name, description, admitInterval } = data
@@ -65,21 +48,42 @@ export default class EditDrawer extends React.Component {
       startTime,
       endTime
     })
-    this.setState({
-      checkWeeksRequired: type === 0,
-      checkDayRequired: type === 1
-    })
   }
 
-  onChange = e => {
-    if (e === 1) {
-      this.setState({ checkWeeksRequired: true, checkDayRequired: false })
-    } else {
-      this.setState({ checkWeeksRequired: false, checkDayRequired: true })
-    }
+  /**
+   * @memberof access
+   * 准入方式改变时获取对应的值
+   */
+  getSelectType = () => {
+    return this.drawer?.form?.getFieldValue('type')
+  }
+
+  onTypeChange = () => {
     this.forceUpdate()
   }
 
+  /**
+   * @memberof access
+   * @param rule 验证规则
+   * @param value 传入的值
+   * @param 回调函数
+   * 验证结束时间不能晚于开始时间
+   */
+  compareTime = (rule, value, callback) => {
+    const startTime = this.drawer.form.getFieldValue('startTime')
+    if (startTime) {
+      if (!dayjs(startTime).isBefore(value)) {
+        callback(new Error('结束时间必须晚于开始时间'))
+      }
+    }
+    callback()
+  }
+
+  /**
+   * @memberof access
+   * @param values 传入表单值
+   * 编辑准入策略
+   */
   edit = values => {
     const {
       id,
@@ -119,7 +123,6 @@ export default class EditDrawer extends React.Component {
   }
 
   render() {
-    const { checkWeeksRequired, checkDayRequired } = this.state
     return (
       <Drawerx
         onRef={ref => {
@@ -148,19 +151,15 @@ export default class EditDrawer extends React.Component {
           <Diliver />
           <Title slot="准入设置"></Title>
           <Form.Item required prop="type" label="准入方式">
-            <Radiox options={typeOptions} onChange={this.onChange} />
+            <Radiox options={typeOptions} onChange={this.onTypeChange} />
           </Form.Item>
           <Form.Item
             required
             prop="week"
             label="准入时间"
             className="time-wrap"
-            rules={[{ required: checkWeeksRequired, message: '这是必填项' }]}
-            hidden={
-              this.drawer &&
-              this.drawer.form &&
-              this.drawer.form.getFieldValue('type') === 1
-            }
+            rules={this.getSelectType() === 0 ? [required] : undefined}
+            hidden={this.getSelectType() === 1}
           >
             <Selectx options={weekOptions} mode="multiple" />
           </Form.Item>
@@ -169,12 +168,8 @@ export default class EditDrawer extends React.Component {
             prop="day"
             label="准入时间"
             className="time-wrap"
-            rules={[{ required: checkDayRequired, message: '这是必填项' }]}
-            hidden={
-              this.drawer &&
-              this.drawer.form &&
-              this.drawer.form.getFieldValue('type') === 0
-            }
+            rules={this.getSelectType() === 1 ? [required] : undefined}
+            hidden={this.getSelectType() === 0}
           >
             <RangePicker />
           </Form.Item>
@@ -184,7 +179,12 @@ export default class EditDrawer extends React.Component {
             label="开始时间"
             className="time-wrap"
           >
-            <TimePicker format={'HH:mm'} />
+            <TimePicker
+              format={'HH:mm'}
+              onChange={(a, b, c) => {
+                console.log(a, b, c)
+              }}
+            />
           </Form.Item>
           <Form.Item
             prop="endTime"

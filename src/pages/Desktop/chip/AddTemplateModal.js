@@ -1,6 +1,6 @@
 import React from 'react'
 import { Formx, Modalx } from '@/components'
-import { Form, Input } from 'antd'
+import { Form, Input, message } from 'antd'
 import templateApi from '@/services/template'
 import { required } from '@/utils/valid'
 
@@ -22,9 +22,9 @@ export default class AddTemplateModal extends React.Component {
       .then(res => {
         this.modal.afterSubmit(res)
       })
-      .catch(errors => {
-        this.modal.break(errors)
-        console.log(errors)
+      .catch(error => {
+        console.log(error)
+        this.modal.break(error)
       })
   }
 

@@ -16,7 +16,6 @@ class Formx extends React.Component {
   componentDidMount() {
     const { onRef } = this.props
     onRef && onRef(this)
-    // TODO 检查不生效
     this.props.form.setFieldsValue(this.props.initValues)
     this.forceUpdate()
   }
@@ -35,22 +34,22 @@ class Formx extends React.Component {
     e.preventDefault()
     const { onSubmit, form } = this.props
     form
-      .validateFieldsAndScroll((errors, values) => {
-        if (!errors) {
+      .validateFieldsAndScroll((error, values) => {
+        if (!error) {
           onSubmit && onSubmit(values)
         }
       })
-      .catch(errors => {
-        message.error(errors)
-        console.log(errors)
+      .catch(error => {
+        message.error(error.message || error)
+        console.log(error)
       })
   }
 
-  renderFormItem = (child, submitting) => {
+  renderFormItem = (child, submitting, isParentShow) => {
     if (!React.isValidElement(child)) {
       return child
     }
-    if (child.type.name === 'FormItem' && child.props.prop) {
+    if (child.props.prop) {
       const {
         getFieldDecorator,
         getFieldValue,
@@ -77,20 +76,18 @@ class Formx extends React.Component {
       )
       return React.cloneElement(child, {}, childNode)
     }
-    if (child.type.name === 'FormItem') {
-      return React.cloneElement(child)
-    }
     if (child.props.children) {
       const sonNode = React.Children.map(child.props.children, son =>
-        this.renderFormItem(son)
+        this.renderFormItem(son, submitting, isParentShow)
       )
       return React.cloneElement(child, {}, sonNode)
     }
-    return child
+    // 刷新除了
+    return isParentShow !== false && child
   }
 
   render() {
-    const { children, className, style, submitting } = this.props
+    const { children, className, style, submitting, isParentShow } = this.props
     const formLayout = this.props.formItemLayout || formItemLayout
     return (
       <Form
@@ -100,7 +97,7 @@ class Formx extends React.Component {
         style={style}
       >
         {React.Children.map(children, child =>
-          this.renderFormItem(child, submitting)
+          this.renderFormItem(child, submitting, isParentShow)
         )}
       </Form>
     )

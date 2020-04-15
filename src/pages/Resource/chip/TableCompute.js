@@ -16,13 +16,17 @@ export default class Resource extends React.Component {
     })
   }
 
+  /**
+   * @param key 搜索字段
+   * @param value 搜索值
+   * 支持按名称、IP、描述来搜索
+   */
   search = (key, value) => {
     const searchs = {}
     searchs[key] = value
     this.setState(
       produce(draft => {
         draft.tableCfgCompute.searchs = {
-          // ...draft.tableCfgCompute.searchs,
           status: draft.tableCfgCompute.searchs.status,
           ...searchs
         }
@@ -31,11 +35,16 @@ export default class Resource extends React.Component {
     )
   }
 
+  /**
+   * @param filter 筛选对象
+   * 支持按状态来筛选
+   */
   onTableChange = (a, filter) => {
     const statusList = []
-    filter.status.forEach(function(v, i) {
-      statusList.push(...v)
-    })
+    filter.status &&
+      filter.status.forEach(function(v, i) {
+        statusList.push(...v)
+      })
     this.setState(
       produce(draft => {
         draft.tableCfgCompute.searchs = {

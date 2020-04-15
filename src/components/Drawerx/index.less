@@ -7,7 +7,8 @@
     }
   }
   &-body {
-    padding: 0px 24px 90px 24px;
+    padding: 0px;
+    // padding: 0px 24px 90px 24px;
     overflow-x: hidden;
   }
   &-content {
@@ -28,26 +29,65 @@
     width: 100%;
     right: 0;
     bottom: 0;
-    height: 80px;
-    line-height: 80px;
+    height: 60px;
+    line-height: 60px;
     border-top: 1px solid #99ccfe;
     text-align: right;
     .ant-btn {
       margin-right: 20px;
+      padding: 0px 20px;
+      height: 35px;
     }
   }
 }
 .drawerx {
   .ant-drawer-body {
+    padding: 0px 25px 10px;
+    // 操作栏高度
+    padding-bottom: 70px;
     .ant-tag {
-      background-color: #1890ff;
       padding: 1px 10px;
+      margin-bottom: 10px;
       width: auto;
       padding-bottom: 27px;
       display: inline-block;
       .anticon-close {
-        color: #f3f6ff;
+        color: #1890ff;
       }
     }
+    .user-tag {
+      margin-bottom: 10px;
+    }
+    /* .ant-tabs {
+      padding: 0px 25px 10px;
+    } */
+
+    .ant-alert {
+      margin-top: 15px;
+    }
+    .table-wrap {
+      margin: 0;
+      padding: 0;
+    }
+    .pt15 {
+      padding-top: 15px;
+    }
+  }
+  .dynamic-button {
+    cursor: pointer;
+    position: relative;
+    font-size: 24px;
+    color: #999;
+    transition: all 0.3s;
+    border: none;
+    background: transparent;
+  }
+  .dynamic-button:hover {
+    color: #777;
+    background: transparent;
+  }
+  .dynamic-button[disabled] {
+    cursor: not-allowed;
+    opacity: 0.5;
   }
 }

@@ -6,6 +6,12 @@ import { ftInit, getUsbKeyId, getUser } from './ftusbkey'
 import encrypt from './encrypt'
 import { setUserToLocal, reloadAuthorized } from '@/utils/auth'
 import { required } from '@/utils/valid'
+import {
+  setClusterToSession,
+  setDataCenterToSession,
+  setHostToSession,
+  setDomainToSession
+} from '@/utils/storage'
 
 export default class LoginForm extends React.Component {
   constructor(props) {
@@ -13,7 +19,8 @@ export default class LoginForm extends React.Component {
     ftInit()
     this.state = {
       error: '',
-      hasPin: false
+      hasPin: false,
+      loading: false
     }
   }
 
@@ -52,22 +59,28 @@ export default class LoginForm extends React.Component {
         // password: encrypt(values.password)
       }
     }
+    this.setState({ loading: true })
     loginApi
       .login(data)
       .then(res => {
+        this.setState({ loading: false })
         if (res.success) {
           setUserToLocal(data.username)
           reloadAuthorized()
-
+          // 解决第一次加载的问题
+          setClusterToSession()
+          setDataCenterToSession()
+          setHostToSession()
+          setDomainToSession()
           window.location.hash = 'dashboard'
-          message.success('登录成功')
         } else {
           message.error(res.message || '登录失败')
         }
       })
-      .catch(errors => {
-        message.error(errors)
-        console.log(errors)
+      .catch(error => {
+        this.setState({ loading: false })
+        message.error(error.message || error)
+        console.log(error)
       })
     return false
   }
@@ -91,6 +104,7 @@ export default class LoginForm extends React.Component {
             prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
             placeholder="用户名"
             style={{ height: 48 }}
+            autoFocus="autofocus"
           />
         </Form.Item>
         <Form.Item
@@ -137,6 +151,7 @@ export default class LoginForm extends React.Component {
             type="primary"
             htmlType="submit"
             className="login-form-button"
+            loading={this.state.loading}
           >
             登录
           </Button>

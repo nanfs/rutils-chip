@@ -3,13 +3,9 @@ import { Select, Input } from 'antd'
 
 const { Search, Group } = Input
 class SelectSearch extends React.Component {
-  constructor(props) {
-    super(props)
-    const { options } = this.props
-    const searchKey = (options && options[0] && options[0].value) || ''
-    this.state = {
-      searchKey
-    }
+  state = {
+    value: '',
+    searchKey: this.props?.options[0]?.value || ''
   }
 
   componentDidMount() {
@@ -17,13 +13,23 @@ class SelectSearch extends React.Component {
   }
 
   reset() {
+    const { options } = this.props
+    const searchKey = (options && options[0] && options[0].value) || ''
     this.setState({
-      value: ''
+      value: '',
+      searchKey
     })
   }
 
+  /**
+   * oldKey 是为了删除搜索字段
+   *
+   * @memberof SelectSearch
+   */
   onSelectChange = searchKey => {
+    const oldKey = this.state.searchKey
     this.setState({ searchKey })
+    this.props.onSelectChange && this.props.onSelectChange(oldKey, searchKey)
   }
 
   onChange = e => {
@@ -32,7 +38,7 @@ class SelectSearch extends React.Component {
 
   onSearch = value => {
     const { onSearch } = this.props
-    onSearch && onSearch(this.state.searchKey, value)
+    onSearch && onSearch(this.state?.searchKey, value)
   }
 
   render() {
@@ -46,6 +52,7 @@ class SelectSearch extends React.Component {
               <Select.Option
                 key={option.value}
                 value={option.value}
+                title={option.label}
                 disabled={option.disabled}
               >
                 {option.label}

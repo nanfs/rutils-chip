@@ -1,69 +1,134 @@
 import React from 'react'
-import { Button, notification, message, Modal } from 'antd'
+import {
+  Button,
+  notification,
+  message,
+  Modal,
+  Menu,
+  Dropdown,
+  Icon
+} from 'antd'
 import produce from 'immer'
 
 import { Tablex, Treex, InnerPath, SelectSearch } from '@/components'
 
-import { columns, apiMethod } from './chip/TableCfg'
+import { columns } from './chip/TableCfg'
+import { adColumns } from './chip/AdTableCfg'
 import AddDrawer from './chip/AddDrawer'
 import DetailDrawer from './chip/DetailDrawer'
 import EditDrawer from './chip/EditDrawer'
 import userApi from '@/services/user'
 
 import './index.less'
+import { interval } from 'rxjs'
 
 const { confirm } = Modal
 const { createTableCfg, TableWrap, ToolBar, BarLeft, BarRight } = Tablex
-/* const nodes = [
-  {
-    id: 'department1',
-    key: 'department1',
-    value: 'department1',
-    title: '用户组',
-    parentId: null
-  },
-  {
-    id: 'department2',
-    key: 'department2',
-    value: 'department2',
-    title: '成都研发中心',
-    parentId: 'department1'
-  },
-  {
-    id: 'department3',
-    key: 'department3',
-    value: 'department3',
-    title: '北京研发中心',
-    parentId: 'department1'
-  },
-  {
-    id: 'department4',
-    key: 'department4',
-    value: 'department4',
-    title: '前端组',
-    parentId: 'department2'
-  },
-  {
-    id: 'department5',
-    key: 'department5',
-    value: 'department5',
-    title: 'java组',
-    parentId: 'department2'
-  },
-  {
-    id: 'department6',
-    key: 'department6',
-    value: 'department6',
-    title: '前端组',
-    parentId: 'department3'
-  }
-] */
 
 export default class User extends React.Component {
+  userName = {
+    title: () => <span title="用户名">用户名</span>,
+    dataIndex: 'name',
+    ellipsis: true,
+    render: (text, record) => {
+      return (
+        <a
+          // className="detail-link"
+          onClick={() => this.detailUser(record.username, record)}
+        >
+          {record.username}
+        </a>
+      )
+    }
+  }
+
+  options = {
+    title: '操作',
+    dataIndex: 'opration',
+    width: 120,
+    render: (text, record) => {
+      const moreAction = (
+        <Menu>
+          <Menu.Item
+            key="1"
+            disabled={record.tccount + record.vmcount > 0}
+            onClick={() => {
+              this.deleteUser([record.id])
+            }}
+          >
+            删除
+          </Menu.Item>
+          <Menu.Item
+            key="2"
+            onClick={this.forbiddenUser.bind(this, [record.id])}
+            disabled={record.status === 1}
+          >
+            禁用
+          </Menu.Item>
+          <Menu.Item
+            key="3"
+            onClick={this.enableUser.bind(this, [record.id])}
+            disabled={record.status === 0}
+          >
+            启用
+          </Menu.Item>
+          <Menu.Item
+            key="4"
+            onClick={this.unlockUser.bind(this, [record.id])}
+            disabled={record.lockStatus === 0}
+          >
+            解锁
+          </Menu.Item>
+        </Menu>
+      )
+      return (
+        <span className="opration-btn">
+          <a
+            onClick={() => {
+              this.editUser(record, record.name)
+            }}
+          >
+            编辑
+          </a>
+
+          <Dropdown overlay={moreAction} placement="bottomRight">
+            <a>
+              更多
+              <Icon type="down" />
+            </a>
+          </Dropdown>
+        </span>
+      )
+    }
+  }
+
+  adOptions = {
+    title: '操作',
+    dataIndex: 'opration',
+    width: 130,
+    render: (text, record) => {
+      return (
+        <span className="opration-btn">
+          <a
+            onClick={() => {
+              this.deleteUser([record.id])
+            }}
+          >
+            删除
+          </a>
+        </span>
+      )
+    }
+  }
+
+  columnsArr = [this.userName, ...columns, this.options]
+
+  adColumnsArr = [this.userName, ...adColumns, this.adOptions]
+
   state = {
     tableCfg: createTableCfg({
-      columns,
-      apiMethod,
+      columns: this.columnsArr,
+      apiMethod: userApi.queryByGroup,
       paging: { size: 10 },
       pageSizeOptions: ['5', '10', '20', '50']
     }),
@@ -71,7 +136,9 @@ export default class User extends React.Component {
     initValues: {},
     value: undefined,
     domainlist: [],
-    disabledButton: {}
+    disabledButton: {},
+    groupTreeData: [],
+    selectedType: 'internal'
   }
 
   componentDidMount = () => {
@@ -82,8 +149,13 @@ export default class User extends React.Component {
           // notification.success({ message: '查询域成功' })
           const domainlist = res.data.map(item => {
             const obj = {}
-            obj.label = item === 'internal' ? '本地组' : '域'
+            obj.label = item === 'internal' ? '本地组' : item
             obj.value = item
+            obj.id = item
+            obj.title = item
+            obj.parentId = item === 'internal' ? '-1' : '-2'
+            obj.type = item === 'internal' ? 'internal' : 'ad'
+
             return obj
           })
 
@@ -94,23 +166,195 @@ export default class User extends React.Component {
           message.error(res.message || '查询域失败')
         }
       })
-      .catch(errors => {
-        message.error(errors)
-        console.log(errors)
+      .catch(error => {
+        message.error(error.message || error)
+        console.log(error)
       })
+  }
+
+  onSelectChange = (selection, selectData) => {
+    let disabledButton = {}
+    const selectSN = selectData.map(item => item.sn)
+    if (selection.length !== 1) {
+      disabledButton = {
+        ...disabledButton,
+        disabledEdit: true,
+        disabledDelete: true, // 删除目前只做单个，后面加批量
+        disabledEnable: true, // 解锁目前只做单个，后面加批量
+        disabledDisable: true, //  锁定目前只做单个，后面加批量
+        disabledUnlock: true
+      }
+    }
+    if (selection.length === 0) {
+      disabledButton = {
+        ...disabledButton,
+        disabledDelete: true,
+        disabledEnable: true,
+        disabledDisable: true,
+        disabledUnlock: true
+      }
+    } else {
+      selectData.forEach(item => {
+        if (item.tccount + item.vmcount > 0) {
+          disabledButton = {
+            ...disabledButton,
+            disabledDelete: true
+          }
+        }
+        if (item.status === 1) {
+          disabledButton = {
+            ...disabledButton,
+            disabledDisable: true
+          }
+        }
+        if (item.status === 0) {
+          disabledButton = {
+            ...disabledButton,
+            disabledEnable: true
+          }
+        }
+        if (item.lockStatus === 0) {
+          disabledButton = {
+            ...disabledButton,
+            disabledUnlock: true
+          }
+        }
+      })
+    }
+
+    this.setState({ disabledButton, selection, selectData, selectSN })
+  }
+
+  onTableChange = (a, filter) => {
+    console.log(filter)
+    /* filter.status.forEach(function(v, i) {
+        status.push(...v)
+      }) */
+    filter.status &&
+      this.setState(
+        produce(draft => {
+          draft.tableCfg.searchs = {
+            ...draft.tableCfg.searchs,
+            groupId: draft.tableCfg.searchs.groupId,
+            status: filter.status.length > 1 ? '' : filter.status[0]
+            // ...filter
+          }
+        }),
+        () => this.tablex.refresh(this.state.tableCfg)
+      )
   }
 
   search = (key, value) => {
     const searchs = {}
     searchs[key] = value
+    console.log(this.state.selectedType)
+    if (this.state.selectedType === 'internal') {
+      this.setState(
+        produce(draft => {
+          draft.tableCfg = {
+            ...draft.tableCfg,
+            apiMethod: userApi.queryByGroup,
+            searchs: {
+              // ...draft.tableCfg.searchs,
+              groupId: draft.tableCfg.searchs.groupId,
+              ...searchs
+            }
+          }
+          draft.selectedType = 'internal'
+        }),
+        () => this.tablex.search(this.state.tableCfg)
+      )
+    } else {
+      this.setState(
+        produce(draft => {
+          draft.tableCfg = {
+            ...draft.tableCfg,
+            apiMethod: userApi.queryByAd,
+            searchs: {
+              // ...draft.tableCfg.searchs,
+              domain: draft.tableCfg.searchs.domain,
+              ...searchs
+            }
+          }
+          draft.selectedType = value
+        }),
+        () => this.tablex.search(this.state.tableCfg)
+      )
+    }
+  }
+
+  onSelect = (value, node) => {
+    if (node.node.props.type === 'ad') {
+      this.groupTreex.cleanSelected()
+      this.state.domainlist.forEach((item, index) => {
+        if (item.value !== 'internal') {
+          this[`ADdomainTreex${index}`].cleanSelected()
+        }
+      })
+      this.setState(
+        produce(draft => {
+          draft.tableCfg = {
+            ...draft.tableCfg,
+            apiMethod: userApi.queryByAd,
+            columns: this.adColumnsArr,
+            searchs: {
+              ...draft.tableCfg.searchs,
+              domain: value,
+              groupId: '',
+              userName: ''
+            }
+          }
+          draft.selectedType = value
+        }),
+        () => this.tablex.search(this.state.tableCfg)
+      )
+    } else {
+      this.state.domainlist.forEach((item, index) => {
+        if (item.value !== 'internal') {
+          this[`ADdomainTreex${index}`].cleanSelected()
+        }
+      })
+      this.setState(
+        produce(draft => {
+          draft.tableCfg = {
+            ...draft.tableCfg,
+            apiMethod: userApi.queryByGroup,
+            columns: this.columnsArr,
+            searchs: {
+              ...draft.tableCfg.searchs,
+              groupId: value,
+              domain: ''
+            }
+          }
+          draft.selectedType = 'internal'
+        }),
+        () => this.tablex.search(this.state.tableCfg)
+      )
+    }
+  }
+
+  onSuccess = () => {
+    this.tablex.refresh(this.state.tableCfg)
+    this.setState({ inner: undefined })
+  }
+
+  /**
+   * @memberof User
+   * @description 树渲染成功后回调，刷新用户列表
+   * @param treeData 用户组数据，用于新增、编辑的用户组树形下拉列表
+   * @author linghu
+   */
+  treeRenderSuccess = (selectNode, treeData) => {
+    this.setState({
+      groupTreeData: treeData
+    })
     this.setState(
       produce(draft => {
         draft.tableCfg.searchs = {
-          // ...draft.tableCfg.searchs,
-          status: draft.tableCfg.searchs.status,
-          groupId: draft.tableCfg.searchs.groupId,
-          ...searchs
+          ...draft.tableCfg.searchs,
+          groupId: selectNode
         }
+        // draft.groupTreeData = groupTreeData
       }),
       () => this.tablex.refresh(this.state.tableCfg)
     )
@@ -131,23 +375,28 @@ export default class User extends React.Component {
     this.currentDrawer = this.addDrawer
   }
 
-  editUser = () => {
-    this.setState({ inner: '编辑用户' })
-    this.editDrawer.pop(this.state.selectData[0])
-    // this.editDrawer.drawer.show()
+  editUser = (record, name) => {
+    this.setState(
+      { inner: name },
+      this.editDrawer.pop(record, this.state.selectedType)
+    )
     this.currentDrawer = this.editDrawer
   }
 
-  // 删除目前只做单个，后面加批量
-  deleteUser = () => {
-    const ids = this.tablex.getSelection()
+  /**
+   * @memberof User
+   * @todo 删除目前只做单个，后面加批量
+   * @author linghu
+   */
+  deleteUser = (id = undefined) => {
+    const ids = id || this.tablex.getSelection()
     const self = this
     confirm({
       title: '确定删除所选数据?',
       onOk() {
         return new Promise((resolve, reject) => {
           userApi
-            .deleteUser({ userId: ids[0] })
+            .deleteUser({ userId: ids[0], domain: self.state.selectedType })
             .then(res => {
               if (res.success) {
                 notification.success({ message: '删除成功' })
@@ -157,10 +406,10 @@ export default class User extends React.Component {
               }
               resolve()
             })
-            .catch(errors => {
-              message.error(errors)
+            .catch(error => {
+              message.error(error.message || error)
               resolve()
-              console.log(errors)
+              console.log(error)
             })
         })
       },
@@ -168,26 +417,44 @@ export default class User extends React.Component {
     })
   }
 
-  lockUser = () => {
-    const ids = this.tablex.getSelection()
+  forbiddenUser = (id = undefined) => {
+    const ids = id || this.tablex.getSelection()
     userApi
-      .lockUser({ userId: ids[0] })
+      .forbiddenUser({ userId: ids[0] })
       .then(res => {
         if (res.success) {
-          notification.success({ message: '锁定成功' })
+          notification.success({ message: '禁用成功' })
           this.tablex.refresh(this.state.tableCfg)
         } else {
-          message.error(res.message || '锁定失败')
+          message.error(res.message || '禁用失败')
         }
       })
-      .catch(errors => {
-        message.error(errors)
-        console.log(errors)
+      .catch(error => {
+        message.error(error.message || error)
+        console.log(error)
       })
   }
 
-  unlockUser = () => {
-    const ids = this.tablex.getSelection()
+  enableUser = (id = undefined) => {
+    const ids = id || this.tablex.getSelection()
+    userApi
+      .enableUser({ userId: ids[0] })
+      .then(res => {
+        if (res.success) {
+          notification.success({ message: '启用成功' })
+          this.tablex.refresh(this.state.tableCfg)
+        } else {
+          message.error(res.message || '启用失败')
+        }
+      })
+      .catch(error => {
+        message.error(error.message || error)
+        console.log(error)
+      })
+  }
+
+  unlockUser = (id = undefined) => {
+    const ids = id || this.tablex.getSelection()
     userApi
       .unlockUser({ userId: ids[0] })
       .then(res => {
@@ -198,121 +465,17 @@ export default class User extends React.Component {
           message.error(res.message || '解锁失败')
         }
       })
-      .catch(errors => {
-        message.error(errors)
-        console.log(errors)
+      .catch(error => {
+        message.error(error.message || error)
+        console.log(error)
       })
   }
 
-  detailUser = () => {
-    this.setState({ inner: '详情' })
-    this.detailDrawer.pop(this.state.selectData[0])
+  detailUser = (username, data) => {
+    this.setState({ inner: username })
+    this.detailDrawer.pop(data, this.state.selectedType)
     // this.detailDrawer.drawer.show()
     this.currentDrawer = this.detailDrawer
-  }
-
-  onSelect = (value, node) => {
-    // this.selectSearch.reset()
-    this.setState(
-      produce(draft => {
-        draft.tableCfg.searchs = {
-          ...draft.tableCfg.searchs,
-          groupId: value[0]
-        }
-      }),
-      () => this.tablex.search(this.state.tableCfg)
-    )
-  }
-
-  onSuccess = () => {
-    this.tablex.refresh(this.state.tableCfg)
-    this.setState({ inner: undefined })
-  }
-
-  treeRenderSuccess = (selectNode, treeData) => {
-    this.setState({
-      treeData
-    })
-    this.setState(
-      produce(draft => {
-        draft.tableCfg.searchs = {
-          ...draft.tableCfg.searchs,
-          groupId: selectNode
-        }
-        // draft.treeData = treeData
-      }),
-      () => this.tablex.refresh(this.state.tableCfg)
-    )
-  }
-
-  onSelectChange = (selection, selectData) => {
-    let disabledButton = {}
-    const selectSN = selectData.map(item => item.sn)
-    if (selection.length !== 1) {
-      disabledButton = {
-        ...disabledButton,
-        disabledEdit: true,
-        disabledDelete: true, // 删除目前只做单个，后面加批量
-        disabledUnlock: true, // 解锁目前只做单个，后面加批量
-        disabledLock: true // // 锁定目前只做单个，后面加批量
-      }
-    }
-    if (selection.length === 0) {
-      disabledButton = {
-        ...disabledButton,
-        disabledDelete: true,
-        disabledUnlock: true,
-        disabledLock: true
-      }
-    }
-    const isBoundData = selectData.filter(
-      item => item.tccount + item.vmcount > 0
-    )
-    if (isBoundData && isBoundData.length > 0) {
-      disabledButton = {
-        ...disabledButton,
-        disabledDelete: true
-      }
-    }
-
-    const isLockData = selectData.filter(item => item.status === 1)
-    if (isLockData && isLockData.length > 0) {
-      disabledButton = {
-        ...disabledButton,
-        disabledLock: true
-      }
-    }
-
-    const unLockData = selectData.filter(item => item.status === 0)
-    if (unLockData && unLockData.length > 0) {
-      disabledButton = {
-        ...disabledButton,
-        disabledUnlock: true
-      }
-    }
-
-    this.setState({ disabledButton, selection, selectData, selectSN })
-  }
-
-  onTableChange = (a, filter) => {
-    console.log(filter)
-    const status = ''
-
-    /* filter.status.forEach(function(v, i) {
-        status.push(...v)
-      }) */
-    filter.status &&
-      this.setState(
-        produce(draft => {
-          draft.tableCfg.searchs = {
-            ...draft.tableCfg.searchs,
-            groupId: draft.tableCfg.searchs.groupId,
-            status: filter.status.length > 1 ? '' : filter.status[0]
-            // ...filter
-          }
-        }),
-        () => this.tablex.refresh(this.state.tableCfg)
-      )
   }
 
   render() {
@@ -320,7 +483,13 @@ export default class User extends React.Component {
       { label: '用户名', value: 'username' },
       { label: '姓名', value: 'name' }
     ]
-    const { treeData, initValues, domainlist, disabledButton } = this.state
+    const {
+      groupTreeData,
+      initValues,
+      domainlist,
+      disabledButton,
+      selectedType
+    } = this.state
     return (
       <React.Fragment>
         <InnerPath
@@ -332,54 +501,87 @@ export default class User extends React.Component {
           <div className="user-wrap">
             <div className="user-tree">
               <Treex
+                onRef={ref => {
+                  this.groupTreex = ref
+                }}
                 apiMethod={userApi.groupQuery}
                 onSelect={this.onSelect}
                 addNodeApiMethod={userApi.groupCreate}
                 editNodeApiMethod={userApi.groupUpdate}
                 deleteNodeApiMethod={userApi.groupDelete}
                 treeRenderSuccess={this.treeRenderSuccess}
+                showRightClinkMenu={true}
+                showSearch={false}
               ></Treex>
+              {domainlist &&
+                domainlist.map((item, index) =>
+                  item.type !== 'internal' ? (
+                    <Treex
+                      key={index}
+                      onRef={ref => {
+                        this[`ADdomainTreex${index}`] = ref
+                      }}
+                      onSelect={this.onSelect}
+                      treeData={[item]}
+                      showSearch={false}
+                      defaultSelectRootNode={false}
+                    ></Treex>
+                  ) : (
+                    ''
+                  )
+                )}
             </div>
             <div className="user-table">
               <ToolBar>
                 <BarLeft>
-                  <Button onClick={this.addUser}>创建</Button>
-                  <Button
-                    onClick={this.editUser}
-                    disabled={disabledButton.disabledEdit}
-                  >
-                    编辑
-                  </Button>
-                  <Button
-                    onClick={this.lockUser}
-                    disabled={disabledButton.disabledLock}
-                  >
-                    锁定
-                  </Button>
-                  <Button
-                    onClick={this.unlockUser}
-                    disabled={disabledButton.disabledUnlock}
-                  >
-                    解锁
-                  </Button>
-                  <Button
-                    onClick={this.detailUser}
-                    disabled={disabledButton.disabledEdit}
-                  >
-                    详情
-                  </Button>
-                  <Button
-                    onClick={this.deleteUser}
+                  {selectedType === 'internal' ? (
+                    <Button onClick={this.addUser} type="primary">
+                      创建
+                    </Button>
+                  ) : (
+                    ''
+                  )}
+
+                  {selectedType === 'internal' ? (
+                    <Button
+                      onClick={() => this.enableUser()}
+                      disabled={disabledButton.disabledEnable}
+                    >
+                      启用
+                    </Button>
+                  ) : (
+                    ''
+                  )}
+                  {selectedType === 'internal' ? (
+                    <Button
+                      onClick={() => this.forbiddenUser()}
+                      disabled={disabledButton.disabledDisable}
+                    >
+                      禁用
+                    </Button>
+                  ) : (
+                    ''
+                  )}
+                  {selectedType === 'internal' ? (
+                    <Button
+                      onClick={() => this.unlockUser()}
+                      disabled={disabledButton.disabledUnlock}
+                    >
+                      解锁
+                    </Button>
+                  ) : (
+                    ''
+                  )}
+
+                  {/* <Button
+                    onClick={() => this.deleteUser()}
                     disabled={disabledButton.disabledDelete}
                   >
                     删除
-                  </Button>
+                  </Button> */}
                 </BarLeft>
                 <BarRight>
                   <SelectSearch
-                    onRef={ref => {
-                      this.selectSearch = ref
-                    }}
                     options={searchOptions}
                     onSearch={this.search}
                   ></SelectSearch>
@@ -401,8 +603,8 @@ export default class User extends React.Component {
                 }}
                 onClose={this.onBack}
                 onSuccess={this.onSuccess}
-                nodeData={treeData}
-                domainlist={domainlist}
+                nodeData={groupTreeData}
+                domainlist={[{ value: 'internal', label: '本地组' }]}
               />
               <EditDrawer
                 onRef={ref => {
@@ -411,8 +613,8 @@ export default class User extends React.Component {
                 onClose={this.onBack}
                 onSuccess={this.onSuccess}
                 initValues={initValues}
-                nodeData={treeData}
-                domainlist={domainlist}
+                nodeData={groupTreeData}
+                domainlist={[{ value: 'internal', label: '本地组' }]}
               />
               <DetailDrawer
                 onRef={ref => {

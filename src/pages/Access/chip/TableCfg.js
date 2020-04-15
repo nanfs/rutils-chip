@@ -1,7 +1,7 @@
 import accessApi from '@/services/access'
 import React from 'react'
 import { Tag } from 'antd'
-// TODO antd 样式加载问题
+
 const typeArr = ['按周', '按日期']
 const typeOptions = [
   { text: '按周', value: 0 },
@@ -22,43 +22,42 @@ function renderDateText(text) {
 }
 export const columns = [
   {
-    title: '名称',
-    dataIndex: 'name'
-  },
-  {
-    title: '已绑定终端数',
-    width: 150,
-    dataIndex: 'boundTcNum',
-    render: text => <Tag>{text}</Tag>
-    // sorter: (a, b) => a.boundTcNum - b.boundTcNum,
-    // sortDirections: ['descend', 'ascend']
-  },
-  {
-    title: '准入类型',
+    title: () => <span title="准入类型">准入类型</span>,
     dataIndex: 'type',
+    ellipsis: true,
+    width: 130,
     filters: typeOptions,
     render: (text, record) => {
       return typeArr[record.admitInterval[0].type]
-    },
-    onFilter: (value, record) => record.admitInterval[0].type === value
+    }
   },
   {
-    title: '日期',
+    title: () => <span title="已绑定终端数">已绑定终端数</span>,
+    ellipsis: true,
+    width: 130,
+    dataIndex: 'boundTcNum',
+    className: 'ellipsis-hasTag',
+    render: text => <Tag color="blue">{text}</Tag>
+  },
+  {
+    title: () => <span title="日期">日期</span>,
     dataIndex: 'date',
+    ellipsis: true,
     render: (text, record) => {
       return renderDateText(record.admitInterval[0].date)
     }
   },
   {
-    title: '时间',
+    title: () => <span title="时间">时间</span>,
     dataIndex: 'time',
-    width: 150,
+    ellipsis: true,
     render: (text, record) => {
       return `${record.admitInterval[0].startTime} - ${record.admitInterval[0].endTime}`
     }
   },
   {
-    title: '描述',
+    title: () => <span title="描述">描述</span>,
+    ellipsis: true,
     dataIndex: 'description'
   }
 ]

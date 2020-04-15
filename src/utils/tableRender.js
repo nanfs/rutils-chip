@@ -1,5 +1,6 @@
 import React from 'react'
-import { Icon } from 'antd'
+
+import { Icon, Tooltip, Popover } from 'antd'
 import { MyIcon } from '@/components'
 
 export const severityOptions = [
@@ -16,22 +17,36 @@ export const severityOptions = [
     color: 'warn'
   },
   {
-    text: '错误',
-    value: 2,
-    icon: 'close',
-    color: 'alert'
-  },
-  {
     text: '告警',
     value: 10,
     icon: 'alert',
     color: 'msg'
+  },
+  {
+    text: '错误',
+    value: 2,
+    icon: 'close',
+    color: 'alert'
   }
 ]
+export function renderSatus(statusObj, currentText, isWithText = false) {
+  const current = statusObj.find(item => item.value === currentText) || {}
+  const { text, icon, color } = current
+  const cls = color && `table-icon-${color}`
+  if (isWithText) {
+    return <Icon type={icon} className={cls} title={text} />
+  }
+  return <Icon type={icon} className={cls} title={text} />
+}
 export function renderServerityOptions(recordText) {
   const current = severityOptions.find(item => item.value === recordText) || {}
   const { text, icon, color } = current
-  return <Icon type={icon} className={`table-icon-${color}`} title={text} />
+
+  return (
+    <Tooltip title={text}>
+      <Icon type={icon} className={`table-icon-${color}`} />
+    </Tooltip>
+  )
 }
 export const hostStatusText = {
   'host-unassigned': '未指派的',
@@ -134,8 +149,8 @@ export const vmStatusText = {
   'vm-up': '开机',
   'vm-poweringup': '正在开机',
   'vm-paused': '暂停',
-  'vm-migratingfrom': '迁移出',
-  'vm-migratingTo': '迁移入',
+  'vm-migratingfrom': '准备迁移',
+  'vm-migratingTo': '迁移中',
   'vm-unknown': '未知',
   'vm-nonresponsive': '没有响应',
   'vm-waitforlaunch': '等待',
@@ -168,45 +183,116 @@ export const vmStatusRender = status => {
     '16': 'vm-poweringdown'
   }
   return (
+    <span>
+      <MyIcon
+        type={statusList[status]}
+        title={vmStatusText[statusList[status]] || 'null'}
+        component="svg"
+        style={{
+          fontSize: '18px'
+        }}
+      />
+      {vmStatusText[statusList[status]]}
+    </span>
+  )
+}
+const osList = {
+  '0': 'os-other', // other-os
+  '5': 'os-linux',
+  '7': 'os-redhat',
+  '8': 'os-redhat',
+  '9': 'os-redhat',
+  '13': 'os-redhat',
+  '14': 'os-redhat',
+  '15': 'os-redhat',
+  '18': 'os-redhat',
+  '19': 'os-redhat',
+  '24': 'os-redhat',
+  '28': 'os-redhat',
+  '30': 'os-redhat',
+  '33': 'os-linux',
+  '51': 'os-qilin',
+  '1002': 'os-linux',
+  '1003': 'os-redhat',
+  '1004': 'os-linux',
+  '1005': 'os-ubuntu',
+  '1006': 'os-redhat',
+  '1007': 'os-redhat',
+  '1300': 'os-linux',
+  '2002': 'os-linux',
+  '2004': 'os-linux',
+  '2005': 'os-linux',
+  '1500': 'os-linux',
+  '1501': 'os-linux',
+  '1252': 'os-ubuntu',
+  '1253': 'os-ubuntu',
+  '1254': 'os-ubuntu',
+  '1255': 'os-ubuntu',
+  '1256': 'os-ubuntu'
+}
+export const osIconRender = os => {
+  return (
     <MyIcon
-      type={statusList[status]}
-      title={vmStatusText[statusList[status]] || 'null'}
+      type={osList[os] || 'os-windows'}
       component="svg"
       style={{ fontSize: '18px' }}
     />
   )
 }
-export const osStatusRender = status => {
-  const statusList = {
-    '9': 'os-redhat',
-    '15': 'os-redhat',
-    '8': 'os-redhat',
-    '14': 'os-redhat',
-    '7': 'os-redhat',
-    '13': 'os-redhat',
-    '18': 'os-redhat',
-    '19': 'os-redhat',
-    '24': 'os-redhat',
-    '1003': 'os-redhat',
-    '1006': 'os-redhat',
-    '1': 'os-windows',
-    '3': 'os-windows',
-    '4': 'os-windows',
-    '10': 'os-windows',
-    '11': 'os-windows',
-    '12': 'os-windows',
-    '16': 'os-windows',
-    '17': 'os-windows',
-    '20': 'os-windows',
-    '21': 'os-windows',
-    '23': 'os-windows',
-    '51': 'os-qilin'
+export const osTextRender = os => {
+  const osType = osList[os] || 'os-windows'
+  const typeList = {
+    'os-other': 'OTHER OS',
+    'os-redhat': '红帽',
+    'os-windows': 'Win',
+    'os-qilin': '麒麟',
+    'os-ubuntu': '乌班图',
+    'os-linux': 'linux'
   }
+  return typeList[osType]
+}
+
+// 已分配用户显示
+export function assignedUsersRender(value) {
+  if (!value) {
+    return <Icon type="close" className="table-icon-warn" />
+  } else if (value.indexOf(',') !== -1) {
+    const strArr = value?.replace(/internal-authz/g, '本地组').split(',')
+    const info = strArr.map((item, index) => {
+      return <p key={index}>{item}</p>
+    })
+    return (
+      <Popover content={info}>
+        <Icon
+          type="team"
+          className="table-icon-success"
+          style={{ cursor: 'pointer' }}
+        />
+      </Popover>
+    )
+  } else {
+    const user = <p>{value?.replace(/internal-authz/g, '本地组')}</p>
+    return (
+      <Popover content={user}>
+        <Icon
+          type="user"
+          className="table-icon-success"
+          style={{ cursor: 'pointer' }}
+        />
+      </Popover>
+    )
+  }
+}
+
+// 正常、可用图标显示
+export function availableStatusRender(text) {
   return (
-    <MyIcon
-      type={statusList[status] || 'os-windows'}
-      component="svg"
-      style={{ fontSize: '18px' }}
+    <Icon
+      title={text}
+      type="check-circle"
+      style={{
+        color: '#17abe3'
+      }}
     />
   )
 }

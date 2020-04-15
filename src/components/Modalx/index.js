@@ -50,7 +50,7 @@ class Modalx extends React.Component {
 
   break = error => {
     if (error) {
-      message.error(error)
+      message.error(error.message || error)
     }
     this.setState({
       submitting: false
@@ -70,7 +70,6 @@ class Modalx extends React.Component {
     onClose && onClose()
   }
 
-  // TODO 修改处理方式
   afterSubmit = res => {
     return new Promise(resolve => {
       wrapResponse(res)
@@ -79,11 +78,12 @@ class Modalx extends React.Component {
             show: false,
             submitting: false
           })
+          this.props.onSuccess && this.props.onSuccess()
           notification.success({ message: res.message || '操作成功' })
           resolve(res)
         })
-        .catch(() => {
-          message.error(res.message || '操作失败')
+        .catch(error => {
+          message.error(error.message || error)
           this.setState({
             submitting: false
           })
@@ -105,8 +105,8 @@ class Modalx extends React.Component {
             onOk(values)
           }
         })
-        .catch(errors => {
-          message.error(errors)
+        .catch(error => {
+          message.error(error.message || error)
           this.setState({
             submitting: false
           })
@@ -120,7 +120,7 @@ class Modalx extends React.Component {
     if (
       React.isValidElement(this.props.children) &&
       this.props.children &&
-      this.props.children.type.displayName === 'Form(Formx)'
+      this.props.children?.type?.displayName?.includes('Form')
     ) {
       return true
     }
@@ -132,6 +132,7 @@ class Modalx extends React.Component {
     return this.hasFormx()
       ? React.cloneElement(this.props.children, {
           onRef: setFormRef,
+          submitting: this.state.submitting,
           formItemLayout: this.props.formItemLayout || formItemLayout
         })
       : this.props.children

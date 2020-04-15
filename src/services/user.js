@@ -2,6 +2,12 @@ import qs from 'qs'
 import axios from './axios'
 
 export default {
+  checkSession(data) {
+    return axios({
+      url: '/user/session',
+      params: data
+    })
+  },
   groupQuery(data) {
     return axios({
       url: '/group/query',
@@ -44,9 +50,19 @@ export default {
       params: data
     })
   },
-  list(data) {
+  queryByGroup(data) {
     return axios({
       url: '/user/querybygroup',
+      method: 'get',
+      params: data,
+      paramsSerializer: params => {
+        return qs.stringify(params, { arrayFormat: 'indices' })
+      }
+    })
+  },
+  queryByAd(data) {
+    return axios({
+      url: '/user/querypublicuser',
       method: 'get',
       params: data,
       paramsSerializer: params => {
@@ -75,16 +91,23 @@ export default {
       data: qs.stringify(data)
     })
   },
-  lockUser(data) {
+  forbiddenUser(data) {
     return axios({
-      url: '/user/locked',
+      url: '/user/forbidden',
+      method: 'post',
+      data: qs.stringify(data)
+    })
+  },
+  enableUser(data) {
+    return axios({
+      url: '/user/enable',
       method: 'post',
       data: qs.stringify(data)
     })
   },
   unlockUser(data) {
     return axios({
-      url: '/user/unlocked',
+      url: '/user/unlock',
       method: 'post',
       data: qs.stringify(data)
     })

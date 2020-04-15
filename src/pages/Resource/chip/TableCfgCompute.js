@@ -5,9 +5,14 @@ import { hostStatusRender } from '@/utils/tableRender'
 
 export const columnsCompute = [
   {
-    title: '状态',
+    title: () => <span title="主机名称">主机名称</span>,
+    ellipsis: true,
+    dataIndex: 'name'
+  },
+  {
+    title: () => <span title="状态">状态</span>,
     dataIndex: 'status',
-    width: 144,
+    width: 100,
     filters: [
       {
         text: '关机',
@@ -33,75 +38,70 @@ export const columnsCompute = [
     render: text => hostStatusRender(text)
   },
   {
-    title: '主机名称',
-    dataIndex: 'name'
-  },
-  {
-    title: '主机IP',
+    title: () => <span title="主机IP">主机IP</span>,
+    ellipsis: true,
     dataIndex: 'ip'
   },
   {
-    title: '数据中心/集群',
+    title: () => <span title="数据中心/集群">数据中心/集群</span>,
+    ellipsis: true,
     dataIndex: 'vm',
     render: (text, record) => {
       return `${record.storagePoolName}/${record.clusterName}`
     }
   },
   {
-    title: 'CPU',
-    dataIndex: 'usageCpuPercent',
-    width: '15%',
-    render: text => {
-      return (
-        <Progress
-          strokeColor="#40d00f"
-          strokeWidth={16}
-          percent={parseFloat(text)}
-          status={+text < 100 ? 'active' : 'exception'}
-        ></Progress>
-      )
-    }
-  },
-  {
-    title: '内存',
-    dataIndex: 'usageMemPercent',
-    width: '15%',
-    render: text => {
-      return (
-        <Progress
-          strokeColor="#40d00f"
-          strokeWidth={16}
-          percent={parseFloat(text)}
-          status={+text < 100 ? 'active' : 'exception'}
-        ></Progress>
-      )
-    }
-  },
-  {
-    title: '网络',
-    dataIndex: 'usageNetworkPercent',
-    width: '15%',
-    render: text => {
-      return (
-        <Progress
-          strokeColor="#40d00f"
-          strokeWidth={16}
-          percent={parseFloat(text)}
-          status={+text < 100 ? 'active' : 'exception'}
-        ></Progress>
-      )
-    }
-  },
-  {
-    title: '描述',
-    dataIndex: 'description'
-  },
-  {
-    title: '桌面总数',
+    title: () => <span title="桌面总数">桌面总数</span>,
+    width: 120,
     dataIndex: 'numOfDesktop',
     render: text => {
-      return <Tag>{text}</Tag>
+      return <Tag color="blue">{text}</Tag>
     }
+  },
+  {
+    title: () => <span title="CPU">CPU</span>,
+    dataIndex: 'usageCpuPercent',
+    render: text => {
+      return (
+        <Progress
+          strokeColor="#40d00f"
+          strokeWidth={16}
+          percent={parseFloat(text)}
+          status={+text < 80 ? 'active' : 'exception'}
+        ></Progress>
+      )
+    }
+  },
+  {
+    title: () => <span title="内存">内存</span>,
+    dataIndex: 'usageMemPercent',
+    render: text => {
+      return (
+        <Progress
+          strokeWidth={16}
+          percent={parseFloat(text)}
+          status={+text < 80 ? 'active' : 'exception'}
+        ></Progress>
+      )
+    }
+  },
+  {
+    title: () => <span title="网络">网络</span>,
+    dataIndex: 'usageNetworkPercent',
+    render: text => {
+      return (
+        <Progress
+          strokeWidth={16}
+          percent={parseFloat(text)}
+          status={+text < 80 ? 'active' : 'exception'}
+        ></Progress>
+      )
+    }
+  },
+  {
+    title: () => <span title="描述">描述</span>,
+    ellipsis: true,
+    dataIndex: 'description'
   }
 ]
 export const apiMethodCompute = resourceApi.listCompute

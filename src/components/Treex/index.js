@@ -4,12 +4,14 @@ import { nodes2Tree } from '@/utils/tool'
 
 import AddNodeModal from './chip/AddNodeModal'
 import EditNodeModal from './chip/EditNodeModal'
+import MyIcon from '../MyIcon'
 
 import './index.less'
 
 const { confirm } = Modal
 const { TreeNode } = Tree
 const { Search } = Input
+
 // 获取节点的父节点key
 const getParentKey = (key, tree) => {
   let parentKey
@@ -61,6 +63,7 @@ export default class Treex extends React.Component {
   }
 
   componentDidMount() {
+    this.props.onRef && this.props.onRef(this)
     // document.addEventListener('contextmenu', this._handleContextMenu)
     document.addEventListener('click', this._handleClick)
 
@@ -72,61 +75,27 @@ export default class Treex extends React.Component {
     document.removeEventListener('click', this._handleClick)
   }
 
+  componentDidUpdate(prep) {
+    if (this.props.treeData !== prep.value && prep.treeData === undefined) {
+      this.setState({ nodes: this.props.treeData })
+    }
+  }
+
   getTreeData = () => {
-    const { apiMethod, treeRenderSuccess } = this.props
+    const {
+      apiMethod,
+      treeRenderSuccess,
+      defaultSelectRootNode = true,
+      treeData
+    } = this.props
+
     if (!apiMethod) {
-      throw new Error('没有树请求方法')
+      this.setState({
+        nodes: treeData,
+        loading: false
+      })
+      return false
     }
-    /* const nodes = [
-      {
-        id: '0',
-        key: '0',
-        title: '用户组',
-        parentId: null
-      },
-      {
-        id: '1',
-        key: '1',
-        title: '成都研发中心',
-        parentId: '0'
-      },
-      {
-        id: '2',
-        key: '2',
-        title: '设计组',
-        parentId: '5'
-      },
-      {
-        id: '3',
-        key: '3',
-        title: '前端组',
-        parentId: '1'
-      },
-      {
-        id: '4',
-        key: '4',
-        title: '北京研发中心',
-        parentId: '1'
-      },
-      {
-        id: '5',
-        key: '5',
-        title: '前端组',
-        parentId: '4'
-      }
-    ]
-    if (!Array.isArray(nodes) || !Object.keys(nodes[0]).includes('key')) {
-      throw new Error('数据格式不符合')
-    }
-    const { allKey, nodeList } = generateList(nodes)
-    this.setState({
-      expandedKeys: allKey,
-      selectedKeys: [nodes[0].key],
-      nodeList,
-      nodes,
-      loading: false
-    })
-    treeRenderSuccess && treeRenderSuccess(nodes[0].key) */
     apiMethod()
       .then(res => {
         if (res.success) {
@@ -150,21 +119,23 @@ export default class Treex extends React.Component {
           const { allKey, nodeList } = generateList(nodes)
           this.setState({
             expandedKeys: allKey,
-            selectedKeys: [nodes[0].key],
+            selectedKeys: defaultSelectRootNode && [nodes[0].key], // 是否默认选中根节点
             nodeList,
             nodes,
             loading: false
           })
-          treeRenderSuccess && treeRenderSuccess(nodes[0].key, nodes)
+          defaultSelectRootNode &&
+            treeRenderSuccess &&
+            treeRenderSuccess(nodes[0].key, nodes)
         } else {
           this.nodes = []
           this.setState({ loading: false })
         }
       })
-      .catch(errors => {
+      .catch(error => {
         this.setState({ loading: false })
-        message.error(errors)
-        console.log(errors)
+        message.error(error.message || error)
+        console.log(error)
       })
   }
 
@@ -201,7 +172,7 @@ export default class Treex extends React.Component {
         }
         return null
       })
-      .filter((item, i, self) => item && self.indexOf(item) === i)
+      .filter((item, i, self) => item && self.indexbuOf(item) === i)
     this.setState({
       expandedKeys,
       searchValue: value,
@@ -211,7 +182,6 @@ export default class Treex extends React.Component {
 
   // 树节点选中
   onSelect = (key, node) => {
-    console.log(node)
     const { onSelect } = this.props
     onSelect && onSelect(node.node.props.eventKey, node)
     this.setState({
@@ -222,17 +192,23 @@ export default class Treex extends React.Component {
   renderTreeNode = (data, searchValue = '') =>
     data.map(item => {
       const index = item.title.indexOf(searchValue)
+      let iconType = ''
+      if (item.title === '本地组') {
+        iconType = 'yonghuguanli'
+      } else if (item.parentId === '-2') {
+        iconType = 'adyu'
+      }
       const beforeStr = item.title.substr(0, index)
       const afterStr = item.title.substr(index + searchValue.length)
       const title =
         index > -1 ? (
-          <span>
+          <span title={item.title}>
             {beforeStr}
             <span style={{ color: '#f50' }}>{searchValue}</span>
             {afterStr}
           </span>
         ) : (
-          <span>{item.title}</span>
+          <span title={item.title}>{item.title}</span>
         )
       if (item.children) {
         return (
@@ -242,6 +218,21 @@ export default class Treex extends React.Component {
             data-key={item.id}
             data-title={item.title}
             parentId={item.parentId}
+            type={item.type}
+            icon={() =>
+              iconType ? (
+                <MyIcon
+                  type={iconType}
+                  component="svg"
+                  style={{
+                    fontSize: iconType === 'adyu' ? '22px' : '20px',
+                    color: '#1890ff'
+                  }}
+                />
+              ) : (
+                ''
+              )
+            }
           >
             {this.renderTreeNode(item.children, searchValue)}
           </TreeNode>
@@ -254,6 +245,21 @@ export default class Treex extends React.Component {
           data-key={item.id}
           data-title={item.title}
           parentId={item.parentId}
+          type={item.type}
+          icon={() =>
+            iconType ? (
+              <MyIcon
+                type={iconType}
+                component="svg"
+                style={{
+                  fontSize: iconType === 'adyu' ? '22px' : '20px',
+                  color: '#1890ff'
+                }}
+              />
+            ) : (
+              ''
+            )
+          }
         />
       )
     })
@@ -324,10 +330,10 @@ export default class Treex extends React.Component {
               }
               resolve()
             })
-            .catch(errors => {
-              message.error(errors)
+            .catch(error => {
+              message.error(error.message || error)
               resolve()
-              console.log(errors)
+              console.log(error)
             })
         })
       },
@@ -335,9 +341,16 @@ export default class Treex extends React.Component {
     })
   }
 
+  cleanSelected = () => {
+    this.setState({
+      selectedKeys: []
+    })
+  }
+
   render() {
     const {
       showSearch = true,
+      showRightClinkMenu = false,
       addNodeApiMethod,
       editNodeApiMethod
     } = this.props
@@ -359,6 +372,7 @@ export default class Treex extends React.Component {
           <Search onChange={this.onChange} className="tree-search"></Search>
         )}
         <Tree
+          showIcon
           defaultExpandAll
           selectedKeys={selectedKeys}
           className="tree-wrap"
@@ -366,7 +380,7 @@ export default class Treex extends React.Component {
           onSelect={this.onSelect}
           expandedKeys={expandedKeys}
           autoExpandParent={autoExpandParent}
-          onRightClick={this.onRightClick}
+          onRightClick={showRightClinkMenu && this.onRightClick}
         >
           {this.renderTreeNode(nodes2Tree(nodes), searchValue)}
         </Tree>

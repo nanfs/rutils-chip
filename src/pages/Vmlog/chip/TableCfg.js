@@ -1,47 +1,55 @@
+import React from 'react'
 import vmlogsApi from '@/services/vmlogs'
 import { severityOptions, renderServerityOptions } from '@/utils/tableRender'
-// TODO antd 样式加载问题
+
 export const columns = [
   {
-    title: '级别',
+    title: () => <span title="级别">级别</span>,
     dataIndex: 'severity',
+    width: 80,
+    // defaultFilteredValue: [0, 1, 2, 10],
     filters: severityOptions,
     render: renderServerityOptions
   },
   {
-    title: '时间',
-    dataIndex: 'logTime'
+    title: () => <span title="时间">时间</span>,
+    dataIndex: 'logTime',
+    width: 180,
+    ellipsis: true
   },
   {
-    title: '信息',
-    width: '30%',
+    title: () => <span title="信息">信息</span>,
+    width: '20%',
     dataIndex: 'message',
     ellipsis: true
   },
   {
-    title: 'IP',
-    dataIndex: 'userIp'
-  },
-  {
-    title: '用户',
-    dataIndex: 'userName'
+    title: () => <span title="用户">用户</span>,
+    dataIndex: 'userName',
+    ellipsis: true
   },
 
   {
-    title: '桌面',
-    dataIndex: 'desktopName'
+    title: () => <span title="桌面">桌面</span>,
+    dataIndex: 'desktopName',
+    ellipsis: true
   },
   {
-    title: '主机',
-    dataIndex: 'hostName'
+    title: () => <span title="主机">主机</span>,
+    dataIndex: 'hostName',
+    width: 140,
+    ellipsis: true
   },
   {
-    title: '数据中心',
-    dataIndex: 'datacenterName'
+    title: () => <span title="数据中心">数据中心</span>,
+    dataIndex: 'datacenterName',
+    width: '9%',
+    ellipsis: true
   },
   {
-    title: '集群',
-    dataIndex: 'clusterName'
+    title: () => <span title="集群">集群</span>,
+    dataIndex: 'clusterName',
+    ellipsis: true
   }
 ]
 export const apiMethod = vmlogsApi.list

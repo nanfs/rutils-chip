@@ -2,16 +2,28 @@ import React from 'react'
 import { Form, Input, Select } from 'antd'
 import { Drawerx, Formx, Title } from '@/components'
 import terminalApi from '@/services/terminal'
-import { required, checkName, textRange, checkKeyId } from '@/utils/valid'
+import {
+  required,
+  checkName,
+  textRange,
+  checkKeyId,
+  checkPassword
+} from '@/utils/valid'
 
 const { Option } = Select
 const { TextArea } = Input
 
 export default class EditDrawer extends React.Component {
+  /**
+   * @param {string} fieldValue
+   * @returns
+   * @memberof EditDrawer
+   * @author linghu
+   * @description 如果fieldValue与loginWay的值相等，则为必填
+   */
   checkFieldRequired(fieldValue) {
     return (rule, value, callback) => {
       const loginWay = this.drawer.form.getFieldValue('loginWay')
-      console.log(loginWay, value)
       if (loginWay === fieldValue && !value) {
         callback(new Error('这是必填项'))
       }
@@ -23,6 +35,12 @@ export default class EditDrawer extends React.Component {
     this.props.onRef && this.props.onRef(this)
   }
 
+  /**
+   * @memberof EditDrawer
+   * @param data 选中行数据
+   * @description 打开终端编辑抽屉，传入选中行数据回显表单
+   * @author linghu
+   */
   pop = data => {
     this.drawer.show()
     const {
@@ -32,7 +50,8 @@ export default class EditDrawer extends React.Component {
       loginWay,
       location,
       secretWord,
-      bondKey
+      bondKey,
+      lockedWord
     } = data
     this.drawer.form.setFieldsValue({
       sn,
@@ -41,13 +60,8 @@ export default class EditDrawer extends React.Component {
       loginWay,
       location,
       secretWord,
-      bondKey
-    })
-  }
-
-  onChange = value => {
-    this.setState({
-      autoLockTime: value
+      bondKey,
+      lockedWord
     })
   }
 
@@ -63,7 +77,8 @@ export default class EditDrawer extends React.Component {
       loginWay,
       location,
       secretWord,
-      bondKey
+      bondKey,
+      lockedWord
     } = values
     const data = {
       name,
@@ -71,7 +86,8 @@ export default class EditDrawer extends React.Component {
       loginWay,
       location,
       secretWord: loginWay === 2 ? secretWord : '',
-      bondKey: loginWay === 1 ? bondKey : ''
+      bondKey: loginWay === 1 ? bondKey : '',
+      lockedWord
     }
     terminalApi
       .editTerminal(sn, data)
@@ -110,36 +126,6 @@ export default class EditDrawer extends React.Component {
           >
             <Input placeholder="终端名称" />
           </Form.Item>
-          {/* <Form.Item
-            prop="autoLockTime"
-            label="自动锁屏时间"
-            rules={[
-              {
-                required: true
-              }
-            ]}
-          >
-            <Row>
-              <Col span={18}>
-                <Slider
-                  min={1}
-                  max={20}
-                  onChange={this.onChange}
-                  value={typeof autoLockTime === 'number' ? autoLockTime : 1}
-                />
-              </Col>
-              <Col span={4}>
-                <InputNumber
-                  min={1}
-                  max={20}
-                  style={{ marginLeft: 16 }}
-                  value={autoLockTime}
-                  onChange={this.onChange}
-                />
-              </Col>
-            </Row>
-            <SliderNumber autoLockTime={'1'} />
-          </Form.Item> */}
           <Form.Item
             prop="location"
             label="终端位置"
@@ -165,7 +151,6 @@ export default class EditDrawer extends React.Component {
             // required
             rules={[
               /* this.checkFieldRequired(1), */
-
               textRange(0, 64),
               checkKeyId
             ]}
@@ -194,6 +179,18 @@ export default class EditDrawer extends React.Component {
           >
             <Input
               placeholder="输入口令"
+              type="password"
+              autoComplete="new-password"
+            />
+          </Form.Item>
+          <Form.Item
+            prop="lockedWord"
+            label="锁定密码"
+            required
+            rules={[required, checkPassword]}
+          >
+            <Input
+              placeholder="锁定密码"
               type="password"
               autoComplete="new-password"
             />

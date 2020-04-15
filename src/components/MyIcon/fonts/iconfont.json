@@ -6,6 +6,62 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "14062967",
+      "name": "other",
+      "font_class": "os-other",
+      "unicode": "e666",
+      "unicode_decimal": 58982
+    },
+    {
+      "icon_id": "14054932",
+      "name": "AD域",
+      "font_class": "adyu",
+      "unicode": "e663",
+      "unicode_decimal": 58979
+    },
+    {
+      "icon_id": "1417430",
+      "name": "标识类_本地",
+      "font_class": "local",
+      "unicode": "e608",
+      "unicode_decimal": 58888
+    },
+    {
+      "icon_id": "11200581",
+      "name": "沙漏",
+      "font_class": "shalou",
+      "unicode": "e605",
+      "unicode_decimal": 58885
+    },
+    {
+      "icon_id": "9454026",
+      "name": "消息",
+      "font_class": "xiaoxi",
+      "unicode": "e66c",
+      "unicode_decimal": 58988
+    },
+    {
+      "icon_id": "3978012",
+      "name": "解锁",
+      "font_class": "jiesuo",
+      "unicode": "e61f",
+      "unicode_decimal": 58911
+    },
+    {
+      "icon_id": "3978026",
+      "name": "锁定",
+      "font_class": "storage-imagelocked",
+      "unicode": "e627",
+      "unicode_decimal": 58919
+    },
+    {
+      "icon_id": "13191092",
+      "name": "锁定",
+      "font_class": "tc-imagelocked",
+      "unicode": "ea67",
+      "unicode_decimal": 60007
+    },
+    {
       "icon_id": "151695",
       "name": "down",
       "font_class": "order-down",
@@ -207,20 +263,6 @@
       "font_class": "storage--unknown-copy",
       "unicode": "e8d0",
       "unicode_decimal": 59600
-    },
-    {
-      "icon_id": "13116737",
-      "name": "ImageLocked",
-      "font_class": "tc-imagelocked",
-      "unicode": "e8d9",
-      "unicode_decimal": 59609
-    },
-    {
-      "icon_id": "13114439",
-      "name": "ImageLocked",
-      "font_class": "storage-imagelocked",
-      "unicode": "e641",
-      "unicode_decimal": 58945
     },
     {
       "icon_id": "13114405",

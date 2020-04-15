@@ -148,7 +148,7 @@ export function wrapResponse(res) {
     switch (res.code) {
       case 200:
         if (res.success !== undefined && res.success === false) {
-          reject()
+          reject(res)
           break
         }
         resolve(res.data)
@@ -156,14 +156,14 @@ export function wrapResponse(res) {
 
       case 201:
         if (res.success !== undefined && res.success === false) {
-          reject()
+          reject(res)
           break
         }
         resolve(res.data)
         break
 
       case 404:
-        reject()
+        reject(res)
         break
 
       default:
@@ -172,7 +172,7 @@ export function wrapResponse(res) {
           res.data.data.errorCode &&
           res.data.data.errorCode.indexOf('TOKEN-') === 0
         ) {
-          reject()
+          reject(res)
           break
         }
     }
@@ -200,6 +200,13 @@ export function ch2Unicdoe(str) {
   return unicode
 }
 
+/**
+ * @description
+ * @author lishuai
+ * @date 2020-04-08
+ * @param flow
+ * @param name
+ */
 export function downloadVV(flow, name) {
   const blob = new Blob([flow], {
     type: 'application/x-virt-viewer;charset=UTF-8'
@@ -254,4 +261,9 @@ export function onlineStringTime(value) {
     timeString += `${second}秒`
   }
   return timeString
+}
+
+export function findArrObj(arr, key, target) {
+  const current = arr?.find(item => item[key] === target) || {}
+  return current
 }

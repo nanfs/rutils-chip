@@ -1,93 +1,88 @@
 import React from 'react'
-import { Button, notification, Modal, message } from 'antd'
 import {
-  Tablex,
-  SelectSearch,
-  InnerPath,
-  MyIcon,
-  Diliver,
-  TitleInfo
-} from '@/components'
-import { downloadVV } from '@/utils/tool'
+  Button,
+  notification,
+  Modal,
+  message,
+  Menu,
+  Dropdown,
+  Icon
+} from 'antd'
+import { Tablex, InnerPath } from '@/components'
 import AddDrawer from './chip/AddDrawer'
+import DetailDrawer from './chip/DetailDrawer'
 import EditDrawer from './chip/EditDrawer'
 import SetUserDrawer from './chip/SetUserDrawer'
-import produce from 'immer'
 import poolsApi from '@/services/pools'
-import desktopsApi from '@/services/desktops'
 import { columns, apiMethod } from './chip/TableCfg'
-import { vmColumns, vmApiMethod } from './chip/VmTableCfg'
 import './index.less'
 
 const { confirm } = Modal
-const { createTableCfg, TableWrap, ToolBar, BarLeft, BarRight } = Tablex
+const { createTableCfg, TableWrap, ToolBar, BarLeft } = Tablex
 
 export default class Pool extends React.Component {
-  opration = {
-    title: '操作',
-    dataIndex: 'opration',
-    className: 'opration',
-    render: (text, record) => (
-      <div>
-        <MyIcon
-          type="order-down"
-          title="关机"
-          disabled={record.status === 0}
-          onClick={() => this.sendOrder(record.id, 'shutdown')}
-        />
-        <MyIcon
-          type="order-up"
-          title="开机"
-          disabled={record.status !== 0 && record.status !== 13}
-          onClick={() => this.sendOrder(record.id, 'start')}
-        />
-        <MyIcon
-          type="order-poweroff"
-          title="断电"
-          disabled={record.status === 0}
-          onClick={() => this.sendOrder(record.id, 'poweroff')}
-        />
-        <MyIcon
-          type="vm-rebootinprogress"
-          title="重启"
-          disabled={record.status === 10 || record.status === 0}
-          onClick={() => this.sendOrder(record.id, 'restart')}
-        />
-        {/* //TODO 缺少接口 */}
-        {/* <MyIcon
-          type="order-console-end"
-          title="关闭控制台"
-          onClick={() => this.sendOrder(record.id, 'start')}
-        /> */}
-        <MyIcon
-          type="order-console"
-          title="打开控制台"
-          disabled={record.status !== 1}
-          onClick={() => this.openConsole(record.name, record.id)}
-        />
-      </div>
-    )
+  poolName = {
+    title: () => <span title="名称">名称</span>,
+    ellipsis: true,
+    dataIndex: 'name',
+    render: (text, record) => {
+      return (
+        <a
+          className="detail-link"
+          onClick={() => this.detailPool(record.id, record.name)}
+        >
+          {record.name}
+        </a>
+      )
+    }
   }
 
-  vmColumnsArr = [...vmColumns, this.opration]
+  action = {
+    title: '操作',
+    width: 130,
+    dataIndex: 'action',
+    render: (text, record) => {
+      const moreAction = (
+        <Menu>
+          <Menu.Item
+            key="0"
+            onClick={() => this.setUser(record.id, record.name)}
+          >
+            分配用户
+          </Menu.Item>
+          <Menu.Item
+            key="1"
+            onClick={() => this.deletePool(record.id, '确定删除本条数据?')}
+          >
+            删除
+          </Menu.Item>
+        </Menu>
+      )
+      return (
+        <span className="opration-btn">
+          <a onClick={() => this.editPool(record.id, record.name)}>编辑</a>
+
+          <Dropdown overlay={moreAction} placement="bottomRight">
+            <a>
+              更多 <Icon type="down" />
+            </a>
+          </Dropdown>
+        </span>
+      )
+    }
+  }
+
+  columnsArr = [this.poolName, ...columns, this.action]
 
   state = {
     tableCfg: createTableCfg({
-      columns,
+      columns: this.columnsArr,
       apiMethod,
-      paging: { size: 5 },
-      pageSizeOptions: ['5', '10', '20', '50']
-    }),
-    vmTableCfg: createTableCfg({
-      columns: this.vmColumnsArr,
-      apiMethod: vmApiMethod,
       paging: { size: 10 },
       pageSizeOptions: ['5', '10', '20', '50']
     }),
     innerPath: undefined,
-    disabledButton: {},
-    vmDisbaledButton: {},
-    currentPool: {}
+    disabledButton: {}
   }
 
   onBack = () => {
@@ -95,92 +90,53 @@ export default class Pool extends React.Component {
     this.currentDrawer.drawer.hide()
   }
 
-  sendOrder = (id, directive) => {
-    const ids = !Array.isArray(id) ? [id] : [...id]
-    desktopsApi
-      .sendOrder({ desktopIds: ids, directive })
-      .then(res => {
-        if (res.success) {
-          notification.success({ message: '操作成功' })
-          this.vmTablex.refresh(this.state.vmTableCfg)
-        } else {
-          message.error(res.message || '操作失败')
-        }
-      })
-      .catch(errors => {
-        console.log(errors)
-      })
+  onSuccess = () => {
+    this.tablex.refresh(this.state.tableCfg)
+    this.currentDrawer.drawer.hide()
+    this.setState({ inner: undefined })
   }
 
-  onSelectChange = (selection, selectData) => {
-    let disabledButton = {}
-    if (selection.length !== 1) {
-      disabledButton = {
-        ...disabledButton,
-        disabledEdit: true,
-        disabledDelete: true,
-        disabledSetUser: true
-      }
-    }
-    // if (selection.length === 0) {
-    //   disabledButton = {
-    //     ...disabledButton
-    //   }
-    // }
-    this.setState({ disabledButton })
+  /**
+   *
+   * 桌面池分配用户 不支持批量
+   * @memberof Pool
+   */
+  setUser = (poolId, name) => {
+    this.setState({ inner: name || '分配用户' }, this.setUserDrawer.pop(poolId))
+    this.currentDrawer = this.setUserDrawer
   }
 
-  onVmSelectChange = (selection, selectData) => {
-    let vmDisbaledButton = {}
-    if (selection.length !== 1) {
-      vmDisbaledButton = { ...vmDisbaledButton, disabledEdit: true }
-    }
-
-    if (selection.length === 0) {
-      vmDisbaledButton = {
-        ...vmDisbaledButton,
-        disabledUp: true,
-        disabledDown: true,
-        disabledDelete: true
-      }
-    } else {
-      selectData.forEach(item => {
-        if (item.status !== 0 && item.status !== 13) {
-          vmDisbaledButton = {
-            ...vmDisbaledButton,
-            disabledUp: true
-          }
-        }
-        if (item.status === 0) {
-          vmDisbaledButton = {
-            ...vmDisbaledButton,
-            disabledDown: true
-          }
-        }
-      })
-    }
-    this.setState({ vmDisbaledButton })
+  /**
+   *桌面池管理
+   *
+   * @memberof Pool
+   */
+  detailPool = (poolId, name) => {
+    this.setState({ inner: name }, this.detailDrawer.pop(poolId))
+    this.currentDrawer = this.detailDrawer
   }
 
-  openConsole = (name, desktopId) => {
-    desktopsApi.openConsole({ desktopId }).then(res => {
-      downloadVV(res, name)
-    })
-  }
-
+  /**
+   * 创建桌面池
+   *
+   * @memberof Pool
+   */
   createPool = () => {
     this.setState({ inner: '新建池' }, this.addDrawer.pop())
     this.currentDrawer = this.addDrawer
   }
 
-  deletePool = () => {
-    // TODO 添加删除禁用 只能单个删除
-    const poolId = this.tablex.getSelection()[0]
+  /**
+   *删除桌面池 不支持批量
+   *
+   * @memberof Pool
+   */
+  deletePool = (poolId, title = '确定删除所选数据?') => {
     const self = this
     confirm({
-      title: '确定删除所选数据?',
+      title,
       onOk() {
-        return new Promise((resolve, reject) => {
+        return new Promise(resolve => {
           poolsApi
             .delPool(poolId)
             .then(res => {
@@ -192,9 +148,9 @@ export default class Pool extends React.Component {
               }
               resolve()
             })
-            .catch(errors => {
-              message.error(errors)
-              console.log(errors)
+            .catch(error => {
+              message.error(error.message || error)
+              console.log(error)
               resolve()
             })
         })
@@ -203,102 +159,28 @@ export default class Pool extends React.Component {
     })
   }
 
-  deleteVm = () => {
-    const desktopIds = this.vmTablex.getSelection()
-    const self = this
-    confirm({
-      title: '确定删除所选数据?',
-      onOk() {
-        return new Promise((resolve, reject) => {
-          desktopsApi
-            .delVm({ desktopIds })
-            .then(res => {
-              if (res.success) {
-                notification.success({ message: '删除成功' })
-                self.vmTablex.refresh(self.state.vmTableCfg)
-                self.tablex.replace(self.state.tableCfg)
-              } else {
-                message.error(res.message || '删除失败')
-              }
-              resolve()
-            })
-            .catch(errors => {
-              message.error(errors || 'catch error')
-              resolve()
-              console.log(errors)
-            })
-        })
-      },
-      onCancel() {}
-    })
+  /**
+   * 删除所有桌面后调用 重刷
+   *
+   * @memberof Pool
+   */
+  onDeleteAll = () => {
+    this.setState({ inner: undefined })
+    this.currentDrawer.drawer.hide()
+    this.tablex.refresh(this.state.tableCfg)
   }
 
-  editPool = () => {
-    this.setState(
-      { inner: '编辑池' },
-      this.editDrawer.pop(this.tablex.getSelection()[0])
-    )
+  /**
+   *编辑池
+   *
+   * @memberof Pool
+   */
+  editPool = (poolId, name) => {
+    this.setState({ inner: name }, this.editDrawer.pop(poolId))
     this.currentDrawer = this.editDrawer
   }
 
-  setUser = () => {
-    this.setState(
-      { inner: '分配用户' },
-      this.setUserDrawer.pop(this.tablex.getSelection()[0])
-    )
-    this.currentDrawer = this.setUserDrawer
-  }
-
-  search = (key, value, name) => {
-    const searchs = { poolId: this.state.currentPool.id }
-    searchs[key] = value
-    this.setState(
-      produce(draft => {
-        draft.currentName = name || this.state.currentPool.name
-        draft.vmTableCfg.searchs = {
-          // ...draft.vmTableCfg.searchs,
-          status: draft.vmTableCfg.searchs.status,
-          ...searchs
-        }
-      }),
-      () => this.vmTablex.refresh(this.state.vmTableCfg)
-    )
-  }
-
-  onVmTableChange = (a, filter) => {
-    const statusList = []
-    filter.status.forEach(function(v, i) {
-      statusList.push(...v)
-    })
-    this.setState(
-      produce(draft => {
-        draft.vmTableCfg.searchs = {
-          ...draft.vmTableCfg.searchs,
-          status: statusList
-        }
-      }),
-      () => this.vmTablex.refresh(this.state.vmTableCfg)
-    )
-  }
-
-  afterPoolLoad = () => {
-    const data = (this.tablex.getData() && this.tablex.getData()[0]) || {}
-    const { id, name } = data
-    this.setState(
-      { currentPool: { id, name } },
-      this.search('poolId', id, name)
-    )
-  }
-
-  onSuccess = () => {
-    this.tablex.refresh(this.state.tableCfg)
-    this.setState({ inner: undefined })
-  }
-
   render() {
-    const searchOptions = [{ label: '名称', value: 'name' }]
-    const { disabledButton, vmDisbaledButton } = this.state
-
     return (
       <React.Fragment>
         <InnerPath
@@ -309,24 +191,8 @@ export default class Pool extends React.Component {
         <TableWrap>
           <ToolBar>
             <BarLeft>
-              <Button onClick={this.createPool}>创建池</Button>
-              <Button
-                onClick={this.editPool}
-                disabled={disabledButton.disabledEdit}
-              >
-                编辑池
-              </Button>
-              <Button
-                onClick={this.setUser}
-                disabled={disabledButton.disabledSetUser}
-              >
-                分配用户
-              </Button>
-              <Button
-                onClick={this.deletePool}
-                disabled={disabledButton.disabledDelete}
-              >
-                删除池
+              <Button onClick={this.createPool} type="primary">
+                创建
               </Button>
             </BarLeft>
           </ToolBar>
@@ -336,67 +202,6 @@ export default class Pool extends React.Component {
             }}
             tableCfg={this.state.tableCfg}
             onSelectChange={this.onSelectChange}
-            afterLoad={this.afterPoolLoad}
-            onRow={record => {
-              return {
-                onClick: () => {
-                  const { id, name } = record
-                  this.setState(
-                    { currentPool: { id, name } },
-                    this.search('poolId', id, name)
-                  )
-                }
-              }
-            }}
-          />
-          <Diliver />
-          <TitleInfo
-            style={{ paddingTop: '10px', marginBottom: '0px' }}
-            slot={
-              this.state.currentName && `${this.state.currentName} 的桌面列表`
-            }
-          />
-          <ToolBar>
-            <BarLeft>
-              <Button
-                onClick={() =>
-                  this.sendOrder(this.vmTablex.getSelection(), 'start')
-                }
-                disabled={vmDisbaledButton.disabledUp}
-              >
-                开机
-              </Button>
-              <Button
-                onClick={() =>
-                  this.sendOrder(this.vmTablex.getSelection(), 'shutdown')
-                }
-                disabled={vmDisbaledButton.disabledDown}
-              >
-                关机
-              </Button>
-              <Button
-                onClick={this.deleteVm}
-                disabled={vmDisbaledButton.disabledDelete}
-              >
-                删除桌面
-              </Button>
-            </BarLeft>
-            <BarRight>
-              <SelectSearch
-                options={searchOptions}
-                onSearch={this.search}
-              ></SelectSearch>
-            </BarRight>
-          </ToolBar>
-          <Tablex
-            onRef={ref => {
-              this.vmTablex = ref
-            }}
-            stopAutoFetch={true}
-            className="no-select-bg"
-            tableCfg={this.state.vmTableCfg}
-            onChange={this.onVmTableChange}
-            onSelectChange={this.onVmSelectChange}
           />
           <AddDrawer
             onRef={ref => {
@@ -411,6 +216,13 @@ export default class Pool extends React.Component {
             }}
             onClose={this.onBack}
             onSuccess={this.onSuccess}
+          />
+          <DetailDrawer
+            onRef={ref => {
+              this.detailDrawer = ref
+            }}
+            onDeleteAll={this.onDeleteAll}
+            onClose={this.onBack}
           />
           <SetUserDrawer
             onRef={ref => {

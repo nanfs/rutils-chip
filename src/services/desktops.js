@@ -33,9 +33,23 @@ export default {
       data: qs.stringify(data, { arrayFormat: 'indices', allowDots: true })
     })
   },
+  batchAddVm(data) {
+    return axios({
+      url: '/desktops/batch',
+      method: 'post',
+      data: qs.stringify(data, { arrayFormat: 'indices', allowDots: true })
+    })
+  },
   addVm(data) {
     return axios({
       url: '/desktops',
+      method: 'post',
+      data: qs.stringify(data, { arrayFormat: 'indices', allowDots: true })
+    })
+  },
+  addVmByIso(data) {
+    return axios({
+      url: '/desktops/iso_create',
       method: 'post',
       data: qs.stringify(data, { arrayFormat: 'indices', allowDots: true })
     })
@@ -51,6 +65,13 @@ export default {
   getTemplate(data) {
     return axios({
       url: '/templates',
+      method: 'get',
+      params: data
+    })
+  },
+  getIso(data) {
+    return axios({
+      url: 'desktops/isos',
       method: 'get',
       params: data
     })
@@ -74,6 +95,59 @@ export default {
       method: 'get',
       params: data,
       responseType: 'arraybuffer'
+    })
+  },
+  attachIso({ vmId, ...data }) {
+    return axios({
+      url: `/desktops/${vmId}/changeCd`,
+      method: 'post',
+      params: data
+    })
+  },
+  snapList(data) {
+    return axios({
+      url: '/snaps',
+      method: 'get',
+      baseURL: '/api',
+      params: data
+    })
+  },
+  addSnap(data) {
+    return axios({
+      url: '/snaps',
+      method: 'post',
+      data: qs.stringify(data, { arrayFormat: 'indices', allowDots: true })
+    })
+  },
+  checkSnap(data) {
+    return axios({
+      url: '/snaps',
+      method: 'get',
+      baseURL: '/api',
+      params: data
+    })
+  },
+  useSnap(data) {
+    return axios({
+      url: '/snaps',
+      method: 'get',
+      baseURL: '/api',
+      params: data
+    })
+  },
+  cancelSnap(data) {
+    return axios({
+      url: '/snaps',
+      method: 'get',
+      baseURL: '/api',
+      params: data
+    })
+  },
+  deleteSnap(data) {
+    return axios({
+      url: '/snaps',
+      method: 'delete',
+      data: qs.stringify(data)
     })
   }
 }

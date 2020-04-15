@@ -14,3 +14,25 @@
         margin-bottom: 0;;
     }
 }
+
+.ant-tree-title {
+    max-width: 200px;
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+@media screen and (min-width: 1950px) {
+    .ant-tree-title {
+        max-width: 270px;
+    }
+}
+
+.ant-tree li span.ant-tree-iconEle, .ant-tree li span.ant-tree-switcher {
+    width: auto;
+}
+
+.ant-tree li span.ant-tree-iconEle:empty, .ant-tree li span.ant-tree-switcher:empty {
+    display: none;
+}

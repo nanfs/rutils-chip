@@ -6,7 +6,10 @@ export default {
     return axios({
       url: '/admitpolicys',
       method: 'get',
-      params: data
+      params: data,
+      paramsSerializer: params => {
+        return qs.stringify(params, { arrayFormat: 'indices' })
+      }
     })
   },
   add(data) {

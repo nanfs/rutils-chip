@@ -27,14 +27,16 @@ class Drawerx extends React.Component {
     })
     document.body.style.maxHeight = '100vh'
     // document.body.style.overflow = 'hidden'
-    document.querySelector('.table-wrap').style.minHeight =
-      'calc(100vh - 105px)'
+    document.querySelector('.table-wrap').style.height = 'calc(100vh - 105px)'
     document.querySelector('.table-wrap').style.overflow = 'hidden'
     document.querySelector('.ant-drawer-body .ant-form').style.Height =
       'calc(100vh - 185px)'
   }
 
+  // 隐藏没有重置表单 点取消去重置表单  this is a feature cancel
   hide = () => {
+    const { form } = (this.formRef && this.formRef.props) || {}
+    form && form.resetFields && form.resetFields()
     this.setState({
       show: false,
       submitting: false
@@ -46,7 +48,7 @@ class Drawerx extends React.Component {
 
   break = error => {
     if (error) {
-      message.error(error)
+      message.error(error.message || error)
     }
     this.setState({
       submitting: false
@@ -55,13 +57,10 @@ class Drawerx extends React.Component {
 
   onClose = () => {
     this.hide()
-    const { form } = (this.formRef && this.formRef.props) || {}
-    form.resetFields()
     const { onClose } = this.props
     onClose && onClose()
   }
 
-  // TODO 修改处理方式
   afterSubmit = res => {
     const { form } = (this.formRef && this.formRef.props) || {}
     return new Promise(resolve => {
@@ -101,9 +100,9 @@ class Drawerx extends React.Component {
             this.break()
           }
         })
-        .catch(err => {
+        .catch(error => {
           this.break()
-          message.error(err)
+          message.error(error.message || error)
         })
     } else {
       onOk && onOk()
@@ -114,7 +113,7 @@ class Drawerx extends React.Component {
     if (
       React.isValidElement(this.props.children) &&
       this.props.children &&
-      this.props.children.type.displayName === 'Form(Formx)'
+      this.props.children?.type?.displayName?.includes('Form')
     ) {
       return true
     }
@@ -145,14 +144,17 @@ class Drawerx extends React.Component {
     return undefined
   }
 
-  renderContent(setFormRef) {
+  renderContent(setFormRef, show) {
     // if (this.state.show) {
     return this.hasFormx()
       ? React.cloneElement(this.props.children, {
           onRef: setFormRef,
-          submitting: this.state.submitting
+          submitting: this.state.submitting,
+          isParentShow: show
         })
-      : this.props.children
+      : React.cloneElement(this.props.children, {
+          isParentShow: show
+        })
     // }
     // return undefined
   }
@@ -173,9 +175,8 @@ class Drawerx extends React.Component {
         title={title}
         style={{ position: 'absolute' }}
         className="drawerx"
-        afterVisibleChange={this.afterVisibleChange}
       >
-        {this.renderContent(setFormRef)}
+        {this.renderContent(setFormRef, this.state.show)}
         {this.renderOption()}
       </Drawer>
     )

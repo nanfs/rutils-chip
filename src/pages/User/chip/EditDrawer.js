@@ -11,22 +11,34 @@ import {
 } from '@/utils/valid'
 
 export default class editDrawer extends React.Component {
+  checkFieldRequired(fieldValue) {
+    return (rule, value, callback) => {
+      const domain = this.drawer.form.getFieldValue('domain')
+      if (domain === fieldValue && value !== 0 && !value) {
+        callback(new Error('这是必填项'))
+      }
+      callback()
+    }
+  }
+
   componentDidMount() {
     this.props.onRef && this.props.onRef(this)
   }
 
-  pop = data => {
+  pop = (data, groupType) => {
     this.drawer.show()
     const {
       id,
-      domain,
       firstname,
       lastname,
       username,
       password,
       groupId,
       email
+      // isAdDomain = false
     } = data
+    const domain = groupType
+    console.log(groupType)
     this.drawer.form.setFieldsValue({
       id,
       domain,
@@ -40,12 +52,10 @@ export default class editDrawer extends React.Component {
   }
 
   editUser = values => {
-    const { onSuccess } = this.props
     userApi
       .editUser({ ...values })
       .then(res => {
         this.drawer.afterSubmit(res)
-        onSuccess && onSuccess()
       })
       .catch(errors => {
         this.drawer.break(errors)
@@ -84,7 +94,7 @@ export default class editDrawer extends React.Component {
             ></Selectx>
           </Form.Item>
           <Form.Item
-            prop="firstname"
+            prop="lastname"
             label="姓"
             required
             rules={[required, checkName, textRange(0, 29)]}
@@ -92,7 +102,7 @@ export default class editDrawer extends React.Component {
             <Input placeholder="姓" />
           </Form.Item>
           <Form.Item
-            prop="lastname"
+            prop="firstname"
             label="名"
             required
             rules={[required, checkName, textRange(0, 28)]}
@@ -111,7 +121,12 @@ export default class editDrawer extends React.Component {
             prop="password"
             label="密码"
             required
-            rules={[required, checkPassword]}
+            rules={[this.checkFieldRequired('internal'), checkPassword]}
+            hidden={
+              this.drawer &&
+              this.drawer.form &&
+              this.drawer.form.getFieldValue('domain') !== 'internal'
+            }
           >
             <Input
               placeholder="密码"
@@ -119,8 +134,18 @@ export default class editDrawer extends React.Component {
               autoComplete="new-password"
             />
           </Form.Item>
-          <Form.Item prop="groupId" label="组织" required rules={[required]}>
-            <TreeSelectx nodeData={nodeData} />
+          <Form.Item
+            prop="groupId"
+            label="组织"
+            required
+            rules={[required /* this.checkFieldRequired('internal') */]}
+            /* hidden={
+              this.drawer &&
+              this.drawer.form &&
+              this.drawer.form.getFieldValue('domain') !== 'internal'
+            } */
+          >
+            <TreeSelectx nodeData={nodeData} placeholder="请选择" />
           </Form.Item>
           <Form.Item prop="email" label="邮箱" rules={[checkEmail]}>
             <Input placeholder="邮箱" />

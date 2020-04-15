@@ -5,36 +5,63 @@ import AddDrawer from './chip/AddDrawer'
 import EditDrawer from './chip/EditDrawer'
 import { columns, apiMethod } from './chip/TableCfg'
 import accessApi from '@/services/access'
+import produce from 'immer'
 
 const { confirm } = Modal
 const { createTableCfg, TableWrap, ToolBar, BarLeft } = Tablex
-export default class Desktop extends React.Component {
+export default class Access extends React.Component {
+  accessName = {
+    title: () => <span title="名称">名称</span>,
+    dataIndex: 'name',
+    ellipsis: true,
+    sorter: true
+  }
+
+  action = {
+    title: '操作',
+    dataIndex: 'opration',
+    width: 120,
+    render: (text, record) => {
+      return (
+        <span className="opration-btn">
+          <a onClick={() => this.editAccess(record.name, record)}>编辑</a>
+          <a
+            onClick={() => {
+              this.delAccess(record.id, '确定删除该条数据?')
+            }}
+            disabled={record.boundTcNum !== 0}
+          >
+            删除
+          </a>
+        </span>
+      )
+    }
+  }
+
+  columnsArr = [this.accessName, ...columns, this.action]
+
   state = {
     tableCfg: createTableCfg({
-      columns,
+      columns: this.columnsArr,
       apiMethod,
       paging: { size: 10 },
       pageSizeOptions: ['5', '10', '20', '50']
-    }),
-    innerPath: undefined,
-    initValues: {},
-    disabledButton: {}
+    })
   }
 
-  onBack = () => {
-    this.setState({ inner: undefined })
-    this.currentDrawer.drawer.hide()
-  }
-
+  /**
+   *
+   *
+   * @param {*} selection
+   * @param {*} selectData
+   * 删除禁用 如果 有终端使用不能删除 建议放开 实现双向解绑
+   */
   onSelectChange = (selection, selectData) => {
     let disabledButton = {}
-    if (selection.length !== 1) {
-      disabledButton = { ...disabledButton, disabledEdit: true }
-    }
     if (selection.length === 0) {
       disabledButton = { ...disabledButton, disabledDelete: true }
     }
-    selectData.forEach(function(v, i) {
+    selectData.forEach(function(v) {
       if (v.boundTcNum !== 0) {
         disabledButton = { ...disabledButton, disabledDelete: true }
       }
@@ -42,30 +69,97 @@ export default class Desktop extends React.Component {
     this.setState({ disabledButton })
   }
 
+  /**
+   * @param sorter 排序
+   * 支持对名称进行排序
+   */
+  onTableChange = (page, filter, sorter) => {
+    const searchs = {}
+    const orderArr = {
+      ascend: 'asc',
+      descend: 'desc'
+    }
+    if (sorter) {
+      const { order, field } = sorter
+      searchs.sortKey = field || undefined
+      searchs.sortValue = (order && orderArr[order]) || undefined
+    }
+    if (filter) {
+      searchs.type = filter.type
+    }
+    this.setState(
+      produce(draft => {
+        draft.tableCfg.searchs = {
+          ...draft.tableCfg.searchs,
+          ...searchs
+        }
+      }),
+      () => this.tablex.refresh(this.state.tableCfg)
+    )
+  }
+
+  /**
+   *
+   *
+   * @memberof Access
+   * 返回后 将inner path 置为空
+   */
+  onBack = () => {
+    this.setState({ inner: undefined })
+    this.currentDrawer.drawer.hide()
+  }
+
+  /**
+   *
+   *
+   * @memberof Access
+   * 成功后刷新表格
+   */
+  onSuccess = () => {
+    this.tablex.refresh(this.state.tableCfg)
+    this.currentDrawer.drawer.hide()
+    this.setState({ inner: undefined })
+  }
+
+  /**
+   *
+   *
+   * @memberof Access
+   * 创建准入策略
+   */
   addAccess = () => {
     this.setState({ inner: '创建' }, this.addDrawer.pop())
     this.currentDrawer = this.addDrawer
   }
 
-  editAccess = () => {
-    if (this.tablex.getSelection().length === 1) {
-      this.setState(
-        { inner: '编辑' },
-        this.editDrawer.pop(this.tablex.getSelectData()[0])
-      )
-      this.currentDrawer = this.editDrawer
-    } else {
-      message.warning('请选择一条数据进行编辑！')
-    }
+  /**
+   *
+   *
+   * @memberof Access
+   * @param name 准入名称
+   * @param data 准入策略数据( 暂时没有通过单独接口调 直接通过列表取)
+   */
+  editAccess = (name, data) => {
+    this.setState({ inner: name }, this.editDrawer.pop(data))
+    this.currentDrawer = this.editDrawer
   }
 
-  delAccess = () => {
-    const ids = this.tablex.getSelection()
+  /**
+   *
+   *
+   * @param {*} id
+   * @param {string} [title='确定删除所选数据?']
+   * @returns
+   * 删除准入策略 可以通过工具条 和表单操作列传入操作 表单操作列传入为单个
+   * 调用都是批量删除接口
+   */
+  delAccess = (id, title = '确定删除所选数据?') => {
+    const ids = Array.isArray(id) ? [...id] : [id]
     const self = this
     confirm({
-      title: '确定删除所选数据?',
+      title,
       onOk() {
-        return new Promise((resolve, reject) => {
+        return new Promise(resolve => {
           accessApi
             .del({ ids })
             .then(res => {
@@ -77,20 +171,15 @@ export default class Desktop extends React.Component {
               }
               resolve()
             })
-            .catch(errors => {
-              message.error(errors)
+            .catch(error => {
+              message.error(error.message || error)
               resolve()
-              console.log(errors)
+              console.log(error)
             })
         })
       },
       onCancel() {}
     })
-  }
-
-  onSuccess = () => {
-    this.tablex.refresh(this.state.tableCfg)
-    this.setState({ inner: undefined })
   }
 
   render() {
@@ -105,16 +194,12 @@ export default class Desktop extends React.Component {
         <TableWrap>
           <ToolBar>
             <BarLeft>
-              <Button onClick={this.addAccess}>创建</Button>
-              <Button
-                onClick={this.editAccess}
-                disabled={disabledButton.disabledEdit}
-              >
-                编辑
+              <Button onClick={this.addAccess} type="primary">
+                创建
               </Button>
               <Button
-                onClick={this.delAccess}
-                disabled={disabledButton.disabledDelete}
+                onClick={() => this.delAccess(this.tablex.getSelection())}
+                disabled={disabledButton?.disabledDelete}
               >
                 删除
               </Button>
@@ -126,6 +211,7 @@ export default class Desktop extends React.Component {
             }}
             onSelectChange={this.onSelectChange}
             tableCfg={this.state.tableCfg}
+            onChange={this.onTableChange}
           />
           <AddDrawer
             onRef={ref => {

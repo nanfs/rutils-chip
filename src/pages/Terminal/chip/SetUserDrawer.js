@@ -1,5 +1,5 @@
 import React from 'react'
-import { columns, apiMethod } from './UserTableCfg'
+import { columns, apiMethod } from '@/pages/Common/UserTableCfg'
 import { Tag, message } from 'antd'
 import terminalApi from '@/services/terminal'
 import produce from 'immer'
@@ -26,7 +26,7 @@ export default class SetUserDrawer extends React.Component {
       apiMethod,
       paging: { size: 10 },
       rowKey: record =>
-        `${record.uuid}&${record.username}&${record.firstname}&${record.lastname}&${record.groupname}`,
+        `${record.uuid}&${record.username}&${record.firstname}&${record.lastname}&${record.groupname}&${record.domain}`,
       searchs: { domain: 'internal' },
       pageSizeOptions: ['5', '10', '20', '50']
     })
@@ -40,6 +40,23 @@ export default class SetUserDrawer extends React.Component {
         draft.tableCfg = {
           ...draft.tableCfg,
           selection: newSelection
+        }
+      })
+    )
+  }
+
+  /**
+   * 当搜索条件下来处理
+   *
+   * @memberof Vmlog
+   */
+  onSearchSelectChange = oldKey => {
+    const searchs = { ...this.state.tableCfg.searchs }
+    delete searchs[oldKey]
+    this.setState(
+      produce(draft => {
+        draft.tableCfg.searchs = {
+          ...searchs
         }
       })
     )
@@ -62,11 +79,21 @@ export default class SetUserDrawer extends React.Component {
 
   renderSelectUser = () => {
     const { totalSelection } = this.state
-    return totalSelection.map(item => (
-      <Tag key={item} closable onClose={() => this.removeUserSelection(item)}>
-        {item && item.split('&')[1]}
-      </Tag>
-    ))
+    return totalSelection.map(item => {
+      const [, username, , , , domain] = item.split('&')
+      const domainFix = domain === 'internal-authz' ? '@本地组' : '' // 后端返回的ad域的username中带了@aa.com
+      return (
+        <Tag
+          color="blue"
+          key={item}
+          closable
+          className="user-tag"
+          onClose={() => this.removeUserSelection(item)}
+        >
+          {`${username}${domainFix}`}
+        </Tag>
+      )
+    })
   }
 
   pop = sns => {
@@ -80,7 +107,7 @@ export default class SetUserDrawer extends React.Component {
         apiMethod,
         paging: { size: 10 },
         rowKey: record =>
-          `${record.uuid}&${record.username}&${record.firstname}&${record.lastname}&${record.groupname}`,
+          `${record.uuid}&${record.username}&${record.firstname}&${record.lastname}&${record.groupname}&${record.domain}`,
         searchs: { domain: 'internal' },
         pageSizeOptions: ['5', '10', '20', '50']
       })
@@ -92,7 +119,7 @@ export default class SetUserDrawer extends React.Component {
           const { users } = res.data
           const totalSelection = users.map(
             item =>
-              `${item.uuid}&${item.username}&${item.firstname}&${item.lastname}&${item.department}`
+              `${item.uuid}&${item.username}&${item.firstname}&${item.lastname}&${item.department}&${item.domain}`
           )
           this.setState(
             produce(draft => {
@@ -105,9 +132,9 @@ export default class SetUserDrawer extends React.Component {
             () => this.userTablex.replace(this.state.tableCfg)
           )
         })
-        .catch(errors => {
-          console.log(errors)
-          message.error(errors)
+        .catch(error => {
+          console.log(error)
+          message.error(error.message || error)
         })
     } else {
       this.userTablex.refresh(this.state.tableCfg)
@@ -115,17 +142,23 @@ export default class SetUserDrawer extends React.Component {
   }
 
   setUser = () => {
-    // TODO 是否是新增 删除 还是直接 传入桌面是单个还是批量
     const { sns, totalSelection } = this.state
     const users = totalSelection.map(item => {
-      const [uuid, username, firstname, lastname, groupname] = item.split('&')
+      const [
+        uuid,
+        username,
+        firstname,
+        lastname,
+        groupname,
+        domain
+      ] = item.split('&')
       return {
         uuid,
         username,
         firstname: firstname !== 'null' ? firstname : undefined,
         lastname: lastname !== 'null' ? lastname : undefined,
         department: groupname,
-        domain: 'internal-authz'
+        domain
       }
     })
 
@@ -139,9 +172,11 @@ export default class SetUserDrawer extends React.Component {
       })
   }
 
-  search = (key, value) => {
+  search = (domain, username) => {
     const searchs = {}
-    searchs[key] = value
+    searchs.domain = domain
+    searchs.username = username
+
     this.setState(
       produce(draft => {
         draft.tableCfg.searchs = {
@@ -154,7 +189,7 @@ export default class SetUserDrawer extends React.Component {
   }
 
   render() {
-    const searchOptions = [{ label: '用户名', value: 'username' }]
+    const searchOptions = JSON.parse(sessionStorage.getItem('domains'))
     return (
       <Drawerx
         onRef={ref => {
@@ -164,11 +199,12 @@ export default class SetUserDrawer extends React.Component {
         onOk={this.setUser}
         onSuccess={this.props.onSuccess}
       >
-        <Formx>
+        <Formx className="p15">
           <TableWrap>
             <ToolBar>
               <SelectSearch
                 options={searchOptions}
+                onSelectChange={this.onSearchSelectChange}
                 onSearch={this.search}
               ></SelectSearch>
             </ToolBar>

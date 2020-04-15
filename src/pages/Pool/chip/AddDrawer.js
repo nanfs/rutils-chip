@@ -23,18 +23,15 @@ export default class AddDrawer extends React.Component {
     callback()
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      templateOption: [],
-      clusterOptions: []
-    }
-  }
-
   componentDidMount() {
     this.props.onRef && this.props.onRef(this)
   }
 
+  /**
+   *
+   *
+   * @memberof AddDrawer
+   */
   pop = () => {
     this.drawer.show()
     this.drawer.form.setFieldsValue({
@@ -45,33 +42,40 @@ export default class AddDrawer extends React.Component {
     this.getTemplate()
   }
 
-  // 需要clusetid 还有 id 无奈
+  /**
+   * 取模板列表 状态可用
+   *
+   * @memberof AddDrawer
+   */
   getTemplate = () => {
-    this.setState({ templateLoading: true })
-    poolsApi
-      .getTemplate({ current: 1, size: 10000 })
+    return poolsApi
+      .getTemplate({ current: 1, size: 10000, statusIsOk: 1 })
       .then(res => {
         const templateOptions = res.data.records.map(item => ({
           label: item.name,
           value: item.id
         }))
-        this.setState({ templateOptions, templateLoading: false })
+        this.setState({ templateOptions })
       })
-      .catch(errors => {
-        message.error(errors)
-        console.log(errors)
+      .catch(error => {
+        message.error(error.message || error)
+        console.log(error)
       })
   }
 
+  /**
+   *
+   *  添加桌面池
+   * @memberof AddDrawer
+   */
   addPool = values => {
-    // TODO 是否是新增 删除 还是直接 传入桌面是单个还是批量
     poolsApi
       .addPool({ cpuNum: 1, ...values })
       .then(res => {
         this.drawer.afterSubmit(res)
       })
-      .catch(errors => {
-        this.drawer.break(errors)
+      .catch(error => {
+        this.drawer.break(error)
       })
   }
 
@@ -93,7 +97,7 @@ export default class AddDrawer extends React.Component {
             required
             rules={[required, checkName]}
           >
-            <Input placeholder="桌面名称" />
+            <Input placeholder="桌面池名称" />
           </Form.Item>
           <Form.Item
             prop="templateId"
@@ -102,9 +106,7 @@ export default class AddDrawer extends React.Component {
           >
             <Radiox
               getData={this.getTemplate}
-              options={this.state.templateOptions}
-              loading={this.state.templateLoading}
-              onChange={this.onTempalteChange}
+              options={this.state?.templateOptions}
             />
           </Form.Item>
           <Form.Item prop="managerType" label="管理类型">
@@ -138,7 +140,7 @@ export default class AddDrawer extends React.Component {
           </Form.Item>
           <Form.Item
             prop="desktopNum"
-            label="创建数量"
+            label="桌面数量"
             required
             rules={[required, lessThanValue(20)]}
           >
@@ -157,7 +159,7 @@ export default class AddDrawer extends React.Component {
             <InputNumber placeholder="" min={0} />
           </Form.Item>
           <Form.Item prop="description" label="描述">
-            <TextArea placeholder="" />
+            <TextArea placeholder="描述" />
           </Form.Item>
         </Formx>
       </Drawerx>

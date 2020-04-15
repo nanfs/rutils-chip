@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form, Input, InputNumber, Button, message } from 'antd'
+import { Form, Input, InputNumber, message } from 'antd'
 import { Drawerx, Formx, Title, Radiox } from '@/components'
 import { managerTypeOptions } from '@/utils/formOptions'
 import poolsApi from '@/services/pools'
@@ -8,11 +8,6 @@ import { required, checkName, lessThanValue } from '@/utils/valid'
 const { TextArea } = Input
 
 export default class EditDrawer extends React.Component {
-  state = {
-    templateOption: [],
-    clusterOptions: []
-  }
-
   compareTotal = (rule, value, callback) => {
     const { oldDeskTopNum } = this.state
     const desktopNum = this.drawer.form.getFieldValue('desktopNum')
@@ -40,15 +35,13 @@ export default class EditDrawer extends React.Component {
         })
         this.drawer.form.setFieldsValue({ ...data, desktopNum: 0 })
       })
-      .catch(errors => {
-        message.error(errors)
-
-        console.log(errors)
+      .catch(error => {
+        message.error(error.message || error)
+        console.log(error)
       })
   }
 
   editPool = values => {
-    // TODO 是否是新增 删除 还是直接 传入桌面是单个还是批量
     const { poolId } = this.state
     poolsApi
       .editPool({ poolId, ...values })
@@ -78,11 +71,9 @@ export default class EditDrawer extends React.Component {
             required
             rules={[required, checkName]}
           >
-            <Input placeholder="桌面名称" disabled />
+            <Input placeholder="桌面池名称" disabled />
           </Form.Item>
-          <Form.Item label="模板">
-            <Button>{this.state.templateName}</Button>
-          </Form.Item>
+          <Form.Item label="模板">{this.state?.templateName}</Form.Item>
           <Form.Item prop="templateId" label="模板id" hidden>
             <Input placeholder="模板" />
           </Form.Item>
@@ -111,7 +102,7 @@ export default class EditDrawer extends React.Component {
             <InputNumber placeholder="" min={0} />
           </Form.Item>
           <Form.Item prop="description" label="描述">
-            <TextArea placeholder="" />
+            <TextArea placeholder="描述" />
           </Form.Item>
         </Formx>
       </Drawerx>

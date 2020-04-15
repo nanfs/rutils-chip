@@ -38,9 +38,10 @@ function checkStatus(response = {}) {
 }
 
 /** **** 创建axios实例 ***** */
+// TODO 3分钟超时
 const service = axios.create({
   baseURL, // api的base_url
-  timeout: 5000, // 请求超时时间
+  timeout: 30000, // 请求超时时间30s
   method: 'post',
   withCredentials: true,
   headers: {
@@ -67,7 +68,7 @@ service.interceptors.response.use(
     // localStorage.setItem('cookie', response.headers['set-cookie'])
     if (response.data) {
       if (response.data.code === '203') {
-        setUserToLocal({})
+        setUserToLocal(null)
         reloadAuthorized()
         window.location.hash = 'login'
         return message.error(response.data.message || '请先登录')

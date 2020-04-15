@@ -34,6 +34,12 @@ const menu = [
     authority: 'admin'
   },
   {
+    title: '计划任务',
+    icon: 'schedule',
+    path: '/task',
+    authority: 'admin'
+  },
+  {
     title: '终端管理',
     icon: 'terminal',
     iconComonpent: 'MyIcon',
@@ -67,14 +73,14 @@ const menu = [
     authority: 'admin',
     children: [
       {
-        title: '桌面日志',
+        title: '桌面管理',
         icon: 'log',
         iconComonpent: 'MyIcon',
         path: '/vmlog',
         authority: 'admin'
       },
       {
-        title: '终端日志',
+        title: '终端管理',
         icon: 'log',
         iconComonpent: 'MyIcon',
         path: '/tclog',

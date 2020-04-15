@@ -26,10 +26,9 @@ export default {
   epics: {
     logout: action$ =>
       action$.map(() => {
-        setUserToLocal({})
+        setUserToLocal(null)
         return push('/login')
       }),
-    // TODO 是否开启强制登录
     getUserInfo: action$ =>
       action$
         .filter(({ state }) => !state.loginSuccess)

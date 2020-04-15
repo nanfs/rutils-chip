@@ -5,41 +5,36 @@ import { MyIcon } from '@/components'
 
 export const columns = [
   {
-    title: '名称',
-    dataIndex: 'name'
-  },
-  {
-    title: '描述',
-    dataIndex: 'description'
-  },
-  {
-    title: '已绑定终端数',
+    title: () => <span title="已绑定终端数">已绑定终端数</span>,
     dataIndex: 'boundTcNum',
-    render: text => <Tag>{text}</Tag>
+    width: 150,
+    className: 'ellipsis-hasTag',
+    render: text => <Tag color="blue">{text}</Tag>
   },
   {
-    title: 'USB外设',
-    width: 120,
+    title: () => <span title="USB外设">USB外设</span>,
     dataIndex: 'usagePeripherals',
+    width: 150,
     render: text => {
       if (text === '1') {
         return (
           <span>
-            <Icon type="check-circle" style={{ color: '#19c0f0' }} /> 开启
+            <Icon type="check-circle" style={{ color: '#19c0f0' }} /> 启用白名单
           </span>
         )
       } else {
         return (
           <span>
-            <Icon type="stop" style={{ color: '#ee1c3a' }} /> 禁止
+            <Icon type="stop" style={{ color: '#ee1c3a' }} /> 启用黑名单
           </span>
         )
       }
     }
   },
   {
-    title: '名单',
+    title: () => <span title="名单">名单</span>,
     dataIndex: 'usb',
+    width: 120,
     render: (text, record) => {
       const info = record.usbs.map((item, index) => (
         <p key={index}>
@@ -51,13 +46,18 @@ export const columns = [
           <MyIcon
             type="order-info"
             component="svg"
-            style={{ cursor: 'pointer' }}
+            style={{ cursor: 'pointer', fontSize: 18 }}
           />
         </Popover>
       ) : (
         <span>无</span>
       )
     }
+  },
+  {
+    title: () => <span title="描述">描述</span>,
+    dataIndex: 'description',
+    ellipsis: true
   }
 ]
 export const apiMethod = deviceApi.list

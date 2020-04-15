@@ -1,4 +1,4 @@
-import { CURRENT } from '@/utils/auth'
+import { getUserFromlocal } from '@/utils/auth'
 
 const checkPermissions = (authority, currentAuthority, target, Exception) => {
   // 没有判定权限.默认查看所有
@@ -32,6 +32,6 @@ const checkPermissions = (authority, currentAuthority, target, Exception) => {
   }
 }
 const check = (authority, target, Exception) =>
-  checkPermissions(authority, CURRENT, target, Exception)
+  checkPermissions(authority, getUserFromlocal(), target, Exception)
 
 export default check

@@ -10,6 +10,124 @@
       "domain": "internet"
     }
   },
+  "isos": [
+    { "repoImageDomainId": "123", "repoImageId": "win7X64.iso" },
+    { "repoImageDomainId": "123", "repoImageId": "win10_szwx.iso" },
+    { "repoImageDomainId": "123", "repoImageId": "ubuntu.iso" }
+  ],
+  "tasks": [
+    {
+      "visible": true,
+      "action_type": "GETVm",
+      "owner_id": "0c3ff9cc-6a9c-11ea-9032-00d861eb19f4",
+      "end_time": "2020-04-07T01:33:45.162+0000",
+      "description": "Creating VM xdaaaa in Cluster Default",
+      "is_external": false,
+      "start_time": "2020-04-07T01:33:28.319+0000",
+      "last_update_time": "2020-04-07T01:33:45.162+0000",
+      "job_id": "5586c3b0-09ea-4237-a3aa-cc937c0ccd8f",
+      "engine_session_seq_id": 718,
+      "is_auto_cleared": true,
+      "correlation_id": "5f3daadc",
+      "status": "FINISHED"
+    },
+    {
+      "visible": true,
+      "action_type": "AddVm",
+      "owner_id": "0c3ff9cc-6a9c-11ea-9032-00d861eb19f4",
+      "end_time": "2020-04-07T01:33:45.162+0000",
+      "description": "Creating VM xdaaaa in Cluster Default 12312313131231321321312",
+      "is_external": false,
+      "start_time": "2020-04-07T01:33:28.319+0000",
+      "last_update_time": "2020-04-07T01:33:45.162+0000",
+      "job_id": "5586c3b0-09ea-4237-a3aa-cc937c0ccd8f",
+      "engine_session_seq_id": 718,
+      "is_auto_cleared": true,
+      "correlation_id": "5f3daadc",
+      "status": "ING"
+    },
+    {
+      "visible": true,
+      "action_type": "AddVm",
+      "owner_id": "0c3ff9cc-6a9c-11ea-9032-00d861eb19f4",
+      "end_time": "2020-04-07T01:33:45.162+0000",
+      "description": "Creating VM xdaaaa in Cluster Default",
+      "is_external": false,
+      "start_time": "2020-04-07T01:33:28.319+0000",
+      "last_update_time": "2020-04-07T01:33:45.162+0000",
+      "job_id": "5586c3b0-09ea-4237-a3aa-cc937c0ccd8f",
+      "engine_session_seq_id": 718,
+      "is_auto_cleared": true,
+      "correlation_id": "5f3daadc",
+      "status": "ING"
+    }
+  ],
+  "hosts": [
+    {
+      "id": "452fa57c-ef7f-4f9e-a37d-5d6d870d167f",
+      "ip": "192.168.152.133",
+      "name": ""
+    },
+    {
+      "id": "0503a39b-52e7-4ec4-b2ac-2fc5fc04ec5d",
+      "ip": "192.168.123.3",
+      "name": ""
+    }
+  ],
+  "datacenters": [
+    {
+      "id": "452fa57c-ef7f-4f9e-a37d-5d6d870d167f",
+      "name": "DATA1"
+    },
+    {
+      "id": "0503a39b-52e7-4ec4-b2ac-2fc5fc04ec5d",
+      "name": "DATA2"
+    }
+  ],
+  "clusters": [
+    {
+      "id": "452fa57c-ef7f-4f9e-a37d-5d6d870d167f",
+      "name": "clusters1"
+    },
+    {
+      "id": "0503a39b-52e7-4ec4-b2ac-2fc5fc04ec5d",
+      "name": "clusters2"
+    }
+  ],
+  "disks": [
+    {
+      "id": 1,
+      "name": "disk1",
+      "capacity": 100,
+      "boot": true,
+      "description": ""
+    },
+    {
+      "id": 2,
+      "name": "disk2",
+      "capacity": 200,
+      "boot": false,
+      "description": ""
+    }
+  ],
+  "snaps": [
+    {
+      "id": 1,
+      "name": "快照1",
+      "createtime": "2020-3-20",
+      "description": "shwmomo123",
+      "disk": "disk1,disk2",
+      "applist": "app1,app2,app3"
+    },
+    {
+      "id": 2,
+      "name": "快照2",
+      "createtime": "2020-3-20",
+      "description": "shwmomo123",
+      "disk": "disk1,disk2",
+      "applist": "app1,app2,app3"
+    }
+  ],
   "tclogs": [
     {
       "id": 31803,

@@ -396,7 +396,7 @@ export default class AddDrawer extends React.Component {
     return (
       networks &&
       networks.map((item, index) => (
-        <Row gutter={20} key={index} className="form-item-wrapper">
+        <Row gutter={16} key={index} className="form-item-wrapper">
           <Col span={12}>
             <Form.Item
               prop={`nic[${index}]`}

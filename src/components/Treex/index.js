@@ -4,7 +4,7 @@ import { nodes2Tree } from '@/utils/tool'
 
 import AddNodeModal from './chip/AddNodeModal'
 import EditNodeModal from './chip/EditNodeModal'
-import { MyIcon } from '@/components'
+import MyIcon from '../MyIcon'
 
 import './index.less'
 
@@ -182,7 +182,6 @@ export default class Treex extends React.Component {
 
   // 树节点选中
   onSelect = (key, node) => {
-    console.log(node)
     const { onSelect } = this.props
     onSelect && onSelect(node.node.props.eventKey, node)
     this.setState({

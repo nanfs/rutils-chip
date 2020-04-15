@@ -48,7 +48,6 @@ export default class EditDrawer extends React.Component {
    */
   pop = data => {
     this.drawer.show()
-    this.selectSearch.reset()
     const { id, name, taskType, cron, description } = data
     let time = ''
     let weeks = []
@@ -325,9 +324,6 @@ export default class EditDrawer extends React.Component {
             <ToolBar>
               <BarLeft>
                 <SelectSearch
-                  onRef={ref => {
-                    this.selectSearch = ref
-                  }}
                   options={searchOptions}
                   onSelectChange={this.onSearchSelectChange}
                   onSearch={this.search}

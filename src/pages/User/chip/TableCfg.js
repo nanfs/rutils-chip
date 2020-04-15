@@ -3,6 +3,7 @@ import userApi from '@/services/user'
 import { Icon, Tag } from 'antd'
 import { MyIcon } from '@/components'
 import { width } from 'dom-helpers'
+import { availableStatusRender } from '@/utils/tableRender'
 
 export const columns = [
   /* {
@@ -20,23 +21,7 @@ export const columns = [
     ],
     render: value => {
       return value === 0 ? (
-        <span>
-          <Icon
-            type="check-circle"
-            style={{
-              color: '#85da47'
-            }}
-            title="正常"
-          />
-          {/* <span
-            style={{
-              display: 'inline-block',
-              verticalAlign: 'top'
-            }}
-          >
-            &nbsp;&nbsp;正常
-          </span> */}
-        </span>
+        availableStatusRender('正常')
       ) : (
         <span>
           <Icon
@@ -85,10 +70,11 @@ export const columns = [
     render: value => {
       return value === 0 ? (
         <span>
-          <Icon
-            type="check-circle"
+          <MyIcon
+            type="jiesuo"
             style={{
-              color: '#85da47'
+              color: '#17abe3',
+              fontSize: '18px'
             }}
             title="正常"
           />

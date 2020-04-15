@@ -284,8 +284,6 @@ export default class User extends React.Component {
   }
 
   onSelect = (value, node) => {
-    // this.selectSearch.reset()
-    console.log(this)
     if (node.node.props.type === 'ad') {
       this.groupTreex.cleanSelected()
       this.state.domainlist.forEach((item, index) => {
@@ -584,9 +582,6 @@ export default class User extends React.Component {
                 </BarLeft>
                 <BarRight>
                   <SelectSearch
-                    onRef={ref => {
-                      this.selectSearch = ref
-                    }}
                     options={searchOptions}
                     onSearch={this.search}
                   ></SelectSearch>

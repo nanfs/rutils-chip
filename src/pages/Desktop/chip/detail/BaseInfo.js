@@ -208,14 +208,14 @@ export default class BaseInfo extends React.Component {
                 title={
                   data.network &&
                   data.network
-                    .map(item => `${item.kind}/${item.vnic}`)
+                    .map(item => `${item.kind}/${item.name}`)
                     .join(',')
                 }
               >
                 <span>
                   {data.network &&
                     data.network
-                      .map(item => `${item.kind}/${item.vnic}`)
+                      .map(item => `${item.kind}/${item.name}`)
                       .join(',')}
                 </span>
               </Tooltip>

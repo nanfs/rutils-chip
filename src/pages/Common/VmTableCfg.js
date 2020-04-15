@@ -14,7 +14,6 @@ import {
   setDataCenterToSession,
   setHostToSession
 } from '@/utils/storage'
-import { window } from 'rxjs/operator/window'
 
 // TODO 会有不同步问题 后期优化
 setClusterToSession()

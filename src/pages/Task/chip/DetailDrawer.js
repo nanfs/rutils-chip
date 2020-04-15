@@ -1,5 +1,5 @@
 import React from 'react'
-import { Row, Col, Tooltip, message, Tabs } from 'antd'
+import { Row, Col, Tooltip, Tabs } from 'antd'
 import {
   Drawerx,
   Tablex,
@@ -13,7 +13,7 @@ import taskApi from '@/services/task'
 import produce from 'immer'
 
 const { TabPane } = Tabs
-const { createTableCfg, TableWrap, ToolBar, BarLeft, BarRight } = Tablex
+const { createTableCfg, TableWrap, ToolBar, BarLeft } = Tablex
 const weekCh = {
   MON: '周一',
   TUE: '周二',
@@ -248,14 +248,13 @@ export default class DetailDrawer extends React.Component {
               <Title slot="桌面列表"></Title>
               <TableWrap>
                 <ToolBar>
-                  <BarLeft></BarLeft>
-                  <BarRight>
+                  <BarLeft>
                     <SelectSearch
                       options={searchOptions}
                       onSelectChange={this.onSearchSelectChange}
                       onSearch={this.search}
                     ></SelectSearch>
-                  </BarRight>
+                  </BarLeft>
                 </ToolBar>
                 <Tablex
                   onRef={ref => {

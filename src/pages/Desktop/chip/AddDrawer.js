@@ -270,7 +270,7 @@ export default class AddDrawer extends React.Component {
   /**
    * 当ISO改变的时候 后端需要判断 32 还是 64 位
    * 只有当ISO 为windows 类型的时候 设置
-   *
+   * 不能直接判断 名称里面是否是x86 x64 linux名称 不符合规则
    * @memberof AddDrawer
    */
   onIsoChange = (a, b, target) => {
@@ -284,6 +284,11 @@ export default class AddDrawer extends React.Component {
         return this.drawer.form.setFieldsValue({ isoBit: '32' })
       }
     }
+    if (isoType === 'domestic') {
+      if (target.toLowerCase().includes('szwx')) {
+        return this.drawer.form.setFieldsValue({ isoBit: '64' })
+      }
+    }
     this.drawer.form.setFieldsValue({ isoBit: '' })
   }
 
@@ -294,7 +299,6 @@ export default class AddDrawer extends React.Component {
    * @memberof AddDrawer
    */
   addVm = values => {
-    console.log('values', values)
     const { type, nic, ...rest } = values
     const { netAll } = this.state
     const networkSelected = nic
@@ -310,7 +314,6 @@ export default class AddDrawer extends React.Component {
       cpuNum: 1,
       network: networkFix
     }
-    console.log('data', data)
     // 如果通过ISO创建用户
     if (type === 'byIso') {
       const { isoName } = values

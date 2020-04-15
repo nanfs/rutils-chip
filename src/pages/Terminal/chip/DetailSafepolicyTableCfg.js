@@ -46,7 +46,7 @@ export const detailSafepolicyColumns = [
           <MyIcon
             type="order-info"
             component="svg"
-            style={{ cursor: 'pointer' }}
+            style={{ cursor: 'pointer', fontSize: 18 }}
           />
         </Popover>
       ) : (

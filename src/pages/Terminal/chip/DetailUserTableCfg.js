@@ -2,7 +2,6 @@
 export const detailUserColumns = [
   {
     title: '用户名',
-    width: 300,
     ellipsis: true,
     dataIndex: 'username',
     render: value => {
@@ -22,6 +21,7 @@ export const detailUserColumns = [
   },
   {
     title: '组',
+    ellipsis: true,
     dataIndex: 'department',
     render: (value, record) => {
       return record.department === 'null' ? '' : record.department
@@ -29,6 +29,7 @@ export const detailUserColumns = [
   },
   {
     title: '域',
+    ellipsis: true,
     dataIndex: 'domain'
   }
 ]

@@ -183,12 +183,17 @@ export const vmStatusRender = status => {
     '16': 'vm-poweringdown'
   }
   return (
-    <MyIcon
-      type={statusList[status]}
-      title={vmStatusText[statusList[status]] || 'null'}
-      component="svg"
-      style={{ fontSize: '18px' }}
-    />
+    <span>
+      <MyIcon
+        type={statusList[status]}
+        title={vmStatusText[statusList[status]] || 'null'}
+        component="svg"
+        style={{
+          fontSize: '18px'
+        }}
+      />
+      {vmStatusText[statusList[status]]}
+    </span>
   )
 }
 const osList = {
@@ -277,4 +282,17 @@ export function assignedUsersRender(value) {
       </Popover>
     )
   }
+}
+
+// 正常、可用图标显示
+export function availableStatusRender(text) {
+  return (
+    <Icon
+      title={text}
+      type="check-circle"
+      style={{
+        color: '#17abe3'
+      }}
+    />
+  )
 }

@@ -119,11 +119,12 @@ export default class Desktop extends React.Component {
    */
   onTableChange = (page, filter, sorter) => {
     const { searchs, columnsList } = vmFilterSorterTransform(filter, sorter)
+    const [colname, ...columnsFix] = columnsList
     this.setState(
       produce(draft => {
         draft.tableCfg = {
           ...draft.tableCfg,
-          columns: [this.vmName, ...columnsList, this.action],
+          columns: [this.vmName, ...columnsFix, this.action],
           searchs: {
             ...draft.tableCfg.searchs,
             ...searchs

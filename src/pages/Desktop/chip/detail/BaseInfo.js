@@ -6,6 +6,11 @@ import { wrapResponse } from '@/utils/tool'
 import { osTextRender } from '@/utils/tableRender'
 import '../../index.less'
 
+const iconStyle = {
+  check: { color: '#85da47' },
+  close: { color: '#ff4d4f' }
+}
+
 export default class BaseInfo extends React.Component {
   componentDidMount() {
     this.setState({ loading: true })
@@ -51,7 +56,7 @@ export default class BaseInfo extends React.Component {
     const schedulerColums = [
       {
         title: '名称',
-        width: 200,
+        ellipsis: true,
         dataIndex: 'name'
       },
       {
@@ -60,13 +65,9 @@ export default class BaseInfo extends React.Component {
         render: text => (
           <span className="table-action">
             {text !== 0 ? (
-              <Icon
-                type="check-circle"
-                className="table-icon-info"
-                title="启用"
-              />
+              <Icon type="check-circle" style={iconStyle.check} title="启用" />
             ) : (
-              <Icon type="stop" className="table-icon-warn" title="停用" />
+              <Icon type="stop" style={iconStyle.close} title="停用" />
             )}
           </span>
         )
@@ -99,6 +100,7 @@ export default class BaseInfo extends React.Component {
       },
       {
         title: '最后编辑',
+        ellipsis: true,
         dataIndex: 'updateTime'
       }
     ]

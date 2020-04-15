@@ -31,6 +31,7 @@ export default class Task extends React.Component {
   taskName = {
     title: () => <span title="名称">名称</span>,
     dataIndex: 'name',
+    ellipsis: true,
     render: (text, record) => {
       return (
         <a

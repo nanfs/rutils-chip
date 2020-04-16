@@ -59,7 +59,12 @@ export default class SetSafePolicyDrawer extends React.Component {
   renderSelectDevice = () => {
     const { totalSelection } = this.state
     return totalSelection.map(item => (
-      <Tag key={item} closable onClose={() => this.removeDeviceSelection(item)}>
+      <Tag
+        key={item}
+        closable
+        color="blue"
+        onClose={() => this.removeDeviceSelection(item)}
+      >
         {item && item.split('&')[1]}
       </Tag>
     ))

@@ -34,7 +34,7 @@ export const columns = [
   {
     title: () => <span title="状态">状态</span>,
     dataIndex: 'status',
-    width: '10%',
+    width: '7%',
     ellipsis: true,
     filters: [
       { value: [0, 13], text: '关机' },

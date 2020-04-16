@@ -66,13 +66,21 @@ export default class AddDrawer extends React.Component {
   /**
    *
    * 通过netNic来保存 虚拟网卡编号
+   * 空网卡场景
    * @memberof AddDrawer
    */
   remove = k => {
     const nets = this.drawer.form.getFieldValue('nic')
     const { netNic } = this.state
-    const newNets = [...nets.slice(0, k), ...nets.slice(k + 1)]
-    const newNetNic = [...netNic.slice(0, k), ...netNic.slice(k + 1)]
+    const newNets =
+      nets.length === 1
+        ? [undefined]
+        : [...nets.slice(0, k), ...nets.slice(k + 1)]
+    const newNetNic =
+      nets.length === 1
+        ? netNic
+        : [...netNic.slice(0, k), ...netNic.slice(k + 1)]
+    console.log(newNets, newNetNic)
     this.setState({
       nets: newNets,
       netNic: newNetNic
@@ -302,9 +310,9 @@ export default class AddDrawer extends React.Component {
   addVm = values => {
     const { type, nic, ...rest } = values
     const { netAll } = this.state
-    const networkSelected = nic.map(netId =>
-      netAll.find(item => item.kindid === netId)
-    )
+    const networkSelected = nic
+      .filter(item => item !== undefined)
+      .map(netId => netAll.find(item => item.kindid === netId))
 
     const { netNic } = this.state
     const networkFix = networkSelected.map((item, index) => ({
@@ -408,7 +416,11 @@ export default class AddDrawer extends React.Component {
               label={`nic${netNic[index]}`}
               key={index}
               hidden={!this.state?.hasSetNetValue}
-              rules={[notUndefined]}
+              rules={
+                index === 0 && networks.length === 1
+                  ? undefined
+                  : [notUndefined]
+              }
               labelCol={{ sm: { span: 10, pull: 2 } }}
               wrapperCol={{ sm: { span: 14 } }}
             >
@@ -425,7 +437,6 @@ export default class AddDrawer extends React.Component {
             <Button
               icon="minus-circle-o"
               className="dynamic-button"
-              disabled={index === 0 && networks.length === 1}
               onClick={() => this.remove(index)}
             />
             <Button

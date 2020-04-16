@@ -58,10 +58,14 @@ export default class EditDrawer extends React.Component {
   remove = k => {
     const nets = this.drawer.form.getFieldValue('nic')
     const { netNic } = this.state
-    // const newNets =
-    //   nets?.length === 1 ? [''] : [...nets.slice(0, k), ...nets.slice(k + 1)]
-    const newNets = [...nets.slice(0, k), ...nets.slice(k + 1)]
-    const newNetNic = [...netNic.slice(0, k), ...netNic.slice(k + 1)]
+    const newNets =
+      nets.length === 1
+        ? [undefined]
+        : [...nets.slice(0, k), ...nets.slice(k + 1)]
+    const newNetNic =
+      nets.length === 1
+        ? netNic
+        : [...netNic.slice(0, k), ...netNic.slice(k + 1)]
     this.setState({
       nets: newNets,
       netNic: newNetNic
@@ -123,7 +127,7 @@ export default class EditDrawer extends React.Component {
     const { nic } = values
     const { netAll } = this.state
     const networkSelected = nic
-      ?.filter(item => item)
+      ?.filter(item => item !== undefined)
       .map(netId => netAll.find(item => item.kindid === netId))
     const { netNic } = this.state
     const networkFix = networkSelected.map((item, index) => ({
@@ -148,13 +152,17 @@ export default class EditDrawer extends React.Component {
       networks &&
       networks.map((item, index) => (
         <Row gutter={16} key={index} className="form-item-wrapper">
-          <Col span={14}>
+          <Col span={12}>
             <Form.Item
               prop={`nic[${index}]`}
               label={`nic${netNic[index]}`}
               key={index}
               hidden={!this.state?.hasSetNetValue}
-              rules={[notUndefined]}
+              rules={
+                index === 0 && networks.length === 1
+                  ? undefined
+                  : [notUndefined]
+              }
               labelCol={{ sm: { span: 10, pull: 2 } }}
               wrapperCol={{ sm: { span: 14 } }}
             >
@@ -171,7 +179,6 @@ export default class EditDrawer extends React.Component {
             <Button
               icon="minus-circle-o"
               className="dynamic-button"
-              disabled={index === 0 && networks.length === 1}
               onClick={() => this.remove(index)}
             />
             <Button

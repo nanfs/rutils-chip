@@ -23,18 +23,26 @@ import SystemModal from './chip/SystemModal'
 import AboutModal from './chip/AboutModal'
 import loginApi from '@/services/login'
 import tasksApi from '@/services/tasks'
-import usersApi from '@/services/user'
 
 const { TabPane } = Tabs
 export default class Header extends React.Component {
   setTaskListShow = e => {
     e.nativeEvent.stopImmediatePropagation()
+    clearTimeout(this.taskListTimer)
     this.setState({ taskVisible: true })
+  }
+
+  setTaskListClose = e => {
+    e.nativeEvent.stopImmediatePropagation()
+    this.taskListTimer = setTimeout(
+      () => this.setState({ taskVisible: false }),
+      500
+    )
   }
 
   toggleTaskList = e => {
     e.nativeEvent.stopImmediatePropagation()
-    this.setState({ taskVisible: !this.state.taskVisible })
+    this.setState({ taskVisible: true })
   }
 
   onDocumentClick = () => {
@@ -60,12 +68,7 @@ export default class Header extends React.Component {
   loopGetTask = () => {
     return setInterval(() => {
       this.getTasks()
-      this.checkSession()
     }, 5000)
-  }
-
-  checkSession = () => {
-    usersApi.checkSession().then(res => wrapResponse(res))
   }
 
   /**
@@ -177,15 +180,20 @@ export default class Header extends React.Component {
   renderTaskList = () => {
     const { taskOnProgress, taskOnFinished, taskOnFailed } = this.state || {}
     return (
-      <div className="header-task-list" onClick={() => false}>
+      <div
+        className="header-task-list"
+        onClick={() => false}
+        onMouseLeave={this.setTaskListClose}
+        onMouseEnter={this.setTaskListShow}
+      >
         <Tabs animated={false}>
-          <TabPane tab={`进行中(${taskOnProgress?.length})`} key="1">
+          <TabPane tab={`执行中(${taskOnProgress?.length})`} key="1">
             {this.renderTaskItem(taskOnProgress, 'STARTED')}
           </TabPane>
           <TabPane tab={`已完成(${taskOnFinished?.length})`} key="2">
             {this.renderTaskItem(taskOnFinished, 'FINISHED')}
           </TabPane>
-          <TabPane tab={`未成功(${taskOnFailed?.length})`} key="3">
+          <TabPane tab={`失败(${taskOnFailed?.length})`} key="3">
             {this.renderTaskItem(taskOnFailed, 'FAILED')}
           </TabPane>
         </Tabs>
@@ -193,56 +201,10 @@ export default class Header extends React.Component {
     )
   }
 
-  render() {
+  renderUserInfo = () => {
     return (
-      <Layout.Header className="header">
-        <div className="logo">
-          <span className="text">安全虚拟桌面管理</span>
-        </div>
-        <Menu mode="horizontal">
-          <Menu.Item key="username">
-            <Icon type="user" />
-            <span>{getUserFromlocal()}</span>
-          </Menu.Item>
-          <Menu.Item
-            key="systemConfig"
-            onClick={() => {
-              this.sysModal.pop()
-            }}
-          >
-            <Icon type="setting" />
-            <span>系统设置</span>
-          </Menu.Item>
-          <Menu.Item key="task" className="no-padding">
-            <Dropdown
-              overlay={this.renderTaskList()}
-              trigger={['click']}
-              placement="bottomRight"
-              visible={this.state?.taskVisible}
-              onOverlayClick={this.setTaskListShow}
-            >
-              <div
-                onClick={this.toggleTaskList}
-                className={
-                  this.state?.taskVisible ? 'drop-item active' : 'drop-item'
-                }
-              >
-                <Badge count={this.state?.taskTotal}>
-                  <Icon type="bell" />
-                </Badge>
-              </div>
-            </Dropdown>
-          </Menu.Item>
-
-          <Menu.Item
-            key="about"
-            onClick={() => {
-              this.aboutModal.pop()
-            }}
-          >
-            <Icon type="cloud" />
-            <span>关于</span>
-          </Menu.Item>
+      <div className="header-task-list">
+        <Menu>
           <Menu.Item
             key="changePwd"
             onClick={() => {
@@ -257,6 +219,67 @@ export default class Header extends React.Component {
             <span>注销</span>
           </Menu.Item>
         </Menu>
+      </div>
+    )
+  }
+
+  render() {
+    return (
+      <Layout.Header className="header">
+        <div className="logo">
+          <span className="text">安全虚拟桌面管理</span>
+        </div>
+        <Menu mode="horizontal" className="header-menu">
+          <Menu.Item key="task">
+            <Dropdown
+              overlay={this.renderTaskList()}
+              placement="bottomCenter"
+              visible={this.state?.taskVisible}
+              onOverlayClick={this.setTaskListShow}
+              onMouseEnter={this.setTaskListShow}
+              onMouseLeave={this.setTaskListClose}
+            >
+              <div
+                onClick={this.toggleTaskList}
+                className={
+                  this.state?.taskVisible ? 'drop-item active' : 'drop-item'
+                }
+              >
+                <Badge count={this.state?.taskTotal} offset={[5, 0]}>
+                  <Icon type="bell" />
+                  任务
+                </Badge>
+              </div>
+            </Dropdown>
+          </Menu.Item>
+          <Menu.Item
+            key="about"
+            onClick={() => {
+              this.aboutModal.pop()
+            }}
+          >
+            <Icon type="info-circle" />
+            <span>关于</span>
+          </Menu.Item>
+          <Menu.Item
+            key="systemConfig"
+            onClick={() => {
+              this.sysModal.pop()
+            }}
+          >
+            <Icon type="setting" />
+            <span>系统设置</span>
+          </Menu.Item>
+          <Menu.Item key="userInfo">
+            <Dropdown overlay={this.renderUserInfo()} placement="bottomCenter">
+              <div>
+                <Icon type="user" />
+                <span>{getUserFromlocal()}</span>
+              </div>
+            </Dropdown>
+          </Menu.Item>
+        </Menu>
+
         <ResetPwModal
           onRef={ref => {
             this.modal = ref

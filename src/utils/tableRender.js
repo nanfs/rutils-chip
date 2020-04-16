@@ -97,9 +97,9 @@ export const hostStatusRender = status => {
 export const storageStatusText = {
   'storage--unknown-copy': '未知',
   'storage-uninitialized': '未初始化',
-  'storage-unattached': '未连接',
+  'storage-unattached': '未附加',
   'storage-active': '激活',
-  'storage-inactive': '正在激活',
+  'storage-inactive': '未激活',
   'storage-imagelocked': '锁定',
   'storage-maintenance': '维护',
   'storage-preparingformaintenance': '准备维护',
@@ -145,8 +145,8 @@ export const storageTypeRender = type => {
 }
 export const vmStatusText = {
   'vm-unassigned': '未指派的',
-  'vm-down': '关机',
-  'vm-up': '开机',
+  'vm-down': '已关机',
+  'vm-up': '已开机',
   'vm-poweringup': '正在开机',
   'vm-paused': '暂停',
   'vm-migratingfrom': '准备迁移',

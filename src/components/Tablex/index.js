@@ -59,7 +59,7 @@ class Tablex extends React.Component {
       // 如果手动暂停 或者正在请求 则不发送请求
       !this.props.breakReplace &&
         !this.state.loading &&
-        this.replace(this.props.tableCfg)
+        this.reload(this.props.tableCfg)
     }, this.state.replaceTime * 1000)
   }
 
@@ -179,6 +179,19 @@ class Tablex extends React.Component {
     return new Promise(resolve => {
       this.loadData(tableCfg).then(res => {
         this.afterLoad(tableCfg, res).then(() => resolve(res))
+      })
+    })
+  }
+
+  // 保留选择 和页码 不显示刷新动画 添加getType搜索字段 用于排除后端session刷新
+  reload = tableCfg => {
+    const reloadTableCfg = {
+      ...tableCfg,
+      searchs: { ...tableCfg.searchs, getType: 'reload' }
+    }
+    return new Promise(resolve => {
+      this.loadData(reloadTableCfg, false).then(res => {
+        this.afterLoad(reloadTableCfg, res).then(() => resolve(res))
       })
     })
   }

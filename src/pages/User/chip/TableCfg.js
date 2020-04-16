@@ -62,7 +62,7 @@ export const columns = [
     dataIndex: 'roleName',
     ellipsis: true
   },
-  {
+  /* {
     title: () => <span title="锁定状态">锁定状态</span>,
     dataIndex: 'lockStatus',
     ellipsis: true,
@@ -91,7 +91,7 @@ export const columns = [
         </span>
       )
     }
-  },
+  }, */
   /* {
     title: '邮件',
     dataIndex: 'email'

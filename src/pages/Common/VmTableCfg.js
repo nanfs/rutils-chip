@@ -33,11 +33,11 @@ export const columns = [
   {
     title: () => <span title="状态">状态</span>,
     dataIndex: 'status',
-    width: '10%',
+    width: '7%',
     ellipsis: true,
     filters: [
-      { value: [0, 13], text: '关机' },
-      { value: [1], text: '开机' },
+      { value: [0, 13], text: '已关机' },
+      { value: [1], text: '已开机' },
       { value: [2, 16, 10, 15, 5, 6, 11, 12, 9], text: '运行' },
       { value: [7, 8, 14, -1, 4], text: '异常' }
     ],
@@ -121,6 +121,7 @@ export const columns = [
         <Progress
           strokeWidth={16}
           percent={+text || 0}
+          format={() => `${text || 0}%`}
           status={+text < 80 ? 'active' : 'exception'}
         ></Progress>
       )
@@ -134,6 +135,7 @@ export const columns = [
         <Progress
           strokeWidth={16}
           percent={+text || 0}
+          format={() => `${text || 0}%`}
           status={+text < 80 ? 'active' : 'exception'}
         ></Progress>
       )
@@ -147,6 +149,7 @@ export const columns = [
         <Progress
           strokeWidth={16}
           percent={+text || 0}
+          format={() => `${text || 0}%`}
           status={+text < 80 ? 'active' : 'exception'}
         ></Progress>
       )

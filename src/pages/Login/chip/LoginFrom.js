@@ -146,7 +146,7 @@ export default class LoginForm extends React.Component {
           </Form.Item>
         )}
         {this.state.error && <span className="error">{this.state.error}</span>}
-        <Form.Item wrapperCol={{ sm: { span: 24 } }} style={{ marginTop: 40 }}>
+        <Form.Item wrapperCol={{ sm: { span: 24 } }} style={{ marginTop: 60 }}>
           <Button
             type="primary"
             htmlType="submit"

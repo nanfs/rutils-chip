@@ -13,15 +13,15 @@ export default class DetailDrawer extends React.Component {
     this.props.onRef && this.props.onRef(this)
   }
 
-  pop = id => {
+  pop = (id, status) => {
     this.drawer.show()
     this.setState({ defaultActiveKey: '' }, () =>
-      this.setState({ defaultActiveKey: '1', id })
+      this.setState({ defaultActiveKey: '1', id, status })
     )
   }
 
   render() {
-    const { id, defaultActiveKey } = this.state
+    const { id, defaultActiveKey, status } = this.state
     return (
       <Drawerx
         onRef={ref => {
@@ -37,7 +37,7 @@ export default class DetailDrawer extends React.Component {
             <BaseInfo vmId={id}></BaseInfo>
           </TabPane>
           <TabPane tab="磁盘管理" key="2">
-            <Disklist vmId={id}></Disklist>
+            <Disklist vmId={id} status={status}></Disklist>
           </TabPane>
           {/* <TabPane tab="快照管理" key="3">
             <Snaplist vmId={id}></Snaplist>

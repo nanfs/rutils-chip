@@ -36,7 +36,11 @@ export default class Desktop extends React.Component {
     ellipsis: true,
     sorter: true,
     render: (text, record) => {
-      return <a onClick={() => this.detailVm(record.id, record.name)}>{text}</a>
+      return (
+        <a onClick={() => this.detailVm(record.id, record.name, record.status)}>
+          {text}
+        </a>
+      )
     }
   }
 
@@ -254,8 +258,8 @@ export default class Desktop extends React.Component {
     this.currentDrawer = this.editDrawer
   }
 
-  detailVm = (id, name) => {
-    this.setState({ inner: name }, this.detailDrawer.pop(id))
+  detailVm = (id, name, status) => {
+    this.setState({ inner: name }, this.detailDrawer.pop(id, status))
     this.currentDrawer = this.detailDrawer
   }
 

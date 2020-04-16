@@ -5,6 +5,7 @@ import EditDrawer from './chip/EditDrawer'
 import DetailDrawer from './chip/DetailDrawer'
 import { columns, apiMethod } from './chip/TableCfg'
 import templateApi from '@/services/template'
+import { vmDisabledButton } from '../Common/VmTableCfg'
 
 const { confirm } = Modal
 const { createTableCfg, TableWrap, ToolBar, BarLeft } = Tablex
@@ -87,6 +88,20 @@ export default class Template extends React.Component {
     this.setState({ inner: undefined })
   }
 
+  onSelectChange = (selection, selectData) => {
+    let disabledButton = {}
+    this.setState({ selection, selectData })
+    if (selection.length === 0) {
+      disabledButton = { ...disabledButton, disabledDelete: true }
+    }
+    selectData.forEach(function(v) {
+      if (v.vmUsed != '0') {
+        disabledButton = { ...disabledButton, disabledDelete: true }
+      }
+    })
+    this.setState({ disabledButton })
+  }
+
   /**
    * @memberof Template
    * 编辑模板
@@ -130,6 +145,7 @@ export default class Template extends React.Component {
   }
 
   render() {
+    const { disabledButton } = this.state
     return (
       <React.Fragment>
         <InnerPath
@@ -142,11 +158,7 @@ export default class Template extends React.Component {
             <BarLeft>
               <Button
                 onClick={() => this.delTem(this.tablex.getSelection())}
-                disabled={
-                  !this.state.selection ||
-                  !this.state.selection.length ||
-                  this.state.selectData.map(item => item.vmUsed != '0')
-                }
+                disabled={disabledButton?.disabledDelete}
               >
                 删除
               </Button>
@@ -157,9 +169,7 @@ export default class Template extends React.Component {
               this.tablex = ref
             }}
             tableCfg={this.state.tableCfg}
-            onSelectChange={(selection, selectData) => {
-              this.setState({ selection, selectData })
-            }}
+            onSelectChange={this.onSelectChange}
           />
           <EditDrawer
             onRef={ref => {

@@ -36,6 +36,17 @@ export default class User extends React.Component {
           // className="detail-link"
           onClick={() => this.detailUser(record.username, record)}
         >
+          {record.lockStatus === 1 ? (
+            <Icon
+              type="lock"
+              title="已锁定"
+              style={{
+                color: '#ff4d4f'
+              }}
+            />
+          ) : (
+            ''
+          )}
           {record.username}
         </a>
       )
@@ -562,7 +573,7 @@ export default class User extends React.Component {
                   ) : (
                     ''
                   )}
-                  {selectedType === 'internal' ? (
+                  {/* {selectedType === 'internal' ? (
                     <Button
                       onClick={() => this.unlockUser()}
                       disabled={disabledButton.disabledUnlock}
@@ -571,8 +582,7 @@ export default class User extends React.Component {
                     </Button>
                   ) : (
                     ''
-                  )}
-
+                  )} */}
                   {/* <Button
                     onClick={() => this.deleteUser()}
                     disabled={disabledButton.disabledDelete}

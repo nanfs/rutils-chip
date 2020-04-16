@@ -10,6 +10,15 @@ const iconStyle = {
   check: { color: '#17abe3' },
   close: { color: '#ff4d4f' }
 }
+const weekCh = {
+  MON: '周一',
+  TUE: '周二',
+  WED: '周三',
+  THU: '周四',
+  FRI: '周五',
+  SAT: '周六',
+  SUN: '周日'
+}
 
 export default class BaseInfo extends React.Component {
   componentDidMount() {
@@ -80,6 +89,21 @@ export default class BaseInfo extends React.Component {
             {text === 1 ? <span>定时关机</span> : <span>定时开机</span>}
           </span>
         )
+      },
+      {
+        title: '执行周期',
+        dataIndex: 'cron',
+        render: text => {
+          const str = text.split(' ')
+          const weeks =
+            str[3] === '?'
+              ? str[str.length - 1]
+                  .split(',')
+                  .map(item => weekCh[item])
+                  .join(',')
+              : '每天'
+          return <span>{weeks}</span>
+        }
       },
       {
         title: '执行时间',

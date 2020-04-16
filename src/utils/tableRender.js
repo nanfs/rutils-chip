@@ -97,9 +97,9 @@ export const hostStatusRender = status => {
 export const storageStatusText = {
   'storage--unknown-copy': '未知',
   'storage-uninitialized': '未初始化',
-  'storage-unattached': '未连接',
+  'storage-unattached': '未附加',
   'storage-active': '激活',
-  'storage-inactive': '正在激活',
+  'storage-inactive': '未激活',
   'storage-imagelocked': '锁定',
   'storage-maintenance': '维护',
   'storage-preparingformaintenance': '准备维护',

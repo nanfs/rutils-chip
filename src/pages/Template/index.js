@@ -40,6 +40,7 @@ export default class Template extends React.Component {
         <span className="opration-btn">
           <a onClick={() => this.editTem(record.name, record)}>编辑</a>
           <a
+            disabled={record.vmUsed != '0'}
             onClick={() => {
               this.delTem(record.id, '确定删除该条数据?')
             }}
@@ -141,7 +142,11 @@ export default class Template extends React.Component {
             <BarLeft>
               <Button
                 onClick={() => this.delTem(this.tablex.getSelection())}
-                disabled={!this.state.selection || !this.state.selection.length}
+                disabled={
+                  !this.state.selection ||
+                  !this.state.selection.length ||
+                  this.state.selectData.map(item => item.vmUsed != '0')
+                }
               >
                 删除
               </Button>

@@ -236,10 +236,10 @@ export default class Header extends React.Component {
           <span className="text">安全虚拟桌面管理</span>
         </div>
         <Menu mode="horizontal" className="header-menu">
-          <Menu.Item key="task" className="no-padding">
+          <Menu.Item key="task">
             <Dropdown
               overlay={this.renderTaskList()}
-              placement="bottomRight"
+              placement="bottomCenter"
               visible={this.state?.taskVisible}
               onOverlayClick={this.setTaskListShow}
               onMouseEnter={this.setTaskListShow}

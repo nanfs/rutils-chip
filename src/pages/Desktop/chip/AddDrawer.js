@@ -302,10 +302,16 @@ export default class AddDrawer extends React.Component {
   addVm = values => {
     const { type, nic, ...rest } = values
     const { netAll } = this.state
+<<<<<<< Updated upstream
+    const networkSelected = nic
+      ?.filter(item => item)
+      .map(netId => netAll.find(item => item.kindid === netId))
+=======
     const networkSelected = nic.map(netId =>
       netAll.find(item => item.kindid === netId)
     )
 
+>>>>>>> Stashed changes
     const { netNic } = this.state
     const networkFix = networkSelected.map((item, index) => ({
       vnic: `nic${netNic[index]}`,

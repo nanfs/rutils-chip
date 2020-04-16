@@ -19,7 +19,7 @@ import desktopsApi from '@/services/desktops'
 import assetsApi from '@/services/assets'
 
 import { findArrObj, wrapResponse } from '@/utils/tool'
-import { required, checkName, lessThanValue } from '@/utils/valid'
+import { required, checkName, lessThanValue, notUndefined } from '@/utils/valid'
 
 const { TextArea } = Input
 const createType = [
@@ -88,7 +88,7 @@ export default class AddDrawer extends React.Component {
    */
   add = () => {
     const nets = this.drawer.form.getFieldValue('nic')
-    const newNets = [...nets, undefined]
+    const newNets = [...nets, null]
     const newNetTopIndex = this.state.netTopIndex + 1
 
     const newNetNic = this.state.netNic.concat(newNetTopIndex)
@@ -218,6 +218,7 @@ export default class AddDrawer extends React.Component {
             label: `${item.kind}/${item.name}`,
             value: item.kindid
           }))
+          networkOptions.push({ label: '空网卡', value: null })
           this.setState({ networkOptions, netAll: network })
         })
         .catch(error => {
@@ -301,9 +302,16 @@ export default class AddDrawer extends React.Component {
   addVm = values => {
     const { type, nic, ...rest } = values
     const { netAll } = this.state
+<<<<<<< Updated upstream
     const networkSelected = nic
       ?.filter(item => item)
       .map(netId => netAll.find(item => item.kindid === netId))
+=======
+    const networkSelected = nic.map(netId =>
+      netAll.find(item => item.kindid === netId)
+    )
+
+>>>>>>> Stashed changes
     const { netNic } = this.state
     const networkFix = networkSelected.map((item, index) => ({
       vnic: `nic${netNic[index]}`,
@@ -406,7 +414,11 @@ export default class AddDrawer extends React.Component {
               label={`nic${netNic[index]}`}
               key={index}
               hidden={!this.state?.hasSetNetValue}
+<<<<<<< Updated upstream
               rules={index === 0 ? undefined : [required]}
+=======
+              rules={[notUndefined]}
+>>>>>>> Stashed changes
               labelCol={{ sm: { span: 10, pull: 2 } }}
               wrapperCol={{ sm: { span: 14 } }}
             >

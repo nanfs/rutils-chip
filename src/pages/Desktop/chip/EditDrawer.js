@@ -3,7 +3,7 @@ import { Form, Input, message, Row, Col, Button } from 'antd'
 import { Drawerx, Formx, Radiox, Selectx, Title, Diliver } from '@/components'
 import { memoryOptions, cpuOptions } from '@/utils/formOptions'
 import desktopsApi from '@/services/desktops'
-import { required, checkName, lessThanValue } from '@/utils/valid'
+import { required, checkName, lessThanValue, notUndefined } from '@/utils/valid'
 import { wrapResponse } from '@/utils/tool'
 
 const { TextArea } = Input
@@ -105,6 +105,7 @@ export default class EditDrawer extends React.Component {
             label: `${item.kind}/${item.name}`,
             value: item.kindid
           }))
+          networkOptions.push({ label: '空网卡', value: null })
           this.setState({ networkOptions, netAll: network })
         })
         .catch(error => {
@@ -153,7 +154,7 @@ export default class EditDrawer extends React.Component {
               label={`nic${netNic[index]}`}
               key={index}
               hidden={!this.state?.hasSetNetValue}
-              rules={index === 0 ? undefined : [required]}
+              rules={[notUndefined]}
               labelCol={{ sm: { span: 10, pull: 2 } }}
               wrapperCol={{ sm: { span: 14 } }}
             >

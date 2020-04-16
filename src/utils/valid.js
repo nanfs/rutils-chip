@@ -5,7 +5,12 @@ export function required(rule, value, callback) {
   }
   callback()
 }
-
+export function notUndefined(rule, value, callback) {
+  if (value === undefined) {
+    return callback(new Error('这是必填项'))
+  }
+  callback()
+}
 export function moreThanValue(min) {
   return (rule, value, callback) => {
     if (

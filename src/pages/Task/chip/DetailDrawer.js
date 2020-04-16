@@ -243,7 +243,6 @@ export default class DetailDrawer extends React.Component {
                 </Col>
               </Row>
             </div>
-            <Diliver />
             <div className="dms-detail-section">
               <Title slot="桌面列表"></Title>
               <TableWrap>

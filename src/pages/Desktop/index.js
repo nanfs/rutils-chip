@@ -271,7 +271,8 @@ export default class Desktop extends React.Component {
     })
   }
 
-  setUser = (ids, name) => {
+  setUser = (id, name) => {
+    const ids = Array.isArray(id) ? id : [id]
     this.setState({ inner: name || '分配用户' }, this.setUserDrawer.pop(ids))
     this.currentDrawer = this.setUserDrawer
   }

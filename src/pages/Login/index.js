@@ -3,6 +3,23 @@ import LoginFrom from './chip/LoginFrom'
 import './login.less'
 
 export default class Login extends Component {
+  componentDidMount() {
+    this.setContentBg()
+    window.addEventListener('resize', this.setContentBg)
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.setContentBg)
+  }
+
+  setContentBg = () => {
+    const width = document.querySelector('.wrap').offsetWidth
+    const contentWidth = document.querySelector('.content').offsetWidth
+    document.querySelector('.content').style.backgroundPositionX = `-${(width -
+      contentWidth) /
+      2}px`
+  }
+
   render() {
     return (
       <div className="wrap">

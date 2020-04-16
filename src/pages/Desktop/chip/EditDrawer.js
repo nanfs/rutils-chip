@@ -3,7 +3,7 @@ import { Form, Input, message, Row, Col, Button } from 'antd'
 import { Drawerx, Formx, Radiox, Selectx, Title, Diliver } from '@/components'
 import { memoryOptions, cpuOptions } from '@/utils/formOptions'
 import desktopsApi from '@/services/desktops'
-import { required, checkName, lessThanValue } from '@/utils/valid'
+import { required, checkName, lessThanValue, notUndefined } from '@/utils/valid'
 import { wrapResponse } from '@/utils/tool'
 
 const { TextArea } = Input
@@ -58,10 +58,14 @@ export default class EditDrawer extends React.Component {
   remove = k => {
     const nets = this.drawer.form.getFieldValue('nic')
     const { netNic } = this.state
-    // const newNets =
-    //   nets?.length === 1 ? [''] : [...nets.slice(0, k), ...nets.slice(k + 1)]
-    const newNets = [...nets.slice(0, k), ...nets.slice(k + 1)]
-    const newNetNic = [...netNic.slice(0, k), ...netNic.slice(k + 1)]
+    const newNets =
+      nets.length === 1
+        ? [undefined]
+        : [...nets.slice(0, k), ...nets.slice(k + 1)]
+    const newNetNic =
+      nets.length === 1
+        ? netNic
+        : [...netNic.slice(0, k), ...netNic.slice(k + 1)]
     this.setState({
       nets: newNets,
       netNic: newNetNic
@@ -105,6 +109,7 @@ export default class EditDrawer extends React.Component {
             label: `${item.kind}/${item.name}`,
             value: item.kindid
           }))
+          networkOptions.push({ label: '空网卡', value: null })
           this.setState({ networkOptions, netAll: network })
         })
         .catch(error => {
@@ -122,7 +127,7 @@ export default class EditDrawer extends React.Component {
     const { nic } = values
     const { netAll } = this.state
     const networkSelected = nic
-      ?.filter(item => item)
+      ?.filter(item => item !== undefined)
       .map(netId => netAll.find(item => item.kindid === netId))
     const { netNic } = this.state
     const networkFix = networkSelected.map((item, index) => ({
@@ -153,7 +158,11 @@ export default class EditDrawer extends React.Component {
               label={`nic${netNic[index]}`}
               key={index}
               hidden={!this.state?.hasSetNetValue}
-              rules={index === 0 ? undefined : [required]}
+              rules={
+                index === 0 && networks.length === 1
+                  ? undefined
+                  : [notUndefined]
+              }
               labelCol={{ sm: { span: 10, pull: 2 } }}
               wrapperCol={{ sm: { span: 14 } }}
             >
@@ -170,7 +179,6 @@ export default class EditDrawer extends React.Component {
             <Button
               icon="minus-circle-o"
               className="dynamic-button"
-              disabled={index === 0 && networks.length === 1}
               onClick={() => this.remove(index)}
             />
             <Button
@@ -217,7 +225,7 @@ export default class EditDrawer extends React.Component {
           <Form.Item label="模板">{this.state?.templateName}</Form.Item>
           <Form.Item
             prop="cpuCores"
-            label="CPU"
+            label="CPU(核)"
             required
             rules={[required, lessThanValue(160)]}
             wrapperCol={{ sm: { span: 16 } }}
@@ -230,7 +238,7 @@ export default class EditDrawer extends React.Component {
           </Form.Item>
           <Form.Item
             prop="memory"
-            label="内存"
+            label="内存(G)"
             required
             rules={[required, lessThanValue(100)]}
             wrapperCol={{ sm: { span: 16 } }}

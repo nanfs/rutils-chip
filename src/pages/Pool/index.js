@@ -39,34 +39,38 @@ export default class Pool extends React.Component {
 
   action = {
     title: '操作',
-    width: 130,
+    width: 180,
     dataIndex: 'action',
     render: (text, record) => {
-      const moreAction = (
-        <Menu>
-          <Menu.Item
-            key="0"
-            onClick={() => this.setUser(record.id, record.name)}
-          >
-            分配用户
-          </Menu.Item>
-          <Menu.Item
-            key="1"
-            onClick={() => this.deletePool(record.id, '确定删除本条数据?')}
-          >
-            删除
-          </Menu.Item>
-        </Menu>
-      )
+      // const moreAction = (
+      //   <Menu>
+      //     <Menu.Item
+      //       key="0"
+      //       onClick={() => this.setUser(record.id, record.name)}
+      //     >
+      //       分配用户
+      //     </Menu.Item>
+      //     <Menu.Item
+      //       key="1"
+      //       onClick={() => this.deletePool(record.id, '确定删除本条数据?')}
+      //     >
+      //       删除
+      //     </Menu.Item>
+      //   </Menu>
+      // )
       return (
         <span className="opration-btn">
           <a onClick={() => this.editPool(record.id, record.name)}>编辑</a>
-
+          <a onClick={() => this.setUser(record.id, record.name)}>分配用户</a>
+          <a onClick={() => this.deletePool(record.id, '确定删除本条数据?')}>
+            删除
+          </a>
+          {/*
           <Dropdown overlay={moreAction} placement="bottomRight">
             <a>
               更多 <Icon type="down" />
             </a>
-          </Dropdown>
+          </Dropdown> */}
         </span>
       )
     }

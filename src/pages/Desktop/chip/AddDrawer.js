@@ -19,7 +19,7 @@ import desktopsApi from '@/services/desktops'
 import assetsApi from '@/services/assets'
 
 import { findArrObj, wrapResponse } from '@/utils/tool'
-import { required, checkName, lessThanValue } from '@/utils/valid'
+import { required, checkName, lessThanValue, notUndefined } from '@/utils/valid'
 
 const { TextArea } = Input
 const createType = [
@@ -66,13 +66,21 @@ export default class AddDrawer extends React.Component {
   /**
    *
    * 通过netNic来保存 虚拟网卡编号
+   * 空网卡场景
    * @memberof AddDrawer
    */
   remove = k => {
     const nets = this.drawer.form.getFieldValue('nic')
     const { netNic } = this.state
-    const newNets = [...nets.slice(0, k), ...nets.slice(k + 1)]
-    const newNetNic = [...netNic.slice(0, k), ...netNic.slice(k + 1)]
+    const newNets =
+      nets.length === 1
+        ? [undefined]
+        : [...nets.slice(0, k), ...nets.slice(k + 1)]
+    const newNetNic =
+      nets.length === 1
+        ? netNic
+        : [...netNic.slice(0, k), ...netNic.slice(k + 1)]
+    console.log(newNets, newNetNic)
     this.setState({
       nets: newNets,
       netNic: newNetNic
@@ -88,7 +96,7 @@ export default class AddDrawer extends React.Component {
    */
   add = () => {
     const nets = this.drawer.form.getFieldValue('nic')
-    const newNets = [...nets, undefined]
+    const newNets = [...nets, null]
     const newNetTopIndex = this.state.netTopIndex + 1
 
     const newNetNic = this.state.netNic.concat(newNetTopIndex)
@@ -218,6 +226,7 @@ export default class AddDrawer extends React.Component {
             label: `${item.kind}/${item.name}`,
             value: item.kindid
           }))
+          networkOptions.push({ label: '空网卡', value: null })
           this.setState({ networkOptions, netAll: network })
         })
         .catch(error => {
@@ -270,7 +279,7 @@ export default class AddDrawer extends React.Component {
   /**
    * 当ISO改变的时候 后端需要判断 32 还是 64 位
    * 只有当ISO 为windows 类型的时候 设置
-   *
+   * 不能直接判断 名称里面是否是x86 x64 linux名称 不符合规则
    * @memberof AddDrawer
    */
   onIsoChange = (a, b, target) => {
@@ -284,6 +293,11 @@ export default class AddDrawer extends React.Component {
         return this.drawer.form.setFieldsValue({ isoBit: '32' })
       }
     }
+    if (isoType === 'domestic') {
+      if (target.toLowerCase().includes('szwx')) {
+        return this.drawer.form.setFieldsValue({ isoBit: '64' })
+      }
+    }
     this.drawer.form.setFieldsValue({ isoBit: '' })
   }
 
@@ -294,12 +308,12 @@ export default class AddDrawer extends React.Component {
    * @memberof AddDrawer
    */
   addVm = values => {
-    console.log('values', values)
     const { type, nic, ...rest } = values
     const { netAll } = this.state
     const networkSelected = nic
-      ?.filter(item => item)
+      .filter(item => item !== undefined)
       .map(netId => netAll.find(item => item.kindid === netId))
+
     const { netNic } = this.state
     const networkFix = networkSelected.map((item, index) => ({
       vnic: `nic${netNic[index]}`,
@@ -310,7 +324,6 @@ export default class AddDrawer extends React.Component {
       cpuNum: 1,
       network: networkFix
     }
-    console.log('data', data)
     // 如果通过ISO创建用户
     if (type === 'byIso') {
       const { isoName } = values
@@ -403,7 +416,11 @@ export default class AddDrawer extends React.Component {
               label={`nic${netNic[index]}`}
               key={index}
               hidden={!this.state?.hasSetNetValue}
-              rules={index === 0 ? undefined : [required]}
+              rules={
+                index === 0 && networks.length === 1
+                  ? undefined
+                  : [notUndefined]
+              }
               labelCol={{ sm: { span: 10, pull: 2 } }}
               wrapperCol={{ sm: { span: 14 } }}
             >
@@ -420,7 +437,6 @@ export default class AddDrawer extends React.Component {
             <Button
               icon="minus-circle-o"
               className="dynamic-button"
-              disabled={index === 0 && networks.length === 1}
               onClick={() => this.remove(index)}
             />
             <Button
@@ -524,7 +540,7 @@ export default class AddDrawer extends React.Component {
           </Form.Item>
           <Form.Item
             prop="cpuCores"
-            label="CPU"
+            label="CPU(核)"
             required
             rules={[required, lessThanValue(160)]}
             wrapperCol={{ sm: { span: 16 } }}
@@ -537,7 +553,7 @@ export default class AddDrawer extends React.Component {
           </Form.Item>
           <Form.Item
             prop="memory"
-            label="内存"
+            label="内存(G)"
             required
             rules={[required, lessThanValue(128)]}
             wrapperCol={{ sm: { span: 16 } }}

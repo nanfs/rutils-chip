@@ -301,9 +301,9 @@ export default class AddDrawer extends React.Component {
   addVm = values => {
     const { type, nic, ...rest } = values
     const { netAll } = this.state
-    const networkSelected = nic.map(netId =>
-      netAll.find(item => item.kindid === netId)
-    )
+    const networkSelected = nic
+      ?.filter(item => item)
+      .map(netId => netAll.find(item => item.kindid === netId))
     const { netNic } = this.state
     const networkFix = networkSelected.map((item, index) => ({
       vnic: `nic${netNic[index]}`,
@@ -406,6 +406,7 @@ export default class AddDrawer extends React.Component {
               label={`nic${netNic[index]}`}
               key={index}
               hidden={!this.state?.hasSetNetValue}
+              rules={index === 0 ? undefined : [required]}
               labelCol={{ sm: { span: 10, pull: 2 } }}
               wrapperCol={{ sm: { span: 14 } }}
             >

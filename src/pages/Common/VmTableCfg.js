@@ -312,7 +312,7 @@ export function vmDisableAction(vmObj) {
     }
   }
   // 开机 或者正在开机 可以打开控制台
-  if (vmObj.status !== 1 || vmObj.status !== 2) {
+  if (vmObj.status !== 1 && vmObj.status !== 2) {
     disabledButton = {
       ...disabledButton,
       disabledOpenConsole: true

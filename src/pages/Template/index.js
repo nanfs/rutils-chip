@@ -40,6 +40,7 @@ export default class Template extends React.Component {
         <span className="opration-btn">
           <a onClick={() => this.editTem(record.name, record)}>编辑</a>
           <a
+            disabled={record.vmUsed != '0'}
             onClick={() => {
               this.delTem(record.id, '确定删除该条数据?')
             }}

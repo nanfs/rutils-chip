@@ -71,7 +71,8 @@ service.interceptors.response.use(
         setUserToLocal(null)
         reloadAuthorized()
         window.location.hash = 'login'
-        return message.error(response.data.message || '请先登录')
+        // 不弹出提示
+        // return message.error(response.data.message || '请先登录')
       }
       return response.data
     }

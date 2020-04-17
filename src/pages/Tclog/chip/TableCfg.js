@@ -30,6 +30,11 @@ export const columns = [
     ellipsis: true
   },
   {
+    title: () => <span title="终端名称">终端名称</span>,
+    dataIndex: 'tcName',
+    ellipsis: true
+  },
+  {
     title: () => <span title="终端IP">终端IP</span>,
     dataIndex: 'tcIp',
     ellipsis: true

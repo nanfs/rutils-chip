@@ -40,6 +40,7 @@ export default class Template extends React.Component {
         <span className="opration-btn">
           <a onClick={() => this.editTem(record.name, record)}>编辑</a>
           <a
+            disabled={record.vmUsed != '0'}
             onClick={() => {
               this.delTem(record.id, '确定删除该条数据?')
             }}
@@ -86,6 +87,20 @@ export default class Template extends React.Component {
     this.setState({ inner: undefined })
   }
 
+  onSelectChange = (selection, selectData) => {
+    let disabledButton = {}
+    this.setState({ selection, selectData })
+    if (selection.length === 0) {
+      disabledButton = { ...disabledButton, disabledDelete: true }
+    }
+    selectData.forEach(function(v) {
+      if (v.vmUsed != '0') {
+        disabledButton = { ...disabledButton, disabledDelete: true }
+      }
+    })
+    this.setState({ disabledButton })
+  }
+
   /**
    * @memberof Template
    * 编辑模板
@@ -129,6 +144,7 @@ export default class Template extends React.Component {
   }
 
   render() {
+    const { disabledButton } = this.state
     return (
       <React.Fragment>
         <InnerPath
@@ -141,7 +157,7 @@ export default class Template extends React.Component {
             <BarLeft>
               <Button
                 onClick={() => this.delTem(this.tablex.getSelection())}
-                disabled={!this.state.selection || !this.state.selection.length}
+                disabled={disabledButton?.disabledDelete}
               >
                 删除
               </Button>
@@ -152,9 +168,7 @@ export default class Template extends React.Component {
               this.tablex = ref
             }}
             tableCfg={this.state.tableCfg}
-            onSelectChange={(selection, selectData) => {
-              this.setState({ selection, selectData })
-            }}
+            onSelectChange={this.onSelectChange}
           />
           <EditDrawer
             onRef={ref => {

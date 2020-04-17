@@ -14,7 +14,7 @@ import desktopsApi from '@/services/desktops'
 import { downloadVV } from '@/utils/tool'
 
 import {
-  columns,
+  getColumns,
   apiMethod,
   defaultColumnsFilters,
   defaultColumnsValue,
@@ -36,7 +36,11 @@ export default class Desktop extends React.Component {
     ellipsis: true,
     sorter: true,
     render: (text, record) => {
-      return <a onClick={() => this.detailVm(record.id, record.name)}>{text}</a>
+      return (
+        <a onClick={() => this.detailVm(record.id, record.name, record.status)}>
+          {text}
+        </a>
+      )
     }
   }
 
@@ -72,7 +76,7 @@ export default class Desktop extends React.Component {
     }
   }
 
-  columnsArr = [this.vmName, ...columns.slice(1), this.action]
+  columnsArr = [this.vmName, ...getColumns().slice(1), this.action]
 
   state = {
     tableCfg: createTableCfg({
@@ -254,8 +258,8 @@ export default class Desktop extends React.Component {
     this.currentDrawer = this.editDrawer
   }
 
-  detailVm = (id, name) => {
-    this.setState({ inner: name }, this.detailDrawer.pop(id))
+  detailVm = (id, name, status) => {
+    this.setState({ inner: name }, this.detailDrawer.pop(id, status))
     this.currentDrawer = this.detailDrawer
   }
 
@@ -271,7 +275,8 @@ export default class Desktop extends React.Component {
     })
   }
 
-  setUser = (ids, name) => {
+  setUser = (id, name) => {
+    const ids = Array.isArray(id) ? id : [id]
     this.setState({ inner: name || '分配用户' }, this.setUserDrawer.pop(ids))
     this.currentDrawer = this.setUserDrawer
   }

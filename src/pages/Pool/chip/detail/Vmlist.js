@@ -6,7 +6,7 @@ import produce from 'immer'
 import desktopsApi from '@/services/desktops'
 import poolsApi from '@/services/pools'
 import {
-  columns,
+  getColumns,
   getMoreButton,
   vmDisabledButton,
   vmFilterSorterTransform,
@@ -54,7 +54,7 @@ export default class Desktop extends React.Component {
     }
   }
 
-  columnsArr = [...columns, this.action]
+  columnsArr = [...getColumns(true), this.action]
 
   state = {
     tableCfg: createTableCfg({
@@ -85,7 +85,11 @@ export default class Desktop extends React.Component {
    * 调用通用处理 返回排序 筛选处理后的search 和columnsList
    */
   onTableChange = (page, filter, sorter) => {
-    const { searchs, columnsList } = vmFilterSorterTransform(filter, sorter)
+    const { searchs, columnsList } = vmFilterSorterTransform(
+      filter,
+      sorter,
+      true
+    )
     this.setState(
       produce(draft => {
         draft.tableCfg = {

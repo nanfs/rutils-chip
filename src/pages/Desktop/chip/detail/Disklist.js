@@ -22,8 +22,18 @@ export default class Desktop extends React.Component {
     disabledButton: {}
   }
 
+  // 磁盘 如果不是正常状态 不能编辑和删除
+  // 如果虚拟机状态是开机状态 不能编辑和删除
   onSelectChange = (selection, selectData) => {
+    const { status } = this.props
     let disabledButton = {}
+    if (status === 1) {
+      disabledButton = {
+        ...disabledButton,
+        disabledEdit: true,
+        disabledDelete: true
+      }
+    }
     if (selection.length !== 1) {
       disabledButton = {
         ...disabledButton,
@@ -37,6 +47,13 @@ export default class Desktop extends React.Component {
       }
     } else {
       selectData.forEach(item => {
+        if (item.status !== 1) {
+          disabledButton = {
+            ...disabledButton,
+            disabledDelete: true,
+            disabledEdit: true
+          }
+        }
         if (item.isBoot) {
           disabledButton = {
             ...disabledButton,
@@ -83,7 +100,7 @@ export default class Desktop extends React.Component {
 
   render() {
     const { disabledButton } = this.state
-
+    const { vmId } = this.props
     return (
       <React.Fragment>
         <TableWrap>
@@ -91,7 +108,7 @@ export default class Desktop extends React.Component {
             <BarLeft>
               <Button
                 onClick={() => {
-                  this.addDiskModal.pop(this.props.vmId)
+                  this.addDiskModal.pop(vmId)
                 }}
               >
                 添加磁盘
@@ -100,7 +117,7 @@ export default class Desktop extends React.Component {
                 disabled={disabledButton.disabledEdit}
                 onClick={() => {
                   this.editDiskModal.pop({
-                    vmId: this.props.vmId,
+                    vmId,
                     ...this.tablex.getSelectData()[0]
                   })
                 }}

@@ -151,7 +151,7 @@ export default class EditDrawer extends React.Component {
     return (
       networks &&
       networks.map((item, index) => (
-        <Row gutter={16} key={index} className="form-item-wrapper">
+        <Row gutter={16} key={index}>
           <Col span={12}>
             <Form.Item
               prop={`nic[${index}]`}

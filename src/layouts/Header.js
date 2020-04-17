@@ -77,7 +77,7 @@ export default class Header extends React.Component {
    * @memberof Header
    */
   getTasks = () => {
-    tasksApi.list({ current: 1, size: 10000 }).then(res =>
+    tasksApi.list({ current: 1, size: 10000, getType: 'reload' }).then(res =>
       wrapResponse(res)
         .then(() => {
           const taskOnProgress = []

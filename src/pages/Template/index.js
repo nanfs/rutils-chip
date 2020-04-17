@@ -5,7 +5,6 @@ import EditDrawer from './chip/EditDrawer'
 import DetailDrawer from './chip/DetailDrawer'
 import { columns, apiMethod } from './chip/TableCfg'
 import templateApi from '@/services/template'
-import { vmDisabledButton } from '../Common/VmTableCfg'
 
 const { confirm } = Modal
 const { createTableCfg, TableWrap, ToolBar, BarLeft } = Tablex
@@ -41,6 +40,7 @@ export default class Template extends React.Component {
         <span className="opration-btn">
           <a onClick={() => this.editTem(record.name, record)}>编辑</a>
           <a
+            disabled={record.vmUsed != '0'}
             onClick={() => {
               this.delTem(record.id, '确定删除该条数据?')
             }}

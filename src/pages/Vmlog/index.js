@@ -162,7 +162,11 @@ export default class Vmlog extends React.Component {
               </Button>
             </BarLeft>
             <BarRight span={14}>
-              <RangePicker onChange={this.selectDate} showTime></RangePicker>
+              <RangePicker
+                onChange={this.selectDate}
+                showTime
+                placeholder={['开始时间', '结束时间']}
+              ></RangePicker>
               <SelectSearch
                 options={this.searchOptions}
                 onSelectChange={this.onSearchSelectChange}

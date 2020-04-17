@@ -14,7 +14,7 @@ import desktopsApi from '@/services/desktops'
 import { downloadVV } from '@/utils/tool'
 
 import {
-  columns,
+  getColumns,
   apiMethod,
   defaultColumnsFilters,
   defaultColumnsValue,
@@ -76,7 +76,7 @@ export default class Desktop extends React.Component {
     }
   }
 
-  columnsArr = [this.vmName, ...columns.slice(1), this.action]
+  columnsArr = [this.vmName, ...getColumns().slice(1), this.action]
 
   state = {
     tableCfg: createTableCfg({

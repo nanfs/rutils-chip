@@ -5,7 +5,7 @@ import { Tablex } from '@/components'
 import produce from 'immer'
 import desktopsApi from '@/services/desktops'
 import {
-  columns,
+  getColumns,
   getMoreButton,
   vmDisabledButton,
   vmFilterSorterTransform,
@@ -54,7 +54,7 @@ export default class Desktop extends React.Component {
     }
   }
 
-  columnsArr = [...columns, this.action]
+  columnsArr = [...getColumns(), this.action]
 
   state = {
     tableCfg: createTableCfg({

@@ -20,150 +20,168 @@ setClusterToSession()
 setDataCenterToSession()
 setHostToSession()
 
-export const columns = [
-  {
-    title: () => <span title="桌面名称">桌面名称</span>,
-    dataIndex: 'name',
-    sorter: true,
-    ellipsis: true,
-    render: (text, record) => {
-      return <span>{record.name}</span>
+/**
+ * @description
+ * @author lishuai
+ * @date 2020-04-17
+ * @export
+ * @param {boolean} [isPoolVmlist=false]
+ * @returns
+ */
+export function getColumns(isPoolVmlist = false) {
+  return [
+    {
+      title: () => <span title="桌面名称">桌面名称</span>,
+      dataIndex: 'name',
+      ellipsis: true,
+      render: (text, record) => {
+        return <span>{record.name}</span>
+      },
+      sorter: isPoolVmlist ? undefined : true
+    },
+    {
+      title: () => <span title="状态">状态</span>,
+      dataIndex: 'status',
+      width: '7%',
+      ellipsis: true,
+      filters: [
+        { value: [0, 13], text: '已关机' },
+        { value: [1], text: '已开机' },
+        { value: [2, 16, 10, 15, 5, 6, 11, 12, 9], text: '运行' },
+        { value: [7, 8, 14, -1, 4], text: '异常' }
+      ],
+      render: text => vmStatusRender(text)
+    },
+    {
+      title: () => <span title="操作系统">操作系统</span>,
+      dataIndex: 'os',
+      ellipsis: true,
+      render: text => {
+        return (
+          <span title={osTextRender(text)}>
+            {osIconRender(text)} {osTextRender(text)}
+          </span>
+        )
+      }
+    },
+    {
+      title: () => <span title="主机">主机</span>,
+      ellipsis: true,
+      dataIndex: 'hostName',
+      filters: isPoolVmlist
+        ? undefined
+        : JSON.parse(sessionStorage.getItem('hosts'))
+    },
+    {
+      title: () => <span title="IP">IP</span>,
+      ellipsis: true,
+      dataIndex: 'ip',
+      sorter: isPoolVmlist ? undefined : true
+    },
+    {
+      title: () => <span title="数据中心">数据中心</span>,
+      ellipsis: true,
+      dataIndex: 'datacenterName',
+      filters: isPoolVmlist
+        ? undefined
+        : JSON.parse(sessionStorage.getItem('datacenters'))
+    },
+    {
+      title: () => <span title="集群">集群</span>,
+      ellipsis: true,
+      dataIndex: 'clusterName',
+      filters: isPoolVmlist
+        ? undefined
+        : JSON.parse(sessionStorage.getItem('clusters'))
+    },
+    {
+      title: () => <span title="用户">用户</span>,
+      width: 70,
+      dataIndex: 'assignedUsers',
+      render: text => assignedUsersRender(text)
+    },
+    {
+      title: () => <span title="控制台">控制台</span>,
+      width: 100,
+      dataIndex: 'isConsole',
+      ellipsis: true,
+      render: (text, record) => {
+        const consoleContent = record.clientIp ? (
+          <Popover content={record.clientIp}>
+            <MyIcon type="tc-connecting" component="svg" />
+            <span title="已连接">已连接</span>
+          </Popover>
+        ) : (
+          <div className="ellipsis-noWhiteSpace">
+            <MyIcon type="storage-unattached" component="svg" />
+            <span title="未连接">未连接</span>
+          </div>
+        )
+        return consoleContent
+      }
+    },
+    {
+      title: () => <span title="已运行">已运行</span>,
+      key: 'onlineTime',
+      ellipsis: true,
+      dataIndex: 'onlineTime',
+      sorter: isPoolVmlist ? undefined : true,
+      render: text => onlineStringTime(text)
+    },
+    {
+      title: () => <span title="CPU">CPU</span>,
+      dataIndex: 'cpuUsageRate',
+      render: text => {
+        return (
+          <Progress
+            strokeWidth={16}
+            percent={+text || 0}
+            format={() => `${text || 0}%`}
+            status={+text < 80 ? 'active' : 'exception'}
+          ></Progress>
+        )
+      }
+    },
+    {
+      title: () => <span title="内存">内存</span>,
+      dataIndex: 'memoryUsageRate',
+      render: text => {
+        return (
+          <Progress
+            strokeWidth={16}
+            percent={+text || 0}
+            format={() => `${text || 0}%`}
+            status={+text < 80 ? 'active' : 'exception'}
+          ></Progress>
+        )
+      }
+    },
+    {
+      title: () => <span title="网络">网络</span>,
+      dataIndex: 'networkUsageRate',
+      render: text => {
+        return (
+          <Progress
+            strokeWidth={16}
+            percent={+text || 0}
+            format={() => `${text || 0}%`}
+            status={+text < 80 ? 'active' : 'exception'}
+          ></Progress>
+        )
+      }
     }
-  },
-  {
-    title: () => <span title="状态">状态</span>,
-    dataIndex: 'status',
-    width: '7%',
-    ellipsis: true,
-    filters: [
-      { value: [0, 13], text: '已关机' },
-      { value: [1], text: '已开机' },
-      { value: [2, 16, 10, 15, 5, 6, 11, 12, 9], text: '运行' },
-      { value: [7, 8, 14, -1, 4], text: '异常' }
-    ],
-    render: text => vmStatusRender(text)
-  },
-  {
-    title: () => <span title="操作系统">操作系统</span>,
-    dataIndex: 'os',
-    ellipsis: true,
-    render: text => {
-      return (
-        <span title={osTextRender(text)}>
-          {osIconRender(text)} {osTextRender(text)}
-        </span>
-      )
-    }
-  },
-  {
-    title: () => <span title="主机">主机</span>,
-    ellipsis: true,
-    dataIndex: 'hostName',
-    filters: JSON.parse(sessionStorage.getItem('hosts'))
-  },
-  {
-    title: () => <span title="IP">IP</span>,
-    ellipsis: true,
-    dataIndex: 'ip',
-    sorter: true
-  },
-  {
-    title: () => <span title="数据中心">数据中心</span>,
-    ellipsis: true,
-    dataIndex: 'datacenterName',
-    filters: JSON.parse(sessionStorage.getItem('datacenters'))
-  },
-  {
-    title: () => <span title="集群">集群</span>,
-    ellipsis: true,
-    dataIndex: 'clusterName',
-    filters: JSON.parse(sessionStorage.getItem('clusters'))
-  },
-  {
-    title: () => <span title="用户">用户</span>,
-    width: 70,
-    dataIndex: 'assignedUsers',
-    render: text => assignedUsersRender(text)
-  },
-  {
-    title: () => <span title="控制台">控制台</span>,
-    width: 100,
-    dataIndex: 'isConsole',
-    ellipsis: true,
-    render: (text, record) => {
-      const consoleContent = record.clientIp ? (
-        <Popover content={record.clientIp}>
-          <MyIcon type="tc-connecting" component="svg" />
-          <span title="已连接">已连接</span>
-        </Popover>
-      ) : (
-        <div className="ellipsis-noWhiteSpace">
-          <MyIcon type="storage-unattached" component="svg" />
-          <span title="未连接">未连接</span>
-        </div>
-      )
-      return consoleContent
-    }
-  },
-  {
-    title: () => <span title="已运行">已运行</span>,
-    key: 'onlineTime',
-    ellipsis: true,
-    dataIndex: 'onlineTime',
-    sorter: true,
-    render: text => onlineStringTime(text)
-  },
-  {
-    title: () => <span title="CPU">CPU</span>,
-    dataIndex: 'cpuUsageRate',
-    render: text => {
-      return (
-        <Progress
-          strokeWidth={16}
-          percent={+text || 0}
-          format={() => `${text || 0}%`}
-          status={+text < 80 ? 'active' : 'exception'}
-        ></Progress>
-      )
-    }
-  },
-  {
-    title: () => <span title="内存">内存</span>,
-    dataIndex: 'memoryUsageRate',
-    render: text => {
-      return (
-        <Progress
-          strokeWidth={16}
-          percent={+text || 0}
-          format={() => `${text || 0}%`}
-          status={+text < 80 ? 'active' : 'exception'}
-        ></Progress>
-      )
-    }
-  },
-  {
-    title: () => <span title="网络">网络</span>,
-    dataIndex: 'networkUsageRate',
-    render: text => {
-      return (
-        <Progress
-          strokeWidth={16}
-          percent={+text || 0}
-          format={() => `${text || 0}%`}
-          status={+text < 80 ? 'active' : 'exception'}
-        ></Progress>
-      )
-    }
-  }
-]
+  ]
+}
 // 去掉桌面名称
-export const defaultColumnsFilters = columns
+export const defaultColumnsFilters = getColumns()
   .map(item => ({
     value: item.dataIndex,
     text: item.title()
   }))
   .slice(1)
-export const defaultColumnsValue = columns.map(item => item.dataIndex).slice(1)
+export const defaultColumnsValue = getColumns()
+  .map(item => item.dataIndex)
+  .slice(1)
 export const apiMethod = desktopsApi.list
 
 export const searchOptions = [
@@ -215,7 +233,6 @@ export function getMoreButton({
       >
         打开控制台
       </Menu.Item>
-      {/* TODO 联调后端 */}
       <Menu.Item
         key="7"
         hidden={isDuplicated || !isInnerMore}
@@ -294,11 +311,17 @@ export function vmDisableAction(vmObj) {
       disabledAddTem: true
     }
   }
+  // 开机 或者正在开机 可以打开控制台
+  if (vmObj.status !== 1 || vmObj.status !== 2) {
+    disabledButton = {
+      ...disabledButton,
+      disabledOpenConsole: true
+    }
+  }
   if (vmObj.status !== 1) {
     disabledButton = {
       ...disabledButton,
-      disabledAttachIso: true,
-      disabledOpenConsole: true
+      disabledAttachIso: true
     }
   }
   if (vmObj.status === 0) {
@@ -378,11 +401,11 @@ export function vmDisabledButton(selection, selectData) {
  * 过滤状态 将状态转为一维数组
  * 过滤表格列 如果有过滤表格列 返回最新表格列
  */
-export function vmFilterSorterTransform(filter, sorter) {
+export function vmFilterSorterTransform(filter, sorter, isPoolVmlist = false) {
   const { clusterName, hostName, datacenterName } = filter
   let searchs = {}
   const statusList = []
-  let columnsList = [...columns]
+  let columnsList = [...getColumns(isPoolVmlist)]
   const orderArr = {
     ascend: 'asc',
     descend: 'desc'
@@ -408,5 +431,5 @@ export function vmFilterSorterTransform(filter, sorter) {
       filter.action.includes(item.dataIndex)
     )
   }
-  return { searchs, columnsList: [columns[0], ...columnsList] }
+  return { searchs, columnsList: [getColumns(isPoolVmlist)[0], ...columnsList] }
 }

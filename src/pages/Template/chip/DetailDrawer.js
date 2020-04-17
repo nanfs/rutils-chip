@@ -1,9 +1,7 @@
 import React from 'react'
-import { Tabs, Row, Col, Icon, message, Tooltip } from 'antd'
-import { Drawerx, Tablex, Tabsx } from '@/components'
+import { Tabs, Row, Col, Icon, Tooltip } from 'antd'
+import { Drawerx, Tabsx } from '@/components'
 import '../index.less'
-// import { columns, apiMethod } from './VmTableCfg'
-// import produce from 'immer'
 import Vmlist from './detail/Vmlist'
 
 const { TabPane } = Tabs

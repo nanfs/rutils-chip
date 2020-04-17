@@ -168,7 +168,7 @@ export function wrapResponse(res) {
 
       default:
         if (
-          res.data.data &&
+          res.data?.data &&
           res.data.data.errorCode &&
           res.data.data.errorCode.indexOf('TOKEN-') === 0
         ) {

@@ -47,6 +47,7 @@ const service = axios.create({
   headers: {
     'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
     'Access-Control-Allow-Origin': '*',
+    'Fetch-origin': 'ccsvm', // 后端用来判断 是从终端还是平台发起的请求
     'Access-Control-Allow-Methods': 'GET,POST,PUT,DELETE,PATCH,OPTIONS'
   }
 })

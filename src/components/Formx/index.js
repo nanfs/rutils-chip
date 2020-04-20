@@ -82,10 +82,10 @@ class Formx extends React.Component {
       )
       return React.cloneElement(child, {}, sonNode)
     }
-    // 刷新除了
-    if (child.props && child.props.onRef) {
-      return child
-    }
+    // 刷新除了 TODO
+    // if (child.props && child.props.onRef) {
+    //   return child
+    // }
     return isParentShow !== false && child
   }
 

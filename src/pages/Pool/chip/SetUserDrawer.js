@@ -202,6 +202,7 @@ export default class SetUserDrawer extends React.Component {
                 options={searchOptions}
                 onSelectChange={this.onSearchSelectChange}
                 onSearch={this.search}
+                placeholder={'请输入用户姓名'}
               ></SelectSearch>
             </ToolBar>
             <Tablex

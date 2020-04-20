@@ -12,7 +12,7 @@ export const detailDesktopColumns = [
   {
     title: '状态',
     dataIndex: 'status',
-    width: 80,
+    width: 180,
     /* filters: [
       { value: [0, 13], text: '已关机' },
       { value: [1], text: '正在运行' },
@@ -28,7 +28,7 @@ export const detailDesktopColumns = [
   {
     title: '控制台',
     dataIndex: 'consolestatus',
-    width: 100,
+    width: 180,
     render: (text, record) => {
       const consoleContent =
         record.consolestatus === '已连接' ? (

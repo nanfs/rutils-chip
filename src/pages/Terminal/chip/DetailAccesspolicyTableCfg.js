@@ -1,3 +1,5 @@
+import React from 'react'
+
 const typeArr = ['按周', '按日期']
 const typeOptions = [
   { text: '按周', value: 0 },
@@ -19,38 +21,38 @@ function renderDateText(text) {
 // eslint-disable-next-line import/prefer-default-export
 export const DetailAccesspolicyColumns = [
   {
-    title: '名称',
-    dataIndex: 'name'
+    title: () => <span title="名称">名称</span>,
+    dataIndex: 'name',
+    ellipsis: true
   },
-  /* {
-    title: '准入类型',
+  {
+    title: () => <span title="准入类型">准入类型</span>,
     dataIndex: 'type',
-    render: (_text, record) => {
-      return record.admitInterval && typeArr[record.admitInterval[0].type]
+    ellipsis: true,
+    width: 130,
+    render: (text, record) => {
+      return typeArr[record.type]
     }
   },
   {
-    title: '日期',
+    title: () => <span title="日期">日期</span>,
     dataIndex: 'date',
+    ellipsis: true,
     render: (text, record) => {
-      return (
-        record.admitInterval && renderDateText(record.admitInterval[0].date)
-      )
+      return renderDateText(record.date)
     }
   },
   {
-    title: '时间',
+    title: () => <span title="时间">时间</span>,
     dataIndex: 'time',
-    width: 150,
+    ellipsis: true,
     render: (text, record) => {
-      return (
-        record.admitInterval &&
-        `${record.admitInterval[0].startTime} - ${record.admitInterval[0].endTime}`
-      )
+      return `${record.startTime} - ${record.endTime}`
     }
-  }, */
+  },
   {
-    title: '描述',
+    title: () => <span title="描述">描述</span>,
+    ellipsis: true,
     dataIndex: 'description'
   }
 ]

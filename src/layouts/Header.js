@@ -226,7 +226,12 @@ export default class Header extends React.Component {
   render() {
     return (
       <Layout.Header className="header">
-        <div className="logo">
+        <div
+          className="logo"
+          onClick={() => {
+            return this.props.history.push('/dashboard')
+          }}
+        >
           <span className="text">安全虚拟桌面管理</span>
         </div>
         <Menu mode="horizontal" className="header-menu">
@@ -274,7 +279,8 @@ export default class Header extends React.Component {
             <Dropdown overlay={this.renderUserInfo()} placement="bottomCenter">
               <div>
                 <Icon type="user" />
-                <span>{getUserFromlocal()}</span>
+                <span>{getUserFromlocal()}</span>&nbsp;
+                <Icon type="caret-down" />
               </div>
             </Dropdown>
           </Menu.Item>

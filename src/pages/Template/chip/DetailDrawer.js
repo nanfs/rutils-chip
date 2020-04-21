@@ -44,7 +44,7 @@ export default class DetailDrawer extends React.Component {
                   模板名称：
                 </Col>
                 <Col span={8} className="dms-detail-value">
-                  <Tooltip title={data.name}>
+                  <Tooltip title={data.name} placement="topLeft">
                     <span>{data.name}</span>
                   </Tooltip>
                 </Col>
@@ -62,7 +62,7 @@ export default class DetailDrawer extends React.Component {
                   父模板：
                 </Col>
                 <Col span={8} className="dms-detail-value">
-                  <Tooltip title={data.parentName}>
+                  <Tooltip title={data.parentName} placement="topLeft">
                     <span>{data.parentName}</span>
                   </Tooltip>
                 </Col>
@@ -70,7 +70,7 @@ export default class DetailDrawer extends React.Component {
                   数据中心：
                 </Col>
                 <Col span={8} className="dms-detail-value">
-                  <Tooltip title={data.datacenterName}>
+                  <Tooltip title={data.datacenterName} placement="topLeft">
                     <span>{data.datacenterName}</span>
                   </Tooltip>
                 </Col>
@@ -80,7 +80,7 @@ export default class DetailDrawer extends React.Component {
                   集群：
                 </Col>
                 <Col span={8} className="dms-detail-value">
-                  <Tooltip title={data.clusterName}>
+                  <Tooltip title={data.clusterName} placement="topLeft">
                     <span>{data.clusterName}</span>
                   </Tooltip>
                 </Col>
@@ -89,17 +89,23 @@ export default class DetailDrawer extends React.Component {
                 </Col>
                 {data.status == '1' && (
                   <Col span={8} className="dms-detail-value">
-                    <Icon type="lock" className="lock" /> 锁定
+                    <Tooltip title={'锁定'}>
+                      <span>锁定</span>
+                    </Tooltip>
                   </Col>
                 )}
                 {data.status == '0' && (
                   <Col span={8} className="dms-detail-value can-use">
-                    <Icon type="check-circle" /> 可用
+                    <Tooltip title={'可用'}>
+                      <span>可用</span>
+                    </Tooltip>
                   </Col>
                 )}
                 {data.status == '2' && (
                   <Col span={8} className="dms-detail-value safety">
-                    <Icon type="safety" /> 合法
+                    <Tooltip title={'合法'}>
+                      <span>合法</span>
+                    </Tooltip>
                   </Col>
                 )}
               </Row>

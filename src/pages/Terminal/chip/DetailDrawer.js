@@ -81,7 +81,7 @@ export default class DetailDrawer extends React.Component {
                   终端名称：
                 </Col>
                 <Col span={8} className="dms-detail-value">
-                  <Tooltip title={initValues.name}>
+                  <Tooltip title={initValues.name} placement="topLeft">
                     <span>{initValues.name}</span>
                   </Tooltip>
                 </Col>
@@ -89,7 +89,7 @@ export default class DetailDrawer extends React.Component {
                   序列号：
                 </Col>
                 <Col span={8} className="dms-detail-value">
-                  <Tooltip title={initValues.sn}>
+                  <Tooltip title={initValues.sn} placement="topLeft">
                     <span>{initValues.sn}</span>
                   </Tooltip>
                 </Col>
@@ -99,7 +99,7 @@ export default class DetailDrawer extends React.Component {
                   IP：
                 </Col>
                 <Col span={8} className="dms-detail-value">
-                  <Tooltip title={initValues.ip}>
+                  <Tooltip title={initValues.ip} placement="topLeft">
                     <span>{initValues.ip}</span>
                   </Tooltip>
                 </Col>
@@ -107,7 +107,7 @@ export default class DetailDrawer extends React.Component {
                   物理地址：
                 </Col>
                 <Col span={8} className="dms-detail-value">
-                  <Tooltip title={initValues.mac}>
+                  <Tooltip title={initValues.mac} placement="topLeft">
                     <span>{initValues.mac}</span>
                   </Tooltip>
                 </Col>
@@ -117,7 +117,7 @@ export default class DetailDrawer extends React.Component {
                   终端类型：
                 </Col>
                 <Col span={8} className="dms-detail-value">
-                  <Tooltip title={initValues.terminalType}>
+                  <Tooltip title={initValues.terminalType} placement="topLeft">
                     <span>{initValues.terminalType}</span>
                   </Tooltip>
                 </Col>
@@ -125,7 +125,7 @@ export default class DetailDrawer extends React.Component {
                   位置：
                 </Col>
                 <Col span={8} className="dms-detail-value">
-                  <Tooltip title={initValues.location}>
+                  <Tooltip title={initValues.location} placement="topLeft">
                     <span>{initValues.location}</span>
                   </Tooltip>
                 </Col>

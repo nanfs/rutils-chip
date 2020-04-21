@@ -35,7 +35,7 @@ export default class Login extends Component {
               <span className="company-logo"></span>
               <p>
                 <span className="login-line line-left"></span>
-                电科云（北京）科技有限公司
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;电科云（北京）科技有限公司&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <span className="login-line line-right"></span>
               </p>
             </div>

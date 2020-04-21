@@ -30,6 +30,9 @@ export const detailUserColumns = [
   {
     title: '域',
     ellipsis: true,
-    dataIndex: 'domain'
+    dataIndex: 'domain',
+    render: text => {
+      return text.replace(/internal-authz/g, '本地组(internal)')
+    }
   }
 ]

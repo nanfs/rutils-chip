@@ -80,7 +80,7 @@ export default class SetUserDrawer extends React.Component {
     const { totalSelection } = this.state
     return totalSelection.map(item => {
       const [, username, , , , domain] = item.split('&')
-      const domainFix = domain === 'internal-authz' ? '@本地组' : '' // 后端返回的ad域的username中带了@aa.com
+      const domainFix = domain === 'internal-authz' ? '@本地组(internal)' : '' // 后端返回的ad域的username中带了@aa.com
       return (
         <Tag
           key={item}

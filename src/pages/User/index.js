@@ -160,7 +160,7 @@ export default class User extends React.Component {
           // notification.success({ message: '查询域成功' })
           const domainlist = res.data.map(item => {
             const obj = {}
-            obj.label = item === 'internal' ? '本地组' : item
+            obj.label = item === 'internal' ? '本地组(internal)' : item
             obj.value = item
             obj.id = item
             obj.title = item
@@ -616,7 +616,7 @@ export default class User extends React.Component {
                 onClose={this.onBack}
                 onSuccess={this.onSuccess}
                 nodeData={groupTreeData}
-                domainlist={[{ value: 'internal', label: '本地组' }]}
+                domainlist={[{ value: 'internal', label: '本地组(internal)' }]}
               />
               <EditDrawer
                 onRef={ref => {
@@ -626,7 +626,7 @@ export default class User extends React.Component {
                 onSuccess={this.onSuccess}
                 initValues={initValues}
                 nodeData={groupTreeData}
-                domainlist={[{ value: 'internal', label: '本地组' }]}
+                domainlist={[{ value: 'internal', label: '本地组(internal)' }]}
               />
               <DetailDrawer
                 onRef={ref => {

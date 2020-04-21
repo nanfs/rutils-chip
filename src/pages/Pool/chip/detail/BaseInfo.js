@@ -43,7 +43,10 @@ export default class BaseInfo extends React.Component {
       {
         title: '域',
         ellipsis: true,
-        dataIndex: 'domain'
+        dataIndex: 'domain',
+        render: text => {
+          return text.replace(/internal-authz/g, '本地组(internal)')
+        }
       }
     ]
     const { loading, data = {} } = this.state || {}

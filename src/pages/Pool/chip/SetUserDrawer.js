@@ -128,7 +128,7 @@ export default class SetUserDrawer extends React.Component {
               selection: totalSelection
             }
           }),
-          () => this.userTablex.replace(this.state.tableCfg)
+          () => this.userTablex.refresh(this.state.tableCfg)
         )
       })
       .catch(error => {

@@ -163,6 +163,19 @@ export default class Desktop extends React.Component {
             })
             .catch(error => {
               message.error(error.message || error)
+              if (error.type === 'timeout') {
+                self.tablex.refresh(self.state.tableCfg).then(delRes => {
+                  // 如果删除后没有桌面 则重新请求桌面池
+                  if (!delRes.data.total) {
+                    notification.success({
+                      message: '已删除池内所有虚拟机, 池自动删除'
+                    })
+                    setTimeout(() => {
+                      self.props.onDeleteAll()
+                    }, 1000)
+                  }
+                })
+              }
               resolve()
               console.log(error)
             })

@@ -143,6 +143,8 @@ export default class tcLog extends React.Component {
             })
             .catch(error => {
               message.error(error.message || error)
+              error.type === 'timeout' &&
+                self.tablex.refresh(self.state.tableCfg)
               resolve()
               console.log(error)
             })

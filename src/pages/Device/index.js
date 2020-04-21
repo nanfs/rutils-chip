@@ -163,6 +163,8 @@ export default class Device extends React.Component {
             })
             .catch(error => {
               message.error(error.message || error)
+              error.type === 'timeout' &&
+                self.tablex.refresh(self.state.tableCfg)
               console.log(error)
               resolve()
             })

@@ -137,7 +137,7 @@ export default class SetUserDrawer extends React.Component {
           message.error(error.message || error)
         })
     } else {
-      this.userTablex.refresh(this.state.tableCfg)
+      setTimeout(() => this.userTablex.refresh(this.state.tableCfg), 0)
     }
   }
 

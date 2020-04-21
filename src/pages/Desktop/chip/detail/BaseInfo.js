@@ -137,7 +137,7 @@ export default class BaseInfo extends React.Component {
               桌面名称：
             </Col>
             <Col span={8} className="dms-detail-value">
-              <Tooltip title={data.name}>
+              <Tooltip title={data.name} placement="topLeft">
                 <span>{data.name}</span>
               </Tooltip>
             </Col>
@@ -145,7 +145,7 @@ export default class BaseInfo extends React.Component {
               数据中心：
             </Col>
             <Col span={8} className="dms-detail-value">
-              <Tooltip title={data.datacenterName}>
+              <Tooltip title={data.datacenterName} placement="topLeft">
                 <span>{data.datacenterName}</span>
               </Tooltip>
             </Col>
@@ -156,7 +156,10 @@ export default class BaseInfo extends React.Component {
             </Col>
             <Col span={8} className="dms-detail-value">
               {/* 通过网络信息里面取得MAC信息 */}
-              <Tooltip title={data.network?.map(item => item.mac).join(',')}>
+              <Tooltip
+                title={data.network?.map(item => item.mac).join(',')}
+                placement="topLeft"
+              >
                 <span>{data.network?.map(item => item.mac).join(',')}</span>
               </Tooltip>
             </Col>
@@ -164,7 +167,7 @@ export default class BaseInfo extends React.Component {
               操作系统：
             </Col>
             <Col span={8} className="dms-detail-value">
-              <Tooltip title={osTextRender(data.os)}>
+              <Tooltip title={osTextRender(data.os)} placement="topLeft">
                 <span>{osTextRender(data.os)}</span>
               </Tooltip>
             </Col>
@@ -174,7 +177,7 @@ export default class BaseInfo extends React.Component {
               模板：
             </Col>
             <Col span={8} className="dms-detail-value">
-              <Tooltip title={data.templateName}>
+              <Tooltip title={data.templateName} placement="topLeft">
                 <span>{data.templateName}</span>
               </Tooltip>
             </Col>
@@ -182,7 +185,7 @@ export default class BaseInfo extends React.Component {
               集群：
             </Col>
             <Col span={8} className="dms-detail-value">
-              <Tooltip title={data.clusterName}>
+              <Tooltip title={data.clusterName} placement="topLeft">
                 <span>{data.clusterName}</span>
               </Tooltip>
             </Col>
@@ -192,7 +195,7 @@ export default class BaseInfo extends React.Component {
               ID：
             </Col>
             <Col span={8} className="dms-detail-value">
-              <Tooltip title={data.id}>
+              <Tooltip title={data.id} placement="topLeft">
                 <span>{data.id}</span>
               </Tooltip>
             </Col>
@@ -200,7 +203,7 @@ export default class BaseInfo extends React.Component {
               CPU：
             </Col>
             <Col span={8} className="dms-detail-value">
-              <Tooltip title={data.cpuCores}>
+              <Tooltip title={`${data.cpuCores}${'核'}`}>
                 <span>{data.cpuCores} 核</span>
               </Tooltip>
             </Col>
@@ -210,7 +213,7 @@ export default class BaseInfo extends React.Component {
               IP：
             </Col>
             <Col span={8} className="dms-detail-value">
-              <Tooltip title={data.ip}>
+              <Tooltip title={data.ip} placement="topLeft">
                 <span>{data.ip}</span>
               </Tooltip>
             </Col>
@@ -218,7 +221,7 @@ export default class BaseInfo extends React.Component {
               内存：
             </Col>
             <Col span={8} className="dms-detail-value">
-              <Tooltip title={data.memory}>
+              <Tooltip title={`${data.memory}${'G'}`}>
                 <span>{data.memory} G</span>
               </Tooltip>
             </Col>
@@ -235,6 +238,7 @@ export default class BaseInfo extends React.Component {
                     .map(item => `${item.kind}/${item.name}`)
                     .join(',')
                 }
+                placement="topLeft"
               >
                 <span>
                   {data.network &&

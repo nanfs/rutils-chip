@@ -1,13 +1,5 @@
 import React from 'react'
-import {
-  Button,
-  notification,
-  Modal,
-  message,
-  Menu,
-  Dropdown,
-  Icon
-} from 'antd'
+import { Button, notification, Modal, message } from 'antd'
 import { Tablex, InnerPath } from '@/components'
 import AddDrawer from './chip/AddDrawer'
 import DetailDrawer from './chip/DetailDrawer'
@@ -42,22 +34,6 @@ export default class Pool extends React.Component {
     width: 180,
     dataIndex: 'action',
     render: (text, record) => {
-      // const moreAction = (
-      //   <Menu>
-      //     <Menu.Item
-      //       key="0"
-      //       onClick={() => this.setUser(record.id, record.name)}
-      //     >
-      //       分配用户
-      //     </Menu.Item>
-      //     <Menu.Item
-      //       key="1"
-      //       onClick={() => this.deletePool(record.id, '确定删除本条数据?')}
-      //     >
-      //       删除
-      //     </Menu.Item>
-      //   </Menu>
-      // )
       return (
         <span className="opration-btn">
           <a onClick={() => this.editPool(record.id, record.name)}>编辑</a>
@@ -65,12 +41,6 @@ export default class Pool extends React.Component {
           <a onClick={() => this.deletePool(record.id, '确定删除本条数据?')}>
             删除
           </a>
-          {/*
-          <Dropdown overlay={moreAction} placement="bottomRight">
-            <a>
-              更多 <Icon type="down" />
-            </a>
-          </Dropdown> */}
         </span>
       )
     }
@@ -82,6 +52,7 @@ export default class Pool extends React.Component {
     tableCfg: createTableCfg({
       columns: this.columnsArr,
       apiMethod,
+      hasRowSelection: false, // 桌面池没有 多选框
       paging: { size: 10 },
       pageSizeOptions: ['5', '10', '20', '50']
     }),
@@ -154,6 +125,7 @@ export default class Pool extends React.Component {
             })
             .catch(error => {
               message.error(error.message || error)
+              self.tablex.refresh(self.state.tableCfg)
               console.log(error)
               resolve()
             })

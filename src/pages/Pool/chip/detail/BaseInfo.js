@@ -54,7 +54,7 @@ export default class BaseInfo extends React.Component {
             桌面池名称：
           </Col>
           <Col span={8} className="dms-detail-value">
-            <Tooltip title={data.name}>
+            <Tooltip title={data.name} placement="topLeft">
               <span>{data.name}</span>
             </Tooltip>
           </Col>
@@ -72,7 +72,7 @@ export default class BaseInfo extends React.Component {
             模板：
           </Col>
           <Col span={8} className="dms-detail-value">
-            <Tooltip title={data.templateName}>
+            <Tooltip title={data.templateName} placement="topLeft">
               <span>{data.templateName}</span>
             </Tooltip>
           </Col>
@@ -108,8 +108,8 @@ export default class BaseInfo extends React.Component {
             CPU：
           </Col>
           <Col span={8} className="dms-detail-value">
-            <Tooltip title={data.cpuCores}>
-              <span>{data.cpuCores}</span>
+            <Tooltip title={`${data.cpuCores}${'核'}`}>
+              <span>{data.cpuCores} 核</span>
             </Tooltip>
           </Col>
 
@@ -117,7 +117,7 @@ export default class BaseInfo extends React.Component {
             内存：
           </Col>
           <Col span={8} className="dms-detail-value">
-            <Tooltip title={data.memory}>
+            <Tooltip title={`${data.memory}${'G'}`}>
               <span>{data.memory} G</span>
             </Tooltip>
           </Col>
@@ -127,7 +127,7 @@ export default class BaseInfo extends React.Component {
             ID：
           </Col>
           <Col span={8} className="dms-detail-value">
-            <Tooltip title={data.id}>
+            <Tooltip title={data.id} placement="topLeft">
               <span>{data.id}</span>
             </Tooltip>
           </Col>
@@ -135,7 +135,7 @@ export default class BaseInfo extends React.Component {
             描述：
           </Col>
           <Col span={8} className="dms-detail-value">
-            <Tooltip title={data.description}>
+            <Tooltip title={data.description} placement="topLeft">
               <span>{data.description}</span>
             </Tooltip>
           </Col>

@@ -105,6 +105,10 @@ export function getColumns(isPoolVmlist = false) {
       width: 100,
       dataIndex: 'isConsole',
       ellipsis: true,
+      filters: [
+        { value: 'true', text: '已连接' },
+        { value: 'false', text: '未连接' }
+      ],
       render: (text, record) => {
         const consoleContent = record.clientIp ? (
           <Popover content={record.clientIp}>
@@ -382,7 +386,6 @@ export function vmDisabledButton(selection, selectData) {
   }
   selectData.forEach(item => {
     const disabledAction = vmDisableAction(item)
-    console.log('disabledAction', disabledAction)
     disabledButton = {
       ...disabledButton,
       ...disabledAction
@@ -400,9 +403,10 @@ export function vmDisabledButton(selection, selectData) {
  * 排序转换 只有一个排序条件 安照后端排序转化 asc  desc
  * 过滤状态 将状态转为一维数组
  * 过滤表格列 如果有过滤表格列 返回最新表格列
+ * 是否已连接 处理 只发送单选一项 选择两项前端显示 但不发送请求
  */
 export function vmFilterSorterTransform(filter, sorter, isPoolVmlist = false) {
-  const { clusterName, hostName, datacenterName } = filter
+  const { clusterName, hostName, datacenterName, isConsole } = filter
   let searchs = {}
   const statusList = []
   let columnsList = [...getColumns(isPoolVmlist)]
@@ -424,6 +428,7 @@ export function vmFilterSorterTransform(filter, sorter, isPoolVmlist = false) {
     status: statusList,
     clusters: clusterName,
     hosts: hostName,
+    isConsole: isConsole?.length === 1 ? isConsole[0] : undefined,
     datacenters: datacenterName
   }
   if (filter.action) {

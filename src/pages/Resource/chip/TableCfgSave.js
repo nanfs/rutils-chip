@@ -49,7 +49,7 @@ export const columnsSave = [
     render: text => storageTypeRender(text)
   },
   {
-    title: () => <span title="使用情况">使用情况</span>,
+    title: () => <span title="使用情况">使用情况 (已用/总量)</span>,
     dataIndex: 'usage',
     render: (text, record) => {
       return (

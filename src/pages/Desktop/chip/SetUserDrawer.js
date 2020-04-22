@@ -28,7 +28,8 @@ export default class SetUserDrawer extends React.Component {
       selection: [],
       searchs: { domain: 'internal' },
       pageSizeOptions: ['5', '10', '20', '50']
-    })
+    }),
+    searchPlaceholder: '请输入姓名或用户名'
   }
 
   onSelectChange = selection => {
@@ -51,7 +52,11 @@ export default class SetUserDrawer extends React.Component {
    * @memberof Vmlog
    */
   onSearchSelectChange = oldKey => {
-    console.log(this.state.tableCfg.searchs)
+    if (oldKey === 'internal') {
+      this.setState({ searchPlaceholder: '请输入姓名' })
+    } else {
+      this.setState({ searchPlaceholder: '请输入姓名或用户名' })
+    }
     const searchs = { ...this.state.tableCfg.searchs }
     delete searchs[oldKey]
     this.setState(
@@ -193,6 +198,7 @@ export default class SetUserDrawer extends React.Component {
 
   render() {
     const searchOptions = JSON.parse(sessionStorage.getItem('domains'))
+    console.log(this.state.searchPlaceholder)
     return (
       <Drawerx
         onRef={ref => {
@@ -202,14 +208,14 @@ export default class SetUserDrawer extends React.Component {
         onOk={this.setUser}
         onSuccess={this.props.onSuccess}
       >
-        <Formx className="pt15">
+        <Formx className="pt15 setUserForm">
           <TableWrap>
             <ToolBar>
               <SelectSearch
                 options={searchOptions}
                 onSelectChange={this.onSearchSelectChange}
                 onSearch={this.search}
-                placeholder={'请输入用户姓名'}
+                placeholder={this.state.searchPlaceholder}
               ></SelectSearch>
             </ToolBar>
             <Tablex

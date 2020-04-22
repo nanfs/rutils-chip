@@ -27,7 +27,8 @@ export default class SetUserDrawer extends React.Component {
       paging: { size: 10 },
       searchs: { domain: 'internal' },
       pageSizeOptions: ['5', '10', '20', '50']
-    })
+    }),
+    searchPlaceholder: '请输入姓名或用户名'
   }
 
   onSelectChange = selection => {
@@ -50,6 +51,11 @@ export default class SetUserDrawer extends React.Component {
    * @memberof Vmlog
    */
   onSearchSelectChange = oldKey => {
+    if (oldKey === 'internal') {
+      this.setState({ searchPlaceholder: '请输入姓名' })
+    } else {
+      this.setState({ searchPlaceholder: '请输入姓名或用户名' })
+    }
     const searchs = { ...this.state.tableCfg.searchs }
     delete searchs[oldKey]
     this.setState(
@@ -98,6 +104,7 @@ export default class SetUserDrawer extends React.Component {
   pop = poolId => {
     // 如果是一个 获取当前分配的用户
     this.drawer.show()
+    this.userTablex.replace(this.state.tableCfg)
     this.setState({
       poolId,
       totalSelection: [],
@@ -111,8 +118,6 @@ export default class SetUserDrawer extends React.Component {
         pageSizeOptions: ['5', '10', '20', '50']
       })
     })
-    setTimeout(() => this.userTablex.refresh(this.state.tableCfg), 0)
-
     poolsApi
       .detail(poolId)
       .then(res => {
@@ -128,7 +133,8 @@ export default class SetUserDrawer extends React.Component {
               ...draft.tableCfg,
               selection: totalSelection
             }
-          })
+          }),
+          () => this.userTablex.refresh(this.state.tableCfg)
         )
       })
       .catch(error => {
@@ -195,14 +201,14 @@ export default class SetUserDrawer extends React.Component {
         onOk={this.setUser}
         onSuccess={this.props.onSuccess}
       >
-        <Formx className="pt15">
+        <Formx className="pt15 setUserForm">
           <TableWrap>
             <ToolBar>
               <SelectSearch
                 options={searchOptions}
                 onSelectChange={this.onSearchSelectChange}
                 onSearch={this.search}
-                placeholder={'请输入用户姓名'}
+                placeholder={this.state.searchPlaceholder}
               ></SelectSearch>
             </ToolBar>
             <Tablex

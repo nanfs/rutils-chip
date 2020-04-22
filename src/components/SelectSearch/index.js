@@ -27,9 +27,11 @@ class SelectSearch extends React.Component {
    * @memberof SelectSearch
    */
   onSelectChange = searchKey => {
+    const { onSearch } = this.props
     const oldKey = this.state.searchKey
     this.setState({ searchKey })
     this.props.onSelectChange && this.props.onSelectChange(oldKey, searchKey)
+    onSearch && onSearch(searchKey, this.state?.value)
   }
 
   onChange = e => {

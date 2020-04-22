@@ -30,8 +30,8 @@ export default class DetailDrawer extends React.Component {
       .terminalsdetail(sn)
       .then(res => {
         if (res.success) {
-          const onlineTimeArray = res.data.onlineTime.split(',')
-          const offlineTimeArray = res.data.offlineTime.split(',')
+          const onlineTimeArray = res.data.onlineTime.split(',').reverse()
+          const offlineTimeArray = res.data.offlineTime.split(',').reverse()
           if (onlineTimeArray.length > offlineTimeArray.length) {
             for (
               let i = 0;
@@ -40,6 +40,9 @@ export default class DetailDrawer extends React.Component {
             ) {
               offlineTimeArray.unshift('')
             }
+          }
+          if (res.data.onlineStatus === '1') {
+            offlineTimeArray.unshift('')
           }
           const useTime = onlineTimeArray.map((element, index) => {
             return {

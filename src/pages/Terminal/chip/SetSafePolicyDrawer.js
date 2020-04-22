@@ -203,7 +203,7 @@ export default class SetSafePolicyDrawer extends React.Component {
                 checked={this.state.switchStatus}
                 onChange={this.switchChange}
               />
-              <span className="setsafepolicy-tips">
+              <span className="drawer-set-tips">
                 只允许设置同一种类型的外设控制策略
               </span>
             </ToolBar>

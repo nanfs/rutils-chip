@@ -217,6 +217,9 @@ export default class SetUserDrawer extends React.Component {
                 onSearch={this.search}
                 placeholder={this.state.searchPlaceholder}
               ></SelectSearch>
+              <span className="drawer-set-tips">
+                提示：本地组支持用户名或姓名搜索，AD域仅支持姓名搜索
+              </span>
             </ToolBar>
             <Tablex
               onRef={ref => {

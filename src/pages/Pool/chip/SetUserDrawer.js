@@ -104,7 +104,6 @@ export default class SetUserDrawer extends React.Component {
   pop = poolId => {
     // 如果是一个 获取当前分配的用户
     this.drawer.show()
-    this.userTablex.replace(this.state.tableCfg)
     this.setState({
       poolId,
       totalSelection: [],
@@ -118,6 +117,10 @@ export default class SetUserDrawer extends React.Component {
         pageSizeOptions: ['5', '10', '20', '50']
       })
     })
+    setTimeout(() => {
+      this.userTablex.refresh(this.state.tableCfg)
+    }, 0)
+
     poolsApi
       .detail(poolId)
       .then(res => {
@@ -133,8 +136,7 @@ export default class SetUserDrawer extends React.Component {
               ...draft.tableCfg,
               selection: totalSelection
             }
-          }),
-          () => this.userTablex.refresh(this.state.tableCfg)
+          })
         )
       })
       .catch(error => {

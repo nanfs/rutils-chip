@@ -114,7 +114,7 @@ class Formx extends React.Component {
         className={className}
         style={style}
       >
-        <Spin indicator={antIcon} spinning={submitting} tip="正在处理 !请稍后">
+        <Spin indicator={antIcon} spinning={submitting} tip="正在处理!请稍后">
           {React.Children.map(children, child =>
             this.renderFormItem(child, submitting, isParentShow)
           )}

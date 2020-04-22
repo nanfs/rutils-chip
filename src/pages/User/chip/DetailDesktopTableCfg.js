@@ -1,4 +1,5 @@
 import React from 'react'
+import { Popover } from 'antd'
 import userApi from '@/services/user'
 import { vmStatusRender } from '@/utils/tableRender'
 import { MyIcon } from '@/components'
@@ -30,18 +31,17 @@ export const detailDesktopColumns = [
     dataIndex: 'consolestatus',
     width: 180,
     render: (text, record) => {
-      const consoleContent =
-        record.consolestatus === '已连接' ? (
-          <div>
-            <MyIcon type="tc-connecting" component="svg" />
-            <span>已连接</span>{' '}
-          </div>
-        ) : (
-          <div>
-            <MyIcon type="storage-unattached" component="svg" />
-            <span>未连接</span>
-          </div>
-        )
+      const consoleContent = record.clientIp ? (
+        <Popover content={record.clientIp}>
+          <MyIcon type="tc-connecting" component="svg" />
+          <span title="已连接">已连接</span>
+        </Popover>
+      ) : (
+        <div className="ellipsis-noWhiteSpace">
+          <MyIcon type="storage-unattached" component="svg" />
+          <span title="未连接">未连接</span>
+        </div>
+      )
       return consoleContent
     }
   },

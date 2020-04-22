@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form, message } from 'antd'
+import { Form, message, Spin, Icon } from 'antd'
 
 const formItemLayout = {
   labelCol: {
@@ -74,24 +74,39 @@ class Formx extends React.Component {
           }
         })
       )
-      return React.cloneElement(child, {}, childNode)
+      return React.cloneElement(
+        child,
+        { disabled: true || child.props?.disabled || submitting },
+        childNode
+      )
     }
     if (child.props.children) {
       const sonNode = React.Children.map(child.props.children, son =>
         this.renderFormItem(son, submitting, isParentShow)
       )
-      return React.cloneElement(child, {}, sonNode)
+      return React.cloneElement(
+        child,
+        { disabled: child.props?.disabled || submitting },
+        sonNode
+      )
     }
     // 刷新除了 TODO
     // if (child.props && child.props.onRef) {
     //   return child
     // }
-    return isParentShow !== false && child
+    return (
+      isParentShow !== false &&
+      React.cloneElement(child, {
+        disabled: child.props?.disabled || submitting
+      })
+    )
   }
 
   render() {
     const { children, className, style, submitting, isParentShow } = this.props
     const formLayout = this.props.formItemLayout || formItemLayout
+    const antIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />
+
     return (
       <Form
         {...formLayout}
@@ -99,9 +114,11 @@ class Formx extends React.Component {
         className={className}
         style={style}
       >
-        {React.Children.map(children, child =>
-          this.renderFormItem(child, submitting, isParentShow)
-        )}
+        <Spin indicator={antIcon} spinning={submitting} tip="正在处理 !请稍后">
+          {React.Children.map(children, child =>
+            this.renderFormItem(child, submitting, isParentShow)
+          )}
+        </Spin>
       </Form>
     )
   }

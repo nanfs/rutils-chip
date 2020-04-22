@@ -299,7 +299,10 @@ class Tablex extends React.Component {
     const { total, size, current } = paging
     const rowSelection = {
       selectedRowKeys: selection,
-      onChange: this.onSelectChange
+      onChange: this.onSelectChange,
+      getCheckboxProps: () => ({
+        disabled: this.props.disabled
+      })
     }
     const { onChange } = this.props
     return (

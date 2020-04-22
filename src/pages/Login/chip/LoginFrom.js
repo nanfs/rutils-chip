@@ -91,6 +91,7 @@ export default class LoginForm extends React.Component {
         onRef={ref => {
           this.formx = ref
         }}
+        submitting={false}
         onSubmit={this.login}
         className={'login-form'}
       >

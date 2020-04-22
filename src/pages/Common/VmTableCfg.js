@@ -216,8 +216,10 @@ export function getMoreButton({
   setUserFn,
   openConsoleFn,
   attachIsoFn,
+  removePermissionFn,
   isInnerMore = false,
-  isDuplicated = false
+  isDuplicated = false,
+  isPoolVmlist = false
 }) {
   return (
     <Menu>
@@ -284,6 +286,14 @@ export function getMoreButton({
         创建模板
       </Menu.Item>
       <Menu.Item
+        key="7"
+        hidden={!isPoolVmlist}
+        disabled={disabledButton?.disabledRemovePermission}
+        onClick={removePermissionFn}
+      >
+        回收权限
+      </Menu.Item>
+      <Menu.Item
         key="10"
         onClick={deleteFn}
         disabled={disabledButton?.disabledDelete}
@@ -347,6 +357,13 @@ export function vmDisableAction(vmObj) {
       ...disabledButton,
       disabledDelete: true,
       disabledOpenConsole: true
+    }
+  }
+  // 不禁用感觉要方便点
+  if (!vmObj.assignedUsers) {
+    disabledButton = {
+      ...disabledButton,
+      disabledRemovePermission: true
     }
   }
   return disabledButton

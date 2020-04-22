@@ -64,5 +64,13 @@ export default {
         return qs.stringify(params, { arrayFormat: 'indices' })
       }
     })
+  },
+  removePermission(data) {
+    const { poolId, ...rest } = data
+    return axios({
+      url: `/pools/${poolId}/removePermissions`,
+      method: 'post',
+      data: qs.stringify(rest, { arrayFormat: 'indices', allowDots: true })
+    })
   }
 }

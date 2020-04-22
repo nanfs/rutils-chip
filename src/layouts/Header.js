@@ -9,27 +9,29 @@ import {
   Tabs,
   List,
   Avatar,
-  Skeleton
+  Skeleton,
+  Button
 } from 'antd'
+import { Link } from 'react-router-dom'
 import {
   getUserFromlocal,
   setUserToLocal,
   reloadAuthorized
 } from '@/utils/auth'
 import { wrapResponse } from '@/utils/tool'
-
 import ResetPwModal from './chip/ResetPwModal'
 import SystemModal from './chip/SystemModal'
 import AboutModal from './chip/AboutModal'
 import loginApi from '@/services/login'
 import tasksApi from '@/services/tasks'
+import vmlogsApi from '@/services/vmlogs'
 
 const { TabPane } = Tabs
 export default class Header extends React.Component {
   setTaskListShow = e => {
     e.nativeEvent.stopImmediatePropagation()
     clearTimeout(this.taskListTimer)
-    this.setState({ taskVisible: true })
+    this.setState({ logVisible: false, taskVisible: true })
   }
 
   setTaskListClose = e => {
@@ -40,13 +42,22 @@ export default class Header extends React.Component {
     )
   }
 
-  toggleTaskList = e => {
+  setLogListShow = e => {
     e.nativeEvent.stopImmediatePropagation()
-    this.setState({ taskVisible: true })
+    clearTimeout(this.logListTimer)
+    this.setState({ taskVisible: false, logVisible: true })
+  }
+
+  setLogListClose = e => {
+    e.nativeEvent.stopImmediatePropagation()
+    this.logListTimer = setTimeout(
+      () => this.setState({ logVisible: false }),
+      500
+    )
   }
 
   onDocumentClick = () => {
-    this.setState({ taskVisible: false })
+    this.setState({ taskVisible: false, logVisible: false })
   }
 
   /**
@@ -58,6 +69,7 @@ export default class Header extends React.Component {
     window.addEventListener('click', this.onDocumentClick)
     this.timer && clearInterval(this.timer)
     this.getTasks()
+    this.getLogs()
     this.timer = this.loopGetTask()
   }
 
@@ -68,6 +80,7 @@ export default class Header extends React.Component {
   loopGetTask = () => {
     return setInterval(() => {
       this.getTasks()
+      this.getLogs()
     }, 5000)
   }
 
@@ -99,7 +112,7 @@ export default class Header extends React.Component {
             taskOnProgress,
             taskOnFinished,
             taskOnFailed,
-            taskTotal: taskOnProgress?.length
+            taskTotal: taskOnProgress?.length || taskOnFailed?.length
           })
         })
         .catch(error => {
@@ -107,6 +120,35 @@ export default class Header extends React.Component {
           console.log(error)
         })
     )
+  }
+
+  /**
+   *获取错误日志列表
+   *taskTotal 显示正在进行的任务
+   * @memberof Header
+   */
+  getLogs = () => {
+    vmlogsApi
+      .list({
+        current: 1,
+        size: 5,
+        getType: 'reload',
+        severity: ['2'],
+        message: '虚拟机'
+      })
+      .then(res =>
+        wrapResponse(res)
+          .then(() => {
+            this.setState({
+              logList: res.data.records,
+              logTotal: res.data.total
+            })
+          })
+          .catch(error => {
+            message.error(error.message || error)
+            console.log(error)
+          })
+      )
   }
 
   /**
@@ -181,7 +223,7 @@ export default class Header extends React.Component {
     const { taskOnProgress, taskOnFinished, taskOnFailed } = this.state || {}
     return (
       <div
-        className="header-task-list"
+        className="header-drop-list"
         onClick={() => false}
         onMouseLeave={this.setTaskListClose}
         onMouseEnter={this.setTaskListShow}
@@ -197,6 +239,62 @@ export default class Header extends React.Component {
             {this.renderTaskItem(taskOnFailed, 'FAILED')}
           </TabPane>
         </Tabs>
+      </div>
+    )
+  }
+
+  renderLogList = () => {
+    const { logList } = this.state || {}
+    return (
+      <div
+        className="header-drop-list"
+        onClick={() => false}
+        onMouseLeave={this.setLogListClose}
+        onMouseEnter={this.setLogListShow}
+      >
+        <List
+          className="demo-loadmore-list"
+          itemLayout="horizontal"
+          loadMore={this.loadMore}
+          dataSource={logList}
+          renderItem={item => (
+            <List.Item>
+              <Link
+                to={{
+                  pathname: '/vmlog',
+                  searchs: {
+                    severity: ['2'],
+                    message: item.message
+                  }
+                }}
+                replace
+              >
+                <List.Item.Meta
+                  avatar={
+                    <Avatar style={{ backgroundColor: '#f50' }}>
+                      <Icon type="close" />
+                    </Avatar>
+                  }
+                  title={item.logTime}
+                  description={item.message}
+                />
+              </Link>
+            </List.Item>
+          )}
+        />
+        <Button className="list-more-btn" block>
+          <Link
+            to={{
+              pathname: '/vmlog',
+              searchs: {
+                severity: ['2']
+              }
+            }}
+            replace
+          >
+            查看更多
+          </Link>
+        </Button>
       </div>
     )
   }
@@ -245,14 +343,40 @@ export default class Header extends React.Component {
               onMouseLeave={this.setTaskListClose}
             >
               <div
-                onClick={this.toggleTaskList}
                 className={
                   this.state?.taskVisible ? 'drop-item active' : 'drop-item'
                 }
               >
-                <Badge count={this.state?.taskTotal} offset={[5, 0]}>
+                <Badge
+                  count={this.state?.taskTotal}
+                  offset={[5, 0]}
+                  className={
+                    this.state?.taskOnProgress?.length && 'count-onprogress'
+                  }
+                >
                   <Icon type="bell" />
                   任务
+                </Badge>
+              </div>
+            </Dropdown>
+          </Menu.Item>
+          <Menu.Item key="logs">
+            <Dropdown
+              overlay={this.renderLogList()}
+              placement="bottomCenter"
+              visible={this.state?.logVisible}
+              onOverlayClick={this.setLogListShow}
+              onMouseEnter={this.setLogListShow}
+              onMouseLeave={this.setLogListClose}
+            >
+              <div
+                className={
+                  this.state?.logVisible ? 'drop-item active' : 'drop-item'
+                }
+              >
+                <Badge count={this.state?.logTotal} offset={[5, 0]}>
+                  <Icon type="exception" />
+                  事件
                 </Badge>
               </div>
             </Dropdown>

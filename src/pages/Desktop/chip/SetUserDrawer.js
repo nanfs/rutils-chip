@@ -198,7 +198,6 @@ export default class SetUserDrawer extends React.Component {
 
   render() {
     const searchOptions = JSON.parse(sessionStorage.getItem('domains'))
-    console.log(this.state.searchPlaceholder)
     return (
       <Drawerx
         onRef={ref => {

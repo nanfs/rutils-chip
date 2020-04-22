@@ -4,7 +4,7 @@ import { Select, Input } from 'antd'
 const { Search, Group } = Input
 class SelectSearch extends React.Component {
   state = {
-    value: '',
+    value: this.props?.defaultValue || '',
     searchKey: this.props?.options[0]?.value || ''
   }
 

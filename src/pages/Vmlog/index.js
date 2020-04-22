@@ -10,15 +10,20 @@ const { RangePicker } = DatePicker
 const { confirm } = Modal
 
 export default class Vmlog extends React.Component {
-  state = {
-    tableCfg: createTableCfg({
-      rowKey: 'auditLogId',
-      columns,
-      apiMethod,
-      paging: { size: 10 },
-      pageSizeOptions: ['5', '10', '20', '50']
-    }),
-    disabledButton: {}
+  constructor(props) {
+    super(props)
+    columns[0].defaultFilteredValue = props.location?.searchs?.severity
+    this.state = {
+      tableCfg: createTableCfg({
+        rowKey: 'auditLogId',
+        columns,
+        apiMethod,
+        searchs: props.location?.searchs, // 接受传递过来搜索条件
+        paging: { size: 10 },
+        pageSizeOptions: ['5', '10', '20', '50']
+      }),
+      disabledButton: {}
+    }
   }
 
   searchOptions = [
@@ -170,6 +175,7 @@ export default class Vmlog extends React.Component {
                 placeholder={['开始时间', '结束时间']}
               ></RangePicker>
               <SelectSearch
+                defaultValue={this.props.location?.searchs?.message}
                 options={this.searchOptions}
                 onSelectChange={this.onSearchSelectChange}
                 onSearch={this.search}

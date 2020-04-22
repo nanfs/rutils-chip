@@ -22,13 +22,16 @@ body {
   background-image: url(../assets/header_mask.png);
   background-repeat: no-repeat;
   background-position: 90% bottom;
+  .count-onprogress .ant-badge-count {
+    background-color: #52c41a;
+  }
   .drop-item {
-    padding: 0px 15px;
+    padding: 0px 5px;
   }
   .drop-item.active {
     background: #1565c0;
   }
-  &-task-list {
+  &-drop-list {
     max-height: 500px;
     max-width: 400px;
     overflow-y: auto;
@@ -42,6 +45,34 @@ body {
 
     .ant-list-item {
       padding: 12px 24px;
+      transition: all ease 0.3s;
+      cursor: pointer;
+      &:hover {
+        box-shadow: 0 -1px 8px rgba(0, 0, 0, 0.15);
+        .ant-list-item-meta-avatar,
+        .ant-list-item-meta-title {
+          display: none;
+        }
+        .ant-list-item-meta-description {
+          padding-bottom: 10px;
+          -webkit-line-clamp: 5;
+          padding-bottom: 10px;
+        }
+      }
+      &-meta-description {
+        word-break: break-all;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 1;
+        overflow: hidden;
+        transition: all ease 0.3s;
+      }
+    }
+    .list-more-btn {
+      height: 50px;
+      line-height: 50px;
+      border: none;
+      border-top: 1px solid #d9d9d9;
     }
   }
   .logo {

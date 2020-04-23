@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form, message, Spin, Icon } from 'antd'
+import { Form, message } from 'antd'
 
 const formItemLayout = {
   labelCol: {
@@ -105,7 +105,6 @@ class Formx extends React.Component {
   render() {
     const { children, className, style, submitting, isParentShow } = this.props
     const formLayout = this.props.formItemLayout || formItemLayout
-    const antIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />
 
     return (
       <Form
@@ -114,11 +113,9 @@ class Formx extends React.Component {
         className={className}
         style={style}
       >
-        <Spin indicator={antIcon} spinning={submitting} tip="正在处理!请稍后">
-          {React.Children.map(children, child =>
-            this.renderFormItem(child, submitting, isParentShow)
-          )}
-        </Spin>
+        {React.Children.map(children, child =>
+          this.renderFormItem(child, submitting, isParentShow)
+        )}
       </Form>
     )
   }

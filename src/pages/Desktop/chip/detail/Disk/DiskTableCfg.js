@@ -3,7 +3,7 @@ import React from 'react'
 import { Icon, Progress } from 'antd'
 import { renderSatus } from '@/utils/tableRender'
 
-const diskStaus = [
+const diskStatus = [
   {
     value: 0,
     text: '未指派的',
@@ -42,7 +42,7 @@ export const columns = [
   {
     title: '状态',
     dataIndex: 'status',
-    render: text => renderSatus(diskStaus, text, true)
+    render: text => renderSatus(diskStatus, text, true)
   },
   {
     title: '大小(GB)',

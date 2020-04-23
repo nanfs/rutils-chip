@@ -168,9 +168,11 @@ class Tablex extends React.Component {
   // 重置选择 和页码
   search = tableCfg => {
     return new Promise(resolve => {
-      this.loadData(tableCfg).then(res => {
-        this.afterLoad(tableCfg, res).then(() => resolve(res))
-      })
+      this.setState({ paging: { ...this.state.paging, current: 1 } }, () =>
+        this.loadData(tableCfg).then(res => {
+          this.afterLoad(tableCfg, res).then(() => resolve(res))
+        })
+      )
     })
   }
 

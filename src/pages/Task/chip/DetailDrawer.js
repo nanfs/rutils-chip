@@ -116,7 +116,7 @@ export default class DetailDrawer extends React.Component {
           ...searchs
         }
       }),
-      () => this.detailTargetTablex.refresh(this.state.tableCfg)
+      () => this.detailTargetTablex.search(this.state.tableCfg)
     )
   }
 

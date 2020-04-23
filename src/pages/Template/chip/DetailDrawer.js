@@ -95,14 +95,14 @@ export default class DetailDrawer extends React.Component {
                   </Col>
                 )}
                 {data.status == '0' && (
-                  <Col span={8} className="dms-detail-value can-use">
+                  <Col span={8} className="dms-detail-value">
                     <Tooltip title={'可用'}>
                       <span>可用</span>
                     </Tooltip>
                   </Col>
                 )}
                 {data.status == '2' && (
-                  <Col span={8} className="dms-detail-value safety">
+                  <Col span={8} className="dms-detail-value">
                     <Tooltip title={'合法'}>
                       <span>合法</span>
                     </Tooltip>

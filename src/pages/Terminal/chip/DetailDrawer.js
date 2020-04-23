@@ -32,7 +32,7 @@ export default class DetailDrawer extends React.Component {
         if (res.success) {
           const onlineTimeArray = res.data.onlineTime.split(',').reverse()
           const offlineTimeArray = res.data.offlineTime.split(',').reverse()
-          if (onlineTimeArray.length > offlineTimeArray.length) {
+          /* if (onlineTimeArray.length > offlineTimeArray.length) {
             for (
               let i = 0;
               i < onlineTimeArray.length - offlineTimeArray.length;
@@ -40,7 +40,7 @@ export default class DetailDrawer extends React.Component {
             ) {
               offlineTimeArray.unshift('')
             }
-          }
+          } */
           if (res.data.onlineStatus === '1') {
             offlineTimeArray.unshift('')
           }

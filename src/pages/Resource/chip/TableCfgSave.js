@@ -54,7 +54,6 @@ export const columnsSave = [
     render: (text, record) => {
       return (
         <Progress
-          strokeColor="#40d00f"
           strokeWidth={16}
           percent={
             (+record.usedDiskSize /

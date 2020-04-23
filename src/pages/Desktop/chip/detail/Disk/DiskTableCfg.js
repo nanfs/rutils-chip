@@ -51,11 +51,12 @@ export const columns = [
     render: (text, record) => {
       return (
         <Progress
+          strokeColor="#40d00f"
           strokeWidth={16}
           percent={(record.actualSize / record.capacity) * 100}
           format={() => `${record.actualSize}G/${record.capacity}G`}
           status={
-            record.actualSize !== record.capacity ? 'active' : 'exception'
+            +(record.actualSize / record.capacity) < 80 ? 'active' : 'exception'
           }
         ></Progress>
       )

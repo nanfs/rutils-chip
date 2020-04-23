@@ -79,6 +79,7 @@ export const columnsCompute = [
     render: text => {
       return (
         <Progress
+          strokeColor="#40d00f"
           strokeWidth={16}
           percent={parseFloat(text)}
           format={() => `${text || 0}%`}
@@ -93,6 +94,7 @@ export const columnsCompute = [
     render: text => {
       return (
         <Progress
+          strokeColor="#40d00f"
           strokeWidth={16}
           percent={parseFloat(text)}
           format={() => `${text || 0}%`}

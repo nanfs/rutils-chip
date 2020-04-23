@@ -54,6 +54,7 @@ export const columnsSave = [
     render: (text, record) => {
       return (
         <Progress
+          strokeColor="#40d00f"
           strokeWidth={16}
           percent={
             (+record.usedDiskSize /
@@ -68,7 +69,13 @@ export const columnsSave = [
                 record.availableDiskSize * 1}G`
             }
           }}
-          status={record.availableDiskSize !== 0 ? 'active' : 'exception'}
+          status={
+            +record.usedDiskSize /
+              (record.usedDiskSize * 1 + record.availableDiskSize * 1) <
+            80
+              ? 'active'
+              : 'exception'
+          }
         ></Progress>
       )
     }

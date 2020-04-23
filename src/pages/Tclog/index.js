@@ -114,7 +114,7 @@ export default class tcLog extends React.Component {
           ...searchs
         }
       }),
-      () => this.tablex.refresh(this.state.tableCfg)
+      () => this.tablex.search(this.state.tableCfg)
     )
   }
 

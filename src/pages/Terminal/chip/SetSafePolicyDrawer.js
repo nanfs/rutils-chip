@@ -159,7 +159,7 @@ export default class SetSafePolicyDrawer extends React.Component {
           ...searchs
         }
       }),
-      () => this.deviceTablex.refresh(this.state.tableCfg)
+      () => this.deviceTablex.search(this.state.tableCfg)
     )
   }
 

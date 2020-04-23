@@ -8,14 +8,14 @@ const diskStaus = [
     value: 0,
     text: '未指派的',
     icon: 'api-fill',
-    color: 'info',
+    color: 'success',
     status: 'Unassigned'
   },
   {
     value: 1,
     text: '正常',
     icon: 'check-circle-fill',
-    color: 'success',
+    color: 'info',
     status: 'OK'
   },
   {
@@ -55,7 +55,7 @@ export const columns = [
           percent={(record.actualSize / record.capacity) * 100}
           format={() => `${record.actualSize}G/${record.capacity}G`}
           status={
-            record.actualSize !== record.capacity ? 'active' : 'exception'
+            +(record.actualSize / record.capacity) < 80 ? 'active' : 'exception'
           }
         ></Progress>
       )
@@ -68,7 +68,7 @@ export const columns = [
     render: text =>
       text ? (
         <span>
-          <Icon type="check-circle" className="table-icon-success" /> 是
+          <Icon type="check-circle" className="table-icon-info" /> 是
         </span>
       ) : (
         '否'

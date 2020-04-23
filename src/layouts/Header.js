@@ -292,7 +292,7 @@ export default class Header extends React.Component {
             }}
             replace
           >
-            查看更多
+            (当前显示最近5条)点击查看更多
           </Link>
         </Button>
       </div>
@@ -374,7 +374,7 @@ export default class Header extends React.Component {
                   this.state?.logVisible ? 'drop-item active' : 'drop-item'
                 }
               >
-                <Badge count={this.state?.logTotal} offset={[5, 0]}>
+                <Badge offset={[5, 0]}>
                   <Icon type="exception" />
                   事件
                 </Badge>

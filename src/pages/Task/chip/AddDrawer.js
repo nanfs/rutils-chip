@@ -99,7 +99,7 @@ export default class AddDrawer extends React.Component {
           ...searchs
         }
       }),
-      () => this.addTargetTablex.refresh(this.state.tableCfg)
+      () => this.addTargetTablex.search(this.state.tableCfg)
     )
   }
 

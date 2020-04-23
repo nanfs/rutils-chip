@@ -68,7 +68,13 @@ export const columnsSave = [
                 record.availableDiskSize * 1}G`
             }
           }}
-          status={record.availableDiskSize !== 0 ? 'active' : 'exception'}
+          status={
+            +record.usedDiskSize /
+              (record.usedDiskSize * 1 + record.availableDiskSize * 1) <
+            80
+              ? 'active'
+              : 'exception'
+          }
         ></Progress>
       )
     }

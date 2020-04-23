@@ -152,6 +152,7 @@ export function getColumns(isPoolVmlist = false) {
       render: text => {
         return (
           <Progress
+            strokeColor="#40d00f"
             strokeWidth={16}
             percent={+text || 0}
             format={() => `${text || 0}%`}
@@ -166,6 +167,7 @@ export function getColumns(isPoolVmlist = false) {
       render: text => {
         return (
           <Progress
+            strokeColor="#40d00f"
             strokeWidth={16}
             percent={+text || 0}
             format={() => `${text || 0}%`}

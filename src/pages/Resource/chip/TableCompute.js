@@ -31,7 +31,7 @@ export default class Resource extends React.Component {
           ...searchs
         }
       }),
-      () => this.tablexCompute.refresh(this.state.tableCfgCompute)
+      () => this.tablexCompute.search(this.state.tableCfgCompute)
     )
   }
 

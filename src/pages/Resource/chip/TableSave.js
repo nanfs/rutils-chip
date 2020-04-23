@@ -32,7 +32,7 @@ export default class Resource extends React.Component {
           ...searchs
         }
       }),
-      () => this.tablexSave.refresh(this.state.tableCfgSave)
+      () => this.tablexSave.search(this.state.tableCfgSave)
     )
   }
 

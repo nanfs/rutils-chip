@@ -1,5 +1,14 @@
 import React from 'react'
-import { Drawer, Col, Row, Button, notification, message } from 'antd'
+import {
+  Drawer,
+  Col,
+  Row,
+  Button,
+  notification,
+  message,
+  Spin,
+  Icon
+} from 'antd'
 import { wrapResponse } from '@/utils/tool'
 import './index.less'
 
@@ -164,6 +173,8 @@ class Drawerx extends React.Component {
     const setFormRef = ref => {
       this.formRef = ref
     }
+    const antIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />
+
     return (
       <Drawer
         closable={false}
@@ -176,8 +187,15 @@ class Drawerx extends React.Component {
         style={{ position: 'absolute' }}
         className="drawerx"
       >
-        {this.renderContent(setFormRef, this.state.show)}
-        {this.renderOption()}
+        <Spin
+          indicator={antIcon}
+          wrapperClassName="no-position"
+          spinning={this.state.submitting}
+          tip="正在处理!请稍后"
+        >
+          {this.renderContent(setFormRef, this.state.show)}
+          {this.renderOption()}
+        </Spin>
       </Drawer>
     )
   }

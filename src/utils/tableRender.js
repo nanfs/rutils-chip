@@ -183,7 +183,7 @@ export const vmStatusRender = status => {
     '16': 'vm-poweringdown'
   }
   return (
-    <span className="vt-bottom">
+    <span className="vt-bottom" title={vmStatusText[statusList[status]]}>
       <MyIcon
         type={statusList[status]}
         title={vmStatusText[statusList[status]] || 'null'}

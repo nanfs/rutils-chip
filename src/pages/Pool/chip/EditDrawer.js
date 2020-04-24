@@ -24,7 +24,7 @@ export default class EditDrawer extends React.Component {
 
   pop = poolId => {
     this.setState({ poolId })
-    this.drawer.show()
+    this.drawer.showAndWait()
     poolsApi
       .detail(poolId)
       .then(res => {
@@ -34,10 +34,12 @@ export default class EditDrawer extends React.Component {
           oldDeskTopNum: data.desktopNum
         })
         this.drawer.form.setFieldsValue({ ...data, desktopNum: 0 })
+        this.drawer.finished()
       })
       .catch(error => {
         message.error(error.message || error)
         console.log(error)
+        this.drawer.finished()
       })
   }
 

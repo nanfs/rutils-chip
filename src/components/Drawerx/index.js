@@ -55,6 +55,19 @@ class Drawerx extends React.Component {
     document.querySelector('.ant-drawer-body .ant-form').style = ''
   }
 
+  showAndWait = () => {
+    this.setState({
+      loading: true
+    })
+    this.show()
+  }
+
+  finished = () => {
+    this.setState({
+      loading: false
+    })
+  }
+
   break = error => {
     if (error) {
       message.error(error.message || error)
@@ -190,7 +203,7 @@ class Drawerx extends React.Component {
         <Spin
           indicator={antIcon}
           wrapperClassName="no-position"
-          spinning={this.state.submitting}
+          spinning={this.state.submitting || !!this.state.loading}
           tip="正在处理!请稍后"
         >
           {this.renderContent(setFormRef, this.state.show)}

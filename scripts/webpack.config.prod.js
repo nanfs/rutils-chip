@@ -19,7 +19,14 @@ const webpackConfigProd = {
       new TerserPlugin({
         cache: true,
         parallel: true,
-        sourceMap: true // Must be set to true if using source-maps in production
+        sourceMap: true, // Must be set to true if using source-maps in production,
+        terserOptions: {
+          compress: {
+            drop_console: true,
+            drop_debugger: true,
+            pure_funcs: ['console.log'] // 移除console
+          }
+        }
       })
     ]
   },

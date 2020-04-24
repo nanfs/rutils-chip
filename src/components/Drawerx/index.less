@@ -61,8 +61,12 @@
         color: #1890ff;
       }
     }
-    .user-tag {
-      margin-bottom: 10px;
+    .user-tag,.app-tag {
+      margin: 0 10px 10px;
+      width: 200px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
     /* .ant-tabs {
       padding: 0px 25px 10px;
@@ -102,5 +106,17 @@
     padding-left: 10px;
     vertical-align: middle;
     color: rgb(238, 28, 58);
+  }
+
+  .drawer-set-selected {
+    display: flex;
+    margin-bottom: 15px;
+
+    .drawer-set-selected-type {
+      min-width: 130px;
+      line-height: 26px;
+      text-align: right;
+      margin-right: 10px;
+    }
   }
 }

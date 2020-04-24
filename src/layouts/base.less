@@ -44,28 +44,16 @@ body {
     }
 
     .ant-list-item {
+      position: relative;
       padding: 12px 24px;
       transition: all ease 0.3s;
       min-height: 78px;
       cursor: pointer;
-      &:hover {
-        box-shadow: 0 -1px 8px rgba(0, 0, 0, 0.15);
-        .ant-list-item-meta-avatar,
-        .ant-list-item-meta-title {
-          display: none;
-        }
-        .ant-list-item-meta-description {
-          padding-bottom: 6px;
-          -webkit-line-clamp: 10;
-        }
-      }
       &-meta-description {
         word-break: break-all;
         display: -webkit-box;
         -webkit-box-orient: vertical;
-        -webkit-line-clamp: 1;
-        overflow: hidden;
-        transition: all ease 0.3s;
+        -webkit-line-clamp: 10;
       }
     }
     .list-more-btn {
@@ -251,8 +239,8 @@ body {
   margin-left: -100% !important;
   text-align: center !important;
 }
-.ant-progress-status-active .ant-progress-bg{
-  background-color:#b5e8a4 !important
+.ant-progress-status-active .ant-progress-bg {
+  background-color: #b5e8a4 !important;
 }
 .ant-progress-status-exception .ant-progress-text {
   color: #838487 !important;

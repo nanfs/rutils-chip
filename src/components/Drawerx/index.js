@@ -85,6 +85,7 @@ class Drawerx extends React.Component {
           form.resetFields()
         })
         .catch(() => {
+          console.log(res.message, res)
           message.error(res.message || '操作失败')
           this.setState({
             submitting: false
@@ -109,9 +110,8 @@ class Drawerx extends React.Component {
             this.break()
           }
         })
-        .catch(error => {
+        .catch(() => {
           this.break()
-          message.error(error.message || error)
         })
     } else {
       onOk && onOk()

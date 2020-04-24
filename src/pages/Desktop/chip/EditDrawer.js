@@ -19,7 +19,7 @@ export default class EditDrawer extends React.Component {
    * @memberof EditDrawer
    */
   pop = id => {
-    this.drawer.show()
+    this.drawer.showAndWait()
     desktopsApi.detail(id).then(res =>
       wrapResponse(res)
         .then(() => {
@@ -42,10 +42,12 @@ export default class EditDrawer extends React.Component {
           })
           this.drawer.form.setFieldsValue({ ...data, id, nic: nets })
           this.getNetwork()
+          this.drawer.finished()
         })
         .catch(error => {
           message.error(error.message || error)
           console.log(error)
+          this.drawer.finished()
         })
     )
   }

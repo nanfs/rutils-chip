@@ -42,7 +42,7 @@ export function getColumns(isPoolVmlist = false) {
     {
       title: () => <span title="状态">状态</span>,
       dataIndex: 'status',
-      width: '7%',
+      width: '8%',
       ellipsis: true,
       filters: [
         { value: [0, 13], text: '已关机' },

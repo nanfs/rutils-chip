@@ -38,7 +38,6 @@ export default class editDrawer extends React.Component {
       // isAdDomain = false
     } = data
     const domain = groupType
-    console.log(groupType)
     this.drawer.form.setFieldsValue({
       id,
       domain,

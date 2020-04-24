@@ -10,7 +10,8 @@ const iconStyle = {
 export const detailTeminalColumns = [
   {
     title: '名称',
-    dataIndex: 'name'
+    dataIndex: 'name',
+    ellipsis: true
   },
   {
     title: '状态',
@@ -53,7 +54,8 @@ export const detailTeminalColumns = [
   },
   {
     title: 'IP',
-    dataIndex: 'ip'
+    dataIndex: 'ip',
+    ellipsis: true
   },
   {
     title: '接入状态',
@@ -78,7 +80,8 @@ export const detailTeminalColumns = [
   },
   {
     title: '位置',
-    dataIndex: 'location'
+    dataIndex: 'location',
+    ellipsis: true
   },
   {
     title: '外设控制',

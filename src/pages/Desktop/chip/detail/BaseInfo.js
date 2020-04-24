@@ -272,6 +272,7 @@ export default class BaseInfo extends React.Component {
             pagination={{
               size: 'small',
               showSizeChanger: true,
+              defaultPageSize: 5,
               pageSizeOptions: ['5', '10', '20', '50']
             }}
             className="dms-detail-list-hasPagination"
@@ -286,6 +287,7 @@ export default class BaseInfo extends React.Component {
             pagination={{
               size: 'small',
               showSizeChanger: true,
+              defaultPageSize: 5,
               pageSizeOptions: ['5', '10', '20', '50']
             }}
             className="dms-detail-list-hasPagination"
@@ -297,7 +299,7 @@ export default class BaseInfo extends React.Component {
             <div>
               {data.appList &&
                 data.appList.split(',').map(item => (
-                  <Tag color="blue" key={item}>
+                  <Tag color="blue" key={item} className="app-tag" title={item}>
                     {item}
                   </Tag>
                 ))}

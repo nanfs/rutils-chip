@@ -162,7 +162,7 @@ export default class DetailDrawer extends React.Component {
                 </Col>
               </Row>
               {/* // TODO 终端未实现 */}
-              {/* 
+              {/*
           <Row className="dms-detail-row">
             <Col span={3} className="dms-detail-label">
               版本号：
@@ -216,6 +216,7 @@ export default class DetailDrawer extends React.Component {
                 pagination={{
                   size: 'small',
                   showSizeChanger: true,
+                  defaultPageSize: 5,
                   pageSizeOptions: ['5', '10', '20', '50']
                 }}
                 className="dms-detail-list-hasPagination"
@@ -231,6 +232,7 @@ export default class DetailDrawer extends React.Component {
                 pagination={{
                   size: 'small',
                   showSizeChanger: true,
+                  defaultPageSize: 5,
                   pageSizeOptions: ['5', '10', '20', '50']
                 }}
                 className="dms-detail-list-hasPagination"
@@ -244,6 +246,7 @@ export default class DetailDrawer extends React.Component {
                 pagination={{
                   size: 'small',
                   showSizeChanger: true,
+                  defaultPageSize: 5,
                   pageSizeOptions: ['5', '10', '20', '50']
                 }}
                 className="dms-detail-list-hasPagination"

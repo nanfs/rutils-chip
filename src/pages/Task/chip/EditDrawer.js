@@ -47,7 +47,7 @@ export default class EditDrawer extends React.Component {
    * @description 打开任务编辑抽屉，传入选中行数据回显表单
    */
   pop = data => {
-    this.drawer.show()
+    this.drawer.showAndWait()
     const { id, name, taskType, cron, description } = data
     let time = ''
     let weeks = []
@@ -98,12 +98,16 @@ export default class EditDrawer extends React.Component {
               selection: totalSelection
             }
           }),
-          () => this.editTargetTablex.replace(this.state.tableCfg)
+          () => {
+            this.editTargetTablex.replace(this.state.tableCfg)
+            this.drawer.finished()
+          }
         )
       })
       .catch(error => {
         message.error(error.message || error)
         console.log(error)
+        this.drawer.finished()
       })
   }
 

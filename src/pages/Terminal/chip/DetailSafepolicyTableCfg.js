@@ -33,7 +33,6 @@ export const detailSafepolicyColumns = [
     dataIndex: 'usb',
     width: 150,
     render: (text, record) => {
-      console.log(record)
       const info = record.usbExcept
         ? JSON.parse(record.usbExcept).map((item, index) => (
             <p key={index}>

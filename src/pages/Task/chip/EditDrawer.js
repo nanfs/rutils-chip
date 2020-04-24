@@ -236,7 +236,6 @@ export default class EditDrawer extends React.Component {
     const timeStrArr = dayjs(time)
       .format('HH:mm')
       .split(':')
-    debugger
     const weeksStr = weeks
       ? weeks
           .sort((a, b) => {

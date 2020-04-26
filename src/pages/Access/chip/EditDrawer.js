@@ -104,7 +104,11 @@ export default class EditDrawer extends React.Component {
           type,
           date:
             type === 0
-              ? week.join(',')
+              ? week
+                  .sort(function(a, b) {
+                    return a - b
+                  })
+                  .join(',')
               : day.map(item => item.format('YYYY-MM-DD')).join('<>'),
           startTime: dayjs(startTime).format('HH:mm'),
           endTime: dayjs(endTime).format('HH:mm')

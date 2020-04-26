@@ -42,7 +42,7 @@ export default class Resource extends React.Component {
   onTableChange = (a, filter) => {
     const statusList = []
     filter.status &&
-      filter.status.forEach(function(v, i) {
+      filter.status.forEach(function(v) {
         statusList.push(...v)
       })
     this.setState(
@@ -52,7 +52,7 @@ export default class Resource extends React.Component {
           status: statusList
         }
       }),
-      () => this.tablexCompute.refresh(this.state.tableCfgCompute)
+      () => this.tablexCompute.search(this.state.tableCfgCompute)
     )
   }
 

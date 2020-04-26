@@ -113,7 +113,7 @@ export default class Task extends React.Component {
           isReg: isRegList
         }
       }),
-      () => this.tablex.refresh(this.state.tableCfg)
+      () => this.tablex.search(this.state.tableCfg)
     )
   }
 

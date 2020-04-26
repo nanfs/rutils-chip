@@ -172,7 +172,7 @@ export default class EditDrawer extends React.Component {
           }
         }
       }),
-      () => this.editTargetTablex.refresh(this.state.tableCfg)
+      () => this.editTargetTablex.search(this.state.tableCfg)
     )
   }
 

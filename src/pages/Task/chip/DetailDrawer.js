@@ -126,7 +126,7 @@ export default class DetailDrawer extends React.Component {
    * @memberof Task
    * 筛选条件触发
    */
-  onTableChange = (page, filter, sorter) => {
+  onTableChange = (page, filter) => {
     const { clusterName, datacenterName } = filter
     this.setState(
       produce(draft => {
@@ -139,7 +139,7 @@ export default class DetailDrawer extends React.Component {
           }
         }
       }),
-      () => this.detailTargetTablex.refresh(this.state.tableCfg)
+      () => this.detailTargetTablex.search(this.state.tableCfg)
     )
   }
 

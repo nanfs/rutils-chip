@@ -98,7 +98,7 @@ export default class Desktop extends React.Component {
           }
         }
       }),
-      () => this.tablex.refresh(this.state.tableCfg)
+      () => this.tablex.search(this.state.tableCfg)
     )
   }
 

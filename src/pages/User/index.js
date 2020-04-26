@@ -251,7 +251,7 @@ export default class User extends React.Component {
             // ...filter
           }
         }),
-        () => this.tablex.refresh(this.state.tableCfg)
+        () => this.tablex.search(this.state.tableCfg)
       )
   }
 

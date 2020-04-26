@@ -140,7 +140,6 @@ export default class Desktop extends React.Component {
             }}
             tableCfg={this.state.tableCfg}
             onSelectChange={this.onSelectChange}
-            onChange={this.onTableChange}
           />
         </TableWrap>
         <AddDiskModal

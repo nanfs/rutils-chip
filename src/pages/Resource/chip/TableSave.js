@@ -53,7 +53,7 @@ export default class Resource extends React.Component {
           status: statusList
         }
       }),
-      () => this.tablexSave.refresh(this.state.tableCfgSave)
+      () => this.tablexSave.search(this.state.tableCfgSave)
     )
   }
 

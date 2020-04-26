@@ -60,6 +60,7 @@ export default class SetSafePolicyDrawer extends React.Component {
     const { totalSelection } = this.state
     return totalSelection.map(item => (
       <Tag
+        className="tag-wdith200"
         key={item}
         closable
         color="blue"

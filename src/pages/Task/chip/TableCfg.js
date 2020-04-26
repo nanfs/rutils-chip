@@ -47,6 +47,7 @@ export const columns = [
   {
     title: () => <span title="执行周期">执行周期</span>,
     dataIndex: 'cron',
+    ellipsis: true,
     render: text => {
       const str = text.split(' ')
       const weeks =
@@ -62,6 +63,7 @@ export const columns = [
   {
     title: () => <span title="执行时间">执行时间</span>,
     dataIndex: 'cron',
+    ellipsis: true,
     render: text => {
       const str = text.split(' ')
       return (

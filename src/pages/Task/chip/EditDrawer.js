@@ -11,6 +11,7 @@ import {
 } from '@/components'
 import taskApi from '@/services/task'
 import { required, checkName, textRange } from '@/utils/valid'
+import { week2num } from '@/utils/tool'
 import {
   taskTypeOptions,
   typeOptions2,
@@ -235,7 +236,13 @@ export default class EditDrawer extends React.Component {
     const timeStrArr = dayjs(time)
       .format('HH:mm')
       .split(':')
-    const weeksStr = weeks ? weeks.join(',') : ''
+    const weeksStr = weeks
+      ? weeks
+          .sort((a, b) => {
+            return week2num(a) - week2num(b)
+          })
+          .join(',')
+      : ''
     if (way === 0) {
       cron = `0 ${timeStrArr[1]} ${timeStrArr[0]} ? * ${weeksStr}`
     } else {

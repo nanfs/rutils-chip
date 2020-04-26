@@ -13,12 +13,44 @@ export default class Vmlog extends React.Component {
   constructor(props) {
     super(props)
     columns[0].defaultFilteredValue = props.location?.searchs?.severity
+    const defaultFilteredValue = []
+    const defaultColumnsFilters = []
+    for (const item of columns) {
+      if (!['message', 'severity', 'logTime'].includes(item.dataIndex)) {
+        defaultFilteredValue.push(item.dataIndex)
+        defaultColumnsFilters.push({
+          value: item.dataIndex,
+          text: item.title()
+        })
+      }
+    }
+
+    this.action = {
+      title: '操作',
+      width: 80,
+      dataIndex: 'action',
+      defaultFilteredValue,
+      filters: defaultColumnsFilters,
+      render: (text, record) => {
+        return (
+          <span className="opration-btn">
+            <a
+              onClick={() =>
+                this.deleteLogs(record.auditLogId, '确定删除本条数据?')
+              }
+            >
+              删除
+            </a>
+          </span>
+        )
+      }
+    }
     this.state = {
       tableCfg: createTableCfg({
         rowKey: 'auditLogId',
-        columns,
+        columns: [...columns, this.action],
         apiMethod,
-        searchs: props.location?.searchs, // 接受传递过来搜索条件
+        searchs: this.props.location?.searchs, // 接受传递过来搜索条件
         paging: { size: 10 },
         pageSizeOptions: ['5', '10', '20', '50']
       }),
@@ -56,17 +88,30 @@ export default class Vmlog extends React.Component {
    *
    * @memberof Vmlog
    */
-  onTableChange = (a, filter) => {
+  onTableChange = (page, filter) => {
     const severityList = []
-    severityList.push(...filter.severity)
+    filter.severity && severityList.push(...filter.severity)
+    const columnsList = columns.filter(item =>
+      filter.action.includes(item.dataIndex)
+    )
     this.setState(
       produce(draft => {
-        draft.tableCfg.searchs = {
-          ...draft.tableCfg.searchs,
-          severity: severityList
+        draft.tableCfg = {
+          ...draft.tableCfg,
+          columns: [
+            columns[0],
+            columns[1],
+            columns[2],
+            ...columnsList,
+            this.action
+          ],
+          search: {
+            ...draft.tableCfg.searchs,
+            severity: severityList
+          }
         }
       }),
-      () => this.tablex.refresh(this.state.tableCfg)
+      () => this.tablex.search(this.state.tableCfg)
     )
   }
 
@@ -122,11 +167,11 @@ export default class Vmlog extends React.Component {
     )
   }
 
-  deleteLogs = () => {
-    const ids = this.tablex.getSelection()
+  deleteLogs = (id, text) => {
+    const ids = Array.isArray(id) ? [...id] : [id]
     const self = this
     confirm({
-      title: '确定删除所选数据?',
+      title: text || '确定删除所选数据?',
       onOk() {
         return new Promise(resolve => {
           vmlogsApi
@@ -162,7 +207,7 @@ export default class Vmlog extends React.Component {
           <ToolBar>
             <BarLeft span={10}>
               <Button
-                onClick={this.deleteLogs}
+                onClick={() => this.deleteLogs(this.tablex.getSelection())}
                 disabled={disabledButton.disabledDelete}
               >
                 删除

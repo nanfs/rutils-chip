@@ -10,15 +10,50 @@ const { RangePicker } = DatePicker
 const { confirm } = Modal
 
 export default class tcLog extends React.Component {
-  state = {
-    tableCfg: createTableCfg({
-      columns,
-      apiMethod,
-      rowKey: 'tcLogId',
-      paging: { size: 10 },
-      pageSizeOptions: ['5', '10', '20', '50']
-    }),
-    disabledButton: {}
+  constructor(props) {
+    super(props)
+    const defaultFilteredValue = []
+    const defaultColumnsFilters = []
+    for (const item of columns) {
+      if (!['message', 'severity', 'logTime'].includes(item.dataIndex)) {
+        defaultFilteredValue.push(item.dataIndex)
+        defaultColumnsFilters.push({
+          value: item.dataIndex,
+          text: item.title()
+        })
+      }
+    }
+
+    this.action = {
+      title: '操作',
+      width: 80,
+      dataIndex: 'action',
+      defaultFilteredValue,
+      filters: defaultColumnsFilters,
+      render: (text, record) => {
+        return (
+          <span className="opration-btn">
+            <a
+              onClick={() =>
+                this.deleteLogs(record.tcLogId, '确定删除本条数据?')
+              }
+            >
+              删除
+            </a>
+          </span>
+        )
+      }
+    }
+    this.state = {
+      tableCfg: createTableCfg({
+        rowKey: 'tcLogId',
+        columns: [...columns, this.action],
+        apiMethod,
+        paging: { size: 10 },
+        pageSizeOptions: ['5', '10', '20', '50']
+      }),
+      disabledButton: {}
+    }
   }
 
   searchOptions = [
@@ -70,15 +105,28 @@ export default class tcLog extends React.Component {
    */
   onTableChange = (a, filter) => {
     const severityList = []
-    severityList.push(...filter.severity)
+    filter.severity && severityList.push(...filter.severity)
+    const columnsList = columns.filter(item =>
+      filter.action.includes(item.dataIndex)
+    )
     this.setState(
       produce(draft => {
-        draft.tableCfg.searchs = {
-          ...draft.tableCfg.searchs,
-          severity: severityList
+        draft.tableCfg = {
+          ...draft.tableCfg,
+          columns: [
+            columns[0],
+            columns[1],
+            columns[2],
+            ...columnsList,
+            this.action
+          ],
+          search: {
+            ...draft.tableCfg.searchs,
+            severity: severityList
+          }
         }
       }),
-      () => this.tablex.refresh(this.state.tableCfg)
+      () => this.tablex.search(this.state.tableCfg)
     )
   }
 
@@ -123,11 +171,12 @@ export default class tcLog extends React.Component {
    *
    * @memberof tcLog
    */
-  deleteLogs = () => {
-    const ids = this.tablex.getSelection()
+
+  deleteLogs = (id, text) => {
+    const ids = Array.isArray(id) ? [...id] : [id]
     const self = this
     confirm({
-      title: '确定删除所选数据?',
+      title: text || '确定删除所选数据?',
       onOk() {
         return new Promise(resolve => {
           tclogsApi
@@ -163,7 +212,7 @@ export default class tcLog extends React.Component {
           <ToolBar>
             <BarLeft span={10}>
               <Button
-                onClick={this.deleteLogs}
+                onClick={() => this.deleteLogs(this.tablex.getSelection())}
                 disabled={disabledButton.disabledDelete}
               >
                 删除

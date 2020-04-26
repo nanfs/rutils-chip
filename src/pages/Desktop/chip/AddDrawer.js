@@ -580,7 +580,7 @@ export default class AddDrawer extends React.Component {
             <Radiox
               options={diskOptions}
               hasInputNumber
-              numProps={{ max: 2000, min: 1 }}
+              numProps={{ max: 2000, min: 1, step: 10 }}
             />
           </Form.Item>
           <Form.Item prop="description" label="描述">

@@ -182,6 +182,7 @@ export default class AddDrawer extends React.Component {
       const [, name] = item.split('&')
       return (
         <Tag
+          className="tag-wdith200"
           color="blue"
           key={item}
           closable

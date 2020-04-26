@@ -83,6 +83,7 @@ export default class Radiox extends React.Component {
             placeholder=""
             min={numProps.min}
             max={numProps.max}
+            step={numProps.step}
             disabled={disabled}
             onChange={this.handleChange}
             value={this.state?.value}

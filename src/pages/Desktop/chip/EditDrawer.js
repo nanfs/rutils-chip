@@ -248,7 +248,7 @@ export default class EditDrawer extends React.Component {
             <Radiox
               options={memoryOptions}
               hasInputNumber
-              numProps={{ max: 100, min: 1 }}
+              numProps={{ max: 100, min: 1, step: 10 }}
             />
           </Form.Item>
           <Form.Item prop="description" label="描述">

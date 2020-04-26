@@ -299,7 +299,12 @@ export default class BaseInfo extends React.Component {
             <div>
               {data.appList &&
                 data.appList.split(',').map(item => (
-                  <Tag color="blue" key={item} className="app-tag" title={item}>
+                  <Tag
+                    color="blue"
+                    key={item}
+                    className="tag-width200"
+                    title={item}
+                  >
                     {item}
                   </Tag>
                 ))}

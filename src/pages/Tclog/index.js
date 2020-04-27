@@ -120,7 +120,7 @@ export default class tcLog extends React.Component {
             ...columnsList,
             this.action
           ],
-          search: {
+          searchs: {
             ...draft.tableCfg.searchs,
             severity: severityList
           }

@@ -58,15 +58,23 @@
       padding-bottom: 27px;
       display: inline-block;
       .anticon-close {
+        position: absolute;
+        right: 9px;
+        top: 9px;
+        z-index: 100;
         color: #ee1c3a;
       }
     }
     .tag-wdith200,.tag-app {
+      position: relative;
       margin: 0 10px 10px;
       width: 200px;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
+    }
+    .tag-wdith200 {
+      padding-right: 20px;
     }
     /* .ant-tabs {
       padding: 0px 25px 10px;

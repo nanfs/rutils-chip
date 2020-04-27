@@ -2,8 +2,27 @@ body {
   min-width: 1200px;
   min-height: 800px;
 }
+@-webkit-keyframes fadeInOut {
+  0% {
+      opacity:0;
+   }
+  100% {
+    opacity:1;
+  }
+}
+@keyframes jump {
+  0% {
+      transform: translate(0px, 0px);
+  }
+  50% {
+      transform: translate(0px, -10px);
+  }
+  100% {
+      transform: translate(0px, 0px);
+  }
+}
 .wrap {
-  height: 100vh;
+  height: 100%;
   background: url('../../assets/login-bg.jpg') no-repeat;
   background-size: cover;
   box-sizing: border-box;
@@ -13,20 +32,96 @@ body {
   }
   .content {
     width: 1200px;
-    height: calc(100% - 160px);
     margin: 0 auto;
     padding-top: 300px;
     .content-left {
-      background: url('../../assets/place.png') left top;
+      background: url('../../assets/place.png') left top no-repeat;
       background-size: contain;
       float: left;
-      width: 600px;
-      height: 500px;
+      width: 638px;
+      height: 457px;
+      position: relative;
+      .animate-logo1{
+        background: url('../../assets/logo-animate1.png') center center no-repeat;
+        background-size: contain;
+        width: 33px;
+        height: 42px;
+        position: absolute;
+        left: 120px;
+        bottom: 112px;
+        -webkit-animation-name: fadeInOut;
+        -webkit-animation-timing-function: ease-in-out;
+        -webkit-animation-iteration-count: infinite;
+        -webkit-animation-duration: 4s;
+        -webkit-animation-direction: alternate;
+      }
+      .animate-logo2{
+        background: url('../../assets/logo-animate2.png') center center no-repeat;
+        background-size: contain;
+        width: 19px;
+        height: 27px;
+        position: absolute;
+        left: 398px;
+        top: 50px;
+        -webkit-animation-name: fadeInOut;
+        -webkit-animation-timing-function: ease-in-out;
+        -webkit-animation-iteration-count: infinite;
+        -webkit-animation-duration:4s;
+        -webkit-animation-direction: alternate;
+      }
+      .animate-logo3{
+        background: url('../../assets/logo-animate2.png') center center no-repeat;
+        background-size: contain;
+        width: 19px;
+        height: 27px;
+        position: absolute;
+        right: 52px;
+        top: 144px;
+        -webkit-animation-name: fadeInOut;
+        -webkit-animation-timing-function: ease-in-out;
+        -webkit-animation-iteration-count: infinite;
+        -webkit-animation-duration: 4s;
+        -webkit-animation-direction: alternate;
+      }
+      .animate-div1{
+        background: url('../../assets/animate.png') center center no-repeat;
+        background-size: contain;
+        width: 55px;
+        height: 102px;
+        position: absolute;
+        left: 250px;
+        top: -50px;
+        animation: jump 3s infinite;
+      }
+      .animate-div2{
+        background: url('../../assets/animate.png') center center no-repeat;
+        background-size: contain;
+        width: 55px;
+        height: 102px;
+        position: absolute;
+        right: 14px;
+        top: 34px;
+        animation: jump 3s infinite;
+      }
+      .animate-div3{
+        background: url('../../assets/animate.png') center center no-repeat;
+        background-size: contain;
+        width: 55px;
+        height: 102px;
+        position: absolute;
+        left: 380px;
+        bottom: 42px;
+        animation: jump 3s infinite;
+      }
     }
     .content-right {
-      width: 600px;
+      width: 562px;
       float: left;
       text-align: center;
+      .login-title{
+        font-size: 32px;
+        font-weight: bold;
+      }
       .login-form {
         width: 60%;
         margin: 30px auto;

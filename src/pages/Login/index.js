@@ -8,7 +8,14 @@ export default class Login extends Component {
       <div className="wrap">
         <div className="header"></div>
         <div className="content">
-          <div className="content-left"></div>
+          <div className="content-left">
+            <div className="animate-logo1"></div>
+            <div className="animate-logo2"></div>
+            <div className="animate-logo3"></div>
+            <div className="animate-div1"></div>
+            <div className="animate-div2"></div>
+            <div className="animate-div3"></div>
+          </div>
           <div className="content-right">
             <div className="login-title">安全云桌面管理系统</div>
             <LoginFrom className="login-form" />

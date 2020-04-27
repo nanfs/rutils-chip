@@ -2,7 +2,7 @@ body {
   min-width: 1200px;
   min-height: 800px;
 }
-@-webkit-keyframes fadeInOut {
+@keyframes fadeInOut {
   0% {
       opacity:0;
    }
@@ -41,77 +41,57 @@ body {
       width: 638px;
       height: 457px;
       position: relative;
+      .animate-logo{
+        position: absolute;
+        animation-name: fadeInOut;
+        animation-timing-function: ease-in-out;
+        animation-iteration-count: infinite;
+        animation-duration: 4s;
+        animation-direction: alternate;
+      }
       .animate-logo1{
         background: url('../../assets/logo-animate1.png') center center no-repeat;
         background-size: contain;
         width: 33px;
         height: 42px;
-        position: absolute;
         left: 120px;
-        bottom: 112px;
-        -webkit-animation-name: fadeInOut;
-        -webkit-animation-timing-function: ease-in-out;
-        -webkit-animation-iteration-count: infinite;
-        -webkit-animation-duration: 4s;
-        -webkit-animation-direction: alternate;
+        bottom: 112px;      
       }
       .animate-logo2{
         background: url('../../assets/logo-animate2.png') center center no-repeat;
         background-size: contain;
         width: 19px;
         height: 27px;
-        position: absolute;
         left: 398px;
         top: 50px;
-        -webkit-animation-name: fadeInOut;
-        -webkit-animation-timing-function: ease-in-out;
-        -webkit-animation-iteration-count: infinite;
-        -webkit-animation-duration:4s;
-        -webkit-animation-direction: alternate;
       }
       .animate-logo3{
         background: url('../../assets/logo-animate2.png') center center no-repeat;
         background-size: contain;
         width: 19px;
         height: 27px;
-        position: absolute;
         right: 52px;
         top: 144px;
-        -webkit-animation-name: fadeInOut;
-        -webkit-animation-timing-function: ease-in-out;
-        -webkit-animation-iteration-count: infinite;
-        -webkit-animation-duration: 4s;
-        -webkit-animation-direction: alternate;
+      }
+      .animate-div{
+        background: url('../../assets/animate.png') center center no-repeat;
+        background-size: contain;
+        width: 55px;
+        height: 102px;
+        position: absolute;
+        animation: jump 3s infinite;
       }
       .animate-div1{
-        background: url('../../assets/animate.png') center center no-repeat;
-        background-size: contain;
-        width: 55px;
-        height: 102px;
-        position: absolute;
         left: 250px;
         top: -50px;
-        animation: jump 3s infinite;
       }
       .animate-div2{
-        background: url('../../assets/animate.png') center center no-repeat;
-        background-size: contain;
-        width: 55px;
-        height: 102px;
-        position: absolute;
         right: 14px;
         top: 34px;
-        animation: jump 3s infinite;
       }
       .animate-div3{
-        background: url('../../assets/animate.png') center center no-repeat;
-        background-size: contain;
-        width: 55px;
-        height: 102px;
-        position: absolute;
         left: 380px;
         bottom: 42px;
-        animation: jump 3s infinite;
       }
     }
     .content-right {

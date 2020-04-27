@@ -1,24 +1,23 @@
 body {
   min-width: 1200px;
-  min-height: 800px;
 }
 @keyframes fadeInOut {
   0% {
-      opacity:0;
-   }
+    opacity: 0;
+  }
   100% {
-    opacity:1;
+    opacity: 1;
   }
 }
 @keyframes jump {
   0% {
-      transform: translate(0px, 0px);
+    transform: translate(0px, 0px);
   }
   50% {
-      transform: translate(0px, -10px);
+    transform: translate(0px, -10px);
   }
   100% {
-      transform: translate(0px, 0px);
+    transform: translate(0px, 0px);
   }
 }
 .wrap {
@@ -26,14 +25,20 @@ body {
   background: url('../../assets/login-bg.jpg') no-repeat;
   background-size: cover;
   box-sizing: border-box;
+  color: #565656;
   .header {
     background: url('../../assets/logo.png') 50px 20px no-repeat;
     height: 60px;
   }
   .content {
-    width: 1200px;
+    height: calc(100% - 160px);
     margin: 0 auto;
-    padding-top: 300px;
+    min-height: 600px;
+    &::after {
+      content: '';
+      display: block;
+      clear: both;
+    }
     .content-left {
       background: url('../../assets/place.png') left top no-repeat;
       background-size: contain;
@@ -41,7 +46,7 @@ body {
       width: 638px;
       height: 457px;
       position: relative;
-      .animate-logo{
+      .animate-logo {
         position: absolute;
         animation-name: fadeInOut;
         animation-timing-function: ease-in-out;
@@ -49,31 +54,34 @@ body {
         animation-duration: 4s;
         animation-direction: alternate;
       }
-      .animate-logo1{
-        background: url('../../assets/logo-animate1.png') center center no-repeat;
+      .animate-logo1 {
+        background: url('../../assets/logo-animate1.png') center center
+          no-repeat;
         background-size: contain;
         width: 33px;
         height: 42px;
         left: 120px;
-        bottom: 112px;      
+        bottom: 112px;
       }
-      .animate-logo2{
-        background: url('../../assets/logo-animate2.png') center center no-repeat;
+      .animate-logo2 {
+        background: url('../../assets/logo-animate2.png') center center
+          no-repeat;
         background-size: contain;
         width: 19px;
         height: 27px;
         left: 398px;
         top: 50px;
       }
-      .animate-logo3{
-        background: url('../../assets/logo-animate2.png') center center no-repeat;
+      .animate-logo3 {
+        background: url('../../assets/logo-animate2.png') center center
+          no-repeat;
         background-size: contain;
         width: 19px;
         height: 27px;
         right: 52px;
         top: 144px;
       }
-      .animate-div{
+      .animate-div {
         background: url('../../assets/animate.png') center center no-repeat;
         background-size: contain;
         width: 55px;
@@ -81,73 +89,73 @@ body {
         position: absolute;
         animation: jump 3s infinite;
       }
-      .animate-div1{
+      .animate-div1 {
         left: 250px;
         top: -50px;
       }
-      .animate-div2{
+      .animate-div2 {
         right: 14px;
         top: 34px;
       }
-      .animate-div3{
+      .animate-div3 {
         left: 380px;
         bottom: 42px;
       }
     }
     .content-right {
-      width: 562px;
       float: left;
+
+      border-left: 1px dashed #bdbdbd;
       text-align: center;
-      .login-title{
-        font-size: 32px;
-        font-weight: bold;
+      .login-title {
+        text-indent: 4em;
+        h3 {
+          font-size: 25px;
+          font-weight: 700;
+          display: inline;
+          text-indent: 3em;
+        }
+        span {
+          padding-left: 20px;
+          font-size: 14px;
+          font-weight: 500;
+        }
+      }
+      .sub-title {
+        font-size: 16px;
+        padding-top: 45px;
+        .welcome {
+          font-size: 20px;
+          color: #2264b8;
+          text-transform: capitalize;
+        }
+        .text {
+          margin-left: 10px;
+        }
       }
       .login-form {
-        width: 60%;
+        width: 450px;
         margin: 30px auto;
         text-align: left;
-
+        input {
+          padding-left: 40px;
+        }
         .login-form-button {
           width: 100%;
           height: 48px;
           font-size: 20px;
           background-color: #1b59a6;
+          background-image: url(../../assets/header_mask.png);
+          border: none;
+          &:hover {
+            background-color: #4da2ef;
+          }
+        }
+        .ant-input-prefix .anticon {
+          font-size: 20px;
+          color: #4da2ef !important;
         }
       }
-
-      .company-info {
-        position: absolute;
-        width: 90%;
-        bottom: 35px;
-        left: 50%;
-        transform: translateX(-50%);
-        color: #bbb;
-
-        .company-logo {
-          display: inline-block;
-          width: 220px;
-          height: 40px;
-          margin-bottom: 5px;
-          background: url(../../assets/logo.png) no-repeat center center;
-        }
-        .login-line {
-          display: inline-block;
-          width: 24%;
-          vertical-align: middle;
-          border-bottom: 1px solid #ccc;
-        }
-        .line-left {
-          left: 0;
-        }
-        .line-right {
-          right: 0;
-        }
-      }
-    }
-    &::after {
-      content: '';
-      display: block;
-      clear: both;
     }
   }
   .footer {
@@ -157,5 +165,33 @@ body {
     p {
       margin-bottom: 0;
     }
+  }
+}
+@media screen and (max-width: 1400px) {
+  .content {
+    width: 1200px;
+    .content-right {
+      margin-left: 40px;
+      width: 500px;
+    }
+  }
+}
+@media screen and (min-width: 1400px) {
+  .content {
+    width: 1400px;
+    .content-right {
+      margin-left: 100px;
+      width: 640px;
+    }
+  }
+}
+@media screen and (max-height: 800px) {
+  .content {
+    padding-top: 10vh;
+  }
+}
+@media screen and (min-height: 800px) {
+  .content {
+    padding-top: 20vh;
   }
 }

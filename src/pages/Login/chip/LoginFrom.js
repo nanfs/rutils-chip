@@ -119,10 +119,11 @@ export default class LoginForm extends React.Component {
             }
           ]}
         >
-          <Input
+          <Input.Password
             prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
             type="password"
             placeholder="密码"
+            visibilityToggle
             style={{ height: 48 }}
           />
         </Form.Item>
@@ -140,7 +141,6 @@ export default class LoginForm extends React.Component {
           >
             <Input
               prefix={<Icon type="usb" style={{ color: 'rgba(0,0,0,.25)' }} />}
-              type="password"
               placeholder="UsbKey"
               style={{ height: 48 }}
             />

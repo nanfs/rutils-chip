@@ -61,7 +61,7 @@ export default class SetSafePolicyDrawer extends React.Component {
           console.log(e)
         })
     } else {
-      this.accessTablex.refresh(this.state.tableCfg)
+      setTimeout(() => this.accessTablex.refresh(this.state.tableCfg), 0)
     }
     this.drawer.show()
   }

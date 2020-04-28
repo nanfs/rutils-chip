@@ -555,7 +555,7 @@ export default class User extends React.Component {
                     ''
                   )}
 
-                  {selectedType === 'internal' ? (
+                  {/* {selectedType === 'internal' ? (
                     <Button
                       onClick={() => this.enableUser()}
                       disabled={disabledButton.disabledEnable}
@@ -574,7 +574,7 @@ export default class User extends React.Component {
                     </Button>
                   ) : (
                     ''
-                  )}
+                  )} */}
                   {/* {selectedType === 'internal' ? (
                     <Button
                       onClick={() => this.unlockUser()}

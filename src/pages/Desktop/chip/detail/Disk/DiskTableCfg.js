@@ -55,7 +55,9 @@ export const columns = [
           percent={(record.actualSize / record.capacity) * 100}
           format={() => `${record.actualSize}G/${record.capacity}G`}
           status={
-            +(record.actualSize / record.capacity) < 80 ? 'active' : 'exception'
+            +((record.actualSize / record.capacity) * 100) < 80
+              ? 'active'
+              : 'exception'
           }
         ></Progress>
       )

@@ -23,13 +23,14 @@ export const DetailAccesspolicyColumns = [
   {
     title: () => <span title="名称">名称</span>,
     dataIndex: 'name',
+    width: 200,
     ellipsis: true
   },
   {
     title: () => <span title="准入类型">准入类型</span>,
     dataIndex: 'type',
+    width: 200,
     ellipsis: true,
-    width: 130,
     render: (text, record) => {
       return typeArr[record.type]
     }
@@ -37,6 +38,7 @@ export const DetailAccesspolicyColumns = [
   {
     title: () => <span title="日期">日期</span>,
     dataIndex: 'date',
+    width: 200,
     ellipsis: true,
     render: (text, record) => {
       return renderDateText(record.date)
@@ -45,6 +47,7 @@ export const DetailAccesspolicyColumns = [
   {
     title: () => <span title="时间">时间</span>,
     dataIndex: 'time',
+    width: 200,
     ellipsis: true,
     render: (text, record) => {
       return `${record.startTime} - ${record.endTime}`

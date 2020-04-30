@@ -40,6 +40,7 @@ export default class BaseInfo extends React.Component {
     const userColums = [
       {
         title: '用户名',
+        width: 250,
         ellipsis: true,
         dataIndex: 'username',
         render: value => {
@@ -48,11 +49,13 @@ export default class BaseInfo extends React.Component {
       },
       {
         title: '姓名',
+        width: 250,
         ellipsis: true,
         dataIndex: 'name'
       },
       {
         title: '组',
+        width: 250,
         ellipsis: true,
         dataIndex: 'department'
       },
@@ -73,6 +76,7 @@ export default class BaseInfo extends React.Component {
       },
       {
         title: '状态',
+        ellipsis: true,
         dataIndex: 'status',
         render: text => (
           <span className="table-action">
@@ -86,6 +90,7 @@ export default class BaseInfo extends React.Component {
       },
       {
         title: '任务类型',
+        ellipsis: true,
         dataIndex: 'taskType',
         render: text => (
           <span className="table-action">
@@ -95,6 +100,7 @@ export default class BaseInfo extends React.Component {
       },
       {
         title: '执行周期',
+        ellipsis: true,
         dataIndex: 'cron',
         render: text => {
           const str = text.split(' ')
@@ -110,6 +116,7 @@ export default class BaseInfo extends React.Component {
       },
       {
         title: '执行时间',
+        ellipsis: true,
         dataIndex: 'cron',
         render: text => {
           const str = text.split(' ')
@@ -238,7 +245,9 @@ export default class BaseInfo extends React.Component {
                 title={
                   data.network &&
                   data.network
-                    .map(item => `${item.kind}/${item.name}`)
+                    .map(item =>
+                      item.name ? `${item.kind}/${item.name}` : '空网卡'
+                    )
                     .join(',')
                 }
                 placement="topLeft"
@@ -246,7 +255,9 @@ export default class BaseInfo extends React.Component {
                 <span>
                   {data.network &&
                     data.network
-                      .map(item => `${item.kind}/${item.name}`)
+                      .map(item =>
+                        item.name ? `${item.kind}/${item.name}` : '空网卡'
+                      )
                       .join(',')}
                 </span>
               </Tooltip>

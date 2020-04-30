@@ -35,18 +35,21 @@ const diskStatus = [
 ]
 export const columns = [
   {
-    title: '别名',
+    title: () => <span title="别名">别名</span>,
+    ellipsis: true,
     key: 'name',
     dataIndex: 'name'
   },
   {
-    title: '状态',
+    title: () => <span title="状态">状态</span>,
+    ellipsis: true,
     dataIndex: 'status',
     render: text => renderSatus(diskStatus, text, true)
   },
   {
-    title: '大小(GB)',
+    title: () => <span title="大小(GB)">大小(GB)</span>,
     key: 'capacity',
+    ellipsis: true,
     dataIndex: 'capacity',
     render: (text, record) => {
       return (
@@ -64,20 +67,32 @@ export const columns = [
     }
   },
   {
-    title: '是否系统盘',
+    title: () => <span title="是否系统盘">是否系统盘</span>,
+    ellipsis: true,
     key: 'boot',
     dataIndex: 'isBoot',
     render: text =>
       text ? (
         <span>
-          <Icon type="check-circle" className="table-icon-info" /> 是
+          <Icon type="check-circle" className="table-icon-info" />
+          &nbsp;是
         </span>
       ) : (
-        '否'
+        <span>
+          <Icon
+            type="stop"
+            title="否"
+            style={{
+              color: '#ff4d4f'
+            }}
+          />
+          &nbsp;否
+        </span>
       )
   },
   {
-    title: '描述',
+    title: () => <span title="描述">描述</span>,
+    ellipsis: true,
     key: 'description',
     dataIndex: 'description'
   }

@@ -8,6 +8,7 @@ import { onlineStringTime } from '@/utils/tool'
 export const detailDesktopColumns = [
   {
     title: '桌面名称',
+    width: 250,
     dataIndex: 'vmname',
     ellipsis: true
   },
@@ -25,6 +26,7 @@ export const detailDesktopColumns = [
   },
   {
     title: 'IP',
+    width: 200,
     dataIndex: 'ip',
     ellipsis: true
   },

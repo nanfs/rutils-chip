@@ -14,6 +14,7 @@ export default class Device extends React.Component {
   vmName = {
     title: () => <span title="名称">名称</span>,
     dataIndex: 'name',
+    width: 250,
     ellipsis: true,
     sorter: true
   }

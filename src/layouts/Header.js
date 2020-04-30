@@ -271,7 +271,10 @@ export default class Header extends React.Component {
               >
                 <List.Item.Meta
                   avatar={
-                    <Avatar style={{ backgroundColor: '#f50' }}>
+                    <Avatar
+                      size={24}
+                      style={{ backgroundColor: '#f50', fontSize: 12 }}
+                    >
                       <Icon type="close" />
                     </Avatar>
                   }

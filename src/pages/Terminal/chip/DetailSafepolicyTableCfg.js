@@ -5,12 +5,15 @@ import { MyIcon } from '@/components'
 // eslint-disable-next-line import/prefer-default-export
 export const detailSafepolicyColumns = [
   {
-    title: '名称',
+    title: () => <span title="名称">名称</span>,
+    width: 250,
+    ellipsis: true,
     dataIndex: 'name'
   },
   {
-    title: 'USB外设',
-    width: 150,
+    title: () => <span title="USB外设">USB外设</span>,
+    width: 250,
+    ellipsis: true,
     dataIndex: 'usbSupport',
     render: text => {
       if (text === '1') {
@@ -29,9 +32,10 @@ export const detailSafepolicyColumns = [
     }
   },
   {
-    title: '名单',
+    title: () => <span title="名单">名单</span>,
     dataIndex: 'usb',
-    width: 150,
+    width: 250,
+    ellipsis: true,
     render: (text, record) => {
       const info = record.usbExcept
         ? JSON.parse(record.usbExcept).map((item, index) => (
@@ -54,7 +58,7 @@ export const detailSafepolicyColumns = [
     }
   },
   {
-    title: '描述',
+    title: () => <span title="描述">描述</span>,
     dataIndex: 'description'
   }
 ]

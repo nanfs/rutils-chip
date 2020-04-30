@@ -24,6 +24,7 @@ export default class BaseInfo extends React.Component {
     const userColums = [
       {
         title: '用户名',
+        width: 250,
         ellipsis: true,
         dataIndex: 'username',
         render: value => {
@@ -32,11 +33,13 @@ export default class BaseInfo extends React.Component {
       },
       {
         title: '姓名',
+        width: 250,
         ellipsis: true,
         dataIndex: 'name'
       },
       {
         title: '组',
+        width: 250,
         ellipsis: true,
         dataIndex: 'department'
       },

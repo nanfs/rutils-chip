@@ -548,7 +548,7 @@ export default class AddDrawer extends React.Component {
             prop="cpuCores"
             label="CPU(核)"
             required
-            rules={[required, lessThanValue(160)]}
+            rules={[required, lessThanValue(160), isInt]}
             wrapperCol={{ sm: { span: 16 } }}
           >
             <Radiox
@@ -561,7 +561,7 @@ export default class AddDrawer extends React.Component {
             prop="memory"
             label="内存(G)"
             required
-            rules={[required, lessThanValue(128)]}
+            rules={[required, lessThanValue(128), isInt]}
             wrapperCol={{ sm: { span: 16 } }}
           >
             <Radiox
@@ -577,7 +577,7 @@ export default class AddDrawer extends React.Component {
             hidden={this.getSelectType() !== 'byIso'}
             rules={
               this.getSelectType() === 'byIso'
-                ? [required, lessThanValue(10000)]
+                ? [required, lessThanValue(10000), isInt]
                 : undefined
             }
             wrapperCol={{ sm: { span: 16 } }}

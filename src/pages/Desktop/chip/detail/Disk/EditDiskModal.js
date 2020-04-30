@@ -2,7 +2,7 @@ import React from 'react'
 import { Formx, Modalx, SliderNumberx } from '@/components'
 import { Form, Input } from 'antd'
 import diskApi from '@/services/disks'
-import { required } from '@/utils/valid'
+import { required, isInt } from '@/utils/valid'
 
 const { TextArea } = Input
 const { createModalCfg } = Modalx
@@ -65,7 +65,7 @@ export default class EditDiskModal extends React.Component {
           <Form.Item
             prop="newCapacity"
             label="扩容大小(G)"
-            rules={[this.totalLessThan2000]}
+            rules={[this.totalLessThan2000, isInt]}
           >
             <SliderNumberx
               min={0}

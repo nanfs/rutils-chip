@@ -3,7 +3,13 @@ import { Form, Input, message, Row, Col, Button } from 'antd'
 import { Drawerx, Formx, Radiox, Selectx, Title, Diliver } from '@/components'
 import { memoryOptions, cpuOptions } from '@/utils/formOptions'
 import desktopsApi from '@/services/desktops'
-import { required, checkName, lessThanValue, notUndefined } from '@/utils/valid'
+import {
+  required,
+  checkName,
+  lessThanValue,
+  notUndefined,
+  isInt
+} from '@/utils/valid'
 import { wrapResponse } from '@/utils/tool'
 
 const { TextArea } = Input
@@ -229,7 +235,7 @@ export default class EditDrawer extends React.Component {
             prop="cpuCores"
             label="CPU(核)"
             required
-            rules={[required, lessThanValue(160)]}
+            rules={[required, lessThanValue(160), isInt]}
             wrapperCol={{ sm: { span: 16 } }}
           >
             <Radiox
@@ -242,7 +248,7 @@ export default class EditDrawer extends React.Component {
             prop="memory"
             label="内存(G)"
             required
-            rules={[required, lessThanValue(100)]}
+            rules={[required, lessThanValue(100), isInt]}
             wrapperCol={{ sm: { span: 16 } }}
           >
             <Radiox

@@ -116,7 +116,7 @@ export default class AddDrawer extends React.Component {
             prop="cpuCores"
             label="CPU"
             required
-            rules={[required, lessThanValue(160)]}
+            rules={[required, lessThanValue(160), isInt]}
             wrapperCol={{ sm: { span: 16 } }}
           >
             <Radiox
@@ -129,7 +129,7 @@ export default class AddDrawer extends React.Component {
             prop="memory"
             label="内存"
             required
-            rules={[required]}
+            rules={[required, isInt]}
             wrapperCol={{ sm: { span: 16 } }}
           >
             <Radiox

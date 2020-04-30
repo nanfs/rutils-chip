@@ -8,7 +8,7 @@ import {
 } from '@/utils/formOptions'
 
 import poolsApi from '@/services/pools'
-import { required, checkName, lessThanValue } from '@/utils/valid'
+import { required, checkName, lessThanValue, isInt } from '@/utils/valid'
 
 const { TextArea } = Input
 
@@ -17,7 +17,7 @@ export default class AddDrawer extends React.Component {
     const desktopNum = this.drawer.form.getFieldValue('desktopNum')
     if (desktopNum) {
       if (desktopNum < value) {
-        callback(new Error('预启动数量应该不大于创建数量'))
+        callback(new Error('应该不大于桌面池总数'))
       }
     }
     callback()
@@ -142,7 +142,7 @@ export default class AddDrawer extends React.Component {
             prop="desktopNum"
             label="桌面数量"
             required
-            rules={[required, lessThanValue(20)]}
+            rules={[required, lessThanValue(20), isInt]}
           >
             <InputNumber placeholder="" min={1} max={20} />
           </Form.Item>
@@ -151,11 +151,15 @@ export default class AddDrawer extends React.Component {
             prop="prestartNum"
             label="预启动数量"
             required
-            rules={[required, this.compareNum]}
+            rules={[required, this.compareNum, isInt]}
           >
             <InputNumber placeholder="" min={0} />
           </Form.Item>
-          <Form.Item prop="maxAssignedVmsPerUser" label="用户最大虚拟机数">
+          <Form.Item
+            prop="maxAssignedVmsPerUser"
+            label="用户最大虚拟机数"
+            rules={[this.compareNum, isInt]}
+          >
             <InputNumber placeholder="" min={0} />
           </Form.Item>
           <Form.Item prop="description" label="描述">

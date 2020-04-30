@@ -8,7 +8,6 @@ import {
   Row,
   Col,
   Icon,
-  Alert,
   Button,
   Tooltip
 } from 'antd'
@@ -19,7 +18,13 @@ import desktopsApi from '@/services/desktops'
 import assetsApi from '@/services/assets'
 
 import { findArrObj, wrapResponse } from '@/utils/tool'
-import { required, checkName, lessThanValue, notUndefined } from '@/utils/valid'
+import {
+  required,
+  checkName,
+  lessThanValue,
+  notUndefined,
+  isInt
+} from '@/utils/valid'
 
 const { TextArea } = Input
 const createType = [
@@ -592,7 +597,7 @@ export default class AddDrawer extends React.Component {
             label="创建数量"
             required
             hidden={this.getSelectType() !== 'byTemp'}
-            rules={[required, lessThanValue(100)]}
+            rules={[required, lessThanValue(100), isInt]}
           >
             <InputNumber placeholder="" min={1} max={100} />
           </Form.Item>

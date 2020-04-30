@@ -81,9 +81,7 @@ export default class Radiox extends React.Component {
         {hasInputNumber && (
           <InputNumber
             placeholder=""
-            min={numProps.min}
-            max={numProps.max}
-            step={numProps.step}
+            {...numProps}
             disabled={disabled}
             onChange={this.handleChange}
             value={this.state?.value}

@@ -58,6 +58,7 @@ export default class Checkboxx extends React.Component {
       loading,
       getData,
       disabled,
+      numProps,
       options
     } = this.props
     const cls = classnames(className, 'radiox', getData && 'has-fresh')
@@ -72,6 +73,7 @@ export default class Checkboxx extends React.Component {
         {hasInputNumber && (
           <InputNumber
             placeholder=""
+            {...numProps}
             disabled={disabled}
             onChange={this.handleChange}
             value={this.state?.value}

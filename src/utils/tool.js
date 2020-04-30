@@ -288,3 +288,14 @@ export function week2num(week) {
       return 0
   }
 }
+
+/**
+ * @description 用于限制inputNumber 组件格式化只能输入整数
+ * @author lishuai
+ * @date 2020-04-30
+ * @export
+ */
+export function limitDecimals(value) {
+  console.log(value)
+  return value?.replace(/^(0+)|[^\d]+/g, '')
+}

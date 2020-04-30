@@ -5,6 +5,13 @@ export function required(rule, value, callback) {
   }
   callback()
 }
+export function isInt(rule, value, callback) {
+  const re = new RegExp('^(\\-)?([1-9]{1}[0-9]*|[0-9])$')
+  if (value && !re.test(value)) {
+    callback(new Error('请填写整数'))
+  }
+  callback()
+}
 export function notUndefined(rule, value, callback) {
   if (value === undefined) {
     return callback(new Error('这是必填项'))

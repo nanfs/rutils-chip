@@ -19,13 +19,11 @@ export default class Login extends Component {
           <div className="content-right">
             <div className="login-title">
               <h3>安全云桌面管理系统</h3>
-              <span>版本 1.1.2</span>
-            </div>
-            <div className="sub-title">
-              <span className="welcome">welcome</span>
-              <span className="text">欢迎使用安全云桌面管理系统</span>
             </div>
             <LoginFrom className="login-form" />
+            <div className="version">
+              <span>V1.0.0 - build3527</span>
+            </div>
           </div>
         </div>
         <div className="footer">

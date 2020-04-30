@@ -49,7 +49,7 @@ export const columnsSave = [
     render: text => storageTypeRender(text)
   },
   {
-    title: () => <span title="使用情况">使用情况</span>,
+    title: () => <span title="使用情况 (已用/总量)">使用情况 (已用/总量)</span>,
     dataIndex: 'usage',
     render: (text, record) => {
       return (
@@ -68,7 +68,15 @@ export const columnsSave = [
                 record.availableDiskSize * 1}G`
             }
           }}
-          status={record.availableDiskSize !== 0 ? 'active' : 'exception'}
+          status={
+            +(
+              (record.usedDiskSize /
+                (record.usedDiskSize * 1 + record.availableDiskSize * 1)) *
+              100
+            ) < 80
+              ? 'active'
+              : 'exception'
+          }
         ></Progress>
       )
     }

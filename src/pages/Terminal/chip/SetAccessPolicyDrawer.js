@@ -61,7 +61,7 @@ export default class SetSafePolicyDrawer extends React.Component {
           console.log(e)
         })
     } else {
-      this.accessTablex.refresh(this.state.tableCfg)
+      setTimeout(() => this.accessTablex.refresh(this.state.tableCfg), 0)
     }
     this.drawer.show()
   }
@@ -99,6 +99,7 @@ export default class SetSafePolicyDrawer extends React.Component {
     // console.log('totalSelection', totalSelection)
     return totalSelection.map(item => (
       <Tag
+        className="tag-wdith200"
         key={item}
         closable
         color="blue"
@@ -137,7 +138,7 @@ export default class SetSafePolicyDrawer extends React.Component {
           ...searchs
         }
       }),
-      () => this.accessTablex.refresh(this.state.tableCfg)
+      () => this.accessTablex.search(this.state.tableCfg)
     )
   }
 

@@ -3,7 +3,7 @@ import { Form, Input, InputNumber, message } from 'antd'
 import { Drawerx, Formx, Title, Radiox } from '@/components'
 import { managerTypeOptions } from '@/utils/formOptions'
 import poolsApi from '@/services/pools'
-import { required, checkName, lessThanValue } from '@/utils/valid'
+import { required, checkName, lessThanValue, isInt } from '@/utils/valid'
 
 const { TextArea } = Input
 
@@ -24,7 +24,7 @@ export default class EditDrawer extends React.Component {
 
   pop = poolId => {
     this.setState({ poolId })
-    this.drawer.show()
+    this.drawer.showAndWait()
     poolsApi
       .detail(poolId)
       .then(res => {
@@ -34,10 +34,12 @@ export default class EditDrawer extends React.Component {
           oldDeskTopNum: data.desktopNum
         })
         this.drawer.form.setFieldsValue({ ...data, desktopNum: 0 })
+        this.drawer.finished()
       })
       .catch(error => {
         message.error(error.message || error)
         console.log(error)
+        this.drawer.finished()
       })
   }
 
@@ -83,21 +85,21 @@ export default class EditDrawer extends React.Component {
           <Form.Item
             prop="desktopNum"
             label="增加数量"
-            rules={[lessThanValue(20)]}
+            rules={[lessThanValue(20), isInt]}
           >
             <InputNumber placeholder="" min={0} max={20} />
           </Form.Item>
           <Form.Item
             prop="prestartNum"
             label="预启动数量"
-            rules={[this.compareTotal]}
+            rules={[this.compareTotal, isInt]}
           >
             <InputNumber placeholder="" min={0} />
           </Form.Item>
           <Form.Item
             prop="maxAssignedVmsPerUser"
             label="用户最大虚拟机数"
-            rules={[this.compareTotal]}
+            rules={[this.compareTotal, isInt]}
           >
             <InputNumber placeholder="" min={0} />
           </Form.Item>

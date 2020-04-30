@@ -160,7 +160,7 @@ export default class User extends React.Component {
           // notification.success({ message: '查询域成功' })
           const domainlist = res.data.map(item => {
             const obj = {}
-            obj.label = item === 'internal' ? '本地组' : item
+            obj.label = item === 'internal' ? '本地组(internal)' : item
             obj.value = item
             obj.id = item
             obj.title = item
@@ -251,7 +251,7 @@ export default class User extends React.Component {
             // ...filter
           }
         }),
-        () => this.tablex.refresh(this.state.tableCfg)
+        () => this.tablex.search(this.state.tableCfg)
       )
   }
 
@@ -419,6 +419,8 @@ export default class User extends React.Component {
             })
             .catch(error => {
               message.error(error.message || error)
+              error.type === 'timeout' &&
+                self.tablex.refresh(self.state.tableCfg)
               resolve()
               console.log(error)
             })
@@ -553,7 +555,7 @@ export default class User extends React.Component {
                     ''
                   )}
 
-                  {selectedType === 'internal' ? (
+                  {/* {selectedType === 'internal' ? (
                     <Button
                       onClick={() => this.enableUser()}
                       disabled={disabledButton.disabledEnable}
@@ -572,7 +574,7 @@ export default class User extends React.Component {
                     </Button>
                   ) : (
                     ''
-                  )}
+                  )} */}
                   {/* {selectedType === 'internal' ? (
                     <Button
                       onClick={() => this.unlockUser()}
@@ -614,7 +616,7 @@ export default class User extends React.Component {
                 onClose={this.onBack}
                 onSuccess={this.onSuccess}
                 nodeData={groupTreeData}
-                domainlist={[{ value: 'internal', label: '本地组' }]}
+                domainlist={[{ value: 'internal', label: '本地组(internal)' }]}
               />
               <EditDrawer
                 onRef={ref => {
@@ -624,7 +626,7 @@ export default class User extends React.Component {
                 onSuccess={this.onSuccess}
                 initValues={initValues}
                 nodeData={groupTreeData}
-                domainlist={[{ value: 'internal', label: '本地组' }]}
+                domainlist={[{ value: 'internal', label: '本地组(internal)' }]}
               />
               <DetailDrawer
                 onRef={ref => {

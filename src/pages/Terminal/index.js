@@ -236,12 +236,12 @@ export default class Terminal extends React.Component {
   onTableChange = (a, filter) => {
     const statusList = []
     filter.status &&
-      filter.status.forEach(function(v, i) {
+      filter.status.forEach(function(v) {
         statusList.push(...v)
       })
     const isRegList = []
     filter.isReg &&
-      filter.isReg.forEach(function(v, i) {
+      filter.isReg.forEach(function(v) {
         isRegList.push(...v)
       })
     this.setState(
@@ -252,7 +252,7 @@ export default class Terminal extends React.Component {
           isReg: isRegList
         }
       }),
-      () => this.tablex.refresh(this.state.tableCfg)
+      () => this.tablex.search(this.state.tableCfg)
     )
   }
 
@@ -272,7 +272,7 @@ export default class Terminal extends React.Component {
           ...searchs
         }
       }),
-      () => this.tablex.refresh(this.state.tableCfg)
+      () => this.tablex.search(this.state.tableCfg)
     )
   }
 
@@ -421,6 +421,8 @@ export default class Terminal extends React.Component {
             })
             .catch(error => {
               message.error(error.message || error)
+              error.type === 'timeout' &&
+                self.tablex.refresh(self.state.tableCfg)
               resolve()
               console.log(error)
             })

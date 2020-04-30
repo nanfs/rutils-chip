@@ -12,6 +12,7 @@ const { createTableCfg, TableWrap, ToolBar, BarLeft } = Tablex
 export default class Access extends React.Component {
   accessName = {
     title: () => <span title="名称">名称</span>,
+    width: 250,
     dataIndex: 'name',
     ellipsis: true,
     sorter: true
@@ -94,7 +95,7 @@ export default class Access extends React.Component {
           ...searchs
         }
       }),
-      () => this.tablex.refresh(this.state.tableCfg)
+      () => this.tablex.search(this.state.tableCfg)
     )
   }
 

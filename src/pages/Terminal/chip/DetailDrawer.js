@@ -30,9 +30,9 @@ export default class DetailDrawer extends React.Component {
       .terminalsdetail(sn)
       .then(res => {
         if (res.success) {
-          const onlineTimeArray = res.data.onlineTime.split(',')
-          const offlineTimeArray = res.data.offlineTime.split(',')
-          if (onlineTimeArray.length > offlineTimeArray.length) {
+          const onlineTimeArray = res.data.onlineTime.split(',').reverse()
+          const offlineTimeArray = res.data.offlineTime.split(',').reverse()
+          /* if (onlineTimeArray.length > offlineTimeArray.length) {
             for (
               let i = 0;
               i < onlineTimeArray.length - offlineTimeArray.length;
@@ -40,6 +40,9 @@ export default class DetailDrawer extends React.Component {
             ) {
               offlineTimeArray.unshift('')
             }
+          } */
+          if (res.data.onlineStatus === '1') {
+            offlineTimeArray.unshift('')
           }
           const useTime = onlineTimeArray.map((element, index) => {
             return {
@@ -81,7 +84,7 @@ export default class DetailDrawer extends React.Component {
                   终端名称：
                 </Col>
                 <Col span={8} className="dms-detail-value">
-                  <Tooltip title={initValues.name}>
+                  <Tooltip title={initValues.name} placement="topLeft">
                     <span>{initValues.name}</span>
                   </Tooltip>
                 </Col>
@@ -89,7 +92,7 @@ export default class DetailDrawer extends React.Component {
                   序列号：
                 </Col>
                 <Col span={8} className="dms-detail-value">
-                  <Tooltip title={initValues.sn}>
+                  <Tooltip title={initValues.sn} placement="topLeft">
                     <span>{initValues.sn}</span>
                   </Tooltip>
                 </Col>
@@ -99,7 +102,7 @@ export default class DetailDrawer extends React.Component {
                   IP：
                 </Col>
                 <Col span={8} className="dms-detail-value">
-                  <Tooltip title={initValues.ip}>
+                  <Tooltip title={initValues.ip} placement="topLeft">
                     <span>{initValues.ip}</span>
                   </Tooltip>
                 </Col>
@@ -107,7 +110,7 @@ export default class DetailDrawer extends React.Component {
                   物理地址：
                 </Col>
                 <Col span={8} className="dms-detail-value">
-                  <Tooltip title={initValues.mac}>
+                  <Tooltip title={initValues.mac} placement="topLeft">
                     <span>{initValues.mac}</span>
                   </Tooltip>
                 </Col>
@@ -117,7 +120,7 @@ export default class DetailDrawer extends React.Component {
                   终端类型：
                 </Col>
                 <Col span={8} className="dms-detail-value">
-                  <Tooltip title={initValues.terminalType}>
+                  <Tooltip title={initValues.terminalType} placement="topLeft">
                     <span>{initValues.terminalType}</span>
                   </Tooltip>
                 </Col>
@@ -125,7 +128,7 @@ export default class DetailDrawer extends React.Component {
                   位置：
                 </Col>
                 <Col span={8} className="dms-detail-value">
-                  <Tooltip title={initValues.location}>
+                  <Tooltip title={initValues.location} placement="topLeft">
                     <span>{initValues.location}</span>
                   </Tooltip>
                 </Col>
@@ -159,7 +162,7 @@ export default class DetailDrawer extends React.Component {
                 </Col>
               </Row>
               {/* // TODO 终端未实现 */}
-              {/* 
+              {/*
           <Row className="dms-detail-row">
             <Col span={3} className="dms-detail-label">
               版本号：
@@ -213,6 +216,7 @@ export default class DetailDrawer extends React.Component {
                 pagination={{
                   size: 'small',
                   showSizeChanger: true,
+                  defaultPageSize: 5,
                   pageSizeOptions: ['5', '10', '20', '50']
                 }}
                 className="dms-detail-list-hasPagination"
@@ -228,6 +232,7 @@ export default class DetailDrawer extends React.Component {
                 pagination={{
                   size: 'small',
                   showSizeChanger: true,
+                  defaultPageSize: 5,
                   pageSizeOptions: ['5', '10', '20', '50']
                 }}
                 className="dms-detail-list-hasPagination"
@@ -241,6 +246,7 @@ export default class DetailDrawer extends React.Component {
                 pagination={{
                   size: 'small',
                   showSizeChanger: true,
+                  defaultPageSize: 5,
                   pageSizeOptions: ['5', '10', '20', '50']
                 }}
                 className="dms-detail-list-hasPagination"

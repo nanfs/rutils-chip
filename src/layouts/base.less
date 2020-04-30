@@ -22,13 +22,16 @@ body {
   background-image: url(../assets/header_mask.png);
   background-repeat: no-repeat;
   background-position: 90% bottom;
+  .count-onprogress .ant-badge-count {
+    background-color: #52c41a;
+  }
   .drop-item {
-    padding: 0px 15px;
+    padding: 0px 5px;
   }
   .drop-item.active {
     background: #1565c0;
   }
-  &-task-list {
+  &-drop-list {
     max-height: 500px;
     max-width: 400px;
     overflow-y: auto;
@@ -41,7 +44,23 @@ body {
     }
 
     .ant-list-item {
+      position: relative;
       padding: 12px 24px;
+      transition: all ease 0.3s;
+      min-height: 78px;
+      cursor: pointer;
+      &-meta-description {
+        word-break: break-all;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 10;
+      }
+    }
+    .list-more-btn {
+      height: 50px;
+      line-height: 50px;
+      border: none;
+      border-top: 1px solid #d9d9d9;
     }
   }
   .logo {
@@ -79,7 +98,6 @@ body {
     }
     .ant-badge-count {
       min-width: auto;
-      width: 16px;
       height: 16px;
       line-height: 16px;
       padding: 0 5px;
@@ -221,8 +239,14 @@ body {
   margin-left: -100% !important;
   text-align: center !important;
 }
+.ant-progress-status-active .ant-progress-bg {
+  background-color: #b5e8a4 !important;
+}
+.ant-progress-status-exception .ant-progress-bg {
+  background-color: #fb8087 !important;
+}
 .ant-progress-status-exception .ant-progress-text {
-  color: #838487 !important
+  color: #838487 !important;
 }
 .ant-input-number-handler-wrap {
   opacity: 1 !important;

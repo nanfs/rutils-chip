@@ -60,6 +60,7 @@ export default class SetSafePolicyDrawer extends React.Component {
     const { totalSelection } = this.state
     return totalSelection.map(item => (
       <Tag
+        className="tag-wdith200"
         key={item}
         closable
         color="blue"
@@ -159,7 +160,7 @@ export default class SetSafePolicyDrawer extends React.Component {
           ...searchs
         }
       }),
-      () => this.deviceTablex.refresh(this.state.tableCfg)
+      () => this.deviceTablex.search(this.state.tableCfg)
     )
   }
 
@@ -203,7 +204,7 @@ export default class SetSafePolicyDrawer extends React.Component {
                 checked={this.state.switchStatus}
                 onChange={this.switchChange}
               />
-              <span className="setsafepolicy-tips">
+              <span className="drawer-set-tips">
                 只允许设置同一种类型的外设控制策略
               </span>
             </ToolBar>

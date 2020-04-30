@@ -24,6 +24,7 @@ export default class BaseInfo extends React.Component {
     const userColums = [
       {
         title: '用户名',
+        width: 250,
         ellipsis: true,
         dataIndex: 'username',
         render: value => {
@@ -32,18 +33,23 @@ export default class BaseInfo extends React.Component {
       },
       {
         title: '姓名',
+        width: 250,
         ellipsis: true,
         dataIndex: 'name'
       },
       {
         title: '组',
+        width: 250,
         ellipsis: true,
         dataIndex: 'department'
       },
       {
         title: '域',
         ellipsis: true,
-        dataIndex: 'domain'
+        dataIndex: 'domain',
+        render: text => {
+          return text.replace(/internal-authz/g, '本地组(internal)')
+        }
       }
     ]
     const { loading, data = {} } = this.state || {}
@@ -54,7 +60,7 @@ export default class BaseInfo extends React.Component {
             桌面池名称：
           </Col>
           <Col span={8} className="dms-detail-value">
-            <Tooltip title={data.name}>
+            <Tooltip title={data.name} placement="topLeft">
               <span>{data.name}</span>
             </Tooltip>
           </Col>
@@ -72,7 +78,7 @@ export default class BaseInfo extends React.Component {
             模板：
           </Col>
           <Col span={8} className="dms-detail-value">
-            <Tooltip title={data.templateName}>
+            <Tooltip title={data.templateName} placement="topLeft">
               <span>{data.templateName}</span>
             </Tooltip>
           </Col>
@@ -108,8 +114,8 @@ export default class BaseInfo extends React.Component {
             CPU：
           </Col>
           <Col span={8} className="dms-detail-value">
-            <Tooltip title={data.cpuCores}>
-              <span>{data.cpuCores}</span>
+            <Tooltip title={`${data.cpuCores}${'核'}`}>
+              <span>{data.cpuCores} 核</span>
             </Tooltip>
           </Col>
 
@@ -117,7 +123,7 @@ export default class BaseInfo extends React.Component {
             内存：
           </Col>
           <Col span={8} className="dms-detail-value">
-            <Tooltip title={data.memory}>
+            <Tooltip title={`${data.memory}${'G'}`}>
               <span>{data.memory} G</span>
             </Tooltip>
           </Col>
@@ -127,7 +133,7 @@ export default class BaseInfo extends React.Component {
             ID：
           </Col>
           <Col span={8} className="dms-detail-value">
-            <Tooltip title={data.id}>
+            <Tooltip title={data.id} placement="topLeft">
               <span>{data.id}</span>
             </Tooltip>
           </Col>
@@ -135,7 +141,7 @@ export default class BaseInfo extends React.Component {
             描述：
           </Col>
           <Col span={8} className="dms-detail-value">
-            <Tooltip title={data.description}>
+            <Tooltip title={data.description} placement="topLeft">
               <span>{data.description}</span>
             </Tooltip>
           </Col>
@@ -149,6 +155,7 @@ export default class BaseInfo extends React.Component {
           pagination={{
             size: 'small',
             showSizeChanger: true,
+            defaultPageSize: 5,
             pageSizeOptions: ['5', '10', '20', '50']
           }}
           className="dms-detail-list-hasPagination"

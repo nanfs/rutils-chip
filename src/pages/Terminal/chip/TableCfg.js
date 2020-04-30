@@ -45,6 +45,11 @@ export const columns = [
     }
   },
   {
+    title: () => <span title="SN(序列号)">SN(序列号)</span>,
+    dataIndex: 'sn',
+    ellipsis: true
+  },
+  {
     title: () => <span title="IP">IP</span>,
     dataIndex: 'ip',
     ellipsis: true
@@ -75,11 +80,6 @@ export const columns = [
         <Tag color="#f3b88b">待接入</Tag>
       )
     }
-  },
-  {
-    title: () => <span title="SN(序列号)">SN(序列号)</span>,
-    dataIndex: 'sn',
-    ellipsis: true
   },
   {
     title: () => <span title="位置">位置</span>,

@@ -10,6 +10,12 @@
     padding: 0px;
     // padding: 0px 24px 90px 24px;
     overflow-x: hidden;
+    .no-position {
+      position: static;
+      > .ant-spin-container {
+        position: static;
+      }
+    }
   }
   &-content {
     width: 100%;
@@ -52,11 +58,22 @@
       padding-bottom: 27px;
       display: inline-block;
       .anticon-close {
-        color: #1890ff;
+        position: absolute;
+        right: 9px;
+        top: 9px;
+        color: #ee1c3a;
       }
     }
-    .user-tag {
-      margin-bottom: 10px;
+    .tag-wdith200,.tag-app {
+      position: relative;
+      margin: 0 10px 10px;
+      width: 200px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .tag-wdith200 {
+      padding-right: 20px;
     }
     /* .ant-tabs {
       padding: 0px 25px 10px;
@@ -89,5 +106,24 @@
   .dynamic-button[disabled] {
     cursor: not-allowed;
     opacity: 0.5;
+  }
+
+  .drawer-set-tips {
+    display: inline-block;
+    padding-left: 10px;
+    vertical-align: middle;
+    color: rgb(238, 28, 58);
+  }
+
+  .drawer-set-selected {
+    display: flex;
+    margin-bottom: 15px;
+
+    .drawer-set-selected-type {
+      min-width: 130px;
+      line-height: 26px;
+      text-align: right;
+      margin-right: 10px;
+    }
   }
 }

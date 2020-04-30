@@ -1,5 +1,14 @@
 import React from 'react'
-import { Drawer, Col, Row, Button, notification, message } from 'antd'
+import {
+  Drawer,
+  Col,
+  Row,
+  Button,
+  notification,
+  message,
+  Spin,
+  Icon
+} from 'antd'
 import { wrapResponse } from '@/utils/tool'
 import './index.less'
 
@@ -46,6 +55,19 @@ class Drawerx extends React.Component {
     document.querySelector('.ant-drawer-body .ant-form').style = ''
   }
 
+  showAndWait = () => {
+    this.setState({
+      loading: true
+    })
+    this.show()
+  }
+
+  finished = () => {
+    this.setState({
+      loading: false
+    })
+  }
+
   break = error => {
     if (error) {
       message.error(error.message || error)
@@ -76,6 +98,7 @@ class Drawerx extends React.Component {
           form.resetFields()
         })
         .catch(() => {
+          console.log(res.message, res)
           message.error(res.message || '操作失败')
           this.setState({
             submitting: false
@@ -100,9 +123,8 @@ class Drawerx extends React.Component {
             this.break()
           }
         })
-        .catch(error => {
+        .catch(() => {
           this.break()
-          message.error(error.message || error)
         })
     } else {
       onOk && onOk()
@@ -164,6 +186,8 @@ class Drawerx extends React.Component {
     const setFormRef = ref => {
       this.formRef = ref
     }
+    const antIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />
+
     return (
       <Drawer
         closable={false}
@@ -176,8 +200,15 @@ class Drawerx extends React.Component {
         style={{ position: 'absolute' }}
         className="drawerx"
       >
-        {this.renderContent(setFormRef, this.state.show)}
-        {this.renderOption()}
+        <Spin
+          indicator={antIcon}
+          wrapperClassName="no-position"
+          spinning={this.state.submitting || !!this.state.loading}
+          tip="正在处理!请稍后"
+        >
+          {this.renderContent(setFormRef, this.state.show)}
+          {this.renderOption()}
+        </Spin>
       </Drawer>
     )
   }

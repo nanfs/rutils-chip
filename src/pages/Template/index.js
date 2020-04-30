@@ -134,6 +134,8 @@ export default class Template extends React.Component {
             })
             .catch(error => {
               message.error(error.message || error)
+              error.type === 'timeout' &&
+                self.tablex.refresh(self.state.tableCfg)
               resolve()
               console.log(error)
             })
@@ -167,6 +169,7 @@ export default class Template extends React.Component {
             onRef={ref => {
               this.tablex = ref
             }}
+            autoReplace={true}
             tableCfg={this.state.tableCfg}
             onSelectChange={this.onSelectChange}
           />

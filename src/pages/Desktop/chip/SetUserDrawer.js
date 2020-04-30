@@ -18,6 +18,11 @@ const { createTableCfg, TableWrap, ToolBar } = Tablex
 export default class SetUserDrawer extends React.Component {
   componentDidMount() {
     this.props.onRef && this.props.onRef(this)
+    this.setState({
+      domianArray: JSON.parse(sessionStorage.getItem('domains')).map(item => {
+        return { type: item.label, content: [] }
+      })
+    })
   }
 
   state = {
@@ -28,7 +33,9 @@ export default class SetUserDrawer extends React.Component {
       selection: [],
       searchs: { domain: 'internal' },
       pageSizeOptions: ['5', '10', '20', '50']
-    })
+    }),
+    searchPlaceholder: '请输入姓名或用户名',
+    domianArray: []
   }
 
   onSelectChange = selection => {
@@ -51,7 +58,11 @@ export default class SetUserDrawer extends React.Component {
    * @memberof Vmlog
    */
   onSearchSelectChange = oldKey => {
-    console.log(this.state.tableCfg.searchs)
+    if (oldKey === 'internal') {
+      this.setState({ searchPlaceholder: '请输入姓名' })
+    } else {
+      this.setState({ searchPlaceholder: '请输入姓名或用户名' })
+    }
     const searchs = { ...this.state.tableCfg.searchs }
     delete searchs[oldKey]
     this.setState(
@@ -79,20 +90,46 @@ export default class SetUserDrawer extends React.Component {
   }
 
   renderSelectUser = () => {
-    const { totalSelection } = this.state
-    return totalSelection.map(item => {
-      const [, username, , , , domain] = item.split('&')
-      const domainFix = domain === 'internal-authz' ? '@本地组' : '' // 后端返回的ad域的username中带了@aa.com
+    const { totalSelection, domianArray } = this.state
+    domianArray.forEach((domainItem, index) => {
+      domianArray[index].content = []
+      totalSelection.forEach(item => {
+        const [, username, , , , domain] = item.split('&')
+        const domainTem =
+          domain === 'internal-authz' ? '本地组(internal)' : domain
+        if (domainItem.type === domainTem) {
+          domianArray[index].content.push(item)
+        }
+      })
+    })
+    return domianArray.map(domainItem => {
       return (
-        <Tag
-          color="blue"
-          key={item}
-          closable
-          className="user-tag"
-          onClose={() => this.removeUserSelection(item)}
-        >
-          {`${username}${domainFix}`}
-        </Tag>
+        domainItem.content?.length > 0 && (
+          <div key={domainItem} className="drawer-set-selected">
+            <span className="drawer-set-selected-type">
+              {domainItem.type}：
+            </span>
+            <div className="drawer-set-selected-item">
+              {domainItem.content.map(item => {
+                const [, username, , , , domain] = item.split('&')
+                const domainFix =
+                  domain === 'internal-authz' ? '@本地组(internal)' : '' // 后端返回的ad域的username中带了@aa.com
+                return (
+                  <Tag
+                    color="blue"
+                    key={item}
+                    closable
+                    className="tag-wdith200"
+                    onClose={() => this.removeUserSelection(item)}
+                    title={`${username}${domainFix}`}
+                  >
+                    {`${username}${domainFix}`}
+                  </Tag>
+                )
+              })}
+            </div>
+          </div>
+        )
       )
     })
   }
@@ -131,7 +168,7 @@ export default class SetUserDrawer extends React.Component {
                   selection: totalSelection
                 }
               }),
-              () => this.userTablex.replace(this.state.tableCfg)
+              () => this.userTablex.refresh(this.state.tableCfg)
             )
           })
           .catch(error => {
@@ -140,7 +177,7 @@ export default class SetUserDrawer extends React.Component {
           })
       )
     } else {
-      this.userTablex.refresh(this.state.tableCfg)
+      setTimeout(() => this.userTablex.refresh(this.state.tableCfg), 0)
     }
   }
 
@@ -202,14 +239,18 @@ export default class SetUserDrawer extends React.Component {
         onOk={this.setUser}
         onSuccess={this.props.onSuccess}
       >
-        <Formx className="pt15">
+        <Formx className="pt15 setUserForm">
           <TableWrap>
             <ToolBar>
               <SelectSearch
                 options={searchOptions}
                 onSelectChange={this.onSearchSelectChange}
                 onSearch={this.search}
+                placeholder={this.state.searchPlaceholder}
               ></SelectSearch>
+              <span className="drawer-set-tips">
+                提示：本地组支持用户名或姓名搜索，AD域仅支持姓名搜索
+              </span>
             </ToolBar>
             <Tablex
               onRef={ref => {
@@ -223,7 +264,7 @@ export default class SetUserDrawer extends React.Component {
           </TableWrap>
           <Diliver />
           <Title slot="已选择"></Title>
-          {this.renderSelectUser()}
+          <div>{this.renderSelectUser()}</div>
         </Formx>
       </Drawerx>
     )

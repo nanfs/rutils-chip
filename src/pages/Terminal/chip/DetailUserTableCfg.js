@@ -2,6 +2,7 @@
 export const detailUserColumns = [
   {
     title: '用户名',
+    width: 250,
     ellipsis: true,
     dataIndex: 'username',
     render: value => {
@@ -11,6 +12,7 @@ export const detailUserColumns = [
   {
     title: '姓名',
     dataIndex: 'name',
+    width: 250,
     ellipsis: true,
     render: (value, record) => {
       return (
@@ -21,6 +23,7 @@ export const detailUserColumns = [
   },
   {
     title: '组',
+    width: 250,
     ellipsis: true,
     dataIndex: 'department',
     render: (value, record) => {
@@ -30,6 +33,9 @@ export const detailUserColumns = [
   {
     title: '域',
     ellipsis: true,
-    dataIndex: 'domain'
+    dataIndex: 'domain',
+    render: text => {
+      return text.replace(/internal-authz/g, '本地组(internal)')
+    }
   }
 ]

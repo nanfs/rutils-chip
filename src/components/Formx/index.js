@@ -74,24 +74,38 @@ class Formx extends React.Component {
           }
         })
       )
-      return React.cloneElement(child, {}, childNode)
+      return React.cloneElement(
+        child,
+        { disabled: true || child.props?.disabled || submitting },
+        childNode
+      )
     }
     if (child.props.children) {
       const sonNode = React.Children.map(child.props.children, son =>
         this.renderFormItem(son, submitting, isParentShow)
       )
-      return React.cloneElement(child, {}, sonNode)
+      return React.cloneElement(
+        child,
+        { disabled: child.props?.disabled || submitting },
+        sonNode
+      )
     }
-    // 刷新除了
-    if (child.props && child.props.onRef) {
-      return child
-    }
-    return isParentShow !== false && child
+    // 刷新除了 TODO
+    // if (child.props && child.props.onRef) {
+    //   return child
+    // }
+    return (
+      isParentShow !== false &&
+      React.cloneElement(child, {
+        disabled: child.props?.disabled || submitting
+      })
+    )
   }
 
   render() {
     const { children, className, style, submitting, isParentShow } = this.props
     const formLayout = this.props.formItemLayout || formItemLayout
+
     return (
       <Form
         {...formLayout}

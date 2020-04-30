@@ -183,7 +183,7 @@ export const vmStatusRender = status => {
     '16': 'vm-poweringdown'
   }
   return (
-    <span className="vt-bottom">
+    <span className="vt-bottom" title={vmStatusText[statusList[status]]}>
       <MyIcon
         type={statusList[status]}
         title={vmStatusText[statusList[status]] || 'null'}
@@ -257,7 +257,9 @@ export function assignedUsersRender(value) {
   if (!value) {
     return <Icon type="close" className="table-icon-warn" />
   } else if (value.indexOf(',') !== -1) {
-    const strArr = value?.replace(/internal-authz/g, '本地组').split(',')
+    const strArr = value
+      ?.replace(/internal-authz/g, '本地组(internal)')
+      .split(',')
     const info = strArr.map((item, index) => {
       return <p key={index}>{item}</p>
     })
@@ -271,7 +273,7 @@ export function assignedUsersRender(value) {
       </Popover>
     )
   } else {
-    const user = <p>{value?.replace(/internal-authz/g, '本地组')}</p>
+    const user = <p>{value?.replace(/internal-authz/g, '本地组(internal)')}</p>
     return (
       <Popover content={user}>
         <Icon

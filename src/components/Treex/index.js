@@ -193,7 +193,7 @@ export default class Treex extends React.Component {
     data.map(item => {
       const index = item.title.indexOf(searchValue)
       let iconType = ''
-      if (item.title === '本地组') {
+      if (item.title === '本地组(internal)') {
         iconType = 'yonghuguanli'
       } else if (item.parentId === '-2') {
         iconType = 'adyu'

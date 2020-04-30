@@ -123,7 +123,7 @@ export default class Desktop extends React.Component {
    */
   onTableChange = (page, filter, sorter) => {
     const { searchs, columnsList } = vmFilterSorterTransform(filter, sorter)
-    const [colname, ...columnsFix] = columnsList
+    const [, ...columnsFix] = columnsList
     this.setState(
       produce(draft => {
         draft.tableCfg = {
@@ -135,7 +135,7 @@ export default class Desktop extends React.Component {
           }
         }
       }),
-      () => this.tablex.refresh(this.state.tableCfg)
+      () => this.tablex.search(this.state.tableCfg)
     )
   }
 
@@ -154,7 +154,7 @@ export default class Desktop extends React.Component {
           ...searchs
         }
       }),
-      () => this.tablex.refresh(this.state.tableCfg)
+      () => this.tablex.search(this.state.tableCfg)
     )
   }
 
@@ -237,6 +237,8 @@ export default class Desktop extends React.Component {
             })
             .catch(error => {
               message.error(error.message || error)
+              error.type === 'timeout' &&
+                self.tablex.refresh(self.state.tableCfg)
               resolve()
               console.log(error)
             })

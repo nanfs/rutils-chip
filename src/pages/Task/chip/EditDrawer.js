@@ -11,6 +11,7 @@ import {
 } from '@/components'
 import taskApi from '@/services/task'
 import { required, checkName, textRange } from '@/utils/valid'
+import { week2num } from '@/utils/tool'
 import {
   taskTypeOptions,
   typeOptions2,
@@ -47,7 +48,7 @@ export default class EditDrawer extends React.Component {
    * @description 打开任务编辑抽屉，传入选中行数据回显表单
    */
   pop = data => {
-    this.drawer.show()
+    this.drawer.showAndWait()
     const { id, name, taskType, cron, description } = data
     let time = ''
     let weeks = []
@@ -98,12 +99,16 @@ export default class EditDrawer extends React.Component {
               selection: totalSelection
             }
           }),
-          () => this.editTargetTablex.replace(this.state.tableCfg)
+          () => {
+            this.editTargetTablex.replace(this.state.tableCfg)
+            this.drawer.finished()
+          }
         )
       })
       .catch(error => {
         message.error(error.message || error)
         console.log(error)
+        this.drawer.finished()
       })
   }
 
@@ -144,7 +149,7 @@ export default class EditDrawer extends React.Component {
           ...searchs
         }
       }),
-      () => this.editTargetTablex.refresh(this.state.tableCfg)
+      () => this.editTargetTablex.search(this.state.tableCfg)
     )
   }
 
@@ -167,7 +172,7 @@ export default class EditDrawer extends React.Component {
           }
         }
       }),
-      () => this.editTargetTablex.refresh(this.state.tableCfg)
+      () => this.editTargetTablex.search(this.state.tableCfg)
     )
   }
 
@@ -214,6 +219,7 @@ export default class EditDrawer extends React.Component {
       const [, name] = item.split('&')
       return (
         <Tag
+          className="tag-wdith200"
           color="blue"
           key={item}
           closable
@@ -231,7 +237,13 @@ export default class EditDrawer extends React.Component {
     const timeStrArr = dayjs(time)
       .format('HH:mm')
       .split(':')
-    const weeksStr = weeks ? weeks.join(',') : ''
+    const weeksStr = weeks
+      ? weeks
+          .sort((a, b) => {
+            return week2num(a) - week2num(b)
+          })
+          .join(',')
+      : ''
     if (way === 0) {
       cron = `0 ${timeStrArr[1]} ${timeStrArr[0]} ? * ${weeksStr}`
     } else {

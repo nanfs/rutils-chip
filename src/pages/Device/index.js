@@ -14,6 +14,7 @@ export default class Device extends React.Component {
   vmName = {
     title: () => <span title="名称">名称</span>,
     dataIndex: 'name',
+    width: 250,
     ellipsis: true,
     sorter: true
   }
@@ -76,7 +77,7 @@ export default class Device extends React.Component {
           ...searchs
         }
       }),
-      () => this.tablex.refresh(this.state.tableCfg)
+      () => this.tablex.search(this.state.tableCfg)
     )
   }
 
@@ -163,6 +164,8 @@ export default class Device extends React.Component {
             })
             .catch(error => {
               message.error(error.message || error)
+              error.type === 'timeout' &&
+                self.tablex.refresh(self.state.tableCfg)
               console.log(error)
               resolve()
             })

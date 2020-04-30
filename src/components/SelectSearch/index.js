@@ -4,7 +4,7 @@ import { Select, Input } from 'antd'
 const { Search, Group } = Input
 class SelectSearch extends React.Component {
   state = {
-    value: '',
+    value: this.props?.defaultValue || '',
     searchKey: this.props?.options[0]?.value || ''
   }
 
@@ -27,9 +27,11 @@ class SelectSearch extends React.Component {
    * @memberof SelectSearch
    */
   onSelectChange = searchKey => {
+    const { onSearch } = this.props
     const oldKey = this.state.searchKey
     this.setState({ searchKey })
     this.props.onSelectChange && this.props.onSelectChange(oldKey, searchKey)
+    onSearch && onSearch(searchKey, this.state?.value)
   }
 
   onChange = e => {

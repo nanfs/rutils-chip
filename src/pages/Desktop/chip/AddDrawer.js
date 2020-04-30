@@ -8,7 +8,6 @@ import {
   Row,
   Col,
   Icon,
-  Alert,
   Button,
   Tooltip
 } from 'antd'
@@ -19,7 +18,13 @@ import desktopsApi from '@/services/desktops'
 import assetsApi from '@/services/assets'
 
 import { findArrObj, wrapResponse } from '@/utils/tool'
-import { required, checkName, lessThanValue, notUndefined } from '@/utils/valid'
+import {
+  required,
+  checkName,
+  lessThanValue,
+  notUndefined,
+  isInt
+} from '@/utils/valid'
 
 const { TextArea } = Input
 const createType = [
@@ -247,6 +252,7 @@ export default class AddDrawer extends React.Component {
   onClusterChange = (a, b, clusterId) => {
     const current = findArrObj(this.state.clusterArr, 'id', clusterId)
     const { storagePoolId } = current
+    this.drawer.form.setFieldsValue({ templateId: undefined })
     this.setState({ clusterId, storagePoolId }, () => {
       if (this.getSelectType() === 'byIso') {
         this.getNetwork()
@@ -542,7 +548,7 @@ export default class AddDrawer extends React.Component {
             prop="cpuCores"
             label="CPU(核)"
             required
-            rules={[required, lessThanValue(160)]}
+            rules={[required, lessThanValue(160), isInt]}
             wrapperCol={{ sm: { span: 16 } }}
           >
             <Radiox
@@ -555,7 +561,7 @@ export default class AddDrawer extends React.Component {
             prop="memory"
             label="内存(G)"
             required
-            rules={[required, lessThanValue(128)]}
+            rules={[required, lessThanValue(128), isInt]}
             wrapperCol={{ sm: { span: 16 } }}
           >
             <Radiox
@@ -571,7 +577,7 @@ export default class AddDrawer extends React.Component {
             hidden={this.getSelectType() !== 'byIso'}
             rules={
               this.getSelectType() === 'byIso'
-                ? [required, lessThanValue(10000)]
+                ? [required, lessThanValue(10000), isInt]
                 : undefined
             }
             wrapperCol={{ sm: { span: 16 } }}
@@ -579,7 +585,7 @@ export default class AddDrawer extends React.Component {
             <Radiox
               options={diskOptions}
               hasInputNumber
-              numProps={{ max: 2000, min: 1 }}
+              numProps={{ max: 2000, min: 1, step: 10 }}
             />
           </Form.Item>
           <Form.Item prop="description" label="描述">
@@ -591,7 +597,7 @@ export default class AddDrawer extends React.Component {
             label="创建数量"
             required
             hidden={this.getSelectType() !== 'byTemp'}
-            rules={[required, lessThanValue(100)]}
+            rules={[required, lessThanValue(100), isInt]}
           >
             <InputNumber placeholder="" min={1} max={100} />
           </Form.Item>

@@ -89,6 +89,8 @@ export default class Desktop extends React.Component {
             })
             .catch(error => {
               message.error(error.message || error)
+              error.type === 'timeout' &&
+                self.tablex.refresh(self.state.tableCfg)
               resolve()
               console.log(error)
             })
@@ -138,7 +140,6 @@ export default class Desktop extends React.Component {
             }}
             tableCfg={this.state.tableCfg}
             onSelectChange={this.onSelectChange}
-            onChange={this.onTableChange}
           />
         </TableWrap>
         <AddDiskModal

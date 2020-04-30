@@ -33,8 +33,10 @@ export default class Desktop extends React.Component {
         deleteFn: () => this.deleteVm(id, '确定删除该条数据?'),
         sendOrderFn: order => this.sendOrder(id, order),
         openConsoleFn: () => this.openConsole(id, name),
+        removePermissionFn: () => this.removePermission(id),
         isInnerMore: true,
-        isDuplicated: true
+        isDuplicated: true,
+        isPoolVmlist: true
       })
       return (
         <span className="opration-btn">
@@ -101,7 +103,7 @@ export default class Desktop extends React.Component {
           }
         }
       }),
-      () => this.tablex.refresh(this.state.tableCfg)
+      () => this.tablex.search(this.state.tableCfg)
     )
   }
 
@@ -163,6 +165,55 @@ export default class Desktop extends React.Component {
             })
             .catch(error => {
               message.error(error.message || error)
+              if (error.type === 'timeout') {
+                self.tablex.refresh(self.state.tableCfg).then(delRes => {
+                  // 如果删除后没有桌面 则重新请求桌面池
+                  if (!delRes.data.total) {
+                    notification.success({
+                      message: '已删除池内所有虚拟机, 池自动删除'
+                    })
+                    setTimeout(() => {
+                      self.props.onDeleteAll()
+                    }, 1000)
+                  }
+                })
+              }
+              resolve()
+              console.log(error)
+            })
+        })
+      },
+      onCancel() {}
+    })
+  }
+
+  /**
+   *
+   *
+   * @memberof Desktop
+   */
+  removePermission = id => {
+    const desktopIds = Array.isArray(id) ? [...id] : [id]
+    const self = this
+    confirm({
+      title: '确定回收权限吗?',
+      onOk() {
+        return new Promise(resolve => {
+          poolsApi
+            .removePermission({ poolId: self.props.poolId, desktopIds })
+            .then(res => {
+              if (res.success) {
+                notification.success({ message: '回收成功' })
+                self.tablex.refresh(self.state.tableCfg)
+              } else {
+                message.error(res.message || '回收失败')
+              }
+              resolve()
+            })
+            .catch(error => {
+              message.error(error.message || error)
+              error.type === 'timeout' &&
+                self.tablex.refresh(self.state.tableCfg)
               resolve()
               console.log(error)
             })
@@ -187,7 +238,7 @@ export default class Desktop extends React.Component {
           ...searchs
         }
       }),
-      () => this.tablex.refresh(this.state.tableCfg)
+      () => this.tablex.search(this.state.tableCfg)
     )
   }
 
@@ -209,7 +260,10 @@ export default class Desktop extends React.Component {
       disabledButton: this.state?.disabledButton,
       deleteFn: () => this.deleteVm(this.tablex.getSelection()),
       sendOrderFn: order => this.sendOrder(this.tablex.getSelection(), order),
-      isDuplicated: true
+      removePermissionFn: () =>
+        this.removePermission(this.tablex.getSelection()),
+      isDuplicated: true,
+      isPoolVmlist: true
     })
     return (
       <React.Fragment>

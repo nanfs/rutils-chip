@@ -1,112 +1,224 @@
 body {
   min-width: 1200px;
-  min-height: 800px;
 }
-.wrap {
-  height: 100vh;
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes jump {
+  0% {
+    transform: translate(0px, 0px);
+  }
+  50% {
+    transform: translate(0px, -10px);
+  }
+  100% {
+    transform: translate(0px, 0px);
+  }
+}
+.login-wrap {
+  * {
+    transition: all ease 0.3s;
+  }
+  height: 100%;
+  min-height: 700px;
   background: url('../../assets/login-bg.jpg') no-repeat;
-  padding: 5% 0;
+  background-size: cover;
   box-sizing: border-box;
-
+  color: #565656;
   .content {
-    width: 75%;
-    height: 100%;
     margin: 0 auto;
-    text-align: center;
     min-height: 600px;
-    position: relative;
-    background: url('../../assets/login-wrap-bg.jpg') 0 7% no-repeat;
-    box-shadow: 0px 0px 10px 3px rgba(0, 0, 0, 0.2);
+    &::after {
+      content: '';
+      display: block;
+      clear: both;
+    }
     .content-left {
-      height: 64px;
-      width: 240px;
-      padding-left: 73px;
-      line-height: 64px;
-      position: absolute;
-      left: 54px;
-      top: 30px;
-      text-indent: -9999px;
-      .login-logo {
-        height: 64px;
-        width: 73px;
-        background: url('../../assets/logo-icon.png') center center no-repeat;
-        background-size: contain;
+      background: url('../../assets/place.png') left top no-repeat;
+      background-size: contain;
+      float: left;
+      width: 638px;
+      height: 457px;
+      position: relative;
+      .animate-logo {
         position: absolute;
-        top: 0;
-        left: 0;
+        animation-name: fadeInOut;
+        animation-timing-function: ease-in-out;
+        animation-iteration-count: infinite;
+        animation-duration: 4s;
+        animation-direction: alternate;
       }
-      .login-logoinfo {
-        color: #fff;
-        font-size: 46px;
-        font-weight: 500;
-        letter-spacing: 4px;
+      .animate-logo1 {
+        background: url('../../assets/logo-animate1.png') center center
+          no-repeat;
+        background-size: contain;
+        width: 33px;
+        height: 42px;
+        left: 120px;
+        bottom: 112px;
+      }
+      .animate-logo2 {
+        background: url('../../assets/logo-animate2.png') center center
+          no-repeat;
+        background-size: contain;
+        width: 19px;
+        height: 27px;
+        left: 398px;
+        top: 50px;
+      }
+      .animate-logo3 {
+        background: url('../../assets/logo-animate2.png') center center
+          no-repeat;
+        background-size: contain;
+        width: 19px;
+        height: 27px;
+        right: 52px;
+        top: 144px;
+      }
+      .animate-div {
+        background: url('../../assets/animate.png') center center no-repeat;
+        background-size: contain;
+        width: 55px;
+        height: 102px;
+        position: absolute;
+        animation: jump 3s infinite;
+      }
+      .animate-div1 {
+        left: 250px;
+        top: -50px;
+      }
+      .animate-div2 {
+        right: 14px;
+        top: 34px;
+      }
+      .animate-div3 {
+        left: 380px;
+        bottom: 42px;
       }
     }
     .content-right {
-      position: relative;
-      max-width: 42%;
-      min-width: 550px;
-      height: 100%;
-      float: right;
-      background: #fff;
-      box-shadow: -12px 1px 7px 0px #3131316e;
+      float: left;
+
+      border-left: 1px dashed #bdbdbd;
+      text-align: center;
       .login-title {
-        margin-top: 120px;
-        margin-bottom: 40px;
-        padding-top: 20px;
-        font-size: 32px;
-        color: #284886;
-        font-weight: bold;
-        //background: url(../../assets/logo-title.png) center no-repeat;
+        h3 {
+          font-size: 30px;
+          font-weight: 700;
+          display: inline;
+        }
       }
-
       .login-form {
-        width: 60%;
-        margin: 30px auto;
+        width: 450px;
+        margin: 50px auto 45px;
         text-align: left;
-
+        input {
+          padding-left: 40px;
+        }
         .login-form-button {
           width: 100%;
           height: 48px;
           font-size: 20px;
           background-color: #1b59a6;
+          background-image: url(../../assets/header_mask.png);
+          border: none;
+          &:hover {
+            background-color: #4da2ef;
+          }
+        }
+        .ant-input-prefix .anticon {
+          font-size: 20px;
+          color: #4da2ef !important;
         }
       }
-
-      .company-info {
-        position: absolute;
-        width: 90%;
-        bottom: 5%;
-        left: 50%;
-        transform: translateX(-50%);
-        color: #bbb;
-
-        .company-logo {
-          display: inline-block;
-          width: 220px;
-          height: 40px;
-          margin-bottom: 5px;
-          background: url(../../assets/logo.png) no-repeat center center;
-        }
-        .login-line {
-          border-bottom: 1px solid #ccc;
+      .version {
+        position: relative;
+        width: 450px;
+        margin: 0 auto;
+        &::before {
+          content: '';
+          height: 1px;
+          width: 33%;
+          top: 11px;
           position: absolute;
-          width: 26%;
-          bottom: 22px;
-        }
-        .line-left {
-          left: 0;
-        }
-        .line-right {
           right: 0;
+          border-top: 1px solid #bdbdbd;
+        }
+        &::after {
+          content: '';
+          height: 1px;
+          width: 33%;
+          left: 0;
+          top: 11px;
+          border-top: 1px solid #bdbdbd;
+          position: absolute;
         }
       }
     }
   }
+  .footer {
+    text-align: center;
+    p {
+      margin-bottom: 0;
+    }
+  }
 }
-
-@media screen and (min-width: 1950px) {
-  .wrap .content {
-    width: 65%;
+@media screen and (max-width: 1400px) {
+  .login-wrap {
+    .content {
+      width: 1200px;
+      .content-right {
+        margin-left: 40px;
+        width: 500px;
+      }
+    }
+  }
+}
+@media screen and (min-width: 1400px) {
+  .login-wrap {
+    .content {
+      width: 1400px;
+      .content-right {
+        margin-left: 100px;
+        width: 640px;
+      }
+    }
+  }
+}
+@media screen and (max-height: 800px) {
+  .login-wrap {
+    .header {
+      background: url('../../assets/logo.png') 50px 20px no-repeat;
+      height: 60px;
+    }
+    .content {
+      height: calc(100% - 120px);
+      padding-top: 15vh;
+    }
+    .footer {
+      height: 60px;
+      line-height: 60px;
+    }
+  }
+}
+@media screen and (min-height: 800px) {
+  .login-wrap {
+    .header {
+      background: url('../../assets/logo-big.png') 50px 20px no-repeat;
+      height: 100px;
+    }
+    .content {
+      height: calc(100% - 200px);
+      padding-top: 20vh;
+    }
+    .footer {
+      height: 100px;
+      line-height: 100px;
+    }
   }
 }

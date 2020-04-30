@@ -7,7 +7,6 @@ export const columns = [
     title: () => <span title="级别">级别</span>,
     dataIndex: 'severity',
     width: 80,
-    // defaultFilteredValue: [0, 1, 2, 10],
     filters: severityOptions,
     render: renderServerityOptions
   },
@@ -19,8 +18,9 @@ export const columns = [
   },
   {
     title: () => <span title="信息">信息</span>,
-    width: '20%',
     dataIndex: 'message',
+    width: '20%',
+
     ellipsis: true
   },
   {

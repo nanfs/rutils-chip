@@ -40,6 +40,7 @@ export default class BaseInfo extends React.Component {
     const userColums = [
       {
         title: '用户名',
+        width: 250,
         ellipsis: true,
         dataIndex: 'username',
         render: value => {
@@ -48,28 +49,36 @@ export default class BaseInfo extends React.Component {
       },
       {
         title: '姓名',
+        width: 250,
         ellipsis: true,
         dataIndex: 'name'
       },
       {
         title: '组',
+        width: 250,
         ellipsis: true,
         dataIndex: 'department'
       },
       {
         title: '域',
         ellipsis: true,
-        dataIndex: 'domain'
+        dataIndex: 'domain',
+        render: text => {
+          return text.replace(/internal-authz/g, '本地组(internal)')
+        }
       }
     ]
     const schedulerColums = [
       {
         title: '名称',
+        width: 200,
         ellipsis: true,
         dataIndex: 'name'
       },
       {
         title: '状态',
+        width: 90,
+        ellipsis: true,
         dataIndex: 'status',
         render: text => (
           <span className="table-action">
@@ -83,6 +92,8 @@ export default class BaseInfo extends React.Component {
       },
       {
         title: '任务类型',
+        width: 100,
+        ellipsis: true,
         dataIndex: 'taskType',
         render: text => (
           <span className="table-action">
@@ -92,6 +103,8 @@ export default class BaseInfo extends React.Component {
       },
       {
         title: '执行周期',
+        width: 120,
+        ellipsis: true,
         dataIndex: 'cron',
         render: text => {
           const str = text.split(' ')
@@ -107,6 +120,8 @@ export default class BaseInfo extends React.Component {
       },
       {
         title: '执行时间',
+        width: 120,
+        ellipsis: true,
         dataIndex: 'cron',
         render: text => {
           const str = text.split(' ')
@@ -119,6 +134,7 @@ export default class BaseInfo extends React.Component {
       },
       {
         title: '创建时间',
+        width: 180,
         dataIndex: 'createTime',
         ellipsis: true
       },
@@ -137,7 +153,7 @@ export default class BaseInfo extends React.Component {
               桌面名称：
             </Col>
             <Col span={8} className="dms-detail-value">
-              <Tooltip title={data.name}>
+              <Tooltip title={data.name} placement="topLeft">
                 <span>{data.name}</span>
               </Tooltip>
             </Col>
@@ -145,7 +161,7 @@ export default class BaseInfo extends React.Component {
               数据中心：
             </Col>
             <Col span={8} className="dms-detail-value">
-              <Tooltip title={data.datacenterName}>
+              <Tooltip title={data.datacenterName} placement="topLeft">
                 <span>{data.datacenterName}</span>
               </Tooltip>
             </Col>
@@ -156,7 +172,10 @@ export default class BaseInfo extends React.Component {
             </Col>
             <Col span={8} className="dms-detail-value">
               {/* 通过网络信息里面取得MAC信息 */}
-              <Tooltip title={data.network?.map(item => item.mac).join(',')}>
+              <Tooltip
+                title={data.network?.map(item => item.mac).join(',')}
+                placement="topLeft"
+              >
                 <span>{data.network?.map(item => item.mac).join(',')}</span>
               </Tooltip>
             </Col>
@@ -164,7 +183,7 @@ export default class BaseInfo extends React.Component {
               操作系统：
             </Col>
             <Col span={8} className="dms-detail-value">
-              <Tooltip title={osTextRender(data.os)}>
+              <Tooltip title={osTextRender(data.os)} placement="topLeft">
                 <span>{osTextRender(data.os)}</span>
               </Tooltip>
             </Col>
@@ -174,7 +193,7 @@ export default class BaseInfo extends React.Component {
               模板：
             </Col>
             <Col span={8} className="dms-detail-value">
-              <Tooltip title={data.templateName}>
+              <Tooltip title={data.templateName} placement="topLeft">
                 <span>{data.templateName}</span>
               </Tooltip>
             </Col>
@@ -182,7 +201,7 @@ export default class BaseInfo extends React.Component {
               集群：
             </Col>
             <Col span={8} className="dms-detail-value">
-              <Tooltip title={data.clusterName}>
+              <Tooltip title={data.clusterName} placement="topLeft">
                 <span>{data.clusterName}</span>
               </Tooltip>
             </Col>
@@ -192,7 +211,7 @@ export default class BaseInfo extends React.Component {
               ID：
             </Col>
             <Col span={8} className="dms-detail-value">
-              <Tooltip title={data.id}>
+              <Tooltip title={data.id} placement="topLeft">
                 <span>{data.id}</span>
               </Tooltip>
             </Col>
@@ -200,7 +219,7 @@ export default class BaseInfo extends React.Component {
               CPU：
             </Col>
             <Col span={8} className="dms-detail-value">
-              <Tooltip title={data.cpuCores}>
+              <Tooltip title={`${data.cpuCores}${'核'}`}>
                 <span>{data.cpuCores} 核</span>
               </Tooltip>
             </Col>
@@ -210,7 +229,7 @@ export default class BaseInfo extends React.Component {
               IP：
             </Col>
             <Col span={8} className="dms-detail-value">
-              <Tooltip title={data.ip}>
+              <Tooltip title={data.ip} placement="topLeft">
                 <span>{data.ip}</span>
               </Tooltip>
             </Col>
@@ -218,7 +237,7 @@ export default class BaseInfo extends React.Component {
               内存：
             </Col>
             <Col span={8} className="dms-detail-value">
-              <Tooltip title={data.memory}>
+              <Tooltip title={`${data.memory}${'G'}`}>
                 <span>{data.memory} G</span>
               </Tooltip>
             </Col>
@@ -232,14 +251,19 @@ export default class BaseInfo extends React.Component {
                 title={
                   data.network &&
                   data.network
-                    .map(item => `${item.kind}/${item.name}`)
+                    .map(item =>
+                      item.name ? `${item.kind}/${item.name}` : '空网卡'
+                    )
                     .join(',')
                 }
+                placement="topLeft"
               >
                 <span>
                   {data.network &&
                     data.network
-                      .map(item => `${item.kind}/${item.name}`)
+                      .map(item =>
+                        item.name ? `${item.kind}/${item.name}` : '空网卡'
+                      )
                       .join(',')}
                 </span>
               </Tooltip>
@@ -265,6 +289,7 @@ export default class BaseInfo extends React.Component {
             pagination={{
               size: 'small',
               showSizeChanger: true,
+              defaultPageSize: 5,
               pageSizeOptions: ['5', '10', '20', '50']
             }}
             className="dms-detail-list-hasPagination"
@@ -279,6 +304,7 @@ export default class BaseInfo extends React.Component {
             pagination={{
               size: 'small',
               showSizeChanger: true,
+              defaultPageSize: 5,
               pageSizeOptions: ['5', '10', '20', '50']
             }}
             className="dms-detail-list-hasPagination"
@@ -290,7 +316,7 @@ export default class BaseInfo extends React.Component {
             <div>
               {data.appList &&
                 data.appList.split(',').map(item => (
-                  <Tag color="blue" key={item}>
+                  <Tag color="blue" key={item} className="tag-app" title={item}>
                     {item}
                   </Tag>
                 ))}

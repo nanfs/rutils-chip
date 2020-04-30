@@ -116,7 +116,7 @@ export default class DetailDrawer extends React.Component {
           ...searchs
         }
       }),
-      () => this.detailTargetTablex.refresh(this.state.tableCfg)
+      () => this.detailTargetTablex.search(this.state.tableCfg)
     )
   }
 
@@ -126,7 +126,7 @@ export default class DetailDrawer extends React.Component {
    * @memberof Task
    * 筛选条件触发
    */
-  onTableChange = (page, filter, sorter) => {
+  onTableChange = (page, filter) => {
     const { clusterName, datacenterName } = filter
     this.setState(
       produce(draft => {
@@ -139,7 +139,7 @@ export default class DetailDrawer extends React.Component {
           }
         }
       }),
-      () => this.detailTargetTablex.refresh(this.state.tableCfg)
+      () => this.detailTargetTablex.search(this.state.tableCfg)
     )
   }
 
@@ -161,7 +161,7 @@ export default class DetailDrawer extends React.Component {
                   名称：
                 </Col>
                 <Col span={8} className="dms-detail-value">
-                  <Tooltip title={initValues.name}>
+                  <Tooltip title={initValues.name} placement="topLeft">
                     <span>{initValues.name}</span>
                   </Tooltip>
                 </Col>
@@ -170,7 +170,7 @@ export default class DetailDrawer extends React.Component {
                   状态：
                 </Col>
                 <Col span={8} className="dms-detail-value">
-                  <Tooltip title={initValues.status}>
+                  <Tooltip title={initValues.status} placement="topLeft">
                     <span>{initValues.status}</span>
                   </Tooltip>
                 </Col>
@@ -180,7 +180,7 @@ export default class DetailDrawer extends React.Component {
                   任务类型：
                 </Col>
                 <Col span={8} className="dms-detail-value">
-                  <Tooltip title={initValues.taskType}>
+                  <Tooltip title={initValues.taskType} placement="topLeft">
                     <span>{initValues.taskType}</span>
                   </Tooltip>
                 </Col>
@@ -189,7 +189,7 @@ export default class DetailDrawer extends React.Component {
                   执行周期：
                 </Col>
                 <Col span={8} className="dms-detail-value">
-                  <Tooltip title={initValues.cycle}>
+                  <Tooltip title={initValues.cycle} placement="topLeft">
                     <span>{initValues.cycle}</span>
                   </Tooltip>
                 </Col>
@@ -199,7 +199,7 @@ export default class DetailDrawer extends React.Component {
                   执行时间：
                 </Col>
                 <Col span={8} className="dms-detail-value">
-                  <Tooltip title={initValues.time}>
+                  <Tooltip title={initValues.time} placement="topLeft">
                     <span>{initValues.time}</span>
                   </Tooltip>
                 </Col>
@@ -208,7 +208,7 @@ export default class DetailDrawer extends React.Component {
                   创建人员：
                 </Col>
                 <Col span={8} className="dms-detail-value">
-                  <Tooltip title={initValues.createBy}>
+                  <Tooltip title={initValues.createBy} placement="topLeft">
                     <span>{initValues.createBy}</span>
                   </Tooltip>
                 </Col>
@@ -218,7 +218,7 @@ export default class DetailDrawer extends React.Component {
                   创建时间：
                 </Col>
                 <Col span={8} className="dms-detail-value">
-                  <Tooltip title={initValues.createTime}>
+                  <Tooltip title={initValues.createTime} placement="topLeft">
                     <span>{initValues.createTime}</span>
                   </Tooltip>
                 </Col>
@@ -227,7 +227,7 @@ export default class DetailDrawer extends React.Component {
                   最后编辑：
                 </Col>
                 <Col span={8} className="dms-detail-value">
-                  <Tooltip title={initValues.updateTime}>
+                  <Tooltip title={initValues.updateTime} placement="topLeft">
                     <span>{initValues.updateTime}</span>
                   </Tooltip>
                 </Col>
@@ -237,7 +237,7 @@ export default class DetailDrawer extends React.Component {
                   描述：
                 </Col>
                 <Col span={8} className="dms-detail-value">
-                  <Tooltip title={initValues.description}>
+                  <Tooltip title={initValues.description} placement="topLeft">
                     <span>{initValues.description}</span>
                   </Tooltip>
                 </Col>

@@ -66,7 +66,11 @@ export default class AddDrawer extends React.Component {
           type: values.type,
           date:
             values.type === 0
-              ? values.weeks.join(',')
+              ? values.weeks
+                  .sort(function(a, b) {
+                    return a - b
+                  })
+                  .join(',')
               : values.day.map(item => item.format('YYYY-MM-DD')).join('<>'),
           startTime: dayjs(values.startTime).format('HH:mm'),
           endTime: dayjs(values.endTime).format('HH:mm')

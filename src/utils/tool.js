@@ -267,3 +267,35 @@ export function findArrObj(arr, key, target) {
   const current = arr?.find(item => item[key] === target) || {}
   return current
 }
+
+export function week2num(week) {
+  switch (week) {
+    case 'MON':
+      return 1
+    case 'TUE':
+      return 2
+    case 'WED':
+      return 3
+    case 'THU':
+      return 4
+    case 'FRI':
+      return 5
+    case 'SAT':
+      return 6
+    case 'SUN':
+      return 7
+    default:
+      return 0
+  }
+}
+
+/**
+ * @description 用于限制inputNumber 组件格式化只能输入整数
+ * @author lishuai
+ * @date 2020-04-30
+ * @export
+ */
+export function limitDecimals(value) {
+  console.log(value)
+  return value?.replace(/^(0+)|[^\d]+/g, '')
+}

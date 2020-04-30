@@ -47,6 +47,7 @@ const service = axios.create({
   headers: {
     'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
     'Access-Control-Allow-Origin': '*',
+    'Fetch-origin': 'ccsvm', // 后端用来判断 是从终端还是平台发起的请求
     'Access-Control-Allow-Methods': 'GET,POST,PUT,DELETE,PATCH,OPTIONS'
   }
 })
@@ -84,7 +85,7 @@ service.interceptors.response.use(
       error.message.indexOf('timeout') !== -1
     ) {
       // eslint-disable-next-line
-      return Promise.reject('接口处理超时!')
+      return Promise.reject({ message: '接口处理超时!', type: 'timeout' })
     }
     checkStatus(error.response)
     return Promise.reject(error)

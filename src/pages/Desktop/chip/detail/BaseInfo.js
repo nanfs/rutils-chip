@@ -71,11 +71,13 @@ export default class BaseInfo extends React.Component {
     const schedulerColums = [
       {
         title: '名称',
+        width: 200,
         ellipsis: true,
         dataIndex: 'name'
       },
       {
         title: '状态',
+        width: 90,
         ellipsis: true,
         dataIndex: 'status',
         render: text => (
@@ -90,6 +92,7 @@ export default class BaseInfo extends React.Component {
       },
       {
         title: '任务类型',
+        width: 100,
         ellipsis: true,
         dataIndex: 'taskType',
         render: text => (
@@ -100,6 +103,7 @@ export default class BaseInfo extends React.Component {
       },
       {
         title: '执行周期',
+        width: 120,
         ellipsis: true,
         dataIndex: 'cron',
         render: text => {
@@ -116,6 +120,7 @@ export default class BaseInfo extends React.Component {
       },
       {
         title: '执行时间',
+        width: 120,
         ellipsis: true,
         dataIndex: 'cron',
         render: text => {
@@ -129,6 +134,7 @@ export default class BaseInfo extends React.Component {
       },
       {
         title: '创建时间',
+        width: 180,
         dataIndex: 'createTime',
         ellipsis: true
       },

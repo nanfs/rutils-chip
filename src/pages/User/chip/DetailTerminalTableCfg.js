@@ -10,11 +10,13 @@ const iconStyle = {
 export const detailTeminalColumns = [
   {
     title: '名称',
+    width: 200,
     dataIndex: 'name',
     ellipsis: true
   },
   {
     title: '状态',
+    width: 120,
     dataIndex: 'status',
     /* filters: [
       {
@@ -54,11 +56,13 @@ export const detailTeminalColumns = [
   },
   {
     title: 'IP',
+    width: 130,
     dataIndex: 'ip',
     ellipsis: true
   },
   {
     title: '接入状态',
+    width: 120,
     dataIndex: 'isReg',
     /* filters: [
       {
@@ -80,11 +84,13 @@ export const detailTeminalColumns = [
   },
   {
     title: '位置',
+    width: 120,
     dataIndex: 'location',
     ellipsis: true
   },
   {
     title: '外设控制',
+    width: 120,
     dataIndex: 'numOfsecurityPolicy',
     render: text => (
       <span className="table-action">

@@ -19,6 +19,7 @@
     "bizcharts": "^3.5.6",
     "classnames": "^2.2.6",
     "dayjs": "^1.8.21",
+    "generate-asset-webpack-plugin": "^0.3.0",
     "history": "^4.7.2",
     "immer": "^5.2.1",
     "react": "^16.9.0",

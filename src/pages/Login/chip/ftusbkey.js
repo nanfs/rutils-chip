@@ -22,10 +22,10 @@ function ftInit() {
     ctrl.setAttribute('style', 'display:none')
     document.body.appendChild(ctrl)
   } else {
-    const ctrl = document.createElement('object')
+    const ctrl = document.createElement('embed')
     ctrl.setAttribute('type', 'application/npFTUSBKeyMGR')
     ctrl.setAttribute('id', 'USBKeyMGR')
-    ctrl.setAttribute('style', 'width:0;height:0;display:none')
+    ctrl.setAttribute('style', 'width:0;height:0')
     document.body.appendChild(ctrl)
   }
 }
@@ -108,4 +108,11 @@ function getUser(pincode) {
 
   throw new Error(msg.FT_FAIL_CAN_REPEAT.replace('{TIMES}', verifyResult))
 }
+const ftCtrl = {
+  ftInit,
+  getUsbKeyId,
+  getUser
+}
+window.ftCtrl = ftCtrl
+ftCtrl.ftInit()
 export { ftInit, getUsbKeyId, getUser }

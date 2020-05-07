@@ -13,7 +13,12 @@ const happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length })
 const ProgressBarPlugin = require('progress-bar-webpack-plugin')
 const cfgPaths = require('../config/paths')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const GeneraterAssetPlugin = require('generate-asset-webpack-plugin')
+const propertiesConfig = require('../public/properties.json')
 
+const createJson = function() {
+  return JSON.stringify(propertiesConfig)
+}
 const includePath = [cfgPaths.appSrc]
 const webpackConfigBase = {
   stats: 'errors-only',
@@ -47,6 +52,7 @@ const webpackConfigBase = {
         exclude: /node_modules/,
         loader: 'happypack/loader?id=happyBabel'
       },
+
       {
         test: /\.m\.less$/,
         use: [
@@ -148,6 +154,12 @@ const webpackConfigBase = {
       threadPool: happyThreadPool,
       // 允许 HappyPack 输出日志
       verbose: false
+    }),
+    new GeneraterAssetPlugin({
+      filename: 'properties.json', // 输出到dist根目录下的serverConfig.json文件,名字可以按需改
+      fn: (compilation, cb) => {
+        cb(null, createJson(compilation))
+      }
     }),
     // 提取css
     // 关联dll拆分出去的依赖

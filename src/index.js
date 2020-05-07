@@ -11,7 +11,6 @@ import 'rxjs/add/operator/catch'
 
 import globalModel from './models/global'
 import router from './router'
-
 // const app = createApp({
 //   extraReducers: {
 //     form: reduxFormReducer

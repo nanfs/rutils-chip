@@ -20,8 +20,7 @@ export default {
   getProperties() {
     return axios({
       url: '/properties.json',
-      method: 'get',
-      baseURL: '/'
+      method: 'get'
     })
   }
 }

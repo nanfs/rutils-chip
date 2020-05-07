@@ -2,9 +2,12 @@ import React from 'react'
 import { Button, Input, Form, Icon, message } from 'antd'
 import { Formx } from '@/components'
 import loginApi from '@/services/login'
-import { ftInit, getUsbKeyId, getUser } from './ftusbkey'
-import encrypt from './encrypt'
-import { setUserToLocal, reloadAuthorized } from '@/utils/auth'
+import { getUser } from './ftusbkey'
+import {
+  setUserToLocal,
+  reloadAuthorized,
+  setPropertiesToLocal
+} from '@/utils/auth'
 import { required } from '@/utils/valid'
 import {
   setClusterToSession,
@@ -16,12 +19,24 @@ import {
 export default class LoginForm extends React.Component {
   constructor(props) {
     super(props)
-    ftInit()
+    this.getProperties()
     this.state = {
-      error: '',
-      hasPin: false,
       loading: false
     }
+  }
+
+  getProperties() {
+    loginApi
+      .getProperties()
+      .then(res => {
+        setPropertiesToLocal(res)
+        const { hasPin } = res
+        this.setState({ hasPin })
+      })
+      .catch(e => {
+        console.log(e)
+        this.setState({ hasPin: false })
+      })
   }
 
   checkUsbkey(username, pincode) {
@@ -29,37 +44,40 @@ export default class LoginForm extends React.Component {
     try {
       user = getUser(pincode)
     } catch (e) {
-      this.setState({ error: e.message })
+      message.error(e.message)
       return false
     }
     if (user !== username) {
-      this.setState({ error: '当前登录用户与UsbKey不匹配' })
+      console.log('user', getUser(pincode))
+      message.error('当前登录用户与UsbKey不匹配')
+
       return false
     }
-    this.setState({ error: '' })
     return true
   }
 
   login = values => {
     let data = {}
+    this.setState({ loading: true })
     if (this.state.hasPin) {
       if (!this.checkUsbkey(values.username, values.pincode)) {
+        this.setState({ loading: false })
         return false
       }
       data = {
         username: values.username,
-        usbkeyid: getUsbKeyId(values.pincode),
-        password: encrypt(values.password)
+        // usbkeyid: getUsbKeyId(values.pincode),
+        // password: encrypt(values.password)
+        password: values.password,
+        domain: 'internal'
       }
     } else {
       data = {
         username: values.username,
         password: values.password,
         domain: 'internal'
-        // password: encrypt(values.password)
       }
     }
-    this.setState({ loading: true })
     loginApi
       .login(data)
       .then(res => {
@@ -135,18 +153,17 @@ export default class LoginForm extends React.Component {
             rules={[
               {
                 required: true,
-                message: '请输入UsbKey'
+                message: '请输入PIN码'
               }
             ]}
           >
             <Input
               prefix={<Icon type="usb" style={{ color: 'rgba(0,0,0,.25)' }} />}
-              placeholder="UsbKey"
+              placeholder="请输入PIN码"
               style={{ height: 48 }}
             />
           </Form.Item>
         )}
-        {this.state.error && <span className="error">{this.state.error}</span>}
         <Form.Item wrapperCol={{ sm: { span: 24 } }} style={{ marginTop: 60 }}>
           <Button
             type="primary"

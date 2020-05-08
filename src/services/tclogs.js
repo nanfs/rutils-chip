@@ -18,5 +18,12 @@ export default {
       method: 'delete',
       data: qs.stringify(data)
     })
+  },
+  export(data) {
+    return axios({
+      url: '/tclogs',
+      method: 'get',
+      data: qs.stringify(data)
+    })
   }
 }

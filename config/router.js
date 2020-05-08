@@ -84,6 +84,14 @@ function getRouterConfig(app) {
           })
         },
         {
+          path: '/label',
+          component: dynamic({
+            app,
+            models: () => [],
+            component: () => import('../src/pages/Label/index')
+          })
+        },
+        {
           path: '/user',
           component: dynamic({
             app,

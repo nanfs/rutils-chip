@@ -252,7 +252,7 @@ export default class tcLog extends React.Component {
               >
                 删除
               </Button>
-              <Button onClick={() => this.exportLogs()}>导出</Button>
+              {/* <Button onClick={() => this.exportLogs()}>导出</Button> */}
             </BarLeft>
             <BarRight span={14}>
               <RangePicker

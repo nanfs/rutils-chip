@@ -58,12 +58,12 @@ const menu = [
     path: '/access',
     authority: 'admin'
   },
-  {
-    title: '标签管理',
-    icon: 'tag',
-    path: '/label',
-    authority: 'admin'
-  },
+  // {
+  //   title: '标签管理',
+  //   icon: 'tag',
+  //   path: '/label',
+  //   authority: 'admin'
+  // },
   {
     title: '用户管理',
     icon: 'yonghuguanli',

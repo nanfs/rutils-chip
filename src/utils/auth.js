@@ -30,5 +30,36 @@ function setUserToLocal(user) {
   }
 }
 
+/**
+ * @description 获取项目参数
+ * @author lishuai
+ * @date 2020-05-07
+ * @returns
+ */
+function getPropertieslocal() {
+  return JSON.parse(sessionStorage.getItem('properties')) || {}
+}
+
+/**
+ * @description 设置项目参数
+ * @author lishuai
+ * @date 2020-05-07
+ * @param {*} properties
+ */
+function setPropertiesToLocal(properties) {
+  if (properties) {
+    sessionStorage.setItem('properties', JSON.stringify(properties))
+  } else {
+    sessionStorage.removeItem('properties')
+  }
+}
 reloadAuthorized()
-export { CURRENT, USER, reloadAuthorized, setUserToLocal, getUserFromlocal }
+export {
+  CURRENT,
+  USER,
+  reloadAuthorized,
+  setUserToLocal,
+  getPropertieslocal,
+  setPropertiesToLocal,
+  getUserFromlocal
+}

@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom'
 import { Menu, Icon, Layout, Button } from 'antd'
 import { MyIcon } from '@/components'
 import menuConfig from '*/menu'
+import { checkAuth } from '@/utils/checkPermissions'
 
 const { SubMenu } = Menu
 
@@ -34,6 +35,9 @@ export default class Sider extends React.Component {
 
   renderMenuItem(item) {
     let menuBorder = false
+    if (!checkAuth(item.authority)) {
+      return
+    }
     if (
       item.title === '计划任务' ||
       item.title === '资源概览' ||

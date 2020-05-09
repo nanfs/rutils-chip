@@ -1,76 +1,65 @@
-import assetsApi from '@/services/assets'
-import userApi from '@/services/user'
-import { wrapResponse } from '@/utils/tool'
-
-const setClusterToSession = () => {
-  assetsApi.clusters().then(res =>
-    wrapResponse(res)
-      .then(() => {
-        const clusters =
-          res?.data?.map(item => ({
-            value: item.id,
-            text: item.name
-          })) || null
-        sessionStorage.setItem('clusters', JSON.stringify(clusters))
-      })
-      .catch(() => {
-        sessionStorage.setItem('clusters', JSON.stringify([]))
-      })
-  )
+/**
+ * @description 获取项目参数
+ * @author lishuai
+ * @date 2020-05-07
+ * @returns
+ */
+export function getPropertieslocal() {
+  return JSON.parse(sessionStorage.getItem('properties')) || {}
 }
 
-const setDataCenterToSession = () => {
-  assetsApi.datacenters().then(res =>
-    wrapResponse(res)
-      .then(() => {
-        const datacenters =
-          res?.data?.map(item => ({
-            value: item.id,
-            text: item.name
-          })) || null
-        sessionStorage.setItem('datacenters', JSON.stringify(datacenters))
-      })
-      .catch(() => {
-        sessionStorage.setItem('datacenters', JSON.stringify([]))
-      })
-  )
+/**
+ * @description 设置项目参数
+ * @author lishuai
+ * @date 2020-05-07
+ * @param {*} properties
+ */
+export function setPropertiesToLocal(properties) {
+  if (properties) {
+    sessionStorage.setItem('properties', JSON.stringify(properties))
+  } else {
+    sessionStorage.removeItem('properties')
+  }
 }
 
-const setHostToSession = () => {
-  assetsApi.hosts().then(res =>
-    wrapResponse(res)
-      .then(() => {
-        const hosts =
-          res?.data?.map(item => ({
-            value: item.id,
-            text: item.name
-          })) || null
-        sessionStorage.setItem('hosts', JSON.stringify(hosts))
-      })
-      .catch(() => {
-        sessionStorage.setItem('hosts', JSON.stringify([]))
-      })
-  )
+/**
+ * @description
+ * @author lishuai
+ * @date 2020-05-08
+ * @param {*} user
+ */
+export function setItemToLocal(Obj) {
+  if (Obj) {
+    for (const [key, value] of Object.entries(Obj)) {
+      sessionStorage.setItem(key, JSON.stringify(value))
+    }
+  } else {
+    sessionStorage.clear()
+  }
 }
-const setDomainToSession = () => {
-  userApi.domainlist().then(res =>
-    wrapResponse(res)
-      .then(() => {
-        const hosts =
-          res?.data?.map(item => ({
-            value: item,
-            label: item === 'internal' ? '本地组(internal)' : item
-          })) || null
-        sessionStorage.setItem('domains', JSON.stringify(hosts))
-      })
-      .catch(() => {
-        sessionStorage.setItem('domains', JSON.stringify([]))
-      })
-  )
+/**
+ * @description
+ * @author lishuai
+ * @date 2020-05-08
+ * @param {*} user
+ */
+export function setObjItemTolocal(ObjName, Obj) {
+  if (!ObjName) {
+    sessionStorage.clear()
+  } else if (Obj) {
+    sessionStorage.setItem(ObjName, JSON.stringify(Obj))
+  } else {
+    sessionStorage.removeItem(ObjName)
+  }
 }
-export {
-  setClusterToSession,
-  setDataCenterToSession,
-  setHostToSession,
-  setDomainToSession
+
+/**
+ * @description 从本地获取
+ * @author lishuai
+ * @date 2020-05-08
+ * @param {*} item
+ * @returns
+ */
+export function getItemFromLocal(item) {
+  return JSON.parse(sessionStorage.getItem(item)) || ''
 }

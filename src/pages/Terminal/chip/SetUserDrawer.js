@@ -18,9 +18,10 @@ export default class SetUserDrawer extends React.Component {
   componentDidMount() {
     this.props.onRef && this.props.onRef(this)
     this.setState({
-      domianArray: JSON.parse(sessionStorage.getItem('domains')).map(item => {
-        return { type: item.label, content: [] }
-      })
+      domianArray:
+        JSON.parse(sessionStorage.getItem('domains'))?.map(item => {
+          return { type: item.label, content: [] }
+        }) || []
     })
   }
 

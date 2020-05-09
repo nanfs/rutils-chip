@@ -13,11 +13,8 @@ import {
   Button
 } from 'antd'
 import { Link } from 'react-router-dom'
-import {
-  getUserFromlocal,
-  setUserToLocal,
-  reloadAuthorized
-} from '@/utils/auth'
+import { getUser, checkAuth } from '@/utils/checkPermissions'
+import { setItemToLocal } from '@/utils/storage'
 import { wrapResponse } from '@/utils/tool'
 import ResetPwModal from './chip/ResetPwModal'
 import SystemModal from './chip/SystemModal'
@@ -66,9 +63,10 @@ export default class Header extends React.Component {
    * @date 2020-04-08
    */
   componentDidMount() {
+    // 添加三员权限控制
     window.addEventListener('click', this.onDocumentClick)
     this.timer && clearInterval(this.timer)
-    this.getTasks()
+    checkAuth('admin') && this.getTasks()
     this.getLogs()
     this.timer = this.loopGetTask()
   }
@@ -79,7 +77,7 @@ export default class Header extends React.Component {
 
   loopGetTask = () => {
     return setInterval(() => {
-      this.getTasks()
+      checkAuth('admin') && this.getTasks()
       this.getLogs()
     }, 5000)
   }
@@ -158,8 +156,7 @@ export default class Header extends React.Component {
    */
   logOut = () => {
     window.removeEventListener('click', this.onDocumentClick)
-    setUserToLocal(null)
-    reloadAuthorized()
+    setItemToLocal(null)
     loginApi
       .loginOut()
       .then(res => {
@@ -336,7 +333,7 @@ export default class Header extends React.Component {
           <span className="text">安全虚拟桌面管理</span>
         </div>
         <Menu mode="horizontal" className="header-menu">
-          <Menu.Item key="task">
+          <Menu.Item key="task" hidden={!checkAuth('admin')}>
             <Dropdown
               overlay={this.renderTaskList()}
               placement="bottomCenter"
@@ -395,6 +392,7 @@ export default class Header extends React.Component {
           </Menu.Item>
           <Menu.Item
             key="systemConfig"
+            hidden={!checkAuth('admin')}
             onClick={() => {
               this.sysModal.pop()
             }}
@@ -406,7 +404,7 @@ export default class Header extends React.Component {
             <Dropdown overlay={this.renderUserInfo()} placement="bottomCenter">
               <div>
                 <Icon type="user" />
-                <span>{getUserFromlocal()}</span>&nbsp;
+                <span>{getUser()}</span>&nbsp;
                 <Icon type="caret-down" />
               </div>
             </Dropdown>

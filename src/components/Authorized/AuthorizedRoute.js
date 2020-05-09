@@ -1,6 +1,12 @@
 import React from 'react'
 import { Route, Redirect } from 'react-router-dom'
-import Authorized from './Authorized'
+import { checkRoute } from '@/utils/checkPermissions'
+
+function Authorized(props) {
+  const { children, authority, noMatch = null } = props
+  const childrenRender = typeof children === 'undefined' ? null : children
+  return checkRoute(authority, childrenRender, noMatch)
+}
 
 export default function AuthorizedRoute(props) {
   const {

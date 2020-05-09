@@ -13,7 +13,8 @@ import {
   setClusterToSession,
   setDataCenterToSession,
   setHostToSession
-} from '@/utils/storage'
+} from '@/utils/preFilter'
+import { checkAuth } from '@/utils/checkPermissions'
 
 // TODO 会有不同步问题 后期优化
 setClusterToSession()
@@ -225,7 +226,7 @@ export function getMoreButton({
     <Menu>
       <Menu.Item
         key="0"
-        hidden={!isInnerMore || isDuplicated}
+        hidden={!isInnerMore || isDuplicated || !checkAuth('security')}
         onClick={setUserFn}
         disabled={disabledButton?.disabledSetUser}
       >

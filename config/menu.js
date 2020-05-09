@@ -4,27 +4,27 @@ const menu = [
     title: '首页',
     icon: 'home',
     path: '/dashboard',
-    authority: 'admin'
+    authority: 'admin,security'
   },
   {
     title: '资源概览',
     path: '/resource',
     icon: 'pie-chart',
-    authority: 'admin'
+    authority: 'admin,security'
   },
   {
     title: '桌面管理',
     icon: 'zhuomianguanli',
     iconComonpent: 'MyIcon',
     path: '/desktop',
-    authority: 'admin'
+    authority: 'admin,security'
   },
   {
     title: '桌面池管理',
     icon: 'template1',
     iconComonpent: 'MyIcon',
     path: '/pool',
-    authority: 'admin'
+    authority: 'admin,security'
   },
   {
     title: '模板管理',
@@ -44,19 +44,19 @@ const menu = [
     icon: 'terminal',
     iconComonpent: 'MyIcon',
     path: '/terminal',
-    authority: 'admin'
+    authority: 'admin,security'
   },
   {
     title: '外设控制',
     icon: 'usb',
     path: '/device',
-    authority: 'admin'
+    authority: 'security'
   },
   {
     title: '准入控制',
     icon: 'login',
     path: '/access',
-    authority: 'admin'
+    authority: 'security'
   },
   // {
   //   title: '标签管理',
@@ -69,7 +69,7 @@ const menu = [
     icon: 'yonghuguanli',
     iconComonpent: 'MyIcon',
     path: '/user',
-    authority: 'admin'
+    authority: 'admin,security'
   },
   {
     title: '系统日志',
@@ -79,18 +79,16 @@ const menu = [
     authority: 'admin',
     children: [
       {
-        title: '桌面管理',
+        title: '桌面日志',
         icon: 'log',
         iconComonpent: 'MyIcon',
-        path: '/vmlog',
-        authority: 'admin'
+        path: '/vmlog'
       },
       {
-        title: '终端管理',
+        title: '终端日志',
         icon: 'log',
         iconComonpent: 'MyIcon',
-        path: '/tclog',
-        authority: 'admin'
+        path: '/tclog'
       }
     ]
   }

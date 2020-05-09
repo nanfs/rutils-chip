@@ -3,7 +3,6 @@ import React from 'react'
 import appApi from '@/services/app'
 import { Formx, Modalx } from '@/components'
 import { Form, Input, message } from 'antd'
-import { USER } from '@/utils/auth'
 import { required, checkPassword } from '../../utils/valid'
 
 const { createModalCfg } = Modalx
@@ -23,12 +22,11 @@ export default class ModalDemo extends React.Component {
   }
 
   getResult = values => {
-    console.log(USER)
     appApi
       .updatePwd({
         ...values,
         domain: 'internal',
-        username: USER
+        username: 'admin'
       })
       .then(res => {
         this.modal.afterSubmit(res)

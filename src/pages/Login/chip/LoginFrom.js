@@ -1,35 +1,37 @@
 import React from 'react'
 import { Button, Input, Form, Icon, message } from 'antd'
 import { Formx } from '@/components'
-import loginApi from '@/services/login'
 import { getUser } from './ftusbkey'
-import {
-  setUserToLocal,
-  reloadAuthorized,
-  setPropertiesToLocal
-} from '@/utils/auth'
 import { required } from '@/utils/valid'
+import { setObjItemTolocal, setItemToLocal } from '@/utils/storage'
 import {
   setClusterToSession,
   setDataCenterToSession,
   setHostToSession,
   setDomainToSession
-} from '@/utils/storage'
+} from '@/utils/preFilter'
+
+import loginApi from '@/services/login'
 
 export default class LoginForm extends React.Component {
   constructor(props) {
     super(props)
-    this.getProperties()
+    this.fetchProperties()
     this.state = {
       loading: false
     }
   }
 
-  getProperties() {
+  /**
+   * @description 获取项目配置文件
+   * @author lishuai
+   * @date 2020-05-09
+   */
+  fetchProperties() {
     loginApi
       .getProperties()
       .then(res => {
-        setPropertiesToLocal(res)
+        setObjItemTolocal('properties', res)
         const { hasPin } = res
         this.setState({ hasPin })
       })
@@ -48,9 +50,7 @@ export default class LoginForm extends React.Component {
       return false
     }
     if (user !== username) {
-      console.log('user', getUser(pincode))
       message.error('当前登录用户与UsbKey不匹配')
-
       return false
     }
     return true
@@ -83,8 +83,14 @@ export default class LoginForm extends React.Component {
       .then(res => {
         this.setState({ loading: false })
         if (res.success) {
-          setUserToLocal(data.username)
-          reloadAuthorized()
+          // // TODO change TO 220
+          // const Mockdata = {
+          //   userName: 'admin',
+          //   userRole: 'admin',
+          //   threePowersSwitch: true
+          // }
+          // setItemToLocal(Mockdata)
+          setItemToLocal(res.data)
           // 解决第一次加载的问题
           setClusterToSession()
           setDataCenterToSession()

@@ -6,6 +6,7 @@ import 'dayjs/locale/zh-cn'
 import { connect } from 'react-redux'
 import RouteView from '@/components/RouteView'
 import { AuthorizedRoute } from '@/components/Authorized'
+import { getRole } from '@/utils/checkPermissions'
 import './base.less'
 import Header from './Header'
 import Sider from './Sider'
@@ -18,7 +19,6 @@ dayjs.locale('zh-cn')
 class BasicLayout extends React.Component {
   render() {
     const { location, isSideFold, dispatch } = this.props
-
     return (
       <ConfigProvider locale={zhCN}>
         <Layout style={{ minHeight: '100vh' }}>
@@ -40,7 +40,9 @@ class BasicLayout extends React.Component {
                         path={path}
                         authority={authority}
                         component={component}
-                        redirectPath="/dashboard"
+                        redirectPath={
+                          getRole() === 'audit' ? '/vmlog' : '/dashboard'
+                        }
                         RouteProps={other}
                       />
                     )

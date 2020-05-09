@@ -12,7 +12,7 @@ function getRouterConfig(app) {
     },
     {
       path: '/',
-      authority: 'admin',
+      authority: 'admin,security,audit',
       component: dynamic({
         app,
         models: () => [import('../src/models/app')],
@@ -21,6 +21,7 @@ function getRouterConfig(app) {
       routes: [
         {
           path: '/dashboard',
+          authority: 'admin,security',
           component: dynamic({
             app,
             models: () => [],
@@ -53,6 +54,7 @@ function getRouterConfig(app) {
         },
         {
           path: '/template',
+          authority: 'admin',
           component: dynamic({
             app,
             models: () => [],
@@ -69,6 +71,7 @@ function getRouterConfig(app) {
         },
         {
           path: '/device',
+          authority: 'security',
           component: dynamic({
             app,
             models: () => [],
@@ -77,6 +80,7 @@ function getRouterConfig(app) {
         },
         {
           path: '/access',
+          authority: 'security',
           component: dynamic({
             app,
             models: () => [],

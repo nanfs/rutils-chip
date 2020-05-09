@@ -18,9 +18,10 @@ import AddDrawer from './chip/AddDrawer'
 import DetailDrawer from './chip/DetailDrawer'
 import EditDrawer from './chip/EditDrawer'
 import userApi from '@/services/user'
+import { Auth } from '@/components/Authorized'
+import { checkAuth } from '@/utils/checkPermissions'
 
 import './index.less'
-import { interval } from 'rxjs'
 
 const { confirm } = Modal
 const { createTableCfg, TableWrap, ToolBar, BarLeft, BarRight } = Tablex
@@ -33,8 +34,9 @@ export default class User extends React.Component {
     render: (text, record) => {
       return (
         <a
-          // className="detail-link"
-          onClick={() => this.detailUser(record.username, record)}
+          onClick={() =>
+            checkAuth('admin') && this.detailUser(record.username, record)
+          }
         >
           {record.lockStatus === 1 ? (
             <Icon
@@ -94,20 +96,23 @@ export default class User extends React.Component {
       )
       return (
         <span className="opration-btn">
-          <a
-            onClick={() => {
-              this.editUser(record, record.name)
-            }}
-          >
-            编辑
-          </a>
-
-          <Dropdown overlay={moreAction} placement="bottomRight">
-            <a>
-              更多
-              <Icon type="down" />
+          <Auth role="admin">
+            <a
+              onClick={() => {
+                this.editUser(record, record.name)
+              }}
+            >
+              编辑
             </a>
-          </Dropdown>
+          </Auth>
+          <Auth role="admin">
+            <Dropdown overlay={moreAction} placement="bottomRight">
+              <a>
+                更多
+                <Icon type="down" />
+              </a>
+            </Dropdown>
+          </Auth>
         </span>
       )
     }
@@ -405,7 +410,7 @@ export default class User extends React.Component {
     confirm({
       title: '确定删除所选数据?',
       onOk() {
-        return new Promise((resolve, reject) => {
+        return new Promise(resolve => {
           userApi
             .deleteUser({ userId: ids[0], domain: self.state.selectedType })
             .then(res => {
@@ -496,13 +501,7 @@ export default class User extends React.Component {
       { label: '用户名', value: 'username' },
       { label: '姓名', value: 'name' }
     ]
-    const {
-      groupTreeData,
-      initValues,
-      domainlist,
-      disabledButton,
-      selectedType
-    } = this.state
+    const { groupTreeData, initValues, domainlist, selectedType } = this.state
     return (
       <React.Fragment>
         <InnerPath
@@ -523,7 +522,7 @@ export default class User extends React.Component {
                 editNodeApiMethod={userApi.groupUpdate}
                 deleteNodeApiMethod={userApi.groupDelete}
                 treeRenderSuccess={this.treeRenderSuccess}
-                showRightClinkMenu={true}
+                showRightClinkMenu={checkAuth('admin') && true}
                 showSearch={false}
               ></Treex>
               {domainlist &&
@@ -548,9 +547,11 @@ export default class User extends React.Component {
               <ToolBar>
                 <BarLeft>
                   {selectedType === 'internal' ? (
-                    <Button onClick={this.addUser} type="primary">
-                      创建
-                    </Button>
+                    <Auth role="admin">
+                      <Button onClick={this.addUser} type="primary">
+                        创建
+                      </Button>
+                    </Auth>
                   ) : (
                     ''
                   )}

@@ -1,13 +1,10 @@
 import { push } from 'react-router-redux'
-import { setUserToLocal } from '@/utils/auth'
-import { cleanRequest } from './utils'
+import { setItemToLocal } from '@/utils/storage'
 
 export default {
   namespace: 'app',
   state: {
-    username: null,
-    isSideFold: false,
-    identificationNumber: null
+    isSideFold: false
   },
   reducers: {
     toggleSideFold: state => {
@@ -23,34 +20,5 @@ export default {
       }
     }
   },
-  epics: {
-    logout: action$ =>
-      action$.map(() => {
-        setUserToLocal(null)
-        return push('/login')
-      }),
-    getUserInfo: action$ =>
-      action$
-        .filter(({ state }) => !state.loginSuccess)
-        .mapTo({ type: 'app/logout' }),
-    cleanMeta: action$ =>
-      action$.map(({ payload }) =>
-        cleanRequest(payload.namespace, payload.meta)
-      ),
-    cleanResult: action$ =>
-      action$.map(({ payload }) => {
-        const [namespace, dataindex] = payload.split('/')
-        return cleanRequest(namespace, dataindex)
-      })
-  }
-  // subscriptions: {
-  //   setup ({ dispatch, history }) {
-  //     dispatch({ type: 'getUserInfo' })
-  //     return history.listen(({ pathname }) => {
-  //       if (pathname === '/') {
-  //         dispatch({ type: 'getUserInfo' })
-  //       }
-  //     })
-  //   }
-  // }
+  epics: {}
 }

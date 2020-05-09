@@ -6,6 +6,15 @@ export function getUser() {
 
 /**
  * @description
+ * @author linghu
+ * @date 2020-05-09
+ */
+export function getUserId() {
+  return getItemFromLocal('userId')
+}
+
+/**
+ * @description
  * @author lishuai
  * @date 2020-05-08
  */

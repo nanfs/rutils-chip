@@ -17,6 +17,7 @@ import { adColumns } from './chip/AdTableCfg'
 import AddDrawer from './chip/AddDrawer'
 import DetailDrawer from './chip/DetailDrawer'
 import EditDrawer from './chip/EditDrawer'
+import SetRoloModal from './chip/SetRoloModal'
 import userApi from '@/services/user'
 import { Auth } from '@/components/Authorized'
 import { checkAuth } from '@/utils/checkPermissions'
@@ -95,6 +96,12 @@ export default class User extends React.Component {
             disabled={record.lockStatus === 0}
           >
             解锁
+          </Menu.Item>
+          <Menu.Item
+            key="5"
+            onClick={this.setRole.bind(this, record, record.name)}
+          >
+            分配角色
           </Menu.Item>
         </Menu>
       )
@@ -510,6 +517,10 @@ export default class User extends React.Component {
       })
   }
 
+  setRole = (record, name) => {
+    this.SetRoloModal.pop(record)
+  }
+
   detailUser = (username, data) => {
     this.setState({ inner: username })
     this.detailDrawer.pop(data, this.state.selectedType)
@@ -649,6 +660,12 @@ export default class User extends React.Component {
                 initValues={initValues}
                 nodeData={groupTreeData}
                 domainlist={[{ value: 'internal', label: '本地组(internal)' }]}
+              />
+              <SetRoloModal
+                onRef={ref => {
+                  this.SetRoloModal = ref
+                }}
+                onSuccess={this.onSuccess}
               />
               <DetailDrawer
                 onRef={ref => {

@@ -112,6 +112,20 @@ export default {
       data: qs.stringify(data)
     })
   },
+  queryResources(data) {
+    return axios({
+      url: 'resources',
+      method: 'get',
+      params: data
+    })
+  },
+  setRole(data) {
+    return axios({
+      url: '/user/adduserrole',
+      method: 'post',
+      data: qs.stringify(data, { allowDots: true, arrayFormat: 'indices' })
+    })
+  },
   desktopList(data) {
     return axios({
       url: '/user/desktoplist',

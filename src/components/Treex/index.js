@@ -352,7 +352,8 @@ export default class Treex extends React.Component {
       showSearch = true,
       showRightClinkMenu = false,
       addNodeApiMethod,
-      editNodeApiMethod
+      editNodeApiMethod,
+      checkable = false
     } = this.props
     const { rightClickNodeTreeItem, rightMenuStyle } = this.state
     // console.log(rightClickNodeTreeItem)
@@ -380,6 +381,8 @@ export default class Treex extends React.Component {
           onSelect={this.onSelect}
           expandedKeys={expandedKeys}
           autoExpandParent={autoExpandParent}
+          checkable={checkable}
+          multiple
           onRightClick={showRightClinkMenu && this.onRightClick}
         >
           {this.renderTreeNode(nodes2Tree(nodes), searchValue)}

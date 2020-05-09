@@ -29,6 +29,7 @@ export function setPropertiesToLocal(properties) {
  * @param {*} user
  */
 export function setItemToLocal(Obj) {
+  debugger
   if (Obj) {
     for (const [key, value] of Object.entries(Obj)) {
       sessionStorage.setItem(key, JSON.stringify(value))
@@ -44,6 +45,7 @@ export function setItemToLocal(Obj) {
  * @param {*} user
  */
 export function setObjItemTolocal(ObjName, Obj) {
+  debugger
   if (!ObjName) {
     sessionStorage.clear()
   } else if (Obj) {

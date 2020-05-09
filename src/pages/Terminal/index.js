@@ -561,7 +561,7 @@ export default class Terminal extends React.Component {
                 </Button>
               </Auth>
 
-              <Auth role="security">
+              <Auth role="admin">
                 <Button
                   onClick={() => this.admitAccessTerminal()}
                   disabled={disabledButton.disabledAdmitAccess}

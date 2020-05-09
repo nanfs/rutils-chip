@@ -64,6 +64,7 @@ export default class User extends React.Component {
         <Menu>
           <Menu.Item
             key="1"
+            hidden={!checkAuth('admin')}
             disabled={record.tccount + record.vmcount > 0}
             onClick={() => {
               this.deleteUser([record.id])
@@ -73,6 +74,7 @@ export default class User extends React.Component {
           </Menu.Item>
           <Menu.Item
             key="2"
+            hidden={!checkAuth('security')}
             onClick={this.forbiddenUser.bind(this, [record.id])}
             disabled={record.status === 1}
           >
@@ -80,6 +82,7 @@ export default class User extends React.Component {
           </Menu.Item>
           <Menu.Item
             key="3"
+            hidden={!checkAuth('security')}
             onClick={this.enableUser.bind(this, [record.id])}
             disabled={record.status === 0}
           >
@@ -87,6 +90,7 @@ export default class User extends React.Component {
           </Menu.Item>
           <Menu.Item
             key="4"
+            hidden={!checkAuth('admin')}
             onClick={this.unlockUser.bind(this, [record.id])}
             disabled={record.lockStatus === 0}
           >
@@ -105,6 +109,23 @@ export default class User extends React.Component {
               编辑
             </a>
           </Auth>
+          <Auth role="security" hiddaenOnNotDiscrete={true}>
+            <a
+              onClick={this.forbiddenUser.bind(this, [record.id])}
+              disabled={record.status === 1}
+            >
+              禁用
+            </a>
+            <a
+              key="3"
+              hidden={!checkAuth('security')}
+              onClick={this.enableUser.bind(this, [record.id])}
+              disabled={record.status === 0}
+            >
+              启用
+            </a>
+          </Auth>
+
           <Auth role="admin">
             <Dropdown overlay={moreAction} placement="bottomRight">
               <a>
@@ -522,7 +543,7 @@ export default class User extends React.Component {
                 editNodeApiMethod={userApi.groupUpdate}
                 deleteNodeApiMethod={userApi.groupDelete}
                 treeRenderSuccess={this.treeRenderSuccess}
-                showRightClinkMenu={checkAuth('admin') && true}
+                showRightClinkMenu={checkAuth('admin')}
                 showSearch={false}
               ></Treex>
               {domainlist &&

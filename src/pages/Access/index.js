@@ -5,6 +5,7 @@ import AddDrawer from './chip/AddDrawer'
 import EditDrawer from './chip/EditDrawer'
 import { columns, apiMethod } from './chip/TableCfg'
 import accessApi from '@/services/access'
+import { Auth } from '@/components/Authorized'
 import produce from 'immer'
 
 const { confirm } = Modal
@@ -25,15 +26,19 @@ export default class Access extends React.Component {
     render: (text, record) => {
       return (
         <span className="opration-btn">
-          <a onClick={() => this.editAccess(record.name, record)}>编辑</a>
-          <a
-            onClick={() => {
-              this.delAccess(record.id, '确定删除该条数据?')
-            }}
-            disabled={record.boundTcNum !== 0}
-          >
-            删除
-          </a>
+          <Auth role="admin">
+            <a onClick={() => this.editAccess(record.name, record)}>编辑</a>
+          </Auth>
+          <Auth role="admin">
+            <a
+              onClick={() => {
+                this.delAccess(record.id, '确定删除该条数据?')
+              }}
+              disabled={record.boundTcNum !== 0}
+            >
+              删除
+            </a>
+          </Auth>
         </span>
       )
     }
@@ -195,15 +200,19 @@ export default class Access extends React.Component {
         <TableWrap>
           <ToolBar>
             <BarLeft>
-              <Button onClick={this.addAccess} type="primary">
-                创建
-              </Button>
-              <Button
-                onClick={() => this.delAccess(this.tablex.getSelection())}
-                disabled={disabledButton?.disabledDelete}
-              >
-                删除
-              </Button>
+              <Auth role="admin">
+                <Button onClick={this.addAccess} type="primary">
+                  创建
+                </Button>
+              </Auth>
+              <Auth role="admin">
+                <Button
+                  onClick={() => this.delAccess(this.tablex.getSelection())}
+                  disabled={disabledButton?.disabledDelete}
+                >
+                  删除
+                </Button>
+              </Auth>
             </BarLeft>
           </ToolBar>
           <Tablex

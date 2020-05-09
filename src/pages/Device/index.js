@@ -5,6 +5,8 @@ import EditDrawer from './chip/EditDrawer'
 import AddDrawer from './chip/AddDrawer'
 import { columns, apiMethod } from './chip/TableCfg'
 import deviceApi from '@/services/device'
+import { Auth } from '@/components/Authorized'
+
 import produce from 'immer'
 
 const { confirm } = Modal
@@ -26,8 +28,12 @@ export default class Device extends React.Component {
     render: (text, record) => {
       return (
         <span className="opration-btn">
-          <a onClick={() => this.editDev(record, record.name)}>编辑</a>
-          <a onClick={() => this.delDev(record.id)}>删除</a>
+          <Auth role="admin">
+            <a onClick={() => this.editDev(record, record.name)}>编辑</a>
+          </Auth>
+          <Auth role="admin">
+            <a onClick={() => this.delDev(record.id)}>删除</a>
+          </Auth>
         </span>
       )
     }
@@ -187,15 +193,19 @@ export default class Device extends React.Component {
         <TableWrap>
           <ToolBar>
             <BarLeft>
-              <Button onClick={this.addDev} type="primary">
-                创建
-              </Button>
-              <Button
-                onClick={() => this.delDev(this.tablex.getSelection())}
-                disabled={disabledButton?.disabledDelete}
-              >
-                删除
-              </Button>
+              <Auth role="admin">
+                <Button onClick={this.addDev} type="primary">
+                  创建
+                </Button>
+              </Auth>
+              <Auth role="admin">
+                <Button
+                  onClick={() => this.delDev(this.tablex.getSelection())}
+                  disabled={disabledButton?.disabledDelete}
+                >
+                  删除
+                </Button>
+              </Auth>
             </BarLeft>
           </ToolBar>
           <Tablex

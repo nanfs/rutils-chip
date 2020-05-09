@@ -71,7 +71,7 @@ function getRouterConfig(app) {
         },
         {
           path: '/device',
-          authority: 'security',
+          authority: 'admin,security',
           component: dynamic({
             app,
             models: () => [],
@@ -80,7 +80,7 @@ function getRouterConfig(app) {
         },
         {
           path: '/access',
-          authority: 'security',
+          authority: 'admin,security',
           component: dynamic({
             app,
             models: () => [],

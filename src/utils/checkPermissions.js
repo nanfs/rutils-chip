@@ -27,7 +27,6 @@ export function getRole() {
  * @returns
  */
 export function checkRoute(authority, target, Exception) {
-  console.log('checkRoute', checkAuth(authority))
   if (checkAuth(authority)) {
     return target
   }
@@ -43,7 +42,7 @@ export function checkRoute(authority, target, Exception) {
  * @returns
  */
 export function checkAuth(authority) {
-  const isDiscrete = getItemFromLocal('threePowersSwitch')
+  const isDiscrete = getItemFromLocal('threePowersSwitch') || false
   // 如果没有开启三员  或者没有设置权限直接return
   if (isDiscrete === false || !authority) {
     return true

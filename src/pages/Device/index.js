@@ -8,12 +8,13 @@ import deviceApi from '@/services/device'
 import { Auth } from '@/components/Authorized'
 
 import produce from 'immer'
+import { checkAuth } from '@/utils/checkPermissions'
 
 const { confirm } = Modal
 const { createTableCfg, TableWrap, ToolBar, BarLeft } = Tablex
 
 export default class Device extends React.Component {
-  vmName = {
+  Name = {
     title: () => <span title="名称">名称</span>,
     dataIndex: 'name',
     width: 250,
@@ -39,7 +40,9 @@ export default class Device extends React.Component {
     }
   }
 
-  columnsArr = [this.vmName, ...columns, this.action]
+  columnsArr = checkAuth('admin')
+    ? [this.Name, ...columns, this.action]
+    : [this.Name, ...columns]
 
   state = {
     tableCfg: createTableCfg({

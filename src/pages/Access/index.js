@@ -6,12 +6,13 @@ import EditDrawer from './chip/EditDrawer'
 import { columns, apiMethod } from './chip/TableCfg'
 import accessApi from '@/services/access'
 import { Auth } from '@/components/Authorized'
+import { checkAuth } from '@/utils/checkPermissions'
 import produce from 'immer'
 
 const { confirm } = Modal
 const { createTableCfg, TableWrap, ToolBar, BarLeft } = Tablex
 export default class Access extends React.Component {
-  accessName = {
+  Name = {
     title: () => <span title="名称">名称</span>,
     width: 250,
     dataIndex: 'name',
@@ -44,7 +45,9 @@ export default class Access extends React.Component {
     }
   }
 
-  columnsArr = [this.accessName, ...columns, this.action]
+  columnsArr = checkAuth('admin')
+    ? [this.Name, ...columns, this.action]
+    : [this.Name, ...columns]
 
   state = {
     tableCfg: createTableCfg({

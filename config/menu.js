@@ -50,13 +50,13 @@ const menu = [
     title: '外设控制',
     icon: 'usb',
     path: '/device',
-    authority: 'security'
+    authority: 'admin,security'
   },
   {
     title: '准入控制',
     icon: 'login',
     path: '/access',
-    authority: 'security'
+    authority: 'admin,security'
   },
   // {
   //   title: '标签管理',

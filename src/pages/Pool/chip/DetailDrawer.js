@@ -3,6 +3,7 @@ import { Drawerx, Tabsx } from '@/components'
 import { Tabs } from 'antd'
 import BaseInfo from './detail/BaseInfo'
 import Vmlist from './detail/Vmlist'
+import { checkAuth } from '@/utils/checkPermissions'
 
 const { TabPane } = Tabs
 export default class DetailDrawer extends React.Component {
@@ -15,7 +16,10 @@ export default class DetailDrawer extends React.Component {
   pop = poolId => {
     this.drawer.show()
     this.setState({ defaultActiveKey: '' }, () =>
-      this.setState({ defaultActiveKey: '1', poolId })
+      this.setState({
+        defaultActiveKey: checkAuth('admin') ? '1' : '2',
+        poolId
+      })
     )
   }
 
@@ -32,9 +36,11 @@ export default class DetailDrawer extends React.Component {
         }}
       >
         <Tabsx defaultActiveKey={defaultActiveKey}>
-          <TabPane tab="基础信息" key="1">
-            <BaseInfo poolId={poolId}></BaseInfo>
-          </TabPane>
+          {checkAuth('admin') && (
+            <TabPane tab="基础信息" key="1">
+              <BaseInfo poolId={poolId}></BaseInfo>
+            </TabPane>
+          )}
           <TabPane tab="桌面列表" key="2">
             <Vmlist
               poolId={poolId}

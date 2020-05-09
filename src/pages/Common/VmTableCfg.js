@@ -234,7 +234,7 @@ export function getMoreButton({
       </Menu.Item>
       <Menu.Item
         key="1"
-        hidden={!isInnerMore || isDuplicated}
+        hidden={!isInnerMore || isDuplicated || !checkAuth('admin')}
         onClick={openConsoleFn}
         disabled={disabledButton?.disabledOpenConsole}
       >
@@ -242,7 +242,7 @@ export function getMoreButton({
       </Menu.Item>
       <Menu.Item
         key="7"
-        hidden={isDuplicated || !isInnerMore}
+        hidden={isDuplicated || !isInnerMore || !checkAuth('admin')}
         onClick={attachIsoFn}
         disabled={disabledButton?.disabledAttachIso}
       >
@@ -251,14 +251,14 @@ export function getMoreButton({
       <Menu.Item
         key="2"
         disabled={disabledButton?.disabledUp}
-        hidden={isDuplicated}
+        hidden={isDuplicated || !checkAuth('admin')}
         onClick={() => sendOrderFn('start')}
       >
         开机
       </Menu.Item>
       <Menu.Item
         key="3"
-        hidden={isDuplicated && !isInnerMore}
+        hidden={(isDuplicated && !isInnerMore) || !checkAuth('admin')}
         disabled={disabledButton?.disabledDown}
         onClick={() => sendOrderFn('shutdown')}
       >
@@ -266,6 +266,7 @@ export function getMoreButton({
       </Menu.Item>
       <Menu.Item
         key="4"
+        hidden={!checkAuth('admin')}
         disabled={disabledButton?.disabledPowerOff}
         onClick={() => sendOrderFn('poweroff')}
       >
@@ -273,6 +274,7 @@ export function getMoreButton({
       </Menu.Item>
       <Menu.Item
         key="5"
+        hidden={!checkAuth('admin')}
         disabled={disabledButton?.disabledRestart}
         onClick={() => sendOrderFn('restart')}
       >
@@ -280,7 +282,7 @@ export function getMoreButton({
       </Menu.Item>
       <Menu.Item
         key="6"
-        hidden={!isInnerMore || isDuplicated}
+        hidden={!isInnerMore || isDuplicated || !checkAuth('admin')}
         disabled={disabledButton?.disabledAddTem}
         onClick={addTempFn}
       >
@@ -288,7 +290,7 @@ export function getMoreButton({
       </Menu.Item>
       <Menu.Item
         key="7"
-        hidden={!isPoolVmlist}
+        hidden={!isPoolVmlist || !checkAuth('security')}
         disabled={disabledButton?.disabledRemovePermission}
         onClick={removePermissionFn}
       >
@@ -296,6 +298,7 @@ export function getMoreButton({
       </Menu.Item>
       <Menu.Item
         key="10"
+        hidden={!checkAuth('admin')}
         onClick={deleteFn}
         disabled={disabledButton?.disabledDelete}
       >

@@ -85,8 +85,8 @@ export default class LoginForm extends React.Component {
         if (res.success) {
           // // TODO change TO 220
           const Mockdata = {
-            userName: 'security',
-            userRole: 'security',
+            userName: 'admin',
+            userRole: 'admin',
             threePowersSwitch: true
           }
           setItemToLocal(Mockdata)

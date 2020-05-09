@@ -15,6 +15,7 @@ import {
   vmDisableAction
 } from '@/pages/Common/VmTableCfg'
 import { downloadVV } from '@/utils/tool'
+import { Auth } from '@/components/Authorized'
 
 const { createTableCfg, TableWrap, ToolBar, BarLeft } = Tablex
 const { confirm } = Modal
@@ -40,17 +41,29 @@ export default class Desktop extends React.Component {
       })
       return (
         <span className="opration-btn">
-          <a
-            onClick={() => this.sendOrder(id, 'start')}
-            disabled={disabledButton.disabledUp}
-          >
-            开机
-          </a>
-          <Dropdown overlay={moreAction} placement="bottomRight">
-            <a>
-              更多 <Icon type="down" />
+          <Auth role="security" hiddenOnNotDiscrete={true}>
+            <a
+              disabled={disabledButton?.disabledRemovePermission}
+              onClick={() => this.removePermission(id)}
+            >
+              回收权限
             </a>
-          </Dropdown>
+          </Auth>
+          <Auth role="admin">
+            <a
+              onClick={() => this.sendOrder(id, 'start')}
+              disabled={disabledButton.disabledUp}
+            >
+              开机
+            </a>
+          </Auth>
+          <Auth role="admin">
+            <Dropdown overlay={moreAction} placement="bottomRight">
+              <a>
+                更多 <Icon type="down" />
+              </a>
+            </Dropdown>
+          </Auth>
         </span>
       )
     }
@@ -270,30 +283,46 @@ export default class Desktop extends React.Component {
         <TableWrap>
           <ToolBar>
             <BarLeft>
-              <Button
-                disabled={disabledButton?.disabledUp}
-                onClick={() =>
-                  this.sendOrder(this.tablex.getSelection(), 'start')
-                }
-              >
-                开机
-              </Button>
-              <Button
-                disabled={disabledButton?.disabledDown}
-                onClick={() =>
-                  this.sendOrder(this.tablex.getSelection(), 'shutdown')
-                }
-              >
-                关机
-              </Button>
-              <Dropdown
-                overlay={moreButton}
-                disabled={disabledButton?.disabledMore}
-              >
-                <Button>
-                  更多操作 <Icon type="down" />
+              <Auth role="security" hiddenOnNotDiscrete={true}>
+                <Button
+                  disabled={disabledButton?.disabledRemovePermission}
+                  onClick={() =>
+                    this.removePermission(this.tablex.getSelection())
+                  }
+                >
+                  回收权限
                 </Button>
-              </Dropdown>
+              </Auth>
+              <Auth role="admin">
+                <Button
+                  disabled={disabledButton?.disabledUp}
+                  onClick={() =>
+                    this.sendOrder(this.tablex.getSelection(), 'start')
+                  }
+                >
+                  开机
+                </Button>
+              </Auth>
+              <Auth role="admin">
+                <Button
+                  disabled={disabledButton?.disabledDown}
+                  onClick={() =>
+                    this.sendOrder(this.tablex.getSelection(), 'shutdown')
+                  }
+                >
+                  关机
+                </Button>
+              </Auth>
+              <Auth role="admin">
+                <Dropdown
+                  overlay={moreButton}
+                  disabled={disabledButton?.disabledMore}
+                >
+                  <Button>
+                    更多操作 <Icon type="down" />
+                  </Button>
+                </Dropdown>
+              </Auth>
             </BarLeft>
           </ToolBar>
           <Tablex

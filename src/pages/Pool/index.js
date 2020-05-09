@@ -8,7 +8,7 @@ import EditDrawer from './chip/EditDrawer'
 import SetUserDrawer from './chip/SetUserDrawer'
 import poolsApi from '@/services/pools'
 import { columns, apiMethod } from './chip/TableCfg'
-import { checkAuth } from '@/utils/checkPermissions'
+// import { checkAuth } from '@/utils/checkPermissions'
 import './index.less'
 
 const { confirm } = Modal
@@ -23,9 +23,7 @@ export default class Pool extends React.Component {
       return (
         <a
           className="detail-link"
-          onClick={() =>
-            checkAuth('admin') && this.detailPool(record.id, record.name)
-          }
+          onClick={() => this.detailPool(record.id, record.name)}
         >
           {record.name}
         </a>

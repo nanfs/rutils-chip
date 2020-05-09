@@ -20,6 +20,7 @@ export default class Tabsx extends React.Component {
         }}
       >
         {React.Children.map(children, child => {
+          if (!child) return
           if (child.key === currentKey) {
             return React.cloneElement(child)
           } else {

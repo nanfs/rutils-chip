@@ -47,18 +47,21 @@ export function checkRoute(authority, target, Exception) {
  * @author lishuai
  * @date 2020-05-09
  * @export
- * @param {*} authority
+ * @param {*} 约定authority 系统内必须不会空  为空为登录页
  * @returns
  */
 export function checkAuth(authority) {
   const isDiscrete = getItemFromLocal('threePowersSwitch') || false
-  // 如果没有开启三员  或者没有设置权限直接return
-  if (isDiscrete === false || !authority) {
-    return true
-  }
-  if (!getRole()) {
+  // 系统需要权限 如果没有登录
+  if (!getRole() && authority) {
     return false
   }
+  // 如果没有开启三员  或者没有设置权限直接return
+
+  if (isDiscrete === false) {
+    return true
+  }
+
   // 数组处理
   if (Array.isArray(authority)) {
     if (authority.indexOf(getRole()) >= 0) {

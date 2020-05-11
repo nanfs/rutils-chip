@@ -4,6 +4,7 @@ function getRouterConfig(app) {
   const routerConfig = [
     {
       path: '/login',
+      authority: '',
       component: dynamic({
         app,
         models: () => [],
@@ -30,6 +31,7 @@ function getRouterConfig(app) {
         },
         {
           path: '/resource',
+          authority: 'admin,security',
           component: dynamic({
             app,
             models: () => [],
@@ -38,6 +40,7 @@ function getRouterConfig(app) {
         },
         {
           path: '/desktop',
+          authority: 'admin,security',
           component: dynamic({
             app,
             models: () => [],
@@ -46,6 +49,7 @@ function getRouterConfig(app) {
         },
         {
           path: '/pool',
+          authority: 'admin,security',
           component: dynamic({
             app,
             models: () => [],
@@ -63,6 +67,7 @@ function getRouterConfig(app) {
         },
         {
           path: '/terminal',
+          authority: 'admin,security',
           component: dynamic({
             app,
             models: () => [],
@@ -89,6 +94,7 @@ function getRouterConfig(app) {
         },
         {
           path: '/label',
+          authority: 'admin,security',
           component: dynamic({
             app,
             models: () => [],
@@ -97,6 +103,7 @@ function getRouterConfig(app) {
         },
         {
           path: '/user',
+          authority: 'admin,security',
           component: dynamic({
             app,
             models: () => [],
@@ -105,6 +112,7 @@ function getRouterConfig(app) {
         },
         {
           path: '/task',
+          authority: 'admin',
           component: dynamic({
             app,
             models: () => [],
@@ -113,6 +121,7 @@ function getRouterConfig(app) {
         },
         {
           path: '/vmlog',
+          authority: 'admin,security,audit',
           component: dynamic({
             app,
             models: () => [],
@@ -121,6 +130,7 @@ function getRouterConfig(app) {
         },
         {
           path: '/tclog',
+          authority: 'admin,security,audit',
           component: dynamic({
             app,
             models: () => [],

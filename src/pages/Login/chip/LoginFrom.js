@@ -84,14 +84,14 @@ export default class LoginForm extends React.Component {
         this.setState({ loading: false })
         if (res.success) {
           // // TODO change TO 220
-          const Mockdata = {
-            userName: 'admin',
-            userRole: 'admin',
-            threePowersSwitch: true,
-            userId: 1
-          }
-          setItemToLocal(Mockdata)
-          // setItemToLocal(res.data)
+          // const Mockdata = {
+          //   userName: 'admin',
+          //   userRole: 'admin',
+          //   threePowersSwitch: true,
+          //   userId: 1
+          // }
+          // setItemToLocal(Mockdata)
+          setItemToLocal(res.data)
           // 解决第一次加载的问题
           setClusterToSession()
           setDataCenterToSession()

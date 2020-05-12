@@ -4,7 +4,7 @@ function getRouterConfig(app) {
   const routerConfig = [
     {
       path: '/login',
-      authority: '',
+      authority: 'all',
       component: dynamic({
         app,
         models: () => [],

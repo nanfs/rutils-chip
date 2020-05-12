@@ -23,7 +23,7 @@ export function reloadAuthorized() {
 }
 
 export function getRole() {
-  return getItemFromLocal('userRole')
+  return getItemFromLocal('userRole')?.toLowerCase()
 }
 /**
  * @description 检查路由权限
@@ -52,6 +52,10 @@ export function checkRoute(authority, target, Exception) {
  */
 export function checkAuth(authority) {
   const isDiscrete = getItemFromLocal('threePowersSwitch') || false
+  console.log('authority', authority, 'get', getRole())
+  if (authority === 'all') {
+    return true
+  }
   // 系统需要权限 如果没有登录
   if (!getRole() && authority) {
     return false

@@ -76,18 +76,20 @@ const menu = [
     icon: 'log',
     iconComonpent: 'MyIcon',
     path: '/log',
-    authority: 'admin',
+    authority: 'admin,security,audit',
     children: [
       {
         title: '桌面日志',
         icon: 'log',
         iconComonpent: 'MyIcon',
+        authority: 'admin,security,audit',
         path: '/vmlog'
       },
       {
         title: '终端日志',
         icon: 'log',
         iconComonpent: 'MyIcon',
+        authority: 'admin,security,audit',
         path: '/tclog'
       }
     ]

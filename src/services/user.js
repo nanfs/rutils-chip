@@ -119,11 +119,45 @@ export default {
       params: data
     })
   },
+  queryUserResources(data) {
+    return axios({
+      url: '/user/userresources',
+      method: 'get',
+      params: data
+    })
+  },
+  getRole(data) {
+    return axios({
+      url: '/user/roles',
+      method: 'get',
+      params: data
+    })
+  },
   setRole(data) {
     return axios({
+      headers: {
+        'Content-Type': 'application/json'
+      },
       url: '/user/adduserrole',
       method: 'post',
-      data: qs.stringify(data, { allowDots: true, arrayFormat: 'indices' })
+      data: JSON.stringify(data)
+    })
+  },
+  removeRole(data) {
+    return axios({
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      url: '/user/removeuserrole',
+      method: 'post',
+      data: JSON.stringify(data)
+    })
+  },
+  ordinaryUser(data) {
+    return axios({
+      url: '/user/ordinaryuser',
+      method: 'post',
+      data: qs.stringify(data)
     })
   },
   desktopList(data) {

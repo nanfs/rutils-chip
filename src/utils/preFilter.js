@@ -94,3 +94,27 @@ export function setClusterToSession() {
       })
   )
 }
+
+/**
+ * @description
+ * @author linghu
+ * @date 2020-05-09
+ * @export
+ */
+export function setRolesToSession() {
+  userApi.getRole().then(res =>
+    wrapResponse(res)
+      .then(() => {
+        setObjItemTolocal(
+          'roles',
+          res?.data.map(item => ({
+            value: Object.keys(item)[0],
+            label: item[Object.keys(item)[0]]
+          })) || []
+        )
+      })
+      .catch(() => {
+        setObjItemTolocal('roles', [])
+      })
+  )
+}

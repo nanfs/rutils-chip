@@ -1,6 +1,7 @@
 import React from 'react'
 import { Tree, Input, Spin, Menu, Modal, notification, message } from 'antd'
 import { nodes2Tree } from '@/utils/tool'
+import userApi from '@/services/user'
 
 const { TreeNode } = Tree
 const { Search } = Input
@@ -35,6 +36,7 @@ const generateList = data => {
   }
   return { allKey, nodeList }
 }
+
 export default class SetRoleTree extends React.Component {
   state = {
     value: '',
@@ -45,20 +47,73 @@ export default class SetRoleTree extends React.Component {
     selectedKeys: [],
     nodeList: [],
     nodes: undefined,
-    loadding: true
+    nodeAsTree: [],
+    loadding: true,
+    disabledKeys: []
   }
 
   componentDidMount() {
     this.props.onRef && this.props.onRef(this)
   }
 
-  componentDidUpdate(prep) {
+  /* componentDidUpdate(prep) {
     if (this.props.treeData !== prep.value && prep.treeData === undefined) {
       this.setState({ nodes: this.props.treeData })
     }
+  } */
+
+  familyTree(arr1, id) {
+    const temp = []
+    const forFn = function(arr, key) {
+      for (let i = 0; i < arr.length; i++) {
+        const item = arr[i]
+        if (item.id === key) {
+          temp.push(item.id)
+          forFn(arr1, item.parentId)
+          break
+        } else if (item.children) {
+          forFn(item.children, key)
+        }
+      }
+    }
+    forFn(arr1, id)
+    return temp
   }
 
-  getTreeData = userId => {
+  childrenTree(arr1, id) {
+    const temp = []
+    const forFn = function(arr, key) {
+      for (let i = 0; i < arr.length; i++) {
+        const item = arr[i]
+        if (item.parentId === key) {
+          temp.push(item.id)
+          if (item.children) {
+            forFn(item.children, item.id)
+          }
+          // break
+        } else if (item.children) {
+          forFn(item.children, key)
+        }
+      }
+    }
+    forFn(arr1, id)
+    return temp
+  }
+
+  // 获取多个节点的相关节点（多级父节点，多级子节点） 设置为disabled
+  getrelatedNodes = nodes => {
+    const disabledKeys = []
+    console.log(nodes.checkedNodes, this.state.nodeAsTree)
+    nodes.checkedNodes.forEach(element => {
+      disabledKeys.push(
+        ...this.childrenTree(this.state.nodeAsTree, element.props['data-key']),
+        ...this.familyTree(this.state.nodeAsTree, element.props.parentId)
+      )
+    })
+    this.setState({ disabledKeys })
+  }
+
+  getTreeData = (userId, checkedKeys) => {
     const { apiMethod, treeData } = this.props
     if (!apiMethod) {
       this.setState({
@@ -70,23 +125,34 @@ export default class SetRoleTree extends React.Component {
     apiMethod({ userId })
       .then(res => {
         if (res.success) {
-          const nodes = res.data.map(element => {
+          const nodes = []
+          const checkedNodes = []
+          res.data.forEach(element => {
             if (element.type === 1) {
               element.rank = 1
+              element.title = element.name
+              element.relatedNodes = []
             } else if (element.type === 14) {
               element.rank = 2
+              element.title = `${element.name}(数据中心)`
             } else if (element.type === 9) {
               element.rank = 3
+              element.title = `${element.name}(集群)`
             }
-            return {
+            element.parentId = element.pid ? element.pid.toString() : '-1'
+            nodes.push({
               ...element,
               key: element.id.toString(),
               id: element.id.toString(),
-              value: element.id.toString(),
-              title: element.name,
-              parentId: element.pid ? element.pid.toString() : '-1'
+              value: element.id.toString()
+            })
+            if (checkedKeys.indexOf(element.id) > -1) {
+              checkedNodes.push({
+                props: { parentId: element.parentId, 'data-key': element.id }
+              })
             }
           })
+
           nodes.sort((a, b) => {
             return a.rank - b.rank
           })
@@ -96,10 +162,14 @@ export default class SetRoleTree extends React.Component {
           const { allKey, nodeList } = generateList(nodes)
           this.setState({
             expandedKeys: allKey,
+            nodeAsTree: nodes2Tree(nodes),
+            checkedKeys,
             nodeList,
             nodes,
             loading: false
           })
+
+          this.getrelatedNodes({ checkedNodes }) // 初始化时将已选节点的相关节点disabled
         } else {
           this.nodes = []
           this.setState({ loading: false })
@@ -122,8 +192,9 @@ export default class SetRoleTree extends React.Component {
   // 树节点选中
   onCheck = (checkedKeys, node) => {
     const { onCheck } = this.props
-    this.setState({ checkedKeys })
     onCheck && onCheck(checkedKeys, node)
+    this.getrelatedNodes(node)
+    this.setState({ checkedKeys })
   }
 
   renderTreeNode = (data, searchValue = '') =>
@@ -141,6 +212,7 @@ export default class SetRoleTree extends React.Component {
         ) : (
           <span title={item.title}>{item.title}</span>
         )
+      const disabled = this.state.disabledKeys.indexOf(item.id) > -1
       if (item.children) {
         return (
           <TreeNode
@@ -150,6 +222,7 @@ export default class SetRoleTree extends React.Component {
             data-title={item.title}
             parentId={item.parentId}
             type={item.type}
+            disabled={disabled}
           >
             {this.renderTreeNode(item.children, searchValue)}
           </TreeNode>
@@ -161,8 +234,9 @@ export default class SetRoleTree extends React.Component {
           title={title}
           data-key={item.id}
           data-title={item.title}
-          parentId={item.parentId}
           type={item.type}
+          parentId={item.parentId}
+          disabled={disabled}
         />
       )
     })
@@ -170,7 +244,8 @@ export default class SetRoleTree extends React.Component {
   clean = () => {
     this.setState({
       checkedKeys: [],
-      selectedKeys: []
+      selectedKeys: [],
+      disabledKeys: []
     })
   }
 
@@ -180,6 +255,7 @@ export default class SetRoleTree extends React.Component {
     // const { pageX, pageY, id, categoryName } = rightClickNodeTreeItem
 
     const {
+      nodeAsTree,
       searchValue,
       expandedKeys,
       checkedKeys,
@@ -206,7 +282,7 @@ export default class SetRoleTree extends React.Component {
           checkStrictly
           checkable={checkable}
         >
-          {this.renderTreeNode(nodes2Tree(nodes), searchValue)}
+          {this.renderTreeNode(nodeAsTree, searchValue)}
         </Tree>
       </Spin>
     )

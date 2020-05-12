@@ -1,6 +1,11 @@
 import React from 'react'
 import G6 from '@antv/g6'
 
+import { message } from 'antd'
+import userApi from '@/services/user'
+import { getUserId } from '@/utils/checkPermissions'
+import { nodes2Tree } from '@/utils/tool'
+
 import cloudPlatformImg from '@/assets/topology/cloudplatform.png'
 import datacenterOnlineImg from '@/assets/topology/datacenter-online.png'
 import datacenterOfflineImg from '@/assets/topology/datacenter-offline.png'
@@ -441,140 +446,185 @@ export default class Topology extends React.Component {
   }
 
   componentDidMount() {
-    const data = this.node2tree()
-    console.log(data)
-    if (this.mountNode) {
-      const graph = new G6.TreeGraph({
-        container: this.mountNode, // String | HTMLElement，必须，在 Step 1 中创建的容器 id 或容器本身
-        width: document.querySelector('.ant-layout-content').scrollWidth - 200, // Number，必须，图的宽度
-        height: document.querySelector('.ant-layout-content').scrollHeight - 80, // Number，必须，图的高度
-        fitView: true,
-        fitViewPadding: 150,
-        animate: true,
-        modes: {
-          default: [
-            {
-              type: 'collapse-expand', // 定义收缩/展开行为
-              trigger: 'click',
-              onChange(item, collapsed) {
-                // console.log('graph now is going to do layout')
-              }
-            },
-            /* {
-              type: 'tooltip',
-              formatText(model) {
-                return (
-                  `<div><span class="g6-tooltip-label">名称：</span><span class="g6-tooltip-value"><span>${model.label}</span></span><span class="g6-tooltip-label">状态：</span><span class="g6-tooltip-value"><span>${model.label}</span></span></div>` +
-                  `<div><span class="g6-tooltip-label">名称：</span><span class="g6-tooltip-value"><span>${model.label}</span></span><span class="g6-tooltip-label">状态：</span><span class="g6-tooltip-value"><span>${model.label}</span></span></div>`
-                )
-              }
-              // offset: 10
-            } */
-            // 允许拖拽画布、放缩画布、拖拽节点
-            'drag-canvas',
-            'zoom-canvas'
-            // 'drag-node',
-          ]
-        },
-        layout: {
-          type: 'compactBox',
-          direction: 'TB', // 树布局的方向
-          nodeSep: 10, // 可选
-          rankSep: 10, // 可选
-          getVGap: function getVGap() {
-            return 50
-          },
-          getHGap: function getHGap() {
-            return 50
-          }
-        },
-        defaultNode: {
-          type: 'image',
-          size: 40,
-          labelCfg: {
-            position: 'right',
-            style: {
-              fontSize: 12
+    userApi
+      .queryResources({ userId: getUserId('userId') })
+      .then(res => {
+        if (res.success) {
+          const nodes = res.data.map(element => {
+            element.label = element.name
+            element.nodeType = element.type
+            if (element.type === 1) {
+              element.rank = 1
+              element.img = cloudPlatformImg
+              element.nodeTypeName = '系统'
+            } else if (element.type === 14) {
+              element.rank = 2
+              element.img = datacenterOnlineImg
+              element.nodeTypeName = '数据中心'
+            } else if (element.type === 9) {
+              element.rank = 3
+              element.img = clusterOnlineImg
+              element.nodeTypeName = '集群'
+              element.collapsed = true
             }
-          }
-        },
-        defaultEdge: {
-          type: 'quadratic',
-          style: {
-            stroke: '#1890ff',
-            lineWidth: 0.8
-          }
-        }
-      })
-      graph.data(data)
-      graph.render()
+            element.type = 'image'
+            return {
+              ...element,
+              id: element.id.toString(),
+              value: element.id.toString(),
+              parentId: element.pid ? element.pid.toString() : '-1'
+            }
+          })
+          nodes.sort((a, b) => {
+            return a.rank - b.rank
+          })
 
-      // 鼠标进入节点
-      graph.on('node:mouseenter', e => {
-        console.log(e)
-        clearTimeout(this.timer)
-        const nodeItem = e.item // 获取鼠标进入的节点元素对象
-        const { model } = e.item.defaultCfg
-        console.log(model)
-        this.setState({
-          tooltipStyle: {
-            visibility: 'visible',
-            top: e.canvasY - 20,
-            left: e.canvasX + 20
-          },
-          tooltipItem: (
-            <div>
-              <div>
-                <span className="topology-tooltip-label">名称：</span>
-                <span className="topology-tooltip-value">
-                  <span>{model.label}</span>
-                </span>
-                <span className="topology-tooltip-label">状态：</span>
-                <span className="topology-tooltip-value">
-                  <span>{model.label}</span>
-                </span>
-              </div>
-              <div>
-                <span className="topology-tooltip-label">名称：</span>
-                <span className="topology-tooltip-value">
-                  <span>{model.label}</span>
-                </span>
-                <span className="topology-tooltip-label">状态：</span>
-                <span className="topology-tooltip-value">
-                  <span>{model.label}</span>
-                </span>
-              </div>
-            </div>
-          )
-        })
-        /* graph.updateItem(nodeItem, {
+          const data = nodes2Tree(nodes)[0]
+          console.log(data)
+          if (this.mountNode) {
+            const graph = new G6.TreeGraph({
+              container: this.mountNode, // String | HTMLElement，必须，在 Step 1 中创建的容器 id 或容器本身
+              width:
+                document.querySelector('.ant-layout-content').scrollWidth - 240, // Number，必须，图的宽度
+              height:
+                document.querySelector('.ant-layout-content').scrollHeight - 80, // Number，必须，图的高度
+              fitView: true,
+              fitViewPadding: 150,
+              animate: true,
+              modes: {
+                default: [
+                  {
+                    type: 'collapse-expand', // 定义收缩/展开行为
+                    trigger: 'click',
+                    onChange(item, collapsed) {
+                      // console.log('graph now is going to do layout')
+                    }
+                  },
+                  // 允许拖拽画布、放缩画布、拖拽节点
+                  'drag-canvas',
+                  'zoom-canvas'
+                  // 'drag-node',
+                ]
+              },
+              layout: {
+                type: 'compactBox',
+                direction: 'TB', // 树布局的方向
+                nodeSep: 10, // 可选
+                rankSep: 10, // 可选
+                getVGap: function getVGap() {
+                  return 50
+                },
+                getHGap: function getHGap() {
+                  return 50
+                }
+              },
+              defaultNode: {
+                type: 'image',
+                size: 40,
+                labelCfg: {
+                  position: 'right',
+                  style: {
+                    fontSize: 12
+                  }
+                }
+              },
+              defaultEdge: {
+                type: 'line',
+                style: {
+                  stroke: '#1890ff',
+                  lineWidth: 0.8
+                  /* endArrow: {
+                    // 自定义箭头指向(0, 0)，尾部朝向 x 轴正方向的 path
+                    path: 'M 0,0 L 20,10 L 20,-10 Z',
+                    // 箭头的偏移量，负值代表向 x 轴正方向移动
+                    // d: -10,
+                    // v3.4.1 后支持各样式属性
+                    fill: '#333',
+                    stroke: '#666',
+                    opacity: 0.8
+                    // ...
+                  } */
+                }
+              }
+            })
+            graph.data(data)
+            graph.render()
+
+            // 鼠标进入节点
+            graph.on('node:mouseenter', e => {
+              console.log(e)
+              clearTimeout(this.timer)
+              const nodeItem = e.item // 获取鼠标进入的节点元素对象
+              const { model } = e.item.defaultCfg
+              this.setState({
+                tooltipStyle: {
+                  visibility: 'visible',
+                  top: e.canvasY - 20,
+                  left: e.canvasX + 20
+                },
+                tooltipItem: (
+                  <div>
+                    <div>
+                      <span className="topology-tooltip-label">名称：</span>
+                      <span className="topology-tooltip-value">
+                        <span>{model.label}</span>
+                      </span>
+                      <span className="topology-tooltip-label">类型：</span>
+                      <span className="topology-tooltip-value">
+                        <span>{model.nodeTypeName}</span>
+                      </span>
+                    </div>
+                    {/* <div>
+                      <span className="topology-tooltip-label">名称：</span>
+                      <span className="topology-tooltip-value">
+                        <span>{model.label}</span>
+                      </span>
+                      <span className="topology-tooltip-label">状态：</span>
+                      <span className="topology-tooltip-value">
+                        <span>{model.label}</span>
+                      </span>
+                    </div> */}
+                  </div>
+                )
+              })
+              /* graph.updateItem(nodeItem, {
           img: vmImg
         }) // 修改当前节点展示 */
-        graph.setItemState(nodeItem, 'hover', true) // 设置当前节点的 hover 状态为 true
-      })
+              graph.setItemState(nodeItem, 'hover', true) // 设置当前节点的 hover 状态为 true
+            })
 
-      // 鼠标离开节点
-      graph.on('node:mouseleave', e => {
-        const nodeItem = e.item // 获取鼠标离开的节点元素对象
-        graph.setItemState(nodeItem, 'hover', false) // 设置当前节点的 hover 状态为 false
-        this.timer = setTimeout(
-          () =>
-            this.setState({
-              tooltipStyle: {
-                visibility: 'hidden'
-              }
-            }),
-          1000
-        )
-      })
+            // 鼠标离开节点
+            graph.on('node:mouseleave', e => {
+              const nodeItem = e.item // 获取鼠标离开的节点元素对象
+              graph.setItemState(nodeItem, 'hover', false) // 设置当前节点的 hover 状态为 false
+              this.timer = setTimeout(
+                () =>
+                  this.setState({
+                    tooltipStyle: {
+                      visibility: 'hidden'
+                    }
+                  }),
+                1000
+              )
+            })
 
-      // 点击节点
-      graph.on('node:click', e => {
-        graph.zoom(10, { x: 100, y: 100 })
-        graph.render()
-        graph.refreshLayout(false)
+            // 点击节点
+            graph.on('node:click', e => {
+              graph.zoom(10, { x: 100, y: 100 })
+              graph.render()
+              graph.refreshLayout(false)
+            })
+          }
+        } else {
+          this.nodes = []
+          this.setState({ loading: false })
+        }
       })
-    }
+      .catch(error => {
+        this.setState({ loading: false })
+        message.error(error.message || error)
+        console.log(error)
+      })
   }
 
   render() {
@@ -586,7 +636,7 @@ export default class Topology extends React.Component {
           ref={ref => {
             this.mountNode = ref
           }}
-          style={{ backgroundColor: '#fff' }}
+          style={{ backgroundColor: '#fff', margin: '0 20px' }}
         ></div>
         <div className="topology-tooltip" style={tooltipStyle}>
           {tooltipItem}

@@ -101,7 +101,7 @@ export default class User extends React.Component {
             key="5"
             onClick={this.setRole.bind(this, record, record.name)}
           >
-            分配角色
+            分配权限
           </Menu.Item>
         </Menu>
       )

@@ -27,7 +27,9 @@ export default class Resource extends React.Component {
           style={{
             float: 'right',
             marginRight: 30,
-            marginTop: 20,
+            marginTop: 15,
+            fontSize: 16,
+            fontWeight: 700,
             cursor: 'pointer'
           }}
         >

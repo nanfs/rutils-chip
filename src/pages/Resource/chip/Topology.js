@@ -485,7 +485,7 @@ export default class Topology extends React.Component {
             const graph = new G6.TreeGraph({
               container: this.mountNode, // String | HTMLElement，必须，在 Step 1 中创建的容器 id 或容器本身
               width:
-                document.querySelector('.ant-layout-content').scrollWidth - 200, // Number，必须，图的宽度
+                document.querySelector('.ant-layout-content').scrollWidth - 240, // Number，必须，图的宽度
               height:
                 document.querySelector('.ant-layout-content').scrollHeight - 80, // Number，必须，图的高度
               fitView: true,
@@ -636,7 +636,7 @@ export default class Topology extends React.Component {
           ref={ref => {
             this.mountNode = ref
           }}
-          style={{ backgroundColor: '#fff' }}
+          style={{ backgroundColor: '#fff', margin: '0 20px' }}
         ></div>
         <div className="topology-tooltip" style={tooltipStyle}>
           {tooltipItem}

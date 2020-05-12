@@ -52,7 +52,6 @@ export function checkRoute(authority, target, Exception) {
  */
 export function checkAuth(authority) {
   const isDiscrete = getItemFromLocal('threePowersSwitch') || false
-  console.log('authority', authority, 'get', getRole())
   if (authority === 'all') {
     return true
   }

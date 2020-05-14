@@ -38,7 +38,7 @@ export default class setRoleModal extends React.Component {
     const { id, roleTypeId } = data
     this.modal.form.setFieldsValue({
       id,
-      roleId: roleTypeId || '2'
+      roleId: roleTypeId.toString()
     })
     this.resourceTreex.clean()
     userApi
@@ -53,6 +53,9 @@ export default class setRoleModal extends React.Component {
             item.permissionId = item.id
             checkedNodes.push(item)
             checkedKeys.push(item.key)
+          })
+          this.modal.form.setFieldsValue({
+            resourceId: checkedNodes
           })
           userApi
             .queryUserResources({ userId: getUserId('userId') })
@@ -184,6 +187,7 @@ export default class setRoleModal extends React.Component {
   }
 
   render() {
+    debugger
     const modalCfg = createModalCfg({ title: '分配权限', width: 800 })
     return (
       <Modalx

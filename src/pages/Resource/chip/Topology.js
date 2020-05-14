@@ -492,6 +492,7 @@ export default class Topology extends React.Component {
               fitView: true,
               fitViewPadding: 150,
               animate: true,
+              maxZoom: 1,
               modes: {
                 default: [
                   {

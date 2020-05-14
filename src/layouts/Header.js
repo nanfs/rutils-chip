@@ -63,21 +63,23 @@ export default class Header extends React.Component {
    * @date 2020-04-08
    */
   componentDidMount() {
-    // 添加三员权限控制
+    // 添加三员权限控制  头部日志仅显示错误日志 除管理员外其他没有
     window.addEventListener('click', this.onDocumentClick)
-    this.timer && clearInterval(this.timer)
-    checkAuth('admin') && this.getTasks()
-    this.getLogs()
-    this.timer = this.loopGetTask()
+    if (checkAuth('admin')) {
+      this.timer && clearInterval(this.timer)
+      this.getTasks()
+      this.getLogs()
+      this.timer = this.loopGet()
+    }
   }
 
   componentWillUnmount() {
     this.timer && clearInterval(this.timer)
   }
 
-  loopGetTask = () => {
+  loopGet = () => {
     return setInterval(() => {
-      checkAuth('admin') && this.getTasks()
+      this.getTasks()
       this.getLogs()
     }, 5000)
   }
@@ -360,7 +362,7 @@ export default class Header extends React.Component {
               </div>
             </Dropdown>
           </Menu.Item>
-          <Menu.Item key="logs">
+          <Menu.Item key="logs" hidden={!checkAuth('admin')}>
             <Dropdown
               overlay={this.renderLogList()}
               placement="bottomCenter"
@@ -376,7 +378,7 @@ export default class Header extends React.Component {
               >
                 <Badge offset={[5, 0]}>
                   <Icon type="exception" />
-                  事件
+                  日志
                 </Badge>
               </div>
             </Dropdown>

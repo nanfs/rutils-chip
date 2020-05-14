@@ -54,13 +54,31 @@ export default class setRoleModal extends React.Component {
             checkedNodes.push(item)
             checkedKeys.push(item.key)
           })
-          this.setState({
-            checkedNodes,
-            checkedKeys,
-            sqlSaveNodes: checkedNodes,
-            sqlSaveRoleId: roleTypeId
-          })
-          this.resourceTreex.getTreeData(getUserId('userId'), checkedKeys)
+          userApi
+            .queryUserResources({ userId: getUserId('userId') })
+            .then(res => {
+              const loginUserResource = []
+              if (res.success) {
+                res.data.forEach(item => {
+                  item.key = item.object_id
+                  loginUserResource.push(item.key)
+                })
+                this.setState({
+                  checkedNodes,
+                  checkedKeys,
+                  sqlSaveNodes: checkedNodes,
+                  sqlSaveRoleId: roleTypeId
+                })
+                this.resourceTreex.getTreeData(
+                  getUserId('userId'),
+                  checkedKeys,
+                  loginUserResource
+                )
+              }
+            })
+            .catch(error => {
+              message.error(error.message || error)
+            })
         }
       })
       .catch(error => {

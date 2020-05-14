@@ -110,10 +110,17 @@ export default class SetRoleTree extends React.Component {
         ...this.familyTree(this.state.nodeAsTree, element.props.parentId)
       )
     })
+    const { loginUserNodes } = this.state
+    loginUserNodes.forEach(element => {
+      disabledKeys.push(
+        ...this.familyTree(this.state.nodeAsTree, element.props.parentId)
+      )
+    })
+
     this.setState({ disabledKeys })
   }
 
-  getTreeData = (userId, checkedKeys) => {
+  getTreeData = (userId, checkedKeys, loginUserResource) => {
     const { apiMethod, treeData } = this.props
     if (!apiMethod) {
       this.setState({
@@ -127,6 +134,7 @@ export default class SetRoleTree extends React.Component {
         if (res.success) {
           const nodes = []
           const checkedNodes = []
+          const loginUserNodes = []
           res.data.forEach(element => {
             if (element.type === 1) {
               element.rank = 1
@@ -151,6 +159,11 @@ export default class SetRoleTree extends React.Component {
                 props: { parentId: element.parentId, 'data-key': element.id }
               })
             }
+            if (loginUserResource.indexOf(element.id) > -1) {
+              loginUserNodes.push({
+                props: { parentId: element.parentId, 'data-key': element.id }
+              })
+            }
           })
 
           nodes.sort((a, b) => {
@@ -164,6 +177,7 @@ export default class SetRoleTree extends React.Component {
             expandedKeys: allKey,
             nodeAsTree: nodes2Tree(nodes),
             checkedKeys,
+            loginUserNodes,
             nodeList,
             nodes,
             loading: false

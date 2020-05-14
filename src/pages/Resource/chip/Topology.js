@@ -457,6 +457,7 @@ export default class Topology extends React.Component {
               element.rank = 1
               element.img = cloudPlatformImg
               element.nodeTypeName = '系统'
+              element.size = 50
             } else if (element.type === 14) {
               element.rank = 2
               element.img = datacenterOnlineImg
@@ -524,7 +525,7 @@ export default class Topology extends React.Component {
                 labelCfg: {
                   position: 'right',
                   style: {
-                    fontSize: 12
+                    fontSize: 10
                   }
                 }
               },

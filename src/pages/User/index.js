@@ -99,14 +99,44 @@ export default class User extends React.Component {
           </Menu.Item>
           <Menu.Item
             key="5"
+            hidden={!checkAuth('security')}
             onClick={this.setRole.bind(this, record, record.name)}
           >
             分配权限
           </Menu.Item>
         </Menu>
       )
+
+      const onlySecurityAction = (
+        <Menu>
+          <Menu.Item
+            onClick={this.forbiddenUser.bind(this, [record.id])}
+            disabled={record.status === 1}
+          >
+            禁用
+          </Menu.Item>
+          <Menu.Item
+            key="3"
+            onClick={this.enableUser.bind(this, [record.id])}
+            disabled={record.status === 0}
+          >
+            启用
+          </Menu.Item>
+        </Menu>
+      )
       return (
         <span className="opration-btn">
+          <Auth role="security" hiddenOnNotDiscrete>
+            <a onClick={this.setRole.bind(this, record, record.name)}>
+              分配权限
+            </a>
+            <Dropdown overlay={onlySecurityAction} placement="bottomRight">
+              <a>
+                更多
+                <Icon type="down" />
+              </a>
+            </Dropdown>
+          </Auth>
           <Auth role="admin">
             <a
               onClick={() => {
@@ -115,25 +145,6 @@ export default class User extends React.Component {
             >
               编辑
             </a>
-          </Auth>
-          <Auth role="security" hiddaenOnNotDiscrete={true}>
-            <a
-              onClick={this.forbiddenUser.bind(this, [record.id])}
-              disabled={record.status === 1}
-            >
-              禁用
-            </a>
-            <a
-              key="3"
-              hidden={!checkAuth('security')}
-              onClick={this.enableUser.bind(this, [record.id])}
-              disabled={record.status === 0}
-            >
-              启用
-            </a>
-          </Auth>
-
-          <Auth role="admin">
             <Dropdown overlay={moreAction} placement="bottomRight">
               <a>
                 更多

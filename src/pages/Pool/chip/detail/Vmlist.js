@@ -41,7 +41,7 @@ export default class Desktop extends React.Component {
       })
       return (
         <span className="opration-btn">
-          <Auth role="security" hiddenOnNotDiscrete={true}>
+          <Auth role="security" hiddenOnNotDiscrete>
             <a
               disabled={disabledButton?.disabledRemovePermission}
               onClick={() => this.removePermission(id)}
@@ -283,7 +283,7 @@ export default class Desktop extends React.Component {
         <TableWrap>
           <ToolBar>
             <BarLeft>
-              <Auth role="security" hiddenOnNotDiscrete={true}>
+              <Auth role="security" hiddenOnNotDiscrete>
                 <Button
                   disabled={disabledButton?.disabledRemovePermission}
                   onClick={() =>

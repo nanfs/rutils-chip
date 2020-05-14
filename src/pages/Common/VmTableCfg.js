@@ -395,7 +395,8 @@ export function vmDisabledButton(selection, selectData) {
       disabledDown: true,
       disabledPowerOff: true,
       disabledRestart: true,
-      disabledOpenConsole: true
+      disabledOpenConsole: true,
+      disabledRemovePermission: true
     }
     return disabledButton
   }

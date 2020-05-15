@@ -121,7 +121,7 @@ export default class SetRoleTree extends React.Component {
   }
 
   getTreeData = (userId, checkedKeys, loginUserResource) => {
-    const { apiMethod, treeData } = this.props
+    const { apiMethod, treeData, treeRenderSuccess } = this.props
     if (!apiMethod) {
       this.setState({
         nodes: treeData,
@@ -173,6 +173,7 @@ export default class SetRoleTree extends React.Component {
             throw new Error('数据格式不符合')
           }
           const { allKey, nodeList } = generateList(nodes)
+          treeRenderSuccess && treeRenderSuccess(allKey)
           this.setState({
             expandedKeys: allKey,
             nodeAsTree: nodes2Tree(nodes),

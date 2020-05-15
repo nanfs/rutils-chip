@@ -19,7 +19,7 @@ export default class setRoleModal extends React.Component {
   checkFieldRequired() {
     return (rule, value, callback) => {
       const roleId = this.modal.form.getFieldValue('roleId')
-      if (roleId !== '2' && !value) {
+      if (roleId.toString() !== '2' && value.length === 0) {
         callback(new Error('请至少选择一个资源'))
       }
       callback()
@@ -30,7 +30,8 @@ export default class setRoleModal extends React.Component {
     rolesArray: [],
     checkedNodes: [],
     checkedKeys: [],
-    sqlSaveNodes: []
+    sqlSaveNodes: [],
+    treeKeys: []
   }
 
   pop = data => {
@@ -94,16 +95,24 @@ export default class setRoleModal extends React.Component {
     const removeData = []
     const addKeys = []
     this.state.checkedNodes.forEach(item => {
-      addData.push({
-        userId: values.id,
-        roleType: parseInt(values.roleId, 10),
-        objectId: item.key,
-        objectType: item.type
-      })
-      addKeys.push(item.key)
+      if (
+        addKeys.indexOf(item.key) === -1 &&
+        this.state.treeKeys.indexOf(item.key) > -1
+      ) {
+        addData.push({
+          userId: values.id,
+          roleType: parseInt(values.roleId, 10),
+          objectId: item.key,
+          objectType: item.type
+        })
+        addKeys.push(item.key)
+      }
     })
     this.state.sqlSaveNodes.forEach(ele => {
-      if (addKeys.indexOf(ele.key) === -1) {
+      if (
+        addKeys.indexOf(ele.key) === -1 &&
+        this.state.treeKeys.indexOf(ele.key) > -1
+      ) {
         removeData.push({
           userId: values.id,
           roleType: parseInt(values.roleId, 10),
@@ -125,7 +134,7 @@ export default class setRoleModal extends React.Component {
         })
     } else if (
       this.state.sqlSaveRoleId !== '2' &&
-      values.roleId !== this.state.sqlSaveRoleId
+      values.roleId.toString() !== this.state.sqlSaveRoleId.toString()
     ) {
       userApi
         .ordinaryUser({ userId: values.id })
@@ -182,12 +191,17 @@ export default class setRoleModal extends React.Component {
     })
   }
 
+  treeRenderSuccess = keys => {
+    this.setState({
+      treeKeys: keys
+    })
+  }
+
   selectChange = () => {
     this.forceUpdate()
   }
 
   render() {
-    debugger
     const modalCfg = createModalCfg({ title: '分配权限', width: 800 })
     return (
       <Modalx

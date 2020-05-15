@@ -13,9 +13,9 @@ import { getItemFromLocal } from '@/utils/storage'
 export default function Auth(props) {
   const isDiscrete = getItemFromLocal('threePowersSwitch') || false
 
-  // hiddenOnNotDiscrete 用于处理没有开启三员功能时场景的组件
-  const { children, role, hiddenOnNotDiscrete } = props
-  if (hiddenOnNotDiscrete && !isDiscrete) {
+  // showOnDiscrete 用于展示开启三员功能时场景的组件
+  const { children, role, showOnDiscrete } = props
+  if (showOnDiscrete && !isDiscrete) {
     return null
   }
   if (checkAuth(role)) {

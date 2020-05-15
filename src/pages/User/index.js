@@ -99,13 +99,6 @@ export default class User extends React.Component {
           >
             解锁
           </Menu.Item>
-          <Menu.Item
-            key="5"
-            hidden={!checkAuth('security')}
-            onClick={this.setRole.bind(this, record, record.name)}
-          >
-            分配权限
-          </Menu.Item>
         </Menu>
       )
 
@@ -128,7 +121,7 @@ export default class User extends React.Component {
       )
       return (
         <span className="opration-btn">
-          <Auth role="security" hiddenOnNotDiscrete>
+          <Auth role="security" showOnDiscrete>
             <a onClick={this.setRole.bind(this, record, record.name)}>
               分配权限
             </a>

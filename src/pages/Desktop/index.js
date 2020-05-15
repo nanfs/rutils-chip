@@ -74,7 +74,7 @@ export default class Desktop extends React.Component {
           <Auth role="admin">
             <a onClick={() => this.editVm(record.id, record.name)}>编辑</a>
           </Auth>
-          <Auth role="security" hiddenOnNotDiscrete>
+          <Auth role="security" showOnDiscrete>
             <a onClick={() => this.setUser(record.id, record.name)}>分配用户</a>
           </Auth>
           <Auth role="admin">

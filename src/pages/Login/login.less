@@ -5,6 +5,18 @@ body {
   0% {
     opacity: 0;
   }
+  60% {
+    opacity: 1;
+  }
+  65%{
+    opacity: 0;
+  }
+  70%{
+    opacity: 1;
+  }
+  75%{
+    opacity: 0;
+  }
   100% {
     opacity: 1;
   }
@@ -39,66 +51,47 @@ body {
       clear: both;
     }
     .content-left {
-      background: url('../../assets/place.png') left top no-repeat;
+      background: url('../../assets/place.png') center center no-repeat;
       background-size: contain;
       float: left;
-      width: 638px;
-      height: 457px;
+      width: 627px;
+      height: 424px;
       position: relative;
-      .animate-logo {
+      .animate {
         position: absolute;
         animation-name: fadeInOut;
         animation-timing-function: ease-in-out;
-        animation-iteration-count: infinite;
-        animation-duration: 4s;
-        animation-direction: alternate;
+        animation-duration: 2s;
       }
-      .animate-logo1 {
-        background: url('../../assets/logo-animate1.png') center center
+      .jiqun {
+        background: url('../../assets/jiqun.png') center center
           no-repeat;
         background-size: contain;
-        width: 33px;
-        height: 42px;
-        left: 120px;
-        bottom: 112px;
+        width: 627px;
+        height: 424px;
       }
-      .animate-logo2 {
-        background: url('../../assets/logo-animate2.png') center center
+      .animate3 {
+        animation-delay: 1s;
+        background: url('../../assets/animate3.png') center center
           no-repeat;
         background-size: contain;
-        width: 19px;
-        height: 27px;
-        left: 398px;
-        top: 50px;
-      }
-      .animate-logo3 {
-        background: url('../../assets/logo-animate2.png') center center
-          no-repeat;
-        background-size: contain;
-        width: 19px;
-        height: 27px;
-        right: 52px;
-        top: 144px;
+        width: 627px;
+        height: 424px;
       }
       .animate-div {
-        background: url('../../assets/animate.png') center center no-repeat;
-        background-size: contain;
-        width: 55px;
-        height: 102px;
+        width: 627px;
+        height: 424px;
         position: absolute;
         animation: jump 3s infinite;
       }
       .animate-div1 {
-        left: 250px;
-        top: -50px;
+        background: url('../../assets/animate.png') center center no-repeat;
+        background-size: contain;
       }
       .animate-div2 {
-        right: 14px;
-        top: 34px;
-      }
-      .animate-div3 {
-        left: 380px;
-        bottom: 42px;
+        animation-delay: 1s;
+        background: url('../../assets/animate2.png') center center no-repeat;
+        background-size: contain;
       }
     }
     .content-right {

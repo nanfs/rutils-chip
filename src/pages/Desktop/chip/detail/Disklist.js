@@ -30,7 +30,8 @@ export default class Desktop extends React.Component {
     if (status === 1) {
       disabledButton = {
         ...disabledButton,
-        disabledEdit: true,
+        // 后端可以实现开机编辑磁盘
+        // disabledEdit: true,
         disabledDelete: true
       }
     }

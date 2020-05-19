@@ -13,7 +13,7 @@ import {
   Button
 } from 'antd'
 import { Link } from 'react-router-dom'
-import { getUser, checkAuth } from '@/utils/checkPermissions'
+import { getUser, checkAuth, checkAuthName } from '@/utils/checkPermissions'
 import { setItemToLocal } from '@/utils/storage'
 import { wrapResponse } from '@/utils/tool'
 import ResetPwModal from './chip/ResetPwModal'
@@ -394,7 +394,8 @@ export default class Header extends React.Component {
           </Menu.Item>
           <Menu.Item
             key="systemConfig"
-            hidden={!checkAuth('admin')}
+            // 用户名字是admin
+            hidden={!checkAuthName('admin')}
             onClick={() => {
               this.sysModal.pop()
             }}

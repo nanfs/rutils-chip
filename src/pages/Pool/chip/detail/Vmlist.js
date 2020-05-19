@@ -15,7 +15,7 @@ import {
   vmDisableAction
 } from '@/pages/Common/VmTableCfg'
 import { downloadVV } from '@/utils/tool'
-import { Auth } from '@/components/Authorized'
+import { checkAuth, checkAuthDiscrete } from '@/utils/checkPermissions'
 
 const { createTableCfg, TableWrap, ToolBar, BarLeft } = Tablex
 const { confirm } = Modal
@@ -41,29 +41,25 @@ export default class Desktop extends React.Component {
       })
       return (
         <span className="opration-btn">
-          <Auth role="security" showOnDiscrete>
-            <a
-              disabled={disabledButton?.disabledRemovePermission}
-              onClick={() => this.removePermission(id)}
-            >
-              回收权限
+          <a
+            disabled={disabledButton?.disabledRemovePermission}
+            onClick={() => this.removePermission(id)}
+            hidden={!checkAuth('security')}
+          >
+            回收权限
+          </a>
+          <a
+            onClick={() => this.sendOrder(id, 'start')}
+            disabled={disabledButton.disabledUp}
+            hidden={!checkAuth('admin')}
+          >
+            开机
+          </a>
+          <Dropdown overlay={moreAction} placement="bottomRight">
+            <a hidden={!checkAuth('admin')}>
+              更多 <Icon type="down" />
             </a>
-          </Auth>
-          <Auth role="admin">
-            <a
-              onClick={() => this.sendOrder(id, 'start')}
-              disabled={disabledButton.disabledUp}
-            >
-              开机
-            </a>
-          </Auth>
-          <Auth role="admin">
-            <Dropdown overlay={moreAction} placement="bottomRight">
-              <a>
-                更多 <Icon type="down" />
-              </a>
-            </Dropdown>
-          </Auth>
+          </Dropdown>
         </span>
       )
     }
@@ -283,46 +279,41 @@ export default class Desktop extends React.Component {
         <TableWrap>
           <ToolBar>
             <BarLeft>
-              <Auth role="security" showOnDiscrete>
-                <Button
-                  disabled={disabledButton?.disabledRemovePermission}
-                  onClick={() =>
-                    this.removePermission(this.tablex.getSelection())
-                  }
-                >
-                  回收权限
+              <Button
+                disabled={disabledButton?.disabledRemovePermission}
+                onClick={() =>
+                  this.removePermission(this.tablex.getSelection())
+                }
+                hidden={!checkAuth('security') || !checkAuthDiscrete()}
+              >
+                回收权限
+              </Button>
+              <Button
+                disabled={disabledButton?.disabledUp}
+                onClick={() =>
+                  this.sendOrder(this.tablex.getSelection(), 'start')
+                }
+                hidden={!checkAuth('admin')}
+              >
+                开机
+              </Button>
+              <Button
+                disabled={disabledButton?.disabledDown}
+                onClick={() =>
+                  this.sendOrder(this.tablex.getSelection(), 'shutdown')
+                }
+                hidden={!checkAuth('admin')}
+              >
+                关机
+              </Button>
+              <Dropdown
+                overlay={moreButton}
+                disabled={disabledButton?.disabledMore}
+              >
+                <Button hidden={!checkAuth('admin')}>
+                  更多操作 <Icon type="down" />
                 </Button>
-              </Auth>
-              <Auth role="admin">
-                <Button
-                  disabled={disabledButton?.disabledUp}
-                  onClick={() =>
-                    this.sendOrder(this.tablex.getSelection(), 'start')
-                  }
-                >
-                  开机
-                </Button>
-              </Auth>
-              <Auth role="admin">
-                <Button
-                  disabled={disabledButton?.disabledDown}
-                  onClick={() =>
-                    this.sendOrder(this.tablex.getSelection(), 'shutdown')
-                  }
-                >
-                  关机
-                </Button>
-              </Auth>
-              <Auth role="admin">
-                <Dropdown
-                  overlay={moreButton}
-                  disabled={disabledButton?.disabledMore}
-                >
-                  <Button>
-                    更多操作 <Icon type="down" />
-                  </Button>
-                </Dropdown>
-              </Auth>
+              </Dropdown>
             </BarLeft>
           </ToolBar>
           <Tablex

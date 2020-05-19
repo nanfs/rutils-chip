@@ -41,9 +41,26 @@ export function checkRoute(authority, target, Exception) {
   }
   return Exception
 }
+/**
+ * @description 判断三权是否开启
+ * @export
+ * @returns
+ */
+export function checkAuthName(name) {
+  const userName = getItemFromLocal('userName') || ''
+  return name === userName
+}
 
 /**
- * @description 检查权限 返回boolean 如果开启三员 开始检查 没有直接返回true
+ * @description 判断三权是否开启
+ * @export
+ * @returns
+ */
+export function checkAuthDiscrete() {
+  return getItemFromLocal('threePowersSwitch') || false
+}
+/**
+ * @description 检查权限 返回boolean 如果开启三员 开始检查 没有直接返回true 所有三权都通过该方法
  * @author lishuai
  * @date 2020-05-09
  * @export

@@ -19,8 +19,7 @@ import DetailDrawer from './chip/DetailDrawer'
 import EditDrawer from './chip/EditDrawer'
 import SetRoloModal from './chip/SetRoloModal'
 import userApi from '@/services/user'
-import { Auth } from '@/components/Authorized'
-import { checkAuth } from '@/utils/checkPermissions'
+import { checkAuth, checkAuthDiscrete } from '@/utils/checkPermissions'
 
 import './index.less'
 
@@ -122,32 +121,30 @@ export default class User extends React.Component {
       )
       return (
         <span className="opration-btn">
-          <Auth role="security" showOnDiscrete>
-            <a onClick={this.setRole.bind(this, record, record.name)}>
-              分配权限
+          <a
+            onClick={this.setRole.bind(this, record, record.name)}
+            hidden={!checkAuth('security') || !checkAuthDiscrete()}
+          >
+            分配权限
+          </a>
+          <Dropdown overlay={onlySecurityAction} placement="bottomRight">
+            <a hidden={!checkAuth('security') || !checkAuthDiscrete()}>
+              更多
+              <Icon type="down" />
             </a>
-            <Dropdown overlay={onlySecurityAction} placement="bottomRight">
-              <a>
-                更多
-                <Icon type="down" />
-              </a>
-            </Dropdown>
-          </Auth>
-          <Auth role="admin">
-            <a
-              onClick={() => {
-                this.editUser(record, record.name)
-              }}
-            >
-              编辑
+          </Dropdown>
+          <a
+            onClick={() => this.editUser(record, record.name)}
+            hidden={!checkAuth('admin')}
+          >
+            编辑
+          </a>
+          <Dropdown overlay={moreAction} placement="bottomRight">
+            <a hidden={!checkAuth('admin')}>
+              更多
+              <Icon type="down" />
             </a>
-            <Dropdown overlay={moreAction} placement="bottomRight">
-              <a>
-                更多
-                <Icon type="down" />
-              </a>
-            </Dropdown>
-          </Auth>
+          </Dropdown>
         </span>
       )
     }
@@ -585,51 +582,16 @@ export default class User extends React.Component {
               <ToolBar>
                 <BarLeft>
                   {selectedType === 'internal' ? (
-                    <Auth role="admin">
-                      <Button onClick={this.addUser} type="primary">
-                        创建
-                      </Button>
-                    </Auth>
-                  ) : (
-                    ''
-                  )}
-
-                  {/* {selectedType === 'internal' ? (
                     <Button
-                      onClick={() => this.enableUser()}
-                      disabled={disabledButton.disabledEnable}
+                      onClick={this.addUser}
+                      type="primary"
+                      hidden={checkAuth('admin')}
                     >
-                      启用
+                      创建
                     </Button>
                   ) : (
                     ''
                   )}
-                  {selectedType === 'internal' ? (
-                    <Button
-                      onClick={() => this.forbiddenUser()}
-                      disabled={disabledButton.disabledDisable}
-                    >
-                      禁用
-                    </Button>
-                  ) : (
-                    ''
-                  )} */}
-                  {/* {selectedType === 'internal' ? (
-                    <Button
-                      onClick={() => this.unlockUser()}
-                      disabled={disabledButton.disabledUnlock}
-                    >
-                      解锁
-                    </Button>
-                  ) : (
-                    ''
-                  )} */}
-                  {/* <Button
-                    onClick={() => this.deleteUser()}
-                    disabled={disabledButton.disabledDelete}
-                  >
-                    删除
-                  </Button> */}
                 </BarLeft>
                 <BarRight>
                   <SelectSearch

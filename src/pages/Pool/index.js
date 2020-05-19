@@ -1,12 +1,12 @@
 import React from 'react'
 import { Button, notification, Modal, message } from 'antd'
 import { Tablex, InnerPath } from '@/components'
-import { Auth } from '@/components/Authorized'
 import AddDrawer from './chip/AddDrawer'
 import DetailDrawer from './chip/DetailDrawer'
 import EditDrawer from './chip/EditDrawer'
 import SetUserDrawer from './chip/SetUserDrawer'
 import poolsApi from '@/services/pools'
+import { checkAuth } from '@/utils/checkPermissions'
 import { columns, apiMethod } from './chip/TableCfg'
 // import { checkAuth } from '@/utils/checkPermissions'
 import './index.less'
@@ -38,18 +38,24 @@ export default class Pool extends React.Component {
     render: (text, record) => {
       return (
         <span className="opration-btn">
-          <Auth role="admin">
-            <a onClick={() => this.editPool(record.id, record.name)}>编辑</a>
-          </Auth>
-
-          <Auth role="security">
-            <a onClick={() => this.setUser(record.id, record.name)}>分配用户</a>
-          </Auth>
-          <Auth role="admin">
-            <a onClick={() => this.deletePool(record.id, '确定删除本条数据?')}>
-              删除
-            </a>
-          </Auth>
+          <a
+            onClick={() => this.editPool(record.id, record.name)}
+            hidden={!checkAuth('admin')}
+          >
+            编辑
+          </a>
+          <a
+            onClick={() => this.setUser(record.id, record.name)}
+            hidden={!checkAuth('security')}
+          >
+            分配用户
+          </a>
+          <a
+            onClick={() => this.deletePool(record.id, '确定删除本条数据?')}
+            hidden={!checkAuth('admin')}
+          >
+            删除
+          </a>
         </span>
       )
     }
@@ -176,11 +182,13 @@ export default class Pool extends React.Component {
         <TableWrap>
           <ToolBar>
             <BarLeft>
-              <Auth role="admin">
-                <Button onClick={this.createPool} type="primary">
-                  创建
-                </Button>
-              </Auth>
+              <Button
+                onClick={this.createPool}
+                type="primary"
+                hidden={!checkAuth('admin')}
+              >
+                创建
+              </Button>
             </BarLeft>
           </ToolBar>
           <Tablex

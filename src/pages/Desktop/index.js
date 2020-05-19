@@ -12,8 +12,7 @@ import { InnerPath, SelectSearch, Tablex } from '@/components'
 import produce from 'immer'
 import desktopsApi from '@/services/desktops'
 import { downloadVV } from '@/utils/tool'
-import { checkAuth } from '@/utils/checkPermissions'
-import { Auth } from '@/components/Authorized'
+import { checkAuth, checkAuthDiscrete } from '@/utils/checkPermissions'
 import {
   getColumns,
   apiMethod,
@@ -71,19 +70,23 @@ export default class Desktop extends React.Component {
       })
       return (
         <span className="opration-btn">
-          <Auth role="admin">
-            <a onClick={() => this.editVm(record.id, record.name)}>编辑</a>
-          </Auth>
-          <Auth role="security" showOnDiscrete>
-            <a onClick={() => this.setUser(record.id, record.name)}>分配用户</a>
-          </Auth>
-          <Auth role="admin">
-            <Dropdown overlay={moreAction} placement="bottomRight" hidden>
-              <a>
-                更多 <Icon type="down" />
-              </a>
-            </Dropdown>
-          </Auth>
+          <a
+            onClick={() => this.editVm(record.id, record.name)}
+            hidden={!checkAuth('admin')}
+          >
+            编辑
+          </a>
+          <a
+            onClick={() => this.setUser(record.id, record.name)}
+            hidden={!checkAuth('security') || !checkAuthDiscrete()}
+          >
+            分配用户
+          </a>
+          <Dropdown overlay={moreAction} placement="bottomRight">
+            <a hidden={!checkAuth('admin')}>
+              更多 <Icon type="down" />
+            </a>
+          </Dropdown>
         </span>
       )
     }
@@ -192,11 +195,6 @@ export default class Desktop extends React.Component {
     this.currentDrawer.drawer.hide()
   }
 
-  /**
-   *
-   *
-   * @memberof Desktop
-   */
   sendOrder = (id, directive) => {
     const ids = Array.isArray(id) ? [...id] : [id]
     desktopsApi
@@ -313,29 +311,29 @@ export default class Desktop extends React.Component {
         <TableWrap>
           <ToolBar>
             <BarLeft>
-              <Auth role="admin">
-                <Button onClick={this.createVm} type="primary">
-                  创建
+              <Button
+                onClick={this.createVm}
+                type="primary"
+                hidden={!checkAuth('admin')}
+              >
+                创建
+              </Button>
+              <Button
+                onClick={() => this.setUser(this.tablex.getSelection())}
+                disabled={disabledButton?.disabledSetUser}
+                hidden={!checkAuth('security')}
+              >
+                分配用户
+              </Button>
+              <Dropdown
+                overlay={moreButton}
+                disabled={disabledButton?.disabledMore}
+                hidden={!checkAuth('admin')}
+              >
+                <Button>
+                  更多操作 <Icon type="down" />
                 </Button>
-              </Auth>
-              <Auth role="security">
-                <Button
-                  onClick={() => this.setUser(this.tablex.getSelection())}
-                  disabled={disabledButton?.disabledSetUser}
-                >
-                  分配用户
-                </Button>
-              </Auth>
-              <Auth role="admin">
-                <Dropdown
-                  overlay={moreButton}
-                  disabled={disabledButton?.disabledMore}
-                >
-                  <Button>
-                    更多操作 <Icon type="down" />
-                  </Button>
-                </Dropdown>
-              </Auth>
+              </Dropdown>
             </BarLeft>
             <BarRight>
               <SelectSearch

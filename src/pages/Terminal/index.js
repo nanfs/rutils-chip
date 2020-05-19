@@ -492,13 +492,6 @@ export default class Terminal extends React.Component {
         >
           解锁
         </Menu.Item>
-        {/* <Menu.Item
-          key="logout"
-          onClick={() => this.sendOrder('logout')}
-          disabled={disabledButton.disabledShutdown}
-        >
-          登出
-        </Menu.Item> */}
         <Menu.Item
           hidden={!checkAuth('admin')}
           key="sendMessage"
@@ -535,47 +528,28 @@ export default class Terminal extends React.Component {
         <TableWrap>
           <ToolBar>
             <BarLeft>
-              {/* <Button
-                onClick={this.onTerminal}
-                disabled={
-                  !this.state.selection || !this.state.selection.length
-                }
+              <Button
+                onClick={() => this.sendOrder('shutdown')}
+                disabled={disabledButton.disabledShutdown}
+                hidden={!checkAuth('admin')}
               >
-                开机
-              </Button> */}
-              <Auth role="admin">
-                <Button
-                  onClick={() => this.sendOrder('shutdown')}
-                  disabled={disabledButton.disabledShutdown}
-                >
-                  关机
-                </Button>
-              </Auth>
-              <Auth role="security">
-                <Button
-                  hidden={!checkAuth('security')}
-                  onClick={() => this.setUser(this.tablex.getSelection())}
-                  disabled={disabledButton.disabledSetUser}
-                >
-                  分配用户
-                </Button>
-              </Auth>
-
-              <Auth role="admin">
-                <Button
-                  onClick={() => this.admitAccessTerminal()}
-                  disabled={disabledButton.disabledAdmitAccess}
-                >
-                  允许接入
-                </Button>
-              </Auth>
-
-              {/* <Button
-                onClick={() => this.forbidAccessTerminal()}
-                disabled={disabledButton.disabledForbidAccess}
+                关机
+              </Button>
+              <Button
+                hidden={!checkAuth('security')}
+                onClick={() => this.setUser(this.tablex.getSelection())}
+                disabled={disabledButton.disabledSetUser}
               >
-                禁止接入
-              </Button> */}
+                分配用户
+              </Button>
+
+              <Button
+                onClick={() => this.admitAccessTerminal()}
+                disabled={disabledButton.disabledAdmitAccess}
+                hidden={!checkAuth('admin')}
+              >
+                允许接入
+              </Button>
               <Dropdown overlay={moreButton}>
                 <Button>
                   更多操作 <Icon type="down" />

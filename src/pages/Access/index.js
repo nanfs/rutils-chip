@@ -5,7 +5,6 @@ import AddDrawer from './chip/AddDrawer'
 import EditDrawer from './chip/EditDrawer'
 import { columns, apiMethod } from './chip/TableCfg'
 import accessApi from '@/services/access'
-import { Auth } from '@/components/Authorized'
 import { checkAuth } from '@/utils/checkPermissions'
 import produce from 'immer'
 
@@ -27,19 +26,21 @@ export default class Access extends React.Component {
     render: (text, record) => {
       return (
         <span className="opration-btn">
-          <Auth role="admin">
-            <a onClick={() => this.editAccess(record.name, record)}>编辑</a>
-          </Auth>
-          <Auth role="admin">
-            <a
-              onClick={() => {
-                this.delAccess(record.id, '确定删除该条数据?')
-              }}
-              disabled={record.boundTcNum !== 0}
-            >
-              删除
-            </a>
-          </Auth>
+          <a
+            onClick={() => this.editAccess(record.name, record)}
+            hidden={!checkAuth('admin')}
+          >
+            编辑
+          </a>
+          <a
+            onClick={() => {
+              this.delAccess(record.id, '确定删除该条数据?')
+            }}
+            disabled={record.boundTcNum !== 0}
+            hidden={!checkAuth('admin')}
+          >
+            删除
+          </a>
         </span>
       )
     }
@@ -203,19 +204,20 @@ export default class Access extends React.Component {
         <TableWrap>
           <ToolBar>
             <BarLeft>
-              <Auth role="admin">
-                <Button onClick={this.addAccess} type="primary">
-                  创建
-                </Button>
-              </Auth>
-              <Auth role="admin">
-                <Button
-                  onClick={() => this.delAccess(this.tablex.getSelection())}
-                  disabled={disabledButton?.disabledDelete}
-                >
-                  删除
-                </Button>
-              </Auth>
+              <Button
+                onClick={this.addAccess}
+                type="primary"
+                hidden={!checkAuth('admin')}
+              >
+                创建
+              </Button>
+              <Button
+                onClick={() => this.delAccess(this.tablex.getSelection())}
+                disabled={disabledButton?.disabledDelete}
+                hidden={!checkAuth('admin')}
+              >
+                删除
+              </Button>
             </BarLeft>
           </ToolBar>
           <Tablex

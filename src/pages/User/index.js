@@ -67,7 +67,8 @@ export default class User extends React.Component {
             key="1"
             hidden={!checkAuth('admin')}
             disabled={
-              record.tccount + record.vmcount > 0 || record.roleTypeId !== '2'
+              record.tccount + record.vmcount > 0 ||
+              record.roleTypeId.toString() !== '2'
             }
             onClick={() => {
               this.deleteUser([record.id])
@@ -224,7 +225,6 @@ export default class User extends React.Component {
 
   onSelectChange = (selection, selectData) => {
     let disabledButton = {}
-    const selectSN = selectData.map(item => item.sn)
     if (selection.length !== 1) {
       disabledButton = {
         ...disabledButton,
@@ -272,7 +272,7 @@ export default class User extends React.Component {
       })
     }
 
-    this.setState({ disabledButton, selection, selectData, selectSN })
+    this.setState({ disabledButton, selection, selectData })
   }
 
   onTableChange = (a, filter) => {

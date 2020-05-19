@@ -84,15 +84,17 @@ export default class LoginForm extends React.Component {
       .then(res => {
         this.setState({ loading: false })
         if (res.success) {
-          // // TODO change TO 220
-          // const Mockdata = {
-          //   userName: 'admin',
-          //   userRole: 'admin',
-          //   threePowersSwitch: true,
-          //   userId: 1
-          // }
-          // setItemToLocal(Mockdata)
-          setItemToLocal(res.data)
+          // 如果是老接口 转换成新的接收数据格式 并关闭三权
+          const ruleData =
+            typeof res.data === 'object'
+              ? res.data
+              : {
+                  userName: res.data,
+                  userRole: res.data,
+                  threePowersSwitch: false,
+                  userId: 1
+                }
+          setItemToLocal(ruleData)
           // 解决第一次加载的问题
           setClusterToSession()
           setDataCenterToSession()

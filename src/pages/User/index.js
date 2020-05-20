@@ -19,7 +19,11 @@ import DetailDrawer from './chip/DetailDrawer'
 import EditDrawer from './chip/EditDrawer'
 import SetRoloModal from './chip/SetRoloModal'
 import userApi from '@/services/user'
-import { checkAuth, checkAuthDiscrete } from '@/utils/checkPermissions'
+import {
+  checkAuth,
+  checkAuthDiscrete,
+  getUserId
+} from '@/utils/checkPermissions'
 
 import './index.less'
 
@@ -124,6 +128,7 @@ export default class User extends React.Component {
           <a
             onClick={this.setRole.bind(this, record, record.name)}
             hidden={!checkAuth('security') || !checkAuthDiscrete()}
+            disabled={record.id === getUserId()}
           >
             分配权限
           </a>
@@ -585,7 +590,7 @@ export default class User extends React.Component {
                     <Button
                       onClick={this.addUser}
                       type="primary"
-                      hidden={checkAuth('admin')}
+                      hidden={!checkAuth('admin')}
                     >
                       创建
                     </Button>

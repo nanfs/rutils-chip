@@ -3,7 +3,7 @@ import { Drawerx, Tabsx } from '@/components'
 import { Tabs } from 'antd'
 import BaseInfo from './detail/BaseInfo'
 import Disklist from './detail/Disklist'
-// import Snaplist from './detail/Snaplist'
+import Snaplist from './detail/Snaplist'
 
 const { TabPane } = Tabs
 export default class DetailDrawer extends React.Component {
@@ -39,9 +39,9 @@ export default class DetailDrawer extends React.Component {
           <TabPane tab="磁盘管理" key="2">
             <Disklist vmId={id} status={status}></Disklist>
           </TabPane>
-          {/* <TabPane tab="快照管理" key="3">
+          <TabPane tab="快照管理" key="3">
             <Snaplist vmId={id}></Snaplist>
-          </TabPane> */}
+          </TabPane>
         </Tabsx>
       </Drawerx>
     )

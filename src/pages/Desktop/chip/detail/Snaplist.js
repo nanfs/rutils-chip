@@ -1,14 +1,13 @@
 /* eslint-disable react/no-string-refs */
 import React from 'react'
 import { Button, Modal, notification, message } from 'antd'
-
 import { Tablex } from '@/components'
 import desktopApi from '@/services/desktops'
 import { columns, apiMethod } from './Snap/SnapTableCfg'
 import AddSnapModal from './Snap/AddSnapModal'
 
 const { createTableCfg, TableWrap, ToolBar, BarLeft } = Tablex
-const { confirm } = Modal
+const { confirm, info } = Modal
 export default class Desktop extends React.Component {
   state = {
     tableCfg: createTableCfg({
@@ -48,7 +47,13 @@ export default class Desktop extends React.Component {
   }
 
   checkSnap = () => {
-    this.setState({ currentSnap: this.tablex.getSelection()[0] })
+    info({
+      title: '预览快照',
+      content: <p>请在桌面预览快照,预览结束后继续操作</p>,
+      onOk: () => {
+        this.setState({ currentSnap: this.tablex.getSelection()[0] })
+      }
+    })
   }
 
   useSnap = () => {

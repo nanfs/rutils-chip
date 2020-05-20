@@ -1,6 +1,5 @@
 import axios from 'axios'
 import { message } from 'antd'
-// import { push } from 'react-router-redux'
 import { setItemToLocal } from '@/utils/storage'
 
 const cfg = require('../../config/default')

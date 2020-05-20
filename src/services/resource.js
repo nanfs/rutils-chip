@@ -23,5 +23,15 @@ export default {
         return qs.stringify(params, { arrayFormat: 'indices' })
       }
     })
+  },
+  clusterVms(data) {
+    return axios({
+      url: '/cluster/vms',
+      method: 'get',
+      params: data,
+      paramsSerializer: params => {
+        return qs.stringify(params, { arrayFormat: 'indices' })
+      }
+    })
   }
 }

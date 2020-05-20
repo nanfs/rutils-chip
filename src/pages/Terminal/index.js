@@ -189,7 +189,7 @@ export default class Terminal extends React.Component {
    */
   onSelectChange = (selection, selectData) => {
     let disabledButton = {}
-    const selectSN = selectData.map(item => item.sn)
+    const selectSN = selectData.map(item => item.sn.split(' ')[0])
     if (selection.length !== 1) {
       disabledButton = { ...disabledButton, disabledEdit: true }
     }

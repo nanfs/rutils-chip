@@ -3,6 +3,7 @@ import G6 from '@antv/g6'
 
 import { message } from 'antd'
 import userApi from '@/services/user'
+import resourceApi from '@/services/resource'
 import { getUserId } from '@/utils/checkPermissions'
 import { nodes2Tree } from '@/utils/tool'
 
@@ -457,16 +458,29 @@ export default class Topology extends React.Component {
               element.rank = 1
               element.img = cloudPlatformImg
               element.nodeTypeName = '系统'
-              element.size = 50
+              element.size = [80, 60]
+              element.labelCfg = {
+                position: 'right',
+                style: {
+                  fontSize: 16
+                }
+              }
             } else if (element.type === 14) {
               element.rank = 2
               element.img = datacenterOnlineImg
               element.nodeTypeName = '数据中心'
+              element.size = 60
+              element.labelCfg = {
+                position: 'right',
+                style: {
+                  fontSize: 14
+                }
+              }
             } else if (element.type === 9) {
               element.rank = 3
               element.img = clusterOnlineImg
               element.nodeTypeName = '集群'
-              element.collapsed = true
+              // element.collapsed = true
             }
             element.type = 'image'
             return {
@@ -483,6 +497,48 @@ export default class Topology extends React.Component {
           const data = nodes2Tree(nodes)[0]
           console.log(data)
           if (this.mountNode) {
+            G6.registerEdge(
+              'line-running',
+              {
+                afterDraw(cfg, group) {
+                  // 获得当前边的第一个图形，这里是边本身的 path
+                  const shape = group.get('children')[0]
+                  // 边 path 的起点位置
+                  const startPoint = shape.getPoint(0)
+
+                  // 添加红色 circle 图形
+                  const circle = group.addShape('circle', {
+                    attrs: {
+                      x: startPoint.x,
+                      y: startPoint.y,
+                      fill: '#1890ff',
+                      r: 3
+                    },
+                    // must be assigned in G6 3.3 and later versions. it can be any value you want
+                    name: 'circle-shape'
+                  })
+
+                  // 对红色圆点添加动画
+                  circle.animate(
+                    ratio => {
+                      // 每一帧的操作，入参 ratio：这一帧的比例值（Number）。返回值：这一帧需要变化的参数集（Object）。
+                      // 根据比例值，获得在边 path 上对应比例的位置。
+                      const tmpPoint = shape.getPoint(ratio)
+                      // 返回需要变化的参数集，这里返回了位置 x 和 y
+                      return {
+                        x: tmpPoint.x,
+                        y: tmpPoint.y
+                      }
+                    },
+                    {
+                      repeat: true, // 动画重复
+                      duration: 4000
+                    }
+                  ) // 一次动画的时间长度
+                }
+              },
+              'line'
+            )
             const graph = new G6.TreeGraph({
               container: this.mountNode, // String | HTMLElement，必须，在 Step 1 中创建的容器 id 或容器本身
               width:
@@ -531,21 +587,11 @@ export default class Topology extends React.Component {
                 }
               },
               defaultEdge: {
-                type: 'line',
+                type: 'line-running',
                 style: {
                   stroke: '#1890ff',
-                  lineWidth: 0.8
-                  /* endArrow: {
-                    // 自定义箭头指向(0, 0)，尾部朝向 x 轴正方向的 path
-                    path: 'M 0,0 L 20,10 L 20,-10 Z',
-                    // 箭头的偏移量，负值代表向 x 轴正方向移动
-                    // d: -10,
-                    // v3.4.1 后支持各样式属性
-                    fill: '#333',
-                    stroke: '#666',
-                    opacity: 0.8
-                    // ...
-                  } */
+                  lineWidth: 0.8,
+                  endArrow: true
                 }
               }
             })
@@ -576,16 +622,14 @@ export default class Topology extends React.Component {
                         <span>{model.nodeTypeName}</span>
                       </span>
                     </div>
-                    {/* <div>
-                      <span className="topology-tooltip-label">名称：</span>
-                      <span className="topology-tooltip-value">
-                        <span>{model.label}</span>
-                      </span>
-                      <span className="topology-tooltip-label">状态：</span>
-                      <span className="topology-tooltip-value">
-                        <span>{model.label}</span>
-                      </span>
-                    </div> */}
+                    {model.nodeTypeName === '虚拟机' && (
+                      <div>
+                        <span className="topology-tooltip-label">状态：</span>
+                        <span className="topology-tooltip-value">
+                          <span>{model.statusName}</span>
+                        </span>
+                      </div>
+                    )}
                   </div>
                 )
               })
@@ -612,9 +656,56 @@ export default class Topology extends React.Component {
 
             // 点击节点
             graph.on('node:click', e => {
-              graph.zoom(10, { x: 100, y: 100 })
-              graph.render()
-              graph.refreshLayout(false)
+              clearTimeout(this.timer)
+              const nodeItem = e.item // 获取鼠标进入的节点元素对象
+              const { model } = e.item.defaultCfg
+              console.log(model)
+              if (model.nodeType === 9) {
+                resourceApi
+                  .clusterVms({ id: model.id })
+                  .then(response => {
+                    const childData = response.data.map(item => {
+                      if (item.status === 'Down') {
+                        item.img = vmOffImg
+                        item.statusName = '已关机'
+                      } else {
+                        item.img = vmOnImg
+                        item.statusName = '已开机'
+                      }
+                      return {
+                        id: item.id.uuid,
+                        img: vmOnImg,
+                        parentId: model.id,
+                        label: item.name,
+                        rank: 4,
+                        statusName: item.statusName,
+                        nodeTypeName: '虚拟机',
+                        size: [35, 30],
+                        labelCfg: {
+                          position: 'right',
+                          style: {
+                            fontSize: 12
+                          }
+                        }
+                      }
+                    })
+                    const parentData = graph.findDataById(model.id)
+                    if (!parentData.children) {
+                      parentData.children = []
+                    }
+                    // 如果childData是一个数组，则直接赋值给parentData.children
+                    // 如果是一个对象，则使用parentData.children.push(obj)
+                    parentData.children = childData
+                    graph.changeData()
+                  })
+                  .catch(error => {
+                    message.error(error.message || error)
+                    console.log(error)
+                  })
+              }
+
+              /* graph.render()
+              graph.refreshLayout(false) */
             })
           }
         } else {

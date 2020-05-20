@@ -15,7 +15,6 @@ import {
   vmDisableAction
 } from '@/pages/Common/VmTableCfg'
 import { downloadVV } from '@/utils/tool'
-import { checkAuth, checkAuthDiscrete } from '@/utils/checkPermissions'
 
 const { createTableCfg, TableWrap, ToolBar, BarLeft } = Tablex
 const { confirm } = Modal
@@ -44,19 +43,17 @@ export default class Desktop extends React.Component {
           <a
             disabled={disabledButton?.disabledRemovePermission}
             onClick={() => this.removePermission(id)}
-            hidden={!checkAuth('security')}
           >
             回收权限
           </a>
           <a
             onClick={() => this.sendOrder(id, 'start')}
             disabled={disabledButton.disabledUp}
-            hidden={!checkAuth('admin')}
           >
             开机
           </a>
           <Dropdown overlay={moreAction} placement="bottomRight">
-            <a hidden={!checkAuth('admin')}>
+            <a>
               更多 <Icon type="down" />
             </a>
           </Dropdown>
@@ -280,20 +277,10 @@ export default class Desktop extends React.Component {
           <ToolBar>
             <BarLeft>
               <Button
-                disabled={disabledButton?.disabledRemovePermission}
-                onClick={() =>
-                  this.removePermission(this.tablex.getSelection())
-                }
-                hidden={!checkAuth('security') || !checkAuthDiscrete()}
-              >
-                回收权限
-              </Button>
-              <Button
                 disabled={disabledButton?.disabledUp}
                 onClick={() =>
                   this.sendOrder(this.tablex.getSelection(), 'start')
                 }
-                hidden={!checkAuth('admin')}
               >
                 开机
               </Button>
@@ -302,7 +289,6 @@ export default class Desktop extends React.Component {
                 onClick={() =>
                   this.sendOrder(this.tablex.getSelection(), 'shutdown')
                 }
-                hidden={!checkAuth('admin')}
               >
                 关机
               </Button>
@@ -310,7 +296,7 @@ export default class Desktop extends React.Component {
                 overlay={moreButton}
                 disabled={disabledButton?.disabledMore}
               >
-                <Button hidden={!checkAuth('admin')}>
+                <Button>
                   更多操作 <Icon type="down" />
                 </Button>
               </Dropdown>

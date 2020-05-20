@@ -13,7 +13,7 @@ import {
   Button
 } from 'antd'
 import { Link } from 'react-router-dom'
-import { getUser, checkAuth, checkAuthName } from '@/utils/checkPermissions'
+import { getUser } from '@/utils/checkPermissions'
 import { setItemToLocal } from '@/utils/storage'
 import { wrapResponse } from '@/utils/tool'
 import ResetPwModal from './chip/ResetPwModal'
@@ -63,14 +63,11 @@ export default class Header extends React.Component {
    * @date 2020-04-08
    */
   componentDidMount() {
-    // 添加三员权限控制  头部日志仅显示错误日志 除管理员外其他没有
     window.addEventListener('click', this.onDocumentClick)
-    if (checkAuth('admin')) {
-      this.timer && clearInterval(this.timer)
-      this.getTasks()
-      this.getLogs()
-      this.timer = this.loopGet()
-    }
+    this.timer && clearInterval(this.timer)
+    this.getTasks()
+    this.getLogs()
+    this.timer = this.loopGet()
   }
 
   componentWillUnmount() {
@@ -335,7 +332,7 @@ export default class Header extends React.Component {
           <span className="text">安全虚拟桌面管理</span>
         </div>
         <Menu mode="horizontal" className="header-menu">
-          <Menu.Item key="task" hidden={!checkAuth('admin')}>
+          <Menu.Item key="task">
             <Dropdown
               overlay={this.renderTaskList()}
               placement="bottomCenter"
@@ -362,7 +359,7 @@ export default class Header extends React.Component {
               </div>
             </Dropdown>
           </Menu.Item>
-          <Menu.Item key="logs" hidden={!checkAuth('admin')}>
+          <Menu.Item key="logs">
             <Dropdown
               overlay={this.renderLogList()}
               placement="bottomCenter"
@@ -394,8 +391,6 @@ export default class Header extends React.Component {
           </Menu.Item>
           <Menu.Item
             key="systemConfig"
-            // 用户名字是admin
-            hidden={!checkAuthName('admin')}
             onClick={() => {
               this.sysModal.pop()
             }}

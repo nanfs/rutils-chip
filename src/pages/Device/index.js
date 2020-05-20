@@ -7,7 +7,6 @@ import { columns, apiMethod } from './chip/TableCfg'
 import deviceApi from '@/services/device'
 
 import produce from 'immer'
-import { checkAuth } from '@/utils/checkPermissions'
 
 const { confirm } = Modal
 const { createTableCfg, TableWrap, ToolBar, BarLeft } = Tablex
@@ -28,26 +27,14 @@ export default class Device extends React.Component {
     render: (text, record) => {
       return (
         <span className="opration-btn">
-          <a
-            onClick={() => this.editDev(record, record.name)}
-            hidden={!checkAuth('admin')}
-          >
-            编辑
-          </a>
-          <a
-            onClick={() => this.delDev(record.id)}
-            hidden={!checkAuth('admin')}
-          >
-            删除
-          </a>
+          <a onClick={() => this.editDev(record, record.name)}>编辑</a>
+          <a onClick={() => this.delDev(record.id)}>删除</a>
         </span>
       )
     }
   }
 
-  columnsArr = checkAuth('admin')
-    ? [this.Name, ...columns, this.action]
-    : [this.Name, ...columns]
+  columnsArr = [this.Name, ...columns, this.action]
 
   state = {
     tableCfg: createTableCfg({
@@ -201,17 +188,12 @@ export default class Device extends React.Component {
         <TableWrap>
           <ToolBar>
             <BarLeft>
-              <Button
-                onClick={this.addDev}
-                type="primary"
-                hidden={!checkAuth('admin')}
-              >
+              <Button onClick={this.addDev} type="primary">
                 创建
               </Button>
               <Button
                 onClick={() => this.delDev(this.tablex.getSelection())}
                 disabled={disabledButton?.disabledDelete}
-                hidden={!checkAuth('admin')}
               >
                 删除
               </Button>

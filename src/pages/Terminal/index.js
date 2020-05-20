@@ -20,8 +20,6 @@ import SetAccessPolicyDrawer from './chip/SetAccessPolicyDrawer'
 import SendMessageDrawer from './chip/SendMessageDrawer'
 import { columns, apiMethod } from './chip/TableCfg'
 import terminalApi from '@/services/terminal'
-import { checkAuth } from '@/utils/checkPermissions'
-import { Auth } from '@/components/Authorized'
 import './index.less'
 
 const { confirm } = Modal
@@ -36,7 +34,6 @@ export default class Terminal extends React.Component {
         <Menu>
           <Menu.Item
             key="8"
-            hidden={!checkAuth('admin')}
             onClick={() => {
               this.deleteTerminal(record.sn, '确定删除该条数据?')
             }}
@@ -45,7 +42,6 @@ export default class Terminal extends React.Component {
           </Menu.Item>
           <Menu.Item
             key="2"
-            hidden={!checkAuth('admin')}
             onClick={this.sendOrder.bind(this, 'shutdown', [record.sn])}
             disabled={!record.status}
           >
@@ -53,7 +49,6 @@ export default class Terminal extends React.Component {
           </Menu.Item>
           <Menu.Item
             key="3"
-            hidden={!checkAuth('admin')}
             onClick={this.sendOrder.bind(this, 'restart', [record.sn])}
             disabled={!record.status}
           >
@@ -61,7 +56,6 @@ export default class Terminal extends React.Component {
           </Menu.Item>
           <Menu.Item
             key="4"
-            hidden={!checkAuth('admin')}
             onClick={this.sendOrder.bind(this, 'lock', [record.sn])}
             disabled={!record.status}
           >
@@ -69,7 +63,6 @@ export default class Terminal extends React.Component {
           </Menu.Item>
           <Menu.Item
             key="5"
-            hidden={!checkAuth('admin')}
             onClick={this.sendOrder.bind(this, 'unlock', [record.sn])}
             disabled={!record.status}
           >
@@ -82,16 +75,11 @@ export default class Terminal extends React.Component {
           >
             登出
           </Menu.Item> */}
-          <Menu.Item
-            key="6"
-            hidden={!checkAuth('security')}
-            onClick={this.setUser.bind(this, [record.sn])}
-          >
+          <Menu.Item key="6" onClick={this.setUser.bind(this, [record.sn])}>
             分配用户
           </Menu.Item>
           <Menu.Item
             key="1"
-            hidden={!checkAuth('admin')}
             onClick={this.admitAccessTerminal.bind(this, [record.sn])}
             disabled={record.isReg}
           >
@@ -99,7 +87,6 @@ export default class Terminal extends React.Component {
           </Menu.Item>
           <Menu.Item
             key="7"
-            hidden={!checkAuth('admin')}
             onClick={this.sendMessage.bind(this, [record.sn], [record])}
             disabled={!record.isReg}
           >
@@ -107,7 +94,6 @@ export default class Terminal extends React.Component {
           </Menu.Item>
           <Menu.Item
             key="10"
-            hidden={!checkAuth('security')}
             onClick={() => {
               this.setState({ inner: '设置外设控制' })
               this.setSafePolicyDrawer.pop([record.sn])
@@ -118,7 +104,6 @@ export default class Terminal extends React.Component {
           </Menu.Item>
           <Menu.Item
             key="11"
-            hidden={!checkAuth('security')}
             onClick={() => {
               this.setState({ inner: '设置准入控制' })
               this.setAccessPolicyDrawer.pop([record.sn])
@@ -131,12 +116,7 @@ export default class Terminal extends React.Component {
       )
       return (
         <span className="opration-btn">
-          <a
-            hidden={!checkAuth('admin')}
-            onClick={() => this.editTerminal(record.name, record)}
-          >
-            编辑
-          </a>
+          <a onClick={() => this.editTerminal(record.name, record)}>编辑</a>
 
           <Dropdown overlay={moreAction} placement="bottomRight">
             <a>
@@ -462,7 +442,6 @@ export default class Terminal extends React.Component {
       <Menu>
         <Menu.Item
           key="delete"
-          hidden={!checkAuth('admin')}
           onClick={() => this.deleteTerminal(this.state.selectSN)}
           disabled={disabledButton.disabledDelete}
         >
@@ -470,7 +449,6 @@ export default class Terminal extends React.Component {
         </Menu.Item>
         <Menu.Item
           key="restart"
-          hidden={!checkAuth('admin')}
           onClick={() => this.sendOrder('restart')}
           disabled={disabledButton.disabledShutdown}
         >
@@ -478,7 +456,6 @@ export default class Terminal extends React.Component {
         </Menu.Item>
         <Menu.Item
           key="lock"
-          hidden={!checkAuth('admin')}
           onClick={() => this.sendOrder('lock')}
           disabled={disabledButton.disabledShutdown}
         >
@@ -486,14 +463,12 @@ export default class Terminal extends React.Component {
         </Menu.Item>
         <Menu.Item
           key="unlock"
-          hidden={!checkAuth('admin')}
           onClick={() => this.sendOrder('unlock')}
           disabled={disabledButton.disabledShutdown}
         >
           解锁
         </Menu.Item>
         <Menu.Item
-          hidden={!checkAuth('admin')}
           key="sendMessage"
           onClick={() => this.sendMessage()}
           disabled={disabledButton.disabledSendMessage}
@@ -502,14 +477,12 @@ export default class Terminal extends React.Component {
         </Menu.Item>
         <Menu.Item
           key="setSafePolicy"
-          hidden={!checkAuth('security')}
           onClick={() => this.setSafePolicy()}
           disabled={disabledButton.disabledDelete}
         >
           设置外设控制
         </Menu.Item>
         <Menu.Item
-          hidden={!checkAuth('security')}
           key="setAccessPolicy"
           onClick={() => this.setAccessPolicy()}
           disabled={disabledButton.disabledDelete}
@@ -531,12 +504,10 @@ export default class Terminal extends React.Component {
               <Button
                 onClick={() => this.sendOrder('shutdown')}
                 disabled={disabledButton.disabledShutdown}
-                hidden={!checkAuth('admin')}
               >
                 关机
               </Button>
               <Button
-                hidden={!checkAuth('security')}
                 onClick={() => this.setUser(this.tablex.getSelection())}
                 disabled={disabledButton.disabledSetUser}
               >
@@ -546,7 +517,6 @@ export default class Terminal extends React.Component {
               <Button
                 onClick={() => this.admitAccessTerminal()}
                 disabled={disabledButton.disabledAdmitAccess}
-                hidden={!checkAuth('admin')}
               >
                 允许接入
               </Button>

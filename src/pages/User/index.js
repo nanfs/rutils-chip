@@ -17,13 +17,7 @@ import { adColumns } from './chip/AdTableCfg'
 import AddDrawer from './chip/AddDrawer'
 import DetailDrawer from './chip/DetailDrawer'
 import EditDrawer from './chip/EditDrawer'
-import SetRoloModal from './chip/SetRoloModal'
 import userApi from '@/services/user'
-import {
-  checkAuth,
-  checkAuthDiscrete,
-  getUserId
-} from '@/utils/checkPermissions'
 
 import './index.less'
 
@@ -37,12 +31,8 @@ export default class User extends React.Component {
     ellipsis: true,
     render: (text, record) => {
       return (
-        <a
-          onClick={() =>
-            checkAuth('admin') && this.detailUser(record.username, record)
-          }
-        >
-          {record.lockStatus === 1 ? (
+        <a onClick={() => this.detailUser(record.username, record)}>
+          {record.lockStatus === 1 && (
             <Icon
               type="lock"
               title="已锁定"
@@ -50,8 +40,6 @@ export default class User extends React.Component {
                 color: '#ff4d4f'
               }}
             />
-          ) : (
-            ''
           )}
           {record.username}
         </a>
@@ -68,7 +56,6 @@ export default class User extends React.Component {
         <Menu>
           <Menu.Item
             key="1"
-            hidden={!checkAuth('admin')}
             disabled={
               record.tccount + record.vmcount > 0 ||
               record.roleTypeId.toString() !== '2'
@@ -81,7 +68,6 @@ export default class User extends React.Component {
           </Menu.Item>
           <Menu.Item
             key="2"
-            hidden={!checkAuth('security')}
             onClick={this.forbiddenUser.bind(this, [record.id])}
             disabled={record.status === 1}
           >
@@ -89,7 +75,6 @@ export default class User extends React.Component {
           </Menu.Item>
           <Menu.Item
             key="3"
-            hidden={!checkAuth('security')}
             onClick={this.enableUser.bind(this, [record.id])}
             disabled={record.status === 0}
           >
@@ -97,7 +82,6 @@ export default class User extends React.Component {
           </Menu.Item>
           <Menu.Item
             key="4"
-            hidden={!checkAuth('admin')}
             onClick={this.unlockUser.bind(this, [record.id])}
             disabled={record.lockStatus === 0}
           >
@@ -106,46 +90,11 @@ export default class User extends React.Component {
         </Menu>
       )
 
-      const onlySecurityAction = (
-        <Menu>
-          <Menu.Item
-            onClick={this.forbiddenUser.bind(this, [record.id])}
-            disabled={record.status === 1}
-          >
-            禁用
-          </Menu.Item>
-          <Menu.Item
-            key="3"
-            onClick={this.enableUser.bind(this, [record.id])}
-            disabled={record.status === 0}
-          >
-            启用
-          </Menu.Item>
-        </Menu>
-      )
       return (
         <span className="opration-btn">
-          <a
-            onClick={this.setRole.bind(this, record, record.name)}
-            hidden={!checkAuth('security') || !checkAuthDiscrete()}
-            disabled={record.id === getUserId()}
-          >
-            分配权限
-          </a>
-          <Dropdown overlay={onlySecurityAction} placement="bottomRight">
-            <a hidden={!checkAuth('security') || !checkAuthDiscrete()}>
-              更多
-              <Icon type="down" />
-            </a>
-          </Dropdown>
-          <a
-            onClick={() => this.editUser(record, record.name)}
-            hidden={!checkAuth('admin')}
-          >
-            编辑
-          </a>
+          <a onClick={() => this.editUser(record, record.name)}>编辑</a>
           <Dropdown overlay={moreAction} placement="bottomRight">
-            <a hidden={!checkAuth('admin')}>
+            <a>
               更多
               <Icon type="down" />
             </a>
@@ -176,6 +125,7 @@ export default class User extends React.Component {
 
   columnsArr = [this.userName, ...columns, this.options]
 
+  // AD域显示表格
   adColumnsArr = [this.userName, ...adColumns, this.adOptions]
 
   state = {
@@ -199,7 +149,6 @@ export default class User extends React.Component {
       .domainlist()
       .then(res => {
         if (res.success) {
-          // notification.success({ message: '查询域成功' })
           const domainlist = res.data.map(item => {
             const obj = {}
             obj.label = item === 'internal' ? '本地组(internal)' : item
@@ -216,7 +165,7 @@ export default class User extends React.Component {
             domainlist
           })
         } else {
-          message.error(res.message || '查询域失败')
+          message.error(res?.message || '查询域失败')
         }
       })
       .catch(error => {
@@ -525,14 +474,9 @@ export default class User extends React.Component {
       })
   }
 
-  setRole = (record, name) => {
-    this.SetRoloModal.pop(record)
-  }
-
   detailUser = (username, data) => {
     this.setState({ inner: username })
-    this.detailDrawer.pop(data, this.state.selectedType)
-    // this.detailDrawer.drawer.show()
+    this.detailDrawer.pop(data, this?.state.selectedType)
     this.currentDrawer = this.detailDrawer
   }
 
@@ -562,7 +506,7 @@ export default class User extends React.Component {
                 editNodeApiMethod={userApi.groupUpdate}
                 deleteNodeApiMethod={userApi.groupDelete}
                 treeRenderSuccess={this.treeRenderSuccess}
-                showRightClinkMenu={checkAuth('admin')}
+                showRightClinkMenu={true}
                 showSearch={false}
               ></Treex>
               {domainlist &&
@@ -586,16 +530,10 @@ export default class User extends React.Component {
             <div className="user-table">
               <ToolBar>
                 <BarLeft>
-                  {selectedType === 'internal' ? (
-                    <Button
-                      onClick={this.addUser}
-                      type="primary"
-                      hidden={!checkAuth('admin')}
-                    >
+                  {selectedType === 'internal' && (
+                    <Button onClick={this.addUser} type="primary">
                       创建
                     </Button>
-                  ) : (
-                    ''
                   )}
                 </BarLeft>
                 <BarRight>
@@ -633,12 +571,6 @@ export default class User extends React.Component {
                 initValues={initValues}
                 nodeData={groupTreeData}
                 domainlist={[{ value: 'internal', label: '本地组(internal)' }]}
-              />
-              <SetRoloModal
-                onRef={ref => {
-                  this.SetRoloModal = ref
-                }}
-                onSuccess={this.onSuccess}
               />
               <DetailDrawer
                 onRef={ref => {

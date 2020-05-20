@@ -5,7 +5,6 @@ import AddDrawer from './chip/AddDrawer'
 import EditDrawer from './chip/EditDrawer'
 import { columns, apiMethod } from './chip/TableCfg'
 import accessApi from '@/services/access'
-import { checkAuth } from '@/utils/checkPermissions'
 import produce from 'immer'
 
 const { confirm } = Modal
@@ -26,18 +25,12 @@ export default class Access extends React.Component {
     render: (text, record) => {
       return (
         <span className="opration-btn">
-          <a
-            onClick={() => this.editAccess(record.name, record)}
-            hidden={!checkAuth('admin')}
-          >
-            编辑
-          </a>
+          <a onClick={() => this.editAccess(record.name, record)}>编辑</a>
           <a
             onClick={() => {
               this.delAccess(record.id, '确定删除该条数据?')
             }}
             disabled={record.boundTcNum !== 0}
-            hidden={!checkAuth('admin')}
           >
             删除
           </a>
@@ -46,9 +39,7 @@ export default class Access extends React.Component {
     }
   }
 
-  columnsArr = checkAuth('admin')
-    ? [this.Name, ...columns, this.action]
-    : [this.Name, ...columns]
+  columnsArr = [this.Name, ...columns, this.action]
 
   state = {
     tableCfg: createTableCfg({
@@ -204,17 +195,12 @@ export default class Access extends React.Component {
         <TableWrap>
           <ToolBar>
             <BarLeft>
-              <Button
-                onClick={this.addAccess}
-                type="primary"
-                hidden={!checkAuth('admin')}
-              >
+              <Button onClick={this.addAccess} type="primary">
                 创建
               </Button>
               <Button
                 onClick={() => this.delAccess(this.tablex.getSelection())}
                 disabled={disabledButton?.disabledDelete}
-                hidden={!checkAuth('admin')}
               >
                 删除
               </Button>

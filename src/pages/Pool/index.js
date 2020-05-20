@@ -6,9 +6,7 @@ import DetailDrawer from './chip/DetailDrawer'
 import EditDrawer from './chip/EditDrawer'
 import SetUserDrawer from './chip/SetUserDrawer'
 import poolsApi from '@/services/pools'
-import { checkAuth } from '@/utils/checkPermissions'
 import { columns, apiMethod } from './chip/TableCfg'
-// import { checkAuth } from '@/utils/checkPermissions'
 import './index.less'
 
 const { confirm } = Modal
@@ -38,22 +36,9 @@ export default class Pool extends React.Component {
     render: (text, record) => {
       return (
         <span className="opration-btn">
-          <a
-            onClick={() => this.editPool(record.id, record.name)}
-            hidden={!checkAuth('admin')}
-          >
-            编辑
-          </a>
-          <a
-            onClick={() => this.setUser(record.id, record.name)}
-            hidden={!checkAuth('security')}
-          >
-            分配用户
-          </a>
-          <a
-            onClick={() => this.deletePool(record.id, '确定删除本条数据?')}
-            hidden={!checkAuth('admin')}
-          >
+          <a onClick={() => this.editPool(record.id, record.name)}>编辑</a>
+          <a onClick={() => this.setUser(record.id, record.name)}>分配用户</a>
+          <a onClick={() => this.deletePool(record.id, '确定删除本条数据?')}>
             删除
           </a>
         </span>
@@ -182,11 +167,7 @@ export default class Pool extends React.Component {
         <TableWrap>
           <ToolBar>
             <BarLeft>
-              <Button
-                onClick={this.createPool}
-                type="primary"
-                hidden={!checkAuth('admin')}
-              >
+              <Button onClick={this.createPool} type="primary">
                 创建
               </Button>
             </BarLeft>

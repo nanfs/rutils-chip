@@ -12,7 +12,6 @@ import { InnerPath, SelectSearch, Tablex } from '@/components'
 import produce from 'immer'
 import desktopsApi from '@/services/desktops'
 import { downloadVV } from '@/utils/tool'
-import { checkAuth, checkAuthDiscrete } from '@/utils/checkPermissions'
 import {
   getColumns,
   apiMethod,
@@ -37,12 +36,7 @@ export default class Desktop extends React.Component {
     sorter: true,
     render: (text, record) => {
       return (
-        <a
-          onClick={() =>
-            checkAuth('admin') &&
-            this.detailVm(record.id, record.name, record.status)
-          }
-        >
+        <a onClick={() => this.detailVm(record.id, record.name, record.status)}>
           {text}
         </a>
       )
@@ -70,20 +64,10 @@ export default class Desktop extends React.Component {
       })
       return (
         <span className="opration-btn">
-          <a
-            onClick={() => this.editVm(record.id, record.name)}
-            hidden={!checkAuth('admin')}
-          >
-            编辑
-          </a>
-          <a
-            onClick={() => this.setUser(record.id, record.name)}
-            hidden={!checkAuth('security') || !checkAuthDiscrete()}
-          >
-            分配用户
-          </a>
+          <a onClick={() => this.editVm(record.id, record.name)}>编辑</a>
+
           <Dropdown overlay={moreAction} placement="bottomRight">
-            <a hidden={!checkAuth('admin')}>
+            <a>
               更多 <Icon type="down" />
             </a>
           </Dropdown>
@@ -311,24 +295,18 @@ export default class Desktop extends React.Component {
         <TableWrap>
           <ToolBar>
             <BarLeft>
-              <Button
-                onClick={this.createVm}
-                type="primary"
-                hidden={!checkAuth('admin')}
-              >
+              <Button onClick={this.createVm} type="primary">
                 创建
               </Button>
               <Button
                 onClick={() => this.setUser(this.tablex.getSelection())}
                 disabled={disabledButton?.disabledSetUser}
-                hidden={!checkAuth('security')}
               >
                 分配用户
               </Button>
               <Dropdown
                 overlay={moreButton}
                 disabled={disabledButton?.disabledMore}
-                hidden={!checkAuth('admin')}
               >
                 <Button>
                   更多操作 <Icon type="down" />

@@ -14,7 +14,6 @@ import {
   setDataCenterToSession,
   setHostToSession
 } from '@/utils/preFilter'
-import { checkAuth } from '@/utils/checkPermissions'
 
 // TODO 会有不同步问题 后期优化
 setClusterToSession()
@@ -226,7 +225,7 @@ export function getMoreButton({
     <Menu>
       <Menu.Item
         key="0"
-        hidden={!isInnerMore || isDuplicated || !checkAuth('security')}
+        hidden={!isInnerMore || isDuplicated}
         onClick={setUserFn}
         disabled={disabledButton?.disabledSetUser}
       >
@@ -234,7 +233,7 @@ export function getMoreButton({
       </Menu.Item>
       <Menu.Item
         key="1"
-        hidden={!isInnerMore || isDuplicated || !checkAuth('admin')}
+        hidden={!isInnerMore || isDuplicated}
         onClick={openConsoleFn}
         disabled={disabledButton?.disabledOpenConsole}
       >
@@ -242,7 +241,7 @@ export function getMoreButton({
       </Menu.Item>
       <Menu.Item
         key="7"
-        hidden={isDuplicated || !isInnerMore || !checkAuth('admin')}
+        hidden={isDuplicated || !isInnerMore}
         onClick={attachIsoFn}
         disabled={disabledButton?.disabledAttachIso}
       >
@@ -251,14 +250,14 @@ export function getMoreButton({
       <Menu.Item
         key="2"
         disabled={disabledButton?.disabledUp}
-        hidden={isDuplicated || !checkAuth('admin')}
+        hidden={isDuplicated}
         onClick={() => sendOrderFn('start')}
       >
         开机
       </Menu.Item>
       <Menu.Item
         key="3"
-        hidden={(isDuplicated && !isInnerMore) || !checkAuth('admin')}
+        hidden={isDuplicated && !isInnerMore}
         disabled={disabledButton?.disabledDown}
         onClick={() => sendOrderFn('shutdown')}
       >
@@ -266,7 +265,6 @@ export function getMoreButton({
       </Menu.Item>
       <Menu.Item
         key="4"
-        hidden={!checkAuth('admin')}
         disabled={disabledButton?.disabledPowerOff}
         onClick={() => sendOrderFn('poweroff')}
       >
@@ -274,7 +272,6 @@ export function getMoreButton({
       </Menu.Item>
       <Menu.Item
         key="5"
-        hidden={!checkAuth('admin')}
         disabled={disabledButton?.disabledRestart}
         onClick={() => sendOrderFn('restart')}
       >
@@ -282,7 +279,7 @@ export function getMoreButton({
       </Menu.Item>
       <Menu.Item
         key="6"
-        hidden={!isInnerMore || isDuplicated || !checkAuth('admin')}
+        hidden={!isInnerMore || isDuplicated}
         disabled={disabledButton?.disabledAddTem}
         onClick={addTempFn}
       >
@@ -290,7 +287,7 @@ export function getMoreButton({
       </Menu.Item>
       <Menu.Item
         key="7"
-        hidden={!isPoolVmlist || !checkAuth('security')}
+        hidden={!isPoolVmlist}
         disabled={disabledButton?.disabledRemovePermission}
         onClick={removePermissionFn}
       >
@@ -298,7 +295,6 @@ export function getMoreButton({
       </Menu.Item>
       <Menu.Item
         key="10"
-        hidden={!checkAuth('admin')}
         onClick={deleteFn}
         disabled={disabledButton?.disabledDelete}
       >

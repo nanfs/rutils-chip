@@ -49,7 +49,7 @@ class Tablex extends React.Component {
       paging: {
         size: (paging && paging.size) || 10,
         current: 1,
-        total: 1
+        total: 0 // 默认0
       }
     }
   }

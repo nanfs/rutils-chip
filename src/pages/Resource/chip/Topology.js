@@ -570,10 +570,10 @@ export default class Topology extends React.Component {
                 nodeSep: 10, // 可选
                 rankSep: 10, // 可选
                 getVGap: function getVGap() {
-                  return 50
+                  return 150
                 },
                 getHGap: function getHGap() {
-                  return 50
+                  return 70
                 }
               },
               defaultNode: {
@@ -660,11 +660,12 @@ export default class Topology extends React.Component {
               const nodeItem = e.item // 获取鼠标进入的节点元素对象
               const { model } = e.item.defaultCfg
               console.log(model)
-              if (model.nodeType === 9) {
+              if (model.nodeType === 9 && !model.collapsed) {
                 resourceApi
                   .clusterVms({ id: model.id })
                   .then(response => {
                     const childData = response.data.map(item => {
+                      item.img = vmOnImg
                       if (item.status === 'Down') {
                         item.img = vmOffImg
                         item.statusName = '已关机'
@@ -674,7 +675,7 @@ export default class Topology extends React.Component {
                       }
                       return {
                         id: item.id.uuid,
-                        img: vmOnImg,
+                        img: item.img,
                         parentId: model.id,
                         label: item.name,
                         rank: 4,
@@ -690,18 +691,44 @@ export default class Topology extends React.Component {
                       }
                     })
                     const parentData = graph.findDataById(model.id)
-                    if (!parentData.children) {
-                      parentData.children = []
-                    }
+                    console.log(parentData)
                     // 如果childData是一个数组，则直接赋值给parentData.children
                     // 如果是一个对象，则使用parentData.children.push(obj)
                     parentData.children = childData
-                    graph.changeData()
+                    const layout = {
+                      type: 'dendrogram',
+                      direction: 'LR', // 树布局的方向
+                      /* getVGap: function getVGap() {
+                        return 70
+                      },
+                      getHGap: function getHGap() {
+                        return 70
+                      }, */
+                      radial: true
+                    }
+                    graph.changeLayout(layout)
+                    graph.changeData(parentData)
                   })
                   .catch(error => {
                     message.error(error.message || error)
                     console.log(error)
                   })
+              } else {
+                const layout = {
+                  type: 'compactBox',
+                  direction: 'TB', // 树布局的方向
+                  nodeSep: 10, // 可选
+                  rankSep: 10, // 可选
+                  getVGap: function getVGap() {
+                    return 70
+                  },
+                  getHGap: function getHGap() {
+                    return 70
+                  }
+                }
+                graph.clear()
+                graph.changeLayout(layout)
+                graph.changeData(data)
               }
 
               /* graph.render()

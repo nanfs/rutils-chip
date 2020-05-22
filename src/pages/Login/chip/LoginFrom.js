@@ -3,6 +3,7 @@ import { Button, Input, Form, Icon, message } from 'antd'
 import { Formx } from '@/components'
 import { getUser } from './ftusbkey'
 import { required } from '@/utils/valid'
+import encrypt from '@/utils/encrypt'
 import { setObjItemTolocal, setItemToLocal } from '@/utils/storage'
 import {
   setClusterToSession,
@@ -11,7 +12,6 @@ import {
   setDomainToSession,
   setRolesToSession
 } from '@/utils/preFilter'
-
 import loginApi from '@/services/login'
 
 export default class LoginForm extends React.Component {
@@ -33,8 +33,8 @@ export default class LoginForm extends React.Component {
       .getProperties()
       .then(res => {
         setObjItemTolocal('properties', res)
-        const { hasPin } = res
-        this.setState({ hasPin })
+        const { hasPin, hasEncode } = res
+        this.setState({ hasPin, hasEncode })
       })
       .catch(e => {
         console.log(e)
@@ -60,24 +60,19 @@ export default class LoginForm extends React.Component {
   login = values => {
     let data = {}
     this.setState({ loading: true })
-    if (this.state.hasPin) {
-      if (!this.checkUsbkey(values.username, values.pincode)) {
-        this.setState({ loading: false })
-        return false
-      }
-      data = {
-        username: values.username,
-        // usbkeyid: getUsbKeyId(values.pincode),
-        // password: encrypt(values.password)
-        password: values.password,
-        domain: 'internal'
-      }
-    } else {
-      data = {
-        username: values.username,
-        password: values.password,
-        domain: 'internal'
-      }
+    if (
+      this.state.hasPin &&
+      !this.checkUsbkey(values.username, values.pincode)
+    ) {
+      this.setState({ loading: false })
+      return false
+    }
+    data = {
+      username: values.username,
+      password: this.state.hasEncode
+        ? encrypt(values.password)
+        : values.password,
+      domain: 'internal'
     }
     loginApi
       .login(data)

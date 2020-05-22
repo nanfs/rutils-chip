@@ -3,8 +3,9 @@ import React from 'react'
 import appApi from '@/services/app'
 import { Formx, Modalx } from '@/components'
 import { Form, Input, message } from 'antd'
-import { required, checkPassword } from '../../utils/valid'
-import { getUser } from '@/utils/checkPermissions'
+import encrypt from '@/utils/encrypt'
+import { required, checkPassword } from '@/utils/valid'
+import { getUser, checkDecode } from '@/utils/checkPermissions'
 
 const { createModalCfg } = Modalx
 export default class ModalDemo extends React.Component {
@@ -23,9 +24,11 @@ export default class ModalDemo extends React.Component {
   }
 
   getResult = values => {
+    const { oldPassword, newPassword } = values
     appApi
       .updatePwd({
-        ...values,
+        oldPassword,
+        newPassword: checkDecode() ? encrypt(newPassword) : newPassword,
         domain: 'internal',
         username: getUser()
       })
@@ -44,10 +47,8 @@ export default class ModalDemo extends React.Component {
 
   onOk = values => {
     if (values.confirmPassword !== values.newPassword) {
-      // message.error('确认密码与新密码不一致！')
       this.modal.afterSubmit({ message: '确认密码与新密码不一致！' })
     } else if (values.oldPassword === values.newPassword) {
-      // message.error('新密码与旧密码一致！')
       this.modal.afterSubmit({ message: '新密码与旧密码一致！' })
     } else {
       this.getResult(values)

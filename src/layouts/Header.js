@@ -9,8 +9,7 @@ import {
   Tabs,
   List,
   Avatar,
-  Skeleton,
-  Button
+  Skeleton
 } from 'antd'
 import { Link } from 'react-router-dom'
 import { getUser } from '@/utils/checkPermissions'
@@ -281,7 +280,7 @@ export default class Header extends React.Component {
             </List.Item>
           )}
         />
-        <Button className="list-more-btn" block>
+        <span className="list-more-btn" block>
           <Link
             to={{
               pathname: '/vmlog',
@@ -293,7 +292,7 @@ export default class Header extends React.Component {
           >
             (当前显示最近5条)点击查看更多
           </Link>
-        </Button>
+        </span>
       </div>
     )
   }

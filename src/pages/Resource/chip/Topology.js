@@ -570,7 +570,7 @@ export default class Topology extends React.Component {
                 nodeSep: 10, // 可选
                 rankSep: 10, // 可选
                 getVGap: function getVGap() {
-                  return 150
+                  return 160
                 },
                 getHGap: function getHGap() {
                   return 70
@@ -664,50 +664,52 @@ export default class Topology extends React.Component {
                 resourceApi
                   .clusterVms({ id: model.id })
                   .then(response => {
-                    const childData = response.data.map(item => {
-                      item.img = vmOnImg
-                      if (item.status === 'Down') {
-                        item.img = vmOffImg
-                        item.statusName = '已关机'
-                      } else {
+                    if (response.data?.length && response.data?.length > 0) {
+                      const childData = response.data.map(item => {
                         item.img = vmOnImg
-                        item.statusName = '已开机'
-                      }
-                      return {
-                        id: item.id.uuid,
-                        img: item.img,
-                        parentId: model.id,
-                        label: item.name,
-                        rank: 4,
-                        statusName: item.statusName,
-                        nodeTypeName: '虚拟机',
-                        size: [35, 30],
-                        labelCfg: {
-                          position: 'right',
-                          style: {
-                            fontSize: 12
+                        if (item.status === 'Down') {
+                          item.img = vmOffImg
+                          item.statusName = '已关机'
+                        } else {
+                          item.img = vmOnImg
+                          item.statusName = '已开机'
+                        }
+                        return {
+                          id: item.id.uuid,
+                          img: item.img,
+                          parentId: model.id,
+                          label: item.name,
+                          rank: 4,
+                          statusName: item.statusName,
+                          nodeTypeName: '虚拟机',
+                          size: [35, 30],
+                          labelCfg: {
+                            position: 'right',
+                            style: {
+                              fontSize: 12
+                            }
                           }
                         }
+                      })
+                      const parentData = graph.findDataById(model.id)
+                      console.log(parentData)
+                      // 如果childData是一个数组，则直接赋值给parentData.children
+                      // 如果是一个对象，则使用parentData.children.push(obj)
+                      parentData.children = childData
+                      const layout = {
+                        type: 'dendrogram',
+                        direction: 'LR', // 树布局的方向
+                        /* getVGap: function getVGap() {
+                          return 70
+                        },
+                        getHGap: function getHGap() {
+                          return 70
+                        }, */
+                        radial: true
                       }
-                    })
-                    const parentData = graph.findDataById(model.id)
-                    console.log(parentData)
-                    // 如果childData是一个数组，则直接赋值给parentData.children
-                    // 如果是一个对象，则使用parentData.children.push(obj)
-                    parentData.children = childData
-                    const layout = {
-                      type: 'dendrogram',
-                      direction: 'LR', // 树布局的方向
-                      /* getVGap: function getVGap() {
-                        return 70
-                      },
-                      getHGap: function getHGap() {
-                        return 70
-                      }, */
-                      radial: true
+                      graph.changeLayout(layout)
+                      graph.changeData(parentData)
                     }
-                    graph.changeLayout(layout)
-                    graph.changeData(parentData)
                   })
                   .catch(error => {
                     message.error(error.message || error)
@@ -720,7 +722,7 @@ export default class Topology extends React.Component {
                   nodeSep: 10, // 可选
                   rankSep: 10, // 可选
                   getVGap: function getVGap() {
-                    return 70
+                    return 160
                   },
                   getHGap: function getHGap() {
                     return 70

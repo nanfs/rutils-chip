@@ -448,7 +448,7 @@ export default class Topology extends React.Component {
 
   componentDidMount() {
     userApi
-      .queryResources({ userId: getUserId('userId') })
+      .queryResources()
       .then(res => {
         if (res.success) {
           const nodes = res.data.map(element => {

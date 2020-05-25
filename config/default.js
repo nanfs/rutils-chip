@@ -3,7 +3,7 @@ module.exports = {
   baseURL: '/ccsvm/desktop',
   proxy: {
     '/ccsvm/desktop': {
-      target: 'http://192.168.254.220/ccsvm/desktop',
+      target: 'http://192.168.254.49/ccsvm/desktop',
       changeOrigin: true,
       pathRewrite: { '^/ccsvm/desktop': '' },
       secure: false

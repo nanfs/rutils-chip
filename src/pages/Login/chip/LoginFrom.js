@@ -8,8 +8,7 @@ import {
   setClusterToSession,
   setDataCenterToSession,
   setHostToSession,
-  setDomainToSession,
-  setRolesToSession
+  setDomainToSession
 } from '@/utils/preFilter'
 
 import loginApi from '@/services/login'
@@ -100,7 +99,6 @@ export default class LoginForm extends React.Component {
           setDataCenterToSession()
           setHostToSession()
           setDomainToSession()
-          setRolesToSession()
           window.location.hash = 'dashboard'
         } else {
           message.error(res.message || '登录失败')

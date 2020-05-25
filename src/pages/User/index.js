@@ -56,10 +56,7 @@ export default class User extends React.Component {
         <Menu>
           <Menu.Item
             key="1"
-            disabled={
-              record.tccount + record.vmcount > 0 ||
-              record.roleTypeId.toString() !== '2'
-            }
+            disabled={record.tccount + record.vmcount > 0}
             onClick={() => {
               this.deleteUser([record.id])
             }}

@@ -600,7 +600,6 @@ export default class Topology extends React.Component {
 
             // 鼠标进入节点
             graph.on('node:mouseenter', e => {
-              console.log(e)
               clearTimeout(this.timer)
               const nodeItem = e.item // 获取鼠标进入的节点元素对象
               const { model } = e.item.defaultCfg
@@ -659,7 +658,6 @@ export default class Topology extends React.Component {
               clearTimeout(this.timer)
               const nodeItem = e.item // 获取鼠标进入的节点元素对象
               const { model } = e.item.defaultCfg
-              console.log(model)
               if (model.nodeType === 9 && !model.collapsed) {
                 resourceApi
                   .clusterVms({ id: model.id })
@@ -692,7 +690,6 @@ export default class Topology extends React.Component {
                         }
                       })
                       const parentData = graph.findDataById(model.id)
-                      console.log(parentData)
                       // 如果childData是一个数组，则直接赋值给parentData.children
                       // 如果是一个对象，则使用parentData.children.push(obj)
                       parentData.children = childData

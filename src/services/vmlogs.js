@@ -21,9 +21,16 @@ export default {
   },
   export(data) {
     return axios({
-      url: '/desktoplogs',
+      url: '/desktoplogs/export',
       method: 'get',
-      data: qs.stringify(data)
+      // credentials: 'include',
+      // headers: new Headers({
+      //   'Content-Type': 'application/json'
+      // }),
+      params: data,
+      paramsSerializer: params => {
+        return qs.stringify(params, { arrayFormat: 'indices' })
+      }
     })
   }
 }

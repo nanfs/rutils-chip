@@ -213,7 +213,10 @@ export default class tcLog extends React.Component {
   exportLogs = () => {
     const searchs = { ...this.state.tableCfg.searchs }
     tclogsApi
-      .export([searchs.fromDate, searchs.toDate])
+      .export({
+        fromDate: searchs.fromDate || '',
+        toDate: searchs.toDate || ''
+      })
       .then(res => {
         if (res.success) {
           // 创建隐藏的可下载链接

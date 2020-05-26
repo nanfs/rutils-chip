@@ -27,6 +27,7 @@ export default {
       // headers: new Headers({
       //   'Content-Type': 'application/json'
       // }),
+      responseType: 'arraybuffer',
       params: data,
       paramsSerializer: params => {
         return qs.stringify(params, { arrayFormat: 'indices' })

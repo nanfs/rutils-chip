@@ -23,6 +23,7 @@ export default {
     return axios({
       url: '/tclogs/export',
       method: 'get',
+      responseType: 'arraybuffer',
       params: data,
       paramsSerializer: params => {
         return qs.stringify(params, { arrayFormat: 'indices' })

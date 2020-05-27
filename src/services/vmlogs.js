@@ -23,10 +23,6 @@ export default {
     return axios({
       url: '/desktoplogs/export',
       method: 'get',
-      // credentials: 'include',
-      // headers: new Headers({
-      //   'Content-Type': 'application/json'
-      // }),
       responseType: 'arraybuffer',
       params: data,
       paramsSerializer: params => {

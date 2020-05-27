@@ -317,25 +317,41 @@ export function getMoreButton({
  */
 export function vmDisableAction(vmObj) {
   let disabledButton = {}
-  if (vmObj.status !== 0 && vmObj.status !== 13) {
+  // 只有关机 暂停 挂起状态 可以开机
+  const canUpStatus = [0, 4, 13]
+  if (!canUpStatus.includes(vmObj.status)) {
     disabledButton = {
       ...disabledButton,
-      disabledDelete: true,
-      disabledUp: true,
-      disabledAddTem: true
+      disabledUp: true
     }
   }
   // 开机 或者正在开机 可以打开控制台
-  if (vmObj.status !== 1 && vmObj.status !== 2) {
+  const canOpenConsoleStatus = [1, 2]
+  if (!canOpenConsoleStatus.includes(vmObj.status)) {
     disabledButton = {
       ...disabledButton,
       disabledOpenConsole: true
+    }
+  }
+  // 只有关机状态 可以开机和删除
+  if (vmObj.status !== 0) {
+    disabledButton = {
+      ...disabledButton,
+      disabledAddTem: true,
+      disabledDelete: true
     }
   }
   if (vmObj.status !== 1) {
     disabledButton = {
       ...disabledButton,
       disabledAttachIso: true
+    }
+  }
+  // 不禁用感觉要方便点
+  if (!vmObj.assignedUsers) {
+    disabledButton = {
+      ...disabledButton,
+      disabledRemovePermission: true
     }
   }
   if (vmObj.status === 0) {
@@ -352,18 +368,19 @@ export function vmDisableAction(vmObj) {
       disabledRestart: true
     }
   }
+  // 暂停 pause 禁用重启 关机
+  if (vmObj.status === 4) {
+    disabledButton = {
+      ...disabledButton,
+      disabledDown: true,
+      disabledRestart: true
+    }
+  }
   if (vmObj.assignedUsers) {
     disabledButton = {
       ...disabledButton,
       disabledDelete: true,
       disabledOpenConsole: true
-    }
-  }
-  // 不禁用感觉要方便点
-  if (!vmObj.assignedUsers) {
-    disabledButton = {
-      ...disabledButton,
-      disabledRemovePermission: true
     }
   }
   return disabledButton

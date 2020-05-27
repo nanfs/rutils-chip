@@ -6,7 +6,6 @@ import 'dayjs/locale/zh-cn'
 import { connect } from 'react-redux'
 import RouteView from '@/components/RouteView'
 import { AuthorizedRoute } from '@/components/Authorized'
-import { getRole } from '@/utils/checkPermissions'
 import './base.less'
 import Header from './Header'
 import Sider from './Sider'
@@ -40,9 +39,7 @@ class BasicLayout extends React.Component {
                         path={path}
                         authority={authority}
                         component={component}
-                        redirectPath={
-                          getRole() === 'audit' ? '/vmlog' : '/dashboard'
-                        }
+                        redirectPath={'/dashboard'}
                         RouteProps={other}
                       />
                     )

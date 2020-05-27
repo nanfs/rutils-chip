@@ -34,6 +34,10 @@ body {
   &-drop-list {
     max-height: 500px;
     max-width: 400px;
+    // 兼容火狐浏览器
+    min-height: 217px;
+    min-width: 300px;
+    //
     overflow-y: auto;
     background-color: #fff;
     border-radius: 4px;
@@ -61,6 +65,9 @@ body {
       line-height: 50px;
       border: none;
       border-top: 1px solid #d9d9d9;
+      width: 100%;
+      display: block;
+      text-align: center;
     }
   }
   .logo {

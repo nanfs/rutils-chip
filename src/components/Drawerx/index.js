@@ -68,15 +68,6 @@ class Drawerx extends React.Component {
     })
   }
 
-  break = error => {
-    if (error) {
-      message.error(error.message || error)
-    }
-    this.setState({
-      submitting: false
-    })
-  }
-
   onClose = () => {
     this.hide()
     const { onClose } = this.props
@@ -120,11 +111,15 @@ class Drawerx extends React.Component {
           if (!errors) {
             onOk(values)
           } else {
-            this.break()
+            this.setState({
+              submitting: false
+            })
           }
         })
         .catch(() => {
-          this.break()
+          this.setState({
+            submitting: false
+          })
         })
     } else {
       onOk && onOk()

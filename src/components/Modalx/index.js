@@ -103,10 +103,13 @@ class Modalx extends React.Component {
         .validateFieldsAndScroll((errors, values) => {
           if (!errors) {
             onOk(values)
+          } else {
+            this.setState({
+              submitting: false
+            })
           }
         })
-        .catch(error => {
-          message.error(error.message || error)
+        .catch(() => {
           this.setState({
             submitting: false
           })

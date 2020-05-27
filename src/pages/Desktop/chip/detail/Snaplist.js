@@ -5,6 +5,7 @@ import { Tablex } from '@/components'
 import desktopApi from '@/services/desktops'
 import { columns, apiMethod } from './Snap/SnapTableCfg'
 import AddSnapModal from './Snap/AddSnapModal'
+import { wrapResponse } from '@/utils/tool'
 
 const { createTableCfg, TableWrap, ToolBar, BarLeft } = Tablex
 const { confirm, info } = Modal
@@ -13,6 +14,8 @@ export default class Desktop extends React.Component {
     tableCfg: createTableCfg({
       columns,
       apiMethod,
+      rowKey: 'snapshotId',
+      searchs: { vmId: this.props.vmId },
       paging: { size: 10 },
       pageSizeOptions: ['5', '10', '20', '50']
     }),
@@ -35,7 +38,8 @@ export default class Desktop extends React.Component {
       }
     } else {
       selectData.forEach(item => {
-        if (item.boot) {
+        // 如果快照 是active 不能删除
+        if (item.snapshotType === 'ACTIVE') {
           disabledButton = {
             ...disabledButton,
             disabledDelete: true
@@ -46,14 +50,30 @@ export default class Desktop extends React.Component {
     this.setState({ disabledButton })
   }
 
+  // 预览快照
   checkSnap = () => {
-    info({
-      title: '预览快照',
-      content: <p>请在桌面预览快照,预览结束后继续操作</p>,
-      onOk: () => {
-        this.setState({ currentSnap: this.tablex.getSelection()[0] })
-      }
-    })
+    desktopApi
+      .checkSnap({
+        vmId: this.props.vmId,
+        snapId: this.tablex.getSelection()[0]
+      })
+      .then(res =>
+        wrapResponse(res)
+          .then(() => {
+            info({
+              title: '预览快照',
+              content: <p>请在桌面预览快照,预览结束后继续操作</p>,
+              onOk: () => {
+                this.setState({ currentSnap: this.tablex.getSelection()[0] })
+              }
+            })
+          })
+          .catch(error =>
+            message.error(
+              error.message || error || '快照预览失败, 请联系管理员'
+            )
+          )
+      )
   }
 
   useSnap = () => {
@@ -88,7 +108,7 @@ export default class Desktop extends React.Component {
     confirm({
       title: '确定删除所选数据?',
       onOk() {
-        return new Promise((resolve, reject) => {
+        return new Promise(resolve => {
           desktopApi
             .deleteSnap({ snapIds })
             .then(res => {
@@ -105,7 +125,6 @@ export default class Desktop extends React.Component {
               error.type === 'timeout' &&
                 self.tablex.refresh(self.state.tableCfg)
               resolve()
-              console.log(error)
             })
         })
       },

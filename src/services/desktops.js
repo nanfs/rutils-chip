@@ -110,6 +110,12 @@ export default {
       method: 'get'
     })
   },
+  detailSnap({ vmId, snapId }) {
+    return axios({
+      url: `/desktops/${vmId}/snapshots/${snapId}`,
+      method: 'get'
+    })
+  },
   addSnap({ vmId, ...data }) {
     return axios({
       url: `/desktops/${vmId}/snapshots`,
@@ -123,20 +129,16 @@ export default {
       method: 'get'
     })
   },
-  useSnap(data) {
+  useSnap({ vmId }) {
     return axios({
-      url: '/snaps',
-      method: 'get',
-      baseURL: '/api',
-      params: data
+      url: `/desktops/${vmId}/snapshots/commit`,
+      method: 'get'
     })
   },
-  cancelSnap(data) {
+  cancelSnap({ vmId }) {
     return axios({
-      url: '/snaps',
-      method: 'get',
-      baseURL: '/api',
-      params: data
+      url: `/desktops/${vmId}/snapshots/undo`,
+      method: 'get'
     })
   },
   deleteSnap(data) {

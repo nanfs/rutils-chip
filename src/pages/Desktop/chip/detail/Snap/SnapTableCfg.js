@@ -1,6 +1,4 @@
 import desktopApi from '@/services/desktops'
-import React from 'react'
-import { Icon } from 'antd'
 
 export const columns = [
   {

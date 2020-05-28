@@ -1,11 +1,12 @@
 /* eslint-disable react/no-string-refs */
 import React from 'react'
-import { Button, Modal, notification, message } from 'antd'
+import { Button, Modal, notification, message, Divider } from 'antd'
 import { Tablex } from '@/components'
 import desktopApi from '@/services/desktops'
+import { wrapResponse } from '@/utils/tool'
 import { columns, apiMethod } from './Snap/SnapTableCfg'
 import AddSnapModal from './Snap/AddSnapModal'
-import { wrapResponse } from '@/utils/tool'
+import DetailRender from './Snap/DetailRender'
 
 const { createTableCfg, TableWrap, ToolBar, BarLeft } = Tablex
 const { confirm, info } = Modal
@@ -14,12 +15,14 @@ export default class Desktop extends React.Component {
     tableCfg: createTableCfg({
       columns,
       apiMethod,
+      expandedRowRender: record => this.getDetail(record.snapshotId),
       rowKey: 'snapshotId',
       searchs: { vmId: this.props.vmId },
       paging: { size: 10 },
       pageSizeOptions: ['5', '10', '20', '50']
     }),
-    disabledButton: {}
+    disabledButton: {},
+    snapDetailList: []
   }
 
   onSelectChange = (selection, selectData) => {
@@ -50,6 +53,32 @@ export default class Desktop extends React.Component {
     this.setState({ disabledButton })
   }
 
+  // 获取快照详情
+  getDetail = snapId => {
+    const { snapDetailList } = this.state
+    const detailObj = snapDetailList.find(item => item.id === snapId)
+    if (detailObj) {
+      return DetailRender(detailObj.detail)
+    }
+    desktopApi
+      .detailSnap({
+        vmId: this.props.vmId,
+        snapId
+      })
+      .then(res =>
+        wrapResponse(res)
+          .then(() => {
+            // 缓存详情
+            const snapDetail = { id: snapId, detail: res.data }
+            this.setState({ snapDetailList: [...snapDetailList, snapDetail] })
+            return DetailRender(res.data)
+          })
+          .catch(error =>
+            message.error(error.message || error || '详情获取失败')
+          )
+      )
+  }
+
   // 预览快照
   checkSnap = () => {
     desktopApi
@@ -76,26 +105,32 @@ export default class Desktop extends React.Component {
       )
   }
 
+  // 应用快照
   useSnap = () => {
     desktopApi
-      .useSnap(this.state.currentSnap)
-      .then(res => {
-        this.setState({ currentSnap: undefined })
-        notification.success({ message: '应用快照成功' })
-      })
+      .useSnap({ vmId: this.props.vmId })
+      .then(res =>
+        wrapResponse(res).then(() => {
+          this.setState({ currentSnap: undefined })
+          notification.success({ message: '应用快照成功' })
+        })
+      )
       .catch(error => {
         message.error(error.message || error)
         console.log(error)
       })
   }
 
+  // 取消应用快照
   cancelSnap = () => {
     desktopApi
-      .cancelSnap(this.state.currentSnap)
-      .then(res => {
-        this.setState({ currentSnap: undefined })
-        notification.success({ message: '撤销应用' })
-      })
+      .cancelSnap({ vmId: this.props.vmId })
+      .then(res =>
+        wrapResponse(res).then(() => {
+          this.setState({ currentSnap: undefined })
+          notification.success({ message: '撤销应用' })
+        })
+      )
       .catch(error => {
         message.error(error.message || error)
         console.log(error)

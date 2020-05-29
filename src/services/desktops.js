@@ -104,50 +104,47 @@ export default {
       params: data
     })
   },
-  snapList(data) {
+  snapList({ vmId }) {
     return axios({
-      url: '/snaps',
-      method: 'get',
-      baseURL: '/api',
-      params: data
+      url: `/desktops/${vmId}/snapshots`,
+      method: 'get'
     })
   },
-  addSnap(data) {
+  detailSnap({ vmId, snapId }) {
     return axios({
-      url: '/snaps',
+      url: `/desktops/${vmId}/snapshots/${snapId}`,
+      method: 'get'
+    })
+  },
+  addSnap({ vmId, ...data }) {
+    return axios({
+      url: `/desktops/${vmId}/snapshots`,
       method: 'post',
       data: qs.stringify(data, { arrayFormat: 'indices', allowDots: true })
     })
   },
-  checkSnap(data) {
+  checkSnap({ vmId, snapId }) {
     return axios({
-      url: '/snaps',
-      method: 'get',
-      baseURL: '/api',
-      params: data
+      url: `/desktops/${vmId}/snapshots/${snapId}/preview`,
+      method: 'get'
     })
   },
-  useSnap(data) {
+  commitSnap({ vmId }) {
     return axios({
-      url: '/snaps',
-      method: 'get',
-      baseURL: '/api',
-      params: data
+      url: `/desktops/${vmId}/snapshots/commit`,
+      method: 'get'
     })
   },
-  cancelSnap(data) {
+  cancelSnap({ vmId }) {
     return axios({
-      url: '/snaps',
-      method: 'get',
-      baseURL: '/api',
-      params: data
+      url: `/desktops/${vmId}/snapshots/undo`,
+      method: 'get'
     })
   },
-  deleteSnap(data) {
+  deleteSnap({ vmId, snapId }) {
     return axios({
-      url: '/snaps',
-      method: 'delete',
-      data: qs.stringify(data)
+      url: `/desktops/${vmId}/snapshots/${snapId}`,
+      method: 'delete'
     })
   }
 }

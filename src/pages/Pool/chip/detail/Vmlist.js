@@ -41,12 +41,6 @@ export default class Desktop extends React.Component {
       return (
         <span className="opration-btn">
           <a
-            disabled={disabledButton?.disabledRemovePermission}
-            onClick={() => this.removePermission(id)}
-          >
-            回收权限
-          </a>
-          <a
             onClick={() => this.sendOrder(id, 'start')}
             disabled={disabledButton.disabledUp}
           >

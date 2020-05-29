@@ -113,6 +113,7 @@ export default class Desktop extends React.Component {
         if (item.snapshotType === 'ACTIVE') {
           disabledButton = {
             ...disabledButton,
+            disabledCheck: true,
             disabledDelete: true
           }
         }
@@ -163,7 +164,7 @@ export default class Desktop extends React.Component {
               onOk: () => {
                 this.setState({ currentSnap: this.tablex.getSelection()[0] })
                 this.tablex.refresh(this.state.tableCfg)
-                this.loadVmDetail()
+                setTimeout(() => this.loadVmDetail(), 5000)
               }
             })
           })

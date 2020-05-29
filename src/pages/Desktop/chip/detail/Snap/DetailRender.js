@@ -23,7 +23,8 @@ export default function DetailRender({ interfaces, disks }) {
         <Row key={index}>
           <Col span={6}>{item.name}</Col>
           <Col span={6}>
-            <Progress
+            {item.actualSize}G/{item.capacity}G
+            {/* <Progress
               strokeWidth={16}
               percent={(item.actualSize / item.capacity) * 100}
               format={() => `${item.actualSize}G/${item.capacity}G`}
@@ -32,7 +33,7 @@ export default function DetailRender({ interfaces, disks }) {
                   ? 'active'
                   : 'exception'
               }
-            ></Progress>
+            ></Progress> */}
           </Col>
         </Row>
       ))}

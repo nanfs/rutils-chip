@@ -1,14 +1,14 @@
 /* eslint-disable react/no-string-refs */
 import React from 'react'
-import { Button, Modal, notification, message, Divider } from 'antd'
+import { Button, Modal, notification, message } from 'antd'
 import { Tablex } from '@/components'
-import desktopApi from '@/services/desktops'
+import desktopsApi from '@/services/desktops'
 import { wrapResponse } from '@/utils/tool'
 import { columns, apiMethod } from './Snap/SnapTableCfg'
 import AddSnapModal from './Snap/AddSnapModal'
 import DetailRender from './Snap/DetailRender'
 
-const { createTableCfg, TableWrap, ToolBar, BarLeft } = Tablex
+const { createTableCfg, TableWrap, ToolBar } = Tablex
 const { confirm, info } = Modal
 export default class Desktop extends React.Component {
   state = {
@@ -25,12 +25,80 @@ export default class Desktop extends React.Component {
     snapDetailList: []
   }
 
+  componentDidMount = () => {
+    this.loadVmDetail()
+  }
+
+  loadVmDetail = () => {
+    return desktopsApi.detail(this.props.vmId).then(res =>
+      wrapResponse(res)
+        .then(() => {
+          const { status, snapInPreview } = res.data
+          // 重刷一次判断选项
+          this.setState({ status, snapInPreview }, () =>
+            this.onSelectChange([], [])
+          )
+        })
+        .catch(error => {
+          message.error(error.message || error)
+          console.log(error)
+        })
+    )
+  }
+
+  preSetDisable = ({ status, snapInPreview }) => {
+    let preDisable = {}
+    // 预览状态 &&  关机状态
+    if (snapInPreview && status === 0) {
+      preDisable = {
+        disabledDelete: true,
+        disabledCheck: true,
+        disabledCreate: true
+      }
+    }
+    // 预览状态 &&  开机状态
+    if (snapInPreview && status === 1) {
+      preDisable = {
+        disabledDelete: true,
+        disabledCheck: true,
+        disabledCreate: true,
+        disableCancel: true,
+        disableCommit: true
+      }
+    }
+    // 默认状态 && 关机状态
+    if (!snapInPreview && status === 0) {
+      preDisable = {
+        disableCancel: true,
+        disableCommit: true
+      }
+    }
+    // 默认状态 && 开机状态
+    if (!snapInPreview && status === 1) {
+      preDisable = {
+        disableCancel: true,
+        disableCommit: true,
+        disabledCheck: true
+      }
+    }
+    console.log(
+      snapInPreview && status === 0,
+      status === 0,
+      snapInPreview,
+      preDisable
+    )
+    return preDisable
+  }
+
   onSelectChange = (selection, selectData) => {
-    let disabledButton = {}
+    const { status, snapInPreview } = this.state
+    let disabledButton = this.preSetDisable({ status, snapInPreview })
+    // 只支持单个删除
     if (selection.length !== 1) {
       this.setState({ currentSnap: undefined })
       disabledButton = {
         ...disabledButton,
+        disabledDelete: true,
         disabledCheck: true
       }
     }
@@ -60,7 +128,7 @@ export default class Desktop extends React.Component {
     if (detailObj) {
       return DetailRender(detailObj.detail)
     }
-    desktopApi
+    desktopsApi
       .detailSnap({
         vmId: this.props.vmId,
         snapId
@@ -81,7 +149,7 @@ export default class Desktop extends React.Component {
 
   // 预览快照
   checkSnap = () => {
-    desktopApi
+    desktopsApi
       .checkSnap({
         vmId: this.props.vmId,
         snapId: this.tablex.getSelection()[0]
@@ -90,10 +158,12 @@ export default class Desktop extends React.Component {
         wrapResponse(res)
           .then(() => {
             info({
-              title: '预览快照',
+              title: '预览快照成功',
               content: <p>请在桌面预览快照,预览结束后继续操作</p>,
               onOk: () => {
                 this.setState({ currentSnap: this.tablex.getSelection()[0] })
+                this.tablex.refresh(this.state.tableCfg)
+                this.loadVmDetail()
               }
             })
           })
@@ -105,14 +175,26 @@ export default class Desktop extends React.Component {
       )
   }
 
-  // 应用快照
+  // 使用快照
   useSnap = () => {
-    desktopApi
-      .useSnap({ vmId: this.props.vmId })
+    confirm({
+      title: '确认应用当前快照吗?',
+      content: '应用快照成功后 会删除当前快照之后所有数据!',
+      onOk: this.commitSnap(),
+      onCancel() {}
+    })
+  }
+
+  // 应用快照处理
+  commitSnap = () => {
+    desktopsApi
+      .commitSnap({ vmId: this.props.vmId })
       .then(res =>
         wrapResponse(res).then(() => {
-          this.setState({ currentSnap: undefined })
           notification.success({ message: '应用快照成功' })
+          this.setState({ currentSnap: undefined })
+          this.tablex.refresh(this.state.tableCfg)
+          this.loadVmDetail()
         })
       )
       .catch(error => {
@@ -123,12 +205,14 @@ export default class Desktop extends React.Component {
 
   // 取消应用快照
   cancelSnap = () => {
-    desktopApi
+    desktopsApi
       .cancelSnap({ vmId: this.props.vmId })
       .then(res =>
         wrapResponse(res).then(() => {
+          notification.success({ message: '撤销快照成功' })
           this.setState({ currentSnap: undefined })
-          notification.success({ message: '撤销应用' })
+          this.tablex.refresh(this.state.tableCfg)
+          this.loadVmDetail()
         })
       )
       .catch(error => {
@@ -138,73 +222,69 @@ export default class Desktop extends React.Component {
   }
 
   deleteSnap = () => {
-    const snapIds = this.tablex.getSelection()
-    const self = this
+    const snapId = this.tablex.getSelection()[0]
     confirm({
       title: '确定删除所选数据?',
-      onOk() {
-        return new Promise(resolve => {
-          desktopApi
-            .deleteSnap({ snapIds })
-            .then(res => {
-              if (res.success) {
-                notification.success({ message: '删除成功' })
-                self.tablex.refresh(self.state.tableCfg)
-              } else {
-                message.error(res.message || '删除失败')
-              }
-              resolve()
+      onOk: () => {
+        desktopsApi
+          .deleteSnap({ vmId: this.props.vmId, snapId })
+          .then(res =>
+            wrapResponse(res).then(() => {
+              notification.success({ message: '删除成功' })
+              this.tablex.refresh(this.state.tableCfg)
             })
-            .catch(error => {
-              message.error(error.message || error)
-              error.type === 'timeout' &&
-                self.tablex.refresh(self.state.tableCfg)
-              resolve()
-            })
-        })
+          )
+          .catch(error => {
+            message.error(error.message || error)
+          })
       },
       onCancel() {}
     })
   }
 
   render() {
-    const { disabledButton } = this.state
+    const { disabledButton, currentSnap, snapInPreview } = this.state
     return (
       <React.Fragment>
         <TableWrap>
           <ToolBar>
-            <BarLeft>
-              <Button
-                onClick={() => {
-                  this.addSnapModal.pop(this.props.vmId)
-                }}
-              >
-                创建
-              </Button>
-              <Button
-                disabled={
-                  disabledButton.disabledCheck || this.state.currentSnap
-                }
-                onClick={this.checkSnap}
-              >
-                预览
-              </Button>
-              <Button onClick={this.useSnap} hidden={!this.state.currentSnap}>
-                提交
-              </Button>
-              <Button
-                onClick={this.cancelSnap}
-                hidden={!this.state.currentSnap}
-              >
-                撤销
-              </Button>
-              <Button
-                disabled={disabledButton.disabledDelete}
-                onClick={this.deleteSnap}
-              >
-                删除
-              </Button>
-            </BarLeft>
+            <Button
+              disabled={disabledButton.disabledCreate}
+              onClick={() => {
+                this.addSnapModal.pop(this.props.vmId)
+              }}
+            >
+              创建
+            </Button>
+            <Button
+              disabled={disabledButton.disabledCheck}
+              onClick={this.checkSnap}
+            >
+              预览
+            </Button>
+            <Button
+              onClick={this.commitSnap}
+              disabled={disabledButton.disableCommit}
+              hidden={!currentSnap && !snapInPreview}
+            >
+              提交
+            </Button>
+            <Button
+              onClick={this.cancelSnap}
+              disabled={disabledButton.disableCancel}
+              hidden={!currentSnap && !snapInPreview}
+            >
+              撤销
+            </Button>
+            <Button
+              disabled={disabledButton.disabledDelete}
+              onClick={this.deleteSnap}
+            >
+              删除
+            </Button>
+            {snapInPreview && (
+              <span className="drawer-set-tips">当前虚拟机正处于预览状态</span>
+            )}
           </ToolBar>
           <Tablex
             onRef={ref => {
@@ -216,6 +296,7 @@ export default class Desktop extends React.Component {
           />
         </TableWrap>
         <AddSnapModal
+          onSuccess={() => this.tablex.refresh(this.state.tableCfg)}
           onRef={ref => {
             this.addSnapModal = ref
           }}

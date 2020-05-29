@@ -15,9 +15,16 @@ export default class DetailDrawer extends React.Component {
 
   pop = (id, status) => {
     this.drawer.show()
+    // 用这种方式 重刷组件
     this.setState({ defaultActiveKey: '' }, () =>
       this.setState({ defaultActiveKey: '1', id, status })
     )
+  }
+
+  onClose = () => {
+    this.setState({ defaultActiveKey: '1' })
+    const { onClose } = this.props
+    onClose && onClose()
   }
 
   render() {
@@ -27,7 +34,7 @@ export default class DetailDrawer extends React.Component {
         onRef={ref => {
           this.drawer = ref
         }}
-        onClose={this.props.onClose}
+        onClose={this.onClose}
         onOk={values => {
           console.log(values)
         }}

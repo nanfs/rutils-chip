@@ -37,6 +37,7 @@ export default class AddSnapModal extends React.Component {
         }}
         modalCfg={modalCfg}
         onOk={this.onOk}
+        onSuccess={this.props.onSuccess}
       >
         <Formx>
           <Form.Item prop="vmId" label="vmId" hidden>

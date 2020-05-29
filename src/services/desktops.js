@@ -129,7 +129,7 @@ export default {
       method: 'get'
     })
   },
-  useSnap({ vmId }) {
+  commitSnap({ vmId }) {
     return axios({
       url: `/desktops/${vmId}/snapshots/commit`,
       method: 'get'
@@ -141,11 +141,10 @@ export default {
       method: 'get'
     })
   },
-  deleteSnap(data) {
+  deleteSnap({ vmId, snapId }) {
     return axios({
-      url: '/snaps',
-      method: 'delete',
-      data: qs.stringify(data)
+      url: `/desktops/${vmId}/snapshots/${snapId}`,
+      method: 'delete'
     })
   }
 }

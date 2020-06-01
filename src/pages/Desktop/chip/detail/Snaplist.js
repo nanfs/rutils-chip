@@ -11,12 +11,59 @@ import DetailRender from './Snap/DetailRender'
 const { createTableCfg, TableWrap, ToolBar } = Tablex
 const { confirm, info } = Modal
 export default class Desktop extends React.Component {
+  action = {
+    title: () => <span title="操作">操作</span>,
+    width: 160,
+    dataIndex: 'action',
+    render: (text, record) => {
+      const { disabledButton } = this.state
+      if (record.status === 'IN_PREVIEW') {
+        return (
+          <span className="opration-btn">
+            <a
+              onClick={() => this.commitSnap()}
+              disabled={disabledButton.disableCommit}
+            >
+              提交
+            </a>
+            <a
+              onClick={() => this.cancelSnap()}
+              disabled={disabledButton.disableCancel}
+            >
+              撤销
+            </a>
+          </span>
+        )
+      } else {
+        return (
+          <span className="opration-btn">
+            {/* // 如果状态不OK不能操作 */}
+            <a
+              onClick={() => this.checkSnap(record.snapshotId)}
+              disabled={disabledButton.disabledCheck || record.status !== 'OK'}
+            >
+              预览
+            </a>
+            {/* // 如果状态不OK不能操作 */}
+            <a
+              onClick={() => this.deleteSnap(record.snapshotId)}
+              disabled={disabledButton.disabledDelete || record.status !== 'OK'}
+            >
+              删除
+            </a>
+          </span>
+        )
+      }
+    }
+  }
+
   state = {
     tableCfg: createTableCfg({
-      columns,
+      columns: [...columns, this.action],
       apiMethod,
       expandedRowRender: record => this.getDetail(record.snapshotId),
       rowKey: 'snapshotId',
+      hasRowSelection: false,
       searchs: { vmId: this.props.vmId },
       paging: { size: 10 },
       pageSizeOptions: ['5', '10', '20', '50']
@@ -35,9 +82,8 @@ export default class Desktop extends React.Component {
         .then(() => {
           const { status, snapInPreview } = res.data
           // 重刷一次判断选项
-          this.setState({ status, snapInPreview }, () =>
-            this.onSelectChange([], [])
-          )
+          this.setDisable({ status, snapInPreview })
+          this.setState({ status, snapInPreview })
         })
         .catch(error => {
           message.error(error.message || error)
@@ -46,11 +92,11 @@ export default class Desktop extends React.Component {
     )
   }
 
-  preSetDisable = ({ status, snapInPreview }) => {
-    let preDisable = {}
+  setDisable = ({ status, snapInPreview }) => {
+    let disabledButton = {}
     // 预览状态 &&  关机状态
     if (snapInPreview && status === 0) {
-      preDisable = {
+      disabledButton = {
         disabledDelete: true,
         disabledCheck: true,
         disabledCreate: true
@@ -58,7 +104,7 @@ export default class Desktop extends React.Component {
     }
     // 预览状态 &&  开机状态
     if (snapInPreview && status === 1) {
-      preDisable = {
+      disabledButton = {
         disabledDelete: true,
         disabledCheck: true,
         disabledCreate: true,
@@ -68,56 +114,18 @@ export default class Desktop extends React.Component {
     }
     // 默认状态 && 关机状态
     if (!snapInPreview && status === 0) {
-      preDisable = {
+      disabledButton = {
         disableCancel: true,
         disableCommit: true
       }
     }
     // 默认状态 && 开机状态
     if (!snapInPreview && status === 1) {
-      preDisable = {
+      disabledButton = {
         disableCancel: true,
         disableCommit: true,
         disabledCheck: true
       }
-    }
-    console.log(
-      snapInPreview && status === 0,
-      status === 0,
-      snapInPreview,
-      preDisable
-    )
-    return preDisable
-  }
-
-  onSelectChange = (selection, selectData) => {
-    const { status, snapInPreview } = this.state
-    let disabledButton = this.preSetDisable({ status, snapInPreview })
-    // 只支持单个删除
-    if (selection.length !== 1) {
-      this.setState({ currentSnap: undefined })
-      disabledButton = {
-        ...disabledButton,
-        disabledDelete: true,
-        disabledCheck: true
-      }
-    }
-    if (selection.length === 0) {
-      disabledButton = {
-        ...disabledButton,
-        disabledDelete: true
-      }
-    } else {
-      selectData.forEach(item => {
-        // 如果快照 是active 不能删除
-        if (item.snapshotType === 'ACTIVE') {
-          disabledButton = {
-            ...disabledButton,
-            disabledCheck: true,
-            disabledDelete: true
-          }
-        }
-      })
     }
     this.setState({ disabledButton })
   }
@@ -149,11 +157,11 @@ export default class Desktop extends React.Component {
   }
 
   // 预览快照
-  checkSnap = () => {
+  checkSnap = snapId => {
     desktopsApi
       .checkSnap({
         vmId: this.props.vmId,
-        snapId: this.tablex.getSelection()[0]
+        snapId
       })
       .then(res =>
         wrapResponse(res)
@@ -162,7 +170,6 @@ export default class Desktop extends React.Component {
               title: '预览快照成功',
               content: <p>请在桌面预览快照,预览结束后继续操作</p>,
               onOk: () => {
-                this.setState({ currentSnap: this.tablex.getSelection()[0] })
                 this.tablex.refresh(this.state.tableCfg)
                 setTimeout(() => this.loadVmDetail(), 5000)
               }
@@ -222,8 +229,7 @@ export default class Desktop extends React.Component {
       })
   }
 
-  deleteSnap = () => {
-    const snapId = this.tablex.getSelection()[0]
+  deleteSnap = snapId => {
     confirm({
       title: '确定删除所选数据?',
       onOk: () => {
@@ -244,7 +250,7 @@ export default class Desktop extends React.Component {
   }
 
   render() {
-    const { disabledButton, currentSnap, snapInPreview } = this.state
+    const { disabledButton, snapInPreview } = this.state
     return (
       <React.Fragment>
         <TableWrap>
@@ -258,30 +264,16 @@ export default class Desktop extends React.Component {
               创建
             </Button>
             <Button
-              disabled={disabledButton.disabledCheck}
-              onClick={this.checkSnap}
-            >
-              预览
-            </Button>
-            <Button
-              onClick={this.commitSnap}
+              onClick={() => this.commitSnap()}
               disabled={disabledButton.disableCommit}
-              hidden={!currentSnap && !snapInPreview}
             >
               提交
             </Button>
             <Button
-              onClick={this.cancelSnap}
+              onClick={() => this.cancelSnap()}
               disabled={disabledButton.disableCancel}
-              hidden={!currentSnap && !snapInPreview}
             >
               撤销
-            </Button>
-            <Button
-              disabled={disabledButton.disabledDelete}
-              onClick={this.deleteSnap}
-            >
-              删除
             </Button>
             {snapInPreview && (
               <span className="drawer-set-tips">当前虚拟机正处于预览状态</span>
@@ -292,7 +284,6 @@ export default class Desktop extends React.Component {
               this.tablex = ref
             }}
             tableCfg={this.state.tableCfg}
-            onSelectChange={this.onSelectChange}
             onChange={this.onTableChange}
           />
         </TableWrap>

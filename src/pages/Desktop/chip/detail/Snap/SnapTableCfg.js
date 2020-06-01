@@ -2,6 +2,11 @@ import desktopApi from '@/services/desktops'
 import React from 'react'
 import { Icon, Popover } from 'antd'
 
+const snapshotStatus = {
+  OK: '正常',
+  LOCKED: '锁定',
+  IN_PREVIEW: '预览中'
+}
 function renderAppList(text) {
   const list =
     text && text.split(',').map((item, index) => <p key={index}>{item}</p>)
@@ -24,28 +29,11 @@ export const columns = [
     dataIndex: 'description'
   },
   {
-    title: () => <span title="是否活动快照">是否为活动快照</span>,
+    title: () => <span title="快照状态">快照状态</span>,
     ellipsis: true,
     key: 'boot',
-    dataIndex: 'snapshotType',
-    render: text =>
-      text === 'ACTIVE' ? (
-        <span>
-          <Icon type="check-circle" className="table-icon-info" />
-          &nbsp;是
-        </span>
-      ) : (
-        <span>
-          <Icon
-            type="stop"
-            title="否"
-            style={{
-              color: '#ff4d4f'
-            }}
-          />
-          &nbsp;否
-        </span>
-      )
+    dataIndex: 'status',
+    render: text => snapshotStatus[text]
   },
   {
     title: 'CPU',

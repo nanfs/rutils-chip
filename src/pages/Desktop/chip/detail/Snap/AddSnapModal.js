@@ -1,6 +1,6 @@
 import React from 'react'
 import { Formx, Modalx } from '@/components'
-import { Form, Input, Switch } from 'antd'
+import { Form, Input, Switch, Alert } from 'antd'
 import desktopApi from '@/services/desktops'
 import { required } from '@/utils/valid'
 
@@ -60,6 +60,9 @@ export default class AddSnapModal extends React.Component {
               unCheckedChildren="不保存"
             />
           </Form.Item>
+          {this.state?.vmStatus === 1 && (
+            <Alert message="在保存内存时VM会暂停" type="warning" showIcon />
+          )}
         </Formx>
       </Modalx>
     )

@@ -1,7 +1,22 @@
 import desktopApi from '@/services/desktops'
 import React from 'react'
-import { Icon } from 'antd'
+import { Icon, Popover } from 'antd'
 
+function renderAppList(text) {
+  const list =
+    text && text.split(',').map((item, index) => <p key={index}>{item}</p>)
+  return list ? (
+    <Popover content={list}>
+      <Icon
+        type="appstore"
+        className="table-icon-success"
+        style={{ cursor: 'pointer' }}
+      />
+    </Popover>
+  ) : (
+    <p>暂未安装</p>
+  )
+}
 export const columns = [
   {
     title: '描述',
@@ -46,7 +61,8 @@ export const columns = [
   {
     title: '已安装程序',
     key: 'appList',
-    dataIndex: 'appList'
+    dataIndex: 'appList',
+    render: text => renderAppList(text)
   },
   {
     title: '创建时间',

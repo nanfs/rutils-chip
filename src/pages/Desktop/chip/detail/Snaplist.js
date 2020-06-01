@@ -37,7 +37,7 @@ export default class Desktop extends React.Component {
       } else {
         return (
           <span className="opration-btn">
-            {/* // 如果状态不OK不能操作 */}
+            {/* // 如果状态不OK不能操作 这里status为快照的状态 */}
             <a
               onClick={() => this.checkSnap(record.snapshotId)}
               disabled={disabledButton.disabledCheck || record.status !== 'OK'}
@@ -258,7 +258,7 @@ export default class Desktop extends React.Component {
             <Button
               disabled={disabledButton.disabledCreate}
               onClick={() => {
-                this.addSnapModal.pop(this.props.vmId)
+                this.addSnapModal.pop(this.props.vmId, this.state.status)
               }}
             >
               创建

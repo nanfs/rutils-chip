@@ -1,6 +1,6 @@
 import React from 'react'
 import { Formx, Modalx } from '@/components'
-import { Form, Input } from 'antd'
+import { Form, Input, Switch } from 'antd'
 import desktopApi from '@/services/desktops'
 import { required } from '@/utils/valid'
 
@@ -11,15 +11,17 @@ export default class AddSnapModal extends React.Component {
     this.props.onRef && this.props.onRef(this)
   }
 
-  pop = vmId => {
+  pop = (vmId, status) => {
     this.modal.show()
-    this.modal.form.setFieldsValue({ vmId })
+    this.setState({ vmStatus: status })
+    this.modal.form.setFieldsValue({ vmId, restoreMemory: 'true' })
   }
 
   onOk = values => {
-    console.log('values', values)
+    const { restoreMemory, ...data } = values
+    const postData = this.state?.vmStatus === 1 ? { ...values } : { ...data }
     desktopApi
-      .addSnap(values)
+      .addSnap(postData)
       .then(res => {
         this.modal.afterSubmit(res)
       })
@@ -45,6 +47,18 @@ export default class AddSnapModal extends React.Component {
           </Form.Item>
           <Form.Item prop="description" label="描述" rules={[required]}>
             <TextArea style={{ resize: 'none' }} rows={4} placeholder="描述" />
+          </Form.Item>
+          <Form.Item
+            prop="restoreMemory"
+            label="是否保存内存"
+            hidden={this.state?.vmStatus !== 1}
+            valuepropname="checked"
+          >
+            <Switch
+              name="usageFix"
+              checkedChildren="保存"
+              unCheckedChildren="不保存"
+            />
           </Form.Item>
         </Formx>
       </Modalx>

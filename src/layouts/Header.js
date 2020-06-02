@@ -362,7 +362,7 @@ export default class Header extends React.Component {
             <Dropdown
               overlay={this.renderLogList()}
               placement="bottomCenter"
-              visible={this.state?.logVisible || 1}
+              visible={this.state?.logVisible}
               onOverlayClick={this.setLogListShow}
               onMouseEnter={this.setLogListShow}
               onMouseLeave={this.setLogListClose}

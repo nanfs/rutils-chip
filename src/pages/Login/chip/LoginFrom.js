@@ -33,8 +33,8 @@ export default class LoginForm extends React.Component {
       .getProperties()
       .then(res => {
         setObjItemTolocal('properties', res)
-        const { hasPin, hasEncode } = res
-        this.setState({ hasPin, hasEncode })
+        const { hasPin } = res
+        this.setState({ hasPin })
       })
       .catch(e => {
         console.log(e)
@@ -69,9 +69,7 @@ export default class LoginForm extends React.Component {
     }
     data = {
       username: values.username,
-      password: this.state.hasEncode
-        ? encrypt(values.password)
-        : values.password,
+      password: encrypt(values.password),
       domain: 'internal'
     }
     loginApi

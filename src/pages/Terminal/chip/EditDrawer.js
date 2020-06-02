@@ -10,6 +10,7 @@ import {
   checkKeyId,
   checkPassword
 } from '@/utils/valid'
+import encrypt from '@/utils/encrypt'
 
 const { Option } = Select
 const { TextArea } = Input
@@ -86,9 +87,9 @@ export default class EditDrawer extends React.Component {
       description,
       loginWay,
       location,
-      secretWord: loginWay === 2 ? secretWord : '',
+      secretWord: loginWay === 2 ? encrypt(secretWord) : '',
       bondKey: loginWay === 1 ? bondKey : '',
-      lockedWord
+      lockedWord: encrypt(lockedWord)
     }
     terminalApi
       .editTerminal(sn, data)

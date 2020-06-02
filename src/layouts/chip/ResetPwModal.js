@@ -5,7 +5,7 @@ import { Formx, Modalx } from '@/components'
 import { Form, Input, message } from 'antd'
 import encrypt from '@/utils/encrypt'
 import { required, checkPassword } from '@/utils/valid'
-import { getUser, checkDecode } from '@/utils/checkPermissions'
+import { getUser } from '@/utils/checkPermissions'
 
 const { createModalCfg } = Modalx
 export default class ModalDemo extends React.Component {
@@ -27,8 +27,8 @@ export default class ModalDemo extends React.Component {
     const { oldPassword, newPassword } = values
     appApi
       .updatePwd({
-        oldPassword,
-        newPassword: checkDecode() ? encrypt(newPassword) : newPassword,
+        oldPassword: encrypt(oldPassword),
+        newPassword: encrypt(newPassword),
         domain: 'internal',
         username: getUser()
       })

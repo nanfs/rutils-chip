@@ -265,13 +265,13 @@ export default class Desktop extends React.Component {
             </Button>
             <Button
               onClick={() => this.commitSnap()}
-              disabled={disabledButton.disableCommit}
+              disabled={disabledButton.disableCommit || !snapInPreview}
             >
               提交
             </Button>
             <Button
               onClick={() => this.cancelSnap()}
-              disabled={disabledButton.disableCancel}
+              disabled={disabledButton.disableCancel || !snapInPreview}
             >
               撤销
             </Button>

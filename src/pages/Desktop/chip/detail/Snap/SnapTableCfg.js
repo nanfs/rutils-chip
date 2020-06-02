@@ -26,7 +26,9 @@ export const columns = [
   {
     title: '描述',
     key: 'description',
-    dataIndex: 'description'
+    dataIndex: 'description',
+    render: text =>
+      text === 'Active VM before the preview' ? '预览前的活动虚拟机' : text
   },
   {
     title: () => <span title="快照状态">快照状态</span>,
@@ -39,6 +41,29 @@ export const columns = [
     title: 'CPU',
     key: 'cpu',
     dataIndex: 'cpu'
+  },
+  {
+    title: '是否保存内存',
+    key: 'containsmemory',
+    dataIndex: 'containsmemory',
+    render: text =>
+      text ? (
+        <span>
+          <Icon type="check-circle" className="table-icon-info" />
+          &nbsp;是
+        </span>
+      ) : (
+        <span>
+          <Icon
+            type="stop"
+            title="否"
+            style={{
+              color: '#ff4d4f'
+            }}
+          />
+          &nbsp;否
+        </span>
+      )
   },
   {
     title: '内存',

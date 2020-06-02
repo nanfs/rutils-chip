@@ -72,8 +72,17 @@ export default class Desktop extends React.Component {
     snapDetailList: []
   }
 
+  timer = null
+
   componentDidMount = () => {
     this.loadVmDetail()
+    this.timer = setInterval(() => {
+      this.loadVmDetail()
+    }, 3000)
+  }
+
+  componentWillUnmount = () => {
+    this.timer && clearInterval(this.timer)
   }
 
   loadVmDetail = () => {
@@ -102,8 +111,8 @@ export default class Desktop extends React.Component {
         disabledCreate: true
       }
     }
-    // 预览状态 &&  开机状态
-    if (snapInPreview && status === 1) {
+    // 预览状态 &&  其他状态
+    if (snapInPreview && status !== 0) {
       disabledButton = {
         disabledDelete: true,
         disabledCheck: true,
@@ -171,7 +180,7 @@ export default class Desktop extends React.Component {
               content: <p>请在桌面预览快照,预览结束后继续操作</p>,
               onOk: () => {
                 this.tablex.refresh(this.state.tableCfg)
-                setTimeout(() => this.loadVmDetail(), 5000)
+                // 不用刷新 有自动刷新
               }
             })
           })
@@ -283,6 +292,7 @@ export default class Desktop extends React.Component {
             onRef={ref => {
               this.tablex = ref
             }}
+            autoReplace={true}
             tableCfg={this.state.tableCfg}
             onChange={this.onTableChange}
           />

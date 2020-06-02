@@ -61,7 +61,11 @@ export default class AddSnapModal extends React.Component {
             />
           </Form.Item>
           {this.state?.vmStatus === 1 && (
-            <Alert message="在保存内存时VM会暂停" type="warning" showIcon />
+            <Alert
+              message="在保存内存时VM会暂停, 如未安装 guesttools 保存数据可能有问题"
+              type="warning"
+              showIcon
+            />
           )}
         </Formx>
       </Modalx>

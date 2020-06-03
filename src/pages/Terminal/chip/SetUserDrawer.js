@@ -155,7 +155,7 @@ export default class SetUserDrawer extends React.Component {
     })
     if (sns && sns.length === 1) {
       terminalApi
-        .detail(sns[0])
+        .terminalsdetail(sns[0])
         .then(res => {
           const { users } = res.data
           const totalSelection = users.map(

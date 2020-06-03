@@ -42,7 +42,7 @@ export default class SetSafePolicyDrawer extends React.Component {
     })
     if (sns && sns.length === 1) {
       terminalApi
-        .detail(sns[0])
+        .terminalsdetail(sns[0])
         .then(res => {
           const { admitPolicys } = res.data
           const totalSelection = admitPolicys.map(

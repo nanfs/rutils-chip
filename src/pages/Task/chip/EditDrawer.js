@@ -32,6 +32,7 @@ export default class EditDrawer extends React.Component {
       apiMethod,
       rowKey: 'id',
       paging: { size: 10 },
+      keepSelection: true,
       pageSizeOptions: ['5', '10', '20', '50'],
       searchs: {}
     }),
@@ -346,7 +347,6 @@ export default class EditDrawer extends React.Component {
               onRef={ref => {
                 this.editTargetTablex = ref
               }}
-              saveSelection={true}
               tableCfg={this.state.tableCfg}
               onChange={this.onTableChange}
               onSelectChange={this.onSelectChange}

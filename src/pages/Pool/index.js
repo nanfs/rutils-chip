@@ -54,6 +54,7 @@ export default class Pool extends React.Component {
       apiMethod,
       hasRowSelection: false, // 桌面池没有 多选框
       paging: { size: 10 },
+      autoReplace: true,
       pageSizeOptions: ['5', '10', '20', '50']
     }),
     innerPath: undefined,
@@ -176,7 +177,6 @@ export default class Pool extends React.Component {
             onRef={ref => {
               this.tablex = ref
             }}
-            autoReplace={true}
             tableCfg={this.state.tableCfg}
             onSelectChange={this.onSelectChange}
           />

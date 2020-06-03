@@ -64,20 +64,24 @@ export default class Desktop extends React.Component {
       apiMethod: poolsApi.vmList,
       searchs: { poolId: this.props.poolId },
       paging: { size: 10 },
-      pageSizeOptions: ['5', '10', '20', '50']
+      pageSizeOptions: ['5', '10', '20', '50'],
+      autoReplace: true,
+      autoCallback: (selection, selectData) => {
+        this.checkOptionsDisable(selection, selectData)
+      }
     }),
     innerPath: undefined,
     disabledButton: {}
   }
 
-  /**
-   *
-   *  @memberof Desktop
-   * 调用通用判断 返回disabledButton
-   */
-  onSelectChange = (selection, selectData) => {
+  // 判断操作
+  checkOptionsDisable = (selection, selectData) => {
     const disabledButton = vmDisabledButton(selection, selectData)
     this.setState({ disabledButton })
+  }
+
+  onSelectChange = (selection, selectData) => {
+    this.checkOptionsDisable(selection, selectData)
   }
 
   /**
@@ -300,7 +304,6 @@ export default class Desktop extends React.Component {
             onRef={ref => {
               this.tablex = ref
             }}
-            autoReplace={true}
             tableCfg={this.state.tableCfg}
             onSelectChange={this.onSelectChange}
             onChange={this.onTableChange}

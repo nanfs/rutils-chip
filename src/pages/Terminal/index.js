@@ -153,7 +153,8 @@ export default class Terminal extends React.Component {
       apiMethod,
       rowKey: 'sn',
       paging: { size: 10 },
-      pageSizeOptions: ['5', '10', '20', '50']
+      pageSizeOptions: ['5', '10', '20', '50'],
+      autoReplace: true
     }),
     innerPath: undefined,
     // initValues: {},
@@ -538,7 +539,6 @@ export default class Terminal extends React.Component {
             onRef={ref => {
               this.tablex = ref
             }}
-            autoReplace={true}
             tableCfg={this.state.tableCfg}
             onSelectChange={this.onSelectChange}
             onChange={this.onTableChange}

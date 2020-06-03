@@ -20,6 +20,8 @@ export default class SetSafePolicyDrawer extends React.Component {
       paging: { size: 10 },
       rowKey: record => `${record.id}&${record.name}`,
       searchs: {},
+      autoFetch: false,
+      keepSelection: true,
       pageSizeOptions: ['5', '10', '20', '50']
     }),
     switchDisable: true,
@@ -212,8 +214,6 @@ export default class SetSafePolicyDrawer extends React.Component {
               onRef={ref => {
                 this.deviceTablex = ref
               }}
-              stopAutoFetch={true}
-              saveSelection={true}
               tableCfg={this.state.tableCfg}
               onSelectChange={this.onSelectChange}
             />

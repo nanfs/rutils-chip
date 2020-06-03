@@ -83,9 +83,18 @@ export default class Desktop extends React.Component {
       columns: this.columnsArr,
       apiMethod,
       replaceTime: 5000,
+      autoReplace: true,
       paging: { size: 10 },
-      pageSizeOptions: ['5', '10', '20', '50']
+      pageSizeOptions: ['5', '10', '20', '50'],
+      autoCallback: (selection, selectData) => {
+        this.checkOptionsDisable(selection, selectData)
+      }
     })
+  }
+
+  checkOptionsDisable = (selection, selectData) => {
+    const disabledButton = vmDisabledButton(selection, selectData)
+    this.setState({ disabledButton })
   }
 
   /**
@@ -94,8 +103,7 @@ export default class Desktop extends React.Component {
    * 调用通用判断 返回disabledButton
    */
   onSelectChange = (selection, selectData) => {
-    const disabledButton = vmDisabledButton(selection, selectData)
-    this.setState({ disabledButton })
+    this.checkOptionsDisable(selection, selectData)
   }
 
   /**
@@ -325,7 +333,6 @@ export default class Desktop extends React.Component {
             onRef={ref => {
               this.tablex = ref
             }}
-            autoReplace={true}
             replaceBreak={this.state.replaceBreak}
             tableCfg={this.state.tableCfg}
             onSelectChange={this.onSelectChange}

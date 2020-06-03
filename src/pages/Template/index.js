@@ -40,7 +40,7 @@ export default class Template extends React.Component {
         <span className="opration-btn">
           <a onClick={() => this.editTem(record.name, record)}>编辑</a>
           <a
-            disabled={record.vmUsed != '0'}
+            disabled={record.vmUsed !== '0'}
             onClick={() => {
               this.delTem(record.id, '确定删除该条数据?')
             }}
@@ -60,60 +60,52 @@ export default class Template extends React.Component {
       apiMethod,
       expandedRowRender: false,
       paging: { size: 10 },
-      pageSizeOptions: ['5', '10', '20', '50']
+      pageSizeOptions: ['5', '10', '20', '50'],
+      autoReplace: true,
+      autoCallback: (selection, selectData) => {
+        this.checkOptionsDisable(selection, selectData)
+      }
     }),
     innerPath: undefined
   }
 
-  /**
-   *
-   *
-   * @memberof Template
-   * 返回后 将inner path 置为空
-   */
+  // 返回后 将inner path 置为空
   onBack = () => {
     this.setState({ inner: undefined })
     this.currentDrawer.drawer.hide()
   }
 
-  /**
-   *
-   *
-   * @memberof Template
-   * 成功后刷新表格
-   */
-  onSuccess = () => {
-    this.tablex.refresh(this.state.tableCfg)
-    this.setState({ inner: undefined })
-  }
-
-  onSelectChange = (selection, selectData) => {
+  checkOptionsDisable(selection, selectData) {
     let disabledButton = {}
     this.setState({ selection, selectData })
     if (selection.length === 0) {
       disabledButton = { ...disabledButton, disabledDelete: true }
     }
     selectData.forEach(function(v) {
-      if (v.vmUsed != '0') {
+      if (v.vmUsed !== '0') {
         disabledButton = { ...disabledButton, disabledDelete: true }
       }
     })
     this.setState({ disabledButton })
   }
 
-  /**
-   * @memberof Template
-   * 编辑模板
-   */
+  // 成功后刷新表格
+  onSuccess = () => {
+    this.tablex.refresh(this.state.tableCfg)
+    this.setState({ inner: undefined })
+  }
+
+  onSelectChange = (selection, selectData) => {
+    this.checkOptionsDisable(selection, selectData)
+  }
+
+  // 编辑模板
   editTem = (name, data) => {
     this.setState({ inner: name }, this.editDrawer.pop(data))
     this.currentDrawer = this.editDrawer
   }
 
-  /**
-   * @memberof Template
-   * 删除 批量删除
-   */
+  // 批量删除
   delTem = (id, title = '确定删除所选数据?') => {
     const ids = Array.isArray(id) ? [...id] : [id]
     const self = this
@@ -169,7 +161,6 @@ export default class Template extends React.Component {
             onRef={ref => {
               this.tablex = ref
             }}
-            autoReplace={true}
             tableCfg={this.state.tableCfg}
             onSelectChange={this.onSelectChange}
           />

@@ -31,6 +31,8 @@ export default class SetUserDrawer extends React.Component {
       columns,
       apiMethod,
       paging: { size: 10 },
+      autoFetch: false,
+      keepSelection: true,
       rowKey: record =>
         `${record.uuid}&${record.username}&${record.firstname}&${record.lastname}&${record.groupname}&${record.domain}`,
       searchs: { domain: 'internal' },
@@ -145,6 +147,8 @@ export default class SetUserDrawer extends React.Component {
         columns,
         apiMethod,
         paging: { size: 10 },
+        autoFetch: false,
+        keepSelection: true,
         rowKey: record =>
           `${record.uuid}&${record.username}&${record.firstname}&${record.lastname}&${record.groupname}&${record.domain}`,
         searchs: { domain: 'internal' },
@@ -153,7 +157,7 @@ export default class SetUserDrawer extends React.Component {
     })
     if (sns && sns.length === 1) {
       terminalApi
-        .detail(sns[0])
+        .terminalsdetail(sns[0])
         .then(res => {
           const { users } = res.data
           const totalSelection = users.map(
@@ -255,8 +259,6 @@ export default class SetUserDrawer extends React.Component {
               onRef={ref => {
                 this.userTablex = ref
               }}
-              stopAutoFetch={true}
-              saveSelection={true}
               tableCfg={this.state.tableCfg}
               onSelectChange={this.onSelectChange}
             />

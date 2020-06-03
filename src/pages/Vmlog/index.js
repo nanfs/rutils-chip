@@ -52,7 +52,8 @@ export default class Vmlog extends React.Component {
         apiMethod,
         searchs: this.props.location?.searchs, // 接受传递过来搜索条件
         paging: { size: 10 },
-        pageSizeOptions: ['5', '10', '20', '50']
+        pageSizeOptions: ['5', '10', '20', '50'],
+        autoReplace: true
       }),
       disabledButton: {}
     }
@@ -274,7 +275,6 @@ export default class Vmlog extends React.Component {
             onRef={ref => {
               this.tablex = ref
             }}
-            autoReplace={true}
             tableCfg={this.state.tableCfg}
             onSelectChange={this.onSelectChange}
             onChange={this.onTableChange}

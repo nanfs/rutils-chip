@@ -20,6 +20,8 @@ export default class SetSafePolicyDrawer extends React.Component {
       paging: { size: 10 },
       rowKey: record => `${record.id}&${record.name}`,
       searchs: {},
+      autoFetch: false,
+      keepSelection: true,
       pageSizeOptions: ['5', '10', '20', '50']
     })
   }
@@ -33,6 +35,8 @@ export default class SetSafePolicyDrawer extends React.Component {
         columns,
         apiMethod,
         paging: { size: 10 },
+        autoFetch: false,
+        keepSelection: true,
         rowKey: record => `${record.id}&${record.name}`,
         searchs: {},
         pageSizeOptions: ['5', '10', '20', '50']
@@ -40,7 +44,7 @@ export default class SetSafePolicyDrawer extends React.Component {
     })
     if (sns && sns.length === 1) {
       terminalApi
-        .detail(sns[0])
+        .terminalsdetail(sns[0])
         .then(res => {
           const { admitPolicys } = res.data
           const totalSelection = admitPolicys.map(
@@ -165,8 +169,6 @@ export default class SetSafePolicyDrawer extends React.Component {
               onRef={ref => {
                 this.accessTablex = ref
               }}
-              stopAutoFetch={true}
-              saveSelection={true}
               tableCfg={this.state.tableCfg}
               onSelectChange={this.onSelectChange}
             />

@@ -151,13 +151,16 @@ export default class Terminal extends React.Component {
     tableCfg: createTableCfg({
       columns: this.columnsArr,
       apiMethod,
-      rowKey: 'sn',
+      rowKey: record => record.sn.split(' ')[0],
       paging: { size: 10 },
-      pageSizeOptions: ['5', '10', '20', '50']
+      pageSizeOptions: ['5', '10', '20', '50'],
+      autoReplace: true,
+      autoCallback: (selection, selectData) => {
+        this.checkOptionsDisable(selection, selectData)
+      }
     }),
     innerPath: undefined,
     // initValues: {},
-    selectData: [],
     selectSN: [],
     disabledButton: {}
   }
@@ -167,9 +170,8 @@ export default class Terminal extends React.Component {
    * @description 根据选定数据判断按钮状态
    * @author linghu
    */
-  onSelectChange = (selection, selectData) => {
+  checkOptionsDisable = (selection, selectData) => {
     let disabledButton = {}
-    const selectSN = selectData.map(item => item.sn.split(' ')[0])
     if (selection.length !== 1) {
       disabledButton = { ...disabledButton, disabledEdit: true }
     }
@@ -206,8 +208,11 @@ export default class Terminal extends React.Component {
         }
       })
     }
+    this.setState({ disabledButton })
+  }
 
-    this.setState({ disabledButton, selection, selectData, selectSN })
+  onSelectChange = (selection, selectData) => {
+    this.checkOptionsDisable(selection, selectData)
   }
 
   /**
@@ -312,7 +317,7 @@ export default class Terminal extends React.Component {
 
     this.sendMessageDrawer.pop(
       sn || this.state.selectSN,
-      selectData || this.state.selectData
+      selectData || this.tablex.getSelectData()
     )
     // this.sendMessageDrawer.drawer.show()
     this.currentDrawer = this.sendMessageDrawer
@@ -538,7 +543,6 @@ export default class Terminal extends React.Component {
             onRef={ref => {
               this.tablex = ref
             }}
-            autoReplace={true}
             tableCfg={this.state.tableCfg}
             onSelectChange={this.onSelectChange}
             onChange={this.onTableChange}
@@ -562,7 +566,6 @@ export default class Terminal extends React.Component {
             }}
             onClose={this.onBack}
             onSuccess={this.onSuccess}
-            selection={this.state.selection}
           />
           <SetSafePolicyDrawer
             onRef={ref => {
@@ -570,7 +573,6 @@ export default class Terminal extends React.Component {
             }}
             onClose={this.onBack}
             onSuccess={this.onSuccess}
-            selection={this.state.selection}
           />
           <SetAccessPolicyDrawer
             onRef={ref => {
@@ -578,7 +580,6 @@ export default class Terminal extends React.Component {
             }}
             onClose={this.onBack}
             onSuccess={this.onSuccess}
-            selection={this.state.selection}
           />
           <SendMessageDrawer
             onRef={ref => {
@@ -586,8 +587,6 @@ export default class Terminal extends React.Component {
             }}
             onClose={this.onBack}
             onSuccess={this.onSuccess}
-            selectData={this.state.selectData}
-            selection={this.state.selection}
           />
         </TableWrap>
       </React.Fragment>

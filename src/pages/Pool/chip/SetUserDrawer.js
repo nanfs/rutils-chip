@@ -30,6 +30,8 @@ export default class SetUserDrawer extends React.Component {
     tableCfg: createTableCfg({
       columns,
       apiMethod,
+      autoFetch: false,
+      keepSelection: true,
       paging: { size: 10 },
       searchs: { domain: 'internal' },
       pageSizeOptions: ['5', '10', '20', '50']
@@ -144,6 +146,8 @@ export default class SetUserDrawer extends React.Component {
         columns,
         apiMethod,
         paging: { size: 10 },
+        autoFetch: false,
+        keepSelection: true,
         rowKey: record =>
           `${record.uuid}&${record.username}&${record.firstname}&${record.lastname}&${record.groupname}&${record.domain}`,
         searchs: { domain: 'internal' },
@@ -253,8 +257,6 @@ export default class SetUserDrawer extends React.Component {
               onRef={ref => {
                 this.userTablex = ref
               }}
-              stopAutoFetch={true}
-              saveSelection={true}
               tableCfg={this.state.tableCfg}
               onSelectChange={this.onSelectChange}
             />

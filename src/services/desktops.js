@@ -104,10 +104,11 @@ export default {
       params: data
     })
   },
-  snapList({ vmId }) {
+  snapList({ vmId, ...data }) {
     return axios({
       url: `/desktops/${vmId}/snapshots`,
-      method: 'get'
+      method: 'get',
+      params: data
     })
   },
   detailSnap({ vmId, snapId }) {

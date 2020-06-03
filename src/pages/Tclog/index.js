@@ -50,7 +50,8 @@ export default class tcLog extends React.Component {
         columns: [...columns, this.action],
         apiMethod,
         paging: { size: 10 },
-        pageSizeOptions: ['5', '10', '20', '50']
+        pageSizeOptions: ['5', '10', '20', '50'],
+        autoReplace: true
       }),
       disabledButton: {}
     }
@@ -277,7 +278,6 @@ export default class tcLog extends React.Component {
             onRef={ref => {
               this.tablex = ref
             }}
-            autoReplace={true}
             tableCfg={this.state.tableCfg}
             onChange={this.onTableChange}
             onSelectChange={this.onSelectChange}

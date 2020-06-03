@@ -20,7 +20,7 @@ export default class Login extends Component {
             </div>
             <LoginFrom className="login-form" />
             <div className="version">
-              <span>V1.0.0 - build3527</span>
+              <span>V1.0.0 build 3561</span>
             </div>
           </div>
         </div>

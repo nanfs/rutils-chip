@@ -46,7 +46,7 @@ export default class AboutModal extends React.Component {
           <Col span={5} className="about-title">
             版本号 :
           </Col>
-          <Col span={19}>V2.0.0 build 01108</Col>
+          <Col span={19}>V1.0.0 build 3561</Col>
         </Row>
         <Row gutter={32} className="row-margin">
           <Col span={5} className="about-title">

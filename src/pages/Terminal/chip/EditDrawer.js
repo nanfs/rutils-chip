@@ -1,3 +1,4 @@
+// TODO 添加加密
 import React from 'react'
 import { Form, Input, Select } from 'antd'
 import { Drawerx, Formx, Title } from '@/components'
@@ -9,6 +10,7 @@ import {
   checkKeyId,
   checkPassword
 } from '@/utils/valid'
+import encrypt from '@/utils/encrypt'
 
 const { Option } = Select
 const { TextArea } = Input
@@ -85,9 +87,9 @@ export default class EditDrawer extends React.Component {
       description,
       loginWay,
       location,
-      secretWord: loginWay === 2 ? secretWord : '',
+      secretWord: loginWay === 2 ? encrypt(secretWord) : '',
       bondKey: loginWay === 1 ? bondKey : '',
-      lockedWord
+      lockedWord: encrypt(lockedWord)
     }
     terminalApi
       .editTerminal(sn, data)
@@ -129,8 +131,7 @@ export default class EditDrawer extends React.Component {
           <Form.Item
             prop="location"
             label="终端位置"
-            // required
-            rules={[/* required, */ textRange(0, 50)]}
+            rules={[textRange(0, 50)]}
           >
             <Input placeholder="终端位置" />
           </Form.Item>
@@ -148,23 +149,14 @@ export default class EditDrawer extends React.Component {
           <Form.Item
             prop="bondKey"
             label="输入KEYID"
-            // required
-            rules={[
-              /* this.checkFieldRequired(1), */
-              textRange(0, 64),
-              checkKeyId
-            ]}
+            rules={[textRange(0, 64), checkKeyId]}
             hidden={
               this.drawer &&
               this.drawer.form &&
               this.drawer.form.getFieldValue('loginWay') === 2
             }
           >
-            <Input
-              placeholder="输入KEYID"
-              // type="password"
-              autoComplete="new-password"
-            />
+            <Input placeholder="输入KEYID" autoComplete="new-password" />
           </Form.Item>
           <Form.Item
             prop="secretWord"

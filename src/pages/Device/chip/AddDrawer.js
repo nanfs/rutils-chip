@@ -186,12 +186,12 @@ export default class AddDrawer extends React.Component {
       if (!usbs[0].name && !usbs[0].vid && !usbs[0].pid) {
         usbs = undefined
       } else if (
-        usbs[0].name == '' ||
-        usbs[0].name == undefined ||
-        usbs[0].vid == '' ||
-        usbs[0].vid == undefined ||
-        usbs[0].pid == '' ||
-        usbs[0].pid == undefined
+        usbs[0].name === '' ||
+        usbs[0].name === undefined ||
+        usbs[0].vid === '' ||
+        usbs[0].vid === undefined ||
+        usbs[0].pid === '' ||
+        usbs[0].pid === undefined
       ) {
         this.drawer.break('请完善名单')
         return false
@@ -203,12 +203,12 @@ export default class AddDrawer extends React.Component {
     ) {
       usbs = usbs.slice(0, usbs.length - 1) // 去掉最后一项
     } else if (
-      usbs[usbs.length - 1].name == '' ||
-      usbs[usbs.length - 1].name == undefined ||
-      usbs[usbs.length - 1].vid == '' ||
-      usbs[usbs.length - 1].vid == undefined ||
-      usbs[usbs.length - 1].pid == '' ||
-      usbs[usbs.length - 1].pid == undefined
+      usbs[usbs.length - 1].name === '' ||
+      usbs[usbs.length - 1].name === undefined ||
+      usbs[usbs.length - 1].vid === '' ||
+      usbs[usbs.length - 1].vid === undefined ||
+      usbs[usbs.length - 1].pid === '' ||
+      usbs[usbs.length - 1].pid === undefined
     ) {
       this.drawer.break('请完善名单')
       return false

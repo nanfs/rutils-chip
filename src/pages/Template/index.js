@@ -40,7 +40,7 @@ export default class Template extends React.Component {
         <span className="opration-btn">
           <a onClick={() => this.editTem(record.name, record)}>编辑</a>
           <a
-            disabled={record.vmUsed != '0'}
+            disabled={record.vmUsed !== '0'}
             onClick={() => {
               this.delTem(record.id, '确定删除该条数据?')
             }}
@@ -94,7 +94,7 @@ export default class Template extends React.Component {
       disabledButton = { ...disabledButton, disabledDelete: true }
     }
     selectData.forEach(function(v) {
-      if (v.vmUsed != '0') {
+      if (v.vmUsed !== '0') {
         disabledButton = { ...disabledButton, disabledDelete: true }
       }
     })
@@ -112,7 +112,7 @@ export default class Template extends React.Component {
 
   /**
    * @memberof Template
-   * 删除 批量删除
+   * 批量删除
    */
   delTem = (id, title = '确定删除所选数据?') => {
     const ids = Array.isArray(id) ? [...id] : [id]

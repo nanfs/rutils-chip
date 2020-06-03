@@ -11,7 +11,7 @@ import { Icon } from 'antd'
 export default class Resource extends React.Component {
   state = {
     innerPath: undefined,
-    viewType: false
+    viewType: true
   }
 
   viewChange() {

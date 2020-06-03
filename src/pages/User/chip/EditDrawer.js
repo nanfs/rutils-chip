@@ -9,6 +9,7 @@ import {
   checkPassword,
   checkEmail
 } from '@/utils/valid'
+import encrypt from '@/utils/encrypt'
 
 export default class editDrawer extends React.Component {
   checkFieldRequired(fieldValue) {
@@ -51,8 +52,9 @@ export default class editDrawer extends React.Component {
   }
 
   editUser = values => {
+    const { password, ...rest } = values
     userApi
-      .editUser({ ...values })
+      .editUser({ password: encrypt(password), ...rest })
       .then(res => {
         this.drawer.afterSubmit(res)
       })

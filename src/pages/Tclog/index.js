@@ -213,16 +213,22 @@ export default class tcLog extends React.Component {
   exportLogs = () => {
     const searchs = { ...this.state.tableCfg.searchs }
     tclogsApi
-      .export([searchs.fromDate, searchs.toDate])
+      .export({
+        fromDate: searchs.fromDate || '',
+        toDate: searchs.toDate || ''
+      })
       .then(res => {
-        if (res.success) {
+        if (res.byteLength) {
           // 创建隐藏的可下载链接
-          const content = res.data
+          const content = res
           const eleLink = document.createElement('a')
           eleLink.download = '系统日志-终端'
           eleLink.style.display = 'none'
           // 字符内容转变成blob地址
-          const blob = new Blob([content])
+          const blob = new Blob([content], {
+            type:
+              'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+          })
           eleLink.href = URL.createObjectURL(blob)
           // 触发点击
           document.body.appendChild(eleLink)
@@ -252,7 +258,7 @@ export default class tcLog extends React.Component {
               >
                 删除
               </Button>
-              {/* <Button onClick={() => this.exportLogs()}>导出</Button> */}
+              <Button onClick={() => this.exportLogs()}>导出</Button>
             </BarLeft>
             <BarRight span={14}>
               <RangePicker

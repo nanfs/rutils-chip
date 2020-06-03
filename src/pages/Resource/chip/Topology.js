@@ -570,10 +570,10 @@ export default class Topology extends React.Component {
                 nodeSep: 10, // 可选
                 rankSep: 10, // 可选
                 getVGap: function getVGap() {
-                  return 50
+                  return 160
                 },
                 getHGap: function getHGap() {
-                  return 50
+                  return 70
                 }
               },
               defaultNode: {
@@ -600,7 +600,6 @@ export default class Topology extends React.Component {
 
             // 鼠标进入节点
             graph.on('node:mouseenter', e => {
-              console.log(e)
               clearTimeout(this.timer)
               const nodeItem = e.item // 获取鼠标进入的节点元素对象
               const { model } = e.item.defaultCfg
@@ -659,49 +658,76 @@ export default class Topology extends React.Component {
               clearTimeout(this.timer)
               const nodeItem = e.item // 获取鼠标进入的节点元素对象
               const { model } = e.item.defaultCfg
-              console.log(model)
-              if (model.nodeType === 9) {
+              if (model.nodeType === 9 && !model.collapsed) {
                 resourceApi
                   .clusterVms({ id: model.id })
                   .then(response => {
-                    const childData = response.data.map(item => {
-                      if (item.status === 'Down') {
-                        item.img = vmOffImg
-                        item.statusName = '已关机'
-                      } else {
+                    if (response.data?.length && response.data?.length > 0) {
+                      const childData = response.data.map(item => {
                         item.img = vmOnImg
-                        item.statusName = '已开机'
-                      }
-                      return {
-                        id: item.id.uuid,
-                        img: vmOnImg,
-                        parentId: model.id,
-                        label: item.name,
-                        rank: 4,
-                        statusName: item.statusName,
-                        nodeTypeName: '虚拟机',
-                        size: [35, 30],
-                        labelCfg: {
-                          position: 'right',
-                          style: {
-                            fontSize: 12
+                        if (item.status === 'Down') {
+                          item.img = vmOffImg
+                          item.statusName = '已关机'
+                        } else {
+                          item.img = vmOnImg
+                          item.statusName = '已开机'
+                        }
+                        return {
+                          id: item.id.uuid,
+                          img: item.img,
+                          parentId: model.id,
+                          label: item.name,
+                          rank: 4,
+                          statusName: item.statusName,
+                          nodeTypeName: '虚拟机',
+                          size: [35, 30],
+                          labelCfg: {
+                            position: 'right',
+                            style: {
+                              fontSize: 12
+                            }
                           }
                         }
+                      })
+                      const parentData = graph.findDataById(model.id)
+                      // 如果childData是一个数组，则直接赋值给parentData.children
+                      // 如果是一个对象，则使用parentData.children.push(obj)
+                      parentData.children = childData
+                      const layout = {
+                        type: 'dendrogram',
+                        direction: 'LR', // 树布局的方向
+                        /* getVGap: function getVGap() {
+                          return 70
+                        },
+                        getHGap: function getHGap() {
+                          return 70
+                        }, */
+                        radial: true
                       }
-                    })
-                    const parentData = graph.findDataById(model.id)
-                    if (!parentData.children) {
-                      parentData.children = []
+                      graph.changeLayout(layout)
+                      graph.changeData(parentData)
                     }
-                    // 如果childData是一个数组，则直接赋值给parentData.children
-                    // 如果是一个对象，则使用parentData.children.push(obj)
-                    parentData.children = childData
-                    graph.changeData()
                   })
                   .catch(error => {
                     message.error(error.message || error)
                     console.log(error)
                   })
+              } else {
+                const layout = {
+                  type: 'compactBox',
+                  direction: 'TB', // 树布局的方向
+                  nodeSep: 10, // 可选
+                  rankSep: 10, // 可选
+                  getVGap: function getVGap() {
+                    return 160
+                  },
+                  getHGap: function getHGap() {
+                    return 70
+                  }
+                }
+                graph.clear()
+                graph.changeLayout(layout)
+                graph.changeData(data)
               }
 
               /* graph.render()

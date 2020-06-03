@@ -21,9 +21,13 @@ export default {
   },
   export(data) {
     return axios({
-      url: '/tclogs',
+      url: '/tclogs/export',
       method: 'get',
-      data: qs.stringify(data)
+      responseType: 'arraybuffer',
+      params: data,
+      paramsSerializer: params => {
+        return qs.stringify(params, { arrayFormat: 'indices' })
+      }
     })
   }
 }

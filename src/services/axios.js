@@ -1,6 +1,5 @@
 import axios from 'axios'
 import { message } from 'antd'
-// import { push } from 'react-router-redux'
 import { setItemToLocal } from '@/utils/storage'
 
 const cfg = require('../../config/default')
@@ -85,6 +84,10 @@ service.interceptors.response.use(
     ) {
       // eslint-disable-next-line
       return Promise.reject({ message: '接口处理超时!', type: 'timeout' })
+    }
+    if (error.message.indexOf('Network Error') !== -1) {
+      // eslint-disable-next-line
+      return Promise.reject({ message: '网络错误，请检查网络!', type: 'NetworkError' })
     }
     checkStatus(error.response)
     return Promise.reject(error)

@@ -4,6 +4,7 @@ import { Formx, Modalx } from '@/components'
 import { Form, InputNumber, Input } from 'antd'
 import './index.less'
 import { lessThanValue, moreThanValue, isInt } from '@/utils/valid'
+import encrypt from '@/utils/encrypt'
 
 const { createModalCfg } = Modalx
 const formItemLayout = {
@@ -35,8 +36,9 @@ export default class ConfigModal extends React.Component {
   }
 
   onOk = values => {
+    const { tcAdministratorWord, ...rest } = values
     systemsApi
-      .edit(values)
+      .edit({ tcAdministratorWord: encrypt(tcAdministratorWord), ...rest })
       .then(res => {
         this.modal.afterSubmit(res)
       })

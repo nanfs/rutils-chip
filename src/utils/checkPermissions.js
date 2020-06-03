@@ -5,6 +5,15 @@ export function getUser() {
 }
 
 /**
+ * @description 判断是否开启加密
+ * @export
+ * @returns
+ */
+export function checkDecode() {
+  return getItemFromLocal('properties')?.hasDecode || false
+}
+
+/**
  * @description
  * @author linghu
  * @date 2020-05-09

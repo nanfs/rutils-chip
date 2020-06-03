@@ -1,6 +1,5 @@
 import React from 'react'
-import { Form, Input, Select } from 'antd'
-
+import { Form, Input } from 'antd'
 import { Drawerx, Formx, TreeSelectx, Selectx, Title } from '@/components'
 
 import userApi from '@/services/user'
@@ -11,6 +10,7 @@ import {
   checkPassword,
   checkEmail
 } from '@/utils/valid'
+// TODO 是否添加加密
 
 export default class AddDrawer extends React.Component {
   checkFieldRequired(fieldValue) {
@@ -48,9 +48,7 @@ export default class AddDrawer extends React.Component {
   }
 
   render() {
-    // const { getFieldDecorator } = this.props.form
     const { nodeData, domainlist } = this.props
-
     return (
       <Drawerx
         onRef={ref => {
@@ -106,23 +104,9 @@ export default class AddDrawer extends React.Component {
             required
             rules={[required, checkPassword]}
           >
-            <Input.Password
-              placeholder="密码"
-              // type="password"
-              autoComplete="new-password"
-            />
+            <Input.Password placeholder="密码" autoComplete="new-password" />
           </Form.Item>
-          <Form.Item
-            prop="groupId"
-            label="组织"
-            required
-            rules={[required /* this.checkFieldRequired('internal') */]}
-            /* hidden={
-              this.drawer &&
-              this.drawer.form &&
-              this.drawer.form.getFieldValue('domain') !== 'internal'
-            } */
-          >
+          <Form.Item prop="groupId" label="组织" required rules={[required]}>
             <TreeSelectx nodeData={nodeData} placeholder="请选择" />
           </Form.Item>
           <Form.Item prop="email" label="邮箱" rules={[checkEmail]}>

@@ -218,7 +218,7 @@ export default class tcLog extends React.Component {
         toDate: searchs.toDate || ''
       })
       .then(res => {
-        if (res) {
+        if (res.byteLength) {
           // 创建隐藏的可下载链接
           const content = res
           const eleLink = document.createElement('a')

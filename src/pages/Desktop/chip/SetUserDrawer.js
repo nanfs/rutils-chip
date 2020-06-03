@@ -42,7 +42,6 @@ export default class SetUserDrawer extends React.Component {
   }
 
   onSelectChange = selection => {
-    console.log('newSelection', selection)
     const newSelection = selection
     this.setState(
       produce(draft => {
@@ -148,6 +147,8 @@ export default class SetUserDrawer extends React.Component {
         apiMethod,
         paging: { size: 10 },
         selection: [],
+        autoFetch: false,
+        keepSelection: true,
         rowKey: record =>
           `${record.uuid}&${record.username}&${record.firstname}&${record.lastname}&${record.groupname}&${record.domain}`,
         searchs: { domain: 'internal' },

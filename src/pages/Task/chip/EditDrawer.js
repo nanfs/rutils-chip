@@ -79,6 +79,7 @@ export default class EditDrawer extends React.Component {
         apiMethod,
         paging: { size: 10 },
         selection: [],
+        keepSelection: true,
         rowKey: record => `${record.id}&${record.name}`,
         pageSizeOptions: ['5', '10', '20', '50'],
         searchs: {}

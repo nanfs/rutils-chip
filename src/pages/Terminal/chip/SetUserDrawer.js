@@ -147,6 +147,8 @@ export default class SetUserDrawer extends React.Component {
         columns,
         apiMethod,
         paging: { size: 10 },
+        autoFetch: false,
+        keepSelection: true,
         rowKey: record =>
           `${record.uuid}&${record.username}&${record.firstname}&${record.lastname}&${record.groupname}&${record.domain}`,
         searchs: { domain: 'internal' },

@@ -35,6 +35,8 @@ export default class SetSafePolicyDrawer extends React.Component {
         columns,
         apiMethod,
         paging: { size: 10 },
+        autoFetch: false,
+        keepSelection: true,
         rowKey: record => `${record.id}&${record.name}`,
         searchs: {},
         pageSizeOptions: ['5', '10', '20', '50']

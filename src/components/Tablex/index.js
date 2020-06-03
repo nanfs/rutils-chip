@@ -36,7 +36,9 @@ const tableCfg_init = {
   // 选填, 是否自动刷新
   autoReplace: false,
   // 选填, 每次自动刷新结束后执行的函数
-  autoCallback: undefined
+  autoCallback: undefined,
+  // 选填, 缓存所选
+  keepSelection: false
 }
 
 export function createTableCfg(myCfg) {
@@ -98,7 +100,7 @@ class Tablex extends React.Component {
   beforeLoad = (tableCfg, showLoading = true) => {
     return new Promise(resolve => {
       if (showLoading) {
-        !this.props.saveSelection && this.onSelectChange([], [])
+        !this.props.tableCfg.keepSelection && this.onSelectChange([], [])
         this.setState({
           loading: true
         })

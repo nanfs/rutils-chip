@@ -1,17 +1,10 @@
 /* eslint-disable react/no-string-refs */
 import React from 'react'
 import { Button, Modal, Dropdown, Icon, notification, message } from 'antd'
-
-import AddDrawer from './chip/AddDrawer'
-import EditDrawer from './chip/EditDrawer'
-import DetailDrawer from './chip/DetailDrawer'
-import SetUserDrawer from './chip/SetUserDrawer'
-import AddTemplateModal from './chip/AddTemplateModal'
-import AttachIsoModal from './chip/AttachIsoModal'
-import { InnerPath, SelectSearch, Tablex } from '@/components'
 import produce from 'immer'
-import desktopsApi from '@/services/desktops'
-import { downloadVV } from '@/utils/tool'
+
+import { InnerPath, SelectSearch, Tablex } from '@/components'
+import { downloadVV, wrapResponse } from '@/utils/tool'
 import {
   getColumns,
   apiMethod,
@@ -23,6 +16,13 @@ import {
   getMoreButton,
   searchOptions
 } from '@/pages/Common/VmTableCfg'
+import desktopsApi from '@/services/desktops'
+import AddDrawer from './chip/AddDrawer'
+import EditDrawer from './chip/EditDrawer'
+import DetailDrawer from './chip/DetailDrawer'
+import SetUserDrawer from './chip/SetUserDrawer'
+import AddTemplateModal from './chip/AddTemplateModal'
+import AttachIsoModal from './chip/AttachIsoModal'
 import './index.less'
 
 const { createTableCfg, TableWrap, ToolBar, BarLeft, BarRight } = Tablex
@@ -65,7 +65,6 @@ export default class Desktop extends React.Component {
       return (
         <span className="opration-btn">
           <a onClick={() => this.editVm(record.id, record.name)}>编辑</a>
-
           <Dropdown overlay={moreAction} placement="bottomRight">
             <a>
               更多 <Icon type="down" />
@@ -106,11 +105,8 @@ export default class Desktop extends React.Component {
     this.checkOptionsDisable(selection, selectData)
   }
 
-  /**
-   * 当搜索条件下来处理
-   *
-   * @memberof Vmlog
-   */
+  // 当搜索下拉来处理
+
   onSearchSelectChange = oldKey => {
     const searchs = { ...this.state.tableCfg.searchs }
     delete searchs[oldKey]
@@ -144,11 +140,7 @@ export default class Desktop extends React.Component {
     )
   }
 
-  /**
-   *
-   *
-   * @memberof Desktop
-   */
+  // 搜索
   search = (key, value) => {
     const searchs = {}
     searchs[key] = value
@@ -163,22 +155,13 @@ export default class Desktop extends React.Component {
     )
   }
 
-  /**
-   *
-   *
-   * @memberof Desktop
-   */
+  // 内页操作成功返回
   onSuccess = () => {
-    this.setState({ inner: undefined })
+    this.onBack()
     this.tablex.refresh(this.state.tableCfg)
-    this.currentDrawer.drawer.hide()
   }
 
-  /**
-   *
-   *
-   * @memberof Desktop
-   */
+  // 关闭内页
   onBack = () => {
     this.setState({ inner: undefined })
     this.currentDrawer.drawer.hide()
@@ -202,11 +185,7 @@ export default class Desktop extends React.Component {
       })
   }
 
-  /**
-   * 添加虚拟机
-   *
-   * @memberof Desktop
-   */
+  // 添加虚拟机
   createVm = () => {
     this.setState({ inner: '新建桌面' }, this.addDrawer.pop())
     this.currentDrawer = this.addDrawer
@@ -222,27 +201,19 @@ export default class Desktop extends React.Component {
     const self = this
     confirm({
       title,
-      onOk() {
-        return new Promise(resolve => {
-          desktopsApi
-            .delVm({ desktopIds })
-            .then(res => {
-              if (res.success) {
-                notification.success({ message: '删除成功' })
-                self.tablex.refresh(self.state.tableCfg)
-              } else {
-                message.error(res.message || '删除失败')
-              }
-              resolve()
+      onOk: () => {
+        desktopsApi
+          .delVm({ desktopIds })
+          .then(res =>
+            wrapResponse(res).then(() => {
+              notification.success({ message: '删除成功' })
+              this.tablex.refresh(this.state.tableCfg)
             })
-            .catch(error => {
-              message.error(error.message || error)
-              error.type === 'timeout' &&
-                self.tablex.refresh(self.state.tableCfg)
-              resolve()
-              console.log(error)
-            })
-        })
+          )
+          .catch(error => {
+            error.type === 'timeout' && self.tablex.refresh(self.state.tableCfg)
+            message.error(error.message || error)
+          })
       },
       onCancel() {}
     })

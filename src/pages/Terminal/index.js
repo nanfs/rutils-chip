@@ -68,13 +68,6 @@ export default class Terminal extends React.Component {
           >
             解锁
           </Menu.Item>
-          {/* <Menu.Item
-            key="9"
-            disabled={!record.status}
-            onClick={this.sendOrder.bind(this, 'logout', [record.sn])}
-          >
-            登出
-          </Menu.Item> */}
           <Menu.Item key="6" onClick={this.setUser.bind(this, [record.sn])}>
             分配用户
           </Menu.Item>
@@ -161,7 +154,6 @@ export default class Terminal extends React.Component {
     }),
     innerPath: undefined,
     // initValues: {},
-    selectData: [],
     disabledButton: {}
   }
 
@@ -208,7 +200,7 @@ export default class Terminal extends React.Component {
         }
       })
     }
-    this.setState({ disabledButton, selectData })
+    this.setState({ disabledButton })
   }
 
   onSelectChange = (selection, selectData) => {
@@ -315,10 +307,7 @@ export default class Terminal extends React.Component {
   sendMessage = (sn = undefined, selectData = undefined) => {
     this.setState({ inner: '发送消息' })
 
-    this.sendMessageDrawer.pop(
-      sn || this.tablex.getSelection(),
-      selectData || this.tablex.getSelectData()
-    )
+    this.sendMessageDrawer.pop(sn, selectData)
     // this.sendMessageDrawer.drawer.show()
     this.currentDrawer = this.sendMessageDrawer
   }
@@ -475,7 +464,12 @@ export default class Terminal extends React.Component {
         </Menu.Item>
         <Menu.Item
           key="sendMessage"
-          onClick={() => this.sendMessage()}
+          onClick={() =>
+            this.sendMessage(
+              this.tablex.getSelection(),
+              this.tablex.getSelectData()
+            )
+          }
           disabled={disabledButton.disabledSendMessage}
         >
           发送消息

@@ -1,19 +1,34 @@
 import React from 'react'
 import { message, Row, Col } from 'antd'
+import dayjs from 'dayjs'
 import { TitleInfo } from '@/components'
-import LogList from './chip/LogList'
-import DonutChart from './chip/DonutChart'
-import LineChart from './chip/LineChart'
-
 import dashboardApi from '@/services/dashboard'
 import tclogsApi from '@/services/tclogs'
 import vmlogsApi from '@/services/vmlogs'
-
-import dayjs from 'dayjs'
-
+import LogList from './chip/LogList'
+import DonutChart from './chip/DonutChart'
+import LineChart from './chip/LineChart'
 import './index.less'
 
 class Dashboard extends React.Component {
+  state = {
+    desktopsStatisticsDountData: [],
+    desktopsStatisticsLineData: [],
+    desktopsStatisticsTotal: 0,
+    poolsStatisticsDountData: [],
+    poolsStatisticsLineData: [],
+    poolsStatisticsTotal: 0,
+    terminalsStatisticsDountData: [],
+    terminalsStatisticsLineData: [],
+    terminalsStatisticsTotal: 0,
+    usersStatisticsDountData: [],
+    usersStatisticsLineData: [],
+    usersStatisticsTotal: 0,
+    tclogsData: [],
+    vmlogsData: [],
+    logData: []
+  }
+
   componentDidMount() {
     dashboardApi
       .desktopsStatistics()
@@ -212,24 +227,6 @@ class Dashboard extends React.Component {
       })
   }
 
-  state = {
-    desktopsStatisticsDountData: [],
-    desktopsStatisticsLineData: [],
-    desktopsStatisticsTotal: 0,
-    poolsStatisticsDountData: [],
-    poolsStatisticsLineData: [],
-    poolsStatisticsTotal: 0,
-    terminalsStatisticsDountData: [],
-    terminalsStatisticsLineData: [],
-    terminalsStatisticsTotal: 0,
-    usersStatisticsDountData: [],
-    usersStatisticsLineData: [],
-    usersStatisticsTotal: 0,
-    tclogsData: [],
-    vmlogsData: [],
-    logData: []
-  }
-
   /**
    * @memberof Dashboard
    * @param 数组中要排序的属性参数property
@@ -339,9 +336,7 @@ class Dashboard extends React.Component {
         </div>
         <div className="dashboard-tclog">
           <div className="dashboard-tclog-title">
-            {/* <span className="dashboard-tclog-title-text">日志</span> */}
             <TitleInfo slot="日志" more="更多 &gt;" url="vmlog" />
-            {/* <span className="dashboard-tclog-title-more">更多&gt;</span> */}
           </div>
           <LogList logData={logData} />
         </div>

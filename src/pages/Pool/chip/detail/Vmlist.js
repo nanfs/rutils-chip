@@ -1,8 +1,8 @@
 /* eslint-disable react/no-string-refs */
 import React from 'react'
 import { Button, Modal, Dropdown, Icon, notification, message } from 'antd'
-import { Tablex } from '@/components'
 import produce from 'immer'
+import { Tablex } from '@/components'
 import desktopsApi from '@/services/desktops'
 import poolsApi from '@/services/pools'
 import {
@@ -14,7 +14,7 @@ import {
   defaultColumnsFilters,
   vmDisableAction
 } from '@/pages/Common/VmTableCfg'
-import { downloadVV } from '@/utils/tool'
+import { downloadVV, wrapResponse } from '@/utils/tool'
 
 const { createTableCfg, TableWrap, ToolBar, BarLeft } = Tablex
 const { confirm } = Modal
@@ -141,51 +141,43 @@ export default class Desktop extends React.Component {
    */
   deleteVm = id => {
     const desktopIds = Array.isArray(id) ? [...id] : [id]
-    const self = this
     confirm({
       title: '确定删除该条数据?',
-      onOk() {
-        return new Promise(resolve => {
-          desktopsApi
-            .delVm({ desktopIds })
-            .then(res => {
-              if (res.success) {
-                notification.success({ message: '删除成功' })
-                self.tablex.refresh(self.state.tableCfg).then(delRes => {
-                  // 如果删除后没有桌面 则重新请求桌面池
-                  if (!delRes.data.total) {
-                    notification.success({
-                      message: '已删除池内所有虚拟机, 池自动删除'
-                    })
-                    setTimeout(() => {
-                      self.props.onDeleteAll()
-                    }, 1000)
-                  }
-                })
-              } else {
-                message.error(res.message || '删除失败')
-              }
-              resolve()
+      onOk: () => {
+        desktopsApi
+          .delVm({ desktopIds })
+          .then(res =>
+            wrapResponse(res).then(() => {
+              notification.success({ message: '删除成功' })
+              this.tablex.refresh(this.state.tableCfg).then(delRes => {
+                // 如果删除后没有桌面 则重新请求桌面池
+                if (!delRes.data.total) {
+                  notification.success({
+                    message: '已删除池内所有虚拟机, 池自动删除'
+                  })
+                  setTimeout(() => {
+                    this.props.onDeleteAll()
+                  }, 1000)
+                }
+              })
             })
-            .catch(error => {
-              message.error(error.message || error)
-              if (error.type === 'timeout') {
-                self.tablex.refresh(self.state.tableCfg).then(delRes => {
-                  // 如果删除后没有桌面 则重新请求桌面池
-                  if (!delRes.data.total) {
-                    notification.success({
-                      message: '已删除池内所有虚拟机, 池自动删除'
-                    })
-                    setTimeout(() => {
-                      self.props.onDeleteAll()
-                    }, 1000)
-                  }
-                })
-              }
-              resolve()
-              console.log(error)
-            })
-        })
+          )
+          .catch(error => {
+            message.error(error.message || error)
+            if (error.type === 'timeout') {
+              this.tablex.refresh(this.state.tableCfg).then(delRes => {
+                // 如果删除后没有桌面 则重新请求桌面池
+                if (!delRes.data.total) {
+                  notification.success({
+                    message: '已删除池内所有虚拟机, 池自动删除'
+                  })
+                  setTimeout(() => {
+                    this.props.onDeleteAll()
+                  }, 1000)
+                }
+              })
+            }
+          })
       },
       onCancel() {}
     })
@@ -201,27 +193,19 @@ export default class Desktop extends React.Component {
     const self = this
     confirm({
       title: '确定回收权限吗?',
-      onOk() {
-        return new Promise(resolve => {
-          poolsApi
-            .removePermission({ poolId: self.props.poolId, desktopIds })
-            .then(res => {
-              if (res.success) {
-                notification.success({ message: '回收成功' })
-                self.tablex.refresh(self.state.tableCfg)
-              } else {
-                message.error(res.message || '回收失败')
-              }
-              resolve()
+      onOk: () => {
+        poolsApi
+          .removePermission({ poolId: self.props.poolId, desktopIds })
+          .then(res =>
+            wrapResponse(res).then(() => {
+              notification.success({ message: '回收成功' })
+              this.tablex.refresh(this.state.tableCfg)
             })
-            .catch(error => {
-              message.error(error.message || error)
-              error.type === 'timeout' &&
-                self.tablex.refresh(self.state.tableCfg)
-              resolve()
-              console.log(error)
-            })
-        })
+          )
+          .catch(error => {
+            message.error(error.message || error)
+            error.type === 'timeout' && this.tablex.refresh(this.state.tableCfg)
+          })
       },
       onCancel() {}
     })
@@ -246,12 +230,7 @@ export default class Desktop extends React.Component {
     )
   }
 
-  /**
-   *
-   *
-   * @param {*} name 显示现在文件命名
-   * @param {*} id
-   */
+  // 打开控制台显示现在文件命名
   openConsole = (id, name) => {
     desktopsApi.openConsole({ desktopId: id }).then(res => {
       downloadVV(res, name)

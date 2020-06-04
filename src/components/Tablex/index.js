@@ -26,7 +26,7 @@ const tableCfg_init = {
   hasPaging: true,
   // 自动刷新时间选项 以\秒\为单位
   replaceTimeOptions: ['5', '10', '20'],
-  pageSizeOptions: ['10', '20', '30', '50', '100'],
+  pageSizeOptions: ['5', '10', '20', '50'],
   // 选填, 是否自动请求表格数据
   autoFetch: true,
   // 选填，在请求发送前，处理请求参数方法，return 处理后的请求数据对象

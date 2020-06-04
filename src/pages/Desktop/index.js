@@ -134,13 +134,10 @@ export default class Desktop extends React.Component {
     const [, ...columnsFix] = columnsList
     this.setState(
       produce(draft => {
-        draft.tableCfg = {
-          ...draft.tableCfg,
-          columns: [this.vmName, ...columnsFix, this.action],
-          searchs: {
-            ...draft.tableCfg.searchs,
-            ...searchs
-          }
+        draft.tableCfg.columns = [this.vmName, ...columnsFix, this.action]
+        draft.tableCfg.searchs = {
+          ...draft.tableCfg.searchs,
+          ...searchs
         }
       }),
       () => this.tablex.search(this.state.tableCfg)

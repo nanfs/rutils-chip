@@ -1,16 +1,17 @@
 import React from 'react'
 import { Button, message, Modal, notification } from 'antd'
+import produce from 'immer'
 import { Tablex, InnerPath } from '@/components'
+import { wrapResponse } from '@/utils/tool'
+import accessApi from '@/services/access'
 import AddDrawer from './chip/AddDrawer'
 import EditDrawer from './chip/EditDrawer'
 import { columns, apiMethod } from './chip/TableCfg'
-import accessApi from '@/services/access'
-import produce from 'immer'
 
 const { confirm } = Modal
 const { createTableCfg, TableWrap, ToolBar, BarLeft } = Tablex
 export default class Access extends React.Component {
-  Name = {
+  name = {
     title: () => <span title="名称">名称</span>,
     width: 250,
     dataIndex: 'name',
@@ -39,24 +40,14 @@ export default class Access extends React.Component {
     }
   }
 
-  columnsArr = [this.Name, ...columns, this.action]
-
   state = {
     tableCfg: createTableCfg({
-      columns: this.columnsArr,
-      apiMethod,
-      paging: { size: 10 },
-      pageSizeOptions: ['5', '10', '20', '50']
+      columns: [this.name, ...columns, this.action],
+      apiMethod
     })
   }
 
-  /**
-   *
-   *
-   * @param {*} selection
-   * @param {*} selectData
-   * 删除禁用 如果 有终端使用不能删除 建议放开 实现双向解绑
-   */
+  // 删除禁用 如果 有终端使用不能删除 建议放开 实现双向解绑
   onSelectChange = (selection, selectData) => {
     let disabledButton = {}
     if (selection.length === 0) {
@@ -70,10 +61,7 @@ export default class Access extends React.Component {
     this.setState({ disabledButton })
   }
 
-  /**
-   * @param sorter 排序
-   * 支持对名称进行排序
-   */
+  // 支持对名称进行排序
   onTableChange = (page, filter, sorter) => {
     const searchs = {}
     const orderArr = {
@@ -99,85 +87,46 @@ export default class Access extends React.Component {
     )
   }
 
-  /**
-   *
-   *
-   * @memberof Access
-   * 返回后 将inner path 置为空
-   */
+  // 返回调用
   onBack = () => {
     this.setState({ inner: undefined })
     this.currentDrawer.drawer.hide()
   }
 
-  /**
-   *
-   *
-   * @memberof Access
-   * 成功后刷新表格
-   */
+  // 内页成功执行后调用
   onSuccess = () => {
+    this.onBack()
     this.tablex.refresh(this.state.tableCfg)
-    this.currentDrawer.drawer.hide()
-    this.setState({ inner: undefined })
   }
 
-  /**
-   *
-   *
-   * @memberof Access
-   * 创建准入策略
-   */
   addAccess = () => {
     this.setState({ inner: '创建' }, this.addDrawer.pop())
     this.currentDrawer = this.addDrawer
   }
 
-  /**
-   *
-   *
-   * @memberof Access
-   * @param name 准入名称
-   * @param data 准入策略数据( 暂时没有通过单独接口调 直接通过列表取)
-   */
+  // 准入策略数据( 暂时没有通过单独接口调 直接通过列表取)
   editAccess = (name, data) => {
     this.setState({ inner: name }, this.editDrawer.pop(data))
     this.currentDrawer = this.editDrawer
   }
 
-  /**
-   *
-   *
-   * @param {*} id
-   * @param {string} [title='确定删除所选数据?']
-   * @returns
-   * 删除准入策略 可以通过工具条 和表单操作列传入操作 表单操作列传入为单个
-   * 调用都是批量删除接口
-   */
+  // 删除准入策略 可以通过工具条 和表单操作列传入操作 表单操作列传入为单个
   delAccess = (id, title = '确定删除所选数据?') => {
     const ids = Array.isArray(id) ? [...id] : [id]
-    const self = this
     confirm({
       title,
-      onOk() {
-        return new Promise(resolve => {
-          accessApi
-            .del({ ids })
-            .then(res => {
-              if (res.success) {
-                notification.success({ message: '删除成功' })
-                self.onSuccess()
-              } else {
-                message.error(res.message || '删除失败')
-              }
-              resolve()
+      onOk: () => {
+        accessApi
+          .del({ ids })
+          .then(res =>
+            wrapResponse(res).then(() => {
+              notification.success({ message: '删除成功' })
+              this.tablex.refresh(this.state.tableCfg)
             })
-            .catch(error => {
-              message.error(error.message || error)
-              resolve()
-              console.log(error)
-            })
-        })
+          )
+          .catch(error => {
+            message.error(error.message || error)
+          })
       },
       onCancel() {}
     })

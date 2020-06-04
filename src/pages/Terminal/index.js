@@ -151,7 +151,7 @@ export default class Terminal extends React.Component {
     tableCfg: createTableCfg({
       columns: this.columnsArr,
       apiMethod,
-      rowKey: record => record.sn.split(' ')[0],
+      rowKey: 'sn',
       paging: { size: 10 },
       pageSizeOptions: ['5', '10', '20', '50'],
       autoReplace: true,
@@ -161,7 +161,7 @@ export default class Terminal extends React.Component {
     }),
     innerPath: undefined,
     // initValues: {},
-    selectSN: [],
+    selectData: [],
     disabledButton: {}
   }
 
@@ -208,7 +208,7 @@ export default class Terminal extends React.Component {
         }
       })
     }
-    this.setState({ disabledButton })
+    this.setState({ disabledButton, selectData })
   }
 
   onSelectChange = (selection, selectData) => {
@@ -316,7 +316,7 @@ export default class Terminal extends React.Component {
     this.setState({ inner: '发送消息' })
 
     this.sendMessageDrawer.pop(
-      sn || this.state.selectSN,
+      sn || this.tablex.getSelection(),
       selectData || this.tablex.getSelectData()
     )
     // this.sendMessageDrawer.drawer.show()
@@ -338,7 +338,7 @@ export default class Terminal extends React.Component {
    */
   sendOrder = (order, sn = undefined) => {
     console.log('sendOrder', sn, order)
-    const sns = sn || this.state.selectSN
+    const sns = sn || this.tablex.getSelection()
     terminalApi
       .directiveTerminal({ sns, command: order })
       .then(res => {
@@ -361,7 +361,7 @@ export default class Terminal extends React.Component {
    * @author linghu
    */
   admitAccessTerminal = (sn = undefined) => {
-    const sns = sn || this.state.selectSN
+    const sns = sn || this.tablex.getSelection()
     terminalApi
       .admitAccessTerminal({ sns })
       .then(res => {
@@ -384,7 +384,7 @@ export default class Terminal extends React.Component {
    * @author linghu
    */
   forbidAccessTerminal = (sn = undefined) => {
-    const sns = sn || this.state.selectSN
+    const sns = sn || this.tablex.getSelection()
     terminalApi
       .forbidAccessTerminal({ sns })
       .then(res => {
@@ -447,7 +447,7 @@ export default class Terminal extends React.Component {
       <Menu>
         <Menu.Item
           key="delete"
-          onClick={() => this.deleteTerminal(this.state.selectSN)}
+          onClick={() => this.deleteTerminal(this.tablex.getSelection())}
           disabled={disabledButton.disabledDelete}
         >
           删除

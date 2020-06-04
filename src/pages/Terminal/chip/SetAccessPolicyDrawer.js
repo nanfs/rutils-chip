@@ -1,10 +1,10 @@
 import React from 'react'
 import { Tablex, Formx, Drawerx, Title, Diliver } from '@/components'
 import { Tag } from 'antd'
-import { columns, apiMethod } from './AccessTableCfg'
 import terminalApi from '@/services/terminal'
 import { wrapResponse } from '@/utils/tool'
 import produce from 'immer'
+import { columns, apiMethod } from './AccessTableCfg'
 
 const { createTableCfg, TableWrap, ToolBar } = Tablex
 // 是否翻页保存数据

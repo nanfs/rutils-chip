@@ -1,10 +1,10 @@
 import React from 'react'
 import { Tag, Switch, message } from 'antd'
-import { columns, apiMethod } from './SafePolicyTableCfg'
 import terminalApi from '@/services/terminal'
-import produce from 'immer'
 import { wrapResponse } from '@/utils/tool'
 import { Drawerx, Formx, Tablex, Diliver, Title } from '@/components'
+import { columns, apiMethod } from './SafePolicyTableCfg'
+import produce from 'immer'
 
 // 是否翻页保存数据
 const { createTableCfg, TableWrap, ToolBar } = Tablex

@@ -1,11 +1,11 @@
 import React from 'react'
 import { Row, Col, Tooltip, Table, message, Tabs } from 'antd'
 import { Drawerx, Title } from '@/components'
+import { wrapResponse } from '@/utils/tool'
 import { detailUserColumns } from './DetailUserTableCfg'
 import { detailSafepolicyColumns } from './DetailSafepolicyTableCfg'
 import { DetailAccesspolicyColumns } from './DetailAccesspolicyTableCfg'
 import { detailUseTimeColumns } from './DetailUseTimeTableCfg'
-import { wrapResponse } from '@/utils/tool'
 // import DetailUseStatisticsChart from './DetailUseStatisticsChart'
 
 import terminalApi from '@/services/terminal'

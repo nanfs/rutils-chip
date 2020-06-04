@@ -11,6 +11,8 @@ import {
 import produce from 'immer'
 
 import { Tablex, InnerPath, SelectSearch } from '@/components'
+import terminalApi from '@/services/terminal'
+import { wrapResponse } from '@/utils/tool'
 
 import EditDrawer from './chip/EditDrawer'
 import DetailDrawer from './chip/DetailDrawer'
@@ -19,8 +21,6 @@ import SetSafePolicyDrawer from './chip/SetSafePolicyDrawer'
 import SetAccessPolicyDrawer from './chip/SetAccessPolicyDrawer'
 import SendMessageDrawer from './chip/SendMessageDrawer'
 import { columns, apiMethod } from './chip/TableCfg'
-import terminalApi from '@/services/terminal'
-import { wrapResponse } from '@/utils/tool'
 import './index.less'
 
 const { confirm } = Modal

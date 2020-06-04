@@ -47,6 +47,12 @@ const menu = [
     authority: 'admin,security'
   },
   {
+    title: '终端任务',
+    icon: 'calendar',
+    path: '/terminalTask',
+    authority: 'admin,security'
+  },
+  {
     title: '外设控制',
     icon: 'usb',
     path: '/device',

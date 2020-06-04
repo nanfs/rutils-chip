@@ -361,7 +361,7 @@ export default class Terminal extends React.Component {
           wrapResponse(res)
             .then(() => {
               notification.success({ message: '删除成功' })
-              self.tablex.refresh(this.state.tableCfg)
+              self.tablex.refresh(self.state.tableCfg)
             })
             .catch(error => {
               message.error(error.message || error || '删除失败')

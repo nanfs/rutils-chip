@@ -5,6 +5,8 @@ import { TitleInfo } from '@/components'
 import dashboardApi from '@/services/dashboard'
 import tclogsApi from '@/services/tclogs'
 import vmlogsApi from '@/services/vmlogs'
+import { wrapResponse } from '@/utils/tool'
+
 import LogList from './chip/LogList'
 import DonutChart from './chip/DonutChart'
 import LineChart from './chip/LineChart'
@@ -30,10 +32,9 @@ class Dashboard extends React.Component {
   }
 
   componentDidMount() {
-    dashboardApi
-      .desktopsStatistics()
-      .then(res => {
-        if (res.success) {
+    dashboardApi.desktopsStatistics().then(res => {
+      wrapResponse(res)
+        .then(() => {
           if (res.data) {
             this.setState({
               desktopsStatisticsDountData: [
@@ -61,18 +62,15 @@ class Dashboard extends React.Component {
               desktopsStatisticsTotal: res.data.total
             })
           }
-        } else {
-          message.error(res.message || '查询桌面统计失败')
-        }
-      })
-      .catch(error => {
-        message.error(error.message || error)
-        console.log(error)
-      })
-    dashboardApi
-      .poolsStatistics()
-      .then(res => {
-        if (res.success) {
+        })
+        .catch(error =>
+          message.error(error.message || error || '查询桌面统计失败')
+        )
+    })
+
+    dashboardApi.poolsStatistics().then(res => {
+      wrapResponse(res)
+        .then(() => {
           if (res.data) {
             this.setState({
               poolsStatisticsDountData: [
@@ -95,18 +93,15 @@ class Dashboard extends React.Component {
               poolsStatisticsTotal: res.data.total
             })
           }
-        } else {
-          message.error(res.message || '查询桌面池统计失败')
-        }
-      })
-      .catch(error => {
-        message.error(error.message || error)
-        console.log(error)
-      })
-    dashboardApi
-      .terminalsStatistics()
-      .then(res => {
-        if (res.success) {
+        })
+        .catch(error =>
+          message.error(error.message || error || '查询桌面池统计失败')
+        )
+    })
+
+    dashboardApi.terminalsStatistics().then(res => {
+      wrapResponse(res)
+        .then(() => {
           if (res.data) {
             this.setState({
               terminalsStatisticsDountData: [
@@ -139,18 +134,15 @@ class Dashboard extends React.Component {
               terminalsStatisticsTotal: res.data.total
             })
           }
-        } else {
-          message.error(res.message || '查询终端统计失败')
-        }
-      })
-      .catch(error => {
-        message.error(error.message || error)
-        console.log(error)
-      })
-    dashboardApi
-      .usersStatistics()
-      .then(res => {
-        if (res.success) {
+        })
+        .catch(error =>
+          message.error(error.message || error || '查询终端统计失败')
+        )
+    })
+
+    dashboardApi.usersStatistics().then(res => {
+      wrapResponse(res)
+        .then(() => {
           if (res.data) {
             this.setState({
               usersStatisticsDountData: [
@@ -183,48 +175,34 @@ class Dashboard extends React.Component {
               usersStatisticsTotal: res.data.total
             })
           }
-        } else {
-          message.error(res.message || '查询用户统计失败')
-        }
-      })
-      .catch(error => {
-        message.error(error.message || error)
-        console.log(error)
-      })
-    tclogsApi
-      .list()
-      .then(res => {
-        if (res.success) {
+        })
+        .catch(error =>
+          message.error(error.message || error || '查询用户统计失败')
+        )
+    })
+    tclogsApi.list().then(res => {
+      wrapResponse(res)
+        .then(() => {
           if (res.data) {
             this.setState({
               tclogsData: res.data.records
             })
           }
-        } else {
-          message.error(res.message || '获取日志失败')
-        }
-      })
-      .catch(error => {
-        message.error(error.message || error)
-        console.log(error)
-      })
-    vmlogsApi
-      .list()
-      .then(res => {
-        if (res.success) {
+        })
+        .catch(error => message.error(error.message || error || '获取日志失败'))
+    })
+
+    vmlogsApi.list().then(res => {
+      wrapResponse(res)
+        .then(() => {
           if (res.data) {
             this.setState({
-              vmlogsData: res.data.records
+              tclogsData: res.data.records
             })
           }
-        } else {
-          message.error(res.message || '获取日志失败')
-        }
-      })
-      .catch(error => {
-        message.error(error.message || error)
-        console.log(error)
-      })
+        })
+        .catch(error => message.error(error.message || error || '获取日志失败'))
+    })
   }
 
   /**

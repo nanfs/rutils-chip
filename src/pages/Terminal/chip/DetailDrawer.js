@@ -5,6 +5,7 @@ import { detailUserColumns } from './DetailUserTableCfg'
 import { detailSafepolicyColumns } from './DetailSafepolicyTableCfg'
 import { DetailAccesspolicyColumns } from './DetailAccesspolicyTableCfg'
 import { detailUseTimeColumns } from './DetailUseTimeTableCfg'
+import { wrapResponse } from '@/utils/tool'
 // import DetailUseStatisticsChart from './DetailUseStatisticsChart'
 
 import terminalApi from '@/services/terminal'
@@ -26,21 +27,12 @@ export default class DetailDrawer extends React.Component {
    */
   pop = sn => {
     this.drawer.show()
-    terminalApi
-      .terminalsdetail(sn)
-      .then(res => {
-        if (res.success) {
+    terminalApi.terminalsdetail(sn).then(res => {
+      wrapResponse(res)
+        .then(() => {
           const onlineTimeArray = res.data.onlineTime.split(',').reverse()
           const offlineTimeArray = res.data.offlineTime.split(',').reverse()
-          /* if (onlineTimeArray.length > offlineTimeArray.length) {
-            for (
-              let i = 0;
-              i < onlineTimeArray.length - offlineTimeArray.length;
-              i++
-            ) {
-              offlineTimeArray.unshift('')
-            }
-          } */
+          // 如果终端在线，则将最后一条记录的下线时间设置为空
           if (res.data.onlineStatus === '1') {
             offlineTimeArray.unshift('')
           }
@@ -54,13 +46,9 @@ export default class DetailDrawer extends React.Component {
           this.setState({
             initValues: { ...res.data, useTime }
           })
-        } else {
-          message.error(res.message || '查询失败')
-        }
-      })
-      .catch(errors => {
-        console.log(errors)
-      })
+        })
+        .catch(error => message.error(error.message || error || '查询失败'))
+    })
   }
 
   render() {

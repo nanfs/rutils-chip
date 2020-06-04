@@ -221,11 +221,7 @@ export default class Terminal extends React.Component {
     )
   }
 
-  /**
-   * @memberof Terminal
-   * @description 表格onChange的回调
-   * @author linghu
-   */
+  // 表格onChange的回调
   onTableChange = (a, filter) => {
     const statusList = []
     filter.status &&
@@ -249,10 +245,7 @@ export default class Terminal extends React.Component {
     )
   }
 
-  /**
-   * @memberof Terminal
-   * @description 表格搜索
-   */
+  // 列表搜索
   search = (key, value) => {
     const searchs = {}
     searchs[key] = value
@@ -269,11 +262,7 @@ export default class Terminal extends React.Component {
     )
   }
 
-  /**
-   * @memberof Terminal
-   * @description 新增、编辑成功后回调
-   * @author linghu
-   */
+  // 新增、编辑成功后回调
   onSuccess = () => {
     this.tablex.refresh(this.state.tableCfg)
     this.setState({ inner: undefined })
@@ -368,22 +357,19 @@ export default class Terminal extends React.Component {
     confirm({
       title,
       onOk() {
-        return new Promise(resolve => {
-          terminalApi.deleteTerminal({ sns }).then(res =>
-            wrapResponse(res)
-              .then(() => {
-                notification.success({ message: '删除成功' })
-                self.tablex.refresh(this.state.tableCfg)
-              })
-              .catch(error => {
-                message.error(error.message || error || '删除失败')
-                error.type === 'timeout' &&
-                  self.tablex.refresh(self.state.tableCfg)
-                resolve()
-                console.log(error)
-              })
-          )
-        })
+        terminalApi.deleteTerminal({ sns }).then(res =>
+          wrapResponse(res)
+            .then(() => {
+              notification.success({ message: '删除成功' })
+              self.tablex.refresh(this.state.tableCfg)
+            })
+            .catch(error => {
+              message.error(error.message || error || '删除失败')
+              error.type === 'timeout' &&
+                self.tablex.refresh(self.state.tableCfg)
+              console.log(error)
+            })
+        )
       },
       onCancel() {}
     })

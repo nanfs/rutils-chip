@@ -230,16 +230,16 @@ class Tablex extends React.Component {
     if (autoReplace) {
       const data = this.getData()
       const selectedRowKeys = this.getSelection()
+      console.log(data, selectedRowKeys, rowKey)
       return data.filter(item => selectedRowKeys.includes(item[rowKey]))
     }
-
-    return this.state.selection
+    return this.state.selectData
   }
 
   clearSelection = () => {
     this.setState({
       selection: [],
-      selects: []
+      selectData: []
     })
   }
 
@@ -247,13 +247,13 @@ class Tablex extends React.Component {
     return this.state.data
   }
 
-  onSelectChange = (selectKeys, selects) => {
+  onSelectChange = (selectKeys, selectData) => {
     const { onSelectChange } = this.props
     this.setState({
       selection: selectKeys,
-      selects
+      selectData
     })
-    onSelectChange && onSelectChange(selectKeys, selects)
+    onSelectChange && onSelectChange(selectKeys, selectData)
   }
 
   showTotal = () => {

@@ -1,22 +1,16 @@
 import React from 'react'
 import { Form, Input, TimePicker, DatePicker } from 'antd'
+import dayjs from 'dayjs'
 import { Drawerx, Title, Diliver, Radiox, Selectx, Formx } from '@/components'
 import { weekOptions, typeOptions } from '@/utils/formOptions'
-import '../index.less'
-import accessApi from '@/services/access'
 import { required, checkName, number5 } from '@/utils/valid'
-import dayjs from 'dayjs'
+import accessApi from '@/services/access'
+import '../index.less'
 
 const { TextArea } = Input
 const { RangePicker } = DatePicker
 export default class AddDrawer extends React.Component {
-  /**
-   * @memberof access
-   * @param rule 验证规则
-   * @param value 传入的值
-   * @param 回调函数
-   * 验证结束时间不能晚于开始时间
-   */
+  // 验证结束时间不能晚于开始时间
   compareTime = (rule, value, callback) => {
     const startTime = this.drawer?.form.getFieldValue('startTime')
     if (startTime) {
@@ -31,32 +25,23 @@ export default class AddDrawer extends React.Component {
     this.props.onRef && this.props.onRef(this)
   }
 
-  /**
-   * @memberof access
-   * 设置新建准入策略时的默认值
-   */
+  // 设置新建准入策略时的默认值
   pop = () => {
     this.drawer.show()
     this.drawer.form.setFieldsValue({ type: 0, weeks: [] })
   }
 
-  /**
-   * @memberof access
-   * 准入方式改变时获取对应的值
-   */
+  // 准入方式改变时获取对应的值
   getSelectType = () => {
     return this.drawer?.form?.getFieldValue('type')
   }
 
+  // 当选项变化 需要重新渲染
   onTypeChange = () => {
     this.forceUpdate()
   }
 
-  /**
-   * @memberof access
-   * @param values 传入表单值
-   * 新建准入策略
-   */
+  // 添加准入策略
   add = values => {
     const data = {
       name: values.name,
@@ -83,7 +68,7 @@ export default class AddDrawer extends React.Component {
         this.drawer.afterSubmit(res)
       })
       .catch(errors => {
-        this.drawer.break()
+        this.drawer.break(errors)
         console.log(errors)
       })
   }

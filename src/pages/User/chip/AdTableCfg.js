@@ -1,7 +1,6 @@
 import React from 'react'
 import userApi from '@/services/user'
-import { Icon, Tag } from 'antd'
-import { MyIcon } from '@/components'
+import { Tag } from 'antd'
 
 export const adColumns = [
   {

@@ -26,7 +26,7 @@ const tableCfg_init = {
   hasPaging: true,
   // 自动刷新时间选项 以\秒\为单位
   replaceTimeOptions: ['5', '10', '20'],
-  pageSizeOptions: ['10', '20', '30', '50', '100'],
+  pageSizeOptions: ['5', '10', '20', '50'],
   // 选填, 是否自动请求表格数据
   autoFetch: true,
   // 选填，在请求发送前，处理请求参数方法，return 处理后的请求数据对象
@@ -230,16 +230,16 @@ class Tablex extends React.Component {
     if (autoReplace) {
       const data = this.getData()
       const selectedRowKeys = this.getSelection()
+      console.log(data, selectedRowKeys, rowKey)
       return data.filter(item => selectedRowKeys.includes(item[rowKey]))
     }
-
-    return this.state.selection
+    return this.state.selectData
   }
 
   clearSelection = () => {
     this.setState({
       selection: [],
-      selects: []
+      selectData: []
     })
   }
 
@@ -247,13 +247,13 @@ class Tablex extends React.Component {
     return this.state.data
   }
 
-  onSelectChange = (selectKeys, selects) => {
+  onSelectChange = (selectKeys, selectData) => {
     const { onSelectChange } = this.props
     this.setState({
       selection: selectKeys,
-      selects
+      selectData
     })
-    onSelectChange && onSelectChange(selectKeys, selects)
+    onSelectChange && onSelectChange(selectKeys, selectData)
   }
 
   showTotal = () => {

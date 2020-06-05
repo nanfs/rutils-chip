@@ -36,7 +36,7 @@ export default function DetailUseStatisticsChart(props) {
       /* width={260} */ data={dataSource}
       scale={cols}
       forceFit
-      padding="auto" 
+      padding="auto"
     >
       <Axis name="datetime" />
       <Axis name="onlinetimesum" />

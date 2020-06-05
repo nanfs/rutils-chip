@@ -1,6 +1,6 @@
 import React from 'react'
 import { Tree, Input, Spin, Menu, Modal, notification, message } from 'antd'
-import { nodes2Tree } from '@/utils/tool'
+import { nodes2Tree, wrapResponse } from '@/utils/tool'
 
 import AddNodeModal from './chip/AddNodeModal'
 import EditNodeModal from './chip/EditNodeModal'
@@ -147,7 +147,7 @@ export default class Treex extends React.Component {
     })
   } */
 
-  _handleClick = e => {
+  _handleClick = () => {
     this.setState({
       rightMenuStyle: { display: 'none' }
     })
@@ -264,31 +264,7 @@ export default class Treex extends React.Component {
       )
     })
 
-  /* getNodeTreeRightClickMenu = () => {
-    const { pageX, pageY, id, categoryName } = {
-      ...this.state.rightClickNodeTreeItem
-    }
-    const tmpStyle = {
-      position: 'absolute',
-      left: `${pageX - 230}px`,
-      top: `${pageY - 115}px`,
-      display: 'block'
-    }
-    const menu = (
-      <div
-        style={{ display: this.state.rightMenuShow, ...tmpStyle }}
-        className="self-right-menu"
-      >
-        <Menu>
-          <Menu.Item>新增下级部门</Menu.Item>
-          <Menu.Item>修改</Menu.Item>
-          <Menu.Item>删除</Menu.Item>
-        </Menu>
-      </div>
-    )
-    return this.state.rightClickNodeTreeItem == null ? '' : menu
-  } */
-
+  // 点击鼠标右键
   onRightClick = e => {
     const nodeDeleteDisable = e.node.props.parentId === '-1'
     e.event.stopPropagation()
@@ -311,29 +287,23 @@ export default class Treex extends React.Component {
     })
   }
 
+  // 删除树节点
   deleteNode = () => {
     const { deleteNodeApiMethod } = this.props
     const self = this
     confirm({
       title: '确认删除该节点吗？',
       onOk() {
-        return new Promise((resolve, reject) => {
-          deleteNodeApiMethod({
-            id: parseInt(self.state.rightClickNodeTreeItem.id, 10)
-          })
-            .then(res => {
-              if (res.success) {
-                notification.success({ message: '删除成功' })
-                self.getTreeData()
-              } else {
-                message.error(res.message || '删除失败')
-              }
-              resolve()
+        deleteNodeApiMethod({
+          id: parseInt(self.state.rightClickNodeTreeItem.id, 10)
+        }).then(res => {
+          wrapResponse(res)
+            .then(() => {
+              notification.success({ message: '删除成功' })
+              self.getTreeData()
             })
             .catch(error => {
-              message.error(error.message || error)
-              resolve()
-              console.log(error)
+              message.error(error.message || '删除失败')
             })
         })
       },

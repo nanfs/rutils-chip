@@ -11,6 +11,8 @@ import {
 import produce from 'immer'
 
 import { Tablex, InnerPath, SelectSearch } from '@/components'
+import terminalApi from '@/services/terminal'
+import { wrapResponse } from '@/utils/tool'
 
 import EditDrawer from './chip/EditDrawer'
 import DetailDrawer from './chip/DetailDrawer'
@@ -19,7 +21,6 @@ import SetSafePolicyDrawer from './chip/SetSafePolicyDrawer'
 import SetAccessPolicyDrawer from './chip/SetAccessPolicyDrawer'
 import SendMessageDrawer from './chip/SendMessageDrawer'
 import { columns, apiMethod } from './chip/TableCfg'
-import terminalApi from '@/services/terminal'
 import './index.less'
 
 const { confirm } = Modal
@@ -68,13 +69,6 @@ export default class Terminal extends React.Component {
           >
             解锁
           </Menu.Item>
-          {/* <Menu.Item
-            key="9"
-            disabled={!record.status}
-            onClick={this.sendOrder.bind(this, 'logout', [record.sn])}
-          >
-            登出
-          </Menu.Item> */}
           <Menu.Item key="6" onClick={this.setUser.bind(this, [record.sn])}>
             分配用户
           </Menu.Item>
@@ -151,7 +145,7 @@ export default class Terminal extends React.Component {
     tableCfg: createTableCfg({
       columns: this.columnsArr,
       apiMethod,
-      rowKey: record => record.sn.split(' ')[0],
+      rowKey: 'sn',
       paging: { size: 10 },
       pageSizeOptions: ['5', '10', '20', '50'],
       autoReplace: true,
@@ -161,15 +155,10 @@ export default class Terminal extends React.Component {
     }),
     innerPath: undefined,
     // initValues: {},
-    selectSN: [],
     disabledButton: {}
   }
 
-  /**
-   * @memberof Terminal
-   * @description 根据选定数据判断按钮状态
-   * @author linghu
-   */
+  // 表格行选中 根据选定数据判断按钮状态
   checkOptionsDisable = (selection, selectData) => {
     let disabledButton = {}
     if (selection.length !== 1) {
@@ -211,14 +200,14 @@ export default class Terminal extends React.Component {
     this.setState({ disabledButton })
   }
 
+  // 表格行选中
   onSelectChange = (selection, selectData) => {
     this.checkOptionsDisable(selection, selectData)
   }
 
   /**
    * 当搜索条件下来处理
-   *
-   * @memberof Vmlog
+   * @memberof Terminal
    */
   onSearchSelectChange = oldKey => {
     const searchs = { ...this.state.tableCfg.searchs }
@@ -232,11 +221,7 @@ export default class Terminal extends React.Component {
     )
   }
 
-  /**
-   * @memberof Terminal
-   * @description 表格onChange的回调
-   * @author linghu
-   */
+  // 表格onChange的回调
   onTableChange = (a, filter) => {
     const statusList = []
     filter.status &&
@@ -260,10 +245,7 @@ export default class Terminal extends React.Component {
     )
   }
 
-  /**
-   * @memberof Terminal
-   * @description 表格搜索
-   */
+  // 列表搜索
   search = (key, value) => {
     const searchs = {}
     searchs[key] = value
@@ -280,11 +262,7 @@ export default class Terminal extends React.Component {
     )
   }
 
-  /**
-   * @memberof Terminal
-   * @description 新增、编辑成功后回调
-   * @author linghu
-   */
+  // 新增、编辑成功后回调
   onSuccess = () => {
     this.tablex.refresh(this.state.tableCfg)
     this.setState({ inner: undefined })
@@ -295,34 +273,36 @@ export default class Terminal extends React.Component {
     this.currentDrawer.drawer.hide()
   }
 
+  // 分配用户
   setUser = sns => {
     this.setState({ inner: '分配用户' }, this.setUserDrawer.pop(sns))
     this.currentDrawer = this.setUserDrawer
   }
 
+  // 设置外设控制
   setSafePolicy = () => {
     this.setState({ inner: '设置外设控制' })
     this.setSafePolicyDrawer.pop(this.tablex.getSelection())
     this.currentDrawer = this.setSafePolicyDrawer
   }
 
+  // 设置准入控制
   setAccessPolicy = () => {
     this.setState({ inner: '设置准入控制' })
     this.setAccessPolicyDrawer.pop(this.tablex.getSelection())
     this.currentDrawer = this.setAccessPolicyDrawer
   }
 
-  sendMessage = (sn = undefined, selectData = undefined) => {
+  // 发送消息
+  sendMessage = (sn, selectData) => {
     this.setState({ inner: '发送消息' })
 
-    this.sendMessageDrawer.pop(
-      sn || this.state.selectSN,
-      selectData || this.tablex.getSelectData()
-    )
+    this.sendMessageDrawer.pop(sn, selectData)
     // this.sendMessageDrawer.drawer.show()
     this.currentDrawer = this.sendMessageDrawer
   }
 
+  // 查看详情
   detailTerminal = (name, sn) => {
     this.setState({ inner: name })
     this.infoDrawer.pop(sn)
@@ -336,22 +316,15 @@ export default class Terminal extends React.Component {
    * @description 向所选终端下发指令
    * @author linghu
    */
-  sendOrder = (order, sn = undefined) => {
-    console.log('sendOrder', sn, order)
-    const sns = sn || this.state.selectSN
-    terminalApi
-      .directiveTerminal({ sns, command: order })
-      .then(res => {
-        if (res.success) {
+  sendOrder = (order, sns) => {
+    terminalApi.directiveTerminal({ sns, command: order }).then(res => {
+      wrapResponse(res)
+        .then(() => {
           notification.success({ message: '操作成功' })
           this.tablex.refresh(this.state.tableCfg)
-        } else {
-          message.error(res.message || '操作失败')
-        }
-      })
-      .catch(errors => {
-        console.log(errors)
-      })
+        })
+        .catch(error => message.error(error.message || error || '操作失败'))
+    })
   }
 
   /**
@@ -360,77 +333,43 @@ export default class Terminal extends React.Component {
    * @description 接入所选终端
    * @author linghu
    */
-  admitAccessTerminal = (sn = undefined) => {
-    const sns = sn || this.state.selectSN
-    terminalApi
-      .admitAccessTerminal({ sns })
-      .then(res => {
-        if (res.success) {
+  admitAccessTerminal = sns => {
+    terminalApi.admitAccessTerminal({ sns }).then(res => {
+      wrapResponse(res)
+        .then(() => {
           notification.success({ message: '接入成功' })
           this.tablex.refresh(this.state.tableCfg)
-        } else {
-          message.error(res.message || '接入失败')
-        }
-      })
-      .catch(errors => {
-        console.log(errors)
-      })
+        })
+        .catch(error => message.error(error.message || error || '接入失败'))
+    })
   }
 
-  /**
-   * @memberof Terminal
-   * @param sn 终端sn
-   * @description 断开所选已接入终端
-   * @author linghu
-   */
-  forbidAccessTerminal = (sn = undefined) => {
-    const sns = sn || this.state.selectSN
-    terminalApi
-      .forbidAccessTerminal({ sns })
-      .then(res => {
-        if (res.success) {
-          notification.success({ message: '断开接入成功' })
-          this.tablex.refresh(this.state.tableCfg)
-        } else {
-          message.error(res.message || '断开接入失败')
-        }
-      })
-      .catch(errors => {
-        console.log(errors)
-      })
-  }
-
+  // 终端编辑
   editTerminal = (name, data) => {
     this.setState({ inner: name }, this.editDrawer.pop(data))
     this.currentDrawer = this.editDrawer
   }
 
+  // 删除终端
   deleteTerminal = (sn, title = '确定删除所选数据?') => {
     const sns = Array.isArray(sn) ? [...sn] : [sn]
     const self = this
     confirm({
       title,
       onOk() {
-        return new Promise(resolve => {
-          terminalApi
-            .deleteTerminal({ sns })
-            .then(res => {
-              if (res.success) {
-                notification.success({ message: '删除成功' })
-                self.tablex.refresh(self.state.tableCfg)
-              } else {
-                message.error(res.message || '删除失败')
-              }
-              resolve()
+        terminalApi.deleteTerminal({ sns }).then(res =>
+          wrapResponse(res)
+            .then(() => {
+              notification.success({ message: '删除成功' })
+              self.tablex.refresh(self.state.tableCfg)
             })
             .catch(error => {
-              message.error(error.message || error)
+              message.error(error.message || error || '删除失败')
               error.type === 'timeout' &&
                 self.tablex.refresh(self.state.tableCfg)
-              resolve()
               console.log(error)
             })
-        })
+        )
       },
       onCancel() {}
     })
@@ -447,35 +386,40 @@ export default class Terminal extends React.Component {
       <Menu>
         <Menu.Item
           key="delete"
-          onClick={() => this.deleteTerminal(this.state.selectSN)}
+          onClick={() => this.deleteTerminal(this.tablex.getSelection())}
           disabled={disabledButton.disabledDelete}
         >
           删除
         </Menu.Item>
         <Menu.Item
           key="restart"
-          onClick={() => this.sendOrder('restart')}
+          onClick={() => this.sendOrder('restart', this.tablex.getSelection())}
           disabled={disabledButton.disabledShutdown}
         >
           重启
         </Menu.Item>
         <Menu.Item
           key="lock"
-          onClick={() => this.sendOrder('lock')}
+          onClick={() => this.sendOrder('lock', this.tablex.getSelection())}
           disabled={disabledButton.disabledShutdown}
         >
           锁定
         </Menu.Item>
         <Menu.Item
           key="unlock"
-          onClick={() => this.sendOrder('unlock')}
+          onClick={() => this.sendOrder('unlock', this.tablex.getSelection())}
           disabled={disabledButton.disabledShutdown}
         >
           解锁
         </Menu.Item>
         <Menu.Item
           key="sendMessage"
-          onClick={() => this.sendMessage()}
+          onClick={() =>
+            this.sendMessage(
+              this.tablex.getSelection(),
+              this.tablex.getSelectData()
+            )
+          }
           disabled={disabledButton.disabledSendMessage}
         >
           发送消息
@@ -507,7 +451,9 @@ export default class Terminal extends React.Component {
           <ToolBar>
             <BarLeft>
               <Button
-                onClick={() => this.sendOrder('shutdown')}
+                onClick={() =>
+                  this.sendOrder('shutdown', this.tablex.getSelection())
+                }
                 disabled={disabledButton.disabledShutdown}
               >
                 关机
@@ -520,7 +466,9 @@ export default class Terminal extends React.Component {
               </Button>
 
               <Button
-                onClick={() => this.admitAccessTerminal()}
+                onClick={() =>
+                  this.admitAccessTerminal(this.tablex.getSelection())
+                }
                 disabled={disabledButton.disabledAdmitAccess}
               >
                 允许接入

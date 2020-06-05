@@ -64,7 +64,6 @@ export default class editDrawer extends React.Component {
   }
 
   render() {
-    // const { getFieldDecorator } = this.props.form
     const { nodeData, domainlist } = this.props
 
     return (

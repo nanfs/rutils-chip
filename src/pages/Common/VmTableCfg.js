@@ -22,6 +22,7 @@ setHostToSession()
 
 /**
  * @description
+ * 桌面 桌面池  模板 都需要渲染桌面表格 特别桌面池里面要单独判断
  * @author lishuai
  * @date 2020-04-17
  * @export
@@ -176,7 +177,7 @@ export function getColumns(isPoolVmlist = false) {
     }
   ]
 }
-// 去掉桌面名称
+// 去掉桌面名称 桌面名称列需要单独判断是否添加链接
 export const defaultColumnsFilters = getColumns()
   .map(item => ({
     value: item.dataIndex,

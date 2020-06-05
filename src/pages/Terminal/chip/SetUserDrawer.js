@@ -1,7 +1,7 @@
 import React from 'react'
-import { columns, apiMethod } from '@/pages/Common/UserTableCfg'
 import { Tag, message } from 'antd'
 import terminalApi from '@/services/terminal'
+import { wrapResponse } from '@/utils/tool'
 import produce from 'immer'
 import {
   Tablex,
@@ -11,6 +11,7 @@ import {
   Title,
   Diliver
 } from '@/components'
+import { columns, apiMethod } from '@/pages/Common/UserTableCfg'
 
 // 是否翻页保存数据
 const { createTableCfg, TableWrap, ToolBar } = Tablex
@@ -156,29 +157,30 @@ export default class SetUserDrawer extends React.Component {
       })
     })
     if (sns && sns.length === 1) {
-      terminalApi
-        .terminalsdetail(sns[0])
-        .then(res => {
-          const { users } = res.data
-          const totalSelection = users.map(
-            item =>
-              `${item.uuid}&${item.username}&${item.firstname}&${item.lastname}&${item.department}&${item.domain}`
-          )
-          this.setState(
-            produce(draft => {
-              draft.totalSelection = totalSelection
-              draft.tableCfg = {
-                ...draft.tableCfg,
-                selection: totalSelection
-              }
-            }),
-            () => this.userTablex.refresh(this.state.tableCfg)
-          )
-        })
-        .catch(error => {
-          console.log(error)
-          message.error(error.message || error)
-        })
+      terminalApi.terminalsdetail(sns[0]).then(res => {
+        wrapResponse(res)
+          .then(() => {
+            const { users } = res.data
+            const totalSelection = users.map(
+              item =>
+                `${item.uuid}&${item.username}&${item.firstname}&${item.lastname}&${item.department}&${item.domain}`
+            )
+            this.setState(
+              produce(draft => {
+                draft.totalSelection = totalSelection
+                draft.tableCfg = {
+                  ...draft.tableCfg,
+                  selection: totalSelection
+                }
+              }),
+              () => this.userTablex.refresh(this.state.tableCfg)
+            )
+          })
+          .catch(error => {
+            console.log(error)
+            message.error(error.message || error)
+          })
+      })
     } else {
       setTimeout(() => this.userTablex.refresh(this.state.tableCfg), 0)
     }

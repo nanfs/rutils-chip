@@ -8,7 +8,13 @@ import {
 } from '@/utils/formOptions'
 
 import poolsApi from '@/services/pools'
-import { required, checkName, lessThanValue, isInt } from '@/utils/valid'
+import {
+  required,
+  checkName,
+  lessThanValue,
+  isInt,
+  moreThanValue
+} from '@/utils/valid'
 
 const { TextArea } = Input
 
@@ -94,6 +100,7 @@ export default class AddDrawer extends React.Component {
           <Form.Item
             prop="templateId"
             label="模板"
+            required
             wrapperCol={{ sm: { span: 16 } }}
           >
             <Radiox
@@ -101,7 +108,7 @@ export default class AddDrawer extends React.Component {
               options={this.state?.templateOptions}
             />
           </Form.Item>
-          <Form.Item prop="managerType" label="管理类型">
+          <Form.Item prop="managerType" required label="管理类型">
             <Radiox options={managerTypeOptions} />
           </Form.Item>
           <Form.Item
@@ -150,9 +157,10 @@ export default class AddDrawer extends React.Component {
           <Form.Item
             prop="maxAssignedVmsPerUser"
             label="用户最大虚拟机数"
-            rules={[this.compareNum, isInt]}
+            required
+            rules={[required, this.compareNum, isInt, moreThanValue(0)]}
           >
-            <InputNumber placeholder="" min={0} />
+            <InputNumber placeholder="" min={1} />
           </Form.Item>
           <Form.Item prop="description" label="描述">
             <TextArea placeholder="描述" />

@@ -6,6 +6,7 @@ export { default as InnerPath } from './InnerPath'
 export { default as Modalx } from './Modalx'
 export { default as MyIcon } from './MyIcon'
 export { default as Radiox } from './Radiox'
+export { default as Uploadx } from './Uploadx'
 export { default as SelectSearch } from './SelectSearch'
 
 export { default as Selectx } from './Selectx'

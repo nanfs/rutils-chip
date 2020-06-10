@@ -93,6 +93,15 @@ function getRouterConfig(app) {
           })
         },
         {
+          path: '/upgrade',
+          authority: 'admin,security',
+          component: dynamic({
+            app,
+            models: () => [],
+            component: () => import('../src/pages/Upgrade/index')
+          })
+        },
+        {
           path: '/user',
           authority: 'admin,security',
           component: dynamic({

@@ -42,11 +42,7 @@ export default class AddDrawer extends React.Component {
     this.getTemplate()
   }
 
-  /**
-   * 取模板列表 状态可用
-   *
-   * @memberof AddDrawer
-   */
+  // 取模板列表 状态可用
   getTemplate = () => {
     return poolsApi
       .getTemplate({ current: 1, size: 10000, statusIsOk: 1 })
@@ -63,11 +59,7 @@ export default class AddDrawer extends React.Component {
       })
   }
 
-  /**
-   *
-   *  添加桌面池
-   * @memberof AddDrawer
-   */
+  // 添加桌面池
   addPool = values => {
     poolsApi
       .addPool({ cpuNum: 1, ...values })

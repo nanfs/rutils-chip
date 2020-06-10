@@ -93,15 +93,6 @@ function getRouterConfig(app) {
           })
         },
         {
-          path: '/label',
-          authority: 'admin,security',
-          component: dynamic({
-            app,
-            models: () => [],
-            component: () => import('../src/pages/Label/index')
-          })
-        },
-        {
           path: '/user',
           authority: 'admin,security',
           component: dynamic({

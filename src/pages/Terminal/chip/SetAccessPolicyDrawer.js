@@ -1,9 +1,10 @@
 import React from 'react'
 import { Tablex, Formx, Drawerx, Title, Diliver } from '@/components'
 import { Tag } from 'antd'
-import { columns, apiMethod } from './AccessTableCfg'
 import terminalApi from '@/services/terminal'
+import { wrapResponse } from '@/utils/tool'
 import produce from 'immer'
+import { columns, apiMethod } from './AccessTableCfg'
 
 const { createTableCfg, TableWrap, ToolBar } = Tablex
 // 是否翻页保存数据
@@ -43,27 +44,28 @@ export default class SetSafePolicyDrawer extends React.Component {
       })
     })
     if (sns && sns.length === 1) {
-      terminalApi
-        .terminalsdetail(sns[0])
-        .then(res => {
-          const { admitPolicys } = res.data
-          const totalSelection = admitPolicys.map(
-            item => `${item.id}&${item.name}`
-          )
-          this.setState(
-            produce(draft => {
-              draft.totalSelection = totalSelection
-              draft.tableCfg = {
-                ...draft.tableCfg,
-                selection: totalSelection
-              }
-            }),
-            () => this.accessTablex.replace(this.state.tableCfg)
-          )
-        })
-        .catch(e => {
-          console.log(e)
-        })
+      terminalApi.terminalsdetail(sns[0]).then(res => {
+        wrapResponse(res)
+          .then(() => {
+            const { admitPolicys } = res.data
+            const totalSelection = admitPolicys.map(
+              item => `${item.id}&${item.name}`
+            )
+            this.setState(
+              produce(draft => {
+                draft.totalSelection = totalSelection
+                draft.tableCfg = {
+                  ...draft.tableCfg,
+                  selection: totalSelection
+                }
+              }),
+              () => this.accessTablex.replace(this.state.tableCfg)
+            )
+          })
+          .catch(e => {
+            console.log(e)
+          })
+      })
     } else {
       setTimeout(() => this.accessTablex.refresh(this.state.tableCfg), 0)
     }

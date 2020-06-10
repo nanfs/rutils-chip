@@ -11,13 +11,14 @@ import {
 import produce from 'immer'
 
 import { Tablex, Treex, InnerPath, SelectSearch } from '@/components'
+import userApi from '@/services/user'
+import { wrapResponse } from '@/utils/tool'
 
 import { columns } from './chip/TableCfg'
 import { adColumns } from './chip/AdTableCfg'
 import AddDrawer from './chip/AddDrawer'
 import DetailDrawer from './chip/DetailDrawer'
 import EditDrawer from './chip/EditDrawer'
-import userApi from '@/services/user'
 
 import './index.less'
 
@@ -142,10 +143,9 @@ export default class User extends React.Component {
   }
 
   componentDidMount = () => {
-    userApi
-      .domainlist()
-      .then(res => {
-        if (res.success) {
+    userApi.domainlist().then(res => {
+      wrapResponse(res)
+        .then(() => {
           const domainlist = res.data.map(item => {
             const obj = {}
             obj.label = item === 'internal' ? '本地组(internal)' : item
@@ -154,23 +154,18 @@ export default class User extends React.Component {
             obj.title = item
             obj.parentId = item === 'internal' ? '-1' : '-2'
             obj.type = item === 'internal' ? 'internal' : 'ad'
-
             return obj
           })
 
           this.setState({
             domainlist
           })
-        } else {
-          message.error(res?.message || '查询域失败')
-        }
-      })
-      .catch(error => {
-        message.error(error.message || error)
-        console.log(error)
-      })
+        })
+        .catch(error => message.error(error.message || error || '查询域失败'))
+    })
   }
 
+  // 表格行选中 根据选定数据判断按钮状态
   onSelectChange = (selection, selectData) => {
     let disabledButton = {}
     if (selection.length !== 1) {
@@ -220,9 +215,10 @@ export default class User extends React.Component {
       })
     }
 
-    this.setState({ disabledButton, selection, selectData })
+    this.setState({ disabledButton })
   }
 
+  // 表格onChange的回调
   onTableChange = (a, filter) => {
     console.log(filter)
     /* filter.status.forEach(function(v, i) {
@@ -242,10 +238,10 @@ export default class User extends React.Component {
       )
   }
 
+  // 列表搜索
   search = (key, value) => {
     const searchs = {}
     searchs[key] = value
-    console.log(this.state.selectedType)
     if (this.state.selectedType === 'internal') {
       this.setState(
         produce(draft => {
@@ -358,21 +354,19 @@ export default class User extends React.Component {
     )
   }
 
-  sendOrder = (id, order) => {
-    console.log('sendOrder', id, order)
-  }
-
   onBack = () => {
     this.setState({ inner: undefined })
     this.currentDrawer.drawer.hide()
   }
 
+  // 创建用户
   addUser = () => {
     this.setState({ inner: '创建用户' })
     this.addDrawer.pop()
     this.currentDrawer = this.addDrawer
   }
 
+  // 编辑用户
   editUser = (record, name) => {
     this.setState(
       { inner: name },
@@ -386,91 +380,72 @@ export default class User extends React.Component {
    * @todo 删除目前只做单个，后面加批量
    * @author linghu
    */
-  deleteUser = (id = undefined) => {
+  deleteUser = id => {
     const ids = id || this.tablex.getSelection()
     const self = this
     confirm({
       title: '确定删除所选数据?',
       onOk() {
-        return new Promise(resolve => {
-          userApi
-            .deleteUser({ userId: ids[0], domain: self.state.selectedType })
-            .then(res => {
-              if (res.success) {
+        userApi
+          .deleteUser({ userId: ids[0], domain: self.state.selectedType })
+          .then(res => {
+            wrapResponse(res)
+              .then(() => {
                 notification.success({ message: '删除成功' })
                 self.tablex.refresh(self.state.tableCfg)
-              } else {
-                message.error(res.message || '删除失败')
-              }
-              resolve()
-            })
-            .catch(error => {
-              message.error(error.message || error)
-              error.type === 'timeout' &&
-                self.tablex.refresh(self.state.tableCfg)
-              resolve()
-              console.log(error)
-            })
-        })
+              })
+              .catch(error => {
+                message.error(error.message || error)
+                error.type === 'timeout' &&
+                  self.tablex.refresh(self.state.tableCfg)
+                console.log(error)
+              })
+          })
       },
       onCancel() {}
     })
   }
 
+  // 禁用用户
   forbiddenUser = (id = undefined) => {
     const ids = id || this.tablex.getSelection()
-    userApi
-      .forbiddenUser({ userId: ids[0] })
-      .then(res => {
-        if (res.success) {
+    userApi.forbiddenUser({ userId: ids[0] }).then(res => {
+      wrapResponse(res)
+        .then(() => {
           notification.success({ message: '禁用成功' })
           this.tablex.refresh(this.state.tableCfg)
-        } else {
-          message.error(res.message || '禁用失败')
-        }
-      })
-      .catch(error => {
-        message.error(error.message || error)
-        console.log(error)
-      })
+        })
+        .catch(error => message.error(error.message || error || '禁用失败'))
+    })
   }
 
+  // 启用用户
   enableUser = (id = undefined) => {
     const ids = id || this.tablex.getSelection()
-    userApi
-      .enableUser({ userId: ids[0] })
-      .then(res => {
-        if (res.success) {
+    userApi.enableUser({ userId: ids[0] }).then(res => {
+      wrapResponse(res)
+        .then(() => {
           notification.success({ message: '启用成功' })
           this.tablex.refresh(this.state.tableCfg)
-        } else {
-          message.error(res.message || '启用失败')
-        }
-      })
-      .catch(error => {
-        message.error(error.message || error)
-        console.log(error)
-      })
+        })
+        .catch(error => message.error(error.message || error || '启用失败'))
+    })
   }
 
+  // 解锁用户
   unlockUser = (id = undefined) => {
     const ids = id || this.tablex.getSelection()
-    userApi
-      .unlockUser({ userId: ids[0] })
-      .then(res => {
-        if (res.success) {
+    userApi.unlockUser({ userId: ids[0] }).then(res => {
+      wrapResponse(res)
+        .then(() => {
           notification.success({ message: '解锁成功' })
           this.tablex.refresh(this.state.tableCfg)
-        } else {
-          message.error(res.message || '解锁失败')
-        }
-      })
-      .catch(error => {
-        message.error(error.message || error)
-        console.log(error)
-      })
+        })
+        .catch(error => message.error(error.message || error || '解锁失败'))
+    })
   }
 
+  // 用户详情
   detailUser = (username, data) => {
     this.setState({ inner: username })
     this.detailDrawer.pop(data, this?.state.selectedType)

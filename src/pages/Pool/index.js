@@ -1,11 +1,12 @@
 import React from 'react'
 import { Button, notification, Modal, message } from 'antd'
 import { Tablex, InnerPath } from '@/components'
+import { wrapResponse } from '@/utils/tool'
+import poolsApi from '@/services/pools'
 import AddDrawer from './chip/AddDrawer'
 import DetailDrawer from './chip/DetailDrawer'
 import EditDrawer from './chip/EditDrawer'
 import SetUserDrawer from './chip/SetUserDrawer'
-import poolsApi from '@/services/pools'
 import { columns, apiMethod } from './chip/TableCfg'
 import './index.less'
 
@@ -53,9 +54,7 @@ export default class Pool extends React.Component {
       columns: this.columnsArr,
       apiMethod,
       hasRowSelection: false, // 桌面池没有 多选框
-      paging: { size: 10 },
-      autoReplace: true,
-      pageSizeOptions: ['5', '10', '20', '50']
+      autoReplace: true
     }),
     innerPath: undefined,
     disabledButton: {}
@@ -67,91 +66,58 @@ export default class Pool extends React.Component {
   }
 
   onSuccess = () => {
+    this.onBack()
     this.tablex.refresh(this.state.tableCfg)
-    this.currentDrawer.drawer.hide()
-    this.setState({ inner: undefined })
   }
 
-  /**
-   *
-   * 桌面池分配用户 不支持批量
-   * @memberof Pool
-   */
+  // 桌面池分配用户 不支持批量
   setUser = (poolId, name) => {
     this.setState({ inner: name || '分配用户' }, this.setUserDrawer.pop(poolId))
     this.currentDrawer = this.setUserDrawer
   }
 
-  /**
-   *桌面池管理
-   *
-   * @memberof Pool
-   */
+  // 桌面池管理
   detailPool = (poolId, name) => {
     this.setState({ inner: name }, this.detailDrawer.pop(poolId))
     this.currentDrawer = this.detailDrawer
   }
 
-  /**
-   * 创建桌面池
-   *
-   * @memberof Pool
-   */
+  // 创建桌面池
   createPool = () => {
     this.setState({ inner: '新建池' }, this.addDrawer.pop())
     this.currentDrawer = this.addDrawer
   }
 
-  /**
-   *删除桌面池 不支持批量
-   *
-   * @memberof Pool
-   */
+  // 删除桌面池 不支持批量
   deletePool = (poolId, title = '确定删除所选数据?') => {
-    const self = this
     confirm({
       title,
-      onOk() {
-        return new Promise(resolve => {
-          poolsApi
-            .delPool(poolId)
-            .then(res => {
-              if (res.success) {
-                notification.success({ message: '删除成功' })
-                self.tablex.refresh(self.state.tableCfg)
-              } else {
-                message.error(res.message || '删除失败')
-              }
-              resolve()
+      onOk: () => {
+        poolsApi
+          .delPool(poolId)
+          .then(res =>
+            wrapResponse(res).then(() => {
+              notification.success({ message: '删除成功' })
+              this.tablex.refresh(this.state.tableCfg)
             })
-            .catch(error => {
-              message.error(error.message || error)
-              self.tablex.refresh(self.state.tableCfg)
-              console.log(error)
-              resolve()
-            })
-        })
+          )
+          .catch(error => {
+            this.tablex.refresh(this.state.tableCfg)
+            message.error(error.message || error)
+          })
       },
       onCancel() {}
     })
   }
 
-  /**
-   * 删除所有桌面后调用 重刷
-   *
-   * @memberof Pool
-   */
+  // 删除所有桌面后调用 重刷桌面池列表
   onDeleteAll = () => {
     this.setState({ inner: undefined })
     this.currentDrawer.drawer.hide()
     this.tablex.refresh(this.state.tableCfg)
   }
 
-  /**
-   *编辑池
-   *
-   * @memberof Pool
-   */
+  // 编辑池
   editPool = (poolId, name) => {
     this.setState({ inner: name }, this.editDrawer.pop(poolId))
     this.currentDrawer = this.editDrawer

@@ -39,7 +39,7 @@ export default class EditNodeModal extends React.Component {
 
   render() {
     const modalCfg = createModalCfg({ title: '修改' })
-    const { editNodeApiMethod, nodeValues } = this.props
+    const { nodeValues } = this.props
     return (
       <Modalx
         onRef={ref => {

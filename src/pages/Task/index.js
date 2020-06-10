@@ -2,7 +2,7 @@ import React from 'react'
 import { Button, message, notification, Modal } from 'antd'
 import produce from 'immer'
 
-import { Tablex, InnerPath, SelectSearch } from '@/components'
+import { Tablex, InnerPath } from '@/components'
 
 import EditDrawer from './chip/EditDrawer'
 import AddDrawer from './chip/AddDrawer'
@@ -11,7 +11,7 @@ import { columns, apiMethod } from './chip/TableCfg'
 import taskApi from '@/services/task'
 
 const { confirm } = Modal
-const { createTableCfg, TableWrap, ToolBar, BarLeft, BarRight } = Tablex
+const { createTableCfg, TableWrap, ToolBar, BarLeft } = Tablex
 export default class Task extends React.Component {
   options = {
     title: '操作',

@@ -1,54 +1,75 @@
 import React from 'react'
-import taskApi from '@/services/task'
-import { Icon, Tag } from 'antd'
-import { availableStatusRender } from '@/utils/tableRender'
+import taskApi from '@/services/terminalTask'
+import { taskTypeRender, taskStatusRender } from '@/utils/tableRender'
 
-const iconStyle = {
-  check: { color: '#17abe3' },
-  close: { color: '#ff4d4f' }
-}
-const weekCh = {
-  MON: '周一',
-  TUE: '周二',
-  WED: '周三',
-  THU: '周四',
-  FRI: '周五',
-  SAT: '周六',
-  SUN: '周日'
-}
 export const columns = [
   {
     title: () => <span title="任务类型">任务类型</span>,
-    dataIndex: 'name'
+    dataIndex: 'taskType',
+    filters: [
+      {
+        text: '锁定',
+        value: [0]
+      },
+      {
+        text: '解锁',
+        value: [1]
+      },
+      {
+        text: '关机',
+        value: [2]
+      },
+      {
+        text: '重启',
+        value: [3]
+      },
+      {
+        text: '断网',
+        value: [4]
+      },
+      {
+        text: '发送消息',
+        value: [5]
+      },
+      {
+        text: '设置准入策略',
+        value: [6]
+      },
+      {
+        text: '升级',
+        value: [7]
+      },
+      {
+        text: '准入超时',
+        value: [8]
+      },
+      {
+        text: '编辑终端',
+        value: [9]
+      }
+    ],
+    render: text => taskTypeRender(text)
   },
   {
     title: () => <span title="生成时间">生成时间</span>,
-    dataIndex: 'name'
+    dataIndex: 'createTime'
   },
   {
-    title: () => <span title="结束时间">结束时间</span>,
-    dataIndex: 'name'
+    title: () => <span title="执行时间">执行时间</span>,
+    dataIndex: 'thisRunTime'
   },
   {
-    title: () => <span title="执行次数">执行次数</span>,
-    dataIndex: 'name'
+    title: () => <span title="失败次数">失败次数</span>,
+    dataIndex: 'faildNum'
   },
   {
     title: () => <span title="执行状态">执行状态</span>,
     dataIndex: 'status',
-    render: text => (
-      <span className="table-action">
-        {text !== 0 ? (
-          availableStatusRender('启用')
-        ) : (
-          <Icon type="stop" style={iconStyle.close} title="停用" />
-        )}
-      </span>
-    )
+    render: text => taskStatusRender(text)
   },
   {
     title: () => <span title="信息反馈">信息反馈</span>,
-    dataIndex: 'name'
+    dataIndex: 'message'
   }
 ]
 export const apiMethod = taskApi.list

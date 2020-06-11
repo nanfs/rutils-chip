@@ -4,7 +4,7 @@ import produce from 'immer'
 
 import { Tablex, InnerPath, SelectSearch } from '@/components'
 import { columns, apiMethod } from './chip/TableCfg'
-import taskApi from '@/services/task'
+import taskApi from '@/services/terminalTask'
 
 const { confirm } = Modal
 const { createTableCfg, TableWrap, ToolBar, BarLeft, BarRight } = Tablex
@@ -43,22 +43,17 @@ export default class Task extends React.Component {
    * @description 表格onChange的回调
    */
   onTableChange = (a, filter) => {
-    const statusList = []
-    filter.status &&
-      filter.status.forEach(function(v, i) {
-        statusList.push(...v)
+    const taskTypeList = []
+    filter.taskType &&
+      filter.taskType.forEach(function(v, i) {
+        taskTypeList.push(...v)
       })
-    const isRegList = []
-    filter.isReg &&
-      filter.isReg.forEach(function(v, i) {
-        isRegList.push(...v)
-      })
+    console.log(taskTypeList)
     this.setState(
       produce(draft => {
         draft.tableCfg.searchs = {
           ...draft.tableCfg.searchs,
-          status: statusList,
-          isReg: isRegList
+          taskTypes: taskTypeList
         }
       }),
       () => this.tablex.search(this.state.tableCfg)
@@ -75,8 +70,7 @@ export default class Task extends React.Component {
     this.setState(
       produce(draft => {
         draft.tableCfg.searchs = {
-          status: draft.tableCfg.searchs.status,
-          isReg: draft.tableCfg.searchs.isReg,
+          taskTypes: draft.tableCfg.searchs.taskTypes,
           ...searchs
         }
       }),

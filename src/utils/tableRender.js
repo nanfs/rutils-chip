@@ -298,3 +298,56 @@ export function availableStatusRender(text) {
     />
   )
 }
+
+// 终端任务 任务类型显示
+export function taskTypeRender(text) {
+  const typeList = {
+    '0': '锁定',
+    '1': '解锁',
+    '2': '关机',
+    '3': '重启',
+    '4': '断网',
+    '5': '发送消息',
+    '6': '设置准入策略',
+    '7': '升级',
+    '8': '准入超时',
+    '9': '编辑终端'
+  }
+  return typeList[text]
+}
+
+// 终端任务 执行状态显示
+const iconStyle = {
+  2: { color: '#17abe3' },
+  3: { color: '#ff4d4f' }
+}
+const typeTextList = {
+  0: '未执行',
+  1: '执行中',
+  2: '执行成功',
+  3: '执行失败'
+}
+export const taskStatusRender = text => {
+  const typeList = {
+    0: 'shalou',
+    1: 'shalou-copy',
+    2: 'check-circle',
+    3: 'close-circle'
+  }
+  if (text === 2 || text === 3) {
+    return (
+      <span title={typeTextList[text]} style={{ fontSize: '18px' }}>
+        <Icon type={typeList[text]} style={iconStyle[text]} />
+      </span>
+    )
+  } else {
+    return (
+      <MyIcon
+        type={typeList[text] || 'shalou'}
+        title={typeTextList[text] || 'null'}
+        component="svg"
+        style={{ fontSize: '26px', marginLeft: '-6px' }}
+      />
+    )
+  }
+}

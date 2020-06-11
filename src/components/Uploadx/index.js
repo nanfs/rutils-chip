@@ -4,16 +4,22 @@ import './index.less'
 
 export default class Uploadx extends React.Component {
   state = {
-    fileList: []
+    fileList: [],
+    inputValue: ''
+  }
+
+  componentDidMount() {
+    this.props.onRef && this.props.onRef(this)
   }
 
   componentDidUpdate(prep) {
-    if (this.props.value !== prep.value) {
-      this.setState({ value: this.props.value })
+    if (this.props.inputValue !== prep.inputValue) {
+      this.setState({ inputValue: this.props.inputValue })
     }
   }
 
   handleChange = info => {
+    const { fileChange } = this.props
     let fileList = [...info.fileList]
 
     // 1. Limit the number of uploaded files
@@ -25,19 +31,30 @@ export default class Uploadx extends React.Component {
         // Component will show file.url as link
         file.url = file.response.url
       }
-      if (file.status === 'done') {
-        message.success(`${file.name} 上传成功`)
-        this.setState({ value: file.name })
-      } else if (file.status === 'error') {
-        message.error(`${file.name} 上传失败`)
-      }
+      this.setState({ inputValue: file.name })
       return file
     })
 
     this.setState({ fileList })
+    fileChange && fileChange(fileList)
   }
 
-  renderOptions = () => {
+  beforeUpload = (file, fileList) => {
+    const { fileChange } = this.props
+    this.setState({
+      fileList: [file],
+      inputValue: file.name
+    })
+    fileChange && fileChange(fileList.slice(-1))
+    return false
+  }
+
+  reset = () => {
+    debugger
+    this.setState({ inputValue: '' })
+  }
+
+  renderUpload = () => {
     const { action } = this.props
     return (
       <Upload
@@ -46,7 +63,8 @@ export default class Uploadx extends React.Component {
         name="files"
         fileList={this.state.fileList}
         action={action}
-        onChange={this.handleChange}
+        // onChange={this.handleChange}
+        beforeUpload={this.beforeUpload}
       >
         <Button>浏览文件</Button>
       </Upload>
@@ -56,21 +74,17 @@ export default class Uploadx extends React.Component {
   render() {
     const { hasInput } = this.props
     return (
-      <React.Fragment>
-        <Row>
-          {hasInput && (
-            <Col span={18}>
-              <Input
-                style={{ display: 'inline-block' }}
-                placeholder=""
-                disabled
-                value={this.state?.value}
-              />
-            </Col>
-          )}
-          <Col span={6}>{this.renderOptions()}</Col>
-        </Row>
-      </React.Fragment>
+      <Row>
+        <Col span={18} hidden={!hasInput}>
+          <Input
+            style={{ display: 'inline-block' }}
+            placeholder=""
+            disabled
+            value={this.state?.inputValue}
+          />
+        </Col>
+        <Col span={6}>{this.renderUpload()}</Col>
+      </Row>
     )
   }
 }

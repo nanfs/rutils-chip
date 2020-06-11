@@ -38,7 +38,6 @@ export default class Upgrade extends React.Component {
       apiMethod,
       paging: { size: 10 },
       pageSizeOptions: ['5', '10', '20', '50'],
-      autoReplace: true,
       autoCallback: (selection, selectData) => {
         this.checkOptionsDisable(selection, selectData)
       }

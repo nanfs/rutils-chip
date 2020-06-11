@@ -53,15 +53,15 @@ const menu = [
     authority: 'admin,security'
   },
   {
-    title: '升级包管理',
-    icon: 'usb',
-    path: '/upgrade',
-    authority: 'admin,security'
-  },
-  {
     title: '准入控制',
     icon: 'login',
     path: '/access',
+    authority: 'admin,security'
+  },
+  {
+    title: '升级包管理',
+    icon: 'usb',
+    path: '/upgrade',
     authority: 'admin,security'
   },
   {

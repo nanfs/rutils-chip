@@ -4,7 +4,7 @@ import axios from './axios'
 export default {
   list(data) {
     return axios({
-      url: '/upgrades',
+      url: '/packages',
       method: 'get',
       params: data,
       paramsSerializer: params => {
@@ -12,23 +12,30 @@ export default {
       }
     })
   },
-  editUpgrade(id, data) {
+  addUpgrade(data) {
+    const requestData = new FormData()
+    Object.keys(data).forEach(key => {
+      requestData.append(key, data[key])
+    })
     return axios({
-      url: `/upgrades/${id}`,
-      method: 'put',
-      data: qs.stringify(data)
+      url: `/packages`,
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      },
+      method: 'post',
+      data: requestData
     })
   },
   deleteUpgrade(data) {
     return axios({
-      url: '/upgrades',
+      url: '/packages',
       method: 'delete',
       data: qs.stringify(data)
     })
   },
   upgradesdetail(sn, data) {
     return axios({
-      url: `/upgrades/${sn}`,
+      url: `/packages/${sn}`,
       method: 'get',
       params: data
     })

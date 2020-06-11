@@ -298,3 +298,30 @@ export function availableStatusRender(text) {
     />
   )
 }
+
+// 升级包类型
+export const packageTypeRender = type => {
+  const typeList = {
+    0: '系统',
+    1: '软件'
+  }
+  return <span>{typeList[type]}</span>
+}
+
+// 升级类型
+export const upgradeTypeRender = type => {
+  const typeList = {
+    0: '增量',
+    1: '全量'
+  }
+  return <span>{typeList[type]}</span>
+}
+
+// 升级类型
+export const priorityLevel = type => {
+  const typeList = {
+    0: '非强制',
+    1: '强制'
+  }
+  return <span>{typeList[type]}</span>
+}

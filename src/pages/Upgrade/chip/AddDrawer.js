@@ -1,13 +1,17 @@
 import React from 'react'
 import { Form, Input, Upload, Button } from 'antd'
 import { Drawerx, Formx, Radiox, Title, Uploadx } from '@/components'
-
-import userApi from '@/services/user'
 import { required, checkName } from '@/utils/valid'
+
+import upgrade from '@/services/upgrade'
 
 const { TextArea } = Input
 
 export default class AddDrawer extends React.Component {
+  state = {
+    fileList: []
+  }
+
   componentDidMount() {
     this.props.onRef && this.props.onRef(this)
   }
@@ -17,15 +21,19 @@ export default class AddDrawer extends React.Component {
   }
 
   addUpgrade = values => {
-    const { password, ...rest } = values
-    userApi
-      .addUpgrade({ ...rest })
+    console.log(this.state.file)
+    upgrade
+      .addUpgrade({ ...values, file: this.state.file })
       .then(res => {
         this.drawer.afterSubmit(res)
       })
       .catch(errors => {
         this.drawer.break(errors)
       })
+  }
+
+  fileChange = fileList => {
+    this.setState({ file: fileList[0] })
   }
 
   render() {
@@ -45,6 +53,7 @@ export default class AddDrawer extends React.Component {
           onRef={ref => {
             this.form = ref
           }}
+          encType="multipart/form-data"
         >
           <Title slot="基础设置"></Title>
           <Form.Item prop="name" label="升级包名称" required rules={[required]}>
@@ -54,39 +63,42 @@ export default class AddDrawer extends React.Component {
             prop="package"
             label="上传升级包"
             required
-            rules={[required]}
+            // rules={[required]}
           >
             <Uploadx
               hasInput
-              action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+              action=""
+              inputValue=""
+              fileChange={this.fileChange}
             />
           </Form.Item>
-          <Form.Item prop="priority" required label="优先级">
+          <Form.Item prop="priorityLevel" required label="优先级">
             <Radiox
               options={[
                 { label: '强制', value: '1' },
-                { label: '非强制', value: '2' }
+                { label: '非强制', value: '0' }
               ]}
             />
           </Form.Item>
-          <Form.Item prop="terminalType" required label="终端型号">
-            <Radiox
+          <Form.Item prop="model" required label="终端型号">
+            {/* <Radiox
               options={[
-                { label: '强制', value: '1' },
-                { label: '非强制', value: '2' }
+                { label: '非强制', value: '0' },
+                { label: '强制', value: '1' }
               ]}
-            />
+            /> */}
+            <Input placeholder="终端型号" />
           </Form.Item>
-          <Form.Item prop="type" required label="升级包类型">
+          <Form.Item prop="packageType" required label="升级包类型">
             <Radiox
               options={[
                 { label: '全量', value: '1' },
-                { label: '增量', value: '2' }
+                { label: '增量', value: '0' }
               ]}
             />
           </Form.Item>
           <Form.Item
-            prop="vision"
+            prop="version"
             label="升级包版本"
             required
             rules={[required]}

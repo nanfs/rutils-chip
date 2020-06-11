@@ -162,7 +162,7 @@ export default class Topology extends React.Component {
                 labelCfg: {
                   position: 'right',
                   style: {
-                    fontSize: 10
+                    fontSize: 14
                   }
                 }
               },
@@ -283,7 +283,7 @@ export default class Topology extends React.Component {
                           return 70
                         },
                         getHGap: function getHGap() {
-                          return 70
+                          return 60
                         },
                         radial: true
                       }

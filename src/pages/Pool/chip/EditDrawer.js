@@ -3,7 +3,13 @@ import { Form, Input, InputNumber, message } from 'antd'
 import { Drawerx, Formx, Title, Radiox } from '@/components'
 import { managerTypeOptions } from '@/utils/formOptions'
 import poolsApi from '@/services/pools'
-import { required, checkName, lessThanValue, isInt } from '@/utils/valid'
+import {
+  required,
+  checkName,
+  lessThanValue,
+  moreThanValue,
+  isInt
+} from '@/utils/valid'
 
 const { TextArea } = Input
 
@@ -76,32 +82,35 @@ export default class EditDrawer extends React.Component {
             <Input placeholder="桌面池名称" disabled />
           </Form.Item>
           <Form.Item label="模板">{this.state?.templateName}</Form.Item>
-          <Form.Item prop="templateId" label="模板id" hidden>
+          <Form.Item prop="templateId" required label="模板id" hidden>
             <Input placeholder="模板" />
           </Form.Item>
-          <Form.Item prop="managerType" label="管理类型">
+          <Form.Item prop="managerType" required label="管理类型">
             <Radiox options={managerTypeOptions} disabled />
           </Form.Item>
           <Form.Item
             prop="desktopNum"
             label="增加数量"
-            rules={[lessThanValue(20), isInt]}
+            required
+            rules={[required, lessThanValue(20), isInt]}
           >
             <InputNumber placeholder="" min={0} max={20} />
           </Form.Item>
           <Form.Item
             prop="prestartNum"
             label="预启动数量"
-            rules={[this.compareTotal, isInt]}
+            required
+            rules={[required, this.compareTotal, isInt]}
           >
             <InputNumber placeholder="" min={0} />
           </Form.Item>
           <Form.Item
             prop="maxAssignedVmsPerUser"
             label="用户最大虚拟机数"
-            rules={[this.compareTotal, isInt]}
+            required
+            rules={[required, this.compareTotal, isInt, moreThanValue(1)]}
           >
-            <InputNumber placeholder="" min={0} />
+            <InputNumber placeholder="" min={1} />
           </Form.Item>
           <Form.Item prop="description" label="描述">
             <TextArea placeholder="描述" />

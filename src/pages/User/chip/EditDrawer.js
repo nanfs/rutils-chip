@@ -97,7 +97,7 @@ export default class editDrawer extends React.Component {
             prop="lastname"
             label="姓"
             required
-            rules={[required, checkName, textRange(0, 29)]}
+            rules={[required, textRange(0, 29), checkName]}
           >
             <Input placeholder="姓" />
           </Form.Item>
@@ -105,7 +105,7 @@ export default class editDrawer extends React.Component {
             prop="firstname"
             label="名"
             required
-            rules={[required, checkName, textRange(0, 28)]}
+            rules={[required, textRange(0, 28), checkName]}
           >
             <Input placeholder="名" />
           </Form.Item>

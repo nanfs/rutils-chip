@@ -1,14 +1,13 @@
 import React from 'react'
 import { Button, message, notification, Modal } from 'antd'
 import produce from 'immer'
-
 import { Tablex, InnerPath } from '@/components'
-
 import EditDrawer from './chip/EditDrawer'
 import AddDrawer from './chip/AddDrawer'
 import DetailDrawer from './chip/DetailDrawer'
 import { columns, apiMethod } from './chip/TableCfg'
 import taskApi from '@/services/task'
+import { wrapResponse } from '@/utils/tool'
 
 const { confirm } = Modal
 const { createTableCfg, TableWrap, ToolBar, BarLeft } = Tablex
@@ -165,12 +164,10 @@ export default class Task extends React.Component {
     taskApi
       .admitTask({ taskIds: ids })
       .then(res => {
-        if (res.success) {
+        wrapResponse(res).then(() => {
           notification.success({ message: '操作成功' })
           this.tablex.refresh(this.state.tableCfg)
-        } else {
-          message.error(res.message || '操作失败')
-        }
+        })
       })
       .catch(errors => {
         console.log(errors)
@@ -186,12 +183,10 @@ export default class Task extends React.Component {
     taskApi
       .forbidTask({ taskIds: ids })
       .then(res => {
-        if (res.success) {
+        wrapResponse(res).then(() => {
           notification.success({ message: '操作成功' })
           this.tablex.refresh(this.state.tableCfg)
-        } else {
-          message.error(res.message || '操作失败')
-        }
+        })
       })
       .catch(errors => {
         console.log(errors)
@@ -220,26 +215,18 @@ export default class Task extends React.Component {
     confirm({
       title: '确定删除所选数据?',
       onOk() {
-        return new Promise((resolve, reject) => {
-          taskApi
-            .deleteTask({ taskIds: ids })
-            .then(res => {
-              if (res.success) {
-                notification.success({ message: '删除成功' })
-                self.tablex.refresh(self.state.tableCfg)
-              } else {
-                message.error(res.message || '删除失败')
-              }
-              resolve()
+        taskApi
+          .deleteTask({ taskIds: ids })
+          .then(res => {
+            wrapResponse(res).then(() => {
+              notification.success({ message: '删除成功' })
+              self.tablex.refresh(self.state.tableCfg)
             })
-            .catch(error => {
-              message.error(error.message || error)
-              error.type === 'timeout' &&
-                self.tablex.refresh(self.state.tableCfg)
-              resolve()
-              console.log(error)
-            })
-        })
+          })
+          .catch(error => {
+            message.error(error.message || error)
+            error.type === 'timeout' && self.tablex.refresh(self.state.tableCfg)
+          })
       },
       onCancel() {}
     })

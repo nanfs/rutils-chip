@@ -80,7 +80,7 @@ export default class AddDrawer extends React.Component {
             prop="lastname"
             label="姓"
             required
-            rules={[required, checkName, textRange(0, 29)]}
+            rules={[required, textRange(0, 29), checkName]}
           >
             <Input placeholder="姓" />
           </Form.Item>
@@ -88,7 +88,7 @@ export default class AddDrawer extends React.Component {
             prop="firstname"
             label="名"
             required
-            rules={[required, checkName, textRange(0, 28)]}
+            rules={[required, textRange(0, 28), checkName]}
           >
             <Input placeholder="名" />
           </Form.Item>
@@ -96,7 +96,7 @@ export default class AddDrawer extends React.Component {
             prop="username"
             label="用户名"
             required
-            rules={[required, textRange(0, 20)]}
+            rules={[required, checkName, textRange(0, 20)]}
           >
             <Input placeholder="用户名" />
           </Form.Item>

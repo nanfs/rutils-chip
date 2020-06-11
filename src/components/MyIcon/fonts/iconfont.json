@@ -6,6 +6,20 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "2494562",
+      "name": "系统",
+      "font_class": "xitong",
+      "unicode": "e641",
+      "unicode_decimal": 58945
+    },
+    {
+      "icon_id": "12728066",
+      "name": "空",
+      "font_class": "kong",
+      "unicode": "e72e",
+      "unicode_decimal": 59182
+    },
+    {
       "icon_id": "14062967",
       "name": "other",
       "font_class": "os-other",
@@ -32,6 +46,13 @@
       "font_class": "shalou",
       "unicode": "e605",
       "unicode_decimal": 58885
+    },
+    {
+      "icon_id": "15281071",
+      "name": "沙漏",
+      "font_class": "shalou-copy",
+      "unicode": "ea68",
+      "unicode_decimal": 60008
     },
     {
       "icon_id": "9454026",

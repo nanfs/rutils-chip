@@ -3,7 +3,13 @@ import systemsApi from '@/services/systems'
 import { Formx, Modalx } from '@/components'
 import { Form, InputNumber, Input } from 'antd'
 import './index.less'
-import { lessThanValue, moreThanValue, isInt } from '@/utils/valid'
+import {
+  required,
+  lessThanValue,
+  moreThanValue,
+  isInt,
+  checkPassword
+} from '@/utils/valid'
 import encrypt from '@/utils/encrypt'
 
 const { createModalCfg } = Modalx
@@ -70,19 +76,23 @@ export default class ConfigModal extends React.Component {
           <Form.Item
             prop="userLoginFailMaxTimes"
             label="登录失败最大次数(次)"
-            rules={[lessThanValue(10), moreThanValue(1), isInt]}
+            rules={[required, lessThanValue(10), moreThanValue(1), isInt]}
           >
             <InputNumber min={1} style={{ width: '100%' }} max={10} />
           </Form.Item>
           <Form.Item
             prop="userLoginFailLockTimeThreshold"
             label="登录失败锁定时间(分钟)"
-            rules={[lessThanValue(60), moreThanValue(1), isInt]}
+            rules={[required, lessThanValue(60), moreThanValue(1), isInt]}
           >
             <InputNumber min={1} style={{ width: '100%' }} max={60} />
           </Form.Item>
 
-          <Form.Item prop="tcAdministratorWord" label="终端管理员密码">
+          <Form.Item
+            prop="tcAdministratorWord"
+            label="终端管理员密码"
+            rules={[required, checkPassword]}
+          >
             <Input placeholder="终端管理员密码" type="password" />
           </Form.Item>
         </Formx>

@@ -19,379 +19,6 @@ import vmRunningImg from '@/assets/topology/vm-running.png'
 
 import '../index.less'
 
-const cloudPlatformData = {
-  id: 'root',
-  img: cloudPlatformImg
-}
-
-const datacenterData = [
-  {
-    id: 'center1',
-    label: '数据中心1',
-    parentId: 'root'
-  },
-  {
-    id: 'center2',
-    label: '数据中心2',
-    parentId: 'root'
-  }
-]
-
-const clusterData = [
-  {
-    id: 'cluster1',
-    label: '集群1',
-    parentId: 'center1'
-  },
-  {
-    id: 'cluster2',
-    label: '集群2',
-    parentId: 'center1'
-  },
-  {
-    id: 'cluster3',
-    label: '集群3',
-    parentId: 'center2'
-  },
-  {
-    id: 'cluster4',
-    label: '集群4',
-    parentId: 'center2'
-  }
-]
-
-const hostData = [
-  {
-    id: 'host1',
-    label: '主机1',
-    parentId: 'cluster1'
-  },
-  {
-    id: 'host2',
-    label: '主机2',
-    parentId: 'cluster2'
-  }
-]
-
-const vmData = [
-  {
-    id: 'vm1',
-    label: '虚拟机1',
-    hostId: 'host1'
-  },
-  {
-    id: 'vm1',
-    label: '虚拟机1',
-    hostId: 'host1'
-  },
-  {
-    id: 'vm1',
-    label: '虚拟机1',
-    hostId: 'host1'
-  },
-  {
-    id: 'vm1',
-    label: '虚拟机1',
-    hostId: 'host1'
-  },
-  {
-    id: 'vm1',
-    label: '虚拟机1',
-    hostId: 'host1'
-  },
-  {
-    id: 'vm1',
-    label: '虚拟机1',
-    hostId: 'host1'
-  },
-  {
-    id: 'vm1',
-    label: '虚拟机1',
-    hostId: 'host1'
-  },
-  {
-    id: 'vm1',
-    label: '虚拟机1',
-    hostId: 'host1'
-  },
-  {
-    id: 'vm1',
-    label: '虚拟机1',
-    hostId: 'host1'
-  },
-  {
-    id: 'vm1',
-    label: '虚拟机1',
-    hostId: 'host1'
-  },
-  {
-    id: 'vm1',
-    label: '虚拟机1',
-    hostId: 'host1'
-  },
-  {
-    id: 'vm1',
-    label: '虚拟机1',
-    hostId: 'host1'
-  },
-  {
-    id: 'vm1',
-    label: '虚拟机1',
-    hostId: 'host1'
-  },
-  {
-    id: 'vm1',
-    label: '虚拟机1',
-    hostId: 'host1'
-  },
-  {
-    id: 'vm1',
-    label: '虚拟机1',
-    hostId: 'host1'
-  },
-  {
-    id: 'vm1',
-    label: '虚拟机1',
-    hostId: 'host1'
-  },
-  {
-    id: 'vm1',
-    label: '虚拟机1',
-    hostId: 'host1'
-  },
-  {
-    id: 'vm1',
-    label: '虚拟机1',
-    hostId: 'host1'
-  },
-  {
-    id: 'vm1',
-    label: '虚拟机1',
-    hostId: 'host1'
-  },
-  {
-    id: 'vm1',
-    label: '虚拟机1',
-    hostId: 'host1'
-  },
-  {
-    id: 'vm1',
-    label: '虚拟机1',
-    hostId: 'host1'
-  },
-  {
-    id: 'vm1',
-    label: '虚拟机1',
-    hostId: 'host1'
-  },
-  {
-    id: 'vm1',
-    label: '虚拟机1',
-    hostId: 'host1'
-  },
-  {
-    id: 'vm1',
-    label: '虚拟机1',
-    hostId: 'host1'
-  },
-  {
-    id: 'vm1',
-    label: '虚拟机1',
-    hostId: 'host1'
-  },
-  {
-    id: 'vm1',
-    label: '虚拟机1',
-    hostId: 'host1'
-  },
-  {
-    id: 'vm1',
-    label: '虚拟机1',
-    hostId: 'host1'
-  },
-  {
-    id: 'vm1',
-    label: '虚拟机1',
-    hostId: 'host1'
-  },
-  {
-    id: 'vm1',
-    label: '虚拟机1',
-    hostId: 'host1'
-  },
-  {
-    id: 'vm1',
-    label: '虚拟机1',
-    hostId: 'host1'
-  },
-  {
-    id: 'vm1',
-    label: '虚拟机1',
-    hostId: 'host1'
-  },
-  {
-    id: 'vm1',
-    label: '虚拟机1',
-    hostId: 'host1'
-  },
-  {
-    id: 'vm1',
-    label: '虚拟机1',
-    hostId: 'host1'
-  },
-  {
-    id: 'vm1',
-    label: '虚拟机1',
-    hostId: 'host1'
-  },
-  {
-    id: 'vm1',
-    label: '虚拟机1',
-    hostId: 'host1'
-  },
-  {
-    id: 'vm2',
-    label: '虚拟机2',
-    hostId: '',
-    clusterId: 'cluster1'
-  },
-  {
-    id: 'vm3',
-    label: '虚拟机3',
-    hostId: 'host2'
-  },
-  {
-    id: 'vm4',
-    label: '虚拟机4',
-    hostId: 'host1'
-  },
-  {
-    id: 'vm5',
-    label: '虚拟机5',
-    hostId: 'host1'
-  },
-  {
-    id: 'vm6',
-    label: '虚拟机6',
-    hostId: 'host1'
-  },
-  {
-    id: 'vm7',
-    label: '虚拟机7',
-    hostId: '',
-    clusterId: 'cluster3'
-  },
-  {
-    id: 'vm8',
-    label: '虚拟机8',
-    hostId: '',
-    clusterId: 'cluster3'
-  },
-  {
-    id: 'vm9',
-    label: '虚拟机9',
-    hostId: '',
-    clusterId: 'cluster4'
-  },
-  {
-    id: 'vm10',
-    label: '虚拟机10',
-    hostId: 'host3'
-  }
-]
-
-const edges = [
-  {
-    source: 'center1',
-    target: 'cluster1',
-    shape: 'circle-running',
-    data: {
-      source: 'center1',
-      target: 'cluster1'
-    }
-  },
-  {
-    source: 'center2',
-    target: 'cluster2',
-    data: {
-      source: 'center2',
-      target: 'cluster2'
-    }
-  },
-  {
-    source: 'center2',
-    target: 'cluster3',
-    data: {
-      source: 'center2',
-      target: 'cluster3'
-    }
-  },
-  {
-    source: 'center2',
-    target: 'cluster4',
-    data: {
-      source: 'center2',
-      target: 'cluster4'
-    }
-  },
-  {
-    source: 'cluster1',
-    target: 'host1',
-    data: {
-      source: 'cluster1',
-      target: 'host1'
-    }
-  },
-  {
-    source: 'cluster1',
-    target: 'host2',
-    data: {
-      source: 'cluster1',
-      target: 'host2'
-    }
-  },
-  {
-    source: 'cluster1',
-    target: 'host3',
-    data: {
-      source: 'cluster1',
-      target: 'host3'
-    }
-  },
-  {
-    source: 'cluster1',
-    target: 'host4',
-    data: {
-      source: 'cluster1',
-      target: 'host4'
-    }
-  },
-  {
-    source: 'cluster2',
-    target: 'host5',
-    data: {
-      source: 'cluster2',
-      target: 'host5'
-    }
-  },
-  {
-    source: 'cluster2',
-    target: 'host6',
-    data: {
-      source: 'cluster2',
-      target: 'host6'
-    }
-  },
-  {
-    source: 'cluster3',
-    target: 'host7',
-    data: {
-      source: 'cluster3',
-      target: 'host7'
-    }
-  }
-]
-
 export default class Topology extends React.Component {
   state = {
     innerPath: undefined,
@@ -399,56 +26,9 @@ export default class Topology extends React.Component {
     tooltipStyle: {}
   }
 
-  node2tree() {
-    // 给每个集群下插入一个未分配
-    clusterData.forEach(cluster => {
-      hostData.push({
-        id: `emptyHost_${cluster.id}`,
-        label: '未分配',
-        parentId: cluster.id
-      })
-    })
-
-    cloudPlatformData.children = []
-    datacenterData.forEach((datacenter, index) => {
-      datacenter.img = datacenterOnlineImg
-      if (cloudPlatformData.id === datacenter.parentId) {
-        cloudPlatformData.children.push(datacenter)
-      }
-      datacenter.children = []
-      clusterData.forEach(cluster => {
-        cluster.img = clusterOnlineImg
-        if (datacenter.id === cluster.parentId) {
-          datacenter.children.push(cluster)
-        }
-        cluster.children = []
-        hostData.forEach(host => {
-          // host.img = vmImg
-          if (cluster.id === host.parentId) {
-            cluster.children.push(host)
-          }
-          host.children = []
-          host.collapsed = true
-          vmData.forEach(vm => {
-            vm.img = vmOnImg
-            if (vm.hostId === '') {
-              vm.hostId = `emptyHost_${vm.clusterId}`
-            }
-            vm.parentId = vm.hostId
-            if (host.id === vm.parentId) {
-              host.children.push(vm)
-            }
-          })
-        })
-      })
-    })
-
-    return cloudPlatformData
-  }
-
   componentDidMount() {
     userApi
-      .queryResources()
+      .queryResources({ userId: getUserId() })
       .then(res => {
         if (res.success) {
           const nodes = res.data.map(element => {
@@ -469,7 +49,7 @@ export default class Topology extends React.Component {
               element.rank = 2
               element.img = datacenterOnlineImg
               element.nodeTypeName = '数据中心'
-              element.size = 60
+              element.size = 80
               element.labelCfg = {
                 position: 'right',
                 style: {
@@ -578,7 +158,7 @@ export default class Topology extends React.Component {
               },
               defaultNode: {
                 type: 'image',
-                size: 40,
+                size: 60,
                 labelCfg: {
                   position: 'right',
                   style: {
@@ -614,7 +194,7 @@ export default class Topology extends React.Component {
                     <div>
                       <span className="topology-tooltip-label">名称：</span>
                       <span className="topology-tooltip-value">
-                        <span>{model.label}</span>
+                        <span>{model.label || model.name}</span>
                       </span>
                       <span className="topology-tooltip-label">类型：</span>
                       <span className="topology-tooltip-value">
@@ -658,7 +238,9 @@ export default class Topology extends React.Component {
               clearTimeout(this.timer)
               const nodeItem = e.item // 获取鼠标进入的节点元素对象
               const { model } = e.item.defaultCfg
-              if (model.nodeType === 9 && !model.collapsed) {
+              if (model.nodeType === 14) {
+                return false
+              } else if (model.nodeType === 9 && !model.collapsed) {
                 resourceApi
                   .clusterVms({ id: model.id })
                   .then(response => {
@@ -676,11 +258,12 @@ export default class Topology extends React.Component {
                           id: item.id.uuid,
                           img: item.img,
                           parentId: model.id,
-                          label: item.name,
+                          name: item.name,
                           rank: 4,
                           statusName: item.statusName,
                           nodeTypeName: '虚拟机',
-                          size: [35, 30],
+                          nodeType: 14,
+                          size: [25, 20],
                           labelCfg: {
                             position: 'right',
                             style: {
@@ -694,14 +277,14 @@ export default class Topology extends React.Component {
                       // 如果是一个对象，则使用parentData.children.push(obj)
                       parentData.children = childData
                       const layout = {
-                        type: 'dendrogram',
+                        type: 'mindmap',
                         direction: 'LR', // 树布局的方向
-                        /* getVGap: function getVGap() {
+                        getVGap: function getVGap() {
                           return 70
                         },
                         getHGap: function getHGap() {
                           return 70
-                        }, */
+                        },
                         radial: true
                       }
                       graph.changeLayout(layout)

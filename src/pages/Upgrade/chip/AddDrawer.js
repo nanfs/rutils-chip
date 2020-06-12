@@ -66,7 +66,7 @@ export default class AddDrawer extends React.Component {
             prop="package"
             label="上传升级包"
             required
-            rules={[required]}
+            // rules={[required]}
           >
             <Uploadx
               hasInput

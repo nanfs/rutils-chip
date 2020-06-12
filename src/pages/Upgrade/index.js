@@ -21,8 +21,8 @@ export default class Upgrade extends React.Component {
     render: (text, record) => {
       return (
         <a
-          className="detail-link"
-          onClick={() => this.detailUpgrade(record.name, record.sn)}
+        // className="detail-link"
+        // onClick={() => this.detailUpgrade(record.name, record.sn)}
         >
           {record.name}
         </a>
@@ -139,13 +139,13 @@ export default class Upgrade extends React.Component {
   }
 
   // 删除升级包
-  deleteUpgrade = (sn, title = '确定删除所选数据?') => {
-    const sns = Array.isArray(sn) ? [...sn] : [sn]
+  deleteUpgrade = (id, title = '确定删除所选数据?') => {
+    const ids = Array.isArray(id) ? [...id] : [id]
     const self = this
     confirm({
       title,
       onOk() {
-        upgradeApi.deleteUpgrade({ sns }).then(res =>
+        upgradeApi.deleteUpgrade({ ids }).then(res =>
           wrapResponse(res)
             .then(() => {
               notification.success({ message: '删除成功' })

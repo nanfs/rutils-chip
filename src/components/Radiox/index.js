@@ -67,7 +67,8 @@ export default class Radiox extends React.Component {
       getData,
       numProps,
       disabled,
-      options
+      options,
+      showExpand
     } = this.props
     const cls = classnames(className, 'radiox', getData && 'has-fresh')
     return (
@@ -87,7 +88,7 @@ export default class Radiox extends React.Component {
             value={this.state?.value}
           />
         )}
-        {options && options.length > 8 && (
+        {showExpand && options && options.length > 8 && (
           <Button
             className="expand-btn"
             onClick={this.toggle}

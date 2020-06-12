@@ -41,12 +41,27 @@ export default class Uploadx extends React.Component {
       message.error('上传文件大小不能超过100M')
       return false
     }
+    if (file.name.split('_').length !== 3) {
+      message.error('上传文件命名格式错误')
+      return false
+    }
     this.setState({
       fileList: [file],
       value: file.name
     })
     fileChange && fileChange(fileList.slice(-1), file.name)
     return false
+  }
+
+  onUploadChange = info => {
+    if (info.file.size > 102400000) {
+      return false
+    }
+    if (info.file.name.split('_').length !== 3) {
+      return false
+    }
+    this.setState({ value: info.file.name })
+    this.props.onChange(info.file.name)
   }
 
   inputChange = e => {
@@ -64,7 +79,6 @@ export default class Uploadx extends React.Component {
             style={{ display: 'inline-block' }}
             placeholder=""
             value={this.state?.value}
-            onChange={this.inputChange}
           />
         </Col>
         <Col span={6}>
@@ -74,7 +88,7 @@ export default class Uploadx extends React.Component {
             name="files"
             fileList={this.state.fileList}
             action={action}
-            // onChange={this.handleChange}
+            onChange={this.onUploadChange}
             beforeUpload={this.beforeUpload}
           >
             <Button type="primary">浏览文件</Button>

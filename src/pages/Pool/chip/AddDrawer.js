@@ -104,6 +104,7 @@ export default class AddDrawer extends React.Component {
             wrapperCol={{ sm: { span: 16 } }}
           >
             <Radiox
+              showExpand
               getData={this.getTemplate}
               options={this.state?.templateOptions}
             />

@@ -5,16 +5,12 @@ import './index.less'
 export default class Uploadx extends React.Component {
   state = {
     fileList: [],
-    inputValue: ''
-  }
-
-  componentDidMount() {
-    this.props.onRef && this.props.onRef(this)
+    value: ''
   }
 
   componentDidUpdate(prep) {
-    if (this.props.inputValue !== prep.inputValue) {
-      this.setState({ inputValue: this.props.inputValue })
+    if (this.props.value !== prep.value) {
+      this.setState({ value: this.props.value })
     }
   }
 
@@ -31,7 +27,7 @@ export default class Uploadx extends React.Component {
         // Component will show file.url as link
         file.url = file.response.url
       }
-      this.setState({ inputValue: file.name })
+      this.setState({ value: file.name })
       return file
     })
 
@@ -41,49 +37,49 @@ export default class Uploadx extends React.Component {
 
   beforeUpload = (file, fileList) => {
     const { fileChange } = this.props
+    if (file.size > 102400000) {
+      message.error('上传文件大小不能超过100M')
+      return false
+    }
     this.setState({
       fileList: [file],
-      inputValue: file.name
+      value: file.name
     })
-    fileChange && fileChange(fileList.slice(-1))
+    fileChange && fileChange(fileList.slice(-1), file.name)
     return false
   }
 
-  reset = () => {
-    debugger
-    this.setState({ inputValue: '' })
-  }
-
-  renderUpload = () => {
-    const { action } = this.props
-    return (
-      <Upload
-        className="uploadx"
-        style={{ display: 'inline-block' }}
-        name="files"
-        fileList={this.state.fileList}
-        action={action}
-        // onChange={this.handleChange}
-        beforeUpload={this.beforeUpload}
-      >
-        <Button>浏览文件</Button>
-      </Upload>
-    )
+  inputChange = e => {
+    const { fileNameChange } = this.props
+    this.setState({ value: e.target.value })
+    fileNameChange && fileNameChange(e.target.value)
   }
 
   render() {
-    const { hasInput } = this.props
+    const { action, hasInput } = this.props
     return (
       <Row>
         <Col span={18} hidden={!hasInput}>
           <Input
             style={{ display: 'inline-block' }}
             placeholder=""
-            disabled
-            value={this.state?.inputValue}
+            value={this.state?.value}
+            onChange={this.inputChange}
           />
         </Col>
-        <Col span={6}>{this.renderUpload()}</Col>
+        <Col span={6}>
+          <Upload
+            className="uploadx"
+            style={{ display: 'inline-block' }}
+            name="files"
+            fileList={this.state.fileList}
+            action={action}
+            // onChange={this.handleChange}
+            beforeUpload={this.beforeUpload}
+          >
+            <Button type="primary">浏览文件</Button>
+          </Upload>
+        </Col>
       </Row>
     )
   }

@@ -23,7 +23,7 @@ export default class AddDrawer extends React.Component {
   addUpgrade = values => {
     console.log(this.state.file)
     upgrade
-      .addUpgrade({ ...values, file: this.state.file })
+      .addUpgrade({ ...values, file: this.state.file, name: this.state.name })
       .then(res => {
         this.drawer.afterSubmit(res)
       })
@@ -32,8 +32,12 @@ export default class AddDrawer extends React.Component {
       })
   }
 
-  fileChange = fileList => {
-    this.setState({ file: fileList[0] })
+  fileChange = (fileList, name) => {
+    this.setState({ file: fileList[0], name })
+  }
+
+  fileNameChange = name => {
+    this.setState({ name })
   }
 
   render() {
@@ -53,30 +57,29 @@ export default class AddDrawer extends React.Component {
           onRef={ref => {
             this.form = ref
           }}
-          encType="multipart/form-data"
         >
           <Title slot="基础设置"></Title>
-          <Form.Item prop="name" label="升级包名称" required rules={[required]}>
+          {/* <Form.Item prop="name" label="升级包名称" required rules={[required]}>
             <Input placeholder="升级包名称" />
-          </Form.Item>
+          </Form.Item> */}
           <Form.Item
             prop="package"
             label="上传升级包"
             required
-            // rules={[required]}
+            rules={[required]}
           >
             <Uploadx
               hasInput
               action=""
-              inputValue=""
               fileChange={this.fileChange}
+              fileNameChange={this.fileNameChange}
             />
           </Form.Item>
           <Form.Item prop="priorityLevel" required label="优先级">
             <Radiox
               options={[
-                { label: '强制', value: '1' },
-                { label: '非强制', value: '0' }
+                { label: '非强制', value: '0' },
+                { label: '强制', value: '1', disabled: true }
               ]}
             />
           </Form.Item>
@@ -93,7 +96,7 @@ export default class AddDrawer extends React.Component {
             <Radiox
               options={[
                 { label: '全量', value: '1' },
-                { label: '增量', value: '0' }
+                { label: '增量', value: '0', disabled: true }
               ]}
             />
           </Form.Item>

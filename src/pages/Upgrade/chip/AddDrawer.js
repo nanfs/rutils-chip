@@ -18,6 +18,10 @@ export default class AddDrawer extends React.Component {
 
   pop = () => {
     this.drawer.show()
+    this.drawer.form.setFieldsValue({
+      priorityLevel: '0',
+      packageType: '1'
+    })
   }
 
   addUpgrade = values => {
@@ -34,12 +38,19 @@ export default class AddDrawer extends React.Component {
 
   fileChange = (fileList, name) => {
     this.setState({ file: fileList[0], name })
-    /* this.drawer.form.setFieldsValue({
+    this.drawer.form.setFieldsValue({
       model: name.split('_')[1],
-      version: name.split('_')[2].split('.')[
-        (0, name.split('_')[2].split('.').length)
-      ]
-    }) */
+      version: name
+        .split('_')[2]
+        .substring(
+          0,
+          name.split('_')[2].length -
+            name.split('_')[2].split('.')[
+              name.split('_')[2].split('.').length - 1
+            ].length -
+            1
+        )
+    })
   }
 
   fileNameChange = name => {

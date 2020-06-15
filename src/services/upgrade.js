@@ -15,7 +15,7 @@ export default {
   addUpgrade(data) {
     const requestData = new FormData()
     Object.keys(data).forEach(key => {
-      requestData.append(key, data[key])
+      if (data[key]) requestData.append(key, data[key])
     })
     return axios({
       url: `/packages`,

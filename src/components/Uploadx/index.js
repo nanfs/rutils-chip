@@ -36,12 +36,18 @@ export default class Uploadx extends React.Component {
   }
 
   beforeUpload = (file, fileList) => {
-    const { fileChange } = this.props
-    if (file.size > 102400000) {
+    const { fileChange, acceptType, maxSize, checkName } = this.props
+    if (file.size > maxSize) {
       message.error('上传文件大小不能超过100M')
       return false
     }
-    if (file.name.split('_').length !== 3) {
+    if (
+      `.${file.name.split('.')[file.name.split('.').length - 1]}` !== acceptType
+    ) {
+      message.error('上传文件格式错误')
+      return false
+    }
+    if (checkName && !checkName(file.name)) {
       message.error('上传文件命名格式错误')
       return false
     }
@@ -54,10 +60,17 @@ export default class Uploadx extends React.Component {
   }
 
   onUploadChange = info => {
-    if (info.file.size > 102400000) {
+    const { acceptType, maxSize, checkName } = this.props
+    if (info.file.size > maxSize) {
       return false
     }
-    if (info.file.name.split('_').length !== 3) {
+    if (checkName && !checkName(info.file.name)) {
+      return false
+    }
+    if (
+      info.file.name.split('.')[info.file.name.split('.').length - 2] !==
+      acceptType
+    ) {
       return false
     }
     this.setState({ value: info.file.name })
@@ -71,7 +84,7 @@ export default class Uploadx extends React.Component {
   }
 
   render() {
-    const { action, hasInput } = this.props
+    const { action, hasInput, acceptType } = this.props
     return (
       <Row>
         <Col span={18} hidden={!hasInput}>
@@ -79,6 +92,7 @@ export default class Uploadx extends React.Component {
             style={{ display: 'inline-block' }}
             placeholder=""
             value={this.state?.value}
+            disabled
           />
         </Col>
         <Col span={6}>
@@ -90,6 +104,7 @@ export default class Uploadx extends React.Component {
             action={action}
             onChange={this.onUploadChange}
             beforeUpload={this.beforeUpload}
+            accept={acceptType}
           >
             <Button type="primary">浏览文件</Button>
           </Upload>

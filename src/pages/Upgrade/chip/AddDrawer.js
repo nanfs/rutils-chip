@@ -25,7 +25,6 @@ export default class AddDrawer extends React.Component {
   }
 
   addUpgrade = values => {
-    console.log(this.state.file)
     upgrade
       .addUpgrade({ ...values, file: this.state.file, name: this.state.name })
       .then(res => {
@@ -38,17 +37,18 @@ export default class AddDrawer extends React.Component {
 
   fileChange = (fileList, name) => {
     this.setState({ file: fileList[0], name })
-    debugger
     this.drawer.form.setFieldsValue({
-      model: name.split('_')[1],
+      model: name.split('_')[2],
       version: name
-        .split('_')[2]
-        .substring(0, name.split('_')[2].lastIndexOf('.'))
+        .split('_')[3]
+        .substring(0, name.split('_')[3].lastIndexOf('.'))
     })
   }
 
-  fileNameChange = name => {
-    this.setState({ name })
+  checkName = name => {
+    if (name.split('_').length !== 4) {
+      return false
+    } else return true
   }
 
   render() {
@@ -83,7 +83,9 @@ export default class AddDrawer extends React.Component {
               hasInput
               action=""
               fileChange={this.fileChange}
-              fileNameChange={this.fileNameChange}
+              acceptType=".zip"
+              maxSize="102400000"
+              checkName={this.checkName}
             />
           </Form.Item>
           <Form.Item

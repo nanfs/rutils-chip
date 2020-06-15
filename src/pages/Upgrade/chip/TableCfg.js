@@ -31,7 +31,7 @@ export const columns = [
     ellipsis: true
   },
   {
-    title: () => <span title="终端类型">终端类型</span>,
+    title: () => <span title="终端型号">终端型号</span>,
     dataIndex: 'model'
   },
   {

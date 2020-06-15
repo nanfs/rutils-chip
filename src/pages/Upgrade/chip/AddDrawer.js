@@ -38,18 +38,12 @@ export default class AddDrawer extends React.Component {
 
   fileChange = (fileList, name) => {
     this.setState({ file: fileList[0], name })
+    debugger
     this.drawer.form.setFieldsValue({
       model: name.split('_')[1],
       version: name
         .split('_')[2]
-        .substring(
-          0,
-          name.split('_')[2].length -
-            name.split('_')[2].split('.')[
-              name.split('_')[2].split('.').length - 1
-            ].length -
-            1
-        )
+        .substring(0, name.split('_')[2].lastIndexOf('.'))
     })
   }
 

@@ -16,18 +16,17 @@ export default class Upgrade extends React.Component {
   upgradeName = {
     title: () => <span title="升级包名称">升级包名称</span>,
     dataIndex: 'name',
-
-    ellipsis: true,
-    render: (text, record) => {
+    ellipsis: true
+    /* render: (text, record) => {
       return (
         <a
-        // className="detail-link"
-        // onClick={() => this.detailUpgrade(record.name, record.sn)}
+        className="detail-link"
+        onClick={() => this.detailUpgrade(record.name, record.sn)}
         >
           {record.name}
         </a>
       )
-    }
+    } */
   }
 
   columnsArr = [this.upgradeName, ...columns]

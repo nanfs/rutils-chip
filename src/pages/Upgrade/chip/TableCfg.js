@@ -32,8 +32,11 @@ export const columns = [
   },
   {
     title: () => <span title="终端类型">终端类型</span>,
-    dataIndex: 'isReg',
-    width: 110
+    dataIndex: 'model'
+  },
+  {
+    title: () => <span title="适用的终端版本">适用的终端版本</span>,
+    dataIndex: 'upgradableVersions'
   },
   {
     title: () => <span title="上传时间">上传时间</span>,

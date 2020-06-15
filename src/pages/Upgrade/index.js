@@ -134,7 +134,7 @@ export default class Upgrade extends React.Component {
 
   // 创建升级包
   addUpgrade = () => {
-    this.setState({ inner: '新建升级包' }, this.addDrawer.pop())
+    this.setState({ inner: '上传升级包' }, this.addDrawer.pop())
     this.currentDrawer = this.addDrawer
   }
 
@@ -176,7 +176,7 @@ export default class Upgrade extends React.Component {
           <ToolBar>
             <BarLeft>
               <Button onClick={() => this.addUpgrade()} type="primary">
-                创建
+                上传
               </Button>
               <Button
                 onClick={() => this.deleteUpgrade(this.tablex.getSelection())}

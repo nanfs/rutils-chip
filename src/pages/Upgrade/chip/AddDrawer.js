@@ -83,7 +83,7 @@ export default class AddDrawer extends React.Component {
             prop="package"
             label="上传升级包"
             required
-            // rules={[required]}
+            rules={[required]}
           >
             <Uploadx
               hasInput
@@ -92,7 +92,12 @@ export default class AddDrawer extends React.Component {
               fileNameChange={this.fileNameChange}
             />
           </Form.Item>
-          <Form.Item prop="priorityLevel" required label="优先级">
+          <Form.Item
+            prop="priorityLevel"
+            required
+            label="优先级"
+            rules={[required]}
+          >
             <Radiox
               options={[
                 { label: '非强制', value: '0' },
@@ -100,7 +105,7 @@ export default class AddDrawer extends React.Component {
               ]}
             />
           </Form.Item>
-          <Form.Item prop="model" required label="终端型号">
+          <Form.Item prop="model" required label="终端型号" rules={[required]}>
             {/* <Radiox
               options={[
                 { label: '非强制', value: '0' },
@@ -109,7 +114,12 @@ export default class AddDrawer extends React.Component {
             /> */}
             <Input placeholder="终端型号" />
           </Form.Item>
-          <Form.Item prop="packageType" required label="升级包类型">
+          <Form.Item
+            prop="packageType"
+            required
+            label="升级包类型"
+            rules={[required]}
+          >
             <Radiox
               options={[
                 { label: '全量', value: '1' },

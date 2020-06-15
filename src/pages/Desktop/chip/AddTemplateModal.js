@@ -1,8 +1,8 @@
 import React from 'react'
 import { Formx, Modalx } from '@/components'
-import { Form, Input, message } from 'antd'
+import { Form, Input } from 'antd'
 import templateApi from '@/services/template'
-import { required } from '@/utils/valid'
+import { required, checkName } from '@/utils/valid'
 
 const { TextArea } = Input
 const { createModalCfg } = Modalx
@@ -43,7 +43,11 @@ export default class AddTemplateModal extends React.Component {
           <Form.Item prop="vmId" label="模板id" hidden>
             <Input />
           </Form.Item>
-          <Form.Item prop="templateName" label="模板名称" rules={[required]}>
+          <Form.Item
+            prop="templateName"
+            label="模板名称"
+            rules={[required, checkName]}
+          >
             <Input placeholder="模板名称"></Input>
           </Form.Item>
           <Form.Item prop="description" label="描述">

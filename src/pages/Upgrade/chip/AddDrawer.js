@@ -102,12 +102,6 @@ export default class AddDrawer extends React.Component {
             />
           </Form.Item>
           <Form.Item prop="model" required label="终端型号" rules={[required]}>
-            {/* <Radiox
-              options={[
-                { label: '非强制', value: '0' },
-                { label: '强制', value: '1' }
-              ]}
-            /> */}
             <Input placeholder="终端型号" />
           </Form.Item>
           <Form.Item

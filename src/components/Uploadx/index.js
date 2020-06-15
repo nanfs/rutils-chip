@@ -68,7 +68,7 @@ export default class Uploadx extends React.Component {
       return false
     }
     if (
-      info.file.name.split('.')[info.file.name.split('.').length - 2] !==
+      `.${info.file.name.split('.')[info.file.name.split('.').length - 1]}` !==
       acceptType
     ) {
       return false

@@ -86,7 +86,16 @@ export const columns = [
     dataIndex: 'location',
     ellipsis: true
   },
-
+  {
+    title: () => <span title="模板">模板</span>,
+    dataIndex: 'model',
+    ellipsis: true
+  },
+  {
+    title: () => <span title="版本信息">版本信息</span>,
+    dataIndex: 'version',
+    ellipsis: true
+  },
   {
     title: () => <span title="外设控制">外设控制</span>,
     width: 90,

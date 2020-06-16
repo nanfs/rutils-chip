@@ -14,9 +14,12 @@ export default {
   },
   deleteTask(data) {
     return axios({
-      url: '/schedulerTasks/delete',
-      method: 'post',
-      data: qs.stringify(data, { arrayFormat: 'indices', allowDots: true })
+      url: '/tasks',
+      method: 'delete',
+      params: data,
+      paramsSerializer: params => {
+        return qs.stringify(params, { arrayFormat: 'indices' })
+      }
     })
   }
 }

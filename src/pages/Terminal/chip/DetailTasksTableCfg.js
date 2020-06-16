@@ -1,53 +1,11 @@
 import React from 'react'
-import taskApi from '@/services/terminalTask'
 import { taskTypeRender, taskStatusRender } from '@/utils/tableRender'
 
-export const columns = [
+// eslint-disable-next-line import/prefer-default-export
+export const detailTasksColumns = [
   {
     title: () => <span title="任务类型">任务类型</span>,
     dataIndex: 'taskType',
-    filters: [
-      {
-        text: '锁定',
-        value: [0]
-      },
-      {
-        text: '解锁',
-        value: [1]
-      },
-      {
-        text: '关机',
-        value: [2]
-      },
-      {
-        text: '重启',
-        value: [3]
-      },
-      {
-        text: '断网',
-        value: [4]
-      },
-      {
-        text: '发送消息',
-        value: [5]
-      },
-      {
-        text: '设置准入策略',
-        value: [6]
-      },
-      {
-        text: '升级',
-        value: [7]
-      },
-      {
-        text: '准入超时',
-        value: [8]
-      },
-      {
-        text: '编辑终端',
-        value: [9]
-      }
-    ],
     render: text => taskTypeRender(text)
   },
   {
@@ -75,4 +33,3 @@ export const columns = [
     ellipsis: true
   }
 ]
-export const apiMethod = taskApi.list

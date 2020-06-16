@@ -6,6 +6,8 @@ import { detailUserColumns } from './DetailUserTableCfg'
 import { detailSafepolicyColumns } from './DetailSafepolicyTableCfg'
 import { DetailAccesspolicyColumns } from './DetailAccesspolicyTableCfg'
 import { detailUseTimeColumns } from './DetailUseTimeTableCfg'
+import { detailVersionColumns } from './DetailVersionTableCfg'
+import { detailTasksColumns } from './DetailTasksTableCfg'
 // import DetailUseStatisticsChart from './DetailUseStatisticsChart'
 
 import terminalApi from '@/services/terminal'
@@ -215,6 +217,21 @@ export default class DetailDrawer extends React.Component {
           </Row> */}
             </div>
             <div className="dms-detail-section">
+              <Title slot="版本信息"></Title>
+              <Table
+                columns={detailVersionColumns}
+                dataSource={initValues.versionHistories}
+                pagination={{
+                  size: 'small',
+                  showSizeChanger: true,
+                  defaultPageSize: 5,
+                  pageSizeOptions: ['5', '10', '20', '50']
+                }}
+                className="dms-detail-list-hasPagination"
+                rowKey="upgradeTime"
+              />
+            </div>
+            <div className="dms-detail-section">
               <Title slot="所属用户"></Title>
               <Table
                 columns={detailUserColumns}
@@ -271,6 +288,20 @@ export default class DetailDrawer extends React.Component {
           <Title slot="使用统计"></Title>
           <DetailUseStatisticsChart dataSource={initChartValue} />
         </div> */}
+          </TabPane>
+          <TabPane tab="终端任务" key="tasks">
+            <Table
+              columns={detailTasksColumns}
+              dataSource={initValues.tasks}
+              pagination={{
+                size: 'small',
+                showSizeChanger: true,
+                defaultPageSize: 5,
+                pageSizeOptions: ['5', '10', '20', '50']
+              }}
+              className="dms-detail-list-hasPagination"
+              rowKey="id"
+            />
           </TabPane>
         </Tabs>
       </Drawerx>

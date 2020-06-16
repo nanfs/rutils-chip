@@ -94,6 +94,7 @@ const webpackConfigBase = {
       {
         test: /\.(woff|eot|ttf|svg|gif)$/,
         loader: 'file-loader',
+        include: includePath,
         options: {
           limit: 8192,
           name: 'font/[name].[hash:4].[ext]'

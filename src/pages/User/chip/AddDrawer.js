@@ -96,7 +96,7 @@ export default class AddDrawer extends React.Component {
             prop="username"
             label="用户名"
             required
-            rules={[required, checkName, textRange(0, 20)]}
+            rules={[required, textRange(0, 20), checkName]}
           >
             <Input placeholder="用户名" />
           </Form.Item>

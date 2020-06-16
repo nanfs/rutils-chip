@@ -91,6 +91,14 @@ export function checkName(rule, value, callback) {
   callback()
 }
 
+export function nameReg(rule, value, callback) {
+  const re = new RegExp('^[\u4e00-\u9fffa-zA-Z\\d\\.\\-_]*$')
+  if (value && !re.test(value)) {
+    callback(new Error('请填写中文、字母、数字、"."、"-"、"_"'))
+  }
+  callback()
+}
+
 export function checkTreeNodeName(rule, value, callback) {
   const re = new RegExp('^[\u4e00-\u9fffa-zA-Z\\d\\.\\-_()（）]*$')
   if (value && !re.test(value)) {

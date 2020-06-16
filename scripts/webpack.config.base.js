@@ -83,7 +83,7 @@ const webpackConfigBase = {
       },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
-        exclude: /node_modules/,
+        exclude: [/node_modules/, cfgPaths.fonts],
         include: includePath,
         loader: 'file-loader',
         options: {

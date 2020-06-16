@@ -11,6 +11,7 @@ export default class Login extends Component {
           <div className="content-left">
             <div className="animate jiqun"></div>
             <div className="animate animate3"></div>
+            <div className="animate animate4"></div>
             <div className="animate-div animate-div1"></div>
             <div className="animate-div animate-div2"></div>
           </div>

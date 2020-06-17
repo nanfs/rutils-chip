@@ -143,24 +143,6 @@ export default class DetailDrawer extends React.Component {
               </Row>
               <Row className="dms-detail-row">
                 <Col span={3} className="dms-detail-label">
-                  升级日志：
-                </Col>
-                <Col span={8} className="dms-detail-value">
-                  <Tooltip title={initValues.cpu}>
-                    <span>{initValues.cpu}</span>
-                  </Tooltip>
-                </Col>
-                <Col span={3} className="dms-detail-label">
-                  版本信息：
-                </Col>
-                <Col span={8} className="dms-detail-value">
-                  <Tooltip title={initValues.memory}>
-                    <span>{initValues.memory}</span>
-                  </Tooltip>
-                </Col>
-              </Row>
-              <Row className="dms-detail-row">
-                <Col span={3} className="dms-detail-label">
                   描述：
                 </Col>
                 <Col span={12} className="dms-detail-value">

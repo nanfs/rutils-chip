@@ -87,7 +87,13 @@ export default class ConfigModal extends React.Component {
           >
             <InputNumber min={1} style={{ width: '100%' }} max={60} />
           </Form.Item>
-
+          <Form.Item
+            prop="tcTaskCleanDays"
+            label="任务清理时间(天)"
+            rules={[required, lessThanValue(30), moreThanValue(1), isInt]}
+          >
+            <InputNumber min={1} style={{ width: '100%' }} max={30} />
+          </Form.Item>
           <Form.Item
             prop="tcAdministratorWord"
             label="终端管理员密码"

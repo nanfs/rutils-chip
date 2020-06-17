@@ -49,7 +49,6 @@ export default class Task extends React.Component {
       filter.taskType.forEach(function(v, i) {
         taskTypeList.push(...v)
       })
-    console.log(taskTypeList)
     this.setState(
       produce(draft => {
         draft.tableCfg.searchs = {

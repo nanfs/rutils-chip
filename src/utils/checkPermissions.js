@@ -3,6 +3,9 @@ import { getItemFromLocal } from '@/utils/storage'
 export function getUser() {
   return getItemFromLocal('userName')
 }
+export function getUserName() {
+  return getItemFromLocal('name') || getItemFromLocal('userName')
+}
 
 /**
  * @description 判断是否开启加密

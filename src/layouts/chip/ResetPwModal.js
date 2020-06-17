@@ -19,11 +19,25 @@ export default class ModalDemo extends React.Component {
     callback()
   }
 
+  compareSame = (rule, value, callback) => {
+    const oldPassword = this.modal.form.getFieldValue('oldPassword')
+    if (oldPassword) {
+      if (oldPassword === value) {
+        callback(new Error('新密码与旧密码一致！'))
+      }
+    }
+    callback()
+  }
+
   componentDidMount() {
     this.props.onRef && this.props.onRef(this)
   }
 
-  getResult = values => {
+  pop = () => {
+    this.modal.show()
+  }
+
+  onOk = values => {
     const { oldPassword, newPassword } = values
     appApi
       .updatePwd({
@@ -39,20 +53,6 @@ export default class ModalDemo extends React.Component {
         message.error(error.message || error)
         console.log(error)
       })
-  }
-
-  pop = () => {
-    this.modal.show()
-  }
-
-  onOk = values => {
-    if (values.confirmPassword !== values.newPassword) {
-      this.modal.afterSubmit({ message: '确认密码与新密码不一致！' })
-    } else if (values.oldPassword === values.newPassword) {
-      this.modal.afterSubmit({ message: '新密码与旧密码一致！' })
-    } else {
-      this.getResult(values)
-    }
   }
 
   render() {
@@ -81,7 +81,7 @@ export default class ModalDemo extends React.Component {
             prop="newPassword"
             label="新密码"
             required
-            rules={[required, checkPassword]}
+            rules={[required, checkPassword, this.compareSame]}
             labelCol={{ sm: { span: 5 } }}
             wrapperCol={{ sm: { span: 16 } }}
           >

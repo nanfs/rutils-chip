@@ -85,7 +85,13 @@ export default class ConfigModal extends React.Component {
             label="登录失败锁定时间(分钟)"
             rules={[required, lessThanValue(60), moreThanValue(1), isInt]}
           >
-            <InputNumber min={1} style={{ width: '100%' }} max={60} />
+            <InputNumber
+              min={1}
+              style={{ width: '100%' }}
+              max={60}
+              formatter={value => `${value}`}
+              parser={value => value}
+            />
           </Form.Item>
 
           <Form.Item

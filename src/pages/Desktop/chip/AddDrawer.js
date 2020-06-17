@@ -600,7 +600,13 @@ export default class AddDrawer extends React.Component {
             hidden={this.getSelectType() !== 'byTemp'}
             rules={[required, lessThanValue(100), isInt]}
           >
-            <InputNumber placeholder="" min={1} max={100} />
+            <InputNumber
+              placeholder=""
+              min={1}
+              max={100}
+              formatter={value => `${value}`}
+              parser={value => value}
+            />
           </Form.Item>
           <Diliver />
           <Title slot="网络设置"></Title>

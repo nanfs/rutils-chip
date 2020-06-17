@@ -12,7 +12,7 @@ import {
   Skeleton
 } from 'antd'
 import { Link } from 'react-router-dom'
-import { getUser } from '@/utils/checkPermissions'
+import { getUserName } from '@/utils/checkPermissions'
 import { setItemToLocal } from '@/utils/storage'
 import { wrapResponse } from '@/utils/tool'
 import ResetPwModal from './chip/ResetPwModal'
@@ -401,7 +401,7 @@ export default class Header extends React.Component {
             <Dropdown overlay={this.renderUserInfo()} placement="bottomCenter">
               <div>
                 <Icon type="user" />
-                <span>{getUser()}</span>&nbsp;
+                <span>{getUserName()}</span>&nbsp;
                 <Icon type="caret-down" />
               </div>
             </Dropdown>

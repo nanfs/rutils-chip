@@ -83,7 +83,7 @@ const webpackConfigBase = {
       },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
-        exclude: /node_modules/,
+        exclude: [/node_modules/, cfgPaths.fonts],
         include: includePath,
         loader: 'file-loader',
         options: {
@@ -94,6 +94,7 @@ const webpackConfigBase = {
       {
         test: /\.(woff|eot|ttf|svg|gif)$/,
         loader: 'file-loader',
+        include: [cfgPaths.fonts],
         options: {
           limit: 8192,
           name: 'font/[name].[hash:4].[ext]'

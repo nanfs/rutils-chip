@@ -28,7 +28,12 @@ export default class Device extends React.Component {
       return (
         <span className="opration-btn">
           <a onClick={() => this.editDev(record, record.name)}>编辑</a>
-          <a onClick={() => this.delDev(record.id)}>删除</a>
+          <a
+            disabled={record.boundTcNum !== 0}
+            onClick={() => this.delDev(record.id)}
+          >
+            删除
+          </a>
         </span>
       )
     }

@@ -32,9 +32,8 @@ body {
     background: #1565c0;
   }
   &-drop-list {
-    max-height: 500px;
     max-width: 400px;
-    min-width: 300px;
+    min-width: 400px;
     background-color: #fff;
     border-radius: 4px;
     box-shadow: 0 6px 16px -8px rgba(0, 0, 0, 0.08),
@@ -64,6 +63,11 @@ body {
       width: 100%;
       display: block;
       text-align: center;
+    }
+    .ant-tabs .ant-tabs-bottom-content,
+    .ant-tabs .ant-tabs-top-content {
+      max-height: 500px;
+      overflow-y: auto;
     }
   }
   .logo {

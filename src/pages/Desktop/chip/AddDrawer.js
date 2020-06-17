@@ -512,6 +512,7 @@ export default class AddDrawer extends React.Component {
             <Radiox
               getData={this.getTemplate}
               options={this.state?.templateOptions}
+              showExpand
               onChange={this.onTempalteChange}
             />
           </Form.Item>

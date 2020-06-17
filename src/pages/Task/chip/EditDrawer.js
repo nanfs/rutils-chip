@@ -10,7 +10,7 @@ import {
   SelectSearch
 } from '@/components'
 import taskApi from '@/services/task'
-import { required, checkName, textRange } from '@/utils/valid'
+import { required, nameReg, textRange } from '@/utils/valid'
 import { week2num } from '@/utils/tool'
 import {
   taskTypeOptions,
@@ -297,7 +297,7 @@ export default class EditDrawer extends React.Component {
             prop="name"
             label="任务名称"
             required
-            rules={[required, checkName, textRange(0, 63)]}
+            rules={[required, nameReg, textRange(0, 63)]}
           >
             <Input placeholder="任务名称" />
           </Form.Item>

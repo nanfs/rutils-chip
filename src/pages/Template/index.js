@@ -5,6 +5,7 @@ import EditDrawer from './chip/EditDrawer'
 import DetailDrawer from './chip/DetailDrawer'
 import { columns, apiMethod } from './chip/TableCfg'
 import templateApi from '@/services/template'
+import { wrapResponse } from '@/utils/tool'
 
 const { confirm } = Modal
 const { createTableCfg, TableWrap, ToolBar, BarLeft } = Tablex
@@ -112,26 +113,18 @@ export default class Template extends React.Component {
     confirm({
       title,
       onOk() {
-        return new Promise(resolve => {
-          templateApi
-            .delTem({ ids })
-            .then(res => {
-              if (res.success) {
-                notification.success({ message: '删除成功' })
-                self.tablex.refresh(self.state.tableCfg)
-              } else {
-                message.error(res.message || '删除失败')
-              }
-              resolve()
+        templateApi
+          .delTem({ ids })
+          .then(res => {
+            wrapResponse(res).then(() => {
+              notification.success({ message: '删除成功' })
+              self.tablex.refresh(self.state.tableCfg)
             })
-            .catch(error => {
-              message.error(error.message || error)
-              error.type === 'timeout' &&
-                self.tablex.refresh(self.state.tableCfg)
-              resolve()
-              console.log(error)
-            })
-        })
+          })
+          .catch(error => {
+            message.error(error.message || error)
+            error.type === 'timeout' && self.tablex.refresh(self.state.tableCfg)
+          })
       },
       onCancel() {}
     })

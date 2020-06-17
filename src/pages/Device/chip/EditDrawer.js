@@ -252,7 +252,7 @@ export default class EditDrawer extends React.Component {
             prop="name"
             label="名称"
             required
-            rules={[checkName, required]}
+            rules={[required, checkName]}
           >
             <Input name="name" placeholder="名称" />
           </Form.Item>

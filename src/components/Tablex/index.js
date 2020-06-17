@@ -230,7 +230,6 @@ class Tablex extends React.Component {
     if (autoReplace) {
       const data = this.getData()
       const selectedRowKeys = this.getSelection()
-      console.log(data, selectedRowKeys, rowKey)
       return data.filter(item => selectedRowKeys.includes(item[rowKey]))
     }
     return this.state.selectData

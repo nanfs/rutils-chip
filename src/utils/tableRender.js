@@ -212,6 +212,7 @@ const osList = {
   '30': 'os-redhat',
   '33': 'os-linux',
   '51': 'os-qilin',
+  '61': 'os-puhua',
   '1002': 'os-linux',
   '1003': 'os-redhat',
   '1004': 'os-linux',
@@ -247,7 +248,8 @@ export const osTextRender = os => {
     'os-windows': 'Win',
     'os-qilin': '麒麟',
     'os-ubuntu': '乌班图',
-    'os-linux': 'linux'
+    'os-linux': 'linux',
+    'os-puhua': '普华'
   }
   return typeList[osType]
 }

@@ -47,8 +47,8 @@ export default class Uploadx extends React.Component {
       message.error('上传文件格式错误')
       return false
     }
-    if (checkName && !checkName(file.name)) {
-      message.error('上传文件命名格式错误')
+    if (checkName && typeof checkName(file.name) === 'string') {
+      message.error(checkName(file.name))
       return false
     }
     this.setState({
@@ -64,7 +64,7 @@ export default class Uploadx extends React.Component {
     if (info.file.size > maxSize) {
       return false
     }
-    if (checkName && !checkName(info.file.name)) {
+    if (checkName && typeof checkName(info.file.name) === 'string') {
       return false
     }
     if (

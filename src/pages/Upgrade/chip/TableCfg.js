@@ -26,17 +26,17 @@ export const columns = [
     ellipsis: true
   },
   {
-    title: () => <span title="上传用户">上传用户</span>,
-    dataIndex: 'uploaderName',
-    ellipsis: true
-  },
-  {
     title: () => <span title="终端型号">终端型号</span>,
     dataIndex: 'model'
   },
   {
     title: () => <span title="适用的终端版本">适用的终端版本</span>,
     dataIndex: 'upgradableVersions'
+  },
+  {
+    title: () => <span title="上传用户">上传用户</span>,
+    dataIndex: 'uploaderName',
+    ellipsis: true
   },
   {
     title: () => <span title="上传时间">上传时间</span>,

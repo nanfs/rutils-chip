@@ -161,3 +161,13 @@ export function number5(rule, value, callback) {
   }
   callback()
 }
+
+export function version(rule, value, callback) {
+  const re = new RegExp(
+    '^([1-9]{1}[0-9]{0,1}|[1-9]{1})\\.([1-9]{1}[0-9]{0,1}|[0-9]{1})\\.([1-9]{1}[0-9]{0,1}|[0-9]{1})$'
+  )
+  if (value && !re.test(value)) {
+    callback(new Error('格式为A.X.X，A为1-99的数字，X为0-99的数字'))
+  }
+  callback()
+}

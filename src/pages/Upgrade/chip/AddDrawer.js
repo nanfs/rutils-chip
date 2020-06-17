@@ -1,7 +1,7 @@
 import React from 'react'
 import { Form, Input, Upload, Button } from 'antd'
 import { Drawerx, Formx, Radiox, Title, Uploadx } from '@/components'
-import { required, checkName } from '@/utils/valid'
+import { required, version } from '@/utils/valid'
 
 import upgrade from '@/services/upgrade'
 
@@ -46,8 +46,17 @@ export default class AddDrawer extends React.Component {
   }
 
   checkName = name => {
-    if (name.split('_').length !== 4) {
-      return false
+    const re = new RegExp(
+      '^([1-9]{1}[0-9]{0,1}|[1-9]{1})\\.([1-9]{1}[0-9]{0,1}|[0-9]{1})\\.([1-9]{1}[0-9]{0,1}|[0-9]{1})$'
+    )
+    if (name.split('_').length !== 4 || name.split('_')[1] !== 'tc') {
+      return '上传文件命名格式错误'
+    } else if (
+      !re.test(
+        name.split('_')[3].substring(0, name.split('_')[3].lastIndexOf('.'))
+      )
+    ) {
+      return '上传文件版本号格式错误'
     } else return true
   }
 
@@ -121,7 +130,7 @@ export default class AddDrawer extends React.Component {
             prop="version"
             label="升级包版本"
             required
-            rules={[required]}
+            rules={[required, version]}
           >
             <Input placeholder="升级包版本" />
           </Form.Item>

@@ -111,7 +111,11 @@ export default class AddDrawer extends React.Component {
             />
           </Form.Item>
           <Form.Item prop="model" required label="终端型号" rules={[required]}>
-            <Input placeholder="终端型号" />
+            <Input
+              placeholder="未上传升级包"
+              style={{ border: 'none', background: ' #fff', color: '#000' }}
+              disabled
+            />
           </Form.Item>
           <Form.Item
             prop="packageType"
@@ -132,7 +136,11 @@ export default class AddDrawer extends React.Component {
             required
             rules={[required, version]}
           >
-            <Input placeholder="升级包版本" />
+            <Input
+              placeholder="未上传升级包"
+              style={{ border: 'none', background: ' #fff', color: '#000' }}
+              disabled
+            />
           </Form.Item>
           <Form.Item prop="log" label="升级日志">
             <TextArea rows={4} placeholder="升级日志" />

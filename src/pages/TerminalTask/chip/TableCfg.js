@@ -32,7 +32,7 @@ export const columns = [
         value: [5]
       },
       {
-        text: '设置准入策略',
+        text: '设置外设控制',
         value: [6]
       },
       {

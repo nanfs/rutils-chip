@@ -120,6 +120,15 @@ function getRouterConfig(app) {
           })
         },
         {
+          path: '/terminalTask',
+          authority: 'admin',
+          component: dynamic({
+            app,
+            models: () => [],
+            component: () => import('../src/pages/TerminalTask/index')
+          })
+        },
+        {
           path: '/vmlog',
           authority: 'admin,security,audit',
           component: dynamic({

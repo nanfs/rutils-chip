@@ -57,12 +57,12 @@ export const columns = [
   },
   {
     title: () => <span title="执行时间">执行时间</span>,
-    dataIndex: 'thisRunTime',
+    dataIndex: 'thisTime',
     ellipsis: true
   },
   {
     title: () => <span title="失败次数">失败次数</span>,
-    dataIndex: 'faildNum'
+    dataIndex: 'failNums'
   },
   {
     title: () => <span title="执行状态">执行状态</span>,

@@ -41,7 +41,7 @@ export default class Sider extends React.Component {
     if (
       item.title === '计划任务' ||
       item.title === '资源概览' ||
-      item.title === '准入控制' ||
+      item.title === '升级包管理' ||
       item.title === '用户管理'
     ) {
       menuBorder = true

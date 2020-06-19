@@ -4,6 +4,11 @@ import { taskTypeRender, taskStatusRender } from '@/utils/tableRender'
 
 export const columns = [
   {
+    title: () => <span title="终端SN">终端SN</span>,
+    dataIndex: 'objectId',
+    ellipsis: true
+  },
+  {
     title: () => <span title="任务类型">任务类型</span>,
     dataIndex: 'taskType',
     filters: [

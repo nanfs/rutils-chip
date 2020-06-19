@@ -14,6 +14,11 @@ export const detailTasksColumns = [
     ellipsis: true
   },
   {
+    title: () => <span title="执行状态">执行状态</span>,
+    dataIndex: 'status',
+    render: text => taskStatusRender(text)
+  },
+  {
     title: () => <span title="执行时间">执行时间</span>,
     dataIndex: 'thisTime',
     ellipsis: true
@@ -23,13 +28,8 @@ export const detailTasksColumns = [
     dataIndex: 'failNums'
   },
   {
-    title: () => <span title="执行状态">执行状态</span>,
-    dataIndex: 'status',
-    render: text => taskStatusRender(text)
-  },
-  {
     title: () => <span title="信息反馈">信息反馈</span>,
-    dataIndex: 'message',
+    dataIndex: 'failMessage',
     ellipsis: true
   }
 ]

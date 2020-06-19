@@ -19,6 +19,15 @@ import {
 const { TextArea } = Input
 
 export default class AddDrawer extends React.Component {
+  checkPoolName = async (rule, value, callback) => {
+    const poolList = await poolsApi.list({ size: 100000, current: 1 })
+    const names = poolList?.data?.records?.map(item => item.name) || []
+    if (names.length && names.includes(value)) {
+      callback(new Error('已经存在该名称'))
+    }
+    callback()
+  }
+
   compareNum = (rule, value, callback) => {
     const desktopNum = this.drawer.form.getFieldValue('desktopNum')
     if (desktopNum) {
@@ -93,7 +102,8 @@ export default class AddDrawer extends React.Component {
             prop="name"
             label="桌面池名称"
             required
-            rules={[required, checkName]}
+            validateTrigger={'onBlur'}
+            rules={[required, checkName, this.checkPoolName]}
           >
             <Input placeholder="桌面池名称" />
           </Form.Item>

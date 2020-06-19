@@ -56,12 +56,14 @@ class Formx extends React.Component {
         getFieldsValue
       } = this.props.form
       const rules = child.props.rules || undefined
+      const validateTrigger = child.props.validateTrigger || 'onChange'
       const value = getFieldValue(child.props.prop)
       const values = getFieldsValue()
       const childNode = getFieldDecorator(
         child.props.prop,
         {
           rules,
+          validateTrigger,
           valuePropName: child.props.valuepropname ? 'checked' : 'value'
         },
         {}

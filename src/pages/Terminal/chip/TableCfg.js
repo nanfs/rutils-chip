@@ -87,12 +87,12 @@ export const columns = [
     ellipsis: true
   },
   {
-    title: () => <span title="终端型号">终端型号</span>,
+    title: () => <span title="硬件型号">硬件型号</span>,
     dataIndex: 'model',
     ellipsis: true
   },
   {
-    title: () => <span title="终端版本">终端版本</span>,
+    title: () => <span title="软件版本">软件版本</span>,
     dataIndex: 'version',
     ellipsis: true
   },

@@ -199,21 +199,6 @@ export default class DetailDrawer extends React.Component {
           </Row> */}
             </div>
             <div className="dms-detail-section">
-              <Title slot="版本信息"></Title>
-              <Table
-                columns={detailVersionColumns}
-                dataSource={initValues.versionHistories}
-                pagination={{
-                  size: 'small',
-                  showSizeChanger: true,
-                  defaultPageSize: 5,
-                  pageSizeOptions: ['5', '10', '20', '50']
-                }}
-                className="dms-detail-list-hasPagination"
-                rowKey="upgradeTime"
-              />
-            </div>
-            <div className="dms-detail-section">
               <Title slot="所属用户"></Title>
               <Table
                 columns={detailUserColumns}
@@ -256,6 +241,21 @@ export default class DetailDrawer extends React.Component {
                 }}
                 className="dms-detail-list-hasPagination"
                 rowKey="id"
+              />
+            </div>
+            <div className="dms-detail-section">
+              <Title slot="升级日志"></Title>
+              <Table
+                columns={detailVersionColumns}
+                dataSource={initValues.versionHistories}
+                pagination={{
+                  size: 'small',
+                  showSizeChanger: true,
+                  defaultPageSize: 5,
+                  pageSizeOptions: ['5', '10', '20', '50']
+                }}
+                className="dms-detail-list-hasPagination"
+                rowKey="upgradeTime"
               />
             </div>
             <div className="dms-detail-section">

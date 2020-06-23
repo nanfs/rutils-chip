@@ -48,7 +48,8 @@ export const typeOptions2 = [
 ]
 export const taskTypeOptions = [
   { label: '定时开机', value: 0 },
-  { label: '定时关机', value: 1 }
+  { label: '定时关机', value: 1 },
+  { label: '定时重启', value: 2 }
   // { label: '空闲关机', value: 2 }// 该版本不做
 ]
 

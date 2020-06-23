@@ -1,7 +1,7 @@
 import React from 'react'
 import taskApi from '@/services/task'
 import { Icon, Tag } from 'antd'
-import { availableStatusRender } from '@/utils/tableRender'
+import { availableStatusRender, taskType } from '@/utils/tableRender'
 
 const iconStyle = {
   check: { color: '#17abe3' },
@@ -38,11 +38,7 @@ export const columns = [
   {
     title: () => <span title="任务类型">任务类型</span>,
     dataIndex: 'taskType',
-    render: text => (
-      <span className="table-action">
-        {text == 1 ? <span>定时关机</span> : <span>定时开机</span>}
-      </span>
-    )
+    render: text => taskType(text)
   },
   {
     title: () => <span title="执行周期">执行周期</span>,

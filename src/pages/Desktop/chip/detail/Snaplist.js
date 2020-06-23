@@ -63,6 +63,7 @@ export default class Desktop extends React.Component {
       apiMethod,
       expandedRowRender: record => this.getDetail(record.snapshotId),
       rowKey: 'snapshotId',
+      autoReplace: true,
       hasRowSelection: false,
       searchs: { vmId: this.props.vmId },
       paging: { size: 10 },
@@ -292,7 +293,6 @@ export default class Desktop extends React.Component {
             onRef={ref => {
               this.tablex = ref
             }}
-            autoReplace={true}
             tableCfg={this.state.tableCfg}
             onChange={this.onTableChange}
           />

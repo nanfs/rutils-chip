@@ -8,11 +8,26 @@ import {
 } from '@/utils/formOptions'
 
 import poolsApi from '@/services/pools'
-import { required, checkName, lessThanValue, isInt } from '@/utils/valid'
+import {
+  required,
+  checkName,
+  lessThanValue,
+  isInt,
+  moreThanValue
+} from '@/utils/valid'
 
 const { TextArea } = Input
 
 export default class AddDrawer extends React.Component {
+  checkPoolName = async (rule, value, callback) => {
+    const poolList = await poolsApi.list({ size: 100000, current: 1 })
+    const names = poolList?.data?.records?.map(item => item.name) || []
+    if (names.length && names.includes(value)) {
+      callback(new Error('已经存在该名称'))
+    }
+    callback()
+  }
+
   compareNum = (rule, value, callback) => {
     const desktopNum = this.drawer.form.getFieldValue('desktopNum')
     if (desktopNum) {
@@ -42,11 +57,7 @@ export default class AddDrawer extends React.Component {
     this.getTemplate()
   }
 
-  /**
-   * 取模板列表 状态可用
-   *
-   * @memberof AddDrawer
-   */
+  // 取模板列表 状态可用
   getTemplate = () => {
     return poolsApi
       .getTemplate({ current: 1, size: 10000, statusIsOk: 1 })
@@ -63,11 +74,7 @@ export default class AddDrawer extends React.Component {
       })
   }
 
-  /**
-   *
-   *  添加桌面池
-   * @memberof AddDrawer
-   */
+  // 添加桌面池
   addPool = values => {
     poolsApi
       .addPool({ cpuNum: 1, ...values })
@@ -95,21 +102,24 @@ export default class AddDrawer extends React.Component {
             prop="name"
             label="桌面池名称"
             required
-            rules={[required, checkName]}
+            validateTrigger={'onBlur'}
+            rules={[required, checkName, this.checkPoolName]}
           >
             <Input placeholder="桌面池名称" />
           </Form.Item>
           <Form.Item
             prop="templateId"
             label="模板"
+            required
             wrapperCol={{ sm: { span: 16 } }}
           >
             <Radiox
+              showExpand
               getData={this.getTemplate}
               options={this.state?.templateOptions}
             />
           </Form.Item>
-          <Form.Item prop="managerType" label="管理类型">
+          <Form.Item prop="managerType" required label="管理类型">
             <Radiox options={managerTypeOptions} />
           </Form.Item>
           <Form.Item
@@ -144,7 +154,13 @@ export default class AddDrawer extends React.Component {
             required
             rules={[required, lessThanValue(20), isInt]}
           >
-            <InputNumber placeholder="" min={1} max={20} />
+            <InputNumber
+              placeholder=""
+              min={1}
+              max={20}
+              formatter={value => `${value}`}
+              parser={value => value}
+            />
           </Form.Item>
 
           <Form.Item
@@ -153,14 +169,25 @@ export default class AddDrawer extends React.Component {
             required
             rules={[required, this.compareNum, isInt]}
           >
-            <InputNumber placeholder="" min={0} />
+            <InputNumber
+              placeholder=""
+              min={0}
+              formatter={value => `${value}`}
+              parser={value => value}
+            />
           </Form.Item>
           <Form.Item
             prop="maxAssignedVmsPerUser"
             label="用户最大虚拟机数"
-            rules={[this.compareNum, isInt]}
+            required
+            rules={[required, this.compareNum, isInt, moreThanValue(0)]}
           >
-            <InputNumber placeholder="" min={0} />
+            <InputNumber
+              placeholder=""
+              min={1}
+              formatter={value => `${value}`}
+              parser={value => value}
+            />
           </Form.Item>
           <Form.Item prop="description" label="描述">
             <TextArea placeholder="描述" />

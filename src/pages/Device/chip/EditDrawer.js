@@ -46,7 +46,7 @@ export default class EditDrawer extends React.Component {
     this.drawer.show()
     const dataList = JSON.parse(JSON.stringify(data))
     const { usagePeripherals, usbs } = dataList
-    dataList.usageFix = usagePeripherals != '0'
+    dataList.usageFix = usagePeripherals !== '0'
     if (usbs.length === 0) {
       usbs.push({ name: '', vid: '', pid: '' })
     }
@@ -159,15 +159,15 @@ export default class EditDrawer extends React.Component {
       notification.warn({ message: '名单最多允许添加10条' })
       return
     }
-    if (usbs[index].name == '' || usbs[index].name == undefined) {
+    if (usbs[index].name === '' || usbs[index].name === undefined) {
       notification.warn({ message: '请完善名单名称' })
       return
     }
-    if (usbs[index].vid == '' || usbs[index].vid == undefined) {
+    if (usbs[index].vid === '' || usbs[index].vid === undefined) {
       notification.warn({ message: '请完善名单VendorId' })
       return
     }
-    if (usbs[index].pid == '' || usbs[index].pid == undefined) {
+    if (usbs[index].pid === '' || usbs[index].pid === undefined) {
       notification.warn({ message: '请完善名单ProductId' })
       return
     }
@@ -189,12 +189,12 @@ export default class EditDrawer extends React.Component {
       if (!usbs[0].name && !usbs[0].vid && !usbs[0].pid) {
         usbs = undefined
       } else if (
-        usbs[0].name == '' ||
-        usbs[0].name == undefined ||
-        usbs[0].vid == '' ||
-        usbs[0].vid == undefined ||
-        usbs[0].pid == '' ||
-        usbs[0].pid == undefined
+        usbs[0].name === '' ||
+        usbs[0].name === undefined ||
+        usbs[0].vid === '' ||
+        usbs[0].vid === undefined ||
+        usbs[0].pid === '' ||
+        usbs[0].pid === undefined
       ) {
         this.drawer.break('请完善名单')
         return false
@@ -206,12 +206,12 @@ export default class EditDrawer extends React.Component {
     ) {
       usbs = usbs.slice(0, usbs.length - 1) // 去掉最后一项
     } else if (
-      usbs[usbs.length - 1].name == '' ||
-      usbs[usbs.length - 1].name == undefined ||
-      usbs[usbs.length - 1].vid == '' ||
-      usbs[usbs.length - 1].vid == undefined ||
-      usbs[usbs.length - 1].pid == '' ||
-      usbs[usbs.length - 1].pid == undefined
+      usbs[usbs.length - 1].name === '' ||
+      usbs[usbs.length - 1].name === undefined ||
+      usbs[usbs.length - 1].vid === '' ||
+      usbs[usbs.length - 1].vid === undefined ||
+      usbs[usbs.length - 1].pid === '' ||
+      usbs[usbs.length - 1].pid === undefined
     ) {
       this.drawer.break('请完善名单')
       return false
@@ -252,7 +252,7 @@ export default class EditDrawer extends React.Component {
             prop="name"
             label="名称"
             required
-            rules={[checkName, required]}
+            rules={[required, checkName]}
           >
             <Input name="name" placeholder="名称" />
           </Form.Item>

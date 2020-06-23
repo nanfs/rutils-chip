@@ -11,6 +11,7 @@ export default class Login extends Component {
           <div className="content-left">
             <div className="animate jiqun"></div>
             <div className="animate animate3"></div>
+            <div className="animate animate4"></div>
             <div className="animate-div animate-div1"></div>
             <div className="animate-div animate-div2"></div>
           </div>
@@ -20,7 +21,7 @@ export default class Login extends Component {
             </div>
             <LoginFrom className="login-form" />
             <div className="version">
-              <span>V1.0.0 - build3527</span>
+              <span>V1.0.0 build 3561</span>
             </div>
           </div>
         </div>

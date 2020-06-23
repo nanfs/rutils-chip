@@ -19,12 +19,6 @@ export default {
       data: qs.stringify(data)
     })
   },
-  detail(sn) {
-    return axios({
-      url: `/terminals/${sn}`,
-      method: 'get'
-    })
-  },
   deleteTerminal(data) {
     return axios({
       url: '/terminals',
@@ -53,9 +47,9 @@ export default {
       data: qs.stringify(data)
     })
   },
-  terminalsdetail(id, data) {
+  terminalsdetail(sn, data) {
     return axios({
-      url: `/terminals/${id}`,
+      url: `/terminals/${sn}`,
       method: 'get',
       params: data
     })

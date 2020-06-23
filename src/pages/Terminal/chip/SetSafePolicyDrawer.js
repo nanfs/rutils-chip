@@ -1,9 +1,10 @@
 import React from 'react'
 import { Tag, Switch, message } from 'antd'
-import { columns, apiMethod } from './SafePolicyTableCfg'
 import terminalApi from '@/services/terminal'
-import produce from 'immer'
+import { wrapResponse } from '@/utils/tool'
 import { Drawerx, Formx, Tablex, Diliver, Title } from '@/components'
+import { columns, apiMethod } from './SafePolicyTableCfg'
+import produce from 'immer'
 
 // 是否翻页保存数据
 const { createTableCfg, TableWrap, ToolBar } = Tablex
@@ -20,6 +21,8 @@ export default class SetSafePolicyDrawer extends React.Component {
       paging: { size: 10 },
       rowKey: record => `${record.id}&${record.name}`,
       searchs: {},
+      autoFetch: false,
+      keepSelection: true,
       pageSizeOptions: ['5', '10', '20', '50']
     }),
     switchDisable: true,
@@ -80,42 +83,45 @@ export default class SetSafePolicyDrawer extends React.Component {
         columns,
         apiMethod,
         paging: { size: 10 },
+        autoFetch: false,
+        keepSelection: true,
         rowKey: record => `${record.id}&${record.name}`,
         searchs: {},
         pageSizeOptions: ['5', '10', '20', '50']
       })
     })
     if (sns && sns.length === 1) {
-      terminalApi
-        .detail(sns[0])
-        .then(res => {
-          const { safePolicys } = res.data
-          const totalSelection = safePolicys.map(
-            item => `${item.id}&${item.name}`
-          )
-          const switchStatus =
-            safePolicys.length > 0 ? safePolicys[0].usbSupport === '1' : true
-          this.setState(
-            produce(draft => {
-              draft.totalSelection = totalSelection
-              draft.switchDisable = safePolicys.length > 0
-              draft.switchStatus = switchStatus
-              draft.tableCfg = {
-                ...draft.tableCfg,
-                selection: totalSelection
-              }
-              draft.tableCfg.searchs = {
-                ...draft.tableCfg.searchs,
-                usagePeripherals: switchStatus ? '1' : '0'
-              }
-            }),
-            () => this.deviceTablex.replace(this.state.tableCfg)
-          )
-        })
-        .catch(error => {
-          message.error(error.message || error)
-          console.log(error)
-        })
+      terminalApi.terminalsdetail(sns[0]).then(res => {
+        wrapResponse(res)
+          .then(() => {
+            const { safePolicys } = res.data
+            const totalSelection = safePolicys.map(
+              item => `${item.id}&${item.name}`
+            )
+            const switchStatus =
+              safePolicys.length > 0 ? safePolicys[0].usbSupport === '1' : true
+            this.setState(
+              produce(draft => {
+                draft.totalSelection = totalSelection
+                draft.switchDisable = safePolicys.length > 0
+                draft.switchStatus = switchStatus
+                draft.tableCfg = {
+                  ...draft.tableCfg,
+                  selection: totalSelection
+                }
+                draft.tableCfg.searchs = {
+                  ...draft.tableCfg.searchs,
+                  usagePeripherals: switchStatus ? '1' : '0'
+                }
+              }),
+              () => this.deviceTablex.replace(this.state.tableCfg)
+            )
+          })
+          .catch(error => {
+            message.error(error.message || error)
+            console.log(error)
+          })
+      })
     } else {
       this.setState(
         produce(draft => {
@@ -212,8 +218,6 @@ export default class SetSafePolicyDrawer extends React.Component {
               onRef={ref => {
                 this.deviceTablex = ref
               }}
-              stopAutoFetch={true}
-              saveSelection={true}
               tableCfg={this.state.tableCfg}
               onSelectChange={this.onSelectChange}
             />

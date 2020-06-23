@@ -1,18 +1,18 @@
 import React from 'react'
 import { Button, message, Modal, notification } from 'antd'
 import { Tablex, InnerPath } from '@/components'
+import deviceApi from '@/services/device'
+import { wrapResponse } from '@/utils/tool'
+import { columns, apiMethod } from './chip/TableCfg'
 import EditDrawer from './chip/EditDrawer'
 import AddDrawer from './chip/AddDrawer'
-import { columns, apiMethod } from './chip/TableCfg'
-import deviceApi from '@/services/device'
-
 import produce from 'immer'
 
 const { confirm } = Modal
 const { createTableCfg, TableWrap, ToolBar, BarLeft } = Tablex
 
 export default class Device extends React.Component {
-  Name = {
+  name = {
     title: () => <span title="名称">名称</span>,
     dataIndex: 'name',
     width: 250,
@@ -28,13 +28,18 @@ export default class Device extends React.Component {
       return (
         <span className="opration-btn">
           <a onClick={() => this.editDev(record, record.name)}>编辑</a>
-          <a onClick={() => this.delDev(record.id)}>删除</a>
+          <a
+            disabled={record.boundTcNum !== 0}
+            onClick={() => this.delDev(record.id)}
+          >
+            删除
+          </a>
         </span>
       )
     }
   }
 
-  columnsArr = [this.Name, ...columns, this.action]
+  columnsArr = [this.name, ...columns, this.action]
 
   state = {
     tableCfg: createTableCfg({
@@ -46,17 +51,17 @@ export default class Device extends React.Component {
     })
   }
 
-  /**
-   *
-   *
-   * @param {*} selection
-   * 删除禁用
-   */
-  onSelectChange = selection => {
+  // 删除禁用 如果 有终端使用不能删除 建议放开 实现双向解绑
+  onSelectChange = (selection, selectData) => {
     let disabledButton = {}
     if (selection.length === 0) {
       disabledButton = { ...disabledButton, disabledDelete: true }
     }
+    selectData.forEach(function(v) {
+      if (v.boundTcNum !== 0) {
+        disabledButton = { ...disabledButton, disabledDelete: true }
+      }
+    })
     this.setState({ disabledButton })
   }
 
@@ -82,26 +87,15 @@ export default class Device extends React.Component {
     )
   }
 
-  /**
-   *
-   *
-   * @memberof Device
-   * 返回后 将inner path 置为空
-   */
+  // 返回后 将inner path 置为空
   onBack = () => {
     this.setState({ inner: undefined })
     this.currentDrawer.drawer.hide()
   }
 
-  /**
-   *
-   *
-   * @memberof Device
-   * 成功后刷新表格
-   */
+  // 成功后刷新表格
   onSuccess = () => {
-    this.setState({ inner: undefined })
-    this.currentDrawer.drawer.hide()
+    this.onBack()
     this.tablex.refresh(this.state.tableCfg)
   }
 
@@ -150,27 +144,19 @@ export default class Device extends React.Component {
     const self = this
     confirm({
       title,
-      onOk() {
-        return new Promise(resolve => {
-          deviceApi
-            .delDev({ ids })
-            .then(res => {
-              if (res.success) {
-                notification.success({ message: '删除成功' })
-                self.tablex.refresh(self.state.tableCfg)
-              } else {
-                message.error(res.message || '删除失败')
-              }
-              resolve()
+      onOk: () => {
+        deviceApi
+          .delDev({ ids })
+          .then(res =>
+            wrapResponse(res).then(() => {
+              notification.success({ message: '删除成功' })
+              this.tablex.refresh(this.state.tableCfg)
             })
-            .catch(error => {
-              message.error(error.message || error)
-              error.type === 'timeout' &&
-                self.tablex.refresh(self.state.tableCfg)
-              console.log(error)
-              resolve()
-            })
-        })
+          )
+          .catch(error => {
+            error.type === 'timeout' && self.tablex.refresh(self.state.tableCfg)
+            message.error(error.message || error)
+          })
       },
       onCancel() {}
     })

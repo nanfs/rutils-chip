@@ -11,7 +11,7 @@ export default class Radiox extends React.Component {
   }
 
   handleChange = e => {
-    const value = e.target ? e.target.value : e
+    const value = e?.target ? e.target.value : e
     this.setState({ value })
     this.props.onChange(value)
   }
@@ -67,7 +67,8 @@ export default class Radiox extends React.Component {
       getData,
       numProps,
       disabled,
-      options
+      options,
+      showExpand
     } = this.props
     const cls = classnames(className, 'radiox', getData && 'has-fresh')
     return (
@@ -85,9 +86,11 @@ export default class Radiox extends React.Component {
             disabled={disabled}
             onChange={this.handleChange}
             value={this.state?.value}
+            formatter={value => `${value}`}
+            parser={value => value}
           />
         )}
-        {options && options.length > 8 && (
+        {showExpand && options && options.length > 8 && (
           <Button
             className="expand-btn"
             onClick={this.toggle}

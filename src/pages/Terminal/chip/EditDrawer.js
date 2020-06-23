@@ -162,7 +162,11 @@ export default class EditDrawer extends React.Component {
             prop="secretWord"
             label="输入口令"
             required
-            rules={[this.checkFieldRequired(2), textRange(0, 32)]}
+            rules={[
+              this.checkFieldRequired(2),
+              checkPassword,
+              textRange(0, 32)
+            ]}
             hidden={
               this.drawer &&
               this.drawer.form &&

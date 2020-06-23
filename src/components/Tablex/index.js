@@ -26,10 +26,19 @@ const tableCfg_init = {
   hasPaging: true,
   // 自动刷新时间选项 以\秒\为单位
   replaceTimeOptions: ['5', '10', '20'],
-  pageSizeOptions: ['10', '20', '30', '50', '100'],
+  pageSizeOptions: ['5', '10', '20', '50'],
+  // 选填, 是否自动请求表格数据
+  autoFetch: true,
   // 选填，在请求发送前，处理请求参数方法，return 处理后的请求数据对象
   handleRequestMethod: undefined,
-  expandedRowRender: undefined
+  // 选填, 扩展行显示
+  expandedRowRender: undefined,
+  // 选填, 是否自动刷新
+  autoReplace: false,
+  // 选填, 每次自动刷新结束后执行的函数
+  autoCallback: undefined,
+  // 选填, 缓存所选
+  keepSelection: false
 }
 
 export function createTableCfg(myCfg) {
@@ -57,19 +66,22 @@ class Tablex extends React.Component {
   autoLoopReplace = () => {
     return setInterval(() => {
       // 如果手动暂停 或者正在请求 则不发送请求
-      !this.props.breakReplace &&
-        !this.state.loading &&
+      if (!this.props.breakReplace && !this.state.loading) {
+        const { autoCallback } = this.props.tableCfg
         this.reload(this.props.tableCfg)
+        autoCallback && autoCallback(this.getSelection(), this.getSelectData())
+      }
     }, this.state.replaceTime * 1000)
   }
 
   componentDidMount() {
     clearInterval(this.timer)
-    if (this.props.autoReplace) {
+    const { autoReplace, autoFetch } = this.props.tableCfg
+    if (autoReplace) {
       this.timer = this.autoLoopReplace()
     }
     this.props.onRef && this.props.onRef(this)
-    !this.props.stopAutoFetch && this.refresh({ ...this.props.tableCfg })
+    autoFetch && this.refresh({ ...this.props.tableCfg })
   }
 
   componentWillUnmount() {
@@ -88,7 +100,7 @@ class Tablex extends React.Component {
   beforeLoad = (tableCfg, showLoading = true) => {
     return new Promise(resolve => {
       if (showLoading) {
-        !this.props.saveSelection && this.onSelectChange([], [])
+        !this.props.tableCfg.keepSelection && this.onSelectChange([], [])
         this.setState({
           loading: true
         })
@@ -207,18 +219,26 @@ class Tablex extends React.Component {
     })
   }
 
+  // 获取选择的
   getSelection = () => {
     return this.state.selection
   }
 
+  // 获取选择的数据 如果有自动刷新表格 取数据过滤
   getSelectData = () => {
-    return this.state.selects
+    const { autoReplace, rowKey } = this.props.tableCfg
+    if (autoReplace) {
+      const data = this.getData()
+      const selectedRowKeys = this.getSelection()
+      return data.filter(item => selectedRowKeys.includes(item[rowKey]))
+    }
+    return this.state.selectData
   }
 
   clearSelection = () => {
     this.setState({
       selection: [],
-      selects: []
+      selectData: []
     })
   }
 
@@ -226,13 +246,13 @@ class Tablex extends React.Component {
     return this.state.data
   }
 
-  onSelectChange = (selectKeys, selects) => {
+  onSelectChange = (selectKeys, selectData) => {
     const { onSelectChange } = this.props
     this.setState({
       selection: selectKeys,
-      selects
+      selectData
     })
-    onSelectChange && onSelectChange(selectKeys, selects)
+    onSelectChange && onSelectChange(selectKeys, selectData)
   }
 
   showTotal = () => {
@@ -296,7 +316,8 @@ class Tablex extends React.Component {
       pageSizeOptions,
       hasRowSelection,
       scroll,
-      locale
+      locale,
+      autoReplace
     } = this.props.tableCfg
     const { total, size, current } = paging
     const rowSelection = {
@@ -329,7 +350,7 @@ class Tablex extends React.Component {
             icon="sync"
             onClick={() => this.refresh(this.props.tableCfg)}
           />
-          {this.props.autoReplace && (
+          {autoReplace && (
             <Select
               size="small"
               className="replace-select"

@@ -52,7 +52,8 @@ export default class Vmlog extends React.Component {
         apiMethod,
         searchs: this.props.location?.searchs, // 接受传递过来搜索条件
         paging: { size: 10 },
-        pageSizeOptions: ['5', '10', '20', '50']
+        pageSizeOptions: ['5', '10', '20', '50'],
+        autoReplace: true
       }),
       disabledButton: {}
     }
@@ -240,8 +241,13 @@ export default class Vmlog extends React.Component {
       })
   }
 
+  // 加载后通过 tablex获取总数
+  getTotal = () => {
+    this.setState({ total: this.tablex.state.paging.total })
+  }
+
   render() {
-    const { disabledButton } = this.state
+    const { disabledButton, total } = this.state
     return (
       <React.Fragment>
         <InnerPath location="系统日志-桌面" />
@@ -254,7 +260,9 @@ export default class Vmlog extends React.Component {
               >
                 删除
               </Button>
-              <Button onClick={() => this.exportLogs()}>导出</Button>
+              <Button onClick={() => this.exportLogs()} disabled={!total}>
+                导出
+              </Button>
             </BarLeft>
             <BarRight span={14}>
               <RangePicker
@@ -274,10 +282,10 @@ export default class Vmlog extends React.Component {
             onRef={ref => {
               this.tablex = ref
             }}
-            autoReplace={true}
             tableCfg={this.state.tableCfg}
             onSelectChange={this.onSelectChange}
             onChange={this.onTableChange}
+            afterLoad={this.getTotal}
           />
         </TableWrap>
       </React.Fragment>

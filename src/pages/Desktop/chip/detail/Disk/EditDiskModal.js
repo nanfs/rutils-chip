@@ -72,6 +72,8 @@ export default class EditDiskModal extends React.Component {
               max={this.state?.capacity ? 2000 - this.state?.capacity : 2000}
               hasInputNumber={true}
               step={50}
+              formatter={value => `${value}`}
+              parser={value => value}
             />
           </Form.Item>
           <Form.Item prop="description" label="描述">

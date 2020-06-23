@@ -342,6 +342,13 @@ export function vmDisableAction(vmObj) {
       disabledDelete: true
     }
   }
+  // SW适配
+  if (vmObj.clusterCpuName === 'SW1621') {
+    disabledButton = {
+      ...disabledButton,
+      disabledAttachIso: true
+    }
+  }
   if (vmObj.status !== 1) {
     disabledButton = {
       ...disabledButton,

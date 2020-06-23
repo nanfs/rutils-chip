@@ -51,6 +51,7 @@ export default class AddDrawer extends React.Component {
     this.setState({
       networkOptions: [],
       templateOptions: [],
+      clusterId: null,
       nets: [undefined],
       netTopIndex: 1,
       netNic: [1], // 当前可用网络数量
@@ -193,13 +194,24 @@ export default class AddDrawer extends React.Component {
    * @memberof AddDrawer
    */
   getIso = () => {
-    const { storagePoolId } = this.state
+    const { storagePoolId, cpuName } = this.state
     if (!storagePoolId) {
       return message.error('请先选择集群')
     }
     return desktopsApi.getIso({ storagePoolId }).then(res =>
       wrapResponse(res)
         .then(() => {
+          // SW适配 暂时普华的系统
+          if (cpuName === 'SW1621') {
+            const swISO = []
+            res.data.foreach(item => {
+              const name = item.repoImageId.toLowerCase()
+              if (name.includes('-sw_64')) {
+                return swISO.push(item.repoImageId)
+              }
+            })
+            return this.setState({ isos: { swISO } })
+          }
           const win = []
           const linux = []
           const domestic = []
@@ -246,14 +258,15 @@ export default class AddDrawer extends React.Component {
   /**
    * 当集群变化的时候 如果是iso 拉取iso 和网络
    * 如果 不是 就默认拉取网络和模板
+   * SW适配 获取集群的cpu架构
    *
    * @memberof AddDrawer
    */
   onClusterChange = (a, b, clusterId) => {
     const current = findArrObj(this.state.clusterArr, 'id', clusterId)
-    const { storagePoolId } = current
+    const { storagePoolId, cpuName } = current
     this.drawer.form.setFieldsValue({ templateId: undefined })
-    this.setState({ clusterId, storagePoolId }, () => {
+    this.setState({ clusterId, storagePoolId, cpuName }, () => {
       if (this.getSelectType() === 'byIso') {
         this.getNetwork()
         this.getIso()
@@ -405,6 +418,15 @@ export default class AddDrawer extends React.Component {
             ))}
           </OptGroup>
         )}
+        {this.state?.isos?.swISO && (
+          <OptGroup label="适配申威系统" key="swISO">
+            {this.state?.isos?.swISO?.map(item => (
+              <Option value={item} key={item}>
+                {item}
+              </Option>
+            ))}
+          </OptGroup>
+        )}
       </Selectx>
     )
   }
@@ -498,7 +520,12 @@ export default class AddDrawer extends React.Component {
               onChange={this.onClusterChange}
             />
           </Form.Item>
-          <Form.Item prop="type" required label="创建方式">
+          <Form.Item
+            prop="type"
+            required
+            label="创建方式"
+            hidden={!this.state?.clusterId}
+          >
             <Radiox options={createType} onChange={this.onCreateTypeChange} />
           </Form.Item>
           <Form.Item
@@ -516,13 +543,17 @@ export default class AddDrawer extends React.Component {
               onChange={this.onTempalteChange}
             />
           </Form.Item>
+          {/* SW适配 */}
           <Form.Item
             prop="isoName"
-            label="ISO"
+            label={this.state?.cpuName !== 'SW1621' ? 'ISO' : '附加CD'}
             required
             rules={this.getSelectType() === 'byIso' ? [required] : undefined}
             wrapperCol={{ sm: { span: 8 } }}
-            hidden={this.getSelectType() !== 'byIso'}
+            hidden={
+              this.getSelectType() !== 'byIso' &&
+              this.state?.cpuName !== 'SW1621'
+            }
           >
             {this.renderOsOptions()}
           </Form.Item>

@@ -1,6 +1,6 @@
 import React from 'react'
-import { Form, Input, InputNumber, message } from 'antd'
-import { Drawerx, Formx, Title, Radiox } from '@/components'
+import { Form, Input, InputNumber, message, Select } from 'antd'
+import { Drawerx, Formx, Title, Radiox, Selectx } from '@/components'
 import {
   memoryOptions,
   cpuOptions,
@@ -8,6 +8,8 @@ import {
 } from '@/utils/formOptions'
 
 import poolsApi from '@/services/pools'
+import desktopsApi from '@/services/desktops'
+import { wrapResponse, findArrObj } from '@/utils/tool'
 import {
   required,
   checkName,
@@ -17,6 +19,7 @@ import {
 } from '@/utils/valid'
 
 const { TextArea } = Input
+const { Option, OptGroup } = Select
 
 export default class AddDrawer extends React.Component {
   checkPoolName = async (rule, value, callback) => {
@@ -66,12 +69,55 @@ export default class AddDrawer extends React.Component {
           label: item.name,
           value: item.id
         }))
-        this.setState({ templateOptions })
+        this.setState({ templateOptions, templateData: res.data.records })
       })
       .catch(error => {
         message.error(error.message || error)
         console.log(error)
       })
+  }
+
+  // 选取模板是获取 集群是否为申威的架构 是申威架构 获取ISO列表
+  onTempalteChange = (a, b, tempalteId) => {
+    const current = findArrObj(this.state.templateData, 'id', tempalteId)
+    return desktopsApi
+      .getClusterArch(current.clusterId)
+      .then(res =>
+        wrapResponse(res).then(() => {
+          if (res.cpuName === 'SW1621') {
+            this.setState({ cpuName: 'SW1621' }, this.getIso())
+          }
+        })
+      )
+      .catch(error => message.error(error.message || '获取集群架构失败'))
+  }
+
+  /**
+   *
+   * 获取ISO列表 判断 加入到对应列表
+   * @memberof AddDrawer
+   */
+  getIso = () => {
+    const { storagePoolId } = this.state
+    if (!storagePoolId) {
+      return message.error('请先选择集群')
+    }
+    return desktopsApi.getIso({ storagePoolId }).then(res =>
+      wrapResponse(res)
+        .then(() => {
+          const swISO = []
+          res.data.foreach(item => {
+            const name = item.repoImageId.toLowerCase()
+            if (name.includes('-sw_64')) {
+              return swISO.push(item.repoImageId)
+            }
+          })
+          this.setState({ isos: { swISO } })
+        })
+        .catch(error => {
+          message.error(error.message || error)
+        })
+    )
   }
 
   // 添加桌面池
@@ -86,7 +132,36 @@ export default class AddDrawer extends React.Component {
       })
   }
 
+  renderOsOptions = () => {
+    return (
+      <Selectx
+        style={{ width: '90%' }}
+        placeholder="请选择镜像"
+        onChange={this.onIsoChange}
+        getData={this.getIso}
+      >
+        {this.state?.isos?.swISO && (
+          <OptGroup label="适配申威系统" key="swISO">
+            {this.state?.isos?.swISO?.map(item => (
+              <Option value={item} key={item}>
+                {item}
+              </Option>
+            ))}
+          </OptGroup>
+        )}
+      </Selectx>
+    )
+  }
+
   render() {
+    const formItemLayout = {
+      labelCol: {
+        sm: { span: 5, pull: 1 }
+      },
+      wrapperCol: {
+        sm: { span: 16 }
+      }
+    }
     return (
       <Drawerx
         onRef={ref => {
@@ -96,7 +171,7 @@ export default class AddDrawer extends React.Component {
         onSuccess={this.props.onSuccess}
         onClose={this.props.onClose}
       >
-        <Formx>
+        <Formx formItemLayout={formItemLayout}>
           <Title slot="基础设置"></Title>
           <Form.Item
             prop="name"
@@ -107,17 +182,23 @@ export default class AddDrawer extends React.Component {
           >
             <Input placeholder="桌面池名称" />
           </Form.Item>
-          <Form.Item
-            prop="templateId"
-            label="模板"
-            required
-            wrapperCol={{ sm: { span: 16 } }}
-          >
+          <Form.Item prop="templateId" label="模板" required>
             <Radiox
               showExpand
               getData={this.getTemplate}
+              onChange={this.onTempalteChange}
               options={this.state?.templateOptions}
             />
+          </Form.Item>
+          {/* SW适配 */}
+          <Form.Item
+            prop="isoName"
+            label={this.state?.cpuName !== 'SW1621' ? 'ISO' : '附加CD'}
+            required
+            rules={this.state?.cpuName === 'SW1621' ? [required] : undefined}
+            hidden={this.state?.cpuName !== 'SW1621'}
+          >
+            {this.renderOsOptions()}
           </Form.Item>
           <Form.Item prop="managerType" required label="管理类型">
             <Radiox options={managerTypeOptions} />
@@ -127,7 +208,6 @@ export default class AddDrawer extends React.Component {
             label="CPU"
             required
             rules={[required, lessThanValue(160), isInt]}
-            wrapperCol={{ sm: { span: 16 } }}
           >
             <Radiox
               options={cpuOptions}
@@ -140,7 +220,6 @@ export default class AddDrawer extends React.Component {
             label="内存"
             required
             rules={[required, isInt]}
-            wrapperCol={{ sm: { span: 16 } }}
           >
             <Radiox
               options={memoryOptions}

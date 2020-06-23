@@ -45,7 +45,7 @@ export default class AddDrawer extends React.Component {
   }
 
   // 默认选择通过模板创建, 创建数量1
-  pop = () => {
+  pop = initValues => {
     this.setState({})
     this.drawer.show()
     this.setState({
@@ -56,7 +56,7 @@ export default class AddDrawer extends React.Component {
       netNic: [1], // 当前可用网络数量
       hasSetNetValue: true
     })
-    this.drawer.form.setFieldsValue({ desktopNum: 1 })
+    this.drawer.form.setFieldsValue({ ...initValues, desktopNum: 1 })
 
     this.getCluster()
   }
@@ -607,6 +607,9 @@ export default class AddDrawer extends React.Component {
               formatter={value => `${value}`}
               parser={value => value}
             />
+          </Form.Item>
+          <Form.Item prop="groupId" label="桌面组" hidden>
+            <Input placeholder="桌面组" />
           </Form.Item>
           <Diliver />
           <Title slot="网络设置"></Title>

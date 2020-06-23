@@ -36,10 +36,14 @@ class Drawerx extends React.Component {
     })
     document.body.style.maxHeight = '100vh'
     // document.body.style.overflow = 'hidden'
-    document.querySelector('.table-wrap').style.height = 'calc(100vh - 105px)'
-    document.querySelector('.table-wrap').style.overflow = 'hidden'
-    document.querySelector('.ant-drawer-body .ant-form').style.Height =
-      'calc(100vh - 185px)'
+    if (document.querySelector('.table-wrap')) {
+      document.querySelector('.table-wrap').style.height = 'calc(100vh - 105px)'
+      document.querySelector('.table-wrap').style.overflow = 'hidden'
+    }
+    if (document.querySelector('.ant-drawer-body .ant-form')) {
+      document.querySelector('.ant-drawer-body .ant-form').style.Height =
+        'calc(100vh - 185px)'
+    }
   }
 
   // 隐藏没有重置表单 点取消去重置表单  this is a feature cancel
@@ -51,8 +55,12 @@ class Drawerx extends React.Component {
       submitting: false
     })
     document.body.style = ''
-    document.querySelector('.table-wrap').style = ''
-    document.querySelector('.ant-drawer-body .ant-form').style = ''
+    if (document.querySelector('.table-wrap')) {
+      document.querySelector('.table-wrap').style = ''
+    }
+    if (document.querySelector('.ant-drawer-body .ant-form')) {
+      document.querySelector('.ant-drawer-body .ant-form').style = ''
+    }
   }
 
   showAndWait = () => {

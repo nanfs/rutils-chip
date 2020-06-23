@@ -27,6 +27,13 @@ const menu = [
     authority: 'admin,security'
   },
   {
+    title: '桌面组管理',
+    icon: 'template1',
+    iconComonpent: 'MyIcon',
+    path: '/vmgroup',
+    authority: 'admin,security'
+  },
+  {
     title: '模板管理',
     icon: 'template',
     iconComonpent: 'MyIcon',

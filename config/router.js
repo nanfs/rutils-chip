@@ -57,6 +57,15 @@ function getRouterConfig(app) {
           })
         },
         {
+          path: '/vmgroup',
+          authority: 'admin',
+          component: dynamic({
+            app,
+            models: () => [],
+            component: () => import('../src/pages/VmGroup/index')
+          })
+        },
+        {
           path: '/template',
           authority: 'admin',
           component: dynamic({

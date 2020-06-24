@@ -92,7 +92,10 @@ export default class AddDrawer extends React.Component {
   onClusterChange = (a, b, clusterId) => {
     const current = findArrObj(this.state.clusterArr, 'id', clusterId)
     const { storagePoolId, cpuName } = current
-    this.drawer.form.setFieldsValue({ templateId: undefined })
+    this.drawer.form.setFieldsValue({
+      templateId: undefined,
+      isoName: undefined
+    })
     this.setState({ clusterId, storagePoolId, cpuName }, () => {
       this.getTemplate()
       cpuName === 'SW1621' && this.getIso()

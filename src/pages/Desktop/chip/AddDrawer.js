@@ -269,7 +269,11 @@ export default class AddDrawer extends React.Component {
   onClusterChange = (a, b, clusterId) => {
     const current = findArrObj(this.state.clusterArr, 'id', clusterId)
     const { storagePoolId, cpuName } = current
-    this.drawer.form.setFieldsValue({ templateId: undefined })
+    this.drawer.form.setFieldsValue({
+      templateId: undefined,
+      isoName: undefined,
+      initrdUrl: undefined
+    })
     this.setState({ clusterId, storagePoolId, cpuName }, () => {
       if (this.getSelectType() === 'byIso') {
         this.getNetwork()
@@ -287,6 +291,11 @@ export default class AddDrawer extends React.Component {
    * @memberof AddDrawer
    */
   onCreateTypeChange = (a, b, target) => {
+    this.drawer.form.setFieldsValue({
+      templateId: undefined,
+      isoName: undefined,
+      initrdUrl: undefined
+    })
     if (!this.state.clusterId) {
       this.setState({ networkOptions: undefined })
       return
@@ -586,7 +595,12 @@ export default class AddDrawer extends React.Component {
             prop="initrdUrl"
             label={'initrdUrl'}
             required
-            rules={this.getSelectType() === 'byIso' ? [required] : undefined}
+            rules={
+              this.getSelectType() === 'byIso' &&
+              this.state?.cpuName === 'SW1621'
+                ? [required]
+                : undefined
+            }
             wrapperCol={{ sm: { span: 8 } }}
             hidden={
               this.getSelectType() !== 'byIso' ||

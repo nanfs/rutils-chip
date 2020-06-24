@@ -124,6 +124,7 @@ export default class AddDrawer extends React.Component {
   /**
    *
    * 获取ISO列表 判断 加入到对应列表
+   * SW适配
    * @memberof AddDrawer
    */
   getIso = () => {
@@ -137,7 +138,7 @@ export default class AddDrawer extends React.Component {
           const swISO = []
           res.data.forEach(item => {
             const name = item.repoImageId.toLowerCase()
-            if (name.includes('sw_64')) {
+            if (name.includes('sw_64') && !name.includes('.live.img')) {
               return swISO.push(item.repoImageId)
             }
           })

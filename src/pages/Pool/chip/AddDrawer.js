@@ -9,6 +9,7 @@ import {
 
 import poolsApi from '@/services/pools'
 import desktopsApi from '@/services/desktops'
+import assetsApi from '@/services/assets'
 import { wrapResponse, findArrObj } from '@/utils/tool'
 import {
   required,
@@ -57,13 +58,56 @@ export default class AddDrawer extends React.Component {
       prestartNum: 0,
       maxAssignedVmsPerUser: 1
     })
-    this.getTemplate()
+    this.getCluster()
+  }
+
+  // 获取群集 后端可能没有分页
+  getCluster = () => {
+    return assetsApi
+      .clusters({ current: 1, size: 10000, available: 1 })
+      .then(res =>
+        wrapResponse(res)
+          .then(() => {
+            this.setState({ clusterArr: res.data })
+            const clusterOptions = res.data.map(item => ({
+              label: item.name,
+              value: item.id
+            }))
+            this.setState({ clusterOptions })
+          })
+          .catch(error => {
+            message.error(error.message || error)
+            console.log(error)
+          })
+      )
+  }
+
+  /**
+   * 当集群变化的时候 如果是iso 拉取iso 和网络
+   * 如果 不是 就默认拉取网络和模板
+   * SW适配 获取集群的cpu架构
+   *
+   * @memberof AddDrawer
+   */
+  onClusterChange = (a, b, clusterId) => {
+    const current = findArrObj(this.state.clusterArr, 'id', clusterId)
+    const { storagePoolId, cpuName } = current
+    this.drawer.form.setFieldsValue({ templateId: undefined })
+    this.setState({ clusterId, storagePoolId, cpuName }, () => {
+      this.getTemplate()
+      cpuName === 'SW1621' && this.getIso()
+    })
   }
 
   // 取模板列表 状态可用
   getTemplate = () => {
-    return poolsApi
-      .getTemplate({ current: 1, size: 10000, statusIsOk: 1 })
+    return desktopsApi
+      .getTemplate({
+        current: 1,
+        size: 10000,
+        clusterId: this.state?.clusterId,
+        statusIsOk: 1
+      })
       .then(res => {
         const templateOptions = res.data.records.map(item => ({
           label: item.name,
@@ -75,21 +119,6 @@ export default class AddDrawer extends React.Component {
         message.error(error.message || error)
         console.log(error)
       })
-  }
-
-  // 选取模板是获取 集群是否为申威的架构 是申威架构 获取ISO列表
-  onTempalteChange = (a, b, tempalteId) => {
-    const current = findArrObj(this.state.templateData, 'id', tempalteId)
-    return desktopsApi
-      .getClusterArch(current.clusterId)
-      .then(res =>
-        wrapResponse(res).then(() => {
-          if (res.cpuName === 'SW1621') {
-            this.setState({ cpuName: 'SW1621' }, this.getIso())
-          }
-        })
-      )
-      .catch(error => message.error(error.message || '获取集群架构失败'))
   }
 
   /**
@@ -106,7 +135,7 @@ export default class AddDrawer extends React.Component {
       wrapResponse(res)
         .then(() => {
           const swISO = []
-          res.data.foreach(item => {
+          res.data.forEach(item => {
             const name = item.repoImageId.toLowerCase()
             if (name.includes('-sw_64')) {
               return swISO.push(item.repoImageId)
@@ -182,18 +211,35 @@ export default class AddDrawer extends React.Component {
           >
             <Input placeholder="桌面池名称" />
           </Form.Item>
-          <Form.Item prop="templateId" label="模板" required>
+          <Form.Item
+            prop="clusterId"
+            label="集群"
+            required
+            rules={[required]}
+            wrapperCol={{ sm: { span: 16 } }}
+          >
+            <Radiox
+              getData={this.getCluster}
+              options={this.state?.clusterOptions}
+              onChange={this.onClusterChange}
+            />
+          </Form.Item>
+          <Form.Item
+            prop="templateId"
+            label="模板"
+            hidden={!this.state?.clusterId}
+            required
+          >
             <Radiox
               showExpand
               getData={this.getTemplate}
-              onChange={this.onTempalteChange}
               options={this.state?.templateOptions}
             />
           </Form.Item>
           {/* SW适配 */}
           <Form.Item
             prop="isoName"
-            label={this.state?.cpuName !== 'SW1621' ? 'ISO' : '附加CD'}
+            label={'附加CD'}
             required
             rules={this.state?.cpuName === 'SW1621' ? [required] : undefined}
             hidden={this.state?.cpuName !== 'SW1621'}

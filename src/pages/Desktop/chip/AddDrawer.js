@@ -204,7 +204,7 @@ export default class AddDrawer extends React.Component {
           // SW适配 暂时普华的系统
           if (cpuName === 'SW1621') {
             const swISO = []
-            res.data.foreach(item => {
+            res.data.forEach(item => {
               const name = item.repoImageId.toLowerCase()
               if (name.includes('-sw_64')) {
                 return swISO.push(item.repoImageId)

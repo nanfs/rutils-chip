@@ -574,7 +574,11 @@ export default class AddDrawer extends React.Component {
             required
             rules={[required]}
             wrapperCol={{ sm: { span: 8 } }}
-            hidden={!this.getSelectType() || this.state?.cpuName !== 'SW1621'}
+            hidden={
+              (this.getSelectType() === 'byTemp' &&
+                this.state?.cpuName !== 'SW1621') ||
+              !this.getSelectType()
+            }
           >
             {this.renderOsOptions()}
           </Form.Item>

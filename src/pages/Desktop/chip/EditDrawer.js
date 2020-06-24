@@ -182,6 +182,7 @@ export default class EditDrawer extends React.Component {
                 getData={this.getNetwork}
                 showRefresh={false}
                 onChange={this.onNetSelect}
+                disabled={this.state?.isOpenedSW}
                 options={this.state?.networkOptions}
               />
             </Form.Item>

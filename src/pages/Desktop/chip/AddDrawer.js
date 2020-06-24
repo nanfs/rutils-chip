@@ -204,13 +204,17 @@ export default class AddDrawer extends React.Component {
           // SW适配 暂时普华的系统
           if (cpuName === 'SW1621') {
             const swISO = []
+            const swLiveImg = []
             res.data.forEach(item => {
               const name = item.repoImageId.toLowerCase()
-              if (name.includes('-sw_64')) {
+              if (name.includes('sw_64') && name.includes('.live.img')) {
+                return swLiveImg.push(item.repoImageId)
+              }
+              if (name.includes('sw_64')) {
                 return swISO.push(item.repoImageId)
               }
             })
-            return this.setState({ isos: { swISO } })
+            return this.setState({ isos: { swISO }, swLiveImg })
           }
           const win = []
           const linux = []
@@ -383,6 +387,26 @@ export default class AddDrawer extends React.Component {
     }
   }
 
+  renderImgOptions = () => {
+    return (
+      <Selectx
+        style={{ width: '90%' }}
+        placeholder="请选择镜像"
+        getData={this.getIso}
+      >
+        {this.state?.swLiveImg && (
+          <OptGroup label="适配申威系统" key="swISO">
+            {this.state?.swLiveImg?.map(item => (
+              <Option value={`iso://${item}`} key={item}>
+                {item}
+              </Option>
+            ))}
+          </OptGroup>
+        )}
+      </Selectx>
+    )
+  }
+
   renderOsOptions = () => {
     return (
       <Selectx
@@ -548,14 +572,24 @@ export default class AddDrawer extends React.Component {
             prop="isoName"
             label={this.state?.cpuName !== 'SW1621' ? 'ISO' : '附加CD'}
             required
+            rules={[required]}
+            wrapperCol={{ sm: { span: 8 } }}
+            hidden={!this.getSelectType() || this.state?.cpuName !== 'SW1621'}
+          >
+            {this.renderOsOptions()}
+          </Form.Item>
+          <Form.Item
+            prop="initrdUrl"
+            label={'initrdUrl'}
+            required
             rules={this.getSelectType() === 'byIso' ? [required] : undefined}
             wrapperCol={{ sm: { span: 8 } }}
             hidden={
-              this.getSelectType() !== 'byIso' &&
+              this.getSelectType() !== 'byIso' ||
               this.state?.cpuName !== 'SW1621'
             }
           >
-            {this.renderOsOptions()}
+            {this.renderImgOptions()}
           </Form.Item>
           {/* 如果isoType 不是windows 或者创建方式 不是iso 不显示 */}
           <Form.Item

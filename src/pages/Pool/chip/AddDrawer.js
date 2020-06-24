@@ -137,7 +137,7 @@ export default class AddDrawer extends React.Component {
           const swISO = []
           res.data.forEach(item => {
             const name = item.repoImageId.toLowerCase()
-            if (name.includes('-sw_64')) {
+            if (name.includes('sw_64')) {
               return swISO.push(item.repoImageId)
             }
           })
@@ -161,6 +161,7 @@ export default class AddDrawer extends React.Component {
       })
   }
 
+  // SW适配
   renderOsOptions = () => {
     return (
       <Selectx
@@ -227,6 +228,7 @@ export default class AddDrawer extends React.Component {
           <Form.Item
             prop="templateId"
             label="模板"
+            rules={[required]}
             hidden={!this.state?.clusterId}
             required
           >

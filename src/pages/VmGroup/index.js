@@ -148,6 +148,7 @@ export default class Task extends React.Component {
               <Button onClick={() => this.addGroup()} type="primary">
                 创建
               </Button>
+              <Button onClick={() => this.addGroup()}>预启动配置</Button>
               <Button
                 onClick={() => this.deleteGroup(this.tablex.getSelection())}
                 disabled={disabledButton.disabledDelete}

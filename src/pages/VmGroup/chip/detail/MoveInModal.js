@@ -1,6 +1,13 @@
 import React from 'react'
-import { Formx, Modalx, Tablex, SelectSearch } from '@/components'
-import { Form, Input } from 'antd'
+import {
+  Formx,
+  Modalx,
+  Tablex,
+  SelectSearch,
+  Title,
+  Diliver
+} from '@/components'
+import { Form, Input, Tag } from 'antd'
 import produce from 'immer'
 import vmgroupsApi from '@/services/template'
 import { wrapResponse } from '@/utils/tool'
@@ -22,10 +29,13 @@ export default class MoveInModal extends React.Component {
   columnsArr = [...getColumns().slice(0, 4), ...getColumns().slice(5, 8)]
 
   state = {
+    totalSelection: [],
     tableCfg: createTableCfg({
       columns: this.columnsArr,
       // 筛选模板ID 不过滤池里面桌面
       // searchs: { templateId: this.props.templateId, neededPoolDesktop: 1 },
+      keepSelection: true,
+      rowKey: record => `${record.id}&${record.name}`,
       apiMethod
     })
   }
@@ -71,15 +81,44 @@ export default class MoveInModal extends React.Component {
     )
   }
 
+  onSelectChange = selection => {
+    const newSelection = selection
+    this.setState(
+      produce(draft => {
+        draft.totalSelection = newSelection
+        draft.tableCfg = {
+          ...draft.tableCfg,
+          selection: newSelection
+        }
+      })
+    )
+  }
+
+  removeVmSelection = key => {
+    const { totalSelection } = this.state
+    const newSelection = totalSelection.filter(item => item !== key)
+    this.setState(
+      produce(draft => {
+        draft.totalSelection = newSelection
+        draft.tableCfg = {
+          ...draft.tableCfg,
+          selection: newSelection
+        }
+      }),
+      () => this.tablex.replace(this.state.tableCfg)
+    )
+  }
+
   pop = groupId => {
     this.modal.show()
     this.modal.form.setFieldsValue({ groupId })
   }
 
+  // 迁入虚拟机
   moveIn = values => {
-    console.log('values :>> ', values, this.tablex.getSelection())
+    const ids = this.state.totalSelection.map(item => item.split('&')[0])
     vmgroupsApi
-      .moveIn({ groupId: this.state.groupId, ...values })
+      .moveIn({ ids, ...values })
       .then(res => {
         wrapResponse(res).then(() => {
           this.modal.afterSubmit(res)
@@ -89,6 +128,25 @@ export default class MoveInModal extends React.Component {
         this.modal.break(error)
         console.log(error)
       })
+  }
+
+  // 渲染所选虚拟机
+  renderSelectVm = () => {
+    const { totalSelection } = this.state
+    return totalSelection.map(vm => {
+      const [, name] = vm.split('&')
+      return (
+        <Tag
+          color="blue"
+          key={vm}
+          closable
+          onClose={() => this.removeVmSelection(vm)}
+          title={name}
+        >
+          {name}
+        </Tag>
+      )
+    })
   }
 
   render() {
@@ -121,8 +179,12 @@ export default class MoveInModal extends React.Component {
               }}
               tableCfg={this.state.tableCfg}
               onChange={this.onTableChange}
+              onSelectChange={this.onSelectChange}
             />
           </TableWrap>
+          <Diliver />
+          <Title slot="已选择"></Title>
+          <div>{this.renderSelectVm()}</div>
         </Formx>
       </Modalx>
     )

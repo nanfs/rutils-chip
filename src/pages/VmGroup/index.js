@@ -4,6 +4,7 @@ import { Tablex, InnerPath } from '@/components'
 import EditModal from './chip/EditModal'
 import AddGroupModal from './chip/AddModal'
 import DetailDrawer from './chip/DetailDrawer'
+import PeakDrawer from './chip/PeakDrawer'
 import AddVmDrawer from '@/pages/Desktop/chip/AddDrawer'
 import { columns, apiMethod } from './chip/TableCfg'
 import vmgroupsApi from '@/services/vmgroups'
@@ -63,12 +64,19 @@ export default class Task extends React.Component {
   }
 
   // 默认都可以删除
-  onSelectChange = selection => {
+  onSelectChange = (selection, selectData) => {
     let disabledButton = {}
     if (selection.length === 0) {
       disabledButton = {
         ...disabledButton,
+        disabledSetPeak: true,
         disabledDelete: true
+      }
+    }
+    if (selectData.some(item => item.desktopNum === 0)) {
+      disabledButton = {
+        ...disabledButton,
+        disabledSetPeak: true
       }
     }
 
@@ -89,6 +97,13 @@ export default class Task extends React.Component {
   detail = (name, data) => {
     this.setState({ inner: name })
     this.detailDrawer.pop(data)
+    this.currentDrawer = this.detailDrawer
+  }
+
+  setPeak = record => {
+    const { name } = record
+    this.setState({ inner: name })
+    this.peakDrawer.pop(record)
     this.currentDrawer = this.detailDrawer
   }
 
@@ -148,10 +163,15 @@ export default class Task extends React.Component {
               <Button onClick={() => this.addGroup()} type="primary">
                 创建
               </Button>
-              <Button onClick={() => this.addGroup()}>预启动配置</Button>
               <Button
-                onClick={() => this.deleteGroup(this.tablex.getSelection())}
+                disabled={disabledButton.disabledSetPeak}
+                onClick={() => this.setPeak(this.tablex.getSelectData()[0])}
+              >
+                预启动配置
+              </Button>
+              <Button
                 disabled={disabledButton.disabledDelete}
+                onClick={() => this.deleteGroup(this.tablex.getSelection())}
               >
                 删除
               </Button>
@@ -189,6 +209,13 @@ export default class Task extends React.Component {
             onRef={ref => {
               this.detailDrawer = ref
             }}
+            onClose={this.onBack}
+          />
+          <PeakDrawer
+            onRef={ref => {
+              this.peakDrawer = ref
+            }}
+            onSuccess={this.onSuccess}
             onClose={this.onBack}
           />
         </TableWrap>

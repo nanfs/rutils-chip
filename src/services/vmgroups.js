@@ -46,5 +46,13 @@ export default {
       method: 'post',
       data: qs.stringify(values, { arrayFormat: 'indices', allowDots: true })
     })
+  },
+  setPeaks(data) {
+    const { id, ...values } = data
+    return axios({
+      url: `/vmgroups/${id}`,
+      method: 'post',
+      data: qs.stringify(values, { arrayFormat: 'indices', allowDots: true })
+    })
   }
 }

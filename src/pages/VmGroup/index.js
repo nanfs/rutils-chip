@@ -5,6 +5,7 @@ import EditModal from './chip/EditModal'
 import AddGroupModal from './chip/AddModal'
 import DetailDrawer from './chip/DetailDrawer'
 import PeakDrawer from './chip/PeakDrawer'
+import MoveInModal from './chip/MoveInModal'
 import AddVmDrawer from '@/pages/Desktop/chip/AddDrawer'
 import { columns, apiMethod } from './chip/TableCfg'
 import vmgroupsApi from '@/services/vmgroups'
@@ -25,7 +26,7 @@ export default class Task extends React.Component {
               this.addVm({ groupId: record.id, groupName: record.name })
             }
           >
-            新增桌面
+            新增组桌面
           </a>
           <a onClick={() => this.editGroup(record)}>编辑</a>
           <a onClick={() => this.deleteGroup(record.id, '确定删除该条数据')}>
@@ -69,8 +70,14 @@ export default class Task extends React.Component {
     if (selection.length === 0) {
       disabledButton = {
         ...disabledButton,
-        disabledSetPeak: true,
         disabledDelete: true
+      }
+    }
+    if (selection.length !== 1) {
+      disabledButton = {
+        ...disabledButton,
+        disabledSetPeak: true,
+        disabledMoveIn: true
       }
     }
     if (selectData.some(item => item.desktopNum === 0)) {
@@ -104,7 +111,7 @@ export default class Task extends React.Component {
     const { name } = record
     this.setState({ inner: name })
     this.peakDrawer.pop(record)
-    this.currentDrawer = this.detailDrawer
+    this.currentDrawer = this.peakDrawer
   }
 
   addGroup = () => {
@@ -118,6 +125,10 @@ export default class Task extends React.Component {
       this.addVmModal.pop({ groupId, name: `${groupName}_vm` })
     )
     this.currentDrawer = this.addVmModal
+  }
+
+  moveIn = groupId => {
+    this.moveInModal.pop(groupId)
   }
 
   editGroup = record => {
@@ -162,6 +173,12 @@ export default class Task extends React.Component {
             <BarLeft>
               <Button onClick={() => this.addGroup()} type="primary">
                 创建
+              </Button>
+              <Button
+                disabled={disabledButton.disabledMoveIn}
+                onClick={() => this.moveIn()}
+              >
+                迁入
               </Button>
               <Button
                 disabled={disabledButton.disabledSetPeak}
@@ -210,6 +227,12 @@ export default class Task extends React.Component {
               this.detailDrawer = ref
             }}
             onClose={this.onBack}
+          />
+          <MoveInModal
+            onRef={ref => {
+              this.moveInModal = ref
+            }}
+            onSuccess={this.onSuccess}
           />
           <PeakDrawer
             onRef={ref => {

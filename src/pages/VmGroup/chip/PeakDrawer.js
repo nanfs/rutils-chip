@@ -1,10 +1,54 @@
 import React from 'react'
-import { Form, Input, Icon, Row, Col, notification } from 'antd'
+import { Form, Input, Icon, Row, Col, TimePicker } from 'antd'
 import { Drawerx, Formx, Title } from '@/components'
 import vmgroupsApi from '@/services/vmgroups'
-import { required, checkName } from '@/utils/valid'
+import { required } from '@/utils/valid'
+import dayjs from 'dayjs'
 
+const customParseFormat = require('dayjs/plugin/customParseFormat')
+
+dayjs.extend(customParseFormat)
 export default class PeakDrawer extends React.Component {
+  // TODO 添加校验触发函数
+  //  验证结束时间不能晚于开始时间
+  checkEndTime = index => {
+    return (rule, value, callback) => {
+      if (!value) {
+        callback()
+      }
+      const startTime = this.drawer.form.getFieldValue(`startTime[${index}]`)
+      if (startTime && !dayjs(startTime).isBefore(value)) {
+        callback(new Error('结束时间必须晚于开始时间'))
+      }
+      callback()
+    }
+  }
+
+  //  验证开始时间不能晚于开始时间
+  checkStartTime = index => {
+    return (rule, value, callback) => {
+      const endTime = this.drawer.form.getFieldValue(`endTime[${index}]`)
+      const { peaks } = this.state
+      if (!value) {
+        callback()
+      }
+      if (
+        peaks.some(
+          item =>
+            item.startTime &&
+            dayjs(item.startTime).isBefore(value) &&
+            dayjs(item.endTime).isAfter(value)
+        )
+      ) {
+        callback(new Error('时间存在重合请确认'))
+      }
+      if (endTime && !dayjs(endTime).isAfter(value)) {
+        callback(new Error('开始时间必须晚于结束时间'))
+      }
+      callback()
+    }
+  }
+
   componentDidMount() {
     this.props.onRef && this.props.onRef(this)
   }
@@ -33,8 +77,9 @@ export default class PeakDrawer extends React.Component {
     const { peaks } = this.state
     const formPeaks = {}
     peaks.forEach((item, index) => {
-      formPeaks[`startTime[${index}]`] = item.startTime
-      formPeaks[`endTime[${index}]`] = item.endTime
+      console.log('item.startTime :>> ', item.startTime)
+      formPeaks[`startTime[${index}]`] = dayjs(item.startTime || '', 'HH:mm')
+      formPeaks[`endTime[${index}]`] = dayjs(item.endTime || '', 'HH:mm')
       formPeaks[`preStart[${index}]`] = item.preStart
     })
     this.drawer.form.setFieldsValue({
@@ -93,7 +138,7 @@ export default class PeakDrawer extends React.Component {
     //   return
     // }
     this.setState({
-      peaks: [...peaks, []]
+      peaks: [...peaks, {}]
     })
   }
 
@@ -109,17 +154,26 @@ export default class PeakDrawer extends React.Component {
           <Col span={7}>
             <Form.Item
               prop={`startTime[${index}]`}
-              rules={index > 0 ? [required] : undefined}
+              rules={
+                index > 0
+                  ? [required, this.checkStartTime(index)]
+                  : [this.checkStartTime(index)]
+              }
             >
-              <Input placeholder="开始时间" />
+              <TimePicker format={'HH:mm'} style={{ width: '100%' }} />
             </Form.Item>
           </Col>
           <Col span={7}>
             <Form.Item
               prop={`endTime[${index}]`}
-              rules={index > 0 ? [required] : undefined}
+              rules={
+                index > 0
+                  ? [required, this.checkEndTime(index)]
+                  : [this.checkEndTime(index)]
+              }
+              validateTrigger={('onBlur', 'onChange')}
             >
-              <Input placeholder="开始时间" />
+              <TimePicker format={'HH:mm'} style={{ width: '100%' }} />
             </Form.Item>
           </Col>
           <Col span={7}>
@@ -154,7 +208,20 @@ export default class PeakDrawer extends React.Component {
    * 新增外设策略 对提交的数据进行格式处理
    * 名单有一项不为空，提示填完整；全为空，则不提交该数据
    */
-  addDev = values => {
+  setPeak = () => {
+    this.drawer.form
+      .validateFieldsAndScroll((errors, values) => {
+        if (!errors) {
+          console.log(values)
+        } else {
+          console.log('123', errors, values)
+        }
+      })
+      .catch(() => {
+        this.setState({
+          submitting: false
+        })
+      })
     const { groupId } = this.state
     const peaks = this.getField()
     vmgroupsApi
@@ -176,11 +243,7 @@ export default class PeakDrawer extends React.Component {
         }}
         onOk={this.setPeak}
       >
-        <Formx
-          onRef={ref => {
-            this.formx = ref
-          }}
-        >
+        <Formx>
           <Title slot="桌面组设置"></Title>
           <Row gutter={16} className="form-item-wrapper">
             <Col span={7}>

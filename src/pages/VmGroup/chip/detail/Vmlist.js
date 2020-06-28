@@ -16,7 +16,6 @@ import {
   apiMethod
 } from '@/pages/Common/VmTableCfg'
 import { downloadVV, wrapResponse } from '@/utils/tool'
-import MoveInModal from './MoveInModal'
 
 const { createTableCfg, TableWrap, ToolBar, BarLeft } = Tablex
 const { confirm } = Modal
@@ -230,9 +229,6 @@ export default class Desktop extends React.Component {
         <TableWrap>
           <ToolBar>
             <BarLeft>
-              <Button type="primary" onClick={() => this.moveIn()}>
-                迁入
-              </Button>
               <Button
                 disabled={disabledButton?.disabledRemove}
                 onClick={() => this.remove(this.tablex.getSelection())}
@@ -258,12 +254,6 @@ export default class Desktop extends React.Component {
             onChange={this.onTableChange}
           />
         </TableWrap>
-        <MoveInModal
-          onRef={ref => {
-            this.moveInModal = ref
-          }}
-          onSuccess={() => this.tablex.search(this.state.tableCfg)}
-        />
       </React.Fragment>
     )
   }

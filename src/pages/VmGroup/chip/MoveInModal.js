@@ -111,6 +111,15 @@ export default class MoveInModal extends React.Component {
 
   pop = groupId => {
     this.modal.show()
+    this.setState({
+      totalSelection: [],
+      tableCfg: createTableCfg({
+        columns: this.columnsArr,
+        keepSelection: true,
+        rowKey: record => `${record.id}&${record.name}`,
+        apiMethod
+      })
+    })
     this.modal.form.setFieldsValue({ groupId })
   }
 

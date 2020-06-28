@@ -38,7 +38,6 @@ export default class DetailDrawer extends React.Component {
           <TabPane tab="桌面列表" key="1">
             <Vmlist groupId={id}></Vmlist>
           </TabPane>
-          <TabPane tab="高低峰配置" key="2"></TabPane>
         </Tabsx>
       </Drawerx>
     )

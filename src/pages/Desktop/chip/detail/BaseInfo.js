@@ -222,7 +222,15 @@ export default class BaseInfo extends React.Component {
           </Row>
           <Row className="dms-detail-row">
             <Col span={3} className="dms-detail-label">
-              MAC：
+              IP：
+            </Col>
+            <Col span={8} className="dms-detail-value">
+              <Tooltip title={data.ip} placement="topLeft">
+                <span>{data.ip}</span>
+              </Tooltip>
+            </Col>
+            <Col span={3} className="dms-detail-label">
+              物理地址：
             </Col>
             <Col span={8} className="dms-detail-value">
               {/* 通过网络信息里面取得MAC信息 */}
@@ -231,14 +239,6 @@ export default class BaseInfo extends React.Component {
                 placement="topLeft"
               >
                 <span>{data.network?.map(item => item.mac).join(',')}</span>
-              </Tooltip>
-            </Col>
-            <Col span={3} className="dms-detail-label">
-              IP：
-            </Col>
-            <Col span={8} className="dms-detail-value">
-              <Tooltip title={data.ip} placement="topLeft">
-                <span>{data.ip}</span>
               </Tooltip>
             </Col>
           </Row>

@@ -51,7 +51,7 @@ export default class User extends React.Component {
   options = {
     title: '操作',
     dataIndex: 'opration',
-    width: 160,
+    width: 110,
     render: (text, record) => {
       const moreAction = (
         <Menu>
@@ -105,7 +105,7 @@ export default class User extends React.Component {
   adOptions = {
     title: '操作',
     dataIndex: 'opration',
-    width: 130,
+    width: 110,
     render: (text, record) => {
       return (
         <span className="opration-btn">

@@ -99,6 +99,7 @@ export const columns = [
   {
     title: () => <span title="已分配桌面数">已分配桌面数</span>,
     dataIndex: 'vmcount',
+    width: 110,
     ellipsis: true,
     className: 'ellipsis-hasTag',
     render: text => <Tag color="blue">{text}</Tag>
@@ -106,6 +107,7 @@ export const columns = [
   {
     title: () => <span title="已分配终端数">已分配终端数</span>,
     dataIndex: 'tccount',
+    width: 110,
     ellipsis: true,
     className: 'ellipsis-hasTag',
     render: text => <Tag color="blue">{text}</Tag>

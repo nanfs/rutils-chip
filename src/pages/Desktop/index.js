@@ -54,7 +54,7 @@ export default class Desktop extends React.Component {
 
   action = {
     title: () => <span title="操作">操作</span>,
-    width: 130,
+    width: 120,
     dataIndex: 'action',
     defaultFilteredValue: defaultColumnsValue,
     filters: defaultColumnsFilters,

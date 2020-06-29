@@ -14,19 +14,17 @@ export const columns = [
   {
     title: () => <span title="时间">时间</span>,
     dataIndex: 'logTime',
-    width: 180,
+    width: 170,
     ellipsis: true
   },
   {
     title: () => <span title="信息">信息</span>,
     dataIndex: 'message',
-    width: '20%',
     ellipsis: true
   },
   {
     title: () => <span title="终端SN">终端SN</span>,
     dataIndex: 'tcSn',
-    width: '20%',
     ellipsis: true
   },
   {
@@ -47,7 +45,6 @@ export const columns = [
   {
     title: () => <span title="用户IP">用户IP</span>,
     dataIndex: 'userIp',
-    width: '10%',
     ellipsis: true
   }
 ]

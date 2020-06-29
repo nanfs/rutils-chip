@@ -192,7 +192,7 @@ export const vmStatusRender = status => {
           fontSize: '18px'
         }}
       />{' '}
-      {vmStatusText[statusList[status]]}
+      {/* {vmStatusText[statusList[status]]} */}
     </span>
   )
 }

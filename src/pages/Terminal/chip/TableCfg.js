@@ -62,7 +62,7 @@ export const columns = [
   {
     title: () => <span title="接入状态">接入状态</span>,
     dataIndex: 'isReg',
-    width: 110,
+    width: 100,
     filters: [
       {
         text: '待接入',
@@ -81,12 +81,11 @@ export const columns = [
       )
     }
   },
-  {
+  /* {
     title: () => <span title="位置">位置</span>,
     dataIndex: 'location',
     ellipsis: true
-  },
-
+  }, */
   {
     title: () => <span title="外设控制">外设控制</span>,
     width: 90,
@@ -96,7 +95,7 @@ export const columns = [
         {text !== 0 ? (
           <Icon type="check" style={iconStyle.check} />
         ) : (
-          <Icon type="close" style={iconStyle.close} />
+          <Icon type="close" className="table-icon-warn" />
         )}
       </span>
     )
@@ -110,7 +109,7 @@ export const columns = [
         {text !== 0 ? (
           <Icon type="check" style={iconStyle.check} />
         ) : (
-          <Icon type="close" style={iconStyle.close} />
+          <Icon type="close" className="table-icon-warn" />
         )}
       </span>
     )
@@ -124,7 +123,7 @@ export const columns = [
         {text !== 0 ? (
           <Icon type="check" style={iconStyle.check} />
         ) : (
-          <Icon type="close" style={iconStyle.close} />
+          <Icon type="close" className="table-icon-warn" />
         )}
       </span>
     )

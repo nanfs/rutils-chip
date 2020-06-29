@@ -206,7 +206,7 @@ export default class DetailDrawer extends React.Component {
             </Col>
           </Row> */}
             </div>
-            
+
             <div className="dms-detail-section">
               <Title slot="所属用户"></Title>
               <Table

@@ -6,12 +6,10 @@ import AddGroupModal from './chip/AddModal'
 import DetailDrawer from './chip/DetailDrawer'
 import PeakDrawer from './chip/PeakDrawer'
 import MoveInModal from './chip/MoveInModal'
+import DeleteModal from './chip/DeleteModal'
 import AddVmDrawer from '@/pages/Desktop/chip/AddDrawer'
 import { columns, apiMethod } from './chip/TableCfg'
-import vmgroupsApi from '@/services/vmgroups'
-import { wrapResponse } from '@/utils/tool'
 
-const { confirm } = Modal
 const { createTableCfg, TableWrap, ToolBar, BarLeft } = Tablex
 export default class Task extends React.Component {
   options = {
@@ -29,7 +27,14 @@ export default class Task extends React.Component {
             新增组桌面
           </a>
           <a onClick={() => this.editGroup(record)}>编辑</a>
-          <a onClick={() => this.deleteGroup(record.id, '确定删除该条数据')}>
+          <a
+            onClick={() =>
+              this.deleteModal.pop({
+                ids: [record.id],
+                title: '确定删除该条数据'
+              })
+            }
+          >
             删除
           </a>
         </span>
@@ -136,29 +141,6 @@ export default class Task extends React.Component {
     this.currentDrawer = this.editModal
   }
 
-  // 删除桌面组
-  deleteGroup = (ids, title = '确定删除所选数据') => {
-    const groupIds = Array.isArray(ids) ? [...ids] : [ids]
-    confirm({
-      title,
-      onOk: () => {
-        vmgroupsApi
-          .delVm({ groupIds })
-          .then(res => {
-            wrapResponse(res).then(() => {
-              notification.success({ message: '删除成功' })
-              this.tablex.refresh(this.state.tableCfg)
-            })
-          })
-          .catch(error => {
-            message.error(error.message || error)
-            error.type === 'timeout' && this.tablex.refresh(this.state.tableCfg)
-          })
-      },
-      onCancel() {}
-    })
-  }
-
   render() {
     const { disabledButton } = this.state
     return (
@@ -188,7 +170,9 @@ export default class Task extends React.Component {
               </Button>
               <Button
                 disabled={disabledButton.disabledDelete}
-                onClick={() => this.deleteGroup(this.tablex.getSelection())}
+                onClick={() =>
+                  this.deleteModal.pop({ ids: this.tablex.getSelection() })
+                }
               >
                 删除
               </Button>
@@ -218,6 +202,13 @@ export default class Task extends React.Component {
           <EditModal
             onRef={ref => {
               this.editModal = ref
+            }}
+            onSuccess={this.onSuccess}
+            onClose={this.onBack}
+          />
+          <DeleteModal
+            onRef={ref => {
+              this.deleteModal = ref
             }}
             onSuccess={this.onSuccess}
             onClose={this.onBack}

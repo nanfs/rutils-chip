@@ -2,24 +2,37 @@ import React from 'react'
 import { Form, Input, Icon, Row, Col, TimePicker } from 'antd'
 import { Drawerx, Formx, Title } from '@/components'
 import vmgroupsApi from '@/services/vmgroups'
-import { required } from '@/utils/valid'
 import dayjs from 'dayjs'
 
 const customParseFormat = require('dayjs/plugin/customParseFormat')
 
 dayjs.extend(customParseFormat)
 export default class PeakDrawer extends React.Component {
-  // TODO 添加校验触发函数
   //  验证结束时间不能晚于开始时间
   checkEndTime = index => {
     return (rule, value, callback) => {
+      const { startTime, endTime } = this.drawer.form.getFieldsValue()
       if (!value) {
-        callback()
+        callback(new Error('这是必填项'))
       }
-      const startTime = this.drawer.form.getFieldValue(`startTime[${index}]`)
-      if (startTime && !dayjs(startTime).isBefore(value)) {
-        callback(new Error('结束时间必须晚于开始时间'))
-      }
+      endTime.forEach((item, k) => {
+        if (
+          k === index &&
+          startTime[index] &&
+          !dayjs(startTime[index]).isBefore(value)
+        ) {
+          callback(new Error('结束时间必须晚于开始时间'))
+        }
+        if (
+          k !== index &&
+          endTime[k] &&
+          endTime[k].isAfter(value) &&
+          startTime[k] &&
+          dayjs(startTime[k]).isBefore(value)
+        ) {
+          callback(new Error('时间存在重复'))
+        }
+      })
       callback()
     }
   }
@@ -27,26 +40,41 @@ export default class PeakDrawer extends React.Component {
   //  验证开始时间不能晚于开始时间
   checkStartTime = index => {
     return (rule, value, callback) => {
-      const endTime = this.drawer.form.getFieldValue(`endTime[${index}]`)
-      const { peaks } = this.state
+      const { startTime, endTime } = this.drawer.form.getFieldsValue()
       if (!value) {
-        callback()
+        callback(new Error('这是必填项'))
       }
-      if (
-        peaks.some(
-          item =>
-            item.startTime &&
-            dayjs(item.startTime).isBefore(value) &&
-            dayjs(item.endTime).isAfter(value)
-        )
-      ) {
-        callback(new Error('时间存在重合请确认'))
-      }
-      if (endTime && !dayjs(endTime).isAfter(value)) {
-        callback(new Error('开始时间必须晚于结束时间'))
-      }
+      startTime.forEach((item, k) => {
+        if (
+          k === index &&
+          endTime[index] &&
+          !dayjs(endTime[index]).isAfter(value)
+        ) {
+          callback(new Error('开始时间必须早于结束时间'))
+        }
+        if (
+          k !== index &&
+          startTime[k] &&
+          startTime[k].isBefore(value) &&
+          endTime[k] &&
+          dayjs(endTime[k]).isAfter(value)
+        ) {
+          callback(new Error('时间存在重复'))
+        }
+      })
       callback()
     }
+  }
+
+  // 验证预启动数量
+  checkPreStart = (rule, value, callback) => {
+    if (!value) {
+      callback(new Error('这是必填项'))
+    }
+    if (value && +value > this.state?.desktopNum) {
+      callback(new Error('预启动数超过当前桌面组桌面数'))
+    }
+    callback()
   }
 
   componentDidMount() {
@@ -55,6 +83,7 @@ export default class PeakDrawer extends React.Component {
 
   componentDidUpdate(props, state) {
     if (JSON.stringify(this.state) !== JSON.stringify(state)) {
+      console.log('123123')
       this.setField()
     }
   }
@@ -77,11 +106,16 @@ export default class PeakDrawer extends React.Component {
     const { peaks } = this.state
     const formPeaks = {}
     peaks.forEach((item, index) => {
-      console.log('item.startTime :>> ', item.startTime)
-      formPeaks[`startTime[${index}]`] = dayjs(item.startTime || '', 'HH:mm')
-      formPeaks[`endTime[${index}]`] = dayjs(item.endTime || '', 'HH:mm')
+      formPeaks[`startTime[${index}]`] = item.startTime
+        ? dayjs(item.startTime, 'HH:mm')
+        : null
+
+      formPeaks[`endTime[${index}]`] = item.endTime
+        ? dayjs(item.endTime, 'HH:mm')
+        : null
       formPeaks[`preStart[${index}]`] = item.preStart
     })
+    console.log(formPeaks)
     this.drawer.form.setFieldsValue({
       ...formPeaks
     })
@@ -97,11 +131,12 @@ export default class PeakDrawer extends React.Component {
     const peaks = []
     startTime.forEach((item, index) => {
       peaks.push({
-        startTime: startTime[index],
-        endTime: endTime[index],
-        preStart: preStart[index]
+        startTime: startTime[index] ? startTime[index].format('HH:mm') : '',
+        endTime: endTime[index] ? endTime[index].format('HH:mm') : '',
+        preStart: preStart[index] || ''
       })
     })
+    console.log('peaks', peaks)
     return peaks
   }
 
@@ -154,11 +189,7 @@ export default class PeakDrawer extends React.Component {
           <Col span={7}>
             <Form.Item
               prop={`startTime[${index}]`}
-              rules={
-                index > 0
-                  ? [required, this.checkStartTime(index)]
-                  : [this.checkStartTime(index)]
-              }
+              rules={[this.checkStartTime(index)]}
             >
               <TimePicker format={'HH:mm'} style={{ width: '100%' }} />
             </Form.Item>
@@ -166,21 +197,13 @@ export default class PeakDrawer extends React.Component {
           <Col span={7}>
             <Form.Item
               prop={`endTime[${index}]`}
-              rules={
-                index > 0
-                  ? [required, this.checkEndTime(index)]
-                  : [this.checkEndTime(index)]
-              }
-              validateTrigger={('onBlur', 'onChange')}
+              rules={[this.checkEndTime(index)]}
             >
               <TimePicker format={'HH:mm'} style={{ width: '100%' }} />
             </Form.Item>
           </Col>
           <Col span={7}>
-            <Form.Item
-              prop={`preStart[${index}]`}
-              rules={index > 0 ? [required] : undefined}
-            >
+            <Form.Item prop={`preStart[${index}]`} rules={[this.checkPreStart]}>
               <Input placeholder="预启动桌面数" />
             </Form.Item>
           </Col>
@@ -209,19 +232,8 @@ export default class PeakDrawer extends React.Component {
    * 名单有一项不为空，提示填完整；全为空，则不提交该数据
    */
   setPeak = () => {
-    this.drawer.form
-      .validateFieldsAndScroll((errors, values) => {
-        if (!errors) {
-          console.log(values)
-        } else {
-          console.log('123', errors, values)
-        }
-      })
-      .catch(() => {
-        this.setState({
-          submitting: false
-        })
-      })
+    console.log('12313213213')
+    console.log(this.drawer.form.getFieldsValue())
     const { groupId } = this.state
     const peaks = this.getField()
     vmgroupsApi

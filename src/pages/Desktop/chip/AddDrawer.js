@@ -51,6 +51,7 @@ export default class AddDrawer extends React.Component {
     this.setState({
       networkOptions: [],
       templateOptions: [],
+      clusterId: null,
       nets: [undefined],
       netTopIndex: 1,
       netNic: [1], // 当前可用网络数量
@@ -193,13 +194,28 @@ export default class AddDrawer extends React.Component {
    * @memberof AddDrawer
    */
   getIso = () => {
-    const { storagePoolId } = this.state
+    const { storagePoolId, cpuName } = this.state
     if (!storagePoolId) {
       return message.error('请先选择集群')
     }
     return desktopsApi.getIso({ storagePoolId }).then(res =>
       wrapResponse(res)
         .then(() => {
+          // SW适配 暂时普华的系统
+          if (cpuName === 'SW1621') {
+            const swISO = []
+            const swLiveImg = []
+            res.data.forEach(item => {
+              const name = item.repoImageId.toLowerCase()
+              if (name.includes('sw_64') && name.includes('.live.img')) {
+                return swLiveImg.push(item.repoImageId)
+              }
+              if (name.includes('sw_64')) {
+                return swISO.push(item.repoImageId)
+              }
+            })
+            return this.setState({ isos: { swISO }, swLiveImg })
+          }
           const win = []
           const linux = []
           const domestic = []
@@ -246,14 +262,19 @@ export default class AddDrawer extends React.Component {
   /**
    * 当集群变化的时候 如果是iso 拉取iso 和网络
    * 如果 不是 就默认拉取网络和模板
+   * SW适配 获取集群的cpu架构
    *
    * @memberof AddDrawer
    */
   onClusterChange = (a, b, clusterId) => {
     const current = findArrObj(this.state.clusterArr, 'id', clusterId)
-    const { storagePoolId } = current
-    this.drawer.form.setFieldsValue({ templateId: undefined })
-    this.setState({ clusterId, storagePoolId }, () => {
+    const { storagePoolId, cpuName } = current
+    this.drawer.form.setFieldsValue({
+      templateId: undefined,
+      isoName: undefined,
+      initrdUrl: undefined
+    })
+    this.setState({ clusterId, storagePoolId, cpuName }, () => {
       if (this.getSelectType() === 'byIso') {
         this.getNetwork()
         this.getIso()
@@ -270,6 +291,11 @@ export default class AddDrawer extends React.Component {
    * @memberof AddDrawer
    */
   onCreateTypeChange = (a, b, target) => {
+    this.drawer.form.setFieldsValue({
+      templateId: undefined,
+      isoName: undefined,
+      initrdUrl: undefined
+    })
     if (!this.state.clusterId) {
       this.setState({ networkOptions: undefined })
       return
@@ -370,6 +396,26 @@ export default class AddDrawer extends React.Component {
     }
   }
 
+  renderImgOptions = () => {
+    return (
+      <Selectx
+        style={{ width: '90%' }}
+        placeholder="请选择镜像"
+        getData={this.getIso}
+      >
+        {this.state?.swLiveImg && (
+          <OptGroup label="适配申威系统" key="swISO">
+            {this.state?.swLiveImg?.map(item => (
+              <Option value={`iso://${item}`} key={item}>
+                {item}
+              </Option>
+            ))}
+          </OptGroup>
+        )}
+      </Selectx>
+    )
+  }
+
   renderOsOptions = () => {
     return (
       <Selectx
@@ -399,6 +445,15 @@ export default class AddDrawer extends React.Component {
         {this.state?.isos?.domestic && (
           <OptGroup label="国产系统" key="domestic">
             {this.state?.isos?.domestic?.map(item => (
+              <Option value={item} key={item}>
+                {item}
+              </Option>
+            ))}
+          </OptGroup>
+        )}
+        {this.state?.isos?.swISO && (
+          <OptGroup label="适配申威系统" key="swISO">
+            {this.state?.isos?.swISO?.map(item => (
               <Option value={item} key={item}>
                 {item}
               </Option>
@@ -498,7 +553,12 @@ export default class AddDrawer extends React.Component {
               onChange={this.onClusterChange}
             />
           </Form.Item>
-          <Form.Item prop="type" required label="创建方式">
+          <Form.Item
+            prop="type"
+            required
+            label="创建方式"
+            hidden={!this.state?.clusterId}
+          >
             <Radiox options={createType} onChange={this.onCreateTypeChange} />
           </Form.Item>
           <Form.Item
@@ -516,15 +576,38 @@ export default class AddDrawer extends React.Component {
               onChange={this.onTempalteChange}
             />
           </Form.Item>
+          {/* SW适配 */}
           <Form.Item
             prop="isoName"
-            label="ISO"
+            label={this.state?.cpuName !== 'SW1621' ? 'ISO' : '附加CD'}
             required
-            rules={this.getSelectType() === 'byIso' ? [required] : undefined}
+            rules={[required]}
             wrapperCol={{ sm: { span: 8 } }}
-            hidden={this.getSelectType() !== 'byIso'}
+            hidden={
+              (this.getSelectType() === 'byTemp' &&
+                this.state?.cpuName !== 'SW1621') ||
+              !this.getSelectType()
+            }
           >
             {this.renderOsOptions()}
+          </Form.Item>
+          <Form.Item
+            prop="initrdUrl"
+            label={'initrdUrl'}
+            required
+            rules={
+              this.getSelectType() === 'byIso' &&
+              this.state?.cpuName === 'SW1621'
+                ? [required]
+                : undefined
+            }
+            wrapperCol={{ sm: { span: 8 } }}
+            hidden={
+              this.getSelectType() !== 'byIso' ||
+              this.state?.cpuName !== 'SW1621'
+            }
+          >
+            {this.renderImgOptions()}
           </Form.Item>
           {/* 如果isoType 不是windows 或者创建方式 不是iso 不显示 */}
           <Form.Item
@@ -600,7 +683,13 @@ export default class AddDrawer extends React.Component {
             hidden={this.getSelectType() !== 'byTemp'}
             rules={[required, lessThanValue(100), isInt]}
           >
-            <InputNumber placeholder="" min={1} max={100} />
+            <InputNumber
+              placeholder=""
+              min={1}
+              max={100}
+              formatter={value => `${value}`}
+              parser={value => value}
+            />
           </Form.Item>
           <Diliver />
           <Title slot="网络设置"></Title>

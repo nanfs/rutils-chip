@@ -51,7 +51,14 @@ export default class AddDiskModal extends React.Component {
             label="磁盘大小(G)"
             rules={[required, isInt]}
           >
-            <InputNumber min={1} width={300} max={2000} step={10}></InputNumber>
+            <InputNumber
+              min={1}
+              width={300}
+              max={2000}
+              step={10}
+              formatter={value => `${value}`}
+              parser={value => value}
+            ></InputNumber>
           </Form.Item>
           <Form.Item prop="description" label="描述">
             <TextArea style={{ resize: 'none' }} rows={4} placeholder="描述" />

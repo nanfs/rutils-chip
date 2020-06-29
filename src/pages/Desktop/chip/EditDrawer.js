@@ -30,7 +30,8 @@ export default class EditDrawer extends React.Component {
       wrapResponse(res)
         .then(() => {
           const { data } = res
-          const { network } = data
+          // SW适配
+          const { network, status, clusterCpuName } = data
           const nets = network?.length
             ? network.map(item => item.kindid)
             : [undefined]
@@ -38,12 +39,14 @@ export default class EditDrawer extends React.Component {
             ? network.map(item => +item.vnic.replace('nic', ''))
             : [1]
           const netTopIndex = netNic.sort()[netNic.length - 1]
+          const isOpenedSW = status === 1 && clusterCpuName === 'SW1621'
           this.setState({
             templateName: data.templateName,
             clusterId: data.clusterId,
             nets,
             netNic,
             netTopIndex,
+            isOpenedSW,
             hasSetNetValue: true
           })
           this.drawer.form.setFieldsValue({ ...data, id, nic: nets })
@@ -179,6 +182,7 @@ export default class EditDrawer extends React.Component {
                 getData={this.getNetwork}
                 showRefresh={false}
                 onChange={this.onNetSelect}
+                disabled={this.state?.isOpenedSW}
                 options={this.state?.networkOptions}
               />
             </Form.Item>
@@ -188,10 +192,11 @@ export default class EditDrawer extends React.Component {
               icon="minus-circle-o"
               className="dynamic-button"
               onClick={() => this.remove(index)}
+              disabled={this.state?.isOpenedSW}
             />
             <Button
               hidden={index !== networks.length - 1}
-              disabled={networks.length >= 5}
+              disabled={networks.length >= 5 || this.state?.isOpenedSW}
               className="dynamic-button"
               icon="plus-circle"
               // 如果实际网卡 已经有5个 或者当前下拉没有值 禁用添加新项

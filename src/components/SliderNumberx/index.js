@@ -11,8 +11,11 @@ export default class SliderNumberx extends React.Component {
   }
 
   handleChange = value => {
-    this.setState({ value })
-    this.props.onChange(value)
+    const re = new RegExp('^(\\-)?([1-9]{1}[0-9]*|[0-9])$')
+    if (re.test(value)) {
+      this.setState({ value })
+      this.props.onChange(value)
+    }
   }
 
   render() {

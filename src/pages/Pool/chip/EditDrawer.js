@@ -94,7 +94,13 @@ export default class EditDrawer extends React.Component {
             required
             rules={[required, lessThanValue(20), isInt]}
           >
-            <InputNumber placeholder="" min={0} max={20} />
+            <InputNumber
+              placeholder=""
+              min={0}
+              max={20}
+              formatter={value => `${value}`}
+              parser={value => value}
+            />
           </Form.Item>
           <Form.Item
             prop="prestartNum"
@@ -102,7 +108,12 @@ export default class EditDrawer extends React.Component {
             required
             rules={[required, this.compareTotal, isInt]}
           >
-            <InputNumber placeholder="" min={0} />
+            <InputNumber
+              placeholder=""
+              min={0}
+              formatter={value => `${value}`}
+              parser={value => value}
+            />
           </Form.Item>
           <Form.Item
             prop="maxAssignedVmsPerUser"
@@ -110,7 +121,12 @@ export default class EditDrawer extends React.Component {
             required
             rules={[required, this.compareTotal, isInt, moreThanValue(1)]}
           >
-            <InputNumber placeholder="" min={1} />
+            <InputNumber
+              placeholder=""
+              min={1}
+              formatter={value => `${value}`}
+              parser={value => value}
+            />
           </Form.Item>
           <Form.Item prop="description" label="描述">
             <TextArea placeholder="描述" />

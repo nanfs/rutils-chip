@@ -13,14 +13,12 @@ export const columns = [
   {
     title: () => <span title="时间">时间</span>,
     dataIndex: 'logTime',
-    width: 180,
+    width: 170,
     ellipsis: true
   },
   {
     title: () => <span title="信息">信息</span>,
     dataIndex: 'message',
-    width: '20%',
-
     ellipsis: true
   },
   {
@@ -37,13 +35,11 @@ export const columns = [
   {
     title: () => <span title="主机">主机</span>,
     dataIndex: 'hostName',
-    width: 140,
     ellipsis: true
   },
   {
     title: () => <span title="数据中心">数据中心</span>,
     dataIndex: 'datacenterName',
-    width: '9%',
     ellipsis: true
   },
   {

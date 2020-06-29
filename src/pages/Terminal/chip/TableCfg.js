@@ -107,7 +107,7 @@ export const columns = [
         {text !== 0 ? (
           <Icon type="check" style={iconStyle.check} />
         ) : (
-          <Icon type="close" style={iconStyle.close} />
+          <Icon type="close" className="table-icon-warn" />
         )}
       </span>
     )
@@ -121,7 +121,7 @@ export const columns = [
         {text !== 0 ? (
           <Icon type="check" style={iconStyle.check} />
         ) : (
-          <Icon type="close" style={iconStyle.close} />
+          <Icon type="close" className="table-icon-warn" />
         )}
       </span>
     )
@@ -135,7 +135,7 @@ export const columns = [
         {text !== 0 ? (
           <Icon type="check" style={iconStyle.check} />
         ) : (
-          <Icon type="close" style={iconStyle.close} />
+          <Icon type="close" className="table-icon-warn" />
         )}
       </span>
     )

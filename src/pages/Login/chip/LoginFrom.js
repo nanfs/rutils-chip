@@ -68,7 +68,7 @@ export default class LoginForm extends React.Component {
     }
     data = {
       username: values.username,
-      password: values.password,
+      password: encrypt(values.password),
       domain: 'internal'
     }
     loginApi

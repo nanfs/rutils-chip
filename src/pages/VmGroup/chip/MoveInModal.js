@@ -9,7 +9,7 @@ import {
 } from '@/components'
 import { Form, Input, Tag } from 'antd'
 import produce from 'immer'
-import vmgroupsApi from '@/services/template'
+import vmgroupsApi from '@/services/vmgroups'
 import { wrapResponse } from '@/utils/tool'
 import {
   getColumns,
@@ -39,6 +39,27 @@ export default class MoveInModal extends React.Component {
       apiMethod
     })
   }
+
+  // 打开迁入 保存groupId 搜索条件
+  pop = groupId => {
+    this.modal.show()
+    this.setState({
+      totalSelection: [],
+      tableCfg: createTableCfg({
+        autoFetch: false,
+        columns: this.columnsArr,
+        keepSelection: true,
+        searchs: { groupId },
+        rowKey: record => `${record.id}&${record.name}`,
+        apiMethod: vmgroupsApi.addible
+      }),
+      groupId
+    })
+    this.modal.form.setFieldsValue({ groupId })
+    setTimeout(() => {
+      this.tablex.refresh(this.state.tableCfg)
+    }, 0)
+  }
   // 当搜索下拉来处理
 
   onSearchSelectChange = oldKey => {
@@ -47,6 +68,7 @@ export default class MoveInModal extends React.Component {
     this.setState(
       produce(draft => {
         draft.tableCfg.searchs = {
+          groupId: this.state.groupId,
           ...searchs
         }
       })
@@ -58,6 +80,7 @@ export default class MoveInModal extends React.Component {
     this.setState(
       produce(draft => {
         draft.tableCfg.searchs = {
+          groupId: this.state.groupId,
           ...draft.tableCfg.searchs,
           ...searchs
         }
@@ -73,6 +96,7 @@ export default class MoveInModal extends React.Component {
     this.setState(
       produce(draft => {
         draft.tableCfg.searchs = {
+          groupId: this.state.groupId,
           ...draft.tableCfg.searchs,
           ...searchs
         }
@@ -109,34 +133,19 @@ export default class MoveInModal extends React.Component {
     )
   }
 
-  pop = groupId => {
-    this.modal.show()
-    this.setState({
-      totalSelection: [],
-      tableCfg: createTableCfg({
-        columns: this.columnsArr,
-        keepSelection: true,
-        rowKey: record => `${record.id}&${record.name}`,
-        apiMethod
-      })
-    })
-    this.modal.form.setFieldsValue({ groupId })
-  }
-
   // 迁入虚拟机
   moveIn = values => {
-    const ids = this.state.totalSelection.map(item => item.split('&')[0])
-    vmgroupsApi
-      .moveIn({ ids, ...values })
-      .then(res => {
-        wrapResponse(res).then(() => {
+    const desktopIds = this.state.totalSelection.map(item => item.split('&')[0])
+    vmgroupsApi.moveIn({ desktopIds, ...values }).then(res => {
+      wrapResponse(res)
+        .then(() => {
           this.modal.afterSubmit(res)
         })
-      })
-      .catch(error => {
-        this.modal.break(error)
-        console.log(error)
-      })
+        .catch(error => {
+          this.modal.break(error)
+          console.log(error)
+        })
+    })
   }
 
   // 渲染所选虚拟机
@@ -167,6 +176,7 @@ export default class MoveInModal extends React.Component {
         }}
         modalCfg={modalCfg}
         onOk={this.moveIn}
+        onSuccess={this.props.onSuccess}
       >
         <Formx>
           <Form.Item prop="groupId" hidden>

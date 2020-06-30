@@ -12,8 +12,7 @@ import {
   vmFilterSorterTransform,
   defaultColumnsValue,
   defaultColumnsFilters,
-  vmDisableAction,
-  apiMethod
+  vmDisableAction
 } from '@/pages/Common/VmTableCfg'
 import { downloadVV, wrapResponse } from '@/utils/tool'
 
@@ -60,14 +59,15 @@ export default class Desktop extends React.Component {
   state = {
     tableCfg: createTableCfg({
       columns: this.columnsArr,
-      // 筛选模板ID 不过滤池里面桌面
       searchs: { groupId: this.props.groupId },
-      apiMethod,
+      apiMethod: vmgroupsApi.vmlist,
       autoReplace: true,
+      rowKey: 'desktopId',
       autoCallback: (selection, selectData) => {
         this.checkOptionsDisable(selection, selectData)
       }
     }),
+    groupId: this.props.groupId,
     innerPath: undefined,
     disabledButton: {}
   }
@@ -85,12 +85,6 @@ export default class Desktop extends React.Component {
     this.checkOptionsDisable(selection, selectData)
   }
 
-  /**
-   *
-   *
-   * @memberof Desktop
-   * 调用通用处理 返回排序 筛选处理后的search 和columnsList
-   */
   onTableChange = (page, filter, sorter) => {
     const { searchs, columnsList } = vmFilterSorterTransform(filter, sorter)
     this.setState(
@@ -99,6 +93,7 @@ export default class Desktop extends React.Component {
           ...draft.tableCfg,
           columns: [...columnsList, this.action],
           searchs: {
+            groupId: this.props.groupId,
             ...draft.tableCfg.searchs,
             ...searchs
           }
@@ -138,7 +133,7 @@ export default class Desktop extends React.Component {
       title: '确定移出所选桌面?',
       onOk: () => {
         vmgroupsApi
-          .remove({ id: this.props.groupId, desktopIds })
+          .remove({ groupId: this.props.groupId, desktopIds })
           .then(res => {
             wrapResponse(res).then(() => {
               notification.success({ message: '移出成功' })
@@ -154,16 +149,6 @@ export default class Desktop extends React.Component {
     })
   }
 
-  // 移出当前桌面组
-  moveIn = () => {
-    this.moveInModal.pop(this.props.groupId)
-  }
-
-  /**
-   *
-   *
-   * @memberof Desktop
-   */
   deleteVm = id => {
     const desktopIds = Array.isArray(id) ? [...id] : [id]
     confirm({
@@ -186,17 +171,13 @@ export default class Desktop extends React.Component {
     })
   }
 
-  /**
-   *
-   *
-   * @memberof Desktop
-   */
   search = (key, value) => {
     const searchs = { poolId: this.props.poolId }
     searchs[key] = value
     this.setState(
       produce(draft => {
         draft.tableCfg.searchs = {
+          groupId: this.state.groupId,
           ...draft.tableCfg.searchs,
           ...searchs
         }
@@ -205,12 +186,6 @@ export default class Desktop extends React.Component {
     )
   }
 
-  /**
-   *
-   *
-   * @param {*} name 显示现在文件命名
-   * @param {*} id
-   */
   openConsole = (id, name) => {
     desktopsApi.openConsole({ desktopId: id }).then(res => {
       downloadVV(res, name)

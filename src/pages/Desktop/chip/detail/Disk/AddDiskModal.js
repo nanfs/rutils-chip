@@ -29,7 +29,7 @@ export default class AddDiskModal extends React.Component {
   }
 
   render() {
-    const modalCfg = createModalCfg({ title: '添加磁盘', hasFooter: true })
+    const modalCfg = createModalCfg({ title: '添加磁盘' })
     return (
       <Modalx
         onRef={ref => {

@@ -50,7 +50,7 @@ export default class Task extends React.Component {
       return (
         <a
           className="detail-link"
-          onClick={() => this.detail(record.name, record)}
+          onClick={() => this.detail(record.name, record.id)}
         >
           {text}
         </a>
@@ -106,9 +106,9 @@ export default class Task extends React.Component {
     this.currentDrawer.drawer.hide()
   }
 
-  detail = (name, data) => {
+  detail = (name, groupId) => {
     this.setState({ inner: name })
-    this.detailDrawer.pop(data)
+    this.detailDrawer.pop(groupId)
     this.currentDrawer = this.detailDrawer
   }
 
@@ -119,21 +119,12 @@ export default class Task extends React.Component {
     this.currentDrawer = this.peakDrawer
   }
 
-  addGroup = () => {
-    this.setState({ inner: '新建桌面组' }, this.addGroupModal.pop())
-    this.currentDrawer = this.addGroupModal
-  }
-
   addVm = ({ groupId, groupName }) => {
     this.setState(
       { inner: '新建组内虚拟机' },
       this.addVmModal.pop({ groupId, name: `${groupName}_vm` })
     )
     this.currentDrawer = this.addVmModal
-  }
-
-  moveIn = groupId => {
-    this.moveInModal.pop(groupId)
   }
 
   editGroup = record => {
@@ -153,18 +144,20 @@ export default class Task extends React.Component {
         <TableWrap>
           <ToolBar>
             <BarLeft>
-              <Button onClick={() => this.addGroup()} type="primary">
+              <Button onClick={() => this.addGroupModal.pop()} type="primary">
                 创建
               </Button>
               <Button
                 disabled={disabledButton.disabledMoveIn}
-                onClick={() => this.moveIn()}
+                onClick={() =>
+                  this.moveInModal.pop(this.tablex.getSelection()[0])
+                }
               >
                 迁入
               </Button>
               <Button
                 disabled={disabledButton.disabledSetPeak}
-                onClick={() => this.setPeak(this.tablex.getSelectData()[0])}
+                onClick={() => this.setPeak(this.tablex.getSelection()[0])}
               >
                 预启动配置
               </Button>
@@ -196,21 +189,19 @@ export default class Task extends React.Component {
             onRef={ref => {
               this.addGroupModal = ref
             }}
-            onSuccess={this.onSuccess}
-            onClose={this.onBack}
+            onSuccess={() => this.tablex.refresh(this.state.tableCfg)}
           />
           <EditModal
             onRef={ref => {
               this.editModal = ref
             }}
-            onSuccess={this.onSuccess}
-            onClose={this.onBack}
+            onSuccess={() => this.tablex.refresh(this.state.tableCfg)}
           />
           <DeleteModal
             onRef={ref => {
               this.deleteModal = ref
             }}
-            onSuccess={this.onSuccess}
+            onSuccess={() => this.tablex.refresh(this.state.tableCfg)}
             onClose={this.onBack}
           />
           <DetailDrawer
@@ -223,7 +214,7 @@ export default class Task extends React.Component {
             onRef={ref => {
               this.moveInModal = ref
             }}
-            onSuccess={this.onSuccess}
+            onSuccess={() => this.tablex.refresh(this.state.tableCfg)}
           />
           <PeakDrawer
             onRef={ref => {

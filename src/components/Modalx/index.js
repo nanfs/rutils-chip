@@ -1,6 +1,7 @@
 import React from 'react'
 import { Modal, Button, notification, message } from 'antd'
 import { wrapResponse } from '@/utils/tool'
+import './index.less'
 
 const ModalCfg_init = {
   forceRender: true,
@@ -157,7 +158,7 @@ class Modalx extends React.Component {
         onOk={this.onOk}
         afterClose={this.afterClose}
         title={title || modalCfg.title}
-        className={this.props.className}
+        className="modalx"
         footer={
           modalCfg && modalCfg.hasFooter
             ? [

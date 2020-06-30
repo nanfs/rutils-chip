@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form, Input, Icon, Row, Col, TimePicker } from 'antd'
+import { Form, Input, Icon, Row, Col, TimePicker, message } from 'antd'
 import { Drawerx, Formx, Title } from '@/components'
 import vmgroupsApi from '@/services/vmgroups'
 import dayjs from 'dayjs'
@@ -98,10 +98,7 @@ export default class PeakDrawer extends React.Component {
     })
   }
 
-  /**
-   * @memberof device
-   * 设置表单初始值
-   */
+  // 将保存的数据转换为表单的数据
   setField = () => {
     const { peaks } = this.state
     const formPeaks = {}
@@ -115,16 +112,12 @@ export default class PeakDrawer extends React.Component {
         : null
       formPeaks[`preStart[${index}]`] = item.preStart
     })
-    console.log(formPeaks)
     this.drawer.form.setFieldsValue({
       ...formPeaks
     })
   }
 
-  /**
-   * @memberof device
-   * 处理名单数据
-   */
+  // 获取表单的数据
   getField = () => {
     const formPeaks = this.drawer.form.getFieldsValue()
     const { startTime, endTime, preStart } = formPeaks
@@ -140,10 +133,7 @@ export default class PeakDrawer extends React.Component {
     return peaks
   }
 
-  /**
-   * @param k 删除数据的序列号
-   * 删除名单
-   */
+  // 移除设置选项 如果是第一个清空数据
   remove = k => {
     const peaks = this.getField()
     if (k === 0 && peaks.length === 1) {
@@ -153,7 +143,7 @@ export default class PeakDrawer extends React.Component {
       this.setState({
         peaks
       })
-      return false
+      return
     }
     const newPeaks = [...peaks.slice(0, k), ...peaks.slice(k + 1)]
     this.setState({
@@ -161,25 +151,19 @@ export default class PeakDrawer extends React.Component {
     })
   }
 
-  /**
-   * @param index 新增名单的序列号
-   * 名单最多允许添加10条
-   * 名单设置 一条名单必须填完整才允许新增下一条名单
-   */
+  // 添加设置选项 最多运行添加10条
   add = index => {
     const peaks = this.getField()
-    // if (index >= 9) {
-    //   notification.warn({ message: '最多允许添加10条' })
-    //   return
-    // }
+    if (index >= 9) {
+      message.error('最多允许添加10条')
+      return
+    }
     this.setState({
       peaks: [...peaks, {}]
     })
   }
 
-  /**
-   * 名单设置是动态表单，新增或删除一条名单时动态渲染输入框组件
-   */
+  // 名单设置是动态表单，新增或删除一条名单时动态渲染输入框组件
   renderPeaks = () => {
     const peaks = this.state?.peaks
     return (
@@ -226,13 +210,8 @@ export default class PeakDrawer extends React.Component {
     )
   }
 
-  /**
-   * @param values 表单提交数据
-   * 新增外设策略 对提交的数据进行格式处理
-   * 名单有一项不为空，提示填完整；全为空，则不提交该数据
-   */
+  // 设置高低峰
   setPeak = () => {
-    console.log('12313213213')
     console.log(this.drawer.form.getFieldsValue())
     const { groupId } = this.state
     const peaks = this.getField()
@@ -253,6 +232,8 @@ export default class PeakDrawer extends React.Component {
         onRef={ref => {
           this.drawer = ref
         }}
+        onClose={this.props.onClose}
+        onSuccess={this.props.onSuccess}
         onOk={this.setPeak}
       >
         <Formx>

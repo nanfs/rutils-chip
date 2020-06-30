@@ -55,7 +55,7 @@ export default class AttachIsoModal extends React.Component {
   }
 
   render() {
-    const modalCfg = createModalCfg({ title: '附加CD', hasFooter: true })
+    const modalCfg = createModalCfg({ title: '附加CD' })
     return (
       <Modalx
         onRef={ref => {

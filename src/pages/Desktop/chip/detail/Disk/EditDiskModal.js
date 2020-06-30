@@ -39,7 +39,7 @@ export default class EditDiskModal extends React.Component {
   }
 
   render() {
-    const modalCfg = createModalCfg({ title: '磁盘扩容', hasFooter: true })
+    const modalCfg = createModalCfg({ title: '磁盘扩容' })
     return (
       <Modalx
         onRef={ref => {

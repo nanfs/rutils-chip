@@ -1,7 +1,7 @@
 import React from 'react'
 import { Formx, Modalx } from '@/components'
 import { Form, Input } from 'antd'
-import vmgroupsApi from '@/services/template'
+import vmgroupsApi from '@/services/vmgroups'
 import { required, checkName } from '@/utils/valid'
 import { wrapResponse } from '@/utils/tool'
 
@@ -18,27 +18,27 @@ export default class EditGroupModal extends React.Component {
   }
 
   edit = values => {
-    vmgroupsApi
-      .edit(values)
-      .then(res => {
-        wrapResponse(res).then(() => {
+    vmgroupsApi.edit(values).then(res => {
+      wrapResponse(res)
+        .then(() => {
           this.modal.afterSubmit(res)
         })
-      })
-      .catch(error => {
-        this.modal.break(error)
-        console.log(error)
-      })
+        .catch(error => {
+          this.modal.break(error)
+          console.log(error)
+        })
+    })
   }
 
   render() {
-    const modalCfg = createModalCfg({ title: '编辑桌面组', hasFooter: true })
+    const modalCfg = createModalCfg({ title: '编辑桌面组' })
     return (
       <Modalx
         onRef={ref => {
           this.modal = ref
         }}
         modalCfg={modalCfg}
+        onSuccess={this.props.onSuccess}
         onOk={this.edit}
       >
         <Formx>

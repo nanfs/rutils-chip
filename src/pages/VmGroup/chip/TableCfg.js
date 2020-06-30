@@ -5,11 +5,6 @@ import vmgroupsApi from '@/services/vmgroups'
 
 export const columns = [
   {
-    title: () => <span title="名称">名称</span>,
-    dataIndex: 'name',
-    ellipsis: true
-  },
-  {
     title: () => <span title="桌面数量">桌面数量</span>,
     dataIndex: 'desktopNum',
     ellipsis: true

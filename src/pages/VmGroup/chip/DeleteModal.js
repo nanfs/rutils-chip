@@ -1,7 +1,7 @@
 import React from 'react'
 import { Formx, Modalx } from '@/components'
 import { Form, Switch, Input } from 'antd'
-import vmgroupsApi from '@/services/template'
+import vmgroupsApi from '@/services/vmgroups'
 import { wrapResponse } from '@/utils/tool'
 
 const { createModalCfg } = Modalx
@@ -12,27 +12,25 @@ export default class DeleteModal extends React.Component {
 
   pop = ({ ids }) => {
     this.modal.show()
-    this.modal.form.setFieldsValue({ ids, isSaveVm: true })
+    this.modal.form.setFieldsValue({ ids, isDeleteDesktop: true })
   }
 
   delete = values => {
-    vmgroupsApi
-      .delete(values)
-      .then(res => {
-        wrapResponse(res).then(() => {
+    vmgroupsApi.delete(values).then(res => {
+      wrapResponse(res)
+        .then(() => {
           this.modal.afterSubmit(res)
         })
-      })
-      .catch(error => {
-        this.modal.break(error)
-        console.log(error)
-      })
+        .catch(error => {
+          this.modal.break(error)
+          console.log(error)
+        })
+    })
   }
 
   render() {
     const modalCfg = createModalCfg({
       title: '删除桌面组',
-      hasFooter: true,
       width: '400px'
     })
 
@@ -42,6 +40,7 @@ export default class DeleteModal extends React.Component {
           this.modal = ref
         }}
         modalCfg={modalCfg}
+        onSuccess={this.props.onSuccess}
         onOk={this.delete}
       >
         <Formx>
@@ -49,11 +48,11 @@ export default class DeleteModal extends React.Component {
             <Input />
           </Form.Item>
           <Form.Item
-            label="是否保留桌面"
-            prop="isSaveVm"
+            label="是否删除桌面"
+            prop="isDeleteDesktop"
             valuepropname="checked"
           >
-            <Switch checkedChildren="保留" unCheckedChildren="删除" />
+            <Switch checkedChildren="删除" unCheckedChildren="保留" />
           </Form.Item>
         </Formx>
       </Modalx>

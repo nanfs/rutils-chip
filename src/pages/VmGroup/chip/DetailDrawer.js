@@ -5,17 +5,15 @@ import Vmlist from './detail/Vmlist'
 
 const { TabPane } = Tabs
 export default class DetailDrawer extends React.Component {
-  state = { data: {} }
-
   componentDidMount() {
     this.props.onRef && this.props.onRef(this)
   }
 
-  pop = (id, status) => {
+  pop = id => {
     this.drawer.show()
     // 用这种方式 重刷组件
     this.setState({ defaultActiveKey: '' }, () =>
-      this.setState({ defaultActiveKey: '1', id, status })
+      this.setState({ defaultActiveKey: '1', id })
     )
   }
 
@@ -26,7 +24,7 @@ export default class DetailDrawer extends React.Component {
   }
 
   render() {
-    const { id, defaultActiveKey } = this.state
+    const { id, defaultActiveKey } = this.state || {}
     return (
       <Drawerx
         onRef={ref => {

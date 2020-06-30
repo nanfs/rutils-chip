@@ -346,28 +346,16 @@ export default class AddDrawer extends React.Component {
         })
     }
     // 如果批量创建调用单独批量创建的接口
-    if (values.desktopNum && values.desktopNum > 1) {
-      return desktopsApi
-        .batchAddVm(data)
-        .then(res => {
-          this.drawer.afterSubmit(res)
-        })
-        .catch(errors => {
-          this.drawer.break(errors)
-          console.log(errors)
-        })
-    } else {
-      // 普通通过模板创建
-      desktopsApi
-        .addVm(data)
-        .then(res => {
-          this.drawer.afterSubmit(res)
-        })
-        .catch(errors => {
-          this.drawer.break(errors)
-          console.log(errors)
-        })
-    }
+    // 都是异步接口 取消单独调用单个
+    return desktopsApi
+      .batchAddVm(data)
+      .then(res => {
+        this.drawer.afterSubmit(res)
+      })
+      .catch(errors => {
+        this.drawer.break(errors)
+        console.log(errors)
+      })
   }
 
   renderOsOptions = () => {

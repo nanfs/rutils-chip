@@ -31,7 +31,7 @@ export default class AddSnapModal extends React.Component {
   }
 
   render() {
-    const modalCfg = createModalCfg({ title: '创建快照', hasFooter: true })
+    const modalCfg = createModalCfg({ title: '创建快照' })
     return (
       <Modalx
         onRef={ref => {

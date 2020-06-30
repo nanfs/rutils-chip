@@ -53,6 +53,7 @@ export const columns = [
         value: [9]
       }
     ],
+    ellipsis: true,
     render: text => taskTypeRender(text)
   },
   {
@@ -63,6 +64,7 @@ export const columns = [
   {
     title: () => <span title="执行状态">执行状态</span>,
     dataIndex: 'status',
+    ellipsis: true,
     render: text => taskStatusRender(text)
   },
   {
@@ -72,7 +74,8 @@ export const columns = [
   },
   {
     title: () => <span title="失败次数">失败次数</span>,
-    dataIndex: 'failNums'
+    dataIndex: 'failNums',
+    ellipsis: true
   },
   {
     title: () => <span title="信息反馈">信息反馈</span>,

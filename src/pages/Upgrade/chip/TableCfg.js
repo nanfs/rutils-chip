@@ -11,7 +11,8 @@ export const columns = [
   {
     title: () => <span title="优先级">优先级</span>,
     dataIndex: 'priorityLevel',
-    width: 150,
+    width: 110,
+    ellipsis: true,
     render: text => priorityLevel(text)
   },
   {
@@ -27,11 +28,14 @@ export const columns = [
   },
   {
     title: () => <span title="终端型号">终端型号</span>,
-    dataIndex: 'model'
+    dataIndex: 'model',
+    ellipsis: true
   },
   {
     title: () => <span title="适用的终端版本">适用的终端版本</span>,
-    dataIndex: 'upgradableVersions'
+    width: 150,
+    dataIndex: 'upgradableVersions',
+    ellipsis: true
   },
   {
     title: () => <span title="上传用户">上传用户</span>,

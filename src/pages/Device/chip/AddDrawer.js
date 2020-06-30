@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form, Input, Switch, Icon, Row, Col, notification } from 'antd'
+import { Form, Input, Switch, Icon, Row, Col, message } from 'antd'
 import { Drawerx, Formx, Title, Diliver } from '@/components'
 import deviceApi from '@/services/device'
 import '../index.less'
@@ -153,20 +153,11 @@ export default class AddDrawer extends React.Component {
   add = index => {
     const usbs = this.getUsbs()
     if (index >= 9) {
-      notification.warn({ message: '名单最多允许添加10条' })
-      return
+      return message.error('名单最多允许添加10条')
     }
-    if (usbs[index].name === '' || usbs[index].name === undefined) {
-      notification.warn({ message: '请完善名单名称' })
-      return
-    }
-    if (usbs[index].vid === '' || usbs[index].vid === undefined) {
-      notification.warn({ message: '请完善名单VendorId' })
-      return
-    }
-    if (usbs[index].pid === '' || usbs[index].pid === undefined) {
-      notification.warn({ message: '请完善名单ProductId' })
-      return
+    const { name, vid, pid } = usbs[index]
+    if (!name || !vid || !pid) {
+      return message.error('请先完善当前行再添加!')
     }
     this.setState({
       ...this.state,

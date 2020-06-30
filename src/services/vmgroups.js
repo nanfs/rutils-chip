@@ -60,12 +60,11 @@ export default {
       data: qs.stringify(data, { arrayFormat: 'indices', allowDots: true })
     })
   },
-  setPeaks(data) {
-    const { id, ...values } = data
+  setPolicies({ groupId, ...data }) {
     return axios({
-      url: `/desktopgroups/${id}`,
+      url: `/desktopgroups/${groupId}/policies`,
       method: 'post',
-      data: qs.stringify(values, { arrayFormat: 'indices', allowDots: true })
+      data: qs.stringify(data, { arrayFormat: 'indices', allowDots: true })
     })
   }
 }

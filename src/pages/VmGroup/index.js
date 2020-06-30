@@ -24,7 +24,7 @@ export default class Task extends React.Component {
               this.addVm({ groupId: record.id, groupName: record.name })
             }
           >
-            新增组桌面
+            新增桌面
           </a>
           <a onClick={() => this.editGroup(record)}>编辑</a>
           <a
@@ -153,11 +153,11 @@ export default class Task extends React.Component {
                   this.moveInModal.pop(this.tablex.getSelection()[0])
                 }
               >
-                迁入
+                分配桌面
               </Button>
               <Button
                 disabled={disabledButton.disabledSetPeak}
-                onClick={() => this.setPeak(this.tablex.getSelection()[0])}
+                onClick={() => this.setPeak(this.tablex.getSelectData()[0])}
               >
                 预启动配置
               </Button>

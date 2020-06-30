@@ -15,13 +15,12 @@ export const columns = [
   },
   {
     title: () => <span title="名单">预启动设置</span>,
-    dataIndex: 'peaks',
+    dataIndex: 'policies',
     width: 120,
     render: (text, record) => {
-      const info = record.peaks?.map((item, index) => (
+      const info = record.policies?.map((item, index) => (
         <p key={index}>
-          startTime{item.startTime} endTime{item.endTime} preStart:
-          {item.preStart}
+          {item.startTime} - {item.endTime} 预启动数 :{item.prestartNumbers}
         </p>
       ))
       return info?.length ? (

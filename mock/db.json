@@ -2250,7 +2250,9 @@
       "desktopNum": 2,
       "createTime": "2020-2-01 17:34:45",
       "description": "设计用",
-      "peaks": [{ "startTime": "10:11", "endTime": "10:21", "preStart": "5" }]
+      "policies": [
+        { "startTime": "10:11", "endTime": "10:21", "preStart": "5" }
+      ]
     },
     {
       "id": "b2ebe66c-ebff-463e-9f61-7cfa965f394f",

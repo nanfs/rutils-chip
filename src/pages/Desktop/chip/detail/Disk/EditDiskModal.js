@@ -56,10 +56,15 @@ export default class EditDiskModal extends React.Component {
           <Form.Item prop="id" label="diskId" hidden>
             <Input />
           </Form.Item>
-          <Form.Item prop="name" label="磁盘名" rules={[required]}>
+          <Form.Item prop="name" label="磁盘名" rules={[required]} required>
             <Input />
           </Form.Item>
-          <Form.Item prop="capacity" label="当前大小(G)" rules={[required]}>
+          <Form.Item
+            prop="capacity"
+            label="当前大小(G)"
+            rules={[required]}
+            required
+          >
             <Input disabled />
           </Form.Item>
           <Form.Item

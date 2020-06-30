@@ -45,7 +45,12 @@ export default class AddSnapModal extends React.Component {
           <Form.Item prop="vmId" label="vmId" hidden>
             <Input />
           </Form.Item>
-          <Form.Item prop="description" label="描述" rules={[required]}>
+          <Form.Item
+            prop="description"
+            label="描述"
+            rules={[required]}
+            required
+          >
             <TextArea style={{ resize: 'none' }} rows={4} placeholder="描述" />
           </Form.Item>
           <Form.Item

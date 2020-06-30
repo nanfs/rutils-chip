@@ -115,6 +115,7 @@ export default class Desktop extends React.Component {
                   this.addDiskModal.pop(vmId)
                 }}
                 hidden={isOpenedSW}
+                type="primary"
               >
                 添加磁盘
               </Button>

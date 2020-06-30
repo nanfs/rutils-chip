@@ -89,6 +89,10 @@ service.interceptors.response.use(
       // eslint-disable-next-line
       return Promise.reject({ message: '网络错误，请检查网络!', type: 'NetworkError' })
     }
+    if (error.response.status === 404) {
+      checkStatus(error.response)
+      return false
+    }
     checkStatus(error.response)
     return Promise.reject(error)
   }

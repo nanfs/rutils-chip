@@ -121,10 +121,9 @@ export default class Topology extends React.Component {
             )
             const graph = new G6.TreeGraph({
               container: this.mountNode, // String | HTMLElement，必须，在 Step 1 中创建的容器 id 或容器本身
-              width:
-                document.querySelector('.ant-layout-content').scrollWidth - 240, // Number，必须，图的宽度
-              height:
-                document.querySelector('.ant-layout-content').scrollHeight - 80, // Number，必须，图的高度
+              width: document.querySelector('.ant-layout-content').scrollWidth, // Number，必须，图的宽度
+              height: document.querySelector('.ant-layout-content')
+                .scrollHeight, // Number，必须，图的高度
               fitView: true,
               fitViewPadding: 150,
               animate: true,
@@ -246,12 +245,12 @@ export default class Topology extends React.Component {
                   .then(response => {
                     if (response.data?.length && response.data?.length > 0) {
                       const childData = response.data.map(item => {
-                        item.img = vmOnImg
+                        item.img = vmRunningImg
                         if (item.status === 'Down') {
                           item.img = vmOffImg
                           item.statusName = '已关机'
                         } else {
-                          item.img = vmOnImg
+                          item.img = vmRunningImg
                           item.statusName = '已开机'
                         }
                         return {

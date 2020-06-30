@@ -49,16 +49,6 @@ export default class DetailDrawer extends React.Component {
                   </Tooltip>
                 </Col>
                 <Col span={3} className="dms-detail-label">
-                  已使用桌面数：
-                </Col>
-                <Col span={8} className="dms-detail-value">
-                  <Tooltip title={data.vmUsed}>
-                    <span>{data.vmUsed}</span>
-                  </Tooltip>
-                </Col>
-              </Row>
-              <Row className="dms-detail-row">
-                <Col span={3} className="dms-detail-label">
                   父模板：
                 </Col>
                 <Col span={8} className="dms-detail-value">
@@ -66,6 +56,8 @@ export default class DetailDrawer extends React.Component {
                     <span>{data.parentName}</span>
                   </Tooltip>
                 </Col>
+              </Row>
+              <Row className="dms-detail-row">
                 <Col span={3} className="dms-detail-label">
                   数据中心：
                 </Col>
@@ -74,8 +66,6 @@ export default class DetailDrawer extends React.Component {
                     <span>{data.datacenterName}</span>
                   </Tooltip>
                 </Col>
-              </Row>
-              <Row className="dms-detail-row">
                 <Col span={3} className="dms-detail-label">
                   集群：
                 </Col>
@@ -84,6 +74,8 @@ export default class DetailDrawer extends React.Component {
                     <span>{data.clusterName}</span>
                   </Tooltip>
                 </Col>
+              </Row>
+              <Row className="dms-detail-row">
                 <Col span={3} className="dms-detail-label">
                   状态：
                 </Col>
@@ -108,6 +100,14 @@ export default class DetailDrawer extends React.Component {
                     </Tooltip>
                   </Col>
                 )}
+                <Col span={3} className="dms-detail-label">
+                  已使用桌面数：
+                </Col>
+                <Col span={8} className="dms-detail-value">
+                  <Tooltip title={data.vmUsed}>
+                    <span>{data.vmUsed}</span>
+                  </Tooltip>
+                </Col>
               </Row>
               <Row className="dms-detail-row">
                 <Col span={3} className="dms-detail-label">

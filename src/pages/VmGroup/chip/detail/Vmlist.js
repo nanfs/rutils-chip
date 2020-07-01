@@ -62,7 +62,6 @@ export default class Desktop extends React.Component {
       searchs: { groupId: this.props.groupId },
       apiMethod: vmgroupsApi.vmlist,
       autoReplace: true,
-      rowKey: 'desktopId',
       autoCallback: (selection, selectData) => {
         this.checkOptionsDisable(selection, selectData)
       }

@@ -14,7 +14,10 @@ export default {
     return axios({
       url: `/desktopgroups/${groupId}/desktops`,
       method: 'get',
-      params: data
+      params: data,
+      paramsSerializer: params => {
+        return qs.stringify(params, { arrayFormat: 'indices' })
+      }
     })
   },
   // 当前桌面可以添加的桌面列表
@@ -22,7 +25,10 @@ export default {
     return axios({
       url: `/desktopgroups/${groupId}/desktops/addible`,
       method: 'get',
-      params: data
+      params: data,
+      paramsSerializer: params => {
+        return qs.stringify(params, { arrayFormat: 'indices' })
+      }
     })
   },
   delete(data) {

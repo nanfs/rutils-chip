@@ -581,7 +581,7 @@ export default class AddDrawer extends React.Component {
             prop="isoName"
             label={this.state?.cpuName !== 'SW1621' ? 'ISO' : '附加CD'}
             required
-            rules={[required]}
+            rules={this.getSelectType() === 'byIso' ? [required] : undefined}
             wrapperCol={{ sm: { span: 8 } }}
             hidden={
               (this.getSelectType() === 'byTemp' &&

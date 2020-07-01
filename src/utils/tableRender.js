@@ -192,7 +192,7 @@ export const vmStatusRender = status => {
           fontSize: '18px'
         }}
       />{' '}
-      {vmStatusText[statusList[status]]}
+      {/* {vmStatusText[statusList[status]]} */}
     </span>
   )
 }
@@ -211,7 +211,7 @@ const osList = {
   '28': 'os-redhat',
   '30': 'os-redhat',
   '33': 'os-linux',
-  '51': 'os-qilin',
+  '51': 'os-kylin',
   '61': 'os-puhua',
   '1002': 'os-linux',
   '1003': 'os-redhat',
@@ -246,7 +246,7 @@ export const osTextRender = os => {
     'os-other': 'OTHER OS',
     'os-redhat': '红帽',
     'os-windows': 'Win',
-    'os-qilin': '麒麟',
+    'os-kylin': '麒麟',
     'os-ubuntu': '乌班图',
     'os-linux': 'linux',
     'os-puhua': '普华'

@@ -103,7 +103,8 @@ export default class Desktop extends React.Component {
 
   render() {
     const { disabledButton } = this.state
-    const { vmId } = this.props
+    // SW适配
+    const { vmId, isOpenedSW } = this.props
     return (
       <React.Fragment>
         <TableWrap>
@@ -113,6 +114,8 @@ export default class Desktop extends React.Component {
                 onClick={() => {
                   this.addDiskModal.pop(vmId)
                 }}
+                hidden={isOpenedSW}
+                type="primary"
               >
                 添加磁盘
               </Button>
@@ -124,12 +127,14 @@ export default class Desktop extends React.Component {
                     ...this.tablex.getSelectData()[0]
                   })
                 }}
+                hidden={isOpenedSW}
               >
                 磁盘扩容
               </Button>
               <Button
                 disabled={disabledButton.disabledDelete}
                 onClick={this.delete}
+                hidden={isOpenedSW}
               >
                 删除磁盘
               </Button>

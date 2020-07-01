@@ -105,26 +105,16 @@ export default class Desktop extends React.Component {
   setDisable = ({ status, snapInPreview }) => {
     let disabledButton = {}
     // 预览状态 &&  关机状态
-    if (snapInPreview && status === 0) {
+    if (this.props.isOpenedSW) {
       disabledButton = {
-        disabledDelete: true,
-        disabledCheck: true,
+        ...disabledButton,
         disabledCreate: true
       }
     }
-    // 预览状态 &&  其他状态
-    if (snapInPreview && status !== 0) {
-      disabledButton = {
-        disabledDelete: true,
-        disabledCheck: true,
-        disabledCreate: true,
-        disableCancel: true,
-        disableCommit: true
-      }
-    }
-    // 默认状态 && 关机状态
+    // 非预览状态 不能取消和提交
     if (!snapInPreview && status === 0) {
       disabledButton = {
+        ...disabledButton,
         disableCancel: true,
         disableCommit: true
       }
@@ -132,9 +122,25 @@ export default class Desktop extends React.Component {
     // 默认状态 && 开机状态
     if (!snapInPreview && status === 1) {
       disabledButton = {
+        ...disabledButton,
         disableCancel: true,
         disableCommit: true,
         disabledCheck: true
+      }
+    }
+    if (snapInPreview) {
+      disabledButton = {
+        ...disabledButton,
+        disabledDelete: true,
+        disabledCheck: true,
+        disabledCreate: true
+      }
+    }
+    if (snapInPreview && status !== 0) {
+      disabledButton = {
+        ...disabledButton,
+        disableCancel: true,
+        disableCommit: true
       }
     }
     this.setState({ disabledButton })
@@ -270,6 +276,7 @@ export default class Desktop extends React.Component {
               onClick={() => {
                 this.addSnapModal.pop(this.props.vmId, this.state.status)
               }}
+              type="primary"
             >
               创建
             </Button>

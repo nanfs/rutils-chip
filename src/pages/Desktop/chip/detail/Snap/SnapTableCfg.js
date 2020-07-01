@@ -27,6 +27,7 @@ export const columns = [
     title: '描述',
     key: 'description',
     dataIndex: 'description',
+    ellipsis: true,
     render: text =>
       text === 'Active VM before the preview' ? '预览前的活动虚拟机' : text
   },
@@ -40,11 +41,13 @@ export const columns = [
   {
     title: 'CPU',
     key: 'cpu',
+    ellipsis: true,
     dataIndex: 'cpu'
   },
   {
     title: '是否保存内存',
     key: 'containsmemory',
+    ellipsis: true,
     dataIndex: 'containsmemory',
     render: text =>
       text ? (
@@ -69,17 +72,20 @@ export const columns = [
     title: '内存',
     key: 'memSize',
     dataIndex: 'memSize',
+    ellipsis: true,
     render: text => `${text}G`
   },
   {
     title: '已安装程序',
     key: 'appList',
     dataIndex: 'appList',
+    ellipsis: true,
     render: text => renderAppList(text)
   },
   {
     title: '创建时间',
     key: 'createTime',
+    ellipsis: true,
     dataIndex: 'createTime'
   }
 ]

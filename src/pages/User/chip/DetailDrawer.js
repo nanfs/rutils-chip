@@ -125,19 +125,19 @@ export default class DetailDrawer extends React.Component {
               {this.state.selectedType === 'internal' ? (
                 <Row className="dms-detail-row">
                   <Col span={3} className="dms-detail-label">
-                    邮箱：
-                  </Col>
-                  <Col span={8} className="dms-detail-value">
-                    <Tooltip title={initValues.email} placement="topLeft">
-                      <span>{initValues.email}</span>
-                    </Tooltip>
-                  </Col>
-                  <Col span={3} className="dms-detail-label">
                     状态：
                   </Col>
                   <Col span={8} className="dms-detail-value">
                     <Tooltip title={initValues.statusName} placement="topLeft">
                       <span>{initValues.statusName}</span>
+                    </Tooltip>
+                  </Col>
+                  <Col span={3} className="dms-detail-label">
+                    邮箱：
+                  </Col>
+                  <Col span={8} className="dms-detail-value">
+                    <Tooltip title={initValues.email} placement="topLeft">
+                      <span>{initValues.email}</span>
                     </Tooltip>
                   </Col>
                 </Row>

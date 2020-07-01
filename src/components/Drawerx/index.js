@@ -106,6 +106,15 @@ class Drawerx extends React.Component {
     })
   }
 
+  break = error => {
+    if (error) {
+      message.error(error.message || error)
+    }
+    this.setState({
+      submitting: false
+    })
+  }
+
   submit = () => {
     const { onOk } = this.props
     const { form } = (this.formRef && this.formRef.props) || {}

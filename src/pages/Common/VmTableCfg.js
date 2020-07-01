@@ -7,7 +7,6 @@ import {
   osTextRender,
   assignedUsersRender
 } from '@/utils/tableRender'
-import { onlineStringTime } from '@/utils/tool'
 import { MyIcon } from '@/components'
 import {
   setClusterToSession,
@@ -56,11 +55,12 @@ export function getColumns(isPoolVmlist = false) {
     {
       title: () => <span title="操作系统">操作系统</span>,
       dataIndex: 'os',
+      width: '8%',
       ellipsis: true,
       render: text => {
         return (
           <span title={osTextRender(text)}>
-            {osIconRender(text)} {osTextRender(text)}
+            {osIconRender(text)} {/* {osTextRender(text)} */}
           </span>
         )
       }
@@ -97,13 +97,13 @@ export function getColumns(isPoolVmlist = false) {
     },
     {
       title: () => <span title="用户">用户</span>,
-      width: 70,
+      width: 60,
       dataIndex: 'assignedUsers',
       render: text => assignedUsersRender(text)
     },
     {
       title: () => <span title="控制台">控制台</span>,
-      width: 100,
+      width: 90,
       dataIndex: 'isConsole',
       ellipsis: true,
       filters: [
@@ -125,14 +125,14 @@ export function getColumns(isPoolVmlist = false) {
         return consoleContent
       }
     },
-    {
+    /* {
       title: () => <span title="已运行">已运行</span>,
       key: 'onlineTime',
       ellipsis: true,
       dataIndex: 'onlineTime',
       sorter: isPoolVmlist ? undefined : true,
       render: text => onlineStringTime(text)
-    },
+    }, */
     {
       title: () => <span title="CPU">CPU</span>,
       dataIndex: 'cpuUsageRate',

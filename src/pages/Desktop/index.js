@@ -36,7 +36,16 @@ export default class Desktop extends React.Component {
     sorter: true,
     render: (text, record) => {
       return (
-        <a onClick={() => this.detailVm(record.id, record.name, record.status)}>
+        <a
+          onClick={() =>
+            this.detailVm(
+              record.id,
+              record.name,
+              record.status,
+              record.clusterCpuName
+            )
+          }
+        >
           {text}
         </a>
       )
@@ -45,7 +54,7 @@ export default class Desktop extends React.Component {
 
   action = {
     title: () => <span title="操作">操作</span>,
-    width: 130,
+    width: 120,
     dataIndex: 'action',
     defaultFilteredValue: defaultColumnsValue,
     filters: defaultColumnsFilters,
@@ -231,8 +240,11 @@ export default class Desktop extends React.Component {
     this.currentDrawer = this.editDrawer
   }
 
-  detailVm = (id, name, status) => {
-    this.setState({ inner: name }, this.detailDrawer.pop(id, status))
+  detailVm = (id, name, status, clusterCpuName) => {
+    this.setState(
+      { inner: name },
+      this.detailDrawer.pop(id, status, clusterCpuName)
+    )
     this.currentDrawer = this.detailDrawer
   }
 

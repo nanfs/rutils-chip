@@ -43,13 +43,14 @@ export default class AddDiskModal extends React.Component {
           <Form.Item prop="vmId" label="vmId" hidden>
             <Input />
           </Form.Item>
-          <Form.Item prop="name" label="磁盘名" rules={[required]}>
+          <Form.Item prop="name" label="磁盘名" rules={[required]} required>
             <Input />
           </Form.Item>
           <Form.Item
             prop="capacity"
             label="磁盘大小(G)"
             rules={[required, isInt]}
+            required
           >
             <InputNumber
               min={1}

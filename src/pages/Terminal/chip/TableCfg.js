@@ -87,6 +87,11 @@ export const columns = [
     ellipsis: true
   }, */
   {
+    title: () => <span title="登录用户">登录用户</span>,
+    dataIndex: 'onUser',
+    ellipsis: true
+  },
+  {
     title: () => <span title="外设控制">外设控制</span>,
     width: 90,
     dataIndex: 'numOfSafePolicyBounded',

@@ -300,3 +300,12 @@ export function availableStatusRender(text) {
     />
   )
 }
+// 计划任务-任务类型
+export const taskType = type => {
+  const typeList = {
+    0: '定时开机',
+    1: '定时关机',
+    2: '定时重启'
+  }
+  return <span>{typeList[type]}</span>
+}

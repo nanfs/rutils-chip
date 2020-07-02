@@ -11,6 +11,7 @@ import {
 import { columns } from './TargetTableCfg'
 import taskApi from '@/services/task'
 import produce from 'immer'
+import { taskType } from '@/utils/tableRender'
 
 const { TabPane } = Tabs
 const { createTableCfg, TableWrap, ToolBar, BarLeft } = Tablex
@@ -65,9 +66,9 @@ export default class DetailDrawer extends React.Component {
     }
     const taskId = data.id
     const status = data.status === 1 ? '启用' : '停用'
-    const taskType = data.taskType === 1 ? '定时关机' : '定时开机'
+    const taskTypeText = taskType(data.taskType)
     this.setState({
-      initValues: { ...data, status, taskType, time, cycle },
+      initValues: { ...data, status, taskTypeText, time, cycle },
       tableCfg: createTableCfg({
         columns,
         apiMethod: taskApi.detail,
@@ -180,8 +181,8 @@ export default class DetailDrawer extends React.Component {
                   任务类型：
                 </Col>
                 <Col span={8} className="dms-detail-value">
-                  <Tooltip title={initValues.taskType} placement="topLeft">
-                    <span>{initValues.taskType}</span>
+                  <Tooltip title={initValues.taskTypeText} placement="topLeft">
+                    <span>{initValues.taskTypeText}</span>
                   </Tooltip>
                 </Col>
 

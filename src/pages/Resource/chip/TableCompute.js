@@ -60,28 +60,26 @@ export default class Resource extends React.Component {
     return (
       <React.Fragment>
         <div style={{ marginBottom: '26px' }}>
-          <TableWrap>
-            <TitleInfo slot="计算资源" />
-            <ToolBar>
-              <BarLeft>
-                <SelectSearch
-                  options={[
-                    { label: '名称', value: 'name' },
-                    { label: 'IP', value: 'ip' },
-                    { label: '描述', value: 'description' }
-                  ]}
-                  onSearch={this.search}
-                ></SelectSearch>
-              </BarLeft>
-            </ToolBar>
-            <Tablex
-              onRef={ref => {
-                this.tablexCompute = ref
-              }}
-              tableCfg={this.state.tableCfgCompute}
-              onChange={this.onTableChange}
-            />
-          </TableWrap>
+          <TitleInfo slot="计算资源" />
+          <ToolBar>
+            <BarLeft>
+              <SelectSearch
+                options={[
+                  { label: '名称', value: 'name' },
+                  { label: 'IP', value: 'ip' },
+                  { label: '描述', value: 'description' }
+                ]}
+                onSearch={this.search}
+              ></SelectSearch>
+            </BarLeft>
+          </ToolBar>
+          <Tablex
+            onRef={ref => {
+              this.tablexCompute = ref
+            }}
+            tableCfg={this.state.tableCfgCompute}
+            onChange={this.onTableChange}
+          />
         </div>
       </React.Fragment>
     )

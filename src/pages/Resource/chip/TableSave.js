@@ -60,27 +60,25 @@ export default class Resource extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <TableWrap>
-          <TitleInfo slot="存储资源" />
-          <ToolBar>
-            <BarLeft>
-              <SelectSearch
-                options={[
-                  { label: '名称', value: 'name' },
-                  { label: '描述', value: 'description' }
-                ]}
-                onSearch={this.search}
-              ></SelectSearch>
-            </BarLeft>
-          </ToolBar>
-          <Tablex
-            onRef={ref => {
-              this.tablexSave = ref
-            }}
-            tableCfg={this.state.tableCfgSave}
-            onChange={this.onTableChange}
-          />
-        </TableWrap>
+        <TitleInfo slot="存储资源" />
+        <ToolBar>
+          <BarLeft>
+            <SelectSearch
+              options={[
+                { label: '名称', value: 'name' },
+                { label: '描述', value: 'description' }
+              ]}
+              onSearch={this.search}
+            ></SelectSearch>
+          </BarLeft>
+        </ToolBar>
+        <Tablex
+          onRef={ref => {
+            this.tablexSave = ref
+          }}
+          tableCfg={this.state.tableCfgSave}
+          onChange={this.onTableChange}
+        />
       </React.Fragment>
     )
   }

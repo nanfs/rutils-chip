@@ -1,7 +1,7 @@
 import React from 'react'
 import {
   Formx,
-  Modalx,
+  Drawerx,
   Tablex,
   SelectSearch,
   Title,
@@ -20,7 +20,6 @@ import {
 
 const { createTableCfg, TableWrap, ToolBar, BarLeft } = Tablex
 
-const { createModalCfg } = Modalx
 export default class MoveInModal extends React.Component {
   componentDidMount() {
     this.props.onRef && this.props.onRef(this)
@@ -42,7 +41,7 @@ export default class MoveInModal extends React.Component {
 
   // 打开迁入 保存groupId 搜索条件
   pop = groupId => {
-    this.modal.show()
+    this.drawer.show()
     this.setState({
       totalSelection: [],
       tableCfg: createTableCfg({
@@ -55,7 +54,7 @@ export default class MoveInModal extends React.Component {
       }),
       groupId
     })
-    this.modal.form.setFieldsValue({ groupId })
+    this.drawer.form.setFieldsValue({ groupId })
     setTimeout(() => {
       this.tablex.refresh(this.state.tableCfg)
     }, 0)
@@ -139,10 +138,10 @@ export default class MoveInModal extends React.Component {
     vmgroupsApi.moveIn({ desktopIds, ...values }).then(res => {
       wrapResponse(res)
         .then(() => {
-          this.modal.afterSubmit(res)
+          this.drawer.afterSubmit(res)
         })
         .catch(error => {
-          this.modal.break(error)
+          this.drawer.break(error)
           console.log(error)
         })
     })
@@ -168,13 +167,11 @@ export default class MoveInModal extends React.Component {
   }
 
   render() {
-    const modalCfg = createModalCfg({ title: '迁入虚拟机', width: '80%' })
     return (
-      <Modalx
+      <Drawerx
         onRef={ref => {
-          this.modal = ref
+          this.drawer = ref
         }}
-        modalCfg={modalCfg}
         onOk={this.moveIn}
         onSuccess={this.props.onSuccess}
       >
@@ -205,7 +202,7 @@ export default class MoveInModal extends React.Component {
           <Title slot="已选择"></Title>
           <div>{this.renderSelectVm()}</div>
         </Formx>
-      </Modalx>
+      </Drawerx>
     )
   }
 }

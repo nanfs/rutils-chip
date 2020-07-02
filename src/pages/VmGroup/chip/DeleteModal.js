@@ -5,6 +5,16 @@ import vmgroupsApi from '@/services/vmgroups'
 import { wrapResponse } from '@/utils/tool'
 
 const { createModalCfg } = Modalx
+const formItemLayout = {
+  labelCol: {
+    xs: { span: 24 },
+    sm: { span: 7 }
+  },
+  wrapperCol: {
+    xs: { span: 24 },
+    sm: { span: 8 }
+  }
+}
 export default class DeleteModal extends React.Component {
   componentDidMount() {
     this.props.onRef && this.props.onRef(this)
@@ -12,7 +22,7 @@ export default class DeleteModal extends React.Component {
 
   pop = ({ ids }) => {
     this.modal.show()
-    this.modal.form.setFieldsValue({ ids, isDeleteDesktop: true })
+    this.modal.form.setFieldsValue({ ids, isDeleteDesktop: false })
   }
 
   delete = values => {
@@ -39,6 +49,7 @@ export default class DeleteModal extends React.Component {
         onRef={ref => {
           this.modal = ref
         }}
+        formItemLayout={formItemLayout}
         modalCfg={modalCfg}
         onSuccess={this.props.onSuccess}
         onOk={this.delete}
@@ -48,11 +59,11 @@ export default class DeleteModal extends React.Component {
             <Input />
           </Form.Item>
           <Form.Item
-            label="是否删除桌面"
+            label="删除组内桌面"
             prop="isDeleteDesktop"
             valuepropname="checked"
           >
-            <Switch checkedChildren="删除" unCheckedChildren="保留" />
+            <Switch checkedChildren="是" unCheckedChildren="否" />
           </Form.Item>
         </Formx>
       </Modalx>

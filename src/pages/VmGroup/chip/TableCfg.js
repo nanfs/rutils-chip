@@ -10,10 +10,6 @@ export const columns = [
     ellipsis: true
   },
   {
-    title: () => <span title="创建时间">创建时间</span>,
-    dataIndex: 'createTime'
-  },
-  {
     title: () => <span title="名单">预启动设置</span>,
     dataIndex: 'policies',
     width: 120,
@@ -35,6 +31,10 @@ export const columns = [
         <span>无</span>
       )
     }
+  },
+  {
+    title: () => <span title="创建时间">创建时间</span>,
+    dataIndex: 'createTime'
   },
   {
     title: () => <span title="描述">描述</span>,

@@ -2,6 +2,7 @@ import React from 'react'
 import { Form, Input, Icon, Row, Col, TimePicker, message } from 'antd'
 import { Drawerx, Formx, Title } from '@/components'
 import vmgroupsApi from '@/services/vmgroups'
+import { isInt } from '@/utils/valid'
 import dayjs from 'dayjs'
 
 const customParseFormat = require('dayjs/plugin/customParseFormat')
@@ -222,7 +223,7 @@ export default class PeakDrawer extends React.Component {
           <Col span={7}>
             <Form.Item
               prop={`prestartNumbers[${index}]`}
-              rules={[this.checkPreStart]}
+              rules={[this.checkPreStart, isInt]}
             >
               <Input placeholder="预启动桌面数" />
             </Form.Item>

@@ -75,13 +75,16 @@ service.interceptors.response.use(
       }
       return response.data
     }
-    console.log('捕获', response)
-    if (
-      (response.status >= 200 && response.status < 300) ||
-      response.status === 409
-    ) {
-      return response
-    }
+    console.log('捕获', response, response.config.url)
+    return Promise.reject(
+      new Error(`${response.config.url} 接口参数错误 请联系管理员`)
+    )
+    // if (
+    //   (response.status >= 200 && response.status < 300) ||
+    //   response.status === 409
+    // ) {
+    //   return response
+    // }
   },
   error => {
     if (

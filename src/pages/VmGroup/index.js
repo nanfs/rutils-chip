@@ -1,11 +1,11 @@
 import React from 'react'
-import { Button, message, notification, Modal } from 'antd'
+import { Button } from 'antd'
 import { Tablex, InnerPath } from '@/components'
 import EditModal from './chip/EditModal'
 import AddGroupModal from './chip/AddModal'
 import DetailDrawer from './chip/DetailDrawer'
 import PeakDrawer from './chip/PeakDrawer'
-import MoveInModal from './chip/MoveInModal'
+import MoveInDrawer from './chip/MoveInDrawer'
 import DeleteModal from './chip/DeleteModal'
 import AddVmDrawer from '@/pages/Desktop/chip/AddDrawer'
 import { columns, apiMethod } from './chip/TableCfg'
@@ -112,6 +112,13 @@ export default class Task extends React.Component {
     this.currentDrawer = this.detailDrawer
   }
 
+  moveIn = record => {
+    const { name, id } = record
+    this.setState({ inner: name })
+    this.moveInDrawer.pop(id)
+    this.currentDrawer = this.moveInDrawer
+  }
+
   setPeak = record => {
     const { name } = record
     this.setState({ inner: name })
@@ -149,9 +156,7 @@ export default class Task extends React.Component {
               </Button>
               <Button
                 disabled={disabledButton.disabledMoveIn}
-                onClick={() =>
-                  this.moveInModal.pop(this.tablex.getSelection()[0])
-                }
+                onClick={() => this.moveIn(this.tablex.getSelectData()[0])}
               >
                 分配桌面
               </Button>
@@ -210,9 +215,9 @@ export default class Task extends React.Component {
             }}
             onClose={this.onBack}
           />
-          <MoveInModal
+          <MoveInDrawer
             onRef={ref => {
-              this.moveInModal = ref
+              this.moveInDrawer = ref
             }}
             onSuccess={() => this.tablex.refresh(this.state.tableCfg)}
           />

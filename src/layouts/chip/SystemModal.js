@@ -30,7 +30,6 @@ export default class ConfigModal extends React.Component {
   }
 
   pop = () => {
-    this.modal.show()
     systemsApi
       .datail()
       .then(res => {
@@ -39,6 +38,7 @@ export default class ConfigModal extends React.Component {
       .catch(errors => {
         this.modal.break(errors)
       })
+    setTimeout(this.modal.show(), 0)
   }
 
   onOk = values => {
@@ -93,7 +93,13 @@ export default class ConfigModal extends React.Component {
               parser={value => value}
             />
           </Form.Item>
-
+          <Form.Item
+            prop="tcTaskCleanDays"
+            label="终端任务清理时间(天)"
+            rules={[required, lessThanValue(30), moreThanValue(1), isInt]}
+          >
+            <InputNumber min={1} style={{ width: '100%' }} max={30} />
+          </Form.Item>
           <Form.Item
             prop="tcAdministratorWord"
             label="终端管理员密码"

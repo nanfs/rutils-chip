@@ -346,7 +346,7 @@ export default class Terminal extends React.Component {
 
   // 终端编辑
   editTerminal = (name, data) => {
-    this.setState({ inner: name }, this.editDrawer.pop(data))
+    this.setState({ inner: name || '未命名' }, this.editDrawer.pop(data))
     this.currentDrawer = this.editDrawer
   }
 

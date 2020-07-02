@@ -62,7 +62,7 @@ export const columns = [
   {
     title: () => <span title="接入状态">接入状态</span>,
     dataIndex: 'isReg',
-    width: 100,
+    width: 110,
     filters: [
       {
         text: '待接入',
@@ -81,11 +81,23 @@ export const columns = [
       )
     }
   },
-  /* {
+  /* 
+  {
     title: () => <span title="位置">位置</span>,
     dataIndex: 'location',
     ellipsis: true
-  }, */
+  }, 
+  */
+  {
+    title: () => <span title="硬件型号">硬件型号</span>,
+    dataIndex: 'model',
+    ellipsis: true
+  },
+  {
+    title: () => <span title="软件版本">软件版本</span>,
+    dataIndex: 'version',
+    ellipsis: true
+  },
   {
     title: () => <span title="登录用户">登录用户</span>,
     dataIndex: 'onUser',

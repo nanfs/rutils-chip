@@ -54,6 +54,12 @@ const menu = [
     authority: 'admin,security'
   },
   {
+    title: '终端任务',
+    icon: 'calendar',
+    path: '/terminalTask',
+    authority: 'admin,security'
+  },
+  {
     title: '外设控制',
     icon: 'usb',
     path: '/device',
@@ -63,6 +69,12 @@ const menu = [
     title: '准入控制',
     icon: 'login',
     path: '/access',
+    authority: 'admin,security'
+  },
+  {
+    title: '升级包管理',
+    icon: 'usb',
+    path: '/upgrade',
     authority: 'admin,security'
   },
   {

@@ -19,7 +19,7 @@ const { confirm } = Modal
 export default class Resource extends React.Component {
   state = {
     inner: undefined,
-    viewType: false
+    viewType: true
   }
 
   viewChange = () => {
@@ -72,7 +72,7 @@ export default class Resource extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <span
+        {/* <span
           onClick={() => this.viewChange()}
           style={{
             float: 'right',
@@ -85,7 +85,7 @@ export default class Resource extends React.Component {
         >
           <Icon type="swap" style={{ color: '#1990ff' }} />
           切换视图
-        </span>
+        </span> */}
         <InnerPath
           location="资源概览"
           inner={this.state.inner}

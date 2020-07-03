@@ -10,6 +10,7 @@ import {
   Icon
 } from 'antd'
 import { wrapResponse } from '@/utils/tool'
+import classnames from 'classnames'
 import './index.less'
 
 class Drawerx extends React.Component {
@@ -200,6 +201,8 @@ class Drawerx extends React.Component {
     }
     const antIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />
 
+    const cls = classnames('drawerx', this.props.className)
+
     return (
       <Drawer
         closable={false}
@@ -210,7 +213,7 @@ class Drawerx extends React.Component {
         onClose={this.onClose}
         title={title}
         style={{ position: 'absolute' }}
-        className="drawerx"
+        className={cls}
       >
         <Spin
           indicator={antIcon}

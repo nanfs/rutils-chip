@@ -63,6 +63,10 @@ export default class Task extends React.Component {
   state = {
     tableCfg: createTableCfg({
       columns: this.columnsArr,
+      autoReplace: true,
+      autoCallback: (selection, selectData) => {
+        this.onSelectChange(selection, selectData)
+      },
       apiMethod
     }),
     innerPath: undefined,

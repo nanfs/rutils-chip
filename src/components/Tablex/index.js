@@ -68,8 +68,10 @@ class Tablex extends React.Component {
       // 如果手动暂停 或者正在请求 则不发送请求
       if (!this.props.breakReplace && !this.state.loading) {
         const { autoCallback } = this.props.tableCfg
-        this.reload(this.props.tableCfg)
-        autoCallback && autoCallback(this.getSelection(), this.getSelectData())
+        this.reload(this.props.tableCfg).then(() => {
+          autoCallback &&
+            autoCallback(this.getSelection(), this.getSelectData())
+        })
       }
     }, this.state.replaceTime * 1000)
   }

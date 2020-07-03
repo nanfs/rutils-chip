@@ -25,6 +25,7 @@ export default class DetailDrawer extends React.Component {
       paging: { size: 5 },
       pageSizeOptions: ['5', '10', '20', '50'],
       hasRowSelection: false,
+      autoFetch: false,
       rowKey: 'name'
     }),
     desktopTableCfg: createTableCfg({
@@ -33,6 +34,7 @@ export default class DetailDrawer extends React.Component {
       paging: { size: 5 },
       pageSizeOptions: ['5', '10', '20', '50'],
       hasRowSelection: false,
+      autoFetch: false,
       rowKey: 'vmname'
     }),
     initValues: {},
@@ -174,7 +176,6 @@ export default class DetailDrawer extends React.Component {
                 onSelectChange={(selection, selectData) => {
                   this.setState({ selection, selectData })
                 }}
-                stopAutoFetch={true}
               />
             </div>
             <div className="dms-detail-section">
@@ -188,7 +189,6 @@ export default class DetailDrawer extends React.Component {
                 onSelectChange={(selection, selectData) => {
                   this.setState({ selection, selectData })
                 }}
-                stopAutoFetch={true}
               />
             </div>
           </TabPane>
@@ -202,7 +202,6 @@ export default class DetailDrawer extends React.Component {
               onSelectChange={(selection, selectData) => {
                 this.setState({ selection, selectData })
               }}
-              stopAutoFetch={true}
             />
           </TabPane>
           <TabPane tab="已分配终端" key="3" forceRender={true}>
@@ -215,7 +214,6 @@ export default class DetailDrawer extends React.Component {
               onSelectChange={(selection, selectData) => {
                 this.setState({ selection, selectData })
               }}
-              stopAutoFetch={true}
             />
           </TabPane> */}
         </Tabs>

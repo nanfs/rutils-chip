@@ -131,6 +131,7 @@ export default class User extends React.Component {
       columns: this.columnsArr,
       apiMethod: userApi.queryByGroup,
       paging: { size: 10 },
+      autoFetch: false,
       pageSizeOptions: ['5', '10', '20', '50']
     }),
     innerPath: undefined,
@@ -523,7 +524,6 @@ export default class User extends React.Component {
                 tableCfg={this.state.tableCfg}
                 onSelectChange={this.onSelectChange}
                 onChange={this.onTableChange}
-                stopAutoFetch={true}
               />
               <AddDrawer
                 onRef={ref => {

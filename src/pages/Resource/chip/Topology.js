@@ -1,7 +1,7 @@
 import React from 'react'
 import G6 from '@antv/g6'
 
-import { message } from 'antd'
+import { message, Button } from 'antd'
 import userApi from '@/services/user'
 import resourceApi from '@/services/resource'
 import { getUserId } from '@/utils/checkPermissions'
@@ -23,7 +23,20 @@ export default class Topology extends React.Component {
   state = {
     innerPath: undefined,
     tooltipItem: '',
-    tooltipStyle: {}
+    actionItem: '',
+    tooltipStyle: {},
+    defaultLayout: {
+      type: 'compactBox',
+      direction: 'TB', // 树布局的方向
+      nodeSep: 10, // 可选
+      rankSep: 10, // 可选
+      getVGap: function getVGap() {
+        return 160
+      },
+      getHGap: function getHGap() {
+        return 70
+      }
+    }
   }
 
   componentDidMount() {
@@ -126,7 +139,9 @@ export default class Topology extends React.Component {
                 .scrollHeight, // Number，必须，图的高度
               fitView: true,
               fitViewPadding: 150,
+              fitCenter: true,
               animate: true,
+              autoPaint: false,
               maxZoom: 1,
               modes: {
                 default: [
@@ -143,18 +158,7 @@ export default class Topology extends React.Component {
                   // 'drag-node',
                 ]
               },
-              layout: {
-                type: 'compactBox',
-                direction: 'TB', // 树布局的方向
-                nodeSep: 10, // 可选
-                rankSep: 10, // 可选
-                getVGap: function getVGap() {
-                  return 160
-                },
-                getHGap: function getHGap() {
-                  return 70
-                }
-              },
+              layout: this.state.defaultLayout,
               defaultNode: {
                 type: 'image',
                 size: 60,
@@ -181,12 +185,13 @@ export default class Topology extends React.Component {
             graph.on('node:mouseenter', e => {
               clearTimeout(this.timer)
               const nodeItem = e.item // 获取鼠标进入的节点元素对象
-              const { model } = e.item.defaultCfg
+              const { model } = e.item._cfg
+
               this.setState({
                 tooltipStyle: {
                   visibility: 'visible',
                   top: e.canvasY - 20,
-                  left: e.canvasX + 20
+                  left: e.canvasX + 50
                 },
                 tooltipItem: (
                   <div>
@@ -209,11 +214,40 @@ export default class Topology extends React.Component {
                       </div>
                     )}
                   </div>
+                ),
+                actionItem: model.nodeTypeName === '虚拟机' && (
+                  <ul className="topology-tooltip-action">
+                    <li>
+                      <Button onClick={() => this.vmEdit(model.id)}>
+                        编辑
+                      </Button>
+                    </li>
+                    <li>
+                      <Button
+                        onClick={() => this.vmDelete(model.id)}
+                        disabled={model.statusName !== '已关机'}
+                      >
+                        删除
+                      </Button>
+                    </li>
+                    <li>
+                      <Button
+                        onClick={() =>
+                          this.vmDetail(
+                            model.id,
+                            model.status,
+                            model.clusterCpuName,
+                            model.name
+                          )
+                        }
+                      >
+                        详情
+                      </Button>
+                    </li>
+                  </ul>
                 )
               })
-              /* graph.updateItem(nodeItem, {
-          img: vmImg
-        }) // 修改当前节点展示 */
+              // 修改当前节点展示
               graph.setItemState(nodeItem, 'hover', true) // 设置当前节点的 hover 状态为 true
             })
 
@@ -236,7 +270,7 @@ export default class Topology extends React.Component {
             graph.on('node:click', e => {
               clearTimeout(this.timer)
               const nodeItem = e.item // 获取鼠标进入的节点元素对象
-              const { model } = e.item.defaultCfg
+              const { model } = e.item._cfg
               if (model.nodeType === 14) {
                 return false
               } else if (model.nodeType === 9 && !model.collapsed) {
@@ -295,20 +329,8 @@ export default class Topology extends React.Component {
                     console.log(error)
                   })
               } else {
-                const layout = {
-                  type: 'compactBox',
-                  direction: 'TB', // 树布局的方向
-                  nodeSep: 10, // 可选
-                  rankSep: 10, // 可选
-                  getVGap: function getVGap() {
-                    return 160
-                  },
-                  getHGap: function getHGap() {
-                    return 70
-                  }
-                }
                 graph.clear()
-                graph.changeLayout(layout)
+                graph.changeLayout(this.state.defaultLayout)
                 graph.changeData(data)
               }
 
@@ -328,9 +350,20 @@ export default class Topology extends React.Component {
       })
   }
 
+  vmEdit(id) {
+    console.log(id)
+  }
+
+  vmDelete(id) {
+    this.props.vmDelete(id)
+  }
+
+  vmDetail(id, status, clusterCpuName, name) {
+    this.props.vmDetailShow(id, status, clusterCpuName, name)
+  }
+
   render() {
     const { tooltipItem, tooltipStyle, actionItem } = this.state
-
     return (
       <React.Fragment>
         <div

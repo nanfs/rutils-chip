@@ -46,7 +46,7 @@ export default class LineChart extends React.Component {
     const { lineChartData, dataSum } = this.props
     const cols = {
       count: {
-        ticks: [0, dataSum]
+        ticks: [0, dataSum + parseInt(dataSum / 10, 10)]
       }
     }
 

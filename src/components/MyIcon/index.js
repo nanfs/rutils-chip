@@ -13,7 +13,7 @@ function onClick(props) {
 }
 function MyIcon(props) {
   const {
-    prefixCls = 'v-icon',
+    prefixCls = 'v-icon anticon',
     spin,
     component,
     title,

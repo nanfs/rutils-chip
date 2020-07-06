@@ -151,6 +151,16 @@ export default class DetailDrawer extends React.Component {
                   </Tooltip>
                 </Col>
                 <Col span={3} className="dms-detail-label">
+                  位置：
+                </Col>
+                <Col span={8} className="dms-detail-value">
+                  <Tooltip title={initValues.location} placement="topLeft">
+                    <span>{initValues.location}</span>
+                  </Tooltip>
+                </Col>
+              </Row>
+              <Row className="dms-detail-row">
+                <Col span={3} className="dms-detail-label">
                   描述：
                 </Col>
                 <Col span={8} className="dms-detail-value">

@@ -53,7 +53,7 @@ export default class Sider extends React.Component {
       >
         <NavLink to={item.path}>
           {item.iconComonpent ? (
-            <MyIcon type={item.icon} component="svg" />
+            <MyIcon type={item.icon} />
           ) : (
             <Icon type={item.icon} />
           )}

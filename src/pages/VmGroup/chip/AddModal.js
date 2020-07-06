@@ -41,7 +41,12 @@ export default class AddGroupModal extends React.Component {
         onOk={this.add}
       >
         <Formx>
-          <Form.Item prop="name" label="名称" rules={[required, checkName]}>
+          <Form.Item
+            prop="name"
+            label="名称"
+            rules={[required, checkName]}
+            required
+          >
             <Input placeholder="桌面组名称"></Input>
           </Form.Item>
           <Form.Item prop="description" label="描述">

@@ -15,29 +15,30 @@ export default class PeakDrawer extends React.Component {
       const { startTime, endTime } = this.drawer.form.getFieldsValue()
       if (this.state.clean) {
         callback()
-      }
-      if (!value) {
-        callback(new Error('这是必填项'))
-      }
-      endTime.forEach((item, k) => {
-        if (
-          k === index &&
-          startTime[index] &&
-          !dayjs(startTime[index]).isBefore(value)
-        ) {
-          callback(new Error('结束时间必须晚于开始时间'))
+      } else {
+        if (!value) {
+          callback(new Error('这是必填项'))
         }
-        if (
-          k !== index &&
-          endTime[k] &&
-          endTime[k].isAfter(value) &&
-          startTime[k] &&
-          dayjs(startTime[k]).isBefore(value)
-        ) {
-          callback(new Error('时间存在重复'))
-        }
-      })
-      callback()
+        endTime.forEach((item, k) => {
+          if (
+            k === index &&
+            startTime[index] &&
+            !dayjs(startTime[index]).isBefore(value)
+          ) {
+            callback(new Error('结束时间必须晚于开始时间'))
+          }
+          if (
+            k !== index &&
+            endTime[k] &&
+            endTime[k].isAfter(value) &&
+            startTime[k] &&
+            dayjs(startTime[k]).isBefore(value)
+          ) {
+            callback(new Error('时间存在重复'))
+          }
+        })
+        callback()
+      }
     }
   }
 
@@ -47,44 +48,47 @@ export default class PeakDrawer extends React.Component {
       const { startTime, endTime } = this.drawer.form.getFieldsValue()
       if (this.state.clean) {
         callback()
-      }
-      if (!value) {
-        callback(new Error('这是必填项'))
-      }
-      startTime.forEach((item, k) => {
-        if (
-          k === index &&
-          endTime[index] &&
-          !dayjs(endTime[index]).isAfter(value)
-        ) {
-          callback(new Error('开始时间必须早于结束时间'))
+      } else {
+        if (!value) {
+          callback(new Error('这是必填项'))
         }
-        if (
-          k !== index &&
-          startTime[k] &&
-          startTime[k].isBefore(value) &&
-          endTime[k] &&
-          dayjs(endTime[k]).isAfter(value)
-        ) {
-          callback(new Error('时间存在重复'))
-        }
-      })
-      callback()
+        startTime.forEach((item, k) => {
+          if (
+            k === index &&
+            endTime[index] &&
+            !dayjs(endTime[index]).isAfter(value)
+          ) {
+            callback(new Error('开始时间必须早于结束时间'))
+          }
+          if (
+            k !== index &&
+            startTime[k] &&
+            startTime[k].isBefore(value) &&
+            endTime[k] &&
+            dayjs(endTime[k]).isAfter(value)
+          ) {
+            callback(new Error('时间存在重复'))
+          }
+        })
+        callback()
+      }
     }
   }
 
   // 验证预启动数量
   checkPreStart = (rule, value, callback) => {
+    console.log(this.state.clean)
     if (this.state.clean) {
       callback()
+    } else {
+      if (!value && value !== 0) {
+        callback(new Error('这是必填项'))
+      }
+      if (value && +value > this.state?.desktopNum) {
+        callback(new Error('预启动数超过当前桌面组桌面数'))
+      }
+      callback()
     }
-    if (!value) {
-      callback(new Error('这是必填项'))
-    }
-    if (value && +value > this.state?.desktopNum) {
-      callback(new Error('预启动数超过当前桌面组桌面数'))
-    }
-    callback()
   }
 
   componentDidMount() {
@@ -103,7 +107,8 @@ export default class PeakDrawer extends React.Component {
       this.setState({
         policies: policies?.length ? policies : [{}],
         groupId,
-        desktopNum
+        desktopNum,
+        clean: false
       })
     )
   }
@@ -258,7 +263,7 @@ export default class PeakDrawer extends React.Component {
         onOk={this.setPeak}
       >
         <Formx>
-          <Title slot="桌面组设置"></Title>
+          <Title slot="预启动设置"></Title>
           <Row gutter={16} className="form-item-wrapper">
             <Col span={7}>
               <Form.Item label="开始时间"></Form.Item>

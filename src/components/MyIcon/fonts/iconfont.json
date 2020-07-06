@@ -6,6 +6,27 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "15689140",
+      "name": "桌面组1",
+      "font_class": "zhuomianzu1",
+      "unicode": "e66d",
+      "unicode_decimal": 58989
+    },
+    {
+      "icon_id": "4491576",
+      "name": "升级",
+      "font_class": "shengji",
+      "unicode": "e606",
+      "unicode_decimal": 58886
+    },
+    {
+      "icon_id": "2341081",
+      "name": "置顶",
+      "font_class": "zhiding",
+      "unicode": "e617",
+      "unicode_decimal": 58903
+    },
+    {
       "icon_id": "2494562",
       "name": "系统",
       "font_class": "xitong",

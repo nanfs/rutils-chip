@@ -28,7 +28,7 @@ const menu = [
   },
   {
     title: '桌面组管理',
-    icon: 'template1',
+    icon: 'zhuomianzu1',
     iconComonpent: 'MyIcon',
     path: '/vmgroup',
     authority: 'admin,security'
@@ -73,7 +73,8 @@ const menu = [
   },
   {
     title: '升级包管理',
-    icon: 'usb',
+    icon: 'shengji',
+    iconComonpent: 'MyIcon',
     path: '/upgrade',
     authority: 'admin,security'
   },

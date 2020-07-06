@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form, Input, TimePicker, DatePicker } from 'antd'
+import { Form, Input, TimePicker, DatePicker, Alert } from 'antd'
 import dayjs from 'dayjs'
 import { Drawerx, Title, Diliver, Radiox, Selectx, Formx } from '@/components'
 import { weekOptions, typeOptions } from '@/utils/formOptions'
@@ -84,6 +84,12 @@ export default class AddDrawer extends React.Component {
         onOk={this.add}
       >
         <Formx>
+          <Alert
+            message="准入控制为限制终端在指定时间内准入的策略配置。配置准入方式按周表示在每周的特定时间可以准入，按日期表示在一个日期范围可以准入。如果一个终端应用多条准入控制，准入时间为所有配置并集
+            。"
+            type="info"
+            showIcon
+          />
           <Title slot="基础设置"></Title>
           <Form.Item
             prop="name"

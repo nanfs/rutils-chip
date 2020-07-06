@@ -4,7 +4,6 @@ import { nodes2Tree } from '@/utils/tool'
 
 export default class TreeSelectx extends React.Component {
   state = {
-    value: '',
     searchValue: '',
     autoExpandParent: true,
     expandedKeys: [],

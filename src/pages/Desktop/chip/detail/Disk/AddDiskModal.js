@@ -13,7 +13,8 @@ export default class AddDiskModal extends React.Component {
 
   pop = vmId => {
     this.modal.show()
-    this.modal.form.setFieldsValue({ vmId })
+    // 设置默认磁盘大小为 50G
+    this.modal.form.setFieldsValue({ vmId, capacity: 50 })
   }
 
   onOk = values => {

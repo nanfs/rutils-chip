@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form, Input, Switch, Icon, Row, Col, message } from 'antd'
+import { Form, Input, Switch, Icon, Row, Col, message, Alert } from 'antd'
 import { Drawerx, Formx, Title, Diliver } from '@/components'
 import deviceApi from '@/services/device'
 import '../index.less'
@@ -232,6 +232,11 @@ export default class AddDrawer extends React.Component {
             this.formx = ref
           }}
         >
+          <Alert
+            message="外设控制为限制和允许名单中的外设设备策略配置。选择启用黑名单表示在名单中外设禁止连入，选择启用白名单表示只有在名单中的外设可以连入。名单中VendorId（厂家标识）和ProductId（产品标识）可通过特定软件或文件查询。"
+            type="info"
+            showIcon
+          />
           <Title slot="基础设置"></Title>
           <Form.Item prop="id" hidden>
             <Input />

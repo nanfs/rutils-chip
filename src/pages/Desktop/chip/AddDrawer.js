@@ -9,7 +9,8 @@ import {
   Col,
   Icon,
   Button,
-  Tooltip
+  Tooltip,
+  Alert
 } from 'antd'
 import { Drawerx, Formx, Title, Radiox, Diliver, Selectx } from '@/components'
 
@@ -57,9 +58,23 @@ export default class AddDrawer extends React.Component {
       netNic: [1], // 当前可用网络数量
       hasSetNetValue: true
     })
-    this.drawer.form.setFieldsValue({ ...initValues, desktopNum: 1 })
-
-    this.getCluster()
+    this.drawer.form.setFieldsValue({
+      ...initValues,
+      desktopNum: 1,
+      memory: 2,
+      cpuCores: 2,
+      capacity: 100
+    })
+    // 在第一次获取集群后 设置默认值第一个集群
+    this.getCluster().then(() => {
+      const { clusterOptions } = this.state
+      if (clusterOptions && clusterOptions[0].value) {
+        this.drawer.form.setFieldsValue({
+          clusterId: clusterOptions[0].value
+        })
+        this.onClusterChange('', '', clusterOptions[0].value)
+      }
+    })
   }
 
   getNicValue(index) {
@@ -514,11 +529,11 @@ export default class AddDrawer extends React.Component {
         onSuccess={this.props.onSuccess}
       >
         <Formx>
-          {/* <Alert
-            message="安装windows操作系统的时候，64位操作系统请选择“x64”，32位操作系统请选择“x86”；linux类操作系统选择“不需要”"
+          <Alert
+            message="支持通过模板和ISO创建虚拟机，使用模板创建可以创建多个虚拟机。CPU数量最大支持160、内存容量最大支持128G、网络设置中最多可添加5个配置集。支持申威架构虚拟机创建。"
             type="info"
             showIcon
-          /> */}
+          />
           <Title slot="基础设置"></Title>
           <Form.Item
             prop="name"

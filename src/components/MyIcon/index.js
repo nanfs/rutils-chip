@@ -15,7 +15,7 @@ function MyIcon(props) {
   const {
     prefixCls = 'v-icon anticon',
     spin,
-    component,
+    component = 'svg',
     title,
     className,
     ...other

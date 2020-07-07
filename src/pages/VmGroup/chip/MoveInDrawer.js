@@ -10,7 +10,6 @@ import {
 import { Form, Input, Tag } from 'antd'
 import produce from 'immer'
 import vmgroupsApi from '@/services/vmgroups'
-import { wrapResponse } from '@/utils/tool'
 import {
   getColumns,
   apiMethod,
@@ -135,21 +134,21 @@ export default class MoveInModal extends React.Component {
   // 迁入虚拟机
   moveIn = values => {
     const desktopIds = this.state.totalSelection.map(item => item.split('&')[0])
-    vmgroupsApi.moveIn({ desktopIds, ...values }).then(res => {
-      wrapResponse(res)
-        .then(() => {
-          this.drawer.afterSubmit(res)
-        })
-        .catch(error => {
-          this.drawer.break(error)
-          console.log(error)
-        })
-    })
+    vmgroupsApi
+      .moveIn({ desktopIds, ...values })
+      .then(res => {
+        this.drawer.afterSubmit(res)
+      })
+      .catch(error => {
+        this.drawer.break(error)
+        console.log(error)
+      })
   }
 
   // 渲染所选虚拟机
   renderSelectVm = () => {
     const { totalSelection } = this.state
+
     return totalSelection.map(vm => {
       const [, name] = vm.split('&')
       return (
@@ -157,6 +156,7 @@ export default class MoveInModal extends React.Component {
           color="blue"
           key={vm}
           closable
+          className="tag-wdith200"
           onClose={() => this.removeVmSelection(vm)}
           title={name}
         >
@@ -200,7 +200,8 @@ export default class MoveInModal extends React.Component {
           </TableWrap>
           <Diliver />
           <Title slot="已选择"></Title>
-          <div>{this.renderSelectVm()}</div>
+
+          {this.renderSelectVm()}
         </Formx>
       </Drawerx>
     )

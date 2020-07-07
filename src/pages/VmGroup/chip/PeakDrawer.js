@@ -30,7 +30,7 @@ export default class PeakDrawer extends React.Component {
           if (
             k !== index &&
             endTime[k] &&
-            endTime[k].isAfter(value) &&
+            dayjs(endTime[k]).isAfter(value) &&
             startTime[k] &&
             dayjs(startTime[k]).isBefore(value)
           ) {
@@ -63,7 +63,7 @@ export default class PeakDrawer extends React.Component {
           if (
             k !== index &&
             startTime[k] &&
-            startTime[k].isBefore(value) &&
+            dayjs(startTime[k]).isBefore(value) &&
             endTime[k] &&
             dayjs(endTime[k]).isAfter(value)
           ) {
@@ -77,11 +77,13 @@ export default class PeakDrawer extends React.Component {
 
   // 验证预启动数量
   checkPreStart = (rule, value, callback) => {
-    console.log(this.state.clean)
     if (this.state.clean) {
       callback()
     } else {
-      if (!value && value !== 0) {
+      if (+value === 0) {
+        callback(new Error('不能为0'))
+      }
+      if (!value && +value !== 0) {
         callback(new Error('这是必填项'))
       }
       if (value && +value > this.state?.desktopNum) {
@@ -89,6 +91,27 @@ export default class PeakDrawer extends React.Component {
       }
       callback()
     }
+  }
+
+  // 检查其他日期只要值就检查时间
+  checkOther = () => {
+    const { startTime, endTime } = this.drawer.form.getFieldsValue()
+    console.log(startTime, endTime)
+    const fields = []
+
+    startTime &&
+      startTime.forEach((item, k) => {
+        if (item) {
+          fields.push(`startTime[${k}]`)
+        }
+      })
+    endTime &&
+      endTime.forEach((item, k) => {
+        if (item) {
+          fields.push(`endTime[${k}]`)
+        }
+      })
+    this.drawer.form.validateFields(fields)
   }
 
   componentDidMount() {
@@ -169,7 +192,6 @@ export default class PeakDrawer extends React.Component {
   // 添加设置选项 最多运行添加10条
   add = index => {
     const policies = this.getField()
-    console.log()
     const { endTime, startTime, prestartNumbers } = policies[index]
     if (!endTime || !startTime || !prestartNumbers) {
       return message.error('请先完善当前行再添加!')
@@ -214,7 +236,12 @@ export default class PeakDrawer extends React.Component {
               prop={`startTime[${index}]`}
               rules={[this.checkStartTime(index)]}
             >
-              <TimePicker format={'HH:mm'} style={{ width: '100%' }} />
+              <TimePicker
+                format={'HH:mm'}
+                style={{ width: '100%' }}
+                onChange={() => console.log('change')}
+                onOpenChange={open => !open && this.checkOther()}
+              />
             </Form.Item>
           </Col>
           <Col span={7}>
@@ -222,7 +249,12 @@ export default class PeakDrawer extends React.Component {
               prop={`endTime[${index}]`}
               rules={[this.checkEndTime(index)]}
             >
-              <TimePicker format={'HH:mm'} style={{ width: '100%' }} />
+              <TimePicker
+                format={'HH:mm'}
+                style={{ width: '100%' }}
+                onChange={() => console.log('change')}
+                onOpenChange={open => !open && this.checkOther()}
+              />
             </Form.Item>
           </Col>
           <Col span={7}>

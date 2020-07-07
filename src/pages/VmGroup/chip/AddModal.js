@@ -3,7 +3,6 @@ import { Formx, Modalx } from '@/components'
 import { Form, Input } from 'antd'
 import vmgroupsApi from '@/services/vmgroups'
 import { required, checkName } from '@/utils/valid'
-import { wrapResponse } from '@/utils/tool'
 
 const { TextArea } = Input
 const { createModalCfg } = Modalx
@@ -17,16 +16,15 @@ export default class AddGroupModal extends React.Component {
   }
 
   add = values => {
-    vmgroupsApi.add(values).then(res => {
-      wrapResponse(res)
-        .then(() => {
-          this.modal.afterSubmit(res)
-        })
-        .catch(error => {
-          this.modal.break(error)
-          console.log(error)
-        })
-    })
+    vmgroupsApi
+      .add(values)
+      .then(res => {
+        this.modal.afterSubmit(res)
+      })
+      .catch(error => {
+        this.modal.break(error)
+        console.log(error)
+      })
   }
 
   render() {

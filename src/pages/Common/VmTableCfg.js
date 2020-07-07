@@ -345,7 +345,8 @@ export function vmDisableAction(vmObj) {
   if (vmObj.status !== 1) {
     disabledButton = {
       ...disabledButton,
-      disabledAttachIso: true
+      disabledAttachIso: true,
+      disabledRestart: true
     }
   }
   // 不禁用感觉要方便点
@@ -359,22 +360,20 @@ export function vmDisableAction(vmObj) {
     disabledButton = {
       ...disabledButton,
       disabledDown: true,
-      disabledRestart: true,
       disabledPowerOff: true
     }
   }
-  if (vmObj.status === 10) {
-    disabledButton = {
-      ...disabledButton,
-      disabledRestart: true
-    }
-  }
+  // if (vmObj.status === 10) {
+  //   disabledButton = {
+  //     ...disabledButton,
+  //     disabledRestart: true
+  //   }
+  // }
   // 暂停 pause 禁用重启 关机
   if (vmObj.status === 4) {
     disabledButton = {
       ...disabledButton,
-      disabledDown: true,
-      disabledRestart: true
+      disabledDown: true
     }
   }
   if (vmObj.assignedUsers) {

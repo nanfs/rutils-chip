@@ -447,10 +447,12 @@ export default class Terminal extends React.Component {
           inner={this.state.inner}
           onBack={this.onBack}
         />
-        <Reminder
-          style={{ marginLeft: 5 }}
-          tips="平台通过向终端提供统一的接口，能够同时管理多款国产化安全云终端。"
-        ></Reminder>
+        {!this.state.inner && (
+          <Reminder
+            style={{ marginLeft: 5 }}
+            tips="平台通过向终端提供统一的接口，能够同时管理多款国产化安全云终端。"
+          ></Reminder>
+        )}
         <TableWrap>
           <ToolBar>
             <BarLeft>

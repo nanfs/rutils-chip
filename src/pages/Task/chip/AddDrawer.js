@@ -255,11 +255,11 @@ export default class AddDrawer extends React.Component {
         onSuccess={this.props.onSuccess}
       >
         <Formx>
-          <Alert
+          {/* <Alert
             message="计划任务为控制指定桌面集合在一定时间段内执行开机、关机、重启等操作的自动任务配置。支持按周 按天配置特定时间段执行策略。"
             type="info"
             showIcon
-          />
+          /> */}
           <Title slot="基础设置"></Title>
           <Form.Item
             prop="name"

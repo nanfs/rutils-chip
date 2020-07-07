@@ -1,6 +1,6 @@
 import React from 'react'
 import { Button, notification, Modal, message } from 'antd'
-import { Tablex, InnerPath } from '@/components'
+import { Tablex, InnerPath, Reminder } from '@/components'
 import { wrapResponse } from '@/utils/tool'
 import poolsApi from '@/services/pools'
 import AddDrawer from './chip/AddDrawer'
@@ -131,6 +131,10 @@ export default class Pool extends React.Component {
           inner={this.state.inner}
           onBack={this.onBack}
         />
+        <Reminder
+          style={{ marginLeft: 5 }}
+          tips="支持桌面的池模式，桌面池是一组可以被用户使用的、具有相同配置一类桌面。"
+        ></Reminder>
         <TableWrap>
           <ToolBar>
             <BarLeft>

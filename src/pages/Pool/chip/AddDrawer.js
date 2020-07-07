@@ -219,7 +219,7 @@ export default class AddDrawer extends React.Component {
       >
         <Formx formItemLayout={formItemLayout}>
           <Alert
-            message="桌面池是相同系统配置桌面的特定集合，一般用于公共环境的虚拟机应用场景。自动池的虚拟机在用户关机后会自动还原系统和回收资源，手动池需要管理员手动回收用户权限之后还原和回收虚拟机。"
+            message="自动池的虚拟机在用户关机后会自动还原系统和回收资源，手动池需要管理员手动回收用户权限之后还原和回收虚拟机。支持根据预定时间批量自启部分桌面，在高峰时期避免导致开机风暴，降低平台故障机率。"
             type="info"
             showIcon
           />

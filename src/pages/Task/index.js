@@ -1,7 +1,7 @@
 import React from 'react'
 import { Button, message, notification, Modal } from 'antd'
 import produce from 'immer'
-import { Tablex, InnerPath } from '@/components'
+import { Tablex, InnerPath, Reminder } from '@/components'
 import EditDrawer from './chip/EditDrawer'
 import AddDrawer from './chip/AddDrawer'
 import DetailDrawer from './chip/DetailDrawer'
@@ -241,6 +241,10 @@ export default class Task extends React.Component {
           inner={this.state.inner}
           onBack={this.onBack}
         />
+        <Reminder
+          style={{ marginLeft: 5 }}
+          tips="为指定桌面集合在一定时间段内执行开机、关机、重启等操作进行自动任务配置。支持按周 按天配置特定时间段执行策略。"
+        ></Reminder>
         <TableWrap>
           <ToolBar>
             <BarLeft>

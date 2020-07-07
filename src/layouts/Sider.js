@@ -9,14 +9,14 @@ const { SubMenu } = Menu
 
 export default class Sider extends React.Component {
   componentDidMount() {
+    debugger
     menuConfig.forEach(element => {
       if (element.children) {
         this.rootSubmenuKeys.push(element.title)
         element.children.forEach(item => {
           if (this.props.path === item.path) {
-            this.setState({
-              openKeys: [element.title]
-            })
+            this.openKeys = [element.title, item.title]
+            this.forceUpdate()
           }
         })
       }
@@ -25,32 +25,18 @@ export default class Sider extends React.Component {
 
   rootSubmenuKeys = []
 
-  state = {
-    openKeys: []
-  }
+  openKeys = []
 
   onCollapse = () => {
     this.props.dispatch({ type: 'app/toggleSideFold' })
   }
 
   renderMenuItem(item) {
-    let menuBorder = false
     if (!checkAuth(item.authority)) {
       return
     }
-    if (
-      item.title === '计划任务' ||
-      item.title === '资源概览' ||
-      item.title === '升级包管理' ||
-      item.title === '用户管理'
-    ) {
-      menuBorder = true
-    }
     return (
-      <Menu.Item
-        key={item.path}
-        style={{ borderBottom: menuBorder ? '1px solid #e1edfb' : 'none' }}
-      >
+      <Menu.Item key={item.path}>
         <NavLink to={item.path}>
           {item.iconComonpent ? (
             <MyIcon type={item.icon} />
@@ -78,6 +64,24 @@ export default class Sider extends React.Component {
             <span className="text">{subMenu.title}</span>
           </span>
         }
+        onMouseEnter={e => {
+          console.log('0', this.openKeys)
+          // if (this.state.openKeys.indexOf(e.key) === -1) {
+          this.openKeys = [...this.openKeys, e.key]
+          this.forceUpdate()
+
+          console.log('1', this.openKeys)
+          // }
+        }}
+        onMouseLeave={e => {
+          console.log('2', this.openKeys)
+          const latestOpenKey = this.openKeys.slice(0, -1)
+          console.log('latestOpenKey', latestOpenKey)
+          this.openKeys = latestOpenKey
+          this.forceUpdate()
+
+          console.log('3', this.openKeys)
+        }}
       >
         {subMenu.children.map(item => {
           if (item.children) {
@@ -90,6 +94,7 @@ export default class Sider extends React.Component {
   }
 
   onOpenChange = openKeys => {
+    console.log(openKeys)
     const latestOpenKey = openKeys.find(
       key => this.state.openKeys.indexOf(key) === -1
     )
@@ -103,7 +108,7 @@ export default class Sider extends React.Component {
   }
 
   render() {
-    const { openKeys } = this.state
+    const { openKeys } = this
     const defaultProps = this.props.collapsed ? {} : { openKeys } // 为了解决antd menu收缩时二级菜单不跟随的问题。
     return (
       <Layout.Sider
@@ -121,7 +126,7 @@ export default class Sider extends React.Component {
           mode="inline"
           selectedKeys={[this.props.path]}
           {...defaultProps}
-          onOpenChange={this.onOpenChange}
+          // onOpenChange={this.onOpenChange}
         >
           {menuConfig.map(item => {
             if (item.children) {

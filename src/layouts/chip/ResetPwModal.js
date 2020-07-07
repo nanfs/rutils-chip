@@ -2,7 +2,7 @@ import React from 'react'
 
 import appApi from '@/services/app'
 import { Formx, Modalx } from '@/components'
-import { Form, Input, message } from 'antd'
+import { Form, Input } from 'antd'
 import encrypt from '@/utils/encrypt'
 import { required, checkPassword } from '@/utils/valid'
 import { getUser } from '@/utils/checkPermissions'
@@ -81,7 +81,7 @@ export default class ModalDemo extends React.Component {
             prop="newPassword"
             label="新密码"
             required
-            rules={[required, this.compareSame]}
+            rules={[required, checkPassword, this.compareSame]}
             labelCol={{ sm: { span: 5 } }}
             wrapperCol={{ sm: { span: 16 } }}
           >
@@ -91,7 +91,7 @@ export default class ModalDemo extends React.Component {
             prop="confirmPassword"
             label="确认新密码"
             required
-            rules={[required]}
+            rules={[required, this.comparePwd]}
             labelCol={{ sm: { span: 5 } }}
             wrapperCol={{ sm: { span: 16 } }}
           >

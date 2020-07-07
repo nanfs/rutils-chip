@@ -8,7 +8,7 @@ function Reminder(props) {
   return (
     <span style={{ ...style }} className="reminder">
       <Popover
-        placement="bottomLeft"
+        placement="right"
         title={title}
         content={tips}
         trigger="hover"

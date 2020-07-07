@@ -1,6 +1,6 @@
 import React from 'react'
 import { Form, Input, Switch, Icon, Row, Col, message, Alert } from 'antd'
-import { Drawerx, Formx, Title, Diliver } from '@/components'
+import { Drawerx, Formx, Title, Diliver, Reminder } from '@/components'
 import deviceApi from '@/services/device'
 import '../index.less'
 import { required, checkName, number4, number5 } from '@/utils/valid'
@@ -232,12 +232,14 @@ export default class AddDrawer extends React.Component {
             this.formx = ref
           }}
         >
-          <Alert
+          {/* <Alert
             message="外设控制为限制和允许名单中的外设设备策略配置。选择启用黑名单表示在名单中外设禁止连入，选择启用白名单表示只有在名单中的外设可以连入。名单中VendorId（厂家标识）和ProductId（产品标识）可通过特定软件或文件查询。"
             type="info"
             showIcon
-          />
-          <Title slot="基础设置"></Title>
+          /> */}
+          <Title slot="基础设置">
+            <Reminder tips="外设控制为限制和允许名单中的外设设备策略配置。选择启用黑名单表示在名单中外设禁止连入，选择启用白名单表示只有在名单中的外设可以连入。"></Reminder>
+          </Title>
           <Form.Item prop="id" hidden>
             <Input />
           </Form.Item>
@@ -270,7 +272,9 @@ export default class AddDrawer extends React.Component {
             />
           </Form.Item>
           <Diliver />
-          <Title slot="名单设置"></Title>
+          <Title slot="名单设置">
+            <Reminder tips="名单中VendorId（厂家标识）和ProductId（产品标识）可通过特定软件或文件查询。"></Reminder>
+          </Title>
           <Row gutter={16} className="form-item-wrapper">
             <Col span={7}>
               <Form.Item label="名称"></Form.Item>

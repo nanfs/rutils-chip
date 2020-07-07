@@ -14,7 +14,16 @@ function Diliver(props) {
 }
 function Title(props) {
   const { slot } = props
-  return <p className="drawer-form-title">{slot}</p>
+  return (
+    <p className="drawer-form-title">
+      <span>{slot}</span>
+      {props.children &&
+        React.Children.map(
+          props.children,
+          child => child && React.cloneElement(child, {})
+        )}
+    </p>
+  )
 }
 
 function TitleInfo(props) {

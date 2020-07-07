@@ -12,7 +12,15 @@ import {
   Tooltip,
   Alert
 } from 'antd'
-import { Drawerx, Formx, Title, Radiox, Diliver, Selectx } from '@/components'
+import {
+  Drawerx,
+  Formx,
+  Title,
+  Radiox,
+  Diliver,
+  Selectx,
+  Reminder
+} from '@/components'
 
 import { memoryOptions, cpuOptions, diskOptions } from '@/utils/formOptions'
 import desktopsApi from '@/services/desktops'
@@ -529,12 +537,14 @@ export default class AddDrawer extends React.Component {
         onSuccess={this.props.onSuccess}
       >
         <Formx>
-          <Alert
+          {/* <Alert
             message="支持通过模板和ISO创建虚拟机，使用模板创建可以创建多个虚拟机。CPU数量最大支持160、内存容量最大支持128G、网络设置中最多可添加5个配置集。支持申威架构虚拟机创建。"
             type="info"
             showIcon
-          />
-          <Title slot="基础设置"></Title>
+          /> */}
+          <Title slot="基础设置">
+            <Reminder tips="支持通过模板或ISO创建虚拟机，使用模板可以批量创建虚拟机。CPU数量最大支持160核、内存容量最大支持128G。支持申威架构虚拟机创建。"></Reminder>
+          </Title>
           <Form.Item
             prop="name"
             label="桌面名称"
@@ -698,7 +708,9 @@ export default class AddDrawer extends React.Component {
             <Input placeholder="桌面组" />
           </Form.Item>
           <Diliver />
-          <Title slot="网络设置"></Title>
+          <Title slot="网络设置">
+            <Reminder tips="网络设置中最多可添加5个配置集。"></Reminder>
+          </Title>
           {this.renderNetWork()}
         </Formx>
       </Drawerx>

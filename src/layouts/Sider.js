@@ -8,14 +8,13 @@ import { checkAuth } from '@/utils/checkPermissions'
 const { SubMenu } = Menu
 
 export default class Sider extends React.Component {
-  componentDidMount() {
-    debugger
+  constructor(props) {
+    super(props)
     menuConfig.forEach(element => {
       if (element.children) {
-        this.rootSubmenuKeys.push(element.title)
         element.children.forEach(item => {
           if (this.props.path === item.path) {
-            this.openKeys = [element.title, item.title]
+            this.openKeys = [element.path, item.path]
             this.forceUpdate()
           }
         })
@@ -23,7 +22,18 @@ export default class Sider extends React.Component {
     })
   }
 
-  rootSubmenuKeys = []
+  componentDidMount() {
+    menuConfig.forEach(element => {
+      if (element.children) {
+        element.children.forEach(item => {
+          if (this.props.path === item.path) {
+            this.openKeys = [element.path, item.path]
+            this.forceUpdate()
+          }
+        })
+      }
+    })
+  }
 
   openKeys = []
 
@@ -53,7 +63,7 @@ export default class Sider extends React.Component {
   renderSubMenu(subMenu) {
     return (
       <SubMenu
-        key={subMenu.title}
+        key={subMenu.path}
         title={
           <span>
             {subMenu.iconComonpent ? (
@@ -65,22 +75,13 @@ export default class Sider extends React.Component {
           </span>
         }
         onMouseEnter={e => {
-          console.log('0', this.openKeys)
-          // if (this.state.openKeys.indexOf(e.key) === -1) {
           this.openKeys = [...this.openKeys, e.key]
           this.forceUpdate()
-
-          console.log('1', this.openKeys)
-          // }
         }}
-        onMouseLeave={e => {
-          console.log('2', this.openKeys)
+        onMouseLeave={() => {
           const latestOpenKey = this.openKeys.slice(0, -1)
-          console.log('latestOpenKey', latestOpenKey)
           this.openKeys = latestOpenKey
           this.forceUpdate()
-
-          console.log('3', this.openKeys)
         }}
       >
         {subMenu.children.map(item => {
@@ -91,20 +92,6 @@ export default class Sider extends React.Component {
         })}
       </SubMenu>
     )
-  }
-
-  onOpenChange = openKeys => {
-    console.log(openKeys)
-    const latestOpenKey = openKeys.find(
-      key => this.state.openKeys.indexOf(key) === -1
-    )
-    if (this.rootSubmenuKeys.indexOf(latestOpenKey) === -1) {
-      this.setState({ openKeys })
-    } else {
-      this.setState({
-        openKeys: latestOpenKey ? [latestOpenKey] : []
-      })
-    }
   }
 
   render() {
@@ -126,7 +113,6 @@ export default class Sider extends React.Component {
           mode="inline"
           selectedKeys={[this.props.path]}
           {...defaultProps}
-          // onOpenChange={this.onOpenChange}
         >
           {menuConfig.map(item => {
             if (item.children) {

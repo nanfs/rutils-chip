@@ -13,7 +13,8 @@ const menu = [
     authority: 'admin,security'
   },
   {
-    title: '桌面',
+    title: '桌面管理',
+    path: '/vm',
     icon: 'zhuomianguanli',
     iconComonpent: 'MyIcon',
     authority: 'admin,security',
@@ -55,8 +56,9 @@ const menu = [
     ]
   },
   {
-    title: '终端',
+    title: '终端管理',
     icon: 'terminal',
+    path: '/tc',
     iconComonpent: 'MyIcon',
     authority: 'admin,security',
     children: [

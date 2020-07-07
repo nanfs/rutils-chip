@@ -77,7 +77,7 @@ service.interceptors.response.use(
     }
     console.log('捕获', response, response.config.url)
     return Promise.reject(
-      new Error(`${response.config.url} 接口参数错误 请联系管理员`)
+      new Error(`${response.config.url} 接口错误，请联系管理员！`)
     )
     // if (
     //   (response.status >= 200 && response.status < 300) ||
@@ -85,6 +85,7 @@ service.interceptors.response.use(
     // ) {
     //   return response
     // }
+    // return response
   },
   error => {
     if (

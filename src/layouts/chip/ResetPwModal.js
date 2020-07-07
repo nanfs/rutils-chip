@@ -50,7 +50,7 @@ export default class ModalDemo extends React.Component {
         this.modal.afterSubmit(res)
       })
       .catch(error => {
-        message.error(error.message || error)
+        this.modal.break(error)
         console.log(error)
       })
   }
@@ -81,7 +81,7 @@ export default class ModalDemo extends React.Component {
             prop="newPassword"
             label="新密码"
             required
-            rules={[required, checkPassword, this.compareSame]}
+            rules={[required, this.compareSame]}
             labelCol={{ sm: { span: 5 } }}
             wrapperCol={{ sm: { span: 16 } }}
           >
@@ -91,7 +91,7 @@ export default class ModalDemo extends React.Component {
             prop="confirmPassword"
             label="确认新密码"
             required
-            rules={[required, this.comparePwd]}
+            rules={[required]}
             labelCol={{ sm: { span: 5 } }}
             wrapperCol={{ sm: { span: 16 } }}
           >

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form, Input, TimePicker, Tag } from 'antd'
+import { Form, Input, TimePicker, Tag, Alert } from 'antd'
 import {
   Drawerx,
   Formx,
@@ -31,9 +31,7 @@ export default class AddDrawer extends React.Component {
       columns,
       apiMethod,
       rowKey: 'id',
-      paging: { size: 10 },
-      keepSelection: true,
-      pageSizeOptions: ['5', '10', '20', '50']
+      keepSelection: true
     }),
     totalSelection: []
   }
@@ -48,6 +46,7 @@ export default class AddDrawer extends React.Component {
    */
   pop = () => {
     this.drawer.show()
+    this.drawer.form.setFieldsValue({ way: 1, taskType: 0 })
     this.setState(
       {
         totalSelection: [],
@@ -256,6 +255,11 @@ export default class AddDrawer extends React.Component {
         onSuccess={this.props.onSuccess}
       >
         <Formx>
+          {/* <Alert
+            message="计划任务为控制指定桌面集合在一定时间段内执行开机、关机、重启等操作的自动任务配置。支持按周 按天配置特定时间段执行策略。"
+            type="info"
+            showIcon
+          /> */}
           <Title slot="基础设置"></Title>
           <Form.Item
             prop="name"

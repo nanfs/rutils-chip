@@ -1,6 +1,6 @@
 import React from 'react'
 import { Button, message, Modal, notification } from 'antd'
-import { Tablex, InnerPath } from '@/components'
+import { Tablex, InnerPath, Reminder } from '@/components'
 import EditDrawer from './chip/EditDrawer'
 import DetailDrawer from './chip/DetailDrawer'
 import { columns, apiMethod } from './chip/TableCfg'
@@ -139,6 +139,12 @@ export default class Template extends React.Component {
           inner={this.state.inner}
           onBack={this.onBack}
         />
+        {!this.state.inner && (
+          <Reminder
+            style={{ marginLeft: 5 }}
+            tips="基于桌面创建模板，通过模板批量分发和回收桌面，大量缩短桌面的上线时间，提高管理员的运维效率。"
+          ></Reminder>
+        )}
         <TableWrap>
           <ToolBar>
             <BarLeft>

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Formx, Modalx } from '@/components'
-import { Form, Switch, Input } from 'antd'
+import { Form, Switch, Input, Alert } from 'antd'
 import vmgroupsApi from '@/services/vmgroups'
 import { wrapResponse } from '@/utils/tool'
 
@@ -65,6 +65,11 @@ export default class DeleteModal extends React.Component {
           >
             <Switch checkedChildren="是" unCheckedChildren="否" />
           </Form.Item>
+          <Alert
+            message="删除组内桌面可能会导致数据丢失, 请确认操作!"
+            type="warning"
+            showIcon
+          />
         </Formx>
       </Modalx>
     )

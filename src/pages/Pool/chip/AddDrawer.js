@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form, Input, InputNumber, message, Select } from 'antd'
+import { Form, Input, InputNumber, message, Select, Alert } from 'antd'
 import { Drawerx, Formx, Title, Radiox, Selectx } from '@/components'
 import {
   memoryOptions,
@@ -56,9 +56,21 @@ export default class AddDrawer extends React.Component {
     this.drawer.form.setFieldsValue({
       desktopNum: 1,
       prestartNum: 0,
-      maxAssignedVmsPerUser: 1
+      maxAssignedVmsPerUser: 1,
+      cpuCores: 2,
+      memory: 2,
+      managerType: 1
     })
-    this.getCluster()
+    // 在第一次请求集群后 设置默认集群为第一个值
+    this.getCluster().then(() => {
+      const { clusterOptions } = this.state
+      if (clusterOptions && clusterOptions[0].value) {
+        this.drawer.form.setFieldsValue({
+          clusterId: clusterOptions[0].value
+        })
+        this.onClusterChange('', '', clusterOptions[0].value)
+      }
+    })
   }
 
   // 获取群集 后端可能没有分页
@@ -206,6 +218,11 @@ export default class AddDrawer extends React.Component {
         onClose={this.props.onClose}
       >
         <Formx formItemLayout={formItemLayout}>
+          <Alert
+            message="自动池的虚拟机在用户关机后会自动还原系统和回收资源，手动池需要管理员手动回收用户权限之后还原和回收虚拟机。支持根据预定时间批量自启部分桌面，在高峰时期避免导致开机风暴，降低平台故障机率。"
+            type="info"
+            showIcon
+          />
           <Title slot="基础设置"></Title>
           <Form.Item
             prop="name"

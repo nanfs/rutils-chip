@@ -51,6 +51,7 @@ export default class AddDrawer extends React.Component {
 
   render() {
     const { nodeData, domainlist } = this.props
+
     return (
       <Drawerx
         onRef={ref => {
@@ -109,7 +110,7 @@ export default class AddDrawer extends React.Component {
             <Input.Password placeholder="密码" autoComplete="new-password" />
           </Form.Item>
           <Form.Item prop="groupId" label="组织" required rules={[required]}>
-            <TreeSelectx nodeData={nodeData} placeholder="请选择" />
+            <TreeSelectx nodeData={nodeData} placeholder="请选择组织" />
           </Form.Item>
           <Form.Item prop="email" label="邮箱" rules={[checkEmail]}>
             <Input placeholder="邮箱" />

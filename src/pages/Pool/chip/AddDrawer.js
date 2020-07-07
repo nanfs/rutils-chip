@@ -1,6 +1,6 @@
 import React from 'react'
 import { Form, Input, InputNumber, message, Select, Alert } from 'antd'
-import { Drawerx, Formx, Title, Radiox, Selectx } from '@/components'
+import { Drawerx, Formx, Title, Radiox, Selectx, Reminder } from '@/components'
 import {
   memoryOptions,
   cpuOptions,
@@ -218,12 +218,14 @@ export default class AddDrawer extends React.Component {
         onClose={this.props.onClose}
       >
         <Formx formItemLayout={formItemLayout}>
-          <Alert
+          {/* <Alert
             message="自动池的虚拟机在用户关机后会自动还原系统和回收资源，手动池需要管理员手动回收用户权限之后还原和回收虚拟机。支持根据预定时间批量自启部分桌面，在高峰时期避免导致开机风暴，降低平台故障机率。"
             type="info"
             showIcon
-          />
-          <Title slot="基础设置"></Title>
+          /> */}
+          <Title slot="基础设置">
+            <Reminder tips="自动池的虚拟机在用户关机后会自动还原系统和回收资源，手动池需要管理员手动回收用户权限之后还原和回收虚拟机。支持根据预定时间批量自启部分桌面，在高峰时期避免导致开机风暴，降低平台故障机率。"></Reminder>
+          </Title>
           <Form.Item
             prop="name"
             label="桌面池名称"

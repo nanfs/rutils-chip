@@ -186,7 +186,7 @@ export default class EditDrawer extends React.Component {
             rules={[required, checkPassword]}
           >
             <Input
-              placeholder="锁定密码"
+              placeholder="10-20位字母、数字、特殊字符的三种组合"
               type="password"
               autoComplete="new-password"
             />

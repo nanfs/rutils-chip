@@ -129,7 +129,7 @@ export default class editDrawer extends React.Component {
             }
           >
             <Input
-              placeholder="密码"
+              placeholder="10-20位字母、数字、特殊字符的三种组合"
               type="password"
               autoComplete="new-password"
             />

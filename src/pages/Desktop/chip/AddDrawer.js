@@ -739,7 +739,10 @@ export default class AddDrawer extends React.Component {
           </Form.Item>
           <Diliver />
           <Title slot="网络设置">
-            <Reminder tips="网络设置中最多可添加5个配置集。"></Reminder>
+            <Reminder
+              style={{ marginLeft: -5 }}
+              tips="网络设置中最多可添加5个配置集。"
+            ></Reminder>
           </Title>
           {this.renderNetWork()}
         </Formx>

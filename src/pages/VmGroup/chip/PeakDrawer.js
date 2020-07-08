@@ -1,6 +1,6 @@
 import React from 'react'
 import { Form, Input, Icon, Row, Col, TimePicker, message, Alert } from 'antd'
-import { Drawerx, Formx, Title } from '@/components'
+import { Drawerx, Formx, Title, Reminder } from '@/components'
 import vmgroupsApi from '@/services/vmgroups'
 import { isInt } from '@/utils/valid'
 import dayjs from 'dayjs'
@@ -258,12 +258,14 @@ export default class PeakDrawer extends React.Component {
         onOk={this.setPeak}
       >
         <Formx>
-          <Alert
+          {/* <Alert
             message="桌面组预启动配置表示在指定时间内，至少保有虚拟机启动数量。预启动桌面数量一般最大为组内桌面数，预启动规则最多可以配置10组"
             type="info"
             showIcon
-          />
-          <Title slot="桌面组设置"></Title>
+          /> */}
+          <Title slot="桌面组设置">
+            <Reminder tips="桌面组预启动配置表示在指定时间内，至少保有虚拟机启动数量。预启动桌面数量最大为组内桌面数，预启动规则最多可配置10组。"></Reminder>
+          </Title>
           <Row gutter={16} className="form-item-wrapper">
             <Col span={7}>
               <Form.Item label="开始时间"></Form.Item>

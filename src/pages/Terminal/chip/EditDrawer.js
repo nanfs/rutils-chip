@@ -135,7 +135,7 @@ export default class EditDrawer extends React.Component {
           >
             <Input placeholder="终端位置" />
           </Form.Item>
-          <Form.Item
+          {/* <Form.Item
             prop="loginWay"
             label="认证方式"
             required
@@ -178,7 +178,7 @@ export default class EditDrawer extends React.Component {
               type="password"
               autoComplete="new-password"
             />
-          </Form.Item>
+          </Form.Item> */}
           <Form.Item
             prop="lockedWord"
             label="锁定密码"

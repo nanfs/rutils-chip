@@ -467,10 +467,7 @@ export default class User extends React.Component {
           onBack={this.onBack}
         />
         {!this.state.inner && (
-          <Reminder
-            style={{ marginLeft: 5 }}
-            tips="平台内置用户管理模块，支持对本地组（internal）用户进行创建、编辑、删除等操作，支持对已分配桌面或终端AD域用户进行查看、删除等操作。"
-          ></Reminder>
+          <Reminder tips="平台内置用户管理模块，支持对本地组（internal）用户进行创建、编辑、删除等操作，支持对已分配桌面或终端AD域用户进行查看、删除等操作。"></Reminder>
         )}
         <TableWrap>
           <div className="user-wrap">

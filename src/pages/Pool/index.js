@@ -132,10 +132,7 @@ export default class Pool extends React.Component {
           onBack={this.onBack}
         />
         {!this.state.inner && (
-          <Reminder
-            style={{ marginLeft: 5 }}
-            tips="支持桌面的池模式，桌面池是一组可以被用户使用的、具有相同配置一类桌面。"
-          ></Reminder>
+          <Reminder tips="支持桌面的池模式，桌面池是一组可以被用户使用的、具有相同配置一类桌面。"></Reminder>
         )}
         <TableWrap>
           <ToolBar>

@@ -223,9 +223,7 @@ export default class AddDrawer extends React.Component {
             type="info"
             showIcon
           /> */}
-          <Title slot="基础设置">
-            <Reminder tips="自动池的虚拟机在用户关机后会自动还原系统和回收资源，手动池需要管理员手动回收用户权限之后还原和回收虚拟机。支持根据预定时间批量自启部分桌面，在高峰时期避免导致开机风暴，降低平台故障机率。"></Reminder>
-          </Title>
+          <Title slot="基础设置"></Title>
           <Form.Item
             prop="name"
             label="桌面池名称"
@@ -271,7 +269,20 @@ export default class AddDrawer extends React.Component {
           >
             {this.renderOsOptions()}
           </Form.Item>
-          <Form.Item prop="managerType" required label="管理类型">
+          <Form.Item
+            prop="managerType"
+            required
+            label={
+              <span>
+                管理类型
+                <Reminder
+                  tips="自动池的虚拟机在用户关机后会自动还原系统和回收资源，手动池的虚拟机需要管理员回收用户权限之后手动还原系统和回收资源。"
+                  iconStyle={{ fontSize: 20 }}
+                  placement="bottomLeft"
+                ></Reminder>
+              </span>
+            }
+          >
             <Radiox options={managerTypeOptions} />
           </Form.Item>
           <Form.Item
@@ -315,7 +326,16 @@ export default class AddDrawer extends React.Component {
 
           <Form.Item
             prop="prestartNum"
-            label="预启动数量"
+            label={
+              <span>
+                预启动数量
+                <Reminder
+                  tips="支持根据预定时间批量自启部分桌面，在高峰时期避免导致开机风暴，降低平台故障机率。"
+                  iconStyle={{ fontSize: 20 }}
+                  placement="bottomLeft"
+                ></Reminder>
+              </span>
+            }
             required
             rules={[required, this.compareNum, isInt]}
           >

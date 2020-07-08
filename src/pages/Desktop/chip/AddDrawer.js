@@ -543,7 +543,10 @@ export default class AddDrawer extends React.Component {
             showIcon
           /> */}
           <Title slot="基础设置">
-            <Reminder tips="支持通过模板或ISO创建虚拟机，使用模板可以批量创建虚拟机。CPU数量最大支持160核、内存容量最大支持128G。支持申威架构虚拟机创建。"></Reminder>
+            <Reminder
+              style={{ marginLeft: -5 }}
+              tips="支持通过模板或ISO创建虚拟机，使用模板可以批量创建虚拟机。支持申威架构虚拟机创建。"
+            ></Reminder>
           </Title>
           <Form.Item
             prop="name"
@@ -569,7 +572,16 @@ export default class AddDrawer extends React.Component {
           <Form.Item
             prop="type"
             required
-            label="创建方式"
+            label={
+              <span>
+                创建方式
+                <Reminder
+                  tips="支持通过模板或ISO创建虚拟机，使用模板可以批量创建虚拟机。"
+                  iconStyle={{ fontSize: 20 }}
+                  placement="bottomLeft"
+                ></Reminder>
+              </span>
+            }
             hidden={!this.state?.clusterId}
           >
             <Radiox options={createType} onChange={this.onCreateTypeChange} />
@@ -643,7 +655,16 @@ export default class AddDrawer extends React.Component {
           </Form.Item>
           <Form.Item
             prop="cpuCores"
-            label="CPU(核)"
+            label={
+              <span>
+                CPU(核)
+                <Reminder
+                  tips="CPU数量最大支持160核"
+                  iconStyle={{ fontSize: 20 }}
+                  placement="bottomLeft"
+                ></Reminder>
+              </span>
+            }
             required
             rules={[required, lessThanValue(160), isInt]}
             wrapperCol={{ sm: { span: 16 } }}
@@ -656,7 +677,16 @@ export default class AddDrawer extends React.Component {
           </Form.Item>
           <Form.Item
             prop="memory"
-            label="内存(G)"
+            label={
+              <span>
+                内存(G)
+                <Reminder
+                  tips="内存容量最大支持128G"
+                  iconStyle={{ fontSize: 20 }}
+                  placement="bottomLeft"
+                ></Reminder>
+              </span>
+            }
             required
             rules={[required, lessThanValue(128), isInt]}
             wrapperCol={{ sm: { span: 16 } }}

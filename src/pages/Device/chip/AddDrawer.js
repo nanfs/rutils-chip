@@ -237,9 +237,7 @@ export default class AddDrawer extends React.Component {
             type="info"
             showIcon
           /> */}
-          <Title slot="基础设置">
-            <Reminder tips="外设控制为限制和允许名单中的外设设备策略配置。选择启用黑名单表示在名单中外设禁止连入，选择启用白名单表示只有在名单中的外设可以连入。"></Reminder>
-          </Title>
+          <Title slot="基础设置"></Title>
           <Form.Item prop="id" hidden>
             <Input />
           </Form.Item>
@@ -252,7 +250,16 @@ export default class AddDrawer extends React.Component {
             <Input name="name" placeholder="名称" />
           </Form.Item>
           <Form.Item
-            label="USB外设"
+            label={
+              <span>
+                USB外设
+                <Reminder
+                  tips="启用白名单的外设设备允许连入终端，启用黑名单的外设设备禁止连入终端。"
+                  iconStyle={{ fontSize: 20 }}
+                  placement="bottomLeft"
+                ></Reminder>
+              </span>
+            }
             required
             prop="usageFix"
             valuepropname="checked"
@@ -273,17 +280,20 @@ export default class AddDrawer extends React.Component {
           </Form.Item>
           <Diliver />
           <Title slot="名单设置">
-            <Reminder tips="名单中VendorId（厂家标识）和ProductId（产品标识）可通过特定软件或文件查询。"></Reminder>
+            <Reminder
+              style={{ marginLeft: -5 }}
+              tips="名单中VendorID（厂家标识）和ProductID（产品标识）可通过特定软件或文件查询。"
+            ></Reminder>
           </Title>
           <Row gutter={16} className="form-item-wrapper">
             <Col span={7}>
               <Form.Item label="名称"></Form.Item>
             </Col>
             <Col span={7}>
-              <Form.Item label="VendorId"></Form.Item>
+              <Form.Item label="VendorID（厂家标识）"></Form.Item>
             </Col>
             <Col span={7}>
-              <Form.Item label="ProductId"></Form.Item>
+              <Form.Item label="ProductID（产品标识）"></Form.Item>
             </Col>
           </Row>
           {this.renderUsb()}

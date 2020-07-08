@@ -107,7 +107,10 @@ export default class AddDrawer extends React.Component {
             required
             rules={[required, checkPassword]}
           >
-            <Input.Password placeholder="密码" autoComplete="new-password" />
+            <Input.Password
+              placeholder="10-20位字母、数字、特殊字符的三种组合"
+              autoComplete="new-password"
+            />
           </Form.Item>
           <Form.Item prop="groupId" label="组织" required rules={[required]}>
             <TreeSelectx nodeData={nodeData} placeholder="请选择组织" />

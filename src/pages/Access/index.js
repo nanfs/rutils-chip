@@ -142,7 +142,17 @@ export default class Access extends React.Component {
           onBack={this.onBack}
         />
         {!this.state?.inner && (
-          <Reminder tips="准入控制用于配置终端的准入方式和准入时间，可以在终端管理中可以对终端设置准入控制。如果一个终端设置多个准入控制，准入时间取所有准入时间的并集。"></Reminder>
+          <Reminder
+            tips={
+              <div>
+                <p>
+                  准入控制用于配置终端的准入方式和准入时间，可以在终端管理中可以对终端设置准入控制。
+                  <p></p>
+                  如果一个终端设置了多个准入控制，准入时间取所有准入时间的并集。
+                </p>
+              </div>
+            }
+          ></Reminder>
         )}
         <TableWrap>
           <ToolBar>

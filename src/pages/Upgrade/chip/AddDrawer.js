@@ -1,6 +1,6 @@
 import React from 'react'
 import { Form, Input, Upload, Button } from 'antd'
-import { Drawerx, Formx, Radiox, Title, Uploadx } from '@/components'
+import { Drawerx, Formx, Radiox, Title, Uploadx, Reminder } from '@/components'
 import { required, version } from '@/utils/valid'
 
 import upgrade from '@/services/upgrade'
@@ -84,7 +84,16 @@ export default class AddDrawer extends React.Component {
           </Form.Item> */}
           <Form.Item
             prop="package"
-            label="上传升级包"
+            label={
+              <span>
+                上传升级包
+                <Reminder
+                  tips="升级包命名规则：名称.tc.平台.版本号.zip，版本号格式：x.x.x，升级包大小不能超过100M"
+                  iconStyle={{ fontSize: 20 }}
+                  placement="bottomLeft"
+                ></Reminder>
+              </span>
+            }
             required
             rules={[required]}
           >

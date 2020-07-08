@@ -4,7 +4,6 @@
     .ant-popover-arrow {
         background-color: #e6f7ff !important; 
         border: 1px solid #91d5ff;
-        border-color: transparent transparent #91d5ff #91d5ff !important;
     }
 
     .ant-popover-inner-content {
@@ -12,4 +11,12 @@
         background-color: #e6f7ff;
         border: 1px solid #91d5ff;
     }
+}
+
+.ant-popover-placement-bottomLeft>.ant-popover-content>.ant-popover-arrow {
+    top: 0;
+    border-color: #91d5ff transparent transparent #91d5ff !important; 
+}
+.ant-popover-placement-right>.ant-popover-content>.ant-popover-arrow {
+    border-color: transparent transparent #91d5ff #91d5ff !important;
 }

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Button, message, Modal, notification } from 'antd'
 import produce from 'immer'
-import { Tablex, InnerPath } from '@/components'
+import { Tablex, InnerPath, Reminder } from '@/components'
 import { wrapResponse } from '@/utils/tool'
 import accessApi from '@/services/access'
 import AddDrawer from './chip/AddDrawer'
@@ -141,6 +141,9 @@ export default class Access extends React.Component {
           inner={this.state.inner}
           onBack={this.onBack}
         />
+        {!this.state?.inner && (
+          <Reminder tips="准入控制用于配置终端的准入方式和准入时间，可以在终端管理中可以对终端设置准入控制。如果一个终端设置多个准入控制，准入时间取所有准入时间的并集。"></Reminder>
+        )}
         <TableWrap>
           <ToolBar>
             <BarLeft>

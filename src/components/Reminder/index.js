@@ -4,12 +4,17 @@ import { Popover } from 'antd'
 import './index.less'
 
 function Reminder(props) {
-  const { title, tips = 'test', style } = props
+  const { placement = 'right', tips, style, iconStyle } = props
   return (
-    <span style={{ ...style }} className="reminder">
+    <span
+      style={{
+        marginLeft: 5,
+        ...style
+      }}
+      className="reminder"
+    >
       <Popover
-        placement="right"
-        title={title}
+        placement={placement}
         content={tips}
         trigger="hover"
         className="reminder-popover"
@@ -20,7 +25,8 @@ function Reminder(props) {
           style={{
             fontSize: '24px',
             verticalAlign: 'text-bottom',
-            color: '#1890ff'
+            color: '#1890ff',
+            ...iconStyle
           }}
         />
       </Popover>

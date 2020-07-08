@@ -1,6 +1,6 @@
 import React from 'react'
 import { Button, message, Modal, notification } from 'antd'
-import { Tablex, InnerPath } from '@/components'
+import { Tablex, InnerPath, Reminder } from '@/components'
 import deviceApi from '@/services/device'
 import { wrapResponse } from '@/utils/tool'
 import { columns, apiMethod } from './chip/TableCfg'
@@ -171,6 +171,9 @@ export default class Device extends React.Component {
           inner={this.state?.inner}
           onBack={this.onBack}
         />
+        {!this.state?.inner && (
+          <Reminder tips="外设控制用于管理外设设备是否允许连入终端，在终端管理中可以对外设控制进行设置。白名单中的外设设备允许连入终端，黑名单中的外设设备禁止连入终端。"></Reminder>
+        )}
         <TableWrap>
           <ToolBar>
             <BarLeft>

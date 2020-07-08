@@ -1,6 +1,14 @@
 import React from 'react'
 import { Form, Input, message, Row, Col, Button } from 'antd'
-import { Drawerx, Formx, Radiox, Selectx, Title, Diliver } from '@/components'
+import {
+  Drawerx,
+  Formx,
+  Radiox,
+  Selectx,
+  Title,
+  Diliver,
+  Reminder
+} from '@/components'
 import { memoryOptions, cpuOptions } from '@/utils/formOptions'
 import desktopsApi from '@/services/desktops'
 import {
@@ -238,7 +246,16 @@ export default class EditDrawer extends React.Component {
           <Form.Item label="模板">{this.state?.templateName}</Form.Item>
           <Form.Item
             prop="cpuCores"
-            label="CPU(核)"
+            label={
+              <span>
+                CPU(核)
+                <Reminder
+                  tips="CPU数量最大支持160核"
+                  iconStyle={{ fontSize: 20 }}
+                  placement="bottomLeft"
+                ></Reminder>
+              </span>
+            }
             required
             rules={[required, lessThanValue(160), isInt]}
             wrapperCol={{ sm: { span: 16 } }}
@@ -251,7 +268,16 @@ export default class EditDrawer extends React.Component {
           </Form.Item>
           <Form.Item
             prop="memory"
-            label="内存(G)"
+            label={
+              <span>
+                内存(G)
+                <Reminder
+                  tips="内存容量最大支持128G"
+                  iconStyle={{ fontSize: 20 }}
+                  placement="bottomLeft"
+                ></Reminder>
+              </span>
+            }
             required
             rules={[required, lessThanValue(100), isInt]}
             wrapperCol={{ sm: { span: 16 } }}
@@ -266,7 +292,9 @@ export default class EditDrawer extends React.Component {
             <TextArea placeholder="描述" />
           </Form.Item>
           <Diliver />
-          <Title slot="网络设置"></Title>
+          <Title slot="网络设置">
+            <Reminder tips="网络设置中最多可添加5个配置集。"></Reminder>
+          </Title>
           {this.renderNetWork()}
         </Formx>
       </Drawerx>

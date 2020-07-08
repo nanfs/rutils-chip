@@ -1,6 +1,6 @@
 import React from 'react'
 import { Form, Input, InputNumber, message } from 'antd'
-import { Drawerx, Formx, Title, Radiox } from '@/components'
+import { Drawerx, Formx, Title, Radiox, Reminder } from '@/components'
 import { managerTypeOptions } from '@/utils/formOptions'
 import poolsApi from '@/services/pools'
 import {
@@ -85,7 +85,20 @@ export default class EditDrawer extends React.Component {
           <Form.Item prop="templateId" required label="模板id" hidden>
             <Input placeholder="模板" />
           </Form.Item>
-          <Form.Item prop="managerType" required label="管理类型">
+          <Form.Item
+            prop="managerType"
+            required
+            label={
+              <span>
+                管理类型
+                <Reminder
+                  tips="自动池的虚拟机在用户关机后会自动还原系统和回收资源，手动池的虚拟机需要管理员回收用户权限之后手动还原系统和回收资源。"
+                  iconStyle={{ fontSize: 20 }}
+                  placement="bottomLeft"
+                ></Reminder>
+              </span>
+            }
+          >
             <Radiox options={managerTypeOptions} disabled />
           </Form.Item>
           <Form.Item
@@ -104,7 +117,16 @@ export default class EditDrawer extends React.Component {
           </Form.Item>
           <Form.Item
             prop="prestartNum"
-            label="预启动数量"
+            label={
+              <span>
+                预启动数量
+                <Reminder
+                  tips="支持根据预定时间批量自启部分桌面，在高峰时期避免导致开机风暴，降低平台故障机率。"
+                  iconStyle={{ fontSize: 20 }}
+                  placement="bottomLeft"
+                ></Reminder>
+              </span>
+            }
             required
             rules={[required, this.compareTotal, isInt]}
           >

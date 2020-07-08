@@ -242,10 +242,7 @@ export default class Task extends React.Component {
           onBack={this.onBack}
         />
         {!this.state.inner && (
-          <Reminder
-            style={{ marginLeft: 5 }}
-            tips="为指定桌面集合在一定时间段内执行开机、关机、重启等操作进行自动任务配置。支持按周、按天配置特定时间段执行策略。"
-          ></Reminder>
+          <Reminder tips="为指定桌面集合在一定时间段内执行开机、关机、重启等操作进行自动任务配置。支持按周、按天配置特定时间段执行策略。"></Reminder>
         )}
         <TableWrap>
           <ToolBar>

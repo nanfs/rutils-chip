@@ -1,7 +1,35 @@
 import React from 'react'
 import taskApi from '@/services/terminalTask'
-import { taskTypeRender, taskStatusRender } from '@/utils/tableRender'
+import { taskTypeRender, renderSatus } from '@/utils/tableRender'
 
+const status = [
+  {
+    value: 0,
+    text: '未执行',
+    icon: 'shalou',
+    color: 'warn',
+    iconComp: 'MyIcon'
+  },
+  {
+    value: 1,
+    text: '执行中',
+    icon: 'shalou-copy',
+    color: 'info',
+    iconComp: 'MyIcon'
+  },
+  {
+    value: 2,
+    text: '执行成功',
+    icon: 'check-circle',
+    color: 'success'
+  },
+  {
+    value: 3,
+    text: '执行失败',
+    icon: 'close-circle',
+    color: 'alert'
+  }
+]
 export const columns = [
   {
     title: () => <span title="终端SN">终端SN</span>,
@@ -65,7 +93,7 @@ export const columns = [
     title: () => <span title="执行状态">执行状态</span>,
     dataIndex: 'status',
     ellipsis: true,
-    render: text => taskStatusRender(text)
+    render: text => renderSatus(status, text)
   },
   {
     title: () => <span title="执行时间">执行时间</span>,

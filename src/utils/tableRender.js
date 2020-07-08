@@ -2,6 +2,7 @@ import React from 'react'
 
 import { Icon, Tooltip, Popover } from 'antd'
 import { MyIcon } from '@/components'
+import classnames from 'classnames'
 
 export const severityOptions = [
   {
@@ -29,14 +30,23 @@ export const severityOptions = [
     color: 'alert'
   }
 ]
-export function renderSatus(statusObj, currentText, isWithText = false) {
+export function renderSatus(statusObj, currentText, isWithText = true) {
   const current = statusObj.find(item => item.value === currentText) || {}
-  const { text, icon, color } = current
-  const cls = color && `table-icon-${color}`
+  const { text, icon, color, iconComp } = current
+  const cls = classnames(
+    color && `table-icon-${color}`,
+    iconComp === 'MyIcon' && 'myicon-fix'
+  )
+  const Component = iconComp === 'MyIcon' ? MyIcon : Icon
   if (isWithText) {
-    return <Icon type={icon} className={cls} title={text} />
+    return (
+      <span title={text}>
+        <Component type={icon} className={cls} style={{ marginRight: '5px' }} />
+        <span>{text}</span>
+      </span>
+    )
   }
-  return <Icon type={icon} className={cls} title={text} />
+  return <Component type={icon} className={cls} title={text} />
 }
 export function renderServerityOptions(recordText) {
   const current = severityOptions.find(item => item.value === recordText) || {}

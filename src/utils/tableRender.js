@@ -383,7 +383,7 @@ export const taskStatusRender = text => {
         type={typeList[text] || 'shalou'}
         title={typeTextList[text] || 'null'}
         component="svg"
-        style={{ fontSize: '26px', marginLeft: '-6px' }}
+        style={{ fontSize: '30px', marginLeft: '-7px' }}
       />
     )
   }

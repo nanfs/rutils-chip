@@ -125,7 +125,6 @@ export default class Terminal extends React.Component {
   tcName = {
     title: () => <span title="名称">名称</span>,
     dataIndex: 'name',
-
     ellipsis: true,
     render: (text, record) => {
       return (
@@ -133,6 +132,15 @@ export default class Terminal extends React.Component {
           className="detail-link"
           onClick={() => this.detailTerminal(record.name, record.sn)}
         >
+          {record.lockStatus === 1 && (
+            <Icon
+              type="lock"
+              title="已锁定"
+              style={{
+                color: '#ff4d4f'
+              }}
+            />
+          )}
           {record.name}
         </a>
       )

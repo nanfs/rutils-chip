@@ -5,7 +5,8 @@ import {
   Tablex,
   SelectSearch,
   Title,
-  Diliver
+  Diliver,
+  Reminder
 } from '@/components'
 import { Form, Input, Tag } from 'antd'
 import produce from 'immer'
@@ -199,7 +200,12 @@ export default class MoveInModal extends React.Component {
             />
           </TableWrap>
           <Diliver />
-          <Title slot="已选择"></Title>
+          <Title slot="已选择">
+            <Reminder
+              style={{ marginLeft: -5 }}
+              tips="分配桌面支持跨页选择，分配数据与服务器性能相关。建议分配控制在100条以下"
+            ></Reminder>
+          </Title>
 
           {this.renderSelectVm()}
         </Formx>

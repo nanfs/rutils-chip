@@ -366,22 +366,25 @@ export function taskTypeRender(text) {
 // 终端任务 执行状态显示
 const iconStyle = {
   2: { color: '#17abe3' },
-  3: { color: '#ff4d4f' }
+  3: { color: '#ff4d4f' },
+  4: { color: '#ff4d4f' }
 }
 const typeTextList = {
   0: '未执行',
   1: '执行中',
   2: '执行成功',
-  3: '执行失败'
+  3: '执行失败',
+  4: '用户取消终端升级任务'
 }
 export const taskStatusRender = text => {
   const typeList = {
     0: 'shalou',
     1: 'shalou-copy',
     2: 'check-circle',
-    3: 'close-circle'
+    3: 'close-circle',
+    4: 'close-circle'
   }
-  if (text === 2 || text === 3) {
+  if (text === 2 || text === 3 || text === 4) {
     return (
       <span title={typeTextList[text]} style={{ fontSize: '18px' }}>
         <Icon type={typeList[text]} style={iconStyle[text]} />

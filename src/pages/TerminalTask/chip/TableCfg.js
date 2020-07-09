@@ -28,6 +28,12 @@ const status = [
     text: '执行失败',
     icon: 'close-circle',
     color: 'alert'
+  },
+  {
+    value: 4,
+    text: '用户取消终端升级任务',
+    icon: 'close-circle',
+    color: 'alert'
   }
 ]
 export const columns = [

@@ -268,6 +268,7 @@ export default class Treex extends React.Component {
   onRightClick = e => {
     const nodeDeleteDisable = e.node.props.parentId === '-1'
     e.event.stopPropagation()
+    debugger
     this.setState({
       rightClickNodeTreeItem: {
         pageX: e.event.pageX,
@@ -278,7 +279,12 @@ export default class Treex extends React.Component {
       },
       rightMenuStyle: {
         position: 'absolute',
-        left: `${e.event.pageX - 230}px`,
+        left: `${e.event.pageX -
+          parseInt(
+            document.querySelector('.ant-layout-sider').style.width,
+            10
+          ) -
+          50}px`,
         top: `${e.event.pageY - 115}px`,
         display: 'block',
         zIndex: 1001

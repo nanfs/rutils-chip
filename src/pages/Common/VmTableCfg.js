@@ -315,6 +315,7 @@ export function getMoreButton({
  * 关机 不能关机 重启和断电
  * 正在重启不能重启
  * 如果有分配用户 管理员不能打开控制台
+ * 建议换成正向解释 写法
  */
 export function vmDisableAction(vmObj) {
   let disabledButton = {}
@@ -369,7 +370,7 @@ export function vmDisableAction(vmObj) {
   //     disabledRestart: true
   //   }
   // }
-  // 暂停 pause 禁用重启 关机
+  // 暂停 pause 禁用 关机
   if (vmObj.status === 4) {
     disabledButton = {
       ...disabledButton,
@@ -381,6 +382,13 @@ export function vmDisableAction(vmObj) {
       ...disabledButton,
       disabledDelete: true,
       disabledOpenConsole: true
+    }
+  }
+  // 迁移中 和 镜像锁定状态 禁用 断电
+  if (vmObj.status === 6 || vmObj.status === 15) {
+    disabledButton = {
+      ...disabledButton,
+      disabledPowerOff: true
     }
   }
   return disabledButton

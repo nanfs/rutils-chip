@@ -300,7 +300,7 @@ export default class PeakDrawer extends React.Component {
             type="info"
             showIcon
           /> */}
-          <Title slot="桌面组设置">
+          <Title slot="预启动配置">
             <Reminder
               style={{ marginLeft: -5 }}
               tips="桌面组预启动配置表示在指定时间内，至少保有虚拟机启动数量。预启动桌面数量最大为组内桌面数，预启动规则最多可配置10组。"

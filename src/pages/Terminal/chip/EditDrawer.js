@@ -51,18 +51,19 @@ export default class EditDrawer extends React.Component {
       description,
       loginWay,
       location,
-      secretWord,
-      bondKey,
+      // secretWord,
+      // bondKey,
       lockedWord
     } = data
+    console.log(data)
     this.drawer.form.setFieldsValue({
       sn,
       name,
       description,
       loginWay,
       location,
-      secretWord,
-      bondKey,
+      // secretWord,
+      // bondKey,
       lockedWord
     })
   }
@@ -78,8 +79,8 @@ export default class EditDrawer extends React.Component {
       description,
       loginWay,
       location,
-      secretWord,
-      bondKey,
+      // secretWord,
+      // bondKey,
       lockedWord
     } = values
     const data = {
@@ -87,8 +88,8 @@ export default class EditDrawer extends React.Component {
       description,
       loginWay,
       location,
-      secretWord: loginWay === 2 ? encrypt(secretWord) : '',
-      bondKey: loginWay === 1 ? bondKey : '',
+      // secretWord: loginWay === 2 ? encrypt(secretWord) : '',
+      // bondKey: loginWay === 1 ? bondKey : '',
       lockedWord: encrypt(lockedWord)
     }
     terminalApi

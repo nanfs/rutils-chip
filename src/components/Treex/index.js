@@ -268,7 +268,6 @@ export default class Treex extends React.Component {
   onRightClick = e => {
     const nodeDeleteDisable = e.node.props.parentId === '-1'
     e.event.stopPropagation()
-    debugger
     this.setState({
       rightClickNodeTreeItem: {
         pageX: e.event.pageX,

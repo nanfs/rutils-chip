@@ -4,7 +4,7 @@ import { Icon, Popover, Tag } from 'antd'
 import { MyIcon } from '@/components'
 
 const iconStyle = {
-  check: { fontSize: 20, color: '#1789d8' },
+  check: { fontSize: 16, color: '#1789d8' },
   close: { fontSize: 18 }
 }
 export const columns = [

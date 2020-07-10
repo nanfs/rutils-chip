@@ -13,7 +13,7 @@ export const detailVersionColumns = [
     ellipsis: true
   },
   {
-    title: '更新时间',
+    title: '升级时间',
     ellipsis: true,
     dataIndex: 'upgradeTime'
   }

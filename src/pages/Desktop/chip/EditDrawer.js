@@ -244,7 +244,7 @@ export default class EditDrawer extends React.Component {
             <Input placeholder="桌面名称" />
           </Form.Item>
           <Form.Item label="模板">{this.state?.templateName}</Form.Item>
-          <Form.Item
+          {/* <Form.Item
             prop="osId"
             required
             label="操作系统类型"
@@ -255,7 +255,7 @@ export default class EditDrawer extends React.Component {
               placeholder="请选择操作系统类型"
               options={osSelectOptions}
             ></Selectx>
-          </Form.Item>
+          </Form.Item> */}
           <Form.Item
             prop="cpuCores"
             label={

@@ -657,7 +657,7 @@ export default class AddDrawer extends React.Component {
           >
             <Radiox options={driveType} />
           </Form.Item>
-          <Form.Item
+          {/* <Form.Item
             prop="osId"
             required
             hidden={!this.getSelectType()}
@@ -669,7 +669,7 @@ export default class AddDrawer extends React.Component {
               placeholder="请选择操作系统类型"
               options={osSelectOptions}
             ></Selectx>
-          </Form.Item>
+          </Form.Item> */}
           <Form.Item
             prop="cpuCores"
             label={

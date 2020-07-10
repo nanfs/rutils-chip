@@ -9,8 +9,7 @@ import {
   Col,
   Icon,
   Button,
-  Tooltip,
-  Alert
+  Tooltip
 } from 'antd'
 import {
   Drawerx,
@@ -22,7 +21,12 @@ import {
   Reminder
 } from '@/components'
 
-import { memoryOptions, cpuOptions, diskOptions } from '@/utils/formOptions'
+import {
+  memoryOptions,
+  cpuOptions,
+  diskOptions,
+  osSelectOptions
+} from '@/utils/formOptions'
 import desktopsApi from '@/services/desktops'
 import assetsApi from '@/services/assets'
 
@@ -652,6 +656,19 @@ export default class AddDrawer extends React.Component {
             }
           >
             <Radiox options={driveType} />
+          </Form.Item>
+          <Form.Item
+            prop="osId"
+            required
+            hidden={!this.getSelectType()}
+            label="操作系统类型"
+            rules={[required]}
+          >
+            <Selectx
+              style={{ width: '90%' }}
+              placeholder="请选择操作系统类型"
+              options={osSelectOptions}
+            ></Selectx>
           </Form.Item>
           <Form.Item
             prop="cpuCores"

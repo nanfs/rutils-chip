@@ -221,7 +221,7 @@ const osList = {
   '28': 'os-redhat',
   '30': 'os-redhat',
   '33': 'os-linux',
-  '51': 'os-kylin',
+  '60': 'os-kylin',
   '61': 'os-puhua',
   '1002': 'os-linux',
   '1003': 'os-redhat',
@@ -250,6 +250,7 @@ export const osIconRender = os => {
     />
   )
 }
+
 export const osTextRender = os => {
   const osType = osList[os] || 'os-windows'
   const typeList = {

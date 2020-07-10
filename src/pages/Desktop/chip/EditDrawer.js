@@ -9,7 +9,7 @@ import {
   Diliver,
   Reminder
 } from '@/components'
-import { memoryOptions, cpuOptions } from '@/utils/formOptions'
+import { memoryOptions, cpuOptions, osSelectOptions } from '@/utils/formOptions'
 import desktopsApi from '@/services/desktops'
 import {
   required,
@@ -244,6 +244,18 @@ export default class EditDrawer extends React.Component {
             <Input placeholder="桌面名称" />
           </Form.Item>
           <Form.Item label="模板">{this.state?.templateName}</Form.Item>
+          <Form.Item
+            prop="osId"
+            required
+            label="操作系统类型"
+            rules={[required]}
+          >
+            <Selectx
+              style={{ width: '90%' }}
+              placeholder="请选择操作系统类型"
+              options={osSelectOptions}
+            ></Selectx>
+          </Form.Item>
           <Form.Item
             prop="cpuCores"
             label={

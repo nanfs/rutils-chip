@@ -88,7 +88,7 @@ export default class AddDrawer extends React.Component {
               <span>
                 上传升级包
                 <Reminder
-                  tips="升级包命名规则：名称.tc.平台.版本号.zip，版本号格式：x.x.x，升级包大小不能超过100M"
+                  tips="升级包命名规则：名称_tc_型号_版本号.zip，版本号格式：x.x.x，升级包大小不能超过100M"
                   iconStyle={{ fontSize: 20 }}
                   placement="bottomLeft"
                 ></Reminder>

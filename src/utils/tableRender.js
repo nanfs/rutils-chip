@@ -375,7 +375,7 @@ const typeTextList = {
   1: '执行中',
   2: '执行成功',
   3: '执行失败',
-  4: '用户取消终端升级任务'
+  4: '用户取消'
 }
 export const taskStatusRender = text => {
   const typeList = {

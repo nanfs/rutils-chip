@@ -31,7 +31,7 @@ const status = [
   },
   {
     value: 4,
-    text: '用户取消终端升级任务',
+    text: '用户取消',
     icon: 'close-circle',
     color: 'alert'
   }

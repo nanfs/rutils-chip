@@ -114,27 +114,25 @@ export default class Desktop extends React.Component {
                 onClick={() => {
                   this.addDiskModal.pop(vmId)
                 }}
-                hidden={isOpenedSW}
+                disabled={isOpenedSW}
                 type="primary"
               >
                 添加磁盘
               </Button>
               <Button
-                disabled={disabledButton.disabledEdit}
+                disabled={disabledButton.disabledEdit || isOpenedSW}
                 onClick={() => {
                   this.editDiskModal.pop({
                     vmId,
                     ...this.tablex.getSelectData()[0]
                   })
                 }}
-                hidden={isOpenedSW}
               >
                 磁盘扩容
               </Button>
               <Button
-                disabled={disabledButton.disabledDelete}
+                disabled={disabledButton.disabledDelete || isOpenedSW}
                 onClick={this.delete}
-                hidden={isOpenedSW}
               >
                 删除磁盘
               </Button>

@@ -622,7 +622,7 @@ export default class AddDrawer extends React.Component {
           </Form.Item>
           <Form.Item
             prop="initrdUrl"
-            label={'initrdUrl'}
+            label="附加initrd"
             required
             rules={
               this.getSelectType() === 'byIso' &&

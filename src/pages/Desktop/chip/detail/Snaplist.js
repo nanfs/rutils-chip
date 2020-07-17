@@ -47,7 +47,11 @@ export default class Desktop extends React.Component {
             {/* // 如果状态不OK不能操作 */}
             <a
               onClick={() => this.deleteSnap(record.snapshotId)}
-              disabled={disabledButton.disabledDelete || record.status !== 'OK'}
+              disabled={
+                disabledButton.disabledDelete ||
+                record.status !== 'OK' ||
+                this.props.isOpenedSW
+              }
             >
               删除
             </a>

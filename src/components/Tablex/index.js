@@ -1,5 +1,6 @@
 import React from 'react'
 import { Table, Pagination, Button, message, Select } from 'antd'
+import { Resizable } from 'react-resizable'
 import { wrapResponse } from '@/utils/tool'
 import './index.less'
 import TableWrap, { BarLeft, BarRight, ToolBar } from './TableWrap'
@@ -38,29 +39,77 @@ const tableCfg_init = {
   // 选填, 每次自动刷新结束后执行的函数
   autoCallback: undefined,
   // 选填, 缓存所选
-  keepSelection: false
+  keepSelection: false,
+  // 选填, 表格是否可以Resize
+  isResize: false
 }
 
 export function createTableCfg(myCfg) {
   return { ...tableCfg_init, ...myCfg }
+}
+// 可以拖动Resize
+const ResizableTitle = props => {
+  const { onResize, width, ...restProps } = props
+  if (!width) {
+    return <th {...restProps} />
+  }
+
+  return (
+    <Resizable
+      width={width}
+      height={0}
+      handle={
+        <span
+          className="react-resizable-handle"
+          onClick={e => {
+            e.stopPropagation()
+          }}
+        />
+      }
+      onResize={onResize}
+      draggableOpts={{ enableUserSelectHack: false }}
+    >
+      <th {...restProps} />
+    </Resizable>
+  )
 }
 // tablex 中加载状态 。searchs  selection 都有外部维护
 class Tablex extends React.Component {
   constructor(props) {
     super(props)
     this.timer = null
-    const { paging, selection = [] } = this.props.tableCfg
+    const { paging, columns, selection = [] } = this.props.tableCfg
     this.state = {
       loading: false,
       replaceTime: '5', //  如果有刷新 默认5s刷新
       selection,
       selectData: [], // 可能会出现不同步到情况
+      columns,
       paging: {
         size: (paging && paging.size) || 10,
         current: 1,
         total: 0 // 默认0
       }
     }
+  }
+
+  // 头部标题拖动
+  components = {
+    header: {
+      cell: ResizableTitle
+    }
+  }
+
+  // 头部标题拖动 处理保存
+  handleResize = index => (e, { size }) => {
+    this.setState(({ columns }) => {
+      const nextColumns = [...columns]
+      nextColumns[index] = {
+        ...nextColumns[index],
+        width: size.width
+      }
+      return { columns: nextColumns }
+    })
   }
 
   autoLoopReplace = () => {
@@ -310,16 +359,16 @@ class Tablex extends React.Component {
   }
 
   render() {
-    const { loading, data, selection, paging } = this.state
+    const { loading, data, selection, paging, columns } = this.state
     const {
-      columns,
       rowKey,
       expandedRowRender,
       pageSizeOptions,
       hasRowSelection,
       scroll,
       locale,
-      autoReplace
+      autoReplace,
+      isResize
     } = this.props.tableCfg
     const { total, size, current } = paging
     const rowSelection = {
@@ -330,12 +379,20 @@ class Tablex extends React.Component {
       })
     }
     const { onChange } = this.props
+    const columnsResize = columns.map((col, index) => ({
+      ...col,
+      onHeaderCell: column => ({
+        width: column.width,
+        onResize: this.handleResize(index)
+      })
+    }))
     return (
       <React.Fragment>
         <Table
           className={this.props.className}
           rowSelection={hasRowSelection ? rowSelection : null}
-          columns={columns}
+          columns={isResize ? columnsResize : columns}
+          components={isResize ? this.components : undefined}
           dataSource={data}
           rowKey={rowKey}
           loading={loading}

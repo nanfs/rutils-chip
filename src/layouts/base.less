@@ -141,9 +141,8 @@ body {
       &::after {
         display: none;
       }
-      
     }
-    .ant-menu-submenu-title{
+    .ant-menu-submenu-title {
       cursor: default;
     }
     .ant-menu-submenu .text {
@@ -323,6 +322,7 @@ body {
     width: 100% !important;
   }
 }
+
 .ant-switch:hover{
   &:after{
     box-shadow: 0 0 16px #666;
@@ -331,5 +331,33 @@ body {
 .ant-switch.ant-switch-checked:hover{
   &:after{
     box-shadow: 0 0 16px #1890ff;
+  }
+}
+
+.option-wrap .ant-btn,
+.table-tool .bar-left .ant-btn {
+  overflow: hidden;
+
+  &::after {
+    content: '';
+    width: 30px;
+    height: 500%;
+    background: #a6d4ff;
+    position: absolute;
+    display: block;
+    top: -33px;
+    opacity: 0.5;
+    left: -100px;
+    transform: rotate(-45deg);
+  }
+  &:hover {
+    transition-delay: 0.5s;
+    transition: all ease-in-out 0.5s;
+  }
+  &:hover::after {
+    left: 100px;
+    top: -63px;
+    opacity: 0;
+    transition: all ease-in-out 0.5s;
   }
 }

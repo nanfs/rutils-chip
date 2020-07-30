@@ -34,6 +34,8 @@ export default class Desktop extends React.Component {
     dataIndex: 'name',
     ellipsis: true,
     sorter: true,
+    resize: true,
+    width: 100,
     render: (text, record) => {
       return (
         <a

@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import React from 'react'
 import { Table, Pagination, Button, message, Select } from 'antd'
 import { Resizable } from 'react-resizable'
@@ -101,12 +102,19 @@ class Tablex extends React.Component {
   }
 
   // 头部标题拖动 处理保存
+  // 不能超过最大宽度
   handleResize = index => (e, { size }) => {
     this.setState(({ columns }) => {
       const nextColumns = [...columns]
+      const { maxWidth, minWidth } = columns[index]
       nextColumns[index] = {
         ...nextColumns[index],
-        width: size.width
+        width:
+          size.width < minWidth
+            ? minWidth
+            : size.width > maxWidth
+            ? maxWidth
+            : size.width
       }
       return { columns: nextColumns }
     })
@@ -133,6 +141,14 @@ class Tablex extends React.Component {
     }
     this.props.onRef && this.props.onRef(this)
     autoFetch && this.refresh({ ...this.props.tableCfg })
+    // 给columns 添加minwidth 默认最大宽度500
+    const { columns } = this.state
+    const addMinCol = columns.map(item => ({
+      ...item,
+      minWidth: item.width ? item.minWidth || item.width : undefined,
+      maxWidth: item.maxWidth || 500
+    }))
+    this.setState({ columns: addMinCol })
   }
 
   componentWillUnmount() {
@@ -359,7 +375,7 @@ class Tablex extends React.Component {
   }
 
   render() {
-    const { loading, data, selection, paging, columns } = this.state
+    const { loading, data, selection, paging, columns, isResize } = this.state
     const {
       rowKey,
       expandedRowRender,
@@ -367,8 +383,7 @@ class Tablex extends React.Component {
       hasRowSelection,
       scroll,
       locale,
-      autoReplace,
-      isResize
+      autoReplace
     } = this.props.tableCfg
     const { total, size, current } = paging
     const rowSelection = {
@@ -379,13 +394,22 @@ class Tablex extends React.Component {
       })
     }
     const { onChange } = this.props
-    const columnsResize = columns.map((col, index) => ({
-      ...col,
-      onHeaderCell: column => ({
-        width: column.width,
-        onResize: this.handleResize(index)
-      })
-    }))
+    const columnsResize = columns.map((col, index) => {
+      // 如果columns里面有resize 则表格可以resize
+      if (!this.state.isResize && col.resize) {
+        this.setState({ isResize: true })
+      }
+      return {
+        ...col,
+        minWidth: col.width,
+        onHeaderCell: !col.resize
+          ? undefined
+          : column => ({
+              width: column.width,
+              onResize: this.handleResize(index)
+            })
+      }
+    })
     return (
       <React.Fragment>
         <Table

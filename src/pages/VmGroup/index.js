@@ -131,10 +131,8 @@ export default class Task extends React.Component {
   }
 
   addVm = ({ groupId, groupName }) => {
-    this.setState(
-      { inner: '新建组内虚拟机' },
-      this.addVmModal.pop({ groupId, name: `${groupName}_vm` })
-    )
+    // 测试建议删除 默认填，后端重名异步报错
+    this.setState({ inner: '新建组内虚拟机' }, this.addVmModal.pop({ groupId }))
     this.currentDrawer = this.addVmModal
   }
 

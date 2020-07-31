@@ -361,3 +361,39 @@ body {
     transition: all ease-in-out 0.5s;
   }
 }
+
+.shortcut-button{
+  position: fixed;
+  right: 0;
+  top: 30%;
+  height: 46px;
+  width: 46px;
+  padding: 0;
+  text-align: center;
+  z-index: 1001
+}
+
+.shortcut-drawer.ant-drawer-open .ant-drawer-mask {
+  background-color: rgba(0,0,0,.45);
+}
+
+.shortcut-drawer .ant-drawer-body {
+  padding: 16px 24px;
+}
+
+.shortcut-drawer-steps {
+  padding: 0 10px;
+  
+  .ant-steps-item-finish .ant-steps-item-icon>.ant-steps-icon .ant-steps-icon-dot {
+    background: #faad14;
+  }
+
+  .ant-steps-item-finish>.ant-steps-item-container>.ant-steps-item-tail:after {
+    background: #faad14;
+  }
+}
+
+.shortcut-drawer-steps-title {
+  font-size: 16px;
+  margin-bottom: 5px;
+}

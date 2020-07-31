@@ -59,6 +59,12 @@ export default class Task extends React.Component {
     disabledButton: {}
   }
 
+  componentDidMount = () => {
+    if (this.props.location?.search === '?openAdd') {
+      this.addTask()
+    }
+  }
+
   /**
    * @memberof Task
    * @description 根据选定数据判断按钮状态

@@ -46,6 +46,12 @@ export default class Upgrade extends React.Component {
     disabledButton: {}
   }
 
+  componentDidMount = () => {
+    if (this.props.location?.search === '?openAdd') {
+      this.addUpgrade()
+    }
+  }
+
   // 表格行选中 根据选定数据判断按钮状态
   checkOptionsDisable = (selection, selectData) => {
     let disabledButton = {}

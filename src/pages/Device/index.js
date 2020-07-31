@@ -41,6 +41,12 @@ export default class Device extends React.Component {
 
   columnsArr = [this.name, ...columns, this.action]
 
+  componentDidMount = () => {
+    if (this.props.location?.search === '?openAdd') {
+      this.addDev()
+    }
+  }
+
   state = {
     tableCfg: createTableCfg({
       columns: this.columnsArr,

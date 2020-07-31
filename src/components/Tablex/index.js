@@ -1,5 +1,7 @@
+/* eslint-disable no-nested-ternary */
 import React from 'react'
 import { Table, Pagination, Button, message, Select } from 'antd'
+import { Resizable } from 'react-resizable'
 import { wrapResponse } from '@/utils/tool'
 import './index.less'
 import TableWrap, { BarLeft, BarRight, ToolBar } from './TableWrap'
@@ -38,29 +40,84 @@ const tableCfg_init = {
   // 选填, 每次自动刷新结束后执行的函数
   autoCallback: undefined,
   // 选填, 缓存所选
-  keepSelection: false
+  keepSelection: false,
+  // 选填, 表格是否可以Resize
+  isResize: false
 }
 
 export function createTableCfg(myCfg) {
   return { ...tableCfg_init, ...myCfg }
+}
+// 可以拖动Resize
+const ResizableTitle = props => {
+  const { onResize, width, ...restProps } = props
+  if (!width) {
+    return <th {...restProps} />
+  }
+
+  return (
+    <Resizable
+      width={width}
+      height={0}
+      handle={
+        <span
+          className="react-resizable-handle"
+          onClick={e => {
+            e.stopPropagation()
+          }}
+        />
+      }
+      onResize={onResize}
+      draggableOpts={{ enableUserSelectHack: false }}
+    >
+      <th {...restProps} />
+    </Resizable>
+  )
 }
 // tablex 中加载状态 。searchs  selection 都有外部维护
 class Tablex extends React.Component {
   constructor(props) {
     super(props)
     this.timer = null
-    const { paging, selection = [] } = this.props.tableCfg
+    const { paging, columns, selection = [] } = this.props.tableCfg
     this.state = {
       loading: false,
       replaceTime: '5', //  如果有刷新 默认5s刷新
       selection,
       selectData: [], // 可能会出现不同步到情况
+      columns,
       paging: {
         size: (paging && paging.size) || 10,
         current: 1,
         total: 0 // 默认0
       }
     }
+  }
+
+  // 头部标题拖动
+  components = {
+    header: {
+      cell: ResizableTitle
+    }
+  }
+
+  // 头部标题拖动 处理保存
+  // 不能超过最大宽度
+  handleResize = index => (e, { size }) => {
+    this.setState(({ columns }) => {
+      const nextColumns = [...columns]
+      const { maxWidth, minWidth } = columns[index]
+      nextColumns[index] = {
+        ...nextColumns[index],
+        width:
+          size.width < minWidth
+            ? minWidth
+            : size.width > maxWidth
+            ? maxWidth
+            : size.width
+      }
+      return { columns: nextColumns }
+    })
   }
 
   autoLoopReplace = () => {
@@ -84,6 +141,14 @@ class Tablex extends React.Component {
     }
     this.props.onRef && this.props.onRef(this)
     autoFetch && this.refresh({ ...this.props.tableCfg })
+    // 给columns 添加minwidth 默认最大宽度500
+    const { columns } = this.state
+    const addMinCol = columns.map(item => ({
+      ...item,
+      minWidth: item.width ? item.minWidth || item.width : undefined,
+      maxWidth: item.maxWidth || 500
+    }))
+    this.setState({ columns: addMinCol })
   }
 
   componentWillUnmount() {
@@ -310,9 +375,8 @@ class Tablex extends React.Component {
   }
 
   render() {
-    const { loading, data, selection, paging } = this.state
+    const { loading, data, selection, paging, columns, isResize } = this.state
     const {
-      columns,
       rowKey,
       expandedRowRender,
       pageSizeOptions,
@@ -330,12 +394,29 @@ class Tablex extends React.Component {
       })
     }
     const { onChange } = this.props
+    const columnsResize = columns.map((col, index) => {
+      // 如果columns里面有resize 则表格可以resize
+      if (!this.state.isResize && col.resize) {
+        this.setState({ isResize: true })
+      }
+      return {
+        ...col,
+        minWidth: col.width,
+        onHeaderCell: !col.resize
+          ? undefined
+          : column => ({
+              width: column.width,
+              onResize: this.handleResize(index)
+            })
+      }
+    })
     return (
       <React.Fragment>
         <Table
           className={this.props.className}
           rowSelection={hasRowSelection ? rowSelection : null}
-          columns={columns}
+          columns={isResize ? columnsResize : columns}
+          components={isResize ? this.components : undefined}
           dataSource={data}
           rowKey={rowKey}
           loading={loading}

@@ -126,6 +126,8 @@ export default class Terminal extends React.Component {
     title: () => <span title="名称">名称</span>,
     dataIndex: 'name',
     ellipsis: true,
+    width: 100,
+    resize: true,
     render: (text, record) => {
       return (
         <a

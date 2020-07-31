@@ -34,6 +34,8 @@ export default class Desktop extends React.Component {
     dataIndex: 'name',
     ellipsis: true,
     sorter: true,
+    resize: true,
+    width: 100,
     render: (text, record) => {
       return (
         <a
@@ -98,6 +100,12 @@ export default class Desktop extends React.Component {
         this.checkOptionsDisable(selection, selectData)
       }
     })
+  }
+
+  componentDidMount = () => {
+    if (this.props.location?.search === '?openAdd') {
+      this.createVm()
+    }
   }
 
   checkOptionsDisable = (selection, selectData) => {

@@ -51,8 +51,6 @@ export default class Vmlog extends React.Component {
         columns: [...columns, this.action],
         apiMethod,
         searchs: this.props.location?.searchs, // 接受传递过来搜索条件
-        paging: { size: 10 },
-        pageSizeOptions: ['5', '10', '20', '50'],
         autoReplace: true
       }),
       disabledButton: {}

@@ -1,7 +1,15 @@
 import React from 'react'
-import { Form, Input, TimePicker, DatePicker } from 'antd'
+import { Form, Input, TimePicker, DatePicker, Alert } from 'antd'
 import dayjs from 'dayjs'
-import { Drawerx, Title, Diliver, Radiox, Selectx, Formx } from '@/components'
+import {
+  Drawerx,
+  Title,
+  Diliver,
+  Radiox,
+  Selectx,
+  Formx,
+  Reminder
+} from '@/components'
 import { weekOptions, typeOptions } from '@/utils/formOptions'
 import { required, checkName, number5 } from '@/utils/valid'
 import accessApi from '@/services/access'
@@ -84,6 +92,12 @@ export default class AddDrawer extends React.Component {
         onOk={this.add}
       >
         <Formx>
+          {/* <Alert
+            message="准入控制为限制终端在指定时间内准入的策略配置。配置准入方式按周表示在每周的特定时间可以准入，按日期表示在一个日期范围可以准入。如果一个终端应用多条准入控制，准入时间为所有配置并集
+            。"
+            type="info"
+            showIcon
+          /> */}
           <Title slot="基础设置"></Title>
           <Form.Item
             prop="name"
@@ -103,7 +117,20 @@ export default class AddDrawer extends React.Component {
           </Form.Item>
           <Diliver />
           <Title slot="准入设置"></Title>
-          <Form.Item prop="type" required label="准入方式">
+          <Form.Item
+            prop="type"
+            required
+            label={
+              <span>
+                准入方式
+                <Reminder
+                  tips="按周表示终端在每周的指定时间可以准入，按日期表示终端在该日期范围内的指定时间可以准入。"
+                  iconStyle={{ fontSize: 20 }}
+                  placement="bottomLeft"
+                ></Reminder>
+              </span>
+            }
+          >
             <Radiox options={typeOptions} onChange={this.onTypeChange} />
           </Form.Item>
           <Form.Item

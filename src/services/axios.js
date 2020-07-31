@@ -1,5 +1,4 @@
 import axios from 'axios'
-import { message } from 'antd'
 import { setItemToLocal } from '@/utils/storage'
 
 const cfg = require('../../config/default')
@@ -33,7 +32,8 @@ function checkStatus(response = {}) {
     return response
   }
   const errortext = codeMessage[status] || statusText
-  message.error(`${status}: ${url} ${errortext}`)
+  // message.error(`${status}: ${url} ${errortext}`)
+  return `${status}: ${url} ${errortext}`
 }
 
 /** **** 创建axios实例 ***** */
@@ -75,7 +75,17 @@ service.interceptors.response.use(
       }
       return response.data
     }
-    return checkStatus(response)
+    console.log('捕获', response, response.config.url)
+    return Promise.reject(
+      new Error(`${response.config.url} 接口错误，请联系管理员！`)
+    )
+    // if (
+    //   (response.status >= 200 && response.status < 300) ||
+    //   response.status === 409
+    // ) {
+    //   return response
+    // }
+    // return response
   },
   error => {
     if (
@@ -87,9 +97,14 @@ service.interceptors.response.use(
     }
     if (error.message.indexOf('Network Error') !== -1) {
       // eslint-disable-next-line
-      return Promise.reject({ message: '网络错误，请检查网络!', type: 'NetworkError' })
+      return Promise.reject({
+        message: '网络错误，请检查网络!',
+        type: 'NetworkError'
+      })
     }
-    checkStatus(error.response)
+    if (error.response.status >= 400 && error.response.status <= 504) {
+      return Promise.reject(checkStatus(error.response))
+    }
     return Promise.reject(error)
   }
 )

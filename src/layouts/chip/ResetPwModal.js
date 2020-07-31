@@ -2,7 +2,7 @@ import React from 'react'
 
 import appApi from '@/services/app'
 import { Formx, Modalx } from '@/components'
-import { Form, Input, message } from 'antd'
+import { Form, Input } from 'antd'
 import encrypt from '@/utils/encrypt'
 import { required, checkPassword } from '@/utils/valid'
 import { getUser } from '@/utils/checkPermissions'
@@ -50,7 +50,7 @@ export default class ModalDemo extends React.Component {
         this.modal.afterSubmit(res)
       })
       .catch(error => {
-        message.error(error.message || error)
+        this.modal.break(error)
         console.log(error)
       })
   }

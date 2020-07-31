@@ -21,6 +21,22 @@
   text-align: left;
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap;
+  white-space: nowrap; 
   padding-right: 10px;
+}
+
+.topology-tooltip-action {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  li {
+    flex: 1;
+    display: inline;
+    border-right: 1px solid #e2e2e2;
+    text-align: center;
+  }
+  :last-child {
+    border: none;
+  }
 }

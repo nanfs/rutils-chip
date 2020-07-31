@@ -5,10 +5,12 @@ export default function DetailRender({ interfaces, disks }) {
   return (
     <div>
       <Row>
-        <Col span={6}>网络名</Col>
+        <Col span={6} style={{ fontWeight: 'bold' }}>
+          网络名
+        </Col>
       </Row>
       {interfaces.map((item, index) => (
-        <Row key={index}>
+        <Row key={index} style={{ marginTop: '5px' }}>
           <Col span={6}>
             {item.name ? `${item.kind}/${item.name}` : '空网卡'}
           </Col>
@@ -16,11 +18,15 @@ export default function DetailRender({ interfaces, disks }) {
       ))}
 
       <Row style={{ marginTop: '10px' }}>
-        <Col span={6}>磁盘名</Col>
-        <Col span={6}>大小</Col>
+        <Col span={6} style={{ fontWeight: 'bold' }}>
+          磁盘名
+        </Col>
+        <Col span={6} style={{ fontWeight: 'bold' }}>
+          大小
+        </Col>
       </Row>
       {disks.map((item, index) => (
-        <Row key={index}>
+        <Row key={index} style={{ marginTop: '5px' }}>
           <Col span={6}>{item.name}</Col>
           <Col span={6}>
             {item.actualSize}G/{item.capacity}G

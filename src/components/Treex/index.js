@@ -1,5 +1,14 @@
 import React from 'react'
-import { Tree, Input, Spin, Menu, Modal, notification, message } from 'antd'
+import {
+  Tree,
+  Input,
+  Spin,
+  Menu,
+  Modal,
+  notification,
+  message,
+  Icon
+} from 'antd'
 import { nodes2Tree, wrapResponse } from '@/utils/tool'
 
 import AddNodeModal from './chip/AddNodeModal'
@@ -278,7 +287,12 @@ export default class Treex extends React.Component {
       },
       rightMenuStyle: {
         position: 'absolute',
-        left: `${e.event.pageX - 230}px`,
+        left: `${e.event.pageX -
+          parseInt(
+            document.querySelector('.ant-layout-sider').style.width,
+            10
+          ) -
+          50}px`,
         top: `${e.event.pageY - 115}px`,
         display: 'block',
         zIndex: 1001
@@ -366,6 +380,7 @@ export default class Treex extends React.Component {
                   this.addNodeModal.pop()
                 }}
               >
+                <Icon type="plus" style={{ color: '#1890ff' }} />
                 新增下级部门
               </Menu.Item>
               <Menu.Item
@@ -375,6 +390,14 @@ export default class Treex extends React.Component {
                 }}
                 disabled={this.state.nodeDeleteDisable}
               >
+                <Icon
+                  type="edit"
+                  style={{
+                    color: this.state.nodeDeleteDisable
+                      ? 'rgba(0,0,0,.25)'
+                      : '#1890ff'
+                  }}
+                />
                 修改
               </Menu.Item>
               <Menu.Item
@@ -382,6 +405,14 @@ export default class Treex extends React.Component {
                 onClick={this.deleteNode}
                 disabled={this.state.nodeDeleteDisable}
               >
+                <Icon
+                  type="delete"
+                  style={{
+                    color: this.state.nodeDeleteDisable
+                      ? 'rgba(0,0,0,.25)'
+                      : '#ee1c3a'
+                  }}
+                />
                 删除
               </Menu.Item>
             </Menu>

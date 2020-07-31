@@ -1,6 +1,8 @@
 import React from 'react'
 import { Modal, Button, notification, message } from 'antd'
 import { wrapResponse } from '@/utils/tool'
+import './index.less'
+import classnames from 'classnames'
 
 const ModalCfg_init = {
   forceRender: true,
@@ -149,6 +151,7 @@ class Modalx extends React.Component {
     const setFormRef = ref => {
       this.formRef = ref
     }
+    const cls = classnames('modalx', this.props.className)
     return (
       <Modal
         {...modalCfg}
@@ -157,7 +160,7 @@ class Modalx extends React.Component {
         onOk={this.onOk}
         afterClose={this.afterClose}
         title={title || modalCfg.title}
-        className={this.props.className}
+        className={cls}
         footer={
           modalCfg && modalCfg.hasFooter
             ? [

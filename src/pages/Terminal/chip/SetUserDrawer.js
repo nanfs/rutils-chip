@@ -9,7 +9,8 @@ import {
   Formx,
   Drawerx,
   Title,
-  Diliver
+  Diliver,
+  Reminder
 } from '@/components'
 import { columns, apiMethod } from '@/pages/Common/UserTableCfg'
 
@@ -266,7 +267,12 @@ export default class SetUserDrawer extends React.Component {
             />
           </TableWrap>
           <Diliver />
-          <Title slot="已选择"></Title>
+          <Title slot="已选择">
+            <Reminder
+              style={{ marginLeft: -5 }}
+              tips="分配用户支持跨页选择，分配数据与服务器性能相关。建议分配控制在100条以下"
+            ></Reminder>
+          </Title>
           <div>{this.renderSelectUser()}</div>
         </Formx>
       </Drawerx>

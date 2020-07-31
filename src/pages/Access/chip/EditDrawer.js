@@ -1,6 +1,14 @@
 import React from 'react'
 import { Form, Input, TimePicker, DatePicker } from 'antd'
-import { Drawerx, Formx, Radiox, Selectx, Title, Diliver } from '@/components'
+import {
+  Drawerx,
+  Formx,
+  Radiox,
+  Selectx,
+  Title,
+  Diliver,
+  Reminder
+} from '@/components'
 import { weekOptions, typeOptions } from '@/utils/formOptions'
 import '../index.less'
 import dayjs from 'dayjs'
@@ -139,7 +147,20 @@ export default class EditDrawer extends React.Component {
           </Form.Item>
           <Diliver />
           <Title slot="准入设置"></Title>
-          <Form.Item required prop="type" label="准入方式">
+          <Form.Item
+            required
+            prop="type"
+            label={
+              <span>
+                准入方式
+                <Reminder
+                  tips="按周表示终端在每周的指定时间可以准入，按日期表示终端在该日期范围内的指定时间可以准入。"
+                  iconStyle={{ fontSize: 20 }}
+                  placement="bottomLeft"
+                ></Reminder>
+              </span>
+            }
+          >
             <Radiox options={typeOptions} onChange={this.onTypeChange} />
           </Form.Item>
           <Form.Item

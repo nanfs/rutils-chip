@@ -48,7 +48,8 @@ export const typeOptions2 = [
 ]
 export const taskTypeOptions = [
   { label: '定时开机', value: 0 },
-  { label: '定时关机', value: 1 }
+  { label: '定时关机', value: 1 },
+  { label: '定时重启', value: 2 }
   // { label: '空闲关机', value: 2 }// 该版本不做
 ]
 
@@ -60,4 +61,30 @@ export const weekEnOptions = [
   { label: '周五', value: 'FRI' },
   { label: '周六', value: 'SAT' },
   { label: '周日', value: 'SUN' }
+]
+export const osSelectOptions = [
+  {
+    label: 'OTHER OS',
+    value: 0
+  },
+  {
+    value: 26,
+    label: 'Windows'
+  },
+  {
+    value: 1006,
+    label: 'Redhat'
+  },
+  {
+    value: 1252,
+    label: 'Ubuntu'
+  },
+  {
+    value: 60,
+    label: 'Kylin 麒麟'
+  },
+  {
+    value: 61,
+    label: 'iSoft 普华'
+  }
 ]

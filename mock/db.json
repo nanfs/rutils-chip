@@ -2235,5 +2235,31 @@
       "name": "srtest",
       "kindId": "4428c21d-ed72-4bb3-ab23-3205118a71aa"
     }
+  ],
+  "vmgroups_list": [
+    {
+      "id": "1aed7fb0-d9fc-419c-b4b6-875fecd5b82e",
+      "name": "0-jtt-wuleixing",
+      "desktopNum": 0,
+      "createTime": "2018-12-07 17:34:45",
+      "description": "开发用"
+    },
+    {
+      "id": "b2ebe66c-ebff-463e-9f61-7cfa965f394f1",
+      "name": "0-testmxj-测试功能",
+      "desktopNum": 2,
+      "createTime": "2020-2-01 17:34:45",
+      "description": "设计用",
+      "policies": [
+        { "startTime": "10:11", "endTime": "10:21", "preStart": "5" }
+      ]
+    },
+    {
+      "id": "b2ebe66c-ebff-463e-9f61-7cfa965f394f",
+      "name": "0-12-1",
+      "desktopNum": 2,
+      "createTime": "2020-2-01 17:34:45",
+      "description": "测试用"
+    }
   ]
 }

@@ -10,7 +10,7 @@ import {
 } from 'antd'
 import produce from 'immer'
 
-import { Tablex, InnerPath, SelectSearch } from '@/components'
+import { Tablex, InnerPath, SelectSearch, Reminder } from '@/components'
 import terminalApi from '@/services/terminal'
 import { wrapResponse } from '@/utils/tool'
 
@@ -125,7 +125,6 @@ export default class Terminal extends React.Component {
   tcName = {
     title: () => <span title="名称">名称</span>,
     dataIndex: 'name',
-
     ellipsis: true,
     render: (text, record) => {
       return (
@@ -133,6 +132,15 @@ export default class Terminal extends React.Component {
           className="detail-link"
           onClick={() => this.detailTerminal(record.name, record.sn)}
         >
+          {record.lockStatus === 1 && (
+            <Icon
+              type="lock"
+              title="已锁定"
+              style={{
+                color: '#ff4d4f'
+              }}
+            />
+          )}
           {record.name}
         </a>
       )
@@ -346,7 +354,7 @@ export default class Terminal extends React.Component {
 
   // 终端编辑
   editTerminal = (name, data) => {
-    this.setState({ inner: name }, this.editDrawer.pop(data))
+    this.setState({ inner: name || '未命名' }, this.editDrawer.pop(data))
     this.currentDrawer = this.editDrawer
   }
 
@@ -447,6 +455,9 @@ export default class Terminal extends React.Component {
           inner={this.state.inner}
           onBack={this.onBack}
         />
+        {!this.state.inner && (
+          <Reminder tips="平台通过向终端提供统一的接口，能够同时管理多款国产化安全云终端。"></Reminder>
+        )}
         <TableWrap>
           <ToolBar>
             <BarLeft>

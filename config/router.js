@@ -57,6 +57,15 @@ function getRouterConfig(app) {
           })
         },
         {
+          path: '/vmgroup',
+          authority: 'admin',
+          component: dynamic({
+            app,
+            models: () => [],
+            component: () => import('../src/pages/VmGroup/index')
+          })
+        },
+        {
           path: '/template',
           authority: 'admin',
           component: dynamic({
@@ -93,6 +102,15 @@ function getRouterConfig(app) {
           })
         },
         {
+          path: '/upgrade',
+          authority: 'admin,security',
+          component: dynamic({
+            app,
+            models: () => [],
+            component: () => import('../src/pages/Upgrade/index')
+          })
+        },
+        {
           path: '/user',
           authority: 'admin,security',
           component: dynamic({
@@ -108,6 +126,15 @@ function getRouterConfig(app) {
             app,
             models: () => [],
             component: () => import('../src/pages/Task/index')
+          })
+        },
+        {
+          path: '/terminalTask',
+          authority: 'admin',
+          component: dynamic({
+            app,
+            models: () => [],
+            component: () => import('../src/pages/TerminalTask/index')
           })
         },
         {

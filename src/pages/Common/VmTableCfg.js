@@ -7,7 +7,6 @@ import {
   osTextRender,
   assignedUsersRender
 } from '@/utils/tableRender'
-import { onlineStringTime } from '@/utils/tool'
 import { MyIcon } from '@/components'
 import {
   setClusterToSession,
@@ -56,11 +55,12 @@ export function getColumns(isPoolVmlist = false) {
     {
       title: () => <span title="操作系统">操作系统</span>,
       dataIndex: 'os',
+      width: '8%',
       ellipsis: true,
       render: text => {
         return (
           <span title={osTextRender(text)}>
-            {osIconRender(text)} {osTextRender(text)}
+            {osIconRender(text)} {/* {osTextRender(text)} */}
           </span>
         )
       }
@@ -97,13 +97,13 @@ export function getColumns(isPoolVmlist = false) {
     },
     {
       title: () => <span title="用户">用户</span>,
-      width: 70,
+      width: 60,
       dataIndex: 'assignedUsers',
       render: text => assignedUsersRender(text)
     },
     {
       title: () => <span title="控制台">控制台</span>,
-      width: 100,
+      width: 90,
       dataIndex: 'isConsole',
       ellipsis: true,
       filters: [
@@ -125,14 +125,14 @@ export function getColumns(isPoolVmlist = false) {
         return consoleContent
       }
     },
-    {
+    /* {
       title: () => <span title="已运行">已运行</span>,
       key: 'onlineTime',
       ellipsis: true,
       dataIndex: 'onlineTime',
       sorter: isPoolVmlist ? undefined : true,
       render: text => onlineStringTime(text)
-    },
+    }, */
     {
       title: () => <span title="CPU">CPU</span>,
       dataIndex: 'cpuUsageRate',
@@ -315,6 +315,7 @@ export function getMoreButton({
  * 关机 不能关机 重启和断电
  * 正在重启不能重启
  * 如果有分配用户 管理员不能打开控制台
+ * 建议换成正向解释 写法
  */
 export function vmDisableAction(vmObj) {
   let disabledButton = {}
@@ -345,7 +346,8 @@ export function vmDisableAction(vmObj) {
   if (vmObj.status !== 1) {
     disabledButton = {
       ...disabledButton,
-      disabledAttachIso: true
+      disabledAttachIso: true,
+      disabledRestart: true
     }
   }
   // 不禁用感觉要方便点
@@ -359,22 +361,20 @@ export function vmDisableAction(vmObj) {
     disabledButton = {
       ...disabledButton,
       disabledDown: true,
-      disabledRestart: true,
       disabledPowerOff: true
     }
   }
-  if (vmObj.status === 10) {
-    disabledButton = {
-      ...disabledButton,
-      disabledRestart: true
-    }
-  }
-  // 暂停 pause 禁用重启 关机
+  // if (vmObj.status === 10) {
+  //   disabledButton = {
+  //     ...disabledButton,
+  //     disabledRestart: true
+  //   }
+  // }
+  // 暂停 pause 禁用 关机
   if (vmObj.status === 4) {
     disabledButton = {
       ...disabledButton,
-      disabledDown: true,
-      disabledRestart: true
+      disabledDown: true
     }
   }
   if (vmObj.assignedUsers) {
@@ -382,6 +382,13 @@ export function vmDisableAction(vmObj) {
       ...disabledButton,
       disabledDelete: true,
       disabledOpenConsole: true
+    }
+  }
+  // 迁移中 和 镜像锁定状态 禁用 断电
+  if (vmObj.status === 6 || vmObj.status === 15) {
+    disabledButton = {
+      ...disabledButton,
+      disabledPowerOff: true
     }
   }
   return disabledButton

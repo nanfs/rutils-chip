@@ -14,49 +14,87 @@ const menu = [
   },
   {
     title: '桌面管理',
+    path: '/vm',
     icon: 'zhuomianguanli',
     iconComonpent: 'MyIcon',
-    path: '/desktop',
-    authority: 'admin,security'
-  },
-  {
-    title: '桌面池管理',
-    icon: 'template1',
-    iconComonpent: 'MyIcon',
-    path: '/pool',
-    authority: 'admin,security'
-  },
-  {
-    title: '模板管理',
-    icon: 'template',
-    iconComonpent: 'MyIcon',
-    path: '/template',
-    authority: 'admin'
-  },
-  {
-    title: '计划任务',
-    icon: 'schedule',
-    path: '/task',
-    authority: 'admin'
+    authority: 'admin,security',
+    children: [
+      {
+        title: '桌面管理',
+        icon: 'zhuomianguanli',
+        iconComonpent: 'MyIcon',
+        path: '/desktop',
+        authority: 'admin,security'
+      },
+      {
+        title: '桌面池管理',
+        icon: 'template1',
+        iconComonpent: 'MyIcon',
+        path: '/pool',
+        authority: 'admin,security'
+      },
+      {
+        title: '桌面组管理',
+        icon: 'zhuomianzu1',
+        iconComonpent: 'MyIcon',
+        path: '/vmgroup',
+        authority: 'admin,security'
+      },
+      {
+        title: '模板管理',
+        icon: 'template',
+        iconComonpent: 'MyIcon',
+        path: '/template',
+        authority: 'admin'
+      },
+      {
+        title: '计划任务',
+        icon: 'schedule',
+        path: '/task',
+        authority: 'admin'
+      }
+    ]
   },
   {
     title: '终端管理',
     icon: 'terminal',
+    path: '/tc',
     iconComonpent: 'MyIcon',
-    path: '/terminal',
-    authority: 'admin,security'
-  },
-  {
-    title: '外设控制',
-    icon: 'usb',
-    path: '/device',
-    authority: 'admin,security'
-  },
-  {
-    title: '准入控制',
-    icon: 'login',
-    path: '/access',
-    authority: 'admin,security'
+    authority: 'admin,security',
+    children: [
+      {
+        title: '终端管理',
+        icon: 'terminal',
+        iconComonpent: 'MyIcon',
+        path: '/terminal',
+        authority: 'admin,security'
+      },
+      {
+        title: '终端任务',
+        icon: 'calendar',
+        path: '/terminalTask',
+        authority: 'admin,security'
+      },
+      {
+        title: '外设控制',
+        icon: 'usb',
+        path: '/device',
+        authority: 'admin,security'
+      },
+      {
+        title: '准入控制',
+        icon: 'login',
+        path: '/access',
+        authority: 'admin,security'
+      },
+      {
+        title: '升级包管理',
+        icon: 'shengji',
+        iconComonpent: 'MyIcon',
+        path: '/upgrade',
+        authority: 'admin,security'
+      }
+    ]
   },
   {
     title: '用户管理',

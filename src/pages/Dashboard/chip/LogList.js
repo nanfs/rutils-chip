@@ -26,7 +26,7 @@ export default class LogList extends React.Component {
               }
               description={
                 <Popover
-                  placement="bottomRight"
+                  placement="bottomLeft"
                   content={<div>{item.message}</div>}
                 >
                   {item.message}

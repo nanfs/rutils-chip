@@ -1,10 +1,9 @@
 import React from 'react'
 import { Button, Input, Form, Icon, message } from 'antd'
 import { Formx } from '@/components'
-import { getUser } from './ftusbkey'
 import { required } from '@/utils/valid'
 import encrypt from '@/utils/encrypt'
-import { setObjItemTolocal, setItemToLocal } from '@/utils/storage'
+import { setItemToLocal } from '@/utils/storage'
 import {
   setClusterToSession,
   setDataCenterToSession,
@@ -14,58 +13,13 @@ import {
 import loginApi from '@/services/login'
 
 export default class LoginForm extends React.Component {
-  constructor(props) {
-    super(props)
-    this.fetchProperties()
-    this.state = {
-      loading: false
-    }
-  }
-
-  /**
-   * @description 获取项目配置文件
-   * @author lishuai
-   * @date 2020-05-09
-   */
-  fetchProperties() {
-    loginApi
-      .getProperties()
-      .then(res => {
-        setObjItemTolocal('properties', res)
-        const { hasPin } = res
-        this.setState({ hasPin })
-      })
-      .catch(e => {
-        console.log(e)
-        this.setState({ hasPin: false })
-      })
-  }
-
-  checkUsbkey(username, pincode) {
-    let user
-    try {
-      user = getUser(pincode)
-    } catch (e) {
-      message.error(e.message)
-      return false
-    }
-    if (user !== username) {
-      message.error('当前登录用户与UsbKey不匹配')
-      return false
-    }
-    return true
+  state = {
+    loading: false
   }
 
   login = values => {
     let data = {}
     this.setState({ loading: true })
-    if (
-      this.state.hasPin &&
-      !this.checkUsbkey(values.username, values.pincode)
-    ) {
-      this.setState({ loading: false })
-      return false
-    }
     data = {
       username: values.username,
       password: encrypt(values.password),
@@ -147,27 +101,6 @@ export default class LoginForm extends React.Component {
             style={{ height: 48 }}
           />
         </Form.Item>
-        {this.state.hasPin && (
-          <Form.Item
-            prop="pincode"
-            wrapperCol={{ sm: { span: 24 } }}
-            required
-            rules={[
-              {
-                required: true,
-                message: '请输入PIN码'
-              }
-            ]}
-          >
-            <Input.Password
-              prefix={<Icon type="usb" style={{ color: 'rgba(0,0,0,.25)' }} />}
-              type="password"
-              placeholder="请输入PIN码"
-              visibilityToggle
-              style={{ height: 48 }}
-            />
-          </Form.Item>
-        )}
         <Form.Item wrapperCol={{ sm: { span: 24 } }} style={{ marginTop: 60 }}>
           <Button
             type="primary"

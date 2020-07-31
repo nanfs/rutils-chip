@@ -10,7 +10,7 @@ import {
 } from 'antd'
 import produce from 'immer'
 
-import { Tablex, Treex, InnerPath, SelectSearch } from '@/components'
+import { Tablex, Treex, InnerPath, SelectSearch, Reminder } from '@/components'
 import userApi from '@/services/user'
 import { wrapResponse } from '@/utils/tool'
 
@@ -51,7 +51,7 @@ export default class User extends React.Component {
   options = {
     title: '操作',
     dataIndex: 'opration',
-    width: 160,
+    width: 110,
     render: (text, record) => {
       const moreAction = (
         <Menu>
@@ -105,7 +105,7 @@ export default class User extends React.Component {
   adOptions = {
     title: '操作',
     dataIndex: 'opration',
-    width: 130,
+    width: 110,
     render: (text, record) => {
       return (
         <span className="opration-btn">
@@ -131,6 +131,7 @@ export default class User extends React.Component {
       columns: this.columnsArr,
       apiMethod: userApi.queryByGroup,
       paging: { size: 10 },
+      autoFetch: false,
       pageSizeOptions: ['5', '10', '20', '50']
     }),
     innerPath: undefined,
@@ -465,6 +466,9 @@ export default class User extends React.Component {
           inner={this.state.inner}
           onBack={this.onBack}
         />
+        {!this.state.inner && (
+          <Reminder tips="平台内置用户管理模块，支持对本地组（internal）用户进行创建、编辑、删除等操作，支持对已分配桌面或终端AD域用户进行查看、删除等操作。"></Reminder>
+        )}
         <TableWrap>
           <div className="user-wrap">
             <div className="user-tree">
@@ -523,7 +527,6 @@ export default class User extends React.Component {
                 tableCfg={this.state.tableCfg}
                 onSelectChange={this.onSelectChange}
                 onChange={this.onTableChange}
-                stopAutoFetch={true}
               />
               <AddDrawer
                 onRef={ref => {

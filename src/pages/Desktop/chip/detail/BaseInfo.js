@@ -2,7 +2,7 @@ import React from 'react'
 import { Row, Col, Table, Tag, message, Spin, Tooltip, Icon } from 'antd'
 import { Title, Diliver } from '@/components'
 import desktopsApi from '@/services/desktops'
-import { wrapResponse } from '@/utils/tool'
+import { wrapResponse, onlineStringTime } from '@/utils/tool'
 import { osTextRender, availableStatusRender } from '@/utils/tableRender'
 import '../../index.less'
 
@@ -158,33 +158,11 @@ export default class BaseInfo extends React.Component {
               </Tooltip>
             </Col>
             <Col span={3} className="dms-detail-label">
-              数据中心：
+              ID：
             </Col>
             <Col span={8} className="dms-detail-value">
-              <Tooltip title={data.datacenterName} placement="topLeft">
-                <span>{data.datacenterName}</span>
-              </Tooltip>
-            </Col>
-          </Row>
-          <Row className="dms-detail-row">
-            <Col span={3} className="dms-detail-label">
-              MAC：
-            </Col>
-            <Col span={8} className="dms-detail-value">
-              {/* 通过网络信息里面取得MAC信息 */}
-              <Tooltip
-                title={data.network?.map(item => item.mac).join(',')}
-                placement="topLeft"
-              >
-                <span>{data.network?.map(item => item.mac).join(',')}</span>
-              </Tooltip>
-            </Col>
-            <Col span={3} className="dms-detail-label">
-              操作系统：
-            </Col>
-            <Col span={8} className="dms-detail-value">
-              <Tooltip title={osTextRender(data.os)} placement="topLeft">
-                <span>{osTextRender(data.os)}</span>
+              <Tooltip title={data.id} placement="topLeft">
+                <span>{data.id}</span>
               </Tooltip>
             </Col>
           </Row>
@@ -198,6 +176,24 @@ export default class BaseInfo extends React.Component {
               </Tooltip>
             </Col>
             <Col span={3} className="dms-detail-label">
+              操作系统：
+            </Col>
+            <Col span={8} className="dms-detail-value">
+              <Tooltip title={osTextRender(data.os)} placement="topLeft">
+                <span>{osTextRender(data.os)}</span>
+              </Tooltip>
+            </Col>
+          </Row>
+          <Row className="dms-detail-row">
+            <Col span={3} className="dms-detail-label">
+              数据中心：
+            </Col>
+            <Col span={8} className="dms-detail-value">
+              <Tooltip title={data.datacenterName} placement="topLeft">
+                <span>{data.datacenterName}</span>
+              </Tooltip>
+            </Col>
+            <Col span={3} className="dms-detail-label">
               集群：
             </Col>
             <Col span={8} className="dms-detail-value">
@@ -208,19 +204,19 @@ export default class BaseInfo extends React.Component {
           </Row>
           <Row className="dms-detail-row">
             <Col span={3} className="dms-detail-label">
-              ID：
-            </Col>
-            <Col span={8} className="dms-detail-value">
-              <Tooltip title={data.id} placement="topLeft">
-                <span>{data.id}</span>
-              </Tooltip>
-            </Col>
-            <Col span={3} className="dms-detail-label">
               CPU：
             </Col>
             <Col span={8} className="dms-detail-value">
               <Tooltip title={`${data.cpuCores}${'核'}`}>
                 <span>{data.cpuCores} 核</span>
+              </Tooltip>
+            </Col>
+            <Col span={3} className="dms-detail-label">
+              内存：
+            </Col>
+            <Col span={8} className="dms-detail-value">
+              <Tooltip title={`${data.memory}${'G'}`}>
+                <span>{data.memory} G</span>
               </Tooltip>
             </Col>
           </Row>
@@ -234,11 +230,15 @@ export default class BaseInfo extends React.Component {
               </Tooltip>
             </Col>
             <Col span={3} className="dms-detail-label">
-              内存：
+              物理地址：
             </Col>
             <Col span={8} className="dms-detail-value">
-              <Tooltip title={`${data.memory}${'G'}`}>
-                <span>{data.memory} G</span>
+              {/* 通过网络信息里面取得MAC信息 */}
+              <Tooltip
+                title={data.network?.map(item => item.mac).join(',')}
+                placement="topLeft"
+              >
+                <span>{data.network?.map(item => item.mac).join(',')}</span>
               </Tooltip>
             </Col>
           </Row>
@@ -269,6 +269,19 @@ export default class BaseInfo extends React.Component {
               </Tooltip>
             </Col>
             <Col span={3} className="dms-detail-label">
+              已运行时间：
+            </Col>
+            <Col span={8} className="dms-detail-value">
+              <Tooltip
+                title={onlineStringTime(data.onlineTime)}
+                placement="topLeft"
+              >
+                <span>{onlineStringTime(data.onlineTime)}</span>
+              </Tooltip>
+            </Col>
+          </Row>
+          <Row className="dms-detail-row">
+            <Col span={3} className="dms-detail-label">
               描述：
             </Col>
             <Col span={8} className="dms-detail-value">
@@ -277,7 +290,6 @@ export default class BaseInfo extends React.Component {
               </Tooltip>
             </Col>
           </Row>
-          <Row className="dms-detail-row"></Row>
         </div>
 
         <div className="dms-detail-section">

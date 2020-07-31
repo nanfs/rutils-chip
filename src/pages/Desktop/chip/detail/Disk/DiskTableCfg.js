@@ -1,9 +1,9 @@
 import diskApi from '@/services/disks'
 import React from 'react'
-import { Icon, Progress } from 'antd'
+import { Progress } from 'antd'
 import { renderSatus } from '@/utils/tableRender'
 
-const diskStatus = [
+const runStatus = [
   {
     value: 0,
     text: '未指派的',
@@ -33,6 +33,35 @@ const diskStatus = [
     status: 'ILLEGAL'
   }
 ]
+
+const activeStatus = [
+  {
+    value: true,
+    text: '已激活',
+    icon: 'check-circle',
+    color: 'success'
+  },
+  {
+    value: false,
+    text: '未激活',
+    icon: 'stop',
+    color: 'alert'
+  }
+]
+const isSystem = [
+  {
+    value: true,
+    text: '是',
+    icon: 'check-circle',
+    color: 'success'
+  },
+  {
+    value: false,
+    text: '否',
+    icon: 'stop',
+    color: 'info'
+  }
+]
 export const columns = [
   {
     title: () => <span title="别名">别名</span>,
@@ -41,10 +70,16 @@ export const columns = [
     dataIndex: 'name'
   },
   {
-    title: () => <span title="状态">状态</span>,
+    title: () => <span title="是否激活">是否激活</span>,
+    ellipsis: true,
+    dataIndex: 'active',
+    render: text => renderSatus(activeStatus, text, true)
+  },
+  {
+    title: () => <span title="状态">运行状态</span>,
     ellipsis: true,
     dataIndex: 'status',
-    render: text => renderSatus(diskStatus, text, true)
+    render: text => renderSatus(runStatus, text, true)
   },
   {
     title: () => <span title="大小(GB)">大小(GB)</span>,
@@ -71,24 +106,7 @@ export const columns = [
     ellipsis: true,
     key: 'boot',
     dataIndex: 'isBoot',
-    render: text =>
-      text ? (
-        <span>
-          <Icon type="check-circle" className="table-icon-info" />
-          &nbsp;是
-        </span>
-      ) : (
-        <span>
-          <Icon
-            type="stop"
-            title="否"
-            style={{
-              color: '#ff4d4f'
-            }}
-          />
-          &nbsp;否
-        </span>
-      )
+    render: text => renderSatus(isSystem, text, true)
   },
   {
     title: () => <span title="描述">描述</span>,

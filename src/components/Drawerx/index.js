@@ -10,6 +10,7 @@ import {
   Icon
 } from 'antd'
 import { wrapResponse } from '@/utils/tool'
+import classnames from 'classnames'
 import './index.less'
 
 class Drawerx extends React.Component {
@@ -36,10 +37,14 @@ class Drawerx extends React.Component {
     })
     document.body.style.maxHeight = '100vh'
     // document.body.style.overflow = 'hidden'
-    document.querySelector('.table-wrap').style.height = 'calc(100vh - 105px)'
-    document.querySelector('.table-wrap').style.overflow = 'hidden'
-    document.querySelector('.ant-drawer-body .ant-form').style.Height =
-      'calc(100vh - 185px)'
+    if (document.querySelector('.table-wrap')) {
+      document.querySelector('.table-wrap').style.height = 'calc(100vh - 105px)'
+      document.querySelector('.table-wrap').style.overflow = 'hidden'
+    }
+    if (document.querySelector('.ant-drawer-body .ant-form')) {
+      document.querySelector('.ant-drawer-body .ant-form').style.Height =
+        'calc(100vh - 185px)'
+    }
   }
 
   // 隐藏没有重置表单 点取消去重置表单  this is a feature cancel
@@ -51,8 +56,12 @@ class Drawerx extends React.Component {
       submitting: false
     })
     document.body.style = ''
-    document.querySelector('.table-wrap').style = ''
-    document.querySelector('.ant-drawer-body .ant-form').style = ''
+    if (document.querySelector('.table-wrap')) {
+      document.querySelector('.table-wrap').style = ''
+    }
+    if (document.querySelector('.ant-drawer-body .ant-form')) {
+      document.querySelector('.ant-drawer-body .ant-form').style = ''
+    }
   }
 
   showAndWait = () => {
@@ -95,6 +104,15 @@ class Drawerx extends React.Component {
             submitting: false
           })
         })
+    })
+  }
+
+  break = error => {
+    if (error) {
+      message.error(error.message || error)
+    }
+    this.setState({
+      submitting: false
     })
   }
 
@@ -183,6 +201,8 @@ class Drawerx extends React.Component {
     }
     const antIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />
 
+    const cls = classnames('drawerx', this.props.className)
+
     return (
       <Drawer
         closable={false}
@@ -193,7 +213,7 @@ class Drawerx extends React.Component {
         onClose={this.onClose}
         title={title}
         style={{ position: 'absolute' }}
-        className="drawerx"
+        className={cls}
       >
         <Spin
           indicator={antIcon}

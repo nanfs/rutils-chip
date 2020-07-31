@@ -50,25 +50,17 @@ server.use(bodyParser.json()) // for parsing application/json
 server.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 
 // 拦截接口
-server.post('/login', (req, res) => {
+server.post('/user_login', (req, res) => {
   const { body } = req
-  if (body.identificationNumber === '10000' && body.password === '123456') {
+  if (body.username === 'admin') {
     res.json({
       code: 200,
       success: true,
       message: '',
       data: {
         id: 1,
-        identificationNumber: '10000',
-        name: '麻花藤',
-        gender: 0,
-        roleId: 1,
-        titleId: 1,
-        departmentId: 1,
-        title: '总负责人',
-        department: '成都分公司',
-        roleTag: 'SYSTEM_MGR',
-        role: '系统管理员'
+        userName: 'admin',
+        userRole: 'admin'
       }
     })
   } else {

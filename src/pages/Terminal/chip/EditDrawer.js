@@ -51,18 +51,19 @@ export default class EditDrawer extends React.Component {
       description,
       loginWay,
       location,
-      secretWord,
-      bondKey,
+      // secretWord,
+      // bondKey,
       lockedWord
     } = data
+    console.log(data)
     this.drawer.form.setFieldsValue({
       sn,
       name,
       description,
       loginWay,
       location,
-      secretWord,
-      bondKey,
+      // secretWord,
+      // bondKey,
       lockedWord
     })
   }
@@ -78,8 +79,8 @@ export default class EditDrawer extends React.Component {
       description,
       loginWay,
       location,
-      secretWord,
-      bondKey,
+      // secretWord,
+      // bondKey,
       lockedWord
     } = values
     const data = {
@@ -87,8 +88,8 @@ export default class EditDrawer extends React.Component {
       description,
       loginWay,
       location,
-      secretWord: loginWay === 2 ? encrypt(secretWord) : '',
-      bondKey: loginWay === 1 ? bondKey : '',
+      // secretWord: loginWay === 2 ? encrypt(secretWord) : '',
+      // bondKey: loginWay === 1 ? bondKey : '',
       lockedWord: encrypt(lockedWord)
     }
     terminalApi
@@ -135,7 +136,7 @@ export default class EditDrawer extends React.Component {
           >
             <Input placeholder="终端位置" />
           </Form.Item>
-          <Form.Item
+          {/* <Form.Item
             prop="loginWay"
             label="认证方式"
             required
@@ -178,7 +179,7 @@ export default class EditDrawer extends React.Component {
               type="password"
               autoComplete="new-password"
             />
-          </Form.Item>
+          </Form.Item> */}
           <Form.Item
             prop="lockedWord"
             label="锁定密码"
@@ -186,7 +187,7 @@ export default class EditDrawer extends React.Component {
             rules={[required, checkPassword]}
           >
             <Input
-              placeholder="锁定密码"
+              placeholder="10-20位字母、数字、特殊字符的三种组合"
               type="password"
               autoComplete="new-password"
             />

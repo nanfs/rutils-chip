@@ -13,7 +13,8 @@ export default class AddDiskModal extends React.Component {
 
   pop = vmId => {
     this.modal.show()
-    this.modal.form.setFieldsValue({ vmId })
+    // 设置默认磁盘大小为 50G
+    this.modal.form.setFieldsValue({ vmId, capacity: 50 })
   }
 
   onOk = values => {
@@ -29,7 +30,7 @@ export default class AddDiskModal extends React.Component {
   }
 
   render() {
-    const modalCfg = createModalCfg({ title: '添加磁盘', hasFooter: true })
+    const modalCfg = createModalCfg({ title: '添加磁盘' })
     return (
       <Modalx
         onRef={ref => {
@@ -43,13 +44,14 @@ export default class AddDiskModal extends React.Component {
           <Form.Item prop="vmId" label="vmId" hidden>
             <Input />
           </Form.Item>
-          <Form.Item prop="name" label="磁盘名" rules={[required]}>
+          <Form.Item prop="name" label="磁盘名" rules={[required]} required>
             <Input />
           </Form.Item>
           <Form.Item
             prop="capacity"
             label="磁盘大小(G)"
             rules={[required, isInt]}
+            required
           >
             <InputNumber
               min={1}

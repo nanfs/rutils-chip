@@ -2,6 +2,7 @@ import React from 'react'
 
 import { Icon, Tooltip, Popover } from 'antd'
 import { MyIcon } from '@/components'
+import classnames from 'classnames'
 
 export const severityOptions = [
   {
@@ -29,14 +30,23 @@ export const severityOptions = [
     color: 'alert'
   }
 ]
-export function renderSatus(statusObj, currentText, isWithText = false) {
+export function renderSatus(statusObj, currentText, isWithText = true) {
   const current = statusObj.find(item => item.value === currentText) || {}
-  const { text, icon, color } = current
-  const cls = color && `table-icon-${color}`
+  const { text, icon, color, iconComp } = current
+  const cls = classnames(
+    color && `table-icon-${color}`,
+    iconComp === 'MyIcon' && 'myicon-fix'
+  )
+  const Component = iconComp === 'MyIcon' ? MyIcon : Icon
   if (isWithText) {
-    return <Icon type={icon} className={cls} title={text} />
+    return (
+      <span title={text}>
+        <Component type={icon} className={cls} style={{ marginRight: '5px' }} />
+        <span>{text}</span>
+      </span>
+    )
   }
-  return <Icon type={icon} className={cls} title={text} />
+  return <Component type={icon} className={cls} title={text} />
 }
 export function renderServerityOptions(recordText) {
   const current = severityOptions.find(item => item.value === recordText) || {}
@@ -192,7 +202,7 @@ export const vmStatusRender = status => {
           fontSize: '18px'
         }}
       />{' '}
-      {vmStatusText[statusList[status]]}
+      {/* {vmStatusText[statusList[status]]} */}
     </span>
   )
 }
@@ -211,7 +221,7 @@ const osList = {
   '28': 'os-redhat',
   '30': 'os-redhat',
   '33': 'os-linux',
-  '51': 'os-qilin',
+  '60': 'os-kylin',
   '61': 'os-puhua',
   '1002': 'os-linux',
   '1003': 'os-redhat',
@@ -240,13 +250,14 @@ export const osIconRender = os => {
     />
   )
 }
+
 export const osTextRender = os => {
   const osType = osList[os] || 'os-windows'
   const typeList = {
     'os-other': 'OTHER OS',
     'os-redhat': '红帽',
     'os-windows': 'Win',
-    'os-qilin': '麒麟',
+    'os-kylin': '麒麟',
     'os-ubuntu': '乌班图',
     'os-linux': 'linux',
     'os-puhua': '普华'
@@ -299,4 +310,95 @@ export function availableStatusRender(text) {
       }}
     />
   )
+}
+// 计划任务-任务类型
+export const taskType = type => {
+  const typeList = {
+    0: '定时开机',
+    1: '定时关机',
+    2: '定时重启'
+  }
+  return <span>{typeList[type]}</span>
+}
+
+// 升级包类型
+export const packageTypeRender = type => {
+  const typeList = {
+    0: '系统',
+    1: '软件'
+  }
+  return <span>{typeList[type]}</span>
+}
+
+// 升级类型
+export const upgradeTypeRender = type => {
+  const typeList = {
+    0: '增量',
+    1: '全量'
+  }
+  return <span>{typeList[type]}</span>
+}
+
+// 升级类型
+export const priorityLevel = type => {
+  const typeList = {
+    0: '非强制',
+    1: '强制'
+  }
+  return <span>{typeList[type]}</span>
+}
+// 终端任务 任务类型显示
+export function taskTypeRender(text) {
+  const typeList = {
+    '0': '锁定',
+    '1': '解锁',
+    '2': '关机',
+    '3': '重启',
+    '4': '断网',
+    '5': '发送消息',
+    '6': '设置外设控制',
+    '7': '升级',
+    '8': '准入超时',
+    '9': '编辑终端'
+  }
+  return typeList[text]
+}
+
+// 终端任务 执行状态显示
+const iconStyle = {
+  2: { color: '#17abe3' },
+  3: { color: '#ff4d4f' },
+  4: { color: '#ff4d4f' }
+}
+const typeTextList = {
+  0: '未执行',
+  1: '执行中',
+  2: '执行成功',
+  3: '执行失败',
+  4: '用户取消'
+}
+export const taskStatusRender = text => {
+  const typeList = {
+    0: 'shalou',
+    1: 'shalou-copy',
+    2: 'check-circle',
+    3: 'close-circle',
+    4: 'close-circle'
+  }
+  if (text === 2 || text === 3 || text === 4) {
+    return (
+      <span title={typeTextList[text]} style={{ fontSize: '18px' }}>
+        <Icon type={typeList[text]} style={iconStyle[text]} />
+      </span>
+    )
+  } else {
+    return (
+      <MyIcon
+        type={typeList[text] || 'shalou'}
+        title={typeTextList[text] || 'null'}
+        component="svg"
+        style={{ fontSize: '30px', marginLeft: '-7px' }}
+      />
+    )
+  }
 }

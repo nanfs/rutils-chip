@@ -1,7 +1,15 @@
 import React from 'react'
 import { Form, Input, message, Row, Col, Button } from 'antd'
-import { Drawerx, Formx, Radiox, Selectx, Title, Diliver } from '@/components'
-import { memoryOptions, cpuOptions } from '@/utils/formOptions'
+import {
+  Drawerx,
+  Formx,
+  Radiox,
+  Selectx,
+  Title,
+  Diliver,
+  Reminder
+} from '@/components'
+import { memoryOptions, cpuOptions, osSelectOptions } from '@/utils/formOptions'
 import desktopsApi from '@/services/desktops'
 import {
   required,
@@ -30,7 +38,8 @@ export default class EditDrawer extends React.Component {
       wrapResponse(res)
         .then(() => {
           const { data } = res
-          const { network } = data
+          // SW适配
+          const { network, status, clusterCpuName } = data
           const nets = network?.length
             ? network.map(item => item.kindid)
             : [undefined]
@@ -38,12 +47,14 @@ export default class EditDrawer extends React.Component {
             ? network.map(item => +item.vnic.replace('nic', ''))
             : [1]
           const netTopIndex = netNic.sort()[netNic.length - 1]
+          const isOpenedSW = status === 1 && clusterCpuName === 'SW1621'
           this.setState({
             templateName: data.templateName,
             clusterId: data.clusterId,
             nets,
             netNic,
             netTopIndex,
+            isOpenedSW,
             hasSetNetValue: true
           })
           this.drawer.form.setFieldsValue({ ...data, id, nic: nets })
@@ -179,6 +190,7 @@ export default class EditDrawer extends React.Component {
                 getData={this.getNetwork}
                 showRefresh={false}
                 onChange={this.onNetSelect}
+                disabled={this.state?.isOpenedSW}
                 options={this.state?.networkOptions}
               />
             </Form.Item>
@@ -188,10 +200,11 @@ export default class EditDrawer extends React.Component {
               icon="minus-circle-o"
               className="dynamic-button"
               onClick={() => this.remove(index)}
+              disabled={this.state?.isOpenedSW}
             />
             <Button
               hidden={index !== networks.length - 1}
-              disabled={networks.length >= 5}
+              disabled={networks.length >= 5 || this.state?.isOpenedSW}
               className="dynamic-button"
               icon="plus-circle"
               // 如果实际网卡 已经有5个 或者当前下拉没有值 禁用添加新项
@@ -231,9 +244,30 @@ export default class EditDrawer extends React.Component {
             <Input placeholder="桌面名称" />
           </Form.Item>
           <Form.Item label="模板">{this.state?.templateName}</Form.Item>
+          {/* <Form.Item
+            prop="osId"
+            required
+            label="操作系统类型"
+            rules={[required]}
+          >
+            <Selectx
+              style={{ width: '90%' }}
+              placeholder="请选择操作系统类型"
+              options={osSelectOptions}
+            ></Selectx>
+          </Form.Item> */}
           <Form.Item
             prop="cpuCores"
-            label="CPU(核)"
+            label={
+              <span>
+                CPU(核)
+                <Reminder
+                  tips="CPU数量最大支持160核"
+                  iconStyle={{ fontSize: 20 }}
+                  placement="bottomLeft"
+                ></Reminder>
+              </span>
+            }
             required
             rules={[required, lessThanValue(160), isInt]}
             wrapperCol={{ sm: { span: 16 } }}
@@ -246,7 +280,16 @@ export default class EditDrawer extends React.Component {
           </Form.Item>
           <Form.Item
             prop="memory"
-            label="内存(G)"
+            label={
+              <span>
+                内存(G)
+                <Reminder
+                  tips="内存容量最大支持128G"
+                  iconStyle={{ fontSize: 20 }}
+                  placement="bottomLeft"
+                ></Reminder>
+              </span>
+            }
             required
             rules={[required, lessThanValue(100), isInt]}
             wrapperCol={{ sm: { span: 16 } }}
@@ -261,7 +304,9 @@ export default class EditDrawer extends React.Component {
             <TextArea placeholder="描述" />
           </Form.Item>
           <Diliver />
-          <Title slot="网络设置"></Title>
+          <Title slot="网络设置">
+            <Reminder tips="网络设置中最多可添加5个配置集。"></Reminder>
+          </Title>
           {this.renderNetWork()}
         </Formx>
       </Drawerx>

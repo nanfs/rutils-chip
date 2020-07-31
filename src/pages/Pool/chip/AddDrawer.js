@@ -1,6 +1,6 @@
 import React from 'react'
-import { Form, Input, InputNumber, message } from 'antd'
-import { Drawerx, Formx, Title, Radiox } from '@/components'
+import { Form, Input, InputNumber, message, Select, Alert } from 'antd'
+import { Drawerx, Formx, Title, Radiox, Selectx, Reminder } from '@/components'
 import {
   memoryOptions,
   cpuOptions,
@@ -8,6 +8,9 @@ import {
 } from '@/utils/formOptions'
 
 import poolsApi from '@/services/pools'
+import desktopsApi from '@/services/desktops'
+import assetsApi from '@/services/assets'
+import { wrapResponse, findArrObj } from '@/utils/tool'
 import {
   required,
   checkName,
@@ -17,6 +20,7 @@ import {
 } from '@/utils/valid'
 
 const { TextArea } = Input
+const { Option, OptGroup } = Select
 
 export default class AddDrawer extends React.Component {
   checkPoolName = async (rule, value, callback) => {
@@ -52,26 +56,113 @@ export default class AddDrawer extends React.Component {
     this.drawer.form.setFieldsValue({
       desktopNum: 1,
       prestartNum: 0,
-      maxAssignedVmsPerUser: 1
+      maxAssignedVmsPerUser: 1,
+      cpuCores: 2,
+      memory: 2,
+      managerType: 1
     })
-    this.getTemplate()
+    // 在第一次请求集群后 设置默认集群为第一个值
+    this.getCluster().then(() => {
+      const { clusterOptions } = this.state
+      if (clusterOptions && clusterOptions[0].value) {
+        this.drawer.form.setFieldsValue({
+          clusterId: clusterOptions[0].value
+        })
+        this.onClusterChange('', '', clusterOptions[0].value)
+      }
+    })
+  }
+
+  // 获取群集 后端可能没有分页
+  getCluster = () => {
+    return assetsApi
+      .clusters({ current: 1, size: 10000, available: 1 })
+      .then(res =>
+        wrapResponse(res)
+          .then(() => {
+            this.setState({ clusterArr: res.data })
+            const clusterOptions = res.data.map(item => ({
+              label: item.name,
+              value: item.id
+            }))
+            this.setState({ clusterOptions })
+          })
+          .catch(error => {
+            message.error(error.message || error)
+            console.log(error)
+          })
+      )
+  }
+
+  /**
+   * 当集群变化的时候 如果是iso 拉取iso 和网络
+   * 如果 不是 就默认拉取网络和模板
+   * SW适配 获取集群的cpu架构
+   *
+   * @memberof AddDrawer
+   */
+  onClusterChange = (a, b, clusterId) => {
+    const current = findArrObj(this.state.clusterArr, 'id', clusterId)
+    const { storagePoolId, cpuName } = current
+    this.drawer.form.setFieldsValue({
+      templateId: undefined,
+      isoName: undefined
+    })
+    this.setState({ clusterId, storagePoolId, cpuName }, () => {
+      this.getTemplate()
+      cpuName === 'SW1621' && this.getIso()
+    })
   }
 
   // 取模板列表 状态可用
   getTemplate = () => {
-    return poolsApi
-      .getTemplate({ current: 1, size: 10000, statusIsOk: 1 })
+    return desktopsApi
+      .getTemplate({
+        current: 1,
+        size: 10000,
+        clusterId: this.state?.clusterId,
+        statusIsOk: 1
+      })
       .then(res => {
         const templateOptions = res.data.records.map(item => ({
           label: item.name,
           value: item.id
         }))
-        this.setState({ templateOptions })
+        this.setState({ templateOptions, templateData: res.data.records })
       })
       .catch(error => {
         message.error(error.message || error)
         console.log(error)
       })
+  }
+
+  /**
+   *
+   * 获取ISO列表 判断 加入到对应列表
+   * SW适配
+   * @memberof AddDrawer
+   */
+  getIso = () => {
+    const { storagePoolId } = this.state
+    if (!storagePoolId) {
+      return message.error('请先选择集群')
+    }
+    return desktopsApi.getIso({ storagePoolId }).then(res =>
+      wrapResponse(res)
+        .then(() => {
+          const swISO = []
+          res.data.forEach(item => {
+            const name = item.repoImageId.toLowerCase()
+            if (name.includes('sw_64') && !name.includes('.live.img')) {
+              return swISO.push(item.repoImageId)
+            }
+          })
+          this.setState({ isos: { swISO } })
+        })
+        .catch(error => {
+          message.error(error.message || error)
+        })
+    )
   }
 
   // 添加桌面池
@@ -86,7 +177,37 @@ export default class AddDrawer extends React.Component {
       })
   }
 
+  // SW适配
+  renderOsOptions = () => {
+    return (
+      <Selectx
+        style={{ width: '90%' }}
+        placeholder="请选择镜像"
+        onChange={this.onIsoChange}
+        getData={this.getIso}
+      >
+        {this.state?.isos?.swISO && (
+          <OptGroup label="适配申威系统" key="swISO">
+            {this.state?.isos?.swISO?.map(item => (
+              <Option value={item} key={item}>
+                {item}
+              </Option>
+            ))}
+          </OptGroup>
+        )}
+      </Selectx>
+    )
+  }
+
   render() {
+    const formItemLayout = {
+      labelCol: {
+        sm: { span: 5, pull: 1 }
+      },
+      wrapperCol: {
+        sm: { span: 16 }
+      }
+    }
     return (
       <Drawerx
         onRef={ref => {
@@ -96,7 +217,12 @@ export default class AddDrawer extends React.Component {
         onSuccess={this.props.onSuccess}
         onClose={this.props.onClose}
       >
-        <Formx>
+        <Formx formItemLayout={formItemLayout}>
+          {/* <Alert
+            message="自动池的虚拟机在用户关机后会自动还原系统和回收资源，手动池需要管理员手动回收用户权限之后还原和回收虚拟机。支持根据预定时间批量自启部分桌面，在高峰时期避免导致开机风暴，降低平台故障机率。"
+            type="info"
+            showIcon
+          /> */}
           <Title slot="基础设置"></Title>
           <Form.Item
             prop="name"
@@ -108,10 +234,24 @@ export default class AddDrawer extends React.Component {
             <Input placeholder="桌面池名称" />
           </Form.Item>
           <Form.Item
+            prop="clusterId"
+            label="集群"
+            required
+            rules={[required]}
+            wrapperCol={{ sm: { span: 16 } }}
+          >
+            <Radiox
+              getData={this.getCluster}
+              options={this.state?.clusterOptions}
+              onChange={this.onClusterChange}
+            />
+          </Form.Item>
+          <Form.Item
             prop="templateId"
             label="模板"
+            rules={[required]}
+            hidden={!this.state?.clusterId}
             required
-            wrapperCol={{ sm: { span: 16 } }}
           >
             <Radiox
               showExpand
@@ -119,7 +259,30 @@ export default class AddDrawer extends React.Component {
               options={this.state?.templateOptions}
             />
           </Form.Item>
-          <Form.Item prop="managerType" required label="管理类型">
+          {/* SW适配 */}
+          <Form.Item
+            prop="isoName"
+            label={'附加CD'}
+            required
+            rules={this.state?.cpuName === 'SW1621' ? [required] : undefined}
+            hidden={this.state?.cpuName !== 'SW1621'}
+          >
+            {this.renderOsOptions()}
+          </Form.Item>
+          <Form.Item
+            prop="managerType"
+            required
+            label={
+              <span>
+                管理类型
+                <Reminder
+                  tips="自动池的虚拟机在用户关机后会自动还原系统和回收资源，手动池的虚拟机需要管理员回收用户权限之后手动还原系统和回收资源。"
+                  iconStyle={{ fontSize: 20 }}
+                  placement="bottomLeft"
+                ></Reminder>
+              </span>
+            }
+          >
             <Radiox options={managerTypeOptions} />
           </Form.Item>
           <Form.Item
@@ -127,7 +290,6 @@ export default class AddDrawer extends React.Component {
             label="CPU"
             required
             rules={[required, lessThanValue(160), isInt]}
-            wrapperCol={{ sm: { span: 16 } }}
           >
             <Radiox
               options={cpuOptions}
@@ -140,7 +302,6 @@ export default class AddDrawer extends React.Component {
             label="内存"
             required
             rules={[required, isInt]}
-            wrapperCol={{ sm: { span: 16 } }}
           >
             <Radiox
               options={memoryOptions}
@@ -165,7 +326,16 @@ export default class AddDrawer extends React.Component {
 
           <Form.Item
             prop="prestartNum"
-            label="预启动数量"
+            label={
+              <span>
+                预启动数量
+                <Reminder
+                  tips="支持根据预定时间批量自启部分桌面，在高峰时期避免导致开机风暴，降低平台故障机率。"
+                  iconStyle={{ fontSize: 20 }}
+                  placement="bottomLeft"
+                ></Reminder>
+              </span>
+            }
             required
             rules={[required, this.compareNum, isInt]}
           >

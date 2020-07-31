@@ -4,7 +4,7 @@ import { Icon, Popover, Tag } from 'antd'
 import { MyIcon } from '@/components'
 
 const iconStyle = {
-  check: { fontSize: 20, color: '#1789d8' },
+  check: { fontSize: 16, color: '#1789d8' },
   close: { fontSize: 18 }
 }
 export const columns = [
@@ -81,12 +81,28 @@ export const columns = [
       )
     }
   },
+  /* 
   {
     title: () => <span title="位置">位置</span>,
     dataIndex: 'location',
     ellipsis: true
+  }, 
+  */
+  {
+    title: () => <span title="硬件型号">硬件型号</span>,
+    dataIndex: 'model',
+    ellipsis: true
   },
-
+  {
+    title: () => <span title="软件版本">软件版本</span>,
+    dataIndex: 'version',
+    ellipsis: true
+  },
+  {
+    title: () => <span title="登录用户">登录用户</span>,
+    dataIndex: 'onUser',
+    ellipsis: true
+  },
   {
     title: () => <span title="外设控制">外设控制</span>,
     width: 90,
@@ -96,7 +112,7 @@ export const columns = [
         {text !== 0 ? (
           <Icon type="check" style={iconStyle.check} />
         ) : (
-          <Icon type="close" style={iconStyle.close} />
+          <Icon type="close" className="table-icon-warn" />
         )}
       </span>
     )
@@ -110,7 +126,7 @@ export const columns = [
         {text !== 0 ? (
           <Icon type="check" style={iconStyle.check} />
         ) : (
-          <Icon type="close" style={iconStyle.close} />
+          <Icon type="close" className="table-icon-warn" />
         )}
       </span>
     )
@@ -124,7 +140,7 @@ export const columns = [
         {text !== 0 ? (
           <Icon type="check" style={iconStyle.check} />
         ) : (
-          <Icon type="close" style={iconStyle.close} />
+          <Icon type="close" className="table-icon-warn" />
         )}
       </span>
     )

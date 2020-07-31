@@ -6,6 +6,8 @@ import { detailUserColumns } from './DetailUserTableCfg'
 import { detailSafepolicyColumns } from './DetailSafepolicyTableCfg'
 import { DetailAccesspolicyColumns } from './DetailAccesspolicyTableCfg'
 import { detailUseTimeColumns } from './DetailUseTimeTableCfg'
+import { detailVersionColumns } from './DetailVersionTableCfg'
+import { detailTasksColumns } from './DetailTasksTableCfg'
 // import DetailUseStatisticsChart from './DetailUseStatisticsChart'
 
 import terminalApi from '@/services/terminal'
@@ -105,19 +107,19 @@ export default class DetailDrawer extends React.Component {
               </Row>
               <Row className="dms-detail-row">
                 <Col span={3} className="dms-detail-label">
-                  终端类型：
+                  硬件型号：
                 </Col>
                 <Col span={8} className="dms-detail-value">
-                  <Tooltip title={initValues.terminalType} placement="topLeft">
-                    <span>{initValues.terminalType}</span>
+                  <Tooltip title={initValues.model} placement="topLeft">
+                    <span>{initValues.model}</span>
                   </Tooltip>
                 </Col>
                 <Col span={3} className="dms-detail-label">
-                  位置：
+                  软件版本：
                 </Col>
                 <Col span={8} className="dms-detail-value">
-                  <Tooltip title={initValues.location} placement="topLeft">
-                    <span>{initValues.location}</span>
+                  <Tooltip title={initValues.version} placement="topLeft">
+                    <span>{initValues.version}</span>
                   </Tooltip>
                 </Col>
               </Row>
@@ -141,9 +143,27 @@ export default class DetailDrawer extends React.Component {
               </Row>
               <Row className="dms-detail-row">
                 <Col span={3} className="dms-detail-label">
+                  登录用户：
+                </Col>
+                <Col span={8} className="dms-detail-value">
+                  <Tooltip title={initValues.onUser} placement="topLeft">
+                    <span>{initValues.onUser}</span>
+                  </Tooltip>
+                </Col>
+                <Col span={3} className="dms-detail-label">
+                  位置：
+                </Col>
+                <Col span={8} className="dms-detail-value">
+                  <Tooltip title={initValues.location} placement="topLeft">
+                    <span>{initValues.location}</span>
+                  </Tooltip>
+                </Col>
+              </Row>
+              <Row className="dms-detail-row">
+                <Col span={3} className="dms-detail-label">
                   描述：
                 </Col>
-                <Col span={12} className="dms-detail-value">
+                <Col span={8} className="dms-detail-value">
                   <Tooltip title={initValues.description} placement="topLeft">
                     <span>{initValues.description}</span>
                   </Tooltip>
@@ -196,6 +216,7 @@ export default class DetailDrawer extends React.Component {
             </Col>
           </Row> */}
             </div>
+
             <div className="dms-detail-section">
               <Title slot="所属用户"></Title>
               <Table
@@ -242,6 +263,21 @@ export default class DetailDrawer extends React.Component {
               />
             </div>
             <div className="dms-detail-section">
+              <Title slot="升级日志"></Title>
+              <Table
+                columns={detailVersionColumns}
+                dataSource={initValues.versionHistories}
+                pagination={{
+                  size: 'small',
+                  showSizeChanger: true,
+                  defaultPageSize: 5,
+                  pageSizeOptions: ['5', '10', '20', '50']
+                }}
+                className="dms-detail-list-hasPagination"
+                rowKey="upgradeTime"
+              />
+            </div>
+            <div className="dms-detail-section">
               <Title slot="使用时间"></Title>
               <Table
                 columns={detailUseTimeColumns}
@@ -253,6 +289,20 @@ export default class DetailDrawer extends React.Component {
           <Title slot="使用统计"></Title>
           <DetailUseStatisticsChart dataSource={initChartValue} />
         </div> */}
+          </TabPane>
+          <TabPane tab="终端任务" key="tasks">
+            <Table
+              columns={detailTasksColumns}
+              dataSource={initValues.tasks}
+              pagination={{
+                size: 'small',
+                showSizeChanger: true,
+                defaultPageSize: 10,
+                pageSizeOptions: ['5', '10', '20', '50']
+              }}
+              className="dms-detail-list-hasPagination"
+              rowKey="id"
+            />
           </TabPane>
         </Tabs>
       </Drawerx>

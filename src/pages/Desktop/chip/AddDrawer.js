@@ -11,9 +11,22 @@ import {
   Button,
   Tooltip
 } from 'antd'
-import { Drawerx, Formx, Title, Radiox, Diliver, Selectx } from '@/components'
+import {
+  Drawerx,
+  Formx,
+  Title,
+  Radiox,
+  Diliver,
+  Selectx,
+  Reminder
+} from '@/components'
 
-import { memoryOptions, cpuOptions, diskOptions } from '@/utils/formOptions'
+import {
+  memoryOptions,
+  cpuOptions,
+  diskOptions,
+  osSelectOptions
+} from '@/utils/formOptions'
 import desktopsApi from '@/services/desktops'
 import assetsApi from '@/services/assets'
 
@@ -45,20 +58,35 @@ export default class AddDrawer extends React.Component {
   }
 
   // 默认选择通过模板创建, 创建数量1
-  pop = () => {
+  pop = initValues => {
     this.setState({})
     this.drawer.show()
     this.setState({
       networkOptions: [],
       templateOptions: [],
+      clusterId: null,
       nets: [undefined],
       netTopIndex: 1,
       netNic: [1], // 当前可用网络数量
       hasSetNetValue: true
     })
-    this.drawer.form.setFieldsValue({ desktopNum: 1 })
-
-    this.getCluster()
+    this.drawer.form.setFieldsValue({
+      ...initValues,
+      desktopNum: 1,
+      memory: 2,
+      cpuCores: 2,
+      capacity: 100
+    })
+    // 在第一次获取集群后 设置默认值第一个集群
+    this.getCluster().then(() => {
+      const { clusterOptions } = this.state
+      if (clusterOptions && clusterOptions[0].value) {
+        this.drawer.form.setFieldsValue({
+          clusterId: clusterOptions[0].value
+        })
+        this.onClusterChange('', '', clusterOptions[0].value)
+      }
+    })
   }
 
   getNicValue(index) {
@@ -193,13 +221,28 @@ export default class AddDrawer extends React.Component {
    * @memberof AddDrawer
    */
   getIso = () => {
-    const { storagePoolId } = this.state
+    const { storagePoolId, cpuName } = this.state
     if (!storagePoolId) {
       return message.error('请先选择集群')
     }
     return desktopsApi.getIso({ storagePoolId }).then(res =>
       wrapResponse(res)
         .then(() => {
+          // SW适配 暂时普华的系统
+          if (cpuName === 'SW1621') {
+            const swISO = []
+            const swLiveImg = []
+            res.data.forEach(item => {
+              const name = item.repoImageId.toLowerCase()
+              if (name.includes('sw_64') && name.includes('.live.img')) {
+                return swLiveImg.push(item.repoImageId)
+              }
+              if (name.includes('sw_64')) {
+                return swISO.push(item.repoImageId)
+              }
+            })
+            return this.setState({ isos: { swISO }, swLiveImg })
+          }
           const win = []
           const linux = []
           const domestic = []
@@ -246,14 +289,19 @@ export default class AddDrawer extends React.Component {
   /**
    * 当集群变化的时候 如果是iso 拉取iso 和网络
    * 如果 不是 就默认拉取网络和模板
+   * SW适配 获取集群的cpu架构
    *
    * @memberof AddDrawer
    */
   onClusterChange = (a, b, clusterId) => {
     const current = findArrObj(this.state.clusterArr, 'id', clusterId)
-    const { storagePoolId } = current
-    this.drawer.form.setFieldsValue({ templateId: undefined })
-    this.setState({ clusterId, storagePoolId }, () => {
+    const { storagePoolId, cpuName } = current
+    this.drawer.form.setFieldsValue({
+      templateId: undefined,
+      isoName: undefined,
+      initrdUrl: undefined
+    })
+    this.setState({ clusterId, storagePoolId, cpuName }, () => {
       if (this.getSelectType() === 'byIso') {
         this.getNetwork()
         this.getIso()
@@ -270,6 +318,11 @@ export default class AddDrawer extends React.Component {
    * @memberof AddDrawer
    */
   onCreateTypeChange = (a, b, target) => {
+    this.drawer.form.setFieldsValue({
+      templateId: undefined,
+      isoName: undefined,
+      initrdUrl: undefined
+    })
     if (!this.state.clusterId) {
       this.setState({ networkOptions: undefined })
       return
@@ -346,28 +399,36 @@ export default class AddDrawer extends React.Component {
         })
     }
     // 如果批量创建调用单独批量创建的接口
-    if (values.desktopNum && values.desktopNum > 1) {
-      return desktopsApi
-        .batchAddVm(data)
-        .then(res => {
-          this.drawer.afterSubmit(res)
-        })
-        .catch(errors => {
-          this.drawer.break(errors)
-          console.log(errors)
-        })
-    } else {
-      // 普通通过模板创建
-      desktopsApi
-        .addVm(data)
-        .then(res => {
-          this.drawer.afterSubmit(res)
-        })
-        .catch(errors => {
-          this.drawer.break(errors)
-          console.log(errors)
-        })
-    }
+    // 都是异步接口 取消单独调用单个
+    return desktopsApi
+      .batchAddVm(data)
+      .then(res => {
+        this.drawer.afterSubmit(res)
+      })
+      .catch(errors => {
+        this.drawer.break(errors)
+        console.log(errors)
+      })
+  }
+
+  renderImgOptions = () => {
+    return (
+      <Selectx
+        style={{ width: '90%' }}
+        placeholder="请选择镜像"
+        getData={this.getIso}
+      >
+        {this.state?.swLiveImg && (
+          <OptGroup label="适配申威系统" key="swISO">
+            {this.state?.swLiveImg?.map(item => (
+              <Option value={`iso://${item}`} key={item}>
+                {item}
+              </Option>
+            ))}
+          </OptGroup>
+        )}
+      </Selectx>
+    )
   }
 
   renderOsOptions = () => {
@@ -399,6 +460,15 @@ export default class AddDrawer extends React.Component {
         {this.state?.isos?.domestic && (
           <OptGroup label="国产系统" key="domestic">
             {this.state?.isos?.domestic?.map(item => (
+              <Option value={item} key={item}>
+                {item}
+              </Option>
+            ))}
+          </OptGroup>
+        )}
+        {this.state?.isos?.swISO && (
+          <OptGroup label="适配申威系统" key="swISO">
+            {this.state?.isos?.swISO?.map(item => (
               <Option value={item} key={item}>
                 {item}
               </Option>
@@ -472,11 +542,16 @@ export default class AddDrawer extends React.Component {
       >
         <Formx>
           {/* <Alert
-            message="安装windows操作系统的时候，64位操作系统请选择“x64”，32位操作系统请选择“x86”；linux类操作系统选择“不需要”"
+            message="支持通过模板和ISO创建虚拟机，使用模板创建可以创建多个虚拟机。CPU数量最大支持160、内存容量最大支持128G、网络设置中最多可添加5个配置集。支持申威架构虚拟机创建。"
             type="info"
             showIcon
           /> */}
-          <Title slot="基础设置"></Title>
+          <Title slot="基础设置">
+            <Reminder
+              style={{ marginLeft: -5 }}
+              tips="支持通过模板或ISO创建虚拟机，使用模板可以批量创建虚拟机。支持申威架构虚拟机创建。"
+            ></Reminder>
+          </Title>
           <Form.Item
             prop="name"
             label="桌面名称"
@@ -498,7 +573,21 @@ export default class AddDrawer extends React.Component {
               onChange={this.onClusterChange}
             />
           </Form.Item>
-          <Form.Item prop="type" required label="创建方式">
+          <Form.Item
+            prop="type"
+            required
+            label={
+              <span>
+                创建方式
+                <Reminder
+                  tips="支持通过模板或ISO创建虚拟机，使用模板可以批量创建虚拟机。"
+                  iconStyle={{ fontSize: 20 }}
+                  placement="bottomLeft"
+                ></Reminder>
+              </span>
+            }
+            hidden={!this.state?.clusterId}
+          >
             <Radiox options={createType} onChange={this.onCreateTypeChange} />
           </Form.Item>
           <Form.Item
@@ -516,15 +605,38 @@ export default class AddDrawer extends React.Component {
               onChange={this.onTempalteChange}
             />
           </Form.Item>
+          {/* SW适配 */}
           <Form.Item
             prop="isoName"
-            label="ISO"
+            label={this.state?.cpuName !== 'SW1621' ? 'ISO' : '附加CD'}
             required
             rules={this.getSelectType() === 'byIso' ? [required] : undefined}
             wrapperCol={{ sm: { span: 8 } }}
-            hidden={this.getSelectType() !== 'byIso'}
+            hidden={
+              (this.getSelectType() === 'byTemp' &&
+                this.state?.cpuName !== 'SW1621') ||
+              !this.getSelectType()
+            }
           >
             {this.renderOsOptions()}
+          </Form.Item>
+          <Form.Item
+            prop="initrdUrl"
+            label="附加initrd"
+            required
+            rules={
+              this.getSelectType() === 'byIso' &&
+              this.state?.cpuName === 'SW1621'
+                ? [required]
+                : undefined
+            }
+            wrapperCol={{ sm: { span: 8 } }}
+            hidden={
+              this.getSelectType() !== 'byIso' ||
+              this.state?.cpuName !== 'SW1621'
+            }
+          >
+            {this.renderImgOptions()}
           </Form.Item>
           {/* 如果isoType 不是windows 或者创建方式 不是iso 不显示 */}
           <Form.Item
@@ -545,9 +657,31 @@ export default class AddDrawer extends React.Component {
           >
             <Radiox options={driveType} />
           </Form.Item>
+          {/* <Form.Item
+            prop="osId"
+            required
+            hidden={!this.getSelectType()}
+            label="操作系统类型"
+            rules={[required]}
+          >
+            <Selectx
+              style={{ width: '90%' }}
+              placeholder="请选择操作系统类型"
+              options={osSelectOptions}
+            ></Selectx>
+          </Form.Item> */}
           <Form.Item
             prop="cpuCores"
-            label="CPU(核)"
+            label={
+              <span>
+                CPU(核)
+                <Reminder
+                  tips="CPU数量最大支持160核"
+                  iconStyle={{ fontSize: 20 }}
+                  placement="bottomLeft"
+                ></Reminder>
+              </span>
+            }
             required
             rules={[required, lessThanValue(160), isInt]}
             wrapperCol={{ sm: { span: 16 } }}
@@ -560,7 +694,16 @@ export default class AddDrawer extends React.Component {
           </Form.Item>
           <Form.Item
             prop="memory"
-            label="内存(G)"
+            label={
+              <span>
+                内存(G)
+                <Reminder
+                  tips="内存容量最大支持128G"
+                  iconStyle={{ fontSize: 20 }}
+                  placement="bottomLeft"
+                ></Reminder>
+              </span>
+            }
             required
             rules={[required, lessThanValue(128), isInt]}
             wrapperCol={{ sm: { span: 16 } }}
@@ -608,8 +751,16 @@ export default class AddDrawer extends React.Component {
               parser={value => value}
             />
           </Form.Item>
+          <Form.Item prop="groupId" label="桌面组" hidden>
+            <Input placeholder="桌面组" />
+          </Form.Item>
           <Diliver />
-          <Title slot="网络设置"></Title>
+          <Title slot="网络设置">
+            <Reminder
+              style={{ marginLeft: -5 }}
+              tips="网络设置中最多可添加5个配置集。"
+            ></Reminder>
+          </Title>
           {this.renderNetWork()}
         </Formx>
       </Drawerx>

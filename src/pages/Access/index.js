@@ -47,6 +47,12 @@ export default class Access extends React.Component {
     })
   }
 
+  componentDidMount = () => {
+    if (this.props.location?.search === '?openAdd') {
+      this.addAccess()
+    }
+  }
+
   // 删除禁用 如果 有终端使用不能删除 建议放开 实现双向解绑
   onSelectChange = (selection, selectData) => {
     let disabledButton = {}

@@ -102,6 +102,12 @@ export default class Desktop extends React.Component {
     })
   }
 
+  componentDidMount = () => {
+    if (this.props.location?.search === '?openAdd') {
+      this.createVm()
+    }
+  }
+
   checkOptionsDisable = (selection, selectData) => {
     const disabledButton = vmDisabledButton(selection, selectData)
     this.setState({ disabledButton })

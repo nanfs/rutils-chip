@@ -73,6 +73,12 @@ export default class Task extends React.Component {
     disabledButton: {}
   }
 
+  componentDidMount = () => {
+    if (this.props.location?.search === '?openAdd') {
+      this.addGroupModal.pop()
+    }
+  }
+
   // 默认都可以删除
   onSelectChange = (selection, selectData) => {
     let disabledButton = {}

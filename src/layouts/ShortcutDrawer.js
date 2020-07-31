@@ -12,11 +12,11 @@ class ShortcutDrawer extends React.Component {
   }
 
   componentDidMount = () => {
-    //  document
-    //   .querySelector('.ant-drawer-content-wrapper')
-    //   .addEventListener('mouseleave', () => {
-    //     this.setState({ visible: false })
-    //   })
+    document
+      .querySelector('.ant-drawer-content-wrapper')
+      .addEventListener('mouseleave', () => {
+        this.setState({ visible: false })
+      })
   }
 
   render() {

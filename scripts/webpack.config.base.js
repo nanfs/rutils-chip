@@ -16,8 +16,18 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const GeneraterAssetPlugin = require('generate-asset-webpack-plugin')
 const propertiesConfig = require('../public/properties.json')
 
+const setBuildNo = function() {
+  const date = new Date()
+  const M = date.getMonth()
+  const D = date.getDate()
+  return `${M}${D}`
+}
 const createJson = function() {
-  return JSON.stringify(propertiesConfig)
+  const build = setBuildNo()
+  return JSON.stringify({
+    ...propertiesConfig,
+    build
+  })
 }
 const includePath = [cfgPaths.appSrc]
 const webpackConfigBase = {

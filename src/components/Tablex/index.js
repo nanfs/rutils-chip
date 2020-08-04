@@ -160,7 +160,11 @@ class Tablex extends React.Component {
       JSON.stringify(this.props.tableCfg) !== JSON.stringify(prevProps.tableCfg)
     ) {
       const { selection } = this.props.tableCfg
-      this.setState({ selection })
+      console.log(this.props.tableCfg.columns)
+      const keys = this.props.tableCfg.columns.map(item => item.dataIndex)
+      const { columns } = this.state
+      const filtColumns = columns.filter(item => keys.includes(item.dataIndex))
+      this.setState({ selection, columns: filtColumns })
     }
   }
 

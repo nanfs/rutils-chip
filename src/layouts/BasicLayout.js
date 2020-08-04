@@ -31,7 +31,7 @@ class BasicLayout extends React.Component {
             <Sider
               path={location.pathname}
               collapsed={isSideFold}
-              dispatch={dispatch}
+              // dispatch={dispatch}
             />
             <Layout>
               <Content>

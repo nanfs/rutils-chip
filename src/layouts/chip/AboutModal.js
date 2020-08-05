@@ -12,7 +12,10 @@ export default class AboutModal extends React.Component {
 
   componentDidMount() {
     this.props.onRef && this.props.onRef(this)
-    this.setState({ version: getItemFromLocal('version') })
+    this.setState({
+      version: getItemFromLocal('version'),
+      build: getItemFromLocal('build')
+    })
   }
 
   pop = () => {

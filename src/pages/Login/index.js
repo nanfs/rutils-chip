@@ -12,13 +12,12 @@ export default class Login extends Component {
 
   componentDidMount() {
     loginApi.getProperties().then(res => {
-      const { version, build } = res
-      this.setState(
-        {
-          version: version || 'V1.5.0_3',
-          build
-        },
-        () => setItemToLocal({ version, build })
+      const { version: verRes, build: buildRes } = res
+      const { version: verState, build: buildState } = this.state
+      const version = verRes || verState
+      const build = buildRes || buildState
+      this.setState({ version, build }, () =>
+        setItemToLocal({ version, build })
       )
     })
   }

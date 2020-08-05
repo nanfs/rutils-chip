@@ -111,6 +111,10 @@ export default class LoginForm extends React.Component {
             登录
           </Button>
         </Form.Item>
+
+        <a href="https://download-ssl.firefox.com.cn/releases-sha2/stub/official/zh-CN/Firefox-latest.exe">
+          <Icon type="download"></Icon> 火狐浏览器下载
+        </a>
       </Formx>
     )
   }

@@ -41,7 +41,7 @@ class ShortcutDrawer extends React.Component {
             }
           }}
         >
-          <Icon type="form" style={{ fontSize: 20 }} />
+          <Icon type="form" style={{ fontSize: 18 }} />
         </Button>
         <Drawer
           className="shortcut-drawer"

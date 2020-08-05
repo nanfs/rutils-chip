@@ -86,6 +86,7 @@ class Tablex extends React.Component {
       selection,
       selectData: [], // 可能会出现不同步到情况
       columns,
+      columnsWidth: {},
       paging: {
         size: (paging && paging.size) || 10,
         current: 1,
@@ -106,16 +107,21 @@ class Tablex extends React.Component {
   handleResize = index => (e, { size }) => {
     this.setState(({ columns }) => {
       const nextColumns = [...columns]
+      const { columnsWidth } = this.state
       const { maxWidth, minWidth } = columns[index]
+      const width =
+        size.width < minWidth
+          ? minWidth
+          : size.width > maxWidth
+          ? maxWidth
+          : size.width
       nextColumns[index] = {
         ...nextColumns[index],
-        width:
-          size.width < minWidth
-            ? minWidth
-            : size.width > maxWidth
-            ? maxWidth
-            : size.width
+        width
       }
+      // 保存对应栏目的宽度
+      columnsWidth[columns[index].dataIndex] = width
+      this.setState({ columnsWidth })
       return { columns: nextColumns }
     })
   }
@@ -159,12 +165,13 @@ class Tablex extends React.Component {
     if (
       JSON.stringify(this.props.tableCfg) !== JSON.stringify(prevProps.tableCfg)
     ) {
-      const { selection } = this.props.tableCfg
-      console.log(this.props.tableCfg.columns)
-      const keys = this.props.tableCfg.columns.map(item => item.dataIndex)
-      const { columns } = this.state
-      const filtColumns = columns.filter(item => keys.includes(item.dataIndex))
-      this.setState({ selection, columns: filtColumns })
+      const { columnsWidth } = this.state
+      const { selection, columns } = this.props.tableCfg
+      const styleColumns = columns.map(item => ({
+        ...item,
+        width: columnsWidth[item.dataIndex] || item.width
+      }))
+      this.setState({ selection, columns: styleColumns })
     }
   }
 

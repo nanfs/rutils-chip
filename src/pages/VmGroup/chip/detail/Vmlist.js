@@ -154,7 +154,7 @@ export default class Desktop extends React.Component {
       title: '确定删除该条数据?',
       onOk: () => {
         desktopsApi
-          .delete({ desktopIds })
+          .delVm({ desktopIds })
           .then(res => {
             wrapResponse(res).then(() => {
               notification.success({ message: '删除成功' })

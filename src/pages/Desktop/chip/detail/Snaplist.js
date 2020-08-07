@@ -94,10 +94,10 @@ export default class Desktop extends React.Component {
     return desktopsApi.detail(this.props.vmId).then(res =>
       wrapResponse(res)
         .then(() => {
-          const { status, snapInPreview } = res.data
+          const { status, snapInPreview, snapLocked } = res.data
           // 重刷一次判断选项
-          this.setDisable({ status, snapInPreview })
-          this.setState({ status, snapInPreview })
+          this.setDisable({ status, snapInPreview, snapLocked })
+          this.setState({ status, snapInPreview, snapLocked })
         })
         .catch(error => {
           message.error(error.message || error)
@@ -106,12 +106,22 @@ export default class Desktop extends React.Component {
     )
   }
 
-  setDisable = ({ status, snapInPreview }) => {
+  setDisable = ({ status, snapInPreview, snapLocked }) => {
     let disabledButton = {}
     // 预览状态 &&  关机状态
     if (this.props.isOpenedSW) {
       disabledButton = {
         ...disabledButton,
+        disabledCreate: true
+      }
+    }
+    // 快照锁定的时候 什么也不能干
+    if (snapLocked) {
+      disabledButton = {
+        ...disabledButton,
+        disableCancel: true,
+        disableCommit: true,
+        disabledDelete: true,
         disabledCreate: true
       }
     }

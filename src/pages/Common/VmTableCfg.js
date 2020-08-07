@@ -3,8 +3,7 @@ import React from 'react'
 import { Progress, Menu, Popover } from 'antd'
 import {
   vmStatusRender,
-  osIconRender,
-  osTextRender,
+  vmOsRender,
   assignedUsersRender
 } from '@/utils/tableRender'
 import { MyIcon } from '@/components'
@@ -59,13 +58,7 @@ export function getColumns(isPoolVmlist = false) {
       dataIndex: 'os',
       width: 100,
       ellipsis: true,
-      render: text => {
-        return (
-          <span title={osTextRender(text)}>
-            {osIconRender(text)} {/* {osTextRender(text)} */}
-          </span>
-        )
-      }
+      render: text => vmOsRender(text)
     },
     {
       title: () => <span title="主机">主机</span>,

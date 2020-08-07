@@ -188,7 +188,7 @@ export const osType = [
   {
     id: '60',
     name: 'YinHe Kylin Desktop System 4.x x64',
-    icon: 'os-kylin',
+    icon: 'os-yinheqilin',
     text: '麒麟'
   },
   {
@@ -200,13 +200,13 @@ export const osType = [
   {
     id: '62',
     name: 'Deepin Desktop System 15.x x64',
-    icon: 'os-linux',
+    icon: 'os-deepin',
     text: '深度'
   },
   {
     id: '100',
     name: 'YinHe Kylin Desktop System 4.x x64',
-    icon: 'os-kylin',
+    icon: 'os-yinheqilin',
     text: '麒麟'
   },
   {
@@ -224,19 +224,19 @@ export const osType = [
   {
     id: '120',
     name: 'Deepin Desktop System 15.x x64',
-    icon: 'os-linux',
+    icon: 'os-deepin',
     text: '深度'
   },
   {
     id: '130',
     name: 'UOS Desktop System 2.x x64',
-    icon: 'os-linux',
+    icon: 'os-uos',
     text: 'UOS'
   },
   {
     id: '140',
     name: 'EulerOS Desktop System 2.x x64',
-    icon: 'os-linux',
+    icon: 'os-huawei',
     text: 'EulerOS'
   },
   {

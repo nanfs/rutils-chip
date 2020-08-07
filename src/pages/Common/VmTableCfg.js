@@ -54,9 +54,9 @@ export function getColumns(isPoolVmlist = false) {
       render: text => vmStatusRender(text)
     },
     {
-      title: () => <span title="操作系统">操作系统</span>,
+      title: () => <span title="系统">系统</span>,
       dataIndex: 'os',
-      width: 100,
+      width: 60,
       ellipsis: true,
       render: text => vmOsRender(text)
     },

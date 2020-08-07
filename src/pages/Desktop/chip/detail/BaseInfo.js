@@ -176,7 +176,7 @@ export default class BaseInfo extends React.Component {
               </Tooltip>
             </Col>
             <Col span={3} className="dms-detail-label">
-              操作系统：
+              系统：
             </Col>
             <Col span={8} className="dms-detail-value">
               <Tooltip title={osTextRender(data.os)} placement="topLeft">

@@ -11,6 +11,11 @@ body {
   &-sider-children {
     border-right: 1px solid #dedede;
   }
+
+  // 适配IE菜单背景颜色缺失
+  &-has-sider{
+    overflow: hidden;
+  }
 }
 // header
 
@@ -119,7 +124,13 @@ body {
 }
 // Sider
 .sider {
-  background: white;
+  background: white;  
+  
+  // 适配IE菜单背景颜色缺失
+  min-height: 100%;
+  padding-bottom:9000px; 
+  margin-bottom:-9000px;
+
   .trigger {
     width: 100%;
     background: #fefefe;

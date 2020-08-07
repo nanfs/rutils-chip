@@ -34,6 +34,12 @@ const status = [
     text: '用户取消',
     icon: 'close-circle',
     color: 'alert'
+  },
+  {
+    value: 5,
+    text: '系统自动停止',
+    icon: 'check-circle',
+    color: 'success'
   }
 ]
 export const columns = [

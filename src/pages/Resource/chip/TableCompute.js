@@ -59,7 +59,7 @@ export default class Resource extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <div style={{ marginBottom: '26px' }}>
+        <div>
           <TitleInfo slot="计算资源" />
           <ToolBar>
             <BarLeft>

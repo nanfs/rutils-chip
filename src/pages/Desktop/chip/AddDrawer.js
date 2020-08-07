@@ -585,6 +585,7 @@ export default class AddDrawer extends React.Component {
           <Form.Item
             prop="type"
             required
+            rules={[required]}
             label={
               <span>
                 创建方式

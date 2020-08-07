@@ -692,7 +692,7 @@ export default class AddDrawer extends React.Component {
             required
             hidden={this.getSelectType() !== 'byIso'}
             label="操作系统类型"
-            rules={[required]}
+            rules={this.getSelectType() === 'byIso' ? [required] : undefined}
           >
             <Selectx
               style={{ width: '90%' }}

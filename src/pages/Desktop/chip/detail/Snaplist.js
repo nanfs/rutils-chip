@@ -122,6 +122,7 @@ export default class Desktop extends React.Component {
         disableCancel: true,
         disableCommit: true,
         disabledDelete: true,
+        disabledCheck: true,
         disabledCreate: true
       }
     }

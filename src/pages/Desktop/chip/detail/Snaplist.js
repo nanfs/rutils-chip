@@ -139,8 +139,7 @@ export default class Desktop extends React.Component {
       disabledButton = {
         ...disabledButton,
         disableCancel: true,
-        disableCommit: true,
-        disabledCheck: true
+        disableCommit: true
       }
     }
     if (snapInPreview) {
@@ -151,11 +150,10 @@ export default class Desktop extends React.Component {
         disabledCreate: true
       }
     }
-    if (snapInPreview && status !== 0) {
+    if (status !== 0) {
       disabledButton = {
         ...disabledButton,
-        disableCancel: true,
-        disableCommit: true
+        disabledCheck: true
       }
     }
     this.setState({ disabledButton })
@@ -220,7 +218,7 @@ export default class Desktop extends React.Component {
       title: '确认应用当前快照吗?',
       content: '应用快照成功后 会删除当前快照之后所有数据!',
       onOk: this.commitSnap(),
-      onCancel() {}
+      onCancel() { }
     })
   }
 
@@ -276,7 +274,7 @@ export default class Desktop extends React.Component {
             message.error(error.message || error)
           })
       },
-      onCancel() {}
+      onCancel() { }
     })
   }
 

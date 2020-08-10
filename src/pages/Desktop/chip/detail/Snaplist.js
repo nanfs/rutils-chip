@@ -217,8 +217,7 @@ export default class Desktop extends React.Component {
     confirm({
       title: '确认应用当前快照吗?',
       content: '应用快照成功后 会删除当前快照之后所有数据!',
-      onOk: this.commitSnap(),
-      onCancel() { }
+      onOk: this.commitSnap()
     })
   }
 
@@ -273,8 +272,7 @@ export default class Desktop extends React.Component {
           .catch(error => {
             message.error(error.message || error)
           })
-      },
-      onCancel() { }
+      }
     })
   }
 

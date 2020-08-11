@@ -12,7 +12,7 @@ import produce from 'immer'
 
 import { Tablex, InnerPath, SelectSearch, Reminder } from '@/components'
 import terminalApi from '@/services/terminal'
-import { wrapResponse } from '@/utils/tool'
+import { wrapResponse, handleTcMessage } from '@/utils/tool'
 
 import EditDrawer from './chip/EditDrawer'
 import DetailDrawer from './chip/DetailDrawer'
@@ -327,13 +327,29 @@ export default class Terminal extends React.Component {
    * @author linghu
    */
   sendOrder = (order, sns) => {
+    const tcData = JSON.parse(JSON.stringify(this.tablex.state.data))
+      .filter(item => {
+        return sns.indexOf(item.sn) > -1
+      })
+      .map(item => {
+        return { name: item.name, sn: item.sn }
+      })
     terminalApi.directiveTerminal({ sns, command: order }).then(res => {
       wrapResponse(res)
         .then(() => {
           notification.success({ message: '操作成功' })
           this.tablex.refresh(this.state.tableCfg)
         })
-        .catch(error => message.error(error.message || error || '操作失败'))
+        .catch(error => {
+          if (
+            Array.isArray(JSON.parse(error.message)) &&
+            JSON.parse(error.message).length > 0
+          ) {
+            handleTcMessage(JSON.parse(error.message), tcData)
+          } else {
+            message.error(error.message || error || '操作失败')
+          }
+        })
     })
   }
 
@@ -344,13 +360,29 @@ export default class Terminal extends React.Component {
    * @author linghu
    */
   admitAccessTerminal = sns => {
+    const tcData = JSON.parse(JSON.stringify(this.tablex.state.data))
+      .filter(item => {
+        return sns.indexOf(item.sn) > -1
+      })
+      .map(item => {
+        return { name: item.name, sn: item.sn }
+      })
     terminalApi.admitAccessTerminal({ sns }).then(res => {
       wrapResponse(res)
         .then(() => {
           notification.success({ message: '接入成功' })
           this.tablex.refresh(this.state.tableCfg)
         })
-        .catch(error => message.error(error.message || error || '接入失败'))
+        .catch(error => {
+          if (
+            Array.isArray(JSON.parse(error.message)) &&
+            JSON.parse(error.message).length > 0
+          ) {
+            handleTcMessage(JSON.parse(error.message), tcData)
+          } else {
+            message.error(error.message || error || '接入失败')
+          }
+        })
     })
   }
 
@@ -364,6 +396,13 @@ export default class Terminal extends React.Component {
   deleteTerminal = (sn, title = '确定删除所选数据?') => {
     const sns = Array.isArray(sn) ? [...sn] : [sn]
     const self = this
+    const tcData = JSON.parse(JSON.stringify(this.tablex.state.data))
+      .filter(item => {
+        return sns.indexOf(item.sn) > -1
+      })
+      .map(item => {
+        return { name: item.name, sn: item.sn }
+      })
     confirm({
       title,
       onOk() {
@@ -374,10 +413,17 @@ export default class Terminal extends React.Component {
               self.tablex.refresh(self.state.tableCfg)
             })
             .catch(error => {
-              message.error(error.message || error || '删除失败')
-              error.type === 'timeout' &&
-                self.tablex.refresh(self.state.tableCfg)
-              console.log(error)
+              if (
+                Array.isArray(JSON.parse(error.message)) &&
+                JSON.parse(error.message).length > 0
+              ) {
+                handleTcMessage(JSON.parse(error.message), tcData)
+              } else {
+                message.error(error.message || error || '删除失败')
+                error.type === 'timeout' &&
+                  self.tablex.refresh(self.state.tableCfg)
+                console.log(error)
+              }
             })
         )
       },

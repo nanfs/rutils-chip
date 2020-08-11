@@ -330,7 +330,7 @@ export function handleTcMessage(msg, selectData) {
   // const msg = JSON.parse(res.message)
   msg.forEach(item => {
     selectData.forEach(data => {
-      if (item.terminalId === data.id) {
+      if (item.sn === data.sn) {
         item.msg.length > 0
           ? message.error(`终端${data.name}操作失败，失败原因：${item.msg}`)
           : message.error(`终端${data.name}操作失败`)

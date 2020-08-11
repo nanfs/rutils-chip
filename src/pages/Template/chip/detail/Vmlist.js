@@ -114,13 +114,13 @@ export default class Desktop extends React.Component {
    */
   sendOrder = (id, directive) => {
     const desktopIds = !Array.isArray(id) ? [id] : [...id]
-    const vmData = JSON.parse(JSON.stringify(this.tablex.state.data)).map(
-      item => {
-        return (
-          desktopIds.indexOf(item.id) > -1 && { name: item.name, id: item.id }
-        )
-      }
-    )
+    const vmData = JSON.parse(JSON.stringify(this.tablex.state.data))
+      .filter(item => {
+        return desktopIds.indexOf(item.id) > -1
+      })
+      .map(item => {
+        return { name: item.name, id: item.id }
+      })
     desktopsApi
       .sendOrder({ desktopIds, directive })
       .then(res => {
@@ -153,13 +153,13 @@ export default class Desktop extends React.Component {
    */
   deleteVm = id => {
     const desktopIds = Array.isArray(id) ? [...id] : [id]
-    const vmData = JSON.parse(JSON.stringify(this.tablex.state.data)).map(
-      item => {
-        return (
-          desktopIds.indexOf(item.id) > -1 && { name: item.name, id: item.id }
-        )
-      }
-    )
+    const vmData = JSON.parse(JSON.stringify(this.tablex.state.data))
+      .filter(item => {
+        return desktopIds.indexOf(item.id) > -1
+      })
+      .map(item => {
+        return { name: item.name, id: item.id }
+      })
     const self = this
     confirm({
       title: '确定删除该条数据?',

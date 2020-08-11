@@ -54,7 +54,7 @@ class ShortcutDrawer extends React.Component {
           getContainer={false}
         >
           <div className="shortcut-drawer-steps-title">
-            <MyIcon type="zhuomianguanli" style={{ marginRight: 5 }} />
+            <MyIcon type="zhuomianguanli1" style={{ marginRight: 5 }} />
             桌面管理
           </div>
           <Steps
@@ -86,7 +86,7 @@ class ShortcutDrawer extends React.Component {
             />
           </Steps>
           <div className="shortcut-drawer-steps-title">
-            <MyIcon type="terminal" style={{ marginRight: 5 }} />
+            <MyIcon type="zhongduanguanli" style={{ marginRight: 5 }} />
             终端管理
           </div>
           <Steps
@@ -118,7 +118,7 @@ class ShortcutDrawer extends React.Component {
             />
           </Steps>
           <div className="shortcut-drawer-steps-title">
-            <MyIcon type="yonghuguanli" style={{ marginRight: 5 }} />
+            <MyIcon type="yonghuguanli1" style={{ marginRight: 5 }} />
             用户管理
           </div>
           <Steps

@@ -10,186 +10,191 @@ export const osType = [
     id: '1',
     name: 'Windows XP',
     icon: 'os-windows',
-    text: 'Win'
+    text: 'Windows'
   },
   {
     id: '3',
     name: 'Windows 2003',
     icon: 'os-windows',
-    text: 'Win'
+    text: 'Windows'
   },
   {
     id: '4',
     name: 'Windows 2008',
     icon: 'os-windows',
-    text: 'Win'
+    text: 'Windows'
   },
 
   {
     id: '5',
     name: 'Linux',
     icon: 'os-linux',
-    text: 'linux'
+    text: 'Linux'
   },
   {
     id: '7',
     name: 'Red Hat Enterprise Linux 5.x',
     icon: 'os-redhat',
-    text: '红帽'
+    text: 'Redhat'
   },
   {
     id: '8',
     name: 'Red Hat Enterprise Linux 4.x',
     icon: 'os-redhat',
-    text: '红帽'
+    text: 'Redhat'
   },
   {
     id: '9',
     name: 'Red Hat Enterprise Linux 3.x',
     icon: 'os-redhat',
-    text: '红帽'
+    text: 'Redhat'
   },
   {
     id: '10',
     name: 'Windows 2003 x64',
     icon: 'os-windows',
-    text: 'Win'
+    text: 'Windows'
   },
   {
     id: '11',
     name: 'Windows 7',
     icon: 'os-windows',
-    text: 'Win'
+    text: 'Windows'
   },
   {
     id: '12',
     name: 'Windows 7 x64',
     icon: 'os-windows',
-    text: 'Win'
+    text: 'Windows'
   },
   {
     id: '13',
     name: 'Red Hat Enterprise Linux 5.x x64',
     icon: 'os-redhat',
-    text: '红帽'
+    text: 'Redhat'
   },
   {
     id: '14',
     name: 'Red Hat Enterprise Linux 4.x x64',
     icon: 'os-redhat',
-    text: '红帽'
+    text: 'Redhat'
   },
   {
     id: '15',
     name: 'Red Hat Enterprise Linux 3.x x64',
     icon: 'os-redhat',
-    text: '红帽'
+    text: 'Redhat'
   },
   {
     id: '16',
     name: 'Windows 2008 x64',
     icon: 'os-windows',
-    text: 'Win'
+    text: 'Windows'
   },
   {
     id: '17',
     name: 'Windows 2008 R2 x64',
     icon: 'os-windows',
-    text: 'Win'
+    text: 'Windows'
   },
   {
     id: '18',
     name: 'Red Hat Enterprise Linux 6.x',
     icon: 'os-redhat',
-    text: '红帽'
+    text: 'Redhat'
   },
 
   {
     id: '19',
     name: 'Red Hat Enterprise Linux 6.x x64',
     icon: 'os-redhat',
-    text: '红帽'
+    text: 'Redhat'
   },
   {
     id: '20',
     name: 'Windows 8',
     icon: 'os-windows',
-    text: 'Win'
+    text: 'Windows'
   },
   {
     id: '21',
     name: 'Windows 8 x64',
     icon: 'os-windows',
-    text: 'Win'
+    text: 'Windows'
   },
   {
     id: '23',
     name: 'Windows 2012 x64',
     icon: 'os-windows',
-    text: 'Win'
+    text: 'Windows'
   },
   {
     id: '24',
     name: 'Red Hat Enterprise Linux 7.x x64',
     icon: 'os-redhat',
-    text: '红帽'
+    text: 'Redhat'
   },
   {
     id: '25',
     name: 'Windows 2012R2 x64',
     icon: 'os-windows',
-    text: 'Win'
+    text: 'Windows'
   },
   {
     id: '26',
     name: 'Windows 10',
     icon: 'os-windows',
-    text: 'Win'
+    text: 'Windows'
   },
   {
     id: '27',
     name: 'Windows 10 x64',
     icon: 'os-windows',
-    text: 'Win'
+    text: 'Windows'
   },
-  { id: '28', name: 'Red Hat Atomic 7.x x64', icon: 'os-redhat', text: '红帽' },
+  {
+    id: '28',
+    name: 'Red Hat Atomic 7.x x64',
+    icon: 'os-redhat',
+    text: 'Redhat'
+  },
   {
     id: '29',
     name: 'Windows 2016 x64',
     icon: 'os-windows',
-    text: 'Win'
+    text: 'Windows'
   },
   {
     id: '30',
     name: 'Red Hat Enterprise Linux 8.x x64',
     icon: 'os-redhat',
-    text: '红帽'
+    text: 'Redhat'
   },
   {
     id: '31',
     name: 'Windows 2019 x64',
     icon: 'os-windows',
-    text: 'Win'
+    text: 'Windows'
   },
   {
     id: '33',
     name: 'Other Linux (kernel 4.x)',
     icon: 'os-linux',
-    text: 'linux'
+    text: 'Linux'
   },
   {
     id: '35',
     name: 'Red Hat Enterprise Linux CoreOS',
     icon: 'os-linux',
-    text: 'linux'
+    text: 'Linux'
   },
   { id: '50', name: 'AARCH OS', icon: 'os-other', text: 'Other OS' },
-  { id: '51', name: '', icon: 'os-other', text: 'Other OS' },
+  { id: '51', name: 'ALPHA OS', icon: 'os-other', text: 'Other OS' },
   {
     id: '60',
     name: 'YinHe Kylin Desktop System 4.x x64',
     icon: 'os-yinheqilin',
-    text: '麒麟'
+    text: '银河麒麟'
   },
   {
     id: '61',
@@ -207,19 +212,19 @@ export const osType = [
     id: '100',
     name: 'YinHe Kylin Desktop System 4.x x64',
     icon: 'os-yinheqilin',
-    text: '麒麟'
+    text: '银河麒麟'
   },
   {
     id: '105',
     name: 'NEO Kylin Desktop System 7.x x64',
     icon: 'os-kylin',
-    text: '麒麟'
+    text: '中标麒麟'
   },
   {
     id: '110',
     name: 'iSoft Desktop System 5.x x64',
     icon: 'os-puhua',
-    text: 'puhua'
+    text: '普华'
   },
   {
     id: '120',
@@ -231,13 +236,13 @@ export const osType = [
     id: '130',
     name: 'UOS Desktop System 2.x x64',
     icon: 'os-uos',
-    text: 'UOS'
+    text: '统信'
   },
   {
     id: '140',
     name: 'EulerOS Desktop System 2.x x64',
     icon: 'os-huawei',
-    text: 'EulerOS'
+    text: '华为欧拉'
   },
   {
     id: '1001',
@@ -245,97 +250,97 @@ export const osType = [
     icon: 'os-linux',
     text: 'Other OS'
   },
-  { id: '1002', name: 'Linux', icon: 'os-linux', text: 'linux' },
+  { id: '1002', name: 'Linux', icon: 'os-linux', text: 'Linux' },
   {
     id: '1003',
     name: 'Red Hat Enterprise Linux up to 6.8',
     icon: 'os-redhat',
-    text: '红帽'
+    text: 'Redhat'
   },
   {
     id: '1004',
     name: 'SUSE Linux Enterprise Server 11',
     icon: 'os-linux',
-    text: 'linux'
+    text: 'SUSE'
   },
   {
     id: '1005',
     name: 'Ubuntu Trusty Tahr LTS',
     icon: 'os-ubuntu',
-    text: '乌班图'
+    text: 'Ubuntu'
   },
   {
     id: '1006',
     name: 'Red Hat Enterprise Linux 7.x',
     icon: 'os-redhat',
-    text: '红帽'
+    text: 'Redhat'
   },
   {
     id: '1007',
     name: 'Red Hat Enterprise Linux 6.9+',
     icon: 'os-redhat',
-    text: '红帽'
+    text: 'Redhat'
   },
   {
     id: '1193',
     name: 'SUSE Linux Enterprise Server 11+',
     icon: 'os-linux',
-    text: 'linux'
+    text: 'SUSE'
   },
 
   {
     id: '1252',
     name: 'Ubuntu Precise Pangolin LTS',
     icon: 'os-ubuntu',
-    text: '乌班图'
+    text: 'Ubuntu'
   },
   {
     id: '1253',
     name: 'Ubuntu Quantal Quetzal',
     icon: 'os-ubuntu',
-    text: '乌班图'
+    text: 'Ubuntu'
   },
   {
     id: '1254',
     name: 'Ubuntu Raring Ringtails',
     icon: 'os-ubuntu',
-    text: '乌班图'
+    text: 'Ubuntu'
   },
   {
     id: '1255',
     name: 'Ubuntu Saucy Salamander',
     icon: 'os-ubuntu',
-    text: '乌班图'
+    text: 'Ubuntu'
   },
   {
     id: '1256',
     name: 'Ubuntu Trusty Tahr LTS',
     icon: 'os-ubuntu',
-    text: '乌班图'
+    text: 'Ubuntu'
   },
 
   { id: '1300', name: 'Debian 7', icon: 'os-linux', text: 'Debian' },
-  { id: '1500', name: 'FreeBSD 9.2', icon: 'os-linux', text: 'linux' },
-  { id: '1501', name: 'FreeBSD 9.2 x64', icon: 'os-linux', text: 'linux' },
-  { id: '2002', name: 'Other OS', icon: 'os-linux', text: 'linux' },
-  { id: '2002', name: 'Linux', icon: 'os-linux', text: 'linux' },
+  { id: '1500', name: 'FreeBSD 9.2', icon: 'os-linux', text: 'Linux' },
+  { id: '1501', name: 'FreeBSD 9.2 x64', icon: 'os-linux', text: 'Linux' },
+  { id: '2002', name: 'Other OS', icon: 'os-linux', text: 'Other OS' },
+  { id: '2002', name: 'Linux', icon: 'os-linux', text: 'Linux' },
   {
     id: '2003',
     name: 'Red Hat Enterprise Linux 7.x',
     icon: 'os-redhat',
-    text: '红帽'
+    text: 'Redhat'
   },
   {
     id: '2004',
     name: 'SUSE Linux Enterprise Server 12',
     icon: 'os-linux',
-    text: 'linux'
+    text: 'SUSE'
   },
   {
     id: '2005',
     name: 'Ubuntu Xenial Xerus LTS',
     icon: 'os-ubuntu',
-    text: '乌班图'
+    text: 'Ubuntu'
   }
 ]
 export const vmStatus = [

@@ -272,12 +272,7 @@ export default class Desktop extends React.Component {
           .catch(error => {
             message.error(error.message || error)
           })
-<<<<<<< HEAD
-      },
-      onCancel() {}
-=======
       }
->>>>>>> 13858cf32e4d94331299dc487ec2edec622cd568
     })
   }
 

@@ -14,7 +14,7 @@ import {
   defaultColumnsFilters,
   vmDisableAction
 } from '@/pages/Common/VmTableCfg'
-import { downloadVV, wrapResponse } from '@/utils/tool'
+import { downloadVV, wrapResponse, handleVmMessage } from '@/utils/tool'
 
 const { createTableCfg, TableWrap, ToolBar, BarLeft } = Tablex
 const { confirm } = Modal
@@ -108,16 +108,32 @@ export default class Desktop extends React.Component {
    * @memberof Desktop
    */
   sendOrder = (id, directive) => {
-    const ids = !Array.isArray(id) ? [id] : [...id]
+    const desktopIds = !Array.isArray(id) ? [id] : [...id]
+    const vmData = JSON.parse(JSON.stringify(this.tablex.state.data)).map(
+      item => {
+        return (
+          desktopIds.indexOf(item.id) > -1 && { name: item.name, id: item.id }
+        )
+      }
+    )
     desktopsApi
-      .sendOrder({ desktopIds: ids, directive })
+      .sendOrder({ desktopIds, directive })
       .then(res => {
-        if (res.success) {
-          notification.success({ message: '操作成功' })
-          this.tablex.refresh(this.state.tableCfg)
-        } else {
-          message.error(res.message || '操作失败')
-        }
+        wrapResponse(res)
+          .then(() => {
+            notification.success({ message: '操作成功' })
+            this.tablex.refresh(this.state.tableCfg)
+          })
+          .catch(error => {
+            if (
+              Array.isArray(JSON.parse(error.message)) &&
+              JSON.parse(error.message).length > 0
+            ) {
+              handleVmMessage(JSON.parse(error.message), vmData)
+            } else {
+              message.error(error.message || '操作失败')
+            }
+          })
       })
       .catch(error => {
         message.error(error.message || error)
@@ -128,16 +144,34 @@ export default class Desktop extends React.Component {
   // 移出当前桌面组
   remove = id => {
     const desktopIds = Array.isArray(id) ? [...id] : [id]
+    const vmData = JSON.parse(JSON.stringify(this.tablex.state.data)).map(
+      item => {
+        return (
+          desktopIds.indexOf(item.id) > -1 && { name: item.name, id: item.id }
+        )
+      }
+    )
     confirm({
       title: '确定移出所选桌面?',
       onOk: () => {
         vmgroupsApi
           .remove({ groupId: this.props.groupId, desktopIds })
           .then(res => {
-            wrapResponse(res).then(() => {
-              notification.success({ message: '移出成功' })
-              this.tablex.refresh(this.state.tableCfg)
-            })
+            wrapResponse(res)
+              .then(() => {
+                notification.success({ message: '移出成功' })
+                this.tablex.refresh(this.state.tableCfg)
+              })
+              .catch(error => {
+                if (
+                  Array.isArray(JSON.parse(error.message)) &&
+                  JSON.parse(error.message).length > 0
+                ) {
+                  handleVmMessage(JSON.parse(error.message), vmData)
+                } else {
+                  message.error(error.message || '删除失败')
+                }
+              })
           })
           .catch(error => {
             message.error(error.message || error)
@@ -150,16 +184,34 @@ export default class Desktop extends React.Component {
 
   deleteVm = id => {
     const desktopIds = Array.isArray(id) ? [...id] : [id]
+    const vmData = JSON.parse(JSON.stringify(this.tablex.state.data)).map(
+      item => {
+        return (
+          desktopIds.indexOf(item.id) > -1 && { name: item.name, id: item.id }
+        )
+      }
+    )
     confirm({
       title: '确定删除该条数据?',
       onOk: () => {
         desktopsApi
           .delVm({ desktopIds })
           .then(res => {
-            wrapResponse(res).then(() => {
-              notification.success({ message: '删除成功' })
-              this.tablex.refresh(this.state.tableCfg)
-            })
+            wrapResponse(res)
+              .then(() => {
+                notification.success({ message: '删除成功' })
+                this.tablex.refresh(this.state.tableCfg)
+              })
+              .catch(error => {
+                if (
+                  Array.isArray(JSON.parse(error.message)) &&
+                  JSON.parse(error.message).length > 0
+                ) {
+                  handleVmMessage(JSON.parse(error.message), vmData)
+                } else {
+                  message.error(error.message || '删除失败')
+                }
+              })
           })
           .catch(error => {
             message.error(error.message || error)

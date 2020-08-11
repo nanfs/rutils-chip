@@ -14,7 +14,7 @@ import {
   vmDisableAction,
   apiMethod
 } from '@/pages/Common/VmTableCfg'
-import { downloadVV } from '@/utils/tool'
+import { downloadVV, wrapResponse, handleVmMessage } from '@/utils/tool'
 
 const { createTableCfg, TableWrap, ToolBar, BarLeft } = Tablex
 const { confirm } = Modal
@@ -113,16 +113,32 @@ export default class Desktop extends React.Component {
    * @memberof Desktop
    */
   sendOrder = (id, directive) => {
-    const ids = !Array.isArray(id) ? [id] : [...id]
+    const desktopIds = !Array.isArray(id) ? [id] : [...id]
+    const vmData = JSON.parse(JSON.stringify(this.tablex.state.data)).map(
+      item => {
+        return (
+          desktopIds.indexOf(item.id) > -1 && { name: item.name, id: item.id }
+        )
+      }
+    )
     desktopsApi
-      .sendOrder({ desktopIds: ids, directive })
+      .sendOrder({ desktopIds, directive })
       .then(res => {
-        if (res.success) {
-          notification.success({ message: '操作成功' })
-          this.tablex.refresh(this.state.tableCfg)
-        } else {
-          message.error(res.message || '操作失败')
-        }
+        wrapResponse(res)
+          .then(() => {
+            notification.success({ message: '操作成功' })
+            this.tablex.refresh(this.state.tableCfg)
+          })
+          .catch(error => {
+            if (
+              Array.isArray(JSON.parse(error.message)) &&
+              JSON.parse(error.message).length > 0
+            ) {
+              handleVmMessage(JSON.parse(error.message), vmData)
+            } else {
+              message.error(error.message || '操作失败')
+            }
+          })
       })
       .catch(error => {
         message.error(error.message || error)
@@ -137,6 +153,13 @@ export default class Desktop extends React.Component {
    */
   deleteVm = id => {
     const desktopIds = Array.isArray(id) ? [...id] : [id]
+    const vmData = JSON.parse(JSON.stringify(this.tablex.state.data)).map(
+      item => {
+        return (
+          desktopIds.indexOf(item.id) > -1 && { name: item.name, id: item.id }
+        )
+      }
+    )
     const self = this
     confirm({
       title: '确定删除该条数据?',
@@ -145,12 +168,21 @@ export default class Desktop extends React.Component {
           desktopsApi
             .delVm({ desktopIds })
             .then(res => {
-              if (res.success) {
-                notification.success({ message: '删除成功' })
-                self.tablex.refresh(self.state.tableCfg)
-              } else {
-                message.error(res.message || '删除失败')
-              }
+              wrapResponse(res)
+                .then(() => {
+                  notification.success({ message: '删除成功' })
+                  self.tablex.refresh(self.state.tableCfg)
+                })
+                .catch(error => {
+                  if (
+                    Array.isArray(JSON.parse(error.message)) &&
+                    JSON.parse(error.message).length > 0
+                  ) {
+                    handleVmMessage(JSON.parse(error.message), vmData)
+                  } else {
+                    message.error(error.message || '删除失败')
+                  }
+                })
               resolve()
             })
             .catch(error => {

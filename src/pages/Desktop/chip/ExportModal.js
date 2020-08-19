@@ -14,13 +14,14 @@ export default class ExportModal extends React.Component {
     this.props.onRef && this.props.onRef(this)
   }
 
-  pop = (vmId, vmName) => {
+  pop = (vmId, vmName, temp) => {
     this.modal.show()
-    this.setState({ vmName })
+    this.setState({ vmName, temp })
     this.modal.form.setFieldsValue({ vmId })
   }
 
   onOk = values => {
+    console.log(values)
     // templateApi
     //   .addTem(values)
     //   .then(res => {
@@ -47,14 +48,14 @@ export default class ExportModal extends React.Component {
           <Form.Item prop="vmId" label="id" hidden>
             <Input />
           </Form.Item>
-          <Form.Item prop="a" label="">
+          <Form.Item prop="a">
             <Checkbox>强制覆盖</Checkbox>
           </Form.Item>
-          <Form.Item prop="b">
+          <Form.Item prop="b" hidden={this.state.temp}>
             <Checkbox>Collapse 快照</Checkbox>
           </Form.Item>
           <p hidden={this.state?.description} style={{ color: '#CD2127' }}>
-            虚拟机:{this.state.vmName}
+            虚拟机: {this.state.vmName}{' '}
             已经存在于目标导出域中。如果您想覆盖它们，请选择
             &apos;ForceOverride&apos; 复选框。
           </p>

@@ -4,6 +4,7 @@ import { Form, Checkbox, Input, Divider, Button, Table, Steps } from 'antd'
 import templateApi from '@/services/template'
 import EditTable from './editTable'
 import { required } from '@/utils/valid'
+import desktopApi from '@/services/desktops'
 
 const { Step } = Steps
 
@@ -35,8 +36,9 @@ export default class ImportModal extends React.Component {
     this.props.onRef && this.props.onRef(this)
   }
 
-  pop = vmId => {
+  pop = (vmId, temp) => {
     this.modal.show()
+    this.setState({ temp })
     // this.modal.form.setFieldsValue({ vmId })
   }
 
@@ -77,6 +79,12 @@ export default class ImportModal extends React.Component {
     }
   }
 
+  jiqunChange = (a, b, data) => {
+    this.setState({
+      jiqun: data
+    })
+  }
+
   onOk = () => {
     console.log(this.forma.getFieldsValue())
     console.log(this.state.selectedVmList)
@@ -92,7 +100,10 @@ export default class ImportModal extends React.Component {
   }
 
   next() {
-    this.setState({ current: this.state.current + 1 })
+    const { jiqun } = this.state
+    this.setState({ current: this.state.current + 1 }, () =>
+      this.forma.setFieldsValue({ jiqun })
+    )
   }
 
   prev() {
@@ -197,6 +208,7 @@ export default class ImportModal extends React.Component {
                 style={{ width: '80%' }}
                 placeholder="请选择目标集群"
                 options={this.state?.jiqunOptions}
+                onChange={this.jiqunChange}
               ></Selectx>
             </Form.Item>
             <EditTable

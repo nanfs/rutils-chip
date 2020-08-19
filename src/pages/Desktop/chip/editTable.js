@@ -161,6 +161,7 @@ export default class EditableTable extends React.Component {
           dataSource={dataSource}
           columns={columns}
           pagination={false}
+          rowKey="id"
         />
       </div>
     )

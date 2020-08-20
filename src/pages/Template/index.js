@@ -6,8 +6,8 @@ import DetailDrawer from './chip/DetailDrawer'
 import { columns, apiMethod } from './chip/TableCfg'
 import templateApi from '@/services/template'
 import { wrapResponse } from '@/utils/tool'
-import ExportModal from '../Desktop/chip/ExportModal'
-import ImportModal from '../Desktop/chip/ImportModal'
+import ExportModal from '@/pages/Common/ExportModal'
+import ImportModal from '@/pages/Common/ImportModal'
 
 const { confirm } = Modal
 const { createTableCfg, TableWrap, ToolBar, BarLeft } = Tablex

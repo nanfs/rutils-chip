@@ -76,6 +76,13 @@ export default {
       params: data
     })
   },
+  getOS(data) {
+    return axios({
+      url: '/clusters/os',
+      method: 'get',
+      params: data
+    })
+  },
   sendOrder(data) {
     return axios({
       url: '/desktops/directives ',

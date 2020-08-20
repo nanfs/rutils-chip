@@ -11,6 +11,11 @@ body {
   &-sider-children {
     border-right: 1px solid #dedede;
   }
+
+  // 适配IE菜单背景颜色缺失
+  &-has-sider{
+    overflow: hidden;
+  }
 }
 // header
 
@@ -119,7 +124,13 @@ body {
 }
 // Sider
 .sider {
-  background: white;
+  background: white;  
+  
+  // 适配IE菜单背景颜色缺失
+  min-height: 100%;
+  padding-bottom:9000px; 
+  margin-bottom:-9000px;
+
   .trigger {
     width: 100%;
     background: #fefefe;
@@ -141,9 +152,8 @@ body {
       &::after {
         display: none;
       }
-      
     }
-    .ant-menu-submenu-title{
+    .ant-menu-submenu-title {
       cursor: default;
     }
     .ant-menu-submenu .text {
@@ -322,4 +332,79 @@ body {
   .ant-col.ant-form-item-control-wrapper {
     width: 100% !important;
   }
+}
+
+.ant-switch:hover{
+  &:after{
+    box-shadow: 0 0 16px #666;
+  }
+}
+.ant-switch.ant-switch-checked:hover{
+  &:after{
+    box-shadow: 0 0 16px #1890ff;
+  }
+}
+
+.option-wrap .ant-btn,
+.table-tool .bar-left .ant-btn {
+  overflow: hidden;
+
+  &::after {
+    content: '';
+    width: 30px;
+    height: 500%;
+    background: #a6d4ff;
+    position: absolute;
+    display: block;
+    top: -33px;
+    opacity: 0.5;
+    left: -100px;
+    transform: rotate(-45deg);
+  }
+  &:hover {
+    transition-delay: 0.5s;
+    transition: all ease-in-out 0.5s;
+  }
+  &:hover::after {
+    left: 100px;
+    top: -63px;
+    opacity: 0;
+    transition: all ease-in-out 0.5s;
+  }
+}
+
+.shortcut-button{
+  position: fixed;
+  right: 0;
+  top: 30%;
+  height: 36px;
+  width: 36px;
+  padding: 0;
+  text-align: center;
+  z-index: 1001
+}
+
+.shortcut-drawer.ant-drawer-open .ant-drawer-mask {
+  background-color: rgba(0,0,0,.45);
+}
+
+.shortcut-drawer .ant-drawer-body {
+  padding: 16px 24px;
+}
+
+.shortcut-drawer-steps {
+  padding: 0 10px;
+  
+  .ant-steps-item-finish .ant-steps-item-icon>.ant-steps-icon .ant-steps-icon-dot {
+    background: #faad14;
+  }
+
+  .ant-steps-item-finish>.ant-steps-item-container>.ant-steps-item-tail:after {
+    background: #faad14;
+  }
+}
+
+.shortcut-drawer-steps-title {
+  font-size: 16px;
+  margin-bottom: 5px;
 }

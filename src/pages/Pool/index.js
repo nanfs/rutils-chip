@@ -49,6 +49,12 @@ export default class Pool extends React.Component {
 
   columnsArr = [this.poolName, ...columns, this.action]
 
+  componentDidMount = () => {
+    if (this.props.location?.search === '?openAdd') {
+      this.createPool()
+    }
+  }
+
   state = {
     tableCfg: createTableCfg({
       columns: this.columnsArr,

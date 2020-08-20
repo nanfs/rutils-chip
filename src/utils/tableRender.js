@@ -2,6 +2,7 @@ import React from 'react'
 
 import { Icon, Tooltip, Popover } from 'antd'
 import { MyIcon } from '@/components'
+import { osType, vmStatus } from './enum'
 import classnames from 'classnames'
 
 export const severityOptions = [
@@ -153,116 +154,42 @@ export const storageTypeRender = type => {
   }
   return <span>{typeList[type]}</span>
 }
-export const vmStatusText = {
-  'vm-unassigned': '未指派的',
-  'vm-down': '已关机',
-  'vm-up': '已开机',
-  'vm-poweringup': '正在开机',
-  'vm-paused': '暂停',
-  'vm-migratingfrom': '准备迁移',
-  'vm-migratingTo': '迁移中',
-  'vm-unknown': '未知',
-  'vm-nonresponsive': '没有响应',
-  'vm-waitforlaunch': '等待',
-  'vm-rebootinprogress': '重启过程中',
-  'vm-savingstate': '保存状态',
-  'vm-restoringstate': '恢复状态',
-  'vm-suspended': '挂起',
-  'vm-ImageIllegal': '镜像损坏',
-  'vm-imagelocked': '镜像锁定',
-  'vm-poweringdown': '正在关机'
-}
+
 export const vmStatusRender = status => {
-  const statusList = {
-    '-1': 'vm-unassigned',
-    '0': 'vm-down',
-    '1': 'vm-up',
-    '2': 'vm-poweringup',
-    '4': 'vm-paused',
-    '5': 'vm-migratingfrom',
-    '6': 'vm-migratingTo',
-    '7': 'vm-unknown',
-    '8': 'vm-nonresponsive',
-    '9': 'vm-waitforlaunch',
-    '10': 'vm-rebootinprogress',
-    '11': 'vm-savingstate',
-    '12': 'vm-restoringstate',
-    '13': 'vm-suspended',
-    '14': 'vm-ImageIllegal',
-    '15': 'vm-imagelocked',
-    '16': 'vm-poweringdown'
-  }
+  const current = vmStatus.find(item => +item.status === status) || {}
+  const { text, icon } = current
   return (
-    <span className="vt-bottom" title={vmStatusText[statusList[status]]}>
+    <span className="vt-bottom" title={text}>
       <MyIcon
-        type={statusList[status]}
-        title={vmStatusText[statusList[status]] || 'null'}
+        type={icon}
+        title={text}
+        style={{
+          fontSize: '18px'
+        }}
+      />
+    </span>
+  )
+}
+
+export const vmOsRender = osId => {
+  const current = osType.find(item => +item.id === osId) || {}
+  const { icon, text } = current
+  return (
+    <span className="vt-bottom" title={text}>
+      <MyIcon
+        type={icon}
+        title={text || 'null'}
         component="svg"
         style={{
           fontSize: '18px'
         }}
-      />{' '}
-      {/* {vmStatusText[statusList[status]]} */}
+      />
     </span>
   )
 }
-const osList = {
-  '0': 'os-other', // other-os
-  '5': 'os-linux',
-  '7': 'os-redhat',
-  '8': 'os-redhat',
-  '9': 'os-redhat',
-  '13': 'os-redhat',
-  '14': 'os-redhat',
-  '15': 'os-redhat',
-  '18': 'os-redhat',
-  '19': 'os-redhat',
-  '24': 'os-redhat',
-  '28': 'os-redhat',
-  '30': 'os-redhat',
-  '33': 'os-linux',
-  '60': 'os-kylin',
-  '61': 'os-puhua',
-  '1002': 'os-linux',
-  '1003': 'os-redhat',
-  '1004': 'os-linux',
-  '1005': 'os-ubuntu',
-  '1006': 'os-redhat',
-  '1007': 'os-redhat',
-  '1300': 'os-linux',
-  '2002': 'os-linux',
-  '2004': 'os-linux',
-  '2005': 'os-linux',
-  '1500': 'os-linux',
-  '1501': 'os-linux',
-  '1252': 'os-ubuntu',
-  '1253': 'os-ubuntu',
-  '1254': 'os-ubuntu',
-  '1255': 'os-ubuntu',
-  '1256': 'os-ubuntu'
-}
-export const osIconRender = os => {
-  return (
-    <MyIcon
-      type={osList[os] || 'os-windows'}
-      component="svg"
-      style={{ fontSize: '18px' }}
-    />
-  )
-}
-
-export const osTextRender = os => {
-  const osType = osList[os] || 'os-windows'
-  const typeList = {
-    'os-other': 'OTHER OS',
-    'os-redhat': '红帽',
-    'os-windows': 'Win',
-    'os-kylin': '麒麟',
-    'os-ubuntu': '乌班图',
-    'os-linux': 'linux',
-    'os-puhua': '普华'
-  }
-  return typeList[osType]
+export const osTextRender = osId => {
+  const current = osType.find(item => +item.id === osId) || {}
+  return current?.text
 }
 
 // 已分配用户显示
@@ -362,43 +289,4 @@ export function taskTypeRender(text) {
     '9': '编辑终端'
   }
   return typeList[text]
-}
-
-// 终端任务 执行状态显示
-const iconStyle = {
-  2: { color: '#17abe3' },
-  3: { color: '#ff4d4f' },
-  4: { color: '#ff4d4f' }
-}
-const typeTextList = {
-  0: '未执行',
-  1: '执行中',
-  2: '执行成功',
-  3: '执行失败',
-  4: '用户取消'
-}
-export const taskStatusRender = text => {
-  const typeList = {
-    0: 'shalou',
-    1: 'shalou-copy',
-    2: 'check-circle',
-    3: 'close-circle',
-    4: 'close-circle'
-  }
-  if (text === 2 || text === 3 || text === 4) {
-    return (
-      <span title={typeTextList[text]} style={{ fontSize: '18px' }}>
-        <Icon type={typeList[text]} style={iconStyle[text]} />
-      </span>
-    )
-  } else {
-    return (
-      <MyIcon
-        type={typeList[text] || 'shalou'}
-        title={typeTextList[text] || 'null'}
-        component="svg"
-        style={{ fontSize: '30px', marginLeft: '-7px' }}
-      />
-    )
-  }
 }

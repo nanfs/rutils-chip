@@ -1,9 +1,29 @@
 import React, { Component } from 'react'
 import LoginFrom from './chip/LoginFrom'
 import './login.less'
+import loginApi from '@/services/login'
+import { setItemToLocal } from '@/utils/storage'
 
 export default class Login extends Component {
+  state = {
+    version: 'V1.5.0',
+    build: '3567'
+  }
+
+  componentDidMount() {
+    loginApi.getProperties().then(res => {
+      const { version: verRes, build: buildRes } = res
+      const { version: verState, build: buildState } = this.state
+      const version = verRes || verState
+      const build = buildRes || buildState
+      this.setState({ version, build }, () =>
+        setItemToLocal({ version, build })
+      )
+    })
+  }
+
   render() {
+    const { version, build } = this.state
     return (
       <div className="login-wrap">
         <div className="header"></div>
@@ -21,7 +41,9 @@ export default class Login extends Component {
             </div>
             <LoginFrom className="login-form" />
             <div className="version">
-              <span>V1.0.0 build 3561</span>
+              <span>
+                {version} build {build}
+              </span>
             </div>
           </div>
         </div>

@@ -1,4 +1,5 @@
 import dayjs from 'dayjs'
+import { message } from 'antd'
 
 // 时间格式化
 export function dateFormat(val, format = 'YYYY-MM-DD HH:mm:ss') {
@@ -298,4 +299,42 @@ export function week2num(week) {
 export function limitDecimals(value) {
   console.log(value)
   return value?.replace(/^(0+)|[^\d]+/g, '')
+}
+
+/**
+ * @description 用于处理后端返回的message为数组的情况
+ * @author linghu
+ * @date 2020-08-11
+ * @export
+ */
+export function handleVmMessage(msg, selectData) {
+  // const msg = JSON.parse(res.message)
+  msg.forEach(item => {
+    selectData.forEach(data => {
+      if (item.desktopId === data.id) {
+        item.msg.length > 0
+          ? message.error(`虚拟机${data.name}操作失败，失败原因：${item.msg}`)
+          : message.error(`虚拟机${data.name}操作失败`)
+      }
+    })
+  })
+}
+
+/**
+ * @description 用于处理后端返回的message为数组的情况
+ * @author linghu
+ * @date 2020-08-11
+ * @export
+ */
+export function handleTcMessage(msg, selectData) {
+  // const msg = JSON.parse(res.message)
+  msg.forEach(item => {
+    selectData.forEach(data => {
+      if (item.sn === data.sn) {
+        item.msg.length > 0
+          ? message.error(`终端${data.name}操作失败，失败原因：${item.msg}`)
+          : message.error(`终端${data.name}操作失败`)
+      }
+    })
+  })
 }

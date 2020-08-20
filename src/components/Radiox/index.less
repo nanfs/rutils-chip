@@ -2,17 +2,34 @@
   .ant-radio-button-wrapper {
     min-width: 100px;
     text-align: center;
-    &-checked {
-      &::after {
-        content: '';
-        display: block;
-        position: absolute;
-        right: 0;
-        bottom: 0;
-        border: 4px solid currentColor;
-        border-left-color: transparent;
-        border-top-color: transparent;
-      }
+    position: relative;
+    //隐藏溢出的径向渐变背景
+    overflow: hidden;
+    vertical-align: middle;
+    
+    &:after {
+      content: "";
+      display: block;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      //设置径向渐变
+      background-image: radial-gradient(circle, #666 10%, transparent 10.01%); 
+      // background-repeat: no-repeat;
+      // background-position: 50%;
+      transform: scale(10, 10);
+      opacity: 0;
+      transition: transform .5s, opacity .5s;
+    }
+    
+    &:active:after {
+      transform: scale(0, 0);
+      opacity: .3;
+      //设置初始状态
+      transition: 0s;
     }
   }
   .has-fresh {
@@ -38,5 +55,6 @@
   }
   .ant-input-number {
     margin-left: 15px;
+    vertical-align: middle;
   }
 }

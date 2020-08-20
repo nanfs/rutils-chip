@@ -3,8 +3,7 @@ import React from 'react'
 import { Progress, Menu, Popover } from 'antd'
 import {
   vmStatusRender,
-  osIconRender,
-  osTextRender,
+  vmOsRender,
   assignedUsersRender
 } from '@/utils/tableRender'
 import { MyIcon } from '@/components'
@@ -33,7 +32,9 @@ export function getColumns(isPoolVmlist = false) {
     {
       title: () => <span title="桌面名称">桌面名称</span>,
       dataIndex: 'name',
+      width: 100,
       ellipsis: true,
+      resize: true,
       render: (text, record) => {
         return <span>{record.name}</span>
       },
@@ -42,7 +43,7 @@ export function getColumns(isPoolVmlist = false) {
     {
       title: () => <span title="状态">状态</span>,
       dataIndex: 'status',
-      width: '8%',
+      width: 80,
       ellipsis: true,
       filters: [
         { value: [0, 13], text: '已关机' },
@@ -53,17 +54,11 @@ export function getColumns(isPoolVmlist = false) {
       render: text => vmStatusRender(text)
     },
     {
-      title: () => <span title="操作系统">操作系统</span>,
+      title: () => <span title="系统">系统</span>,
       dataIndex: 'os',
-      width: '8%',
+      width: 60,
       ellipsis: true,
-      render: text => {
-        return (
-          <span title={osTextRender(text)}>
-            {osIconRender(text)} {/* {osTextRender(text)} */}
-          </span>
-        )
-      }
+      render: text => vmOsRender(text)
     },
     {
       title: () => <span title="主机">主机</span>,

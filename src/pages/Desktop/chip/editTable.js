@@ -62,14 +62,14 @@ class EditableCell extends React.Component {
         )}
       </Form.Item>
     ) : (
-      <div
-        className="editable-cell-value-wrap"
-        style={{ paddingRight: 24 }}
-        onClick={this.toggleEdit}
-      >
-        {children}
-      </div>
-    )
+        <div
+          className="editable-cell-value-wrap"
+          style={{ paddingRight: 24 }}
+          onClick={this.toggleEdit}
+        >
+          {children}
+        </div>
+      )
   }
 
   render() {
@@ -88,8 +88,8 @@ class EditableCell extends React.Component {
         {editable ? (
           <EditableContext.Consumer>{this.renderCell}</EditableContext.Consumer>
         ) : (
-          children
-        )}
+            children
+          )}
       </td>
     )
   }

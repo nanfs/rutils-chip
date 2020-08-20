@@ -36,7 +36,6 @@ class Drawerx extends React.Component {
       show: true
     })
     document.body.style.maxHeight = '100vh'
-    // document.body.style.overflow = 'hidden'
     if (document.querySelector('.table-wrap')) {
       document.querySelector('.table-wrap').style.height = 'calc(100vh - 105px)'
       document.querySelector('.table-wrap').style.overflow = 'hidden'
@@ -88,10 +87,7 @@ class Drawerx extends React.Component {
     return new Promise(resolve => {
       wrapResponse(res)
         .then(() => {
-          this.setState({
-            show: false,
-            submitting: false
-          })
+          this.hide()
           this.props.onSuccess && this.props.onSuccess()
           notification.success({ message: res.message || '操作成功' })
           resolve(res)

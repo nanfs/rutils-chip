@@ -1,6 +1,6 @@
 import React from 'react'
 import { Table, Input, Form, Icon } from 'antd'
-import '../index.less'
+import '@/pages/Desktop/index.less'
 
 const EditableContext = React.createContext()
 
@@ -42,7 +42,7 @@ class EditableCell extends React.Component {
     const { children, dataIndex, record, title } = this.props
     const { editing } = this.state
     return editing ? (
-      <Form.Item style={{ margin: 0 }}>
+      <Form.Item style={{ margin: 0 }} wrapperCol={{ sm: { span: 24 } }}>
         {form.getFieldDecorator(dataIndex, {
           rules: [
             {

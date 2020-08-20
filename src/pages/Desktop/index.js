@@ -27,6 +27,8 @@ import EditDrawer from './chip/EditDrawer'
 import DetailDrawer from './chip/DetailDrawer'
 import SetUserDrawer from './chip/SetUserDrawer'
 import AddTemplateModal from './chip/AddTemplateModal'
+import ExportModal from './chip/ExportModal'
+import ImportModal from './chip/ImportModal'
 import AttachIsoModal from './chip/AttachIsoModal'
 import './index.less'
 
@@ -76,6 +78,7 @@ export default class Desktop extends React.Component {
         openConsoleFn: () => this.openConsole(id, name),
         addTempFn: () => this.addTemplateModal.pop(id),
         attachIsoFn: () => this.attachIsoModal.pop(id, datacenterId, currentCd),
+        exportFn: () => this.exportModal.pop(record, false),
         isInnerMore: true
       })
       return (
@@ -313,6 +316,14 @@ export default class Desktop extends React.Component {
     this.currentDrawer = this.setUserDrawer
   }
 
+  /**
+   *
+   * 导入
+   */
+  importVm = () => {
+    this.importModal.pop(false)
+  }
+
   render() {
     const { disabledButton } = this.state
     const moreButton = getMoreButton({
@@ -332,6 +343,9 @@ export default class Desktop extends React.Component {
             <BarLeft>
               <Button onClick={this.createVm} type="primary">
                 创建
+              </Button>
+              <Button onClick={this.importVm} type="primary">
+                导入
               </Button>
               <Button
                 onClick={() => this.setUser(this.tablex.getSelection())}
@@ -403,6 +417,16 @@ export default class Desktop extends React.Component {
             this.attachIsoModal = ref
           }}
         ></AttachIsoModal>
+        <ExportModal
+          onRef={ref => {
+            this.exportModal = ref
+          }}
+        ></ExportModal>
+        <ImportModal
+          onRef={ref => {
+            this.importModal = ref
+          }}
+        ></ImportModal>
       </React.Fragment>
     )
   }

@@ -154,5 +154,75 @@ export default {
       url: `/desktops/${vmId}/snapshots/${snapId}`,
       method: 'delete'
     })
+  },
+  // 导出域详情
+  exportDomains({ id }) {
+    return axios({
+      url: `/desktops/exportDomains/${id}`,
+      method: 'get'
+    })
+  },
+  // 虚拟机名称是否存在于导出域
+  vmExistInExportDomain(data) {
+    return axios({
+      url: `/desktops/vmExistInExportDomain`,
+      method: 'post',
+      params: data
+    })
+  },
+  // 模板是否存在于导出域
+  templateExistInExportDomain(data) {
+    return axios({
+      url: `/templates/templateExistInExportDomain`,
+      method: 'post',
+      params: data
+    })
+  },
+  // 导出虚拟机
+  export(data) {
+    return axios({
+      url: `/desktops/export`,
+      method: 'post',
+      params: data
+    })
+  },
+  // 数据中心列表
+  storagePools(data) {
+    return axios({
+      url: `/storagePools`,
+      method: 'get',
+      params: data
+    })
+  },
+  // 数据中心下集群列表
+  getClusters({ id }) {
+    return axios({
+      url: `/clusters/${id}`,
+      method: 'get'
+    })
+  },
+  // 导出域下虚拟机列表
+  vmListInDomain(data) {
+    return axios({
+      url: `/desktops/exportDomains`,
+      method: 'post',
+      params: data
+    })
+  },
+  // 判断导入的虚拟机名称重名
+  vmExistInSystem(data) {
+    return axios({
+      url: `/desktops/vmExistInSystem`,
+      method: 'post',
+      params: data
+    })
+  },
+  // 导入虚拟机
+  import(data) {
+    return axios({
+      url: `/desktops/import`,
+      method: 'post',
+      params: data
+    })
   }
 }

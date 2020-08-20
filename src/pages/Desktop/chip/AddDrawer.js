@@ -21,12 +21,7 @@ import {
   Reminder
 } from '@/components'
 
-import {
-  memoryOptions,
-  cpuOptions,
-  diskOptions,
-  osSelectOptions
-} from '@/utils/formOptions'
+import { memoryOptions, cpuOptions, diskOptions } from '@/utils/formOptions'
 import desktopsApi from '@/services/desktops'
 import assetsApi from '@/services/assets'
 
@@ -205,7 +200,16 @@ export default class AddDrawer extends React.Component {
    * @memberof AddDrawer
    */
   checkIsoType(isoName) {
-    const demesticKeyWords = ['szwx', 'kylin', 'isoft', 'deepin', 'cmge']
+    const demesticKeyWords = [
+      'szwx',
+      'kylin',
+      'isoft',
+      'deepin',
+      'cmge',
+      'uos-',
+      'euleros',
+      'uniontechos'
+    ]
     if (demesticKeyWords.some(item => isoName.includes(item))) {
       return 'domestic'
     }
@@ -264,6 +268,28 @@ export default class AddDrawer extends React.Component {
     )
   }
 
+  // 通过集群架构 获取操作系统 OS 类型
+  getOS = () => {
+    const { architecture } = this.state
+    if (!architecture) {
+      return message.error('请先选择集群')
+    }
+    return desktopsApi.getOS({ architecture }).then(res =>
+      wrapResponse(res)
+        .then(() => {
+          const osType = res.data
+          const osSelectOptions = osType.map(item => ({
+            label: item.osName,
+            value: item.osId
+          }))
+          this.setState({ osSelectOptions })
+        })
+        .catch(error => {
+          message.error(error.message || error)
+        })
+    )
+  }
+
   // 网络接口字段和创建网络字段是不匹配的 name 等同于 vnic
   getNetwork = () => {
     return desktopsApi.getNetwork(this.state.clusterId).then(res =>
@@ -287,27 +313,30 @@ export default class AddDrawer extends React.Component {
   onTempalteChange = () => {}
 
   /**
-   * 当集群变化的时候 如果是iso 拉取iso 和网络
-   * 如果 不是 就默认拉取网络和模板
+   * 当集群变化的时候 如果是iso 拉取iso 和网络 OS类型
+   * 如果 不是 就默认拉取网络和模板 OS类型
    * SW适配 获取集群的cpu架构
+   * architecture 集群 架构
    *
    * @memberof AddDrawer
    */
   onClusterChange = (a, b, clusterId) => {
     const current = findArrObj(this.state.clusterArr, 'id', clusterId)
-    const { storagePoolId, cpuName } = current
+    const { storagePoolId, cpuName, architecture } = current
     this.drawer.form.setFieldsValue({
       templateId: undefined,
       isoName: undefined,
       initrdUrl: undefined
     })
-    this.setState({ clusterId, storagePoolId, cpuName }, () => {
+    this.setState({ clusterId, storagePoolId, cpuName, architecture }, () => {
       if (this.getSelectType() === 'byIso') {
         this.getNetwork()
         this.getIso()
+        this.getOS()
       } else {
         this.getTemplate()
         this.getNetwork()
+        this.getOS()
       }
     })
   }
@@ -576,6 +605,7 @@ export default class AddDrawer extends React.Component {
           <Form.Item
             prop="type"
             required
+            rules={[required]}
             label={
               <span>
                 创建方式
@@ -657,19 +687,20 @@ export default class AddDrawer extends React.Component {
           >
             <Radiox options={driveType} />
           </Form.Item>
-          {/* <Form.Item
+          <Form.Item
             prop="osId"
             required
-            hidden={!this.getSelectType()}
+            hidden={this.getSelectType() !== 'byIso'}
             label="操作系统类型"
-            rules={[required]}
+            rules={this.getSelectType() === 'byIso' ? [required] : undefined}
           >
             <Selectx
               style={{ width: '90%' }}
               placeholder="请选择操作系统类型"
-              options={osSelectOptions}
+              getData={this.getOS}
+              options={this.state?.osSelectOptions}
             ></Selectx>
-          </Form.Item> */}
+          </Form.Item>
           <Form.Item
             prop="cpuCores"
             label={

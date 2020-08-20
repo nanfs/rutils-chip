@@ -161,6 +161,9 @@ export default class User extends React.Component {
           this.setState({
             domainlist
           })
+          if (this.props.location?.search === '?openAdd') {
+            this.addUser()
+          }
         })
         .catch(error => message.error(error.message || error || '查询域失败'))
     })

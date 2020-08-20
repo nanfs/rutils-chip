@@ -94,10 +94,10 @@ export default class Desktop extends React.Component {
     return desktopsApi.detail(this.props.vmId).then(res =>
       wrapResponse(res)
         .then(() => {
-          const { status, snapInPreview } = res.data
+          const { status, snapInPreview, snapLocked } = res.data
           // 重刷一次判断选项
-          this.setDisable({ status, snapInPreview })
-          this.setState({ status, snapInPreview })
+          this.setDisable({ status, snapInPreview, snapLocked })
+          this.setState({ status, snapInPreview, snapLocked })
         })
         .catch(error => {
           message.error(error.message || error)
@@ -106,12 +106,23 @@ export default class Desktop extends React.Component {
     )
   }
 
-  setDisable = ({ status, snapInPreview }) => {
+  setDisable = ({ status, snapInPreview, snapLocked }) => {
     let disabledButton = {}
     // 预览状态 &&  关机状态
     if (this.props.isOpenedSW) {
       disabledButton = {
         ...disabledButton,
+        disabledCreate: true
+      }
+    }
+    // 快照锁定的时候 什么也不能干
+    if (snapLocked) {
+      disabledButton = {
+        ...disabledButton,
+        disableCancel: true,
+        disableCommit: true,
+        disabledDelete: true,
+        disabledCheck: true,
         disabledCreate: true
       }
     }
@@ -128,8 +139,7 @@ export default class Desktop extends React.Component {
       disabledButton = {
         ...disabledButton,
         disableCancel: true,
-        disableCommit: true,
-        disabledCheck: true
+        disableCommit: true
       }
     }
     if (snapInPreview) {
@@ -140,11 +150,10 @@ export default class Desktop extends React.Component {
         disabledCreate: true
       }
     }
-    if (snapInPreview && status !== 0) {
+    if (status !== 0) {
       disabledButton = {
         ...disabledButton,
-        disableCancel: true,
-        disableCommit: true
+        disabledCheck: true
       }
     }
     this.setState({ disabledButton })
@@ -208,8 +217,7 @@ export default class Desktop extends React.Component {
     confirm({
       title: '确认应用当前快照吗?',
       content: '应用快照成功后 会删除当前快照之后所有数据!',
-      onOk: this.commitSnap(),
-      onCancel() {}
+      onOk: this.commitSnap()
     })
   }
 
@@ -264,8 +272,7 @@ export default class Desktop extends React.Component {
           .catch(error => {
             message.error(error.message || error)
           })
-      },
-      onCancel() {}
+      }
     })
   }
 

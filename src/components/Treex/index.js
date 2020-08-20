@@ -203,7 +203,7 @@ export default class Treex extends React.Component {
       const index = item.title.indexOf(searchValue)
       let iconType = ''
       if (item.title === '本地组(internal)') {
-        iconType = 'yonghuguanli'
+        iconType = 'yonghuguanli1'
       } else if (item.parentId === '-2') {
         iconType = 'adyu'
       }
@@ -234,7 +234,7 @@ export default class Treex extends React.Component {
                   type={iconType}
                   component="svg"
                   style={{
-                    fontSize: iconType === 'adyu' ? '22px' : '20px',
+                    fontSize: iconType === 'adyu' ? '22px' : '18px',
                     color: '#1890ff'
                   }}
                 />

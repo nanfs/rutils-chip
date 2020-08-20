@@ -3,46 +3,48 @@ const menu = [
   {
     title: '首页',
     icon: 'home',
+    iconComonpent: 'MyIcon',
     path: '/dashboard',
     authority: 'admin,security'
   },
   {
     title: '资源概览',
     path: '/resource',
-    icon: 'pie-chart',
+    iconComonpent: 'MyIcon',
+    icon: 'ziyuangailan',
     authority: 'admin,security'
   },
   {
     title: '桌面管理',
     path: '/vm',
-    icon: 'zhuomianguanli',
+    icon: 'zhuomianguanli1',
     iconComonpent: 'MyIcon',
     authority: 'admin,security',
     children: [
       {
         title: '桌面管理',
-        icon: 'zhuomianguanli',
+        icon: 'zhuomianguanli1',
         iconComonpent: 'MyIcon',
         path: '/desktop',
         authority: 'admin,security'
       },
       {
         title: '桌面池管理',
-        icon: 'template1',
+        icon: 'zhuomianchiguanli',
         iconComonpent: 'MyIcon',
         path: '/pool',
         authority: 'admin,security'
       },
       {
         title: '桌面组管理',
-        icon: 'zhuomianzu1',
+        icon: 'zhuomianzu11',
         iconComonpent: 'MyIcon',
         path: '/vmgroup',
         authority: 'admin,security'
       },
       {
         title: '模板管理',
-        icon: 'template',
+        icon: 'mobanguanli',
         iconComonpent: 'MyIcon',
         path: '/template',
         authority: 'admin'
@@ -57,14 +59,14 @@ const menu = [
   },
   {
     title: '终端管理',
-    icon: 'terminal',
+    icon: 'zhongduanguanli',
     path: '/tc',
     iconComonpent: 'MyIcon',
     authority: 'admin,security',
     children: [
       {
         title: '终端管理',
-        icon: 'terminal',
+        icon: 'zhongduanguanli',
         iconComonpent: 'MyIcon',
         path: '/terminal',
         authority: 'admin,security'
@@ -77,19 +79,21 @@ const menu = [
       },
       {
         title: '外设控制',
-        icon: 'usb',
+        icon: 'waishekongzhi',
+        iconComonpent: 'MyIcon',
         path: '/device',
         authority: 'admin,security'
       },
       {
         title: '准入控制',
-        icon: 'login',
+        icon: 'zhunrukongzhi',
+        iconComonpent: 'MyIcon',
         path: '/access',
         authority: 'admin,security'
       },
       {
         title: '升级包管理',
-        icon: 'shengji',
+        icon: 'shengjibao',
         iconComonpent: 'MyIcon',
         path: '/upgrade',
         authority: 'admin,security'
@@ -98,28 +102,28 @@ const menu = [
   },
   {
     title: '用户管理',
-    icon: 'yonghuguanli',
+    icon: 'yonghuguanli1',
     iconComonpent: 'MyIcon',
     path: '/user',
     authority: 'admin,security'
   },
   {
     title: '系统日志',
-    icon: 'log',
+    icon: 'xitongrizhi',
     iconComonpent: 'MyIcon',
     path: '/log',
     authority: 'admin,security,audit',
     children: [
       {
         title: '桌面日志',
-        icon: 'log',
+        icon: 'xitongrizhi',
         iconComonpent: 'MyIcon',
         authority: 'admin,security,audit',
         path: '/vmlog'
       },
       {
         title: '终端日志',
-        icon: 'log',
+        icon: 'xitongrizhi',
         iconComonpent: 'MyIcon',
         authority: 'admin,security,audit',
         path: '/tclog'

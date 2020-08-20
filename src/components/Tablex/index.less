@@ -29,11 +29,13 @@
 }
 
 .table-wrap {
+  overflow-y: hidden; // 适配IE多出滚动条问题
   padding: 10px 20px;
   margin: 0px 20px;
   background: white;
   position: relative;
   // min-height: 80vh;
+  overflow-x: auto;
   .ant-table-thead > tr {
     box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.1);
   }
@@ -44,6 +46,7 @@
     font-weight: normal;
     padding: 0.6vw 0.6vw;
     border-right: 1px solid #e1edfb;
+    user-select: none;
   }
   .ant-table-thead > tr:first-child > th:first-child,
   .ant-table-thead > tr:first-child > th:last-child {
@@ -156,6 +159,22 @@
     border-radius: 2px;
     border: 1px solid #d9d9d9;
     display: inline-flex !important;
+    &:focus-within {
+      background: #349dffad;
+      border-color: #1890ff;
+      box-shadow: 0px 0px 4px 2px rgba(24, 144, 255, 0.2);
+      transition: all ease-in-out 0.3s;
+      .ant-input-group-addon {
+        background: #1890ff;
+        color: white;
+      }
+      .anticon-search {
+        color: white;
+      }
+    }
+    .ant-input:focus {
+      box-shadow: none;
+    }
     .ant-input-group-wrapper {
       top: 0px;
     }
@@ -213,4 +232,17 @@
 .setUserForm .table-tool .select-search .ant-input--single,
 .setUserForm .table-tool .select-search .ant-select-selection--single {
   width: 150px;
+}
+.react-resizable {
+  position: relative;
+  background-clip: padding-box;
+}
+.react-resizable-handle {
+  position: absolute;
+  width: 10px;
+  height: 100%;
+  bottom: 0;
+  right: -5px;
+  cursor: col-resize;
+  z-index: 1;
 }

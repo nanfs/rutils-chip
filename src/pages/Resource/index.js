@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Tablex, InnerPath } from '@/components'
+import { Tablex, InnerPath, Diliver } from '@/components'
 import { wrapResponse } from '@/utils/tool'
 import { Icon, Modal, notification, message } from 'antd'
 
@@ -95,6 +95,7 @@ export default class Resource extends React.Component {
           {this.state.viewType ? (
             <div>
               <TableCompute></TableCompute>
+              <Diliver />
               <TableSave></TableSave>
             </div>
           ) : (

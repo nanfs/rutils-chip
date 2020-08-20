@@ -20,6 +20,8 @@ export const columns = [
   {
     title: () => <span title="信息">信息</span>,
     dataIndex: 'message',
+    width: 170,
+    resize: true,
     ellipsis: true
   },
   {

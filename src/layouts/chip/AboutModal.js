@@ -2,13 +2,20 @@ import React from 'react'
 import { Modalx } from '@/components'
 import { Row, Col } from 'antd'
 import './index.less'
+import { getItemFromLocal } from '@/utils/storage'
 
 const src = require('@/assets/logo.png')
 
 const { createModalCfg } = Modalx
 export default class AboutModal extends React.Component {
+  state = { version: 'V1.5.0', build: '3567' }
+
   componentDidMount() {
     this.props.onRef && this.props.onRef(this)
+    this.setState({
+      version: getItemFromLocal('version'),
+      build: getItemFromLocal('build')
+    })
   }
 
   pop = () => {
@@ -21,6 +28,7 @@ export default class AboutModal extends React.Component {
       width: 738,
       hasFooter: false
     })
+    const { version, build } = this.state
 
     return (
       <Modalx
@@ -46,7 +54,9 @@ export default class AboutModal extends React.Component {
           <Col span={5} className="about-title">
             版本号 :
           </Col>
-          <Col span={19}>V1.0.0 build 3561</Col>
+          <Col span={19}>
+            {version} build {build}
+          </Col>
         </Row>
         <Row gutter={32} className="row-margin">
           <Col span={5} className="about-title">

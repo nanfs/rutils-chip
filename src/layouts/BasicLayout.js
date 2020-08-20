@@ -9,6 +9,7 @@ import { AuthorizedRoute } from '@/components/Authorized'
 import './base.less'
 import Header from './Header'
 import Sider from './Sider'
+import ShortcutDrawer from './ShortcutDrawer'
 
 const { Content, Footer } = Layout
 // import ProLayout from '@ant-design/pro-layout'
@@ -16,6 +17,10 @@ const { Content, Footer } = Layout
 dayjs.locale('zh-cn')
 
 class BasicLayout extends React.Component {
+  state = {
+    visible: false
+  }
+
   render() {
     const { location, isSideFold, dispatch } = this.props
     return (
@@ -26,7 +31,7 @@ class BasicLayout extends React.Component {
             <Sider
               path={location.pathname}
               collapsed={isSideFold}
-              dispatch={dispatch}
+              // dispatch={dispatch}
             />
             <Layout>
               <Content>
@@ -45,6 +50,7 @@ class BasicLayout extends React.Component {
                     )
                   }}
                 />
+                <ShortcutDrawer></ShortcutDrawer>
               </Content>
               <Footer style={{ textAlign: 'center', display: 'none' }}>
                 版权所有©2020 电科云（北京）科技有限公司

@@ -42,9 +42,7 @@ export default class Template extends React.Component {
       return (
         <span className="opration-btn">
           <a onClick={() => this.editTem(record.name, record)}>编辑</a>
-          <a onClick={() => this.exportModal.pop(record.id, record.name, true)}>
-            导出
-          </a>
+          <a onClick={() => this.exportModal.pop(record, true)}>导出</a>
           <a
             disabled={record.vmUsed !== '0'}
             onClick={() => {
@@ -137,11 +135,10 @@ export default class Template extends React.Component {
 
   /**
    *
-   * @param {*} id
    * 导入
    */
-  importVm = id => {
-    this.importModal.pop(id, true)
+  importVm = () => {
+    this.importModal.pop(true)
   }
 
   render() {

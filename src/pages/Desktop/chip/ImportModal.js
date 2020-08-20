@@ -1,6 +1,15 @@
 import React from 'react'
 import { Formx, Modalx, Selectx } from '@/components'
-import { Form, Checkbox, Input, Divider, Button, Table, Steps } from 'antd'
+import {
+  Form,
+  Checkbox,
+  Input,
+  Divider,
+  Button,
+  Table,
+  Steps,
+  message
+} from 'antd'
 import templateApi from '@/services/template'
 import EditTable from './editTable'
 import { required } from '@/utils/valid'
@@ -21,102 +30,305 @@ const formItemLayout = {
 
 const { createModalCfg } = Modalx
 export default class ImportModal extends React.Component {
-  state = {
-    dataCenterOptions: [{ label: 'asd', value: 'aaa' }],
-    sourceOptions: [{ label: 'asd', value: 'aaa' }],
-    jiqunOptions: [{ label: 'asd', value: 'aaa' }],
-    vmList: [{ name: 'ddd' }],
-    selectedVmList: [{ name: 'ddd', storage: 'wwe', cpu: 'sss' }],
-    current: 0,
-    disabledButton: true,
-    formData: {}
+  constructor(props) {
+    super(props)
+    this.state = {
+      storagePoolOptions: [],
+      storageDomainOptions: [{ label: '导出域', value: '1' }],
+      clusterOptions: [],
+      list: [],
+      selectedList: [],
+      current: 0,
+      disabledButton: true
+    }
   }
 
   componentDidMount() {
     this.props.onRef && this.props.onRef(this)
   }
 
-  pop = (vmId, temp) => {
+  pop = temp => {
     this.modal.show()
     this.setState({ temp })
-    // this.modal.form.setFieldsValue({ vmId })
+    // 获取数据中心列表
+    desktopApi.storagePools({ available: 1 }).then(res => {
+      const storagePoolOptions = res.data?.map(item => {
+        return {
+          label: item.name,
+          value: item.id
+        }
+      })
+      this.setState({
+        storagePoolOptions,
+        storagePoolId: storagePoolOptions[0]?.value
+      })
+      this.formb.setFieldsValue({
+        storagePoolId: storagePoolOptions[0]?.value,
+        domain: '1'
+      })
+      // 获取导出域详情， 数据中心下集群列表
+      this.exportDetail(storagePoolOptions[0]?.value)
+      this.getClusters(storagePoolOptions[0]?.value)
+    })
+  }
+
+  // 数据中心下集群列表
+  getClusters(id) {
+    desktopApi.getClusters({ id }).then(res => {
+      const clusterOptions = res.data?.map(item => {
+        return {
+          label: item.name,
+          value: item.id
+        }
+      })
+      this.setState({
+        clusterOptions,
+        clusterId: clusterOptions[0]?.value
+      })
+    })
   }
 
   // 加载源中虚拟机
-  fetchVmList = () => {}
+  fetchVmList = () => {
+    desktopApi
+      .vmListInDomain({
+        storageDomainId: this.state.storageDomainId,
+        storagePoolId: this.state.storagePoolId
+      })
+      .then(res => {
+        this.setState({
+          list: res.data,
+          selection: [],
+          selectData: [],
+          selectedList: [],
+          disabledButton: true
+        })
+      })
+  }
 
+  // 加载导出域下模板列表
+  fetchTemplateList = () => {
+    templateApi
+      .templateListInDomain({
+        storageDomainId: this.state.storageDomainId,
+        storagePoolId: this.state.storagePoolId
+      })
+      .then(res => {
+        this.setState({
+          list: res.data,
+          selection: [],
+          selectData: [],
+          selectedList: [],
+          disabledButton: true
+        })
+      })
+  }
+
+  // 导出域详情
+  exportDetail(id) {
+    desktopApi.exportDomains({ id }).then(res => {
+      this.formb.setFieldsValue({
+        name: res.data.name,
+        description: res.data.description
+      })
+      this.setState({
+        storageDomainId: res.data.id,
+        name: res.data.name,
+        description: res.data.description
+      })
+      if (this.state.temp) {
+        this.fetchTemplateList()
+      } else {
+        this.fetchVmList()
+      }
+    })
+  }
+
+  // 表格选项勾选 支持单条导入
   onSelectChange = (selectKeys, selectData) => {
+    if (selectKeys.length > 1) {
+      message.warning('仅支持单条导入')
+      return
+    }
     this.setState({
       selection: selectKeys,
-      selectData
+      selectData,
+      selectedList: selectData
     })
-    if (this.state.formData.dataCenter && this.state.formData.source) {
+    if (selectKeys.length !== 1) {
+      this.setState({ disabledButton: true })
+    } else {
       this.setState({ disabledButton: false })
     }
   }
 
-  dataCenterChange = (a, b, data) => {
+  // 数据中心切换事件
+  storagePoolChange = (a, b, data) => {
     this.setState({
-      formData: {
-        ...this.state.formData,
-        dataCenter: data
+      storagePoolId: data
+    })
+    this.exportDetail(data)
+    this.getClusters(data)
+  }
+
+  storageDomainChange = (a, b, data) => {
+    this.setState({
+      storageDomainId: data
+    })
+    if (this.state.selectData?.length) {
+      this.setState({ disabledButton: false })
+    } else {
+      this.setState({ disabledButton: true })
+    }
+  }
+
+  // 集群切换
+  clusterChange = (a, b, data) => {
+    this.setState({
+      clusterId: data
+    })
+  }
+
+  // 关闭窗口 重置弹窗
+  onClose = () => {
+    this.setState(
+      {
+        storagePoolOptions: [],
+        storageDomainOptions: [{ label: '导出域', value: '1' }],
+        clusterOptions: [],
+        list: [],
+        selectedList: [],
+        current: 0,
+        disabledButton: true
+      },
+      () => {
+        this.formb.resetFields()
       }
-    })
-    if (this.state.formData.source && this.state.selectData?.length) {
-      this.setState({ disabledButton: false })
-    }
-  }
-
-  sourceChange = (a, b, data) => {
-    this.setState({
-      formData: {
-        ...this.state.formData,
-        source: data
-      }
-    })
-    if (this.state.formData.dataCenter && this.state.selectData?.length) {
-      this.setState({ disabledButton: false })
-    }
-  }
-
-  jiqunChange = (a, b, data) => {
-    this.setState({
-      jiqun: data
-    })
-  }
-
-  onOk = () => {
-    console.log(this.forma.getFieldsValue())
-    console.log(this.state.selectedVmList)
-    // templateApi
-    //   .addTem(values)
-    //   .then(res => {
-    //     this.modal.afterSubmit(res)
-    //   })
-    //   .catch(error => {
-    //     console.log(error)
-    //     this.modal.break(error)
-    //   })
-  }
-
-  next() {
-    const { jiqun } = this.state
-    this.setState({ current: this.state.current + 1 }, () =>
-      this.forma.setFieldsValue({ jiqun })
     )
+  }
+
+  // 导入 判断名称重名
+  onOk = () => {
+    const {
+      selectData,
+      selectedList,
+      temp,
+      clusterId,
+      storageDomainId,
+      storagePoolId,
+      nameStatus
+    } = this.state
+    if (nameStatus && selectData[0].name === selectedList[0].name) {
+      message.error('名称在环境中已被使用，创建一个新名称')
+      return 'noLoading'
+    }
+    if (temp) {
+      templateApi
+        .import({
+          templateId: selectedList[0].id,
+          templateName: selectedList[0].name,
+          clusterId,
+          storagePoolId,
+          storageDomainId
+        })
+        .then(res => {
+          this.modal.afterSubmit(res)
+        })
+        .catch(error => {
+          console.log(error)
+          this.modal.break(error)
+        })
+    } else {
+      desktopApi
+        .import({
+          id: selectedList[0].id,
+          name: selectedList[0].name,
+          clusterId,
+          storagePoolId,
+          storageDomainId
+        })
+        .then(res => {
+          this.modal.afterSubmit(res)
+        })
+        .catch(error => {
+          console.log(error)
+          this.modal.break(error)
+        })
+    }
+  }
+
+  // 判断名称是否存在于系统
+  next() {
+    const { clusterId, selectData } = this.state
+    this.setState({ current: this.state.current + 1 }, () =>
+      this.forma.setFieldsValue({ clusterId })
+    )
+    if (this.state.temp) {
+      templateApi
+        .templateExistInSystem({
+          baseTemplateId: selectData[0].baseTemplateId,
+          id: selectData[0].id,
+          name: selectData[0].name,
+          storagePoolId: this.state.storagePoolId
+        })
+        .then(res => {
+          const list = this.state.selectData[0]
+          if (res.data) {
+            list.nameStatus = true
+            this.setState({
+              selectData: [list],
+              nameStatus: res.data
+            })
+          } else {
+            list.nameStatus = false
+            this.setState({
+              selectData: [list],
+              nameStatus: res.data
+            })
+          }
+        })
+    } else {
+      desktopApi
+        .vmExistInSystem({
+          name: selectData[0].name,
+          id: selectData[0].id,
+          storagePoolId: this.state.storagePoolId
+        })
+        .then(res => {
+          const list = this.state.selectData[0]
+          if (res.data) {
+            list.nameStatus = true
+            this.setState({
+              selectData: [list]
+            })
+          } else {
+            list.nameStatus = false
+            this.setState({
+              selectData: [list]
+            })
+          }
+        })
+    }
   }
 
   prev() {
-    const { formData } = this.state
+    const { storagePoolId, name, description } = this.state
     this.setState({ current: this.state.current - 1 }, () =>
-      this.formb.setFieldsValue({ ...formData })
+      this.formb.setFieldsValue({
+        storagePoolId,
+        name,
+        description,
+        domain: '1'
+      })
     )
   }
 
+  // 表格编辑之后获取新数据
   getTableData(data) {
-    this.setState({ selectedVmList: data })
+    this.setState({ selectedList: data })
   }
 
+  // 步骤条渲染
   stepRender() {
     const { current, selection } = this.state
     const rowSelection = {
@@ -142,23 +354,19 @@ export default class ImportModal extends React.Component {
               this.formb = node
             }}
           >
-            <Form.Item
-              prop="dataCenter"
-              label="数据中心"
-              required
-              rules={[required]}
-            >
+            <Form.Item prop="storagePoolId" label="数据中心">
               <Selectx
                 placeholder="请选择数据中心"
-                options={this.state?.dataCenterOptions}
-                onChange={this.dataCenterChange}
+                options={this.state?.storagePoolOptions}
+                onChange={this.storagePoolChange}
               ></Selectx>
             </Form.Item>
-            <Form.Item prop="source" label="源" required rules={[required]}>
+            <Form.Item label="源" prop="domain">
               <Selectx
+                disabled
                 placeholder="请选择源"
-                options={this.state?.sourceOptions}
-                onChange={this.sourceChange}
+                options={this.state?.storageDomainOptions}
+                // onChange={this.storageDomainChange}
               ></Selectx>
             </Form.Item>
             <Divider />
@@ -170,11 +378,15 @@ export default class ImportModal extends React.Component {
             </Form.Item>
             <Table
               columns={vmColums}
-              dataSource={this.state?.vmList}
+              dataSource={this.state?.list}
               rowKey="id"
               rowSelection={rowSelection}
               pagination={false}
-              style={{ marginTop: '10px' }}
+              style={{
+                marginTop: '10px',
+                maxHeight: '400px',
+                overflow: 'auto'
+              }}
               ref={node => {
                 this.vmTable = node
               }}
@@ -191,10 +403,8 @@ export default class ImportModal extends React.Component {
             }}
           >
             <Form.Item
-              prop="jiqun"
+              prop="clusterId"
               label="目标集群"
-              required
-              rules={[required]}
               labelCol={{
                 xs: { span: 24 },
                 sm: { span: 3 }
@@ -207,12 +417,12 @@ export default class ImportModal extends React.Component {
               <Selectx
                 style={{ width: '80%' }}
                 placeholder="请选择目标集群"
-                options={this.state?.jiqunOptions}
-                onChange={this.jiqunChange}
+                options={this.state?.clusterOptions}
+                onChange={this.clusterChange}
               ></Selectx>
             </Form.Item>
             <EditTable
-              dataSource={this.state?.selectedVmList}
+              dataSource={this.state?.selectedList}
               style={{ marginTop: '10px' }}
               onChange={data => this.getTableData(data)}
             ></EditTable>
@@ -254,7 +464,7 @@ export default class ImportModal extends React.Component {
 
   render() {
     const modalCfg = createModalCfg({
-      title: '导入虚拟机',
+      title: this.state?.temp ? '导入模板' : '导入虚拟机',
       width: 800,
       hasFooter: this.state.current !== 0
     })
@@ -265,8 +475,8 @@ export default class ImportModal extends React.Component {
           this.modal = ref
         }}
         modalCfg={modalCfg}
-        title={'导入虚拟机'}
         onOk={this.onOk}
+        onClose={this.onClose}
         formItemLayout={formItemLayout}
       >
         {this.stepRender()}

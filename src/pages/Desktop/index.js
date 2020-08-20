@@ -78,7 +78,7 @@ export default class Desktop extends React.Component {
         openConsoleFn: () => this.openConsole(id, name),
         addTempFn: () => this.addTemplateModal.pop(id),
         attachIsoFn: () => this.attachIsoModal.pop(id, datacenterId, currentCd),
-        exportFn: () => this.exportModal.pop(id, name, false),
+        exportFn: () => this.exportModal.pop(record, false),
         isInnerMore: true
       })
       return (
@@ -318,11 +318,10 @@ export default class Desktop extends React.Component {
 
   /**
    *
-   * @param {*} id
    * 导入
    */
-  importVm = id => {
-    this.importModal.pop(id, false)
+  importVm = () => {
+    this.importModal.pop(false)
   }
 
   render() {

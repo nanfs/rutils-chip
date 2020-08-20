@@ -1,5 +1,5 @@
 import React from 'react'
-import { Table, Input, Form } from 'antd'
+import { Table, Input, Form, Icon } from 'antd'
 import '../index.less'
 
 const EditableContext = React.createContext()
@@ -99,6 +99,18 @@ export default class EditableTable extends React.Component {
   constructor(props) {
     super(props)
     this.columns = [
+      {
+        dataIndex: 'nameStatus',
+        render: (text, record) => {
+          return text ? (
+            <Icon
+              type="warning"
+              style={{ color: '#faad14', fontSize: '24px' }}
+              title="名称在环境中已被使用，创建一个新名称"
+            ></Icon>
+          ) : null
+        }
+      },
       {
         title: '名称',
         dataIndex: 'name',

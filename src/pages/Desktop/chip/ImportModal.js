@@ -11,7 +11,7 @@ import {
   message
 } from 'antd'
 import templateApi from '@/services/template'
-import EditTable from './editTable'
+import EditTable from './EditTable'
 import { required } from '@/utils/valid'
 import desktopApi from '@/services/desktops'
 
@@ -39,7 +39,8 @@ export default class ImportModal extends React.Component {
       list: [],
       selectedList: [],
       current: 0,
-      disabledButton: true
+      disabledButton: true,
+      loading: false
     }
   }
 
@@ -90,6 +91,7 @@ export default class ImportModal extends React.Component {
 
   // 加载源中虚拟机
   fetchVmList = () => {
+    this.setState({ loading: true })
     desktopApi
       .vmListInDomain({
         storageDomainId: this.state.storageDomainId,
@@ -101,13 +103,18 @@ export default class ImportModal extends React.Component {
           selection: [],
           selectData: [],
           selectedList: [],
-          disabledButton: true
+          disabledButton: true,
+          loading: false
         })
+      })
+      .catch(err => {
+        this.setState({ loading: false })
       })
   }
 
   // 加载导出域下模板列表
   fetchTemplateList = () => {
+    this.setState({ loading: true })
     templateApi
       .templateListInDomain({
         storageDomainId: this.state.storageDomainId,
@@ -119,8 +126,12 @@ export default class ImportModal extends React.Component {
           selection: [],
           selectData: [],
           selectedList: [],
-          disabledButton: true
+          disabledButton: true,
+          loading: false
         })
+      })
+      .catch(err => {
+        this.setState({ loading: false })
       })
   }
 
@@ -199,7 +210,8 @@ export default class ImportModal extends React.Component {
         list: [],
         selectedList: [],
         current: 0,
-        disabledButton: true
+        disabledButton: true,
+        loading: false
       },
       () => {
         this.formb.resetFields()
@@ -232,6 +244,7 @@ export default class ImportModal extends React.Component {
           storageDomainId
         })
         .then(res => {
+          this.onClose()
           this.modal.afterSubmit(res)
         })
         .catch(error => {
@@ -248,6 +261,7 @@ export default class ImportModal extends React.Component {
           storageDomainId
         })
         .then(res => {
+          this.onClose()
           this.modal.afterSubmit(res)
         })
         .catch(error => {
@@ -382,6 +396,7 @@ export default class ImportModal extends React.Component {
               rowKey="id"
               rowSelection={rowSelection}
               pagination={false}
+              loading={this.state.loading}
               style={{
                 marginTop: '10px',
                 maxHeight: '400px',
@@ -451,7 +466,7 @@ export default class ImportModal extends React.Component {
           {current > 0 && (
             <Button
               type="primary"
-              style={{ marginLeft: 8 }}
+              className="prev-btn"
               onClick={() => this.prev()}
             >
               上一步

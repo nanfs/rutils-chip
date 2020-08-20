@@ -118,6 +118,7 @@ export default class ExportModal extends React.Component {
           forceOverride: values.forceOverride ? 1 : 0
         })
         .then(res => {
+          this.onClose()
           this.modal.afterSubmit(res)
         })
         .catch(error => {
@@ -133,6 +134,7 @@ export default class ExportModal extends React.Component {
           collapseSnapshots: values.collapseSnapshots ? 1 : 0
         })
         .then(res => {
+          this.onClose()
           this.modal.afterSubmit(res)
         })
         .catch(error => {
@@ -168,26 +170,29 @@ export default class ExportModal extends React.Component {
           >
             <Checkbox>Collapse 快照</Checkbox>
           </Form.Item>
-          <p hidden={this.state?.vmExistDomain} style={{ color: '#CD2127' }}>
+          <p
+            hidden={this.state?.vmExistDomain}
+            style={{ color: '#CD2127', margin: '10px 0' }}
+          >
             虚拟机: {this.state.vmName}{' '}
             已经存在于目标导出域中。如果您想覆盖它们，请选择
-            &apos;ForceOverride&apos; 复选框。
+            &apos;强制覆盖&apos; 复选框。
           </p>
           <p
             hidden={this.state?.templateNameExistDomain}
-            style={{ color: '#CD2127' }}
+            style={{ color: '#CD2127', margin: '10px 0' }}
           >
             模板: {this.state.vmName}{' '}
             已经存在于目标导出域中。如果您想覆盖它们，请选择
-            &apos;ForceOverride&apos; 复选框。
+            &apos;强制覆盖&apos; 复选框。
           </p>
           <p
             hidden={this.state?.templateExistDomain}
-            style={{ color: '#CD2127' }}
+            style={{ color: '#CD2127', margin: '10px 0' }}
           >
             虚拟机: {this.state.vmName}{' '}
             所基于的模板没有存在于导出域中，因此无法正常工作。请选择
-            &apos;CollapseSnapshots&apos; 复选框或者导入模板。
+            &apos;Collapse 快照&apos; 复选框或者导入模板。
           </p>
         </Formx>
       </Modalx>

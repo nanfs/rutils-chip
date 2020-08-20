@@ -244,7 +244,9 @@ export default class ImportModal extends React.Component {
           storageDomainId
         })
         .then(res => {
-          this.onClose()
+          if (res.success) {
+            this.onClose()
+          }
           this.modal.afterSubmit(res)
         })
         .catch(error => {
@@ -261,7 +263,9 @@ export default class ImportModal extends React.Component {
           storageDomainId
         })
         .then(res => {
-          this.onClose()
+          if (res.success) {
+            this.onClose()
+          }
           this.modal.afterSubmit(res)
         })
         .catch(error => {
@@ -313,12 +317,14 @@ export default class ImportModal extends React.Component {
           if (res.data) {
             list.nameStatus = true
             this.setState({
-              selectData: [list]
+              selectData: [list],
+              nameStatus: res.data
             })
           } else {
             list.nameStatus = false
             this.setState({
-              selectData: [list]
+              selectData: [list],
+              nameStatus: res.data
             })
           }
         })

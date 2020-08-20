@@ -118,7 +118,9 @@ export default class ExportModal extends React.Component {
           forceOverride: values.forceOverride ? 1 : 0
         })
         .then(res => {
-          this.onClose()
+          if (res.success) {
+            this.onClose()
+          }
           this.modal.afterSubmit(res)
         })
         .catch(error => {
@@ -134,7 +136,9 @@ export default class ExportModal extends React.Component {
           collapseSnapshots: values.collapseSnapshots ? 1 : 0
         })
         .then(res => {
-          this.onClose()
+          if (res.success) {
+            this.onClose()
+          }
           this.modal.afterSubmit(res)
         })
         .catch(error => {

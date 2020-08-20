@@ -118,7 +118,7 @@ export default class EditableTable extends React.Component {
       },
       {
         title: '内存',
-        dataIndex: 'storage'
+        dataIndex: 'memory'
       },
       {
         title: 'CPU',

@@ -157,7 +157,7 @@ export default class Template extends React.Component {
           <ToolBar>
             <BarLeft>
               <Button onClick={this.importVm} type="primary">
-                导入
+                模板导入
               </Button>
               <Button
                 onClick={() => this.delTem(this.tablex.getSelection())}

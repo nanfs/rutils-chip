@@ -324,6 +324,46 @@ export default class Desktop extends React.Component {
     this.importModal.pop(false)
   }
 
+  /**
+   *
+   *
+   * @memberof Vmlog
+   *
+   * 导出日志，支持导出指定时间范围内的日志
+   */
+
+  assetExport = () => {
+    desktopsApi
+      .assetExport({
+        ...this.state.tableCfg.searchs
+      })
+      .then(res => {
+        if (res.byteLength) {
+          // 创建隐藏的可下载链接
+          const content = res
+          const eleLink = document.createElement('a')
+          eleLink.download = '系统日志-桌面'
+          eleLink.style.display = 'none'
+          // 字符内容转变成blob地址
+          const blob = new Blob([content], {
+            type:
+              'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+          })
+          eleLink.href = URL.createObjectURL(blob)
+          // 触发点击
+          document.body.appendChild(eleLink)
+          eleLink.click()
+          // 然后移除
+          document.body.removeChild(eleLink)
+        } else {
+          message.error(res.message || '导出失败')
+        }
+      })
+      .catch(error => {
+        message.error(error.message || error)
+      })
+  }
+
   render() {
     const { disabledButton } = this.state
     const moreButton = getMoreButton({
@@ -345,7 +385,7 @@ export default class Desktop extends React.Component {
                 创建
               </Button>
               <Button onClick={this.importVm} type="primary">
-                导入
+                桌面导入
               </Button>
               <Button
                 onClick={() => this.setUser(this.tablex.getSelection())}
@@ -353,6 +393,7 @@ export default class Desktop extends React.Component {
               >
                 分配用户
               </Button>
+              <Button onClick={() => this.assetExport()}>台账导出</Button>
               <Dropdown
                 overlay={moreButton}
                 disabled={disabledButton?.disabledMore}

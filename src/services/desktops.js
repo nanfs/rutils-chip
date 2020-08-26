@@ -224,5 +224,17 @@ export default {
       method: 'post',
       params: data
     })
+  },
+  // 台账导出
+  assetExport(data) {
+    return axios({
+      url: `/desktops/export`,
+      method: 'get',
+      responseType: 'arraybuffer',
+      params: data,
+      paramsSerializer: params => {
+        return qs.stringify(params, { arrayFormat: 'indices' })
+      }
+    })
   }
 }

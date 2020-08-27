@@ -51,7 +51,7 @@ export default class User extends React.Component {
   options = {
     title: '操作',
     dataIndex: 'opration',
-    width: 110,
+    width: 140,
     render: (text, record) => {
       const moreAction = (
         <Menu>

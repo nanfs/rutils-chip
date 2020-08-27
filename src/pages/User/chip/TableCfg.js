@@ -1,8 +1,6 @@
 import React from 'react'
 import userApi from '@/services/user'
 import { Icon, Tag } from 'antd'
-import { MyIcon } from '@/components'
-import { width } from 'dom-helpers'
 import { availableStatusRender } from '@/utils/tableRender'
 
 export const columns = [
@@ -48,7 +46,7 @@ export const columns = [
     title: () => <span title="姓名">姓名</span>,
     dataIndex: 'name',
     ellipsis: true,
-    render: (value, record) => {
+    render: value => {
       return <span title={value}>{value}</span>
     }
   },

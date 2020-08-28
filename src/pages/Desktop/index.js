@@ -342,7 +342,7 @@ export default class Desktop extends React.Component {
           // 创建隐藏的可下载链接
           const content = res
           const eleLink = document.createElement('a')
-          eleLink.download = '系统日志-桌面'
+          eleLink.download = '桌面导出数据'
           eleLink.style.display = 'none'
           // 字符内容转变成blob地址
           const blob = new Blob([content], {

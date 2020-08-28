@@ -6,6 +6,8 @@ import DetailDrawer from './chip/DetailDrawer'
 import { columns, apiMethod } from './chip/TableCfg'
 import templateApi from '@/services/template'
 import { wrapResponse } from '@/utils/tool'
+import ExportModal from '@/pages/Common/ExportModal'
+import ImportModal from '@/pages/Common/ImportModal'
 
 const { confirm } = Modal
 const { createTableCfg, TableWrap, ToolBar, BarLeft } = Tablex
@@ -35,11 +37,12 @@ export default class Template extends React.Component {
   action = {
     title: '操作',
     dataIndex: 'opration',
-    width: 120,
+    width: 200,
     render: (text, record) => {
       return (
         <span className="opration-btn">
           <a onClick={() => this.editTem(record.name, record)}>编辑</a>
+          <a onClick={() => this.exportModal.pop(record, true)}>导出</a>
           <a
             disabled={record.vmUsed !== '0'}
             onClick={() => {
@@ -130,6 +133,14 @@ export default class Template extends React.Component {
     })
   }
 
+  /**
+   *
+   * 导入
+   */
+  importVm = () => {
+    this.importModal.pop(true)
+  }
+
   render() {
     const { disabledButton } = this.state
     return (
@@ -145,6 +156,9 @@ export default class Template extends React.Component {
         <TableWrap>
           <ToolBar>
             <BarLeft>
+              <Button onClick={this.importVm} type="primary">
+                导入
+              </Button>
               <Button
                 onClick={() => this.delTem(this.tablex.getSelection())}
                 disabled={disabledButton?.disabledDelete}
@@ -176,6 +190,16 @@ export default class Template extends React.Component {
             }}
             onClose={this.onBack}
           />
+          <ExportModal
+            onRef={ref => {
+              this.exportModal = ref
+            }}
+          ></ExportModal>
+          <ImportModal
+            onRef={ref => {
+              this.importModal = ref
+            }}
+          ></ImportModal>
         </TableWrap>
       </React.Fragment>
     )

@@ -117,7 +117,12 @@ class Modalx extends React.Component {
           })
         })
     } else {
-      onOk && onOk()
+      const status = onOk && onOk()
+      if (status === 'noLoading') {
+        this.setState({
+          submitting: false
+        })
+      }
     }
   }
 

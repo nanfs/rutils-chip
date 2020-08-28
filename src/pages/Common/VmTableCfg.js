@@ -212,6 +212,7 @@ export function getMoreButton({
   setUserFn,
   openConsoleFn,
   attachIsoFn,
+  exportFn,
   removePermissionFn,
   isInnerMore = false,
   isDuplicated = false,
@@ -236,7 +237,7 @@ export function getMoreButton({
         打开控制台
       </Menu.Item>
       <Menu.Item
-        key="7"
+        key="8"
         hidden={isDuplicated || !isInnerMore}
         onClick={attachIsoFn}
         disabled={disabledButton?.disabledAttachIso}
@@ -290,6 +291,14 @@ export function getMoreButton({
         回收权限
       </Menu.Item>
       <Menu.Item
+        key="9"
+        hidden={isDuplicated || !isInnerMore}
+        onClick={exportFn}
+        disabled={disabledButton?.disabledExport}
+      >
+        导出到导出域
+      </Menu.Item>
+      <Menu.Item
         key="10"
         onClick={deleteFn}
         disabled={disabledButton?.disabledDelete}
@@ -330,12 +339,13 @@ export function vmDisableAction(vmObj) {
       disabledOpenConsole: true
     }
   }
-  // 只有关机状态 可以开机和删除
+  // 只有关机状态 可以开机和删除,导出到导出域
   if (vmObj.status !== 0) {
     disabledButton = {
       ...disabledButton,
       disabledAddTem: true,
-      disabledDelete: true
+      disabledDelete: true,
+      disabledExport: true
     }
   }
   if (vmObj.status !== 1) {

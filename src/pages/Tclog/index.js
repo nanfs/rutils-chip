@@ -4,6 +4,7 @@ import { Tablex, InnerPath, SelectSearch } from '@/components'
 import { columns, apiMethod } from './chip/TableCfg'
 import produce from 'immer'
 import tclogsApi from '@/services/tclogs'
+import { downloadFile } from '@/utils/tool'
 
 const { createTableCfg, TableWrap, ToolBar, BarLeft, BarRight } = Tablex
 const { RangePicker } = DatePicker
@@ -220,22 +221,7 @@ export default class tcLog extends React.Component {
       })
       .then(res => {
         if (res.byteLength) {
-          // 创建隐藏的可下载链接
-          const content = res
-          const eleLink = document.createElement('a')
-          eleLink.download = '系统日志-终端'
-          eleLink.style.display = 'none'
-          // 字符内容转变成blob地址
-          const blob = new Blob([content], {
-            type:
-              'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-          })
-          eleLink.href = URL.createObjectURL(blob)
-          // 触发点击
-          document.body.appendChild(eleLink)
-          eleLink.click()
-          // 然后移除
-          document.body.removeChild(eleLink)
+          downloadFile(res, '系统日志-终端', 'xlsx')
         } else {
           message.error(res.message || '导出失败')
         }

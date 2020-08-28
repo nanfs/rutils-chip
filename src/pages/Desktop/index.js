@@ -4,12 +4,7 @@ import { Button, Modal, Dropdown, Icon, notification, message } from 'antd'
 import produce from 'immer'
 
 import { InnerPath, SelectSearch, Tablex } from '@/components'
-import {
-  downloadVV,
-  wrapResponse,
-  handleVmMessage,
-  handleTcMessage
-} from '@/utils/tool'
+import { downloadFile, wrapResponse, handleVmMessage } from '@/utils/tool'
 import {
   getColumns,
   apiMethod,
@@ -306,7 +301,7 @@ export default class Desktop extends React.Component {
    */
   openConsole = (id, name) => {
     desktopsApi.openConsole({ desktopId: id }).then(res => {
-      downloadVV(res, name)
+      downloadFile(res, name)
     })
   }
 
@@ -339,22 +334,7 @@ export default class Desktop extends React.Component {
       })
       .then(res => {
         if (res.byteLength) {
-          // 创建隐藏的可下载链接
-          const content = res
-          const eleLink = document.createElement('a')
-          eleLink.download = '桌面导出数据'
-          eleLink.style.display = 'none'
-          // 字符内容转变成blob地址
-          const blob = new Blob([content], {
-            type:
-              'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-          })
-          eleLink.href = URL.createObjectURL(blob)
-          // 触发点击
-          document.body.appendChild(eleLink)
-          eleLink.click()
-          // 然后移除
-          document.body.removeChild(eleLink)
+          downloadFile(res, '桌面导出数据', 'xlsx')
         } else {
           message.error(res.message || '导出失败')
         }

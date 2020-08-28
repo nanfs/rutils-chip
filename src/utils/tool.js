@@ -208,13 +208,20 @@ export function ch2Unicdoe(str) {
  * @param flow
  * @param name
  */
-export function downloadVV(flow, name) {
+export function downloadFile(flow, name, type = 'vv') {
+  const typeMap = new Map([
+    ['vv', 'application/x-virt-viewer;charset=UTF-8'],
+    [
+      'xlsx',
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    ]
+  ])
   const blob = new Blob([flow], {
-    type: 'application/x-virt-viewer;charset=UTF-8'
+    type: typeMap.get(type)
   })
   const objUrl = URL.createObjectURL(blob)
   const aLink = document.createElement('a')
-  aLink.download = `${name}.vv`
+  aLink.download = `${name}.${type}`
   document.body.appendChild(aLink)
   aLink.style.display = 'none'
   aLink.href = objUrl

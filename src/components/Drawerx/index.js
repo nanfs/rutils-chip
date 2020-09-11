@@ -36,6 +36,7 @@ class Drawerx extends React.Component {
       show: true
     })
     document.body.style.maxHeight = '100vh'
+    document.body.style.overflowY = 'hidden'
     if (document.querySelector('.table-wrap')) {
       document.querySelector('.table-wrap').style.height = 'calc(100vh - 105px)'
       document.querySelector('.table-wrap').style.overflow = 'hidden'

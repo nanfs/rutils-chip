@@ -82,7 +82,7 @@ export const columns = [
     render: text => renderSatus(runStatus, text, true)
   },
   {
-    title: () => <span title="大小(GB)">大小(GB)</span>,
+    title: () => <span title="大小(GB)">使用情况(已用/总量)</span>,
     key: 'capacity',
     ellipsis: true,
     dataIndex: 'capacity',

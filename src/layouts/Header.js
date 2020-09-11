@@ -310,6 +310,12 @@ export default class Header extends React.Component {
             <Icon type="lock" />
             <span>修改密码</span>
           </Menu.Item>
+          <Menu.Item key="turn">
+            <a href="/ccsvm/webadmin/?locale=zh_CN" target="_blank">
+              <Icon type="swap-right" />
+              跳转至服务器虚拟化系统
+            </a>
+          </Menu.Item>
           <Menu.Item key="logout" onClick={this.logOut}>
             <Icon type="logout" />
             <span>注销</span>

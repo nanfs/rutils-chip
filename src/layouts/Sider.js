@@ -106,7 +106,7 @@ export default class Sider extends React.Component {
     const defaultProps = collapsed ? {} : { openKeys } // 为了解决antd menu收缩时二级菜单不跟随的问题。
     return (
       <Layout.Sider
-        width={190}
+        width={200}
         className="sider"
         collapsible
         trigger={null}

@@ -166,7 +166,10 @@ const webpackConfigBase = {
           loader: 'less-loader',
           options: {
             javascriptEnabled: true,
-            modifyVars: { 'border-radius-base': '2px' }
+            modifyVars: {
+              'primary-color': '#4a7bff',
+              'border-radius-base': '2px'
+            }
           }
         }
       ],

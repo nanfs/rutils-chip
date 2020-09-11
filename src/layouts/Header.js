@@ -9,6 +9,7 @@ import {
   Tabs,
   List,
   Avatar,
+  Tooltip,
   Skeleton
 } from 'antd'
 import { Link } from 'react-router-dom'
@@ -352,8 +353,9 @@ export default class Header extends React.Component {
                     this.state?.taskOnProgress?.length && 'count-onprogress'
                   }
                 >
-                  <Icon type="bell" />
-                  任务
+                  <Tooltip title="任务" placement="right">
+                    <Icon type="bell" />
+                  </Tooltip>
                 </Badge>
               </div>
             </Dropdown>
@@ -373,8 +375,9 @@ export default class Header extends React.Component {
                 }
               >
                 <Badge offset={[5, 0]}>
-                  <Icon type="exception" />
-                  日志
+                  <Tooltip title="日志" placement="right">
+                    <Icon type="exception" />
+                  </Tooltip>
                 </Badge>
               </div>
             </Dropdown>
@@ -385,8 +388,16 @@ export default class Header extends React.Component {
               this.aboutModal.pop()
             }}
           >
-            <Icon type="info-circle" />
-            <span>关于</span>
+            <Tooltip title="关于" placement="right">
+              <Icon type="info-circle" />
+            </Tooltip>
+          </Menu.Item>
+          <Menu.Item key="server">
+            <Tooltip title="服务器虚拟化系统" placement="right">
+              <a href="/ccsvm/webadmin/?locale=zh_CN" target="_blank">
+                <Icon type="link" />
+              </a>
+            </Tooltip>
           </Menu.Item>
           <Menu.Item
             key="systemConfig"
@@ -394,8 +405,9 @@ export default class Header extends React.Component {
               this.sysModal.pop()
             }}
           >
-            <Icon type="setting" />
-            <span>系统设置</span>
+            <Tooltip title="系统设置" placement="right">
+              <Icon type="setting" />
+            </Tooltip>
           </Menu.Item>
           <Menu.Item key="userInfo">
             <Dropdown overlay={this.renderUserInfo()} placement="bottomCenter">

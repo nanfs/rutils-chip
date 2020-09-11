@@ -14,7 +14,7 @@ import {
   defaultColumnsFilters,
   vmDisableAction
 } from '@/pages/Common/VmTableCfg'
-import { downloadVV, wrapResponse, handleVmMessage } from '@/utils/tool'
+import { downloadFile, wrapResponse, handleVmMessage } from '@/utils/tool'
 
 const { createTableCfg, TableWrap, ToolBar, BarLeft } = Tablex
 const { confirm } = Modal
@@ -239,7 +239,7 @@ export default class Desktop extends React.Component {
 
   openConsole = (id, name) => {
     desktopsApi.openConsole({ desktopId: id }).then(res => {
-      downloadVV(res, name)
+      downloadFile(res, name, 'vv')
     })
   }
 

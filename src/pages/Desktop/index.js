@@ -4,12 +4,7 @@ import { Button, Modal, Dropdown, Icon, notification, message } from 'antd'
 import produce from 'immer'
 
 import { InnerPath, SelectSearch, Tablex } from '@/components'
-import {
-  downloadVV,
-  wrapResponse,
-  handleVmMessage,
-  handleTcMessage
-} from '@/utils/tool'
+import { downloadFile, wrapResponse, handleVmMessage } from '@/utils/tool'
 import {
   getColumns,
   apiMethod,
@@ -306,7 +301,7 @@ export default class Desktop extends React.Component {
    */
   openConsole = (id, name) => {
     desktopsApi.openConsole({ desktopId: id }).then(res => {
-      downloadVV(res, name)
+      downloadFile(res, name)
     })
   }
 
@@ -322,6 +317,31 @@ export default class Desktop extends React.Component {
    */
   importVm = () => {
     this.importModal.pop(false)
+  }
+
+  /**
+   *
+   *
+   * @memberof Vmlog
+   *
+   * 导出日志，支持导出指定时间范围内的日志
+   */
+
+  assetExport = () => {
+    desktopsApi
+      .assetExport({
+        ...this.state.tableCfg.searchs
+      })
+      .then(res => {
+        if (res.byteLength) {
+          downloadFile(res, '桌面导出数据', 'xlsx')
+        } else {
+          message.error(res.message || '导出失败')
+        }
+      })
+      .catch(error => {
+        message.error(error.message || error)
+      })
   }
 
   render() {
@@ -345,7 +365,7 @@ export default class Desktop extends React.Component {
                 创建
               </Button>
               <Button onClick={this.importVm} type="primary">
-                导入
+                桌面导入
               </Button>
               <Button
                 onClick={() => this.setUser(this.tablex.getSelection())}
@@ -353,6 +373,7 @@ export default class Desktop extends React.Component {
               >
                 分配用户
               </Button>
+              <Button onClick={() => this.assetExport()}>台账导出</Button>
               <Dropdown
                 overlay={moreButton}
                 disabled={disabledButton?.disabledMore}

@@ -101,9 +101,6 @@ export default class LoginForm extends React.Component {
             style={{ height: 48 }}
           />
         </Form.Item>
-        <a href="/ccsvm/webadmin/?locale=zh_CN" target="_blank">
-          服务器虚拟化系统
-        </a>
         <Form.Item wrapperCol={{ sm: { span: 24 } }} style={{ marginTop: 48 }}>
           <Button
             type="primary"

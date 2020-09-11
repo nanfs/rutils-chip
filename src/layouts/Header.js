@@ -395,7 +395,7 @@ export default class Header extends React.Component {
           <Menu.Item key="server">
             <Tooltip title="服务器虚拟化系统" placement="right">
               <a href="/ccsvm/webadmin/?locale=zh_CN" target="_blank">
-                <Icon type="apartment" />
+                <Icon type="link" />
               </a>
             </Tooltip>
           </Menu.Item>

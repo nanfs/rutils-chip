@@ -183,10 +183,14 @@ body {
     }
   }
   .ant-menu-inline-collapsed {
+    width: 46px;
     .ant-menu-item .text,
     .ant-menu-submenu .text {
       visibility: hidden;
     }
+  }
+  .ant-menu-inline-collapsed>.ant-menu-item, .ant-menu-inline-collapsed>.ant-menu-item-group>.ant-menu-item-group-list>.ant-menu-item, .ant-menu-inline-collapsed>.ant-menu-item-group>.ant-menu-item-group-list>.ant-menu-submenu>.ant-menu-submenu-title, .ant-menu-inline-collapsed>.ant-menu-submenu>.ant-menu-submenu-title {
+    padding: 0 14px !important;
   }
   .ant-menu-inline-collapsed > .ant-menu-item .anticon {
     font-size: 18px;

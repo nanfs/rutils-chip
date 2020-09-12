@@ -102,18 +102,19 @@ export default class Sider extends React.Component {
 
   render() {
     const { openKeys } = this
-    const collapsed = getItemFromLocal('isFolded') || false
+    const collapsed = getItemFromLocal('isFolded') || true
     const defaultProps = collapsed ? {} : { openKeys } // 为了解决antd menu收缩时二级菜单不跟随的问题。
     return (
       <Layout.Sider
-        width={200}
+        width={230}
+        collapsedWidth={46}
         className="sider"
         collapsible
         trigger={null}
         collapsed={!!collapsed}
       >
         <Button onClick={this.onCollapse} className="trigger" type="link">
-          <Icon type="menu" style={{ fontSize: '20px' }}></Icon>
+          <Icon type="menu" style={{ fontSize: '16px' }}></Icon>
         </Button>
         <Menu
           defaultSelectedKeys={['1']}

@@ -6,8 +6,6 @@ import menuConfig from '*/menu'
 import { checkAuth } from '@/utils/checkPermissions'
 import { getItemFromLocal, setItemToLocal } from '@/utils/storage'
 
-const { SubMenu } = Menu
-
 export default class Sider extends React.Component {
   constructor(props) {
     super(props)
@@ -15,10 +13,16 @@ export default class Sider extends React.Component {
       collapsed: false
     }
     menuConfig.forEach(element => {
+      if (this.props.path === element.path) {
+        this.openKeys = [element.path]
+        this.forceUpdate()
+      }
       if (element.children) {
+        console.log('element :>> ', element)
         element.children.forEach(item => {
           if (this.props.path === item.path) {
             this.openKeys = [element.path, item.path]
+            console.log('element :>> ', this.openKeys)
             this.forceUpdate()
           }
         })
@@ -65,48 +69,45 @@ export default class Sider extends React.Component {
     )
   }
 
-  // 两级
+  // 暂时两级
   renderSubMenu(subMenu) {
+    const { openKeys } = this
+    const defaultProps = { openKeys, selectedKeys: openKeys }
+    if (!checkAuth(subMenu.authority)) {
+      return
+    }
     return (
-      <SubMenu
-        key={subMenu.path}
-        title={
-          <span>
-            {subMenu.iconComonpent ? (
-              <MyIcon type={subMenu.icon} />
-            ) : (
-              <Icon type={subMenu.icon} />
-            )}
-            <span className="text">{subMenu.title}</span>
-          </span>
-        }
-        onMouseEnter={e => {
-          this.openKeys = [...this.openKeys, e.key]
-          this.forceUpdate()
-        }}
-        onMouseLeave={() => {
-          const latestOpenKey = this.openKeys.slice(0, -1)
-          this.openKeys = latestOpenKey
-          this.forceUpdate()
-        }}
-      >
-        {subMenu.children.map(item => {
-          if (item.children) {
-            return this.renderSubMenu(item)
-          }
-          return this.renderMenuItem(item)
-        })}
-      </SubMenu>
+      <Menu.Item key={subMenu.path}>
+        <span>
+          {subMenu.iconComonpent ? (
+            <MyIcon type={subMenu.icon} />
+          ) : (
+            <Icon type={subMenu.icon} />
+          )}
+          <span className="text">{subMenu.title}</span>
+        </span>
+        <Menu className="submenu-1" {...defaultProps}>
+          <h3>{subMenu.title}</h3>
+          {subMenu.children.map(item => {
+            if (item.children) {
+              return this.renderSubMenu(item)
+            }
+            return this.renderMenuItem(item)
+          })}
+        </Menu>
+      </Menu.Item>
     )
   }
 
   render() {
     const { openKeys } = this
-    const collapsed = getItemFromLocal('isFolded') || true
-    const defaultProps = collapsed ? {} : { openKeys } // 为了解决antd menu收缩时二级菜单不跟随的问题。
+    const collapsed = getItemFromLocal('isFolded')
+    const defaultProps = { openKeys, selectedKeys: openKeys }
+    // 为了解决antd menu收缩时二级菜单不跟随的问题。
+    console.log('open :>> ', openKeys)
     return (
       <Layout.Sider
-        width={230}
+        width={200}
         collapsedWidth={46}
         className="sider"
         collapsible
@@ -116,12 +117,7 @@ export default class Sider extends React.Component {
         <Button onClick={this.onCollapse} className="trigger" type="link">
           <Icon type="menu" style={{ fontSize: '16px' }}></Icon>
         </Button>
-        <Menu
-          defaultSelectedKeys={['1']}
-          mode="inline"
-          selectedKeys={[this.props.path]}
-          {...defaultProps}
-        >
+        <Menu mode="inline" {...defaultProps}>
           {menuConfig.map(item => {
             if (item.children) {
               return this.renderSubMenu(item)

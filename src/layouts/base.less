@@ -8,22 +8,30 @@ body {
 }
 .ant-layout {
   background: #eff0f5;
-  &-sider-children {
-    border-right: 1px solid #dedede;
-  }
 
   // 适配IE菜单背景颜色缺失
   &-has-sider {
+    min-height: calc(100% - 50px);
+    top: 50px;
+    position: fixed;
     overflow: hidden;
+  }
+  &-content {
+    padding-left: 200px;
   }
 }
 // header
-
+.place-div {
+  position: relative;
+}
 .header {
-  background-color: #262c4a;
+  background-color: #1b59a6;
   color: white;
   height: 50px;
+  width: 100%;
+  z-index: 2;
   padding: 0 20px;
+  position: fixed;
   background-image: url(../assets/header_mask.png);
   background-repeat: no-repeat;
   background-position: 90% bottom;
@@ -31,7 +39,7 @@ body {
     background-color: #52c41a;
   }
   .drop-item {
-    padding: 0 0 0 10px;
+    padding: 0 10px;
   }
   .drop-item.active {
     background: #1565c0;
@@ -93,13 +101,13 @@ body {
   }
   .ant-menu {
     float: right;
-    line-height: 50px;
+    line-height: 55px;
     color: white;
     width: auto;
     min-width: 130px;
     background: transparent;
     .ant-menu-item {
-      padding: 0 10px;
+      padding: 0 15px;
       &:hover,
       &-selected {
         color: #ddd;
@@ -107,6 +115,7 @@ body {
       }
       a,
       .anticon {
+        margin-right: 0;
         color: white;
         font-size: 17px;
       }
@@ -128,15 +137,33 @@ body {
   }
 }
 // Sider
+.ant-menu-inline-collapsed-tooltip {
+  display: none;
+}
+.ant-layout-sider-collapsed {
+  .submenu-1 {
+    left: 46px !important;
+    border-left: 1px solid #dedede;
+  }
+  & + .ant-layout {
+    .ant-layout-content {
+      padding-left: 46px;
+    }
+  }
+}
 .sider {
+  z-index: 8;
+  position: fixed;
+  .ant-btn {
+    padding: 0px;
+    color: inherit;
+  }
   background: white;
-
   // 适配IE菜单背景颜色缺失
   min-height: 100%;
   padding-bottom: 9000px;
   margin-bottom: -9000px;
-  //   min-width: 46px !important;
-  //   flex: 0 0 46px !important;
+
   .trigger {
     width: 100%;
     background: #fefefe;
@@ -146,11 +173,12 @@ body {
   .ant-menu {
     background: transparent;
     border-right: none;
-
-    .ant-menu-item {
-      height: 46px;
-      line-height: 46px;
+    &-item {
+      height: 50px;
+      line-height: 50px;
       margin: 0px;
+      margin-bottom: 0px !important;
+      overflow: inherit;
       a {
         display: inline-block;
         font-size: 14px;
@@ -158,7 +186,45 @@ body {
       &::after {
         display: none;
       }
+
+      .submenu-1 {
+        background: white;
+        border-top: none;
+        border-bottom: none;
+        bottom: 0;
+        display: block;
+        left: 200px;
+        overflow-x: hidden;
+        overflow-y: auto;
+        position: fixed;
+        top: 50px;
+        width: 200px;
+        display: none;
+        h3 {
+          line-height: 32px;
+          padding-left: 14px;
+          font-weight: bold;
+        }
+        i {
+          display: none;
+        }
+        .text {
+          visibility: visible !important;
+          opacity: 1;
+        }
+      }
+      &-active {
+        background: #4a7bff;
+        color: white;
+        a:hover {
+          color: white;
+        }
+        .submenu-1 {
+          display: block;
+        }
+      }
     }
+
     .ant-menu-submenu-title {
       cursor: default;
     }
@@ -189,11 +255,24 @@ body {
       visibility: hidden;
     }
   }
-  .ant-menu-inline-collapsed>.ant-menu-item, .ant-menu-inline-collapsed>.ant-menu-item-group>.ant-menu-item-group-list>.ant-menu-item, .ant-menu-inline-collapsed>.ant-menu-item-group>.ant-menu-item-group-list>.ant-menu-submenu>.ant-menu-submenu-title, .ant-menu-inline-collapsed>.ant-menu-submenu>.ant-menu-submenu-title {
+  .ant-menu-inline-collapsed > .ant-menu-item,
+  .ant-menu-inline-collapsed
+    > .ant-menu-item-group
+    > .ant-menu-item-group-list
+    > .ant-menu-item,
+  .ant-menu-inline-collapsed
+    > .ant-menu-item-group
+    > .ant-menu-item-group-list
+    > .ant-menu-submenu
+    > .ant-menu-submenu-title,
+  .ant-menu-inline-collapsed > .ant-menu-submenu > .ant-menu-submenu-title {
     padding: 0 14px !important;
   }
   .ant-menu-inline-collapsed > .ant-menu-item .anticon {
     font-size: 18px;
+  }
+  .ant-menu-inline-collapsed {
+    width: auto;
   }
   .trigger {
     height: 50px;
@@ -204,7 +283,6 @@ body {
   .ant-menu-item .anticon,
   .ant-menu-submenu .anticon {
     min-width: 14px;
-    margin-right: 15px;
     font-size: 18px;
     -webkit-transition: font-size 0.15s cubic-bezier(0.215, 0.61, 0.355, 1),
       margin 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);

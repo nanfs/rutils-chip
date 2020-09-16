@@ -23,6 +23,7 @@ export default class Desktop extends React.Component {
     title: '操作',
     width: 120,
     dataIndex: 'action',
+    className: 'opration-btn',
     defaultFilteredValue: defaultColumnsValue,
     filters: defaultColumnsFilters,
     render: (text, record) => {
@@ -39,7 +40,7 @@ export default class Desktop extends React.Component {
         isPoolVmlist: true
       })
       return (
-        <span className="opration-btn">
+        <span>
           <a
             onClick={() => this.sendOrder(id, 'start')}
             disabled={disabledButton.disabledUp}
@@ -308,7 +309,7 @@ export default class Desktop extends React.Component {
                 disabled={disabledButton?.disabledMore}
               >
                 <Button>
-                  更多操作 <Icon type="down" />
+                  更多 <Icon type="down" />
                 </Button>
               </Dropdown>
             </BarLeft>

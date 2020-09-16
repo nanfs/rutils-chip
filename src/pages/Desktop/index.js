@@ -60,6 +60,7 @@ export default class Desktop extends React.Component {
     title: () => <span title="操作">操作</span>,
     width: 120,
     dataIndex: 'action',
+    className: 'opration-btn',
     defaultFilteredValue: defaultColumnsValue,
     filters: defaultColumnsFilters,
     render: (text, record) => {
@@ -77,7 +78,7 @@ export default class Desktop extends React.Component {
         isInnerMore: true
       })
       return (
-        <span className="opration-btn">
+        <span>
           <a onClick={() => this.editVm(record.id, record.name)}>编辑</a>
           <Dropdown overlay={moreAction} placement="bottomRight">
             <a>
@@ -379,7 +380,7 @@ export default class Desktop extends React.Component {
                 disabled={disabledButton?.disabledMore}
               >
                 <Button>
-                  更多操作 <Icon type="down" />
+                  更多 <Icon type="down" />
                 </Button>
               </Dropdown>
             </BarLeft>

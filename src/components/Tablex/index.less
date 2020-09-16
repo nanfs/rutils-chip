@@ -1,8 +1,11 @@
 .pagination-wrapper {
-  margin-top: 15px;
-  margin-bottom: 5px;
-  line-height: 27px;
+  height: 44px;
   font-size: 14px;
+  padding-top: 8px;
+  text-align: right;
+  background: #f0f6fe;
+  border: 1px solid #e0e8ef;
+  border-top: none;
   .replace {
     &-button {
       width: 24px;
@@ -26,43 +29,77 @@
   .ant-pagination {
     display: inline-block;
   }
+  .ant-pagination-item {
+    border-radius: 4px;
+    margin: 0 3px !important;
+    &-active {
+      border-color: #4a7bff;
+      background: #4a7bff;
+      a {
+        color: white;
+      }
+    }
+  }
+  .ant-pagination.mini .ant-pagination-next .ant-pagination-item-link,
+  .ant-pagination.mini .ant-pagination-prev .ant-pagination-item-link,
+  .ant-pagination.mini .ant-pagination-item:not(.ant-pagination-item-active) {
+    background-color: #fff;
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+  }
+  .ant-pagination.mini .ant-pagination-next,
+  .ant-pagination.mini .ant-pagination-prev {
+    margin: 0 3px !important;
+  }
+  .ant-btn,
+  .ant-select-sm .ant-select-selection--single {
+    border-radius: 4px;
+  }
 }
 
-.table-wrap {
-  overflow-y: hidden; // 适配IE多出滚动条问题
-  padding: 10px 20px;
-  margin: 0px 20px;
-  background: white;
-  position: relative;
-  // min-height: 80vh;
-  overflow-x: auto;
-  .ant-table-thead > tr {
-    box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.1);
-  }
-  .ant-table-thead > tr > th {
-    background-color: #fafafa;
+.ant-table {
+  border: 1px solid #e0e8ef;
+  border-bottom: none;
+  &-thead > tr > th {
+    background-color: #f0f6fe;
     color: #6d6e6d;
     font-size: 14px;
     font-weight: normal;
     padding: 0.6vw 0.6vw;
-    border-right: 1px solid #e1edfb;
     user-select: none;
+    height: 44px;
   }
-  .ant-table-thead > tr:first-child > th:first-child,
+  &-tbody {
+    tr td,
+    tr th {
+      padding: 0vw 0.5vw;
+      height: 44px;
+      border-bottom: 1px solid #e0e8ef;
+    }
+  }
+  tr:hover td,
+  tr:hover th {
+    background-color: #e2e9f5 !important;
+  }
+}
+.table-wrap {
+  //   overflow-y: hidden; // 适配IE多出滚动条问题
+  background: white;
+  position: relative;
+  //   overflow-x: auto;
+  margin-bottom: 20px;
+
+  .ant-table .ant-table-thead > tr:first-child > th:first-child,
   .ant-table-thead > tr:first-child > th:last-child {
     border-radius: 0;
   }
   .ant-table-thead > tr:first-child > th:last-child {
     border-right: none;
   }
-  .ant-table-tbody tr td,
-  .ant-table-tbody tr th {
-    padding: 0.9vw 0.5vw;
-    border-bottom: none;
+  .ant-table-tbody .ant-table-tbody > tr:nth-child(2n) {
+    background-color: #fafcff;
   }
-  .ant-table-tbody > tr:nth-child(2n) {
-    background-color: #f7f7f7;
-  }
+
   .table-icon {
     &-success {
       color: #52c41a;
@@ -122,11 +159,11 @@
 .table-tool {
   padding: 10px 0px 15px 0px;
   .ant-btn {
-    padding: 0px 30px;
+    width: 88px;
+    height: 32px;
+    line-height: 32px;
     border-radius: 2px;
-    height: 35px;
-    line-height: 35px;
-    margin-right: 8px; //改成8px，在小分辨率下，用户操作按钮不会折行
+    margin-right: 8px;
     margin-bottom: 4px;
   }
   .ant-btn-primary {
@@ -202,9 +239,14 @@
       }
     }
     .ant-btn {
-      background-color: transparent;
       border: none;
-      color: #333;
+      width: 60px;
+      background: #4a7bff;
+      color: white;
+      font-size: 1.3em;
+      &:hover {
+        background: #4a75f2;
+      }
     }
   }
 }
@@ -219,6 +261,7 @@
   text-align: center;
 }
 .opration-btn {
+  text-align: center !important;
   a {
     margin-right: 16px;
     &:last-of-type {

@@ -30,11 +30,12 @@ export default class Vmlog extends React.Component {
       title: '操作',
       width: 80,
       dataIndex: 'action',
+      className: 'opration-btn',
       defaultFilteredValue,
       filters: defaultColumnsFilters,
       render: (text, record) => {
         return (
-          <span className="opration-btn">
+          <span>
             <a
               onClick={() =>
                 this.deleteLogs(record.auditLogId, '确定删除本条数据?')

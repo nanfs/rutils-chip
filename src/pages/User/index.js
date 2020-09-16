@@ -51,6 +51,7 @@ export default class User extends React.Component {
   options = {
     title: '操作',
     dataIndex: 'opration',
+    className: 'opration-btn',
     width: 140,
     render: (text, record) => {
       const moreAction = (
@@ -89,7 +90,7 @@ export default class User extends React.Component {
       )
 
       return (
-        <span className="opration-btn">
+        <span>
           <a onClick={() => this.editUser(record, record.name)}>编辑</a>
           <Dropdown overlay={moreAction} placement="bottomRight">
             <a>
@@ -105,10 +106,11 @@ export default class User extends React.Component {
   adOptions = {
     title: '操作',
     dataIndex: 'opration',
+    className: 'opration-btn',
     width: 110,
     render: (text, record) => {
       return (
-        <span className="opration-btn">
+        <span>
           <a
             onClick={() => {
               this.deleteUser([record.id])

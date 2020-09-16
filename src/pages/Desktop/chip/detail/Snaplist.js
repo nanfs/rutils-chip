@@ -15,11 +15,12 @@ export default class Desktop extends React.Component {
     title: () => <span title="操作">操作</span>,
     width: 160,
     dataIndex: 'action',
+    className: 'opration-btn',
     render: (text, record) => {
       const { disabledButton } = this.state
       if (record.status === 'IN_PREVIEW') {
         return (
-          <span className="opration-btn">
+          <span>
             <a
               onClick={() => this.commitSnap()}
               disabled={disabledButton.disableCommit}
@@ -36,7 +37,7 @@ export default class Desktop extends React.Component {
         )
       } else {
         return (
-          <span className="opration-btn">
+          <span>
             {/* // 如果状态不OK不能操作 这里status为快照的状态 */}
             <a
               onClick={() => this.checkSnap(record.snapshotId)}

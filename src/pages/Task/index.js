@@ -15,10 +15,11 @@ export default class Task extends React.Component {
   options = {
     title: '操作',
     dataIndex: 'opration',
+    className: 'opration-btn',
     width: 120,
     render: (text, record) => {
       return (
-        <span className="opration-btn">
+        <span>
           <a onClick={this.editTask.bind(this, record)}>编辑</a>
 
           <a onClick={this.deleteTask.bind(this, [record.id])}>删除</a>

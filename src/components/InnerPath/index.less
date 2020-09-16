@@ -1,10 +1,22 @@
 .inner-path {
   display: inline-block;
-  padding-left: 20px;
-  font-size: 16px;
-  font-weight: bold;
-  height: 50px;
-  line-height: 50px;
+  font-size: 14px;
+  font-weight: 600;
+  position: relative;
+  padding-left: 10px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #eff0f5;
+  margin-bottom: 20px;
+  &::after {
+    content: '';
+    width: 3px;
+    height: 14px;
+    background: #4a7bff;
+    display: block;
+    left: 0;
+    top: 4px;
+    position: absolute;
+  }
 }
 .has-inner {
   .ant-btn {

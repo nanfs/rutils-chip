@@ -438,34 +438,37 @@ class Tablex extends React.Component {
           onRow={this.props.onRow}
           onChange={onChange}
         />
-        <div className="pagination-wrapper">
-          <Button
-            className="replace-button"
-            icon="sync"
-            onClick={() => this.refresh(this.props.tableCfg)}
-          />
-          {autoReplace && (
-            <Select
+        {!!total && (
+          <div className="pagination-wrapper">
+            <Button
+              className="replace-button"
+              icon="sync"
+              onClick={() => this.refresh(this.props.tableCfg)}
+            />
+            {autoReplace && (
+              <Select
+                size="small"
+                className="replace-select"
+                value={this.state?.replaceTime}
+                onChange={this.setRepalceTime}
+              >
+                {this.renderReplaceTime()}
+              </Select>
+            )}
+
+            <Pagination
               size="small"
-              className="replace-select"
-              value={this.state?.replaceTime}
-              onChange={this.setRepalceTime}
-            >
-              {this.renderReplaceTime()}
-            </Select>
-          )}
-          <Pagination
-            size="small"
-            total={total || 1} // 最小显示1
-            pageSize={size}
-            current={current}
-            onChange={this.pageChange}
-            onShowSizeChange={this.sizeChange}
-            showTotal={this.showTotal}
-            pageSizeOptions={pageSizeOptions}
-            showSizeChanger
-          />
-        </div>
+              total={total || 1} // 最小显示1
+              pageSize={size}
+              current={current}
+              onChange={this.pageChange}
+              onShowSizeChange={this.sizeChange}
+              showTotal={this.showTotal}
+              pageSizeOptions={pageSizeOptions}
+              showSizeChanger
+            />
+          </div>
+        )}
       </React.Fragment>
     )
   }

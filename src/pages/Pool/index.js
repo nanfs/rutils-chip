@@ -34,9 +34,10 @@ export default class Pool extends React.Component {
     title: '操作',
     width: 180,
     dataIndex: 'action',
+    className: 'opration-btn',
     render: (text, record) => {
       return (
-        <span className="opration-btn">
+        <span>
           <a onClick={() => this.editPool(record.id, record.name)}>编辑</a>
           <a onClick={() => this.setUser(record.id, record.name)}>分配用户</a>
           <a onClick={() => this.deletePool(record.id, '确定删除本条数据?')}>
@@ -138,7 +139,10 @@ export default class Pool extends React.Component {
           onBack={this.onBack}
         />
         {!this.state.inner && (
-          <Reminder tips="支持桌面的池模式，桌面池是一组可以被用户使用的、具有相同配置一类桌面。"></Reminder>
+          <span style={{ marginBottom: '20px' }}>
+            支持桌面的池模式，桌面池是一组可以被用户使用的、具有相同配置一类桌面。
+          </span>
+          // <Reminder tips="支持桌面的池模式，桌面池是一组可以被用户使用的、具有相同配置一类桌面。"></Reminder>
         )}
         <TableWrap>
           <ToolBar>

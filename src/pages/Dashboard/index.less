@@ -3,17 +3,17 @@ p {
 }
 .dashboard-wrap {
   position: relative;
-  padding: 20px;
   height: 100%;
-
+  margin: -20px;
+  background: #eff0f5;
   .dashboard-charts {
     //background-color: #fff;
     //height: 100%;
     margin-right: 470px;
 
     .dashboard-chart-wrap {
-      height: 400px;
-      border-top: 5px solid #1b68b3;
+      border-top: 5px solid #4a7bff;
+      border-radius: 4px;
 
       .dashboard-chart-title {
         padding: 10px;
@@ -41,11 +41,12 @@ p {
 
   .dashboard-tclog {
     position: absolute;
-    right: 20px;
-    top: 20px;
-    bottom: 20px;
+    right: 0;
+    top: 0;
+    bottom: 0px;
     width: 450px;
     background-color: #fff;
+    border-radius: 4px;
 
     .ant-list-item-meta-title {
       position: relative;
@@ -117,7 +118,7 @@ p {
     }
   }
 
-  @media screen /* and (min-width: 1480px)  */and (max-width: 1600px) {
+  @media screen /* and (min-width: 1480px) */and (max-width: 1600px) {
     .dashboard-charts {
       margin-right: 370px;
 
@@ -164,7 +165,7 @@ p {
 .dashboard-chart-wrap-bg {
   display: inline-block;
   position: absolute;
-  bottom: -8px;
+  bottom: 0px;
   right: 20px;
   width: 250px;
   height: 250px;

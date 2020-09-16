@@ -29,6 +29,7 @@ export default class Terminal extends React.Component {
   options = {
     title: '操作',
     dataIndex: 'opration',
+    className: 'opration-btn',
     width: 130,
     render: (text, record) => {
       const moreAction = (
@@ -109,7 +110,7 @@ export default class Terminal extends React.Component {
         </Menu>
       )
       return (
-        <span className="opration-btn">
+        <span>
           <a onClick={() => this.editTerminal(record.name, record)}>编辑</a>
 
           <Dropdown overlay={moreAction} placement="bottomRight">
@@ -534,7 +535,7 @@ export default class Terminal extends React.Component {
               </Button>
               <Dropdown overlay={moreButton}>
                 <Button>
-                  更多操作 <Icon type="down" />
+                  更多 <Icon type="down" />
                 </Button>
               </Dropdown>
             </BarLeft>

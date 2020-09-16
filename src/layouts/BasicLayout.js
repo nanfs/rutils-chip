@@ -35,22 +35,24 @@ class BasicLayout extends React.Component {
             />
             <Layout>
               <Content>
-                <RouteView
-                  routes={this.props.routes}
-                  renderRoute={props => {
-                    const { path, authority, component, ...other } = props
-                    return (
-                      <AuthorizedRoute
-                        path={path}
-                        authority={authority}
-                        component={component}
-                        redirectPath={'/dashboard'}
-                        RouteProps={other}
-                      />
-                    )
-                  }}
-                />
-                <ShortcutDrawer></ShortcutDrawer>
+                <Layout className="main-wrap">
+                  <RouteView
+                    routes={this.props.routes}
+                    renderRoute={props => {
+                      const { path, authority, component, ...other } = props
+                      return (
+                        <AuthorizedRoute
+                          path={path}
+                          authority={authority}
+                          component={component}
+                          redirectPath={'/dashboard'}
+                          RouteProps={other}
+                        />
+                      )
+                    }}
+                  />
+                  {/* <ShortcutDrawer></ShortcutDrawer> */}
+                </Layout>
               </Content>
               <Footer style={{ textAlign: 'center', display: 'none' }}>
                 版权所有©2020 电科云（北京）科技有限公司

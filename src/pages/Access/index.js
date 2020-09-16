@@ -22,10 +22,11 @@ export default class Access extends React.Component {
   action = {
     title: '操作',
     dataIndex: 'opration',
+    className: 'opration-btn',
     width: 120,
     render: (text, record) => {
       return (
-        <span className="opration-btn">
+        <span>
           <a onClick={() => this.editAccess(record.name, record)}>编辑</a>
           <a
             onClick={() => {

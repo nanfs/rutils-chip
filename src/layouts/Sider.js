@@ -18,11 +18,9 @@ export default class Sider extends React.Component {
         this.forceUpdate()
       }
       if (element.children) {
-        console.log('element :>> ', element)
         element.children.forEach(item => {
           if (this.props.path === item.path) {
             this.openKeys = [element.path, item.path]
-            console.log('element :>> ', this.openKeys)
             this.forceUpdate()
           }
         })
@@ -101,18 +99,18 @@ export default class Sider extends React.Component {
 
   render() {
     const { openKeys } = this
-    const collapsed = getItemFromLocal('isFolded')
+    // TODO 关闭展开
+    // const collapsed = getItemFromLocal('isFolded')
     const defaultProps = { openKeys, selectedKeys: openKeys }
     // 为了解决antd menu收缩时二级菜单不跟随的问题。
-    console.log('open :>> ', openKeys)
     return (
       <Layout.Sider
-        width={200}
+        // width={200}
         collapsedWidth={46}
         className="sider"
         collapsible
         trigger={null}
-        collapsed={!!collapsed}
+        collapsed={true}
       >
         <Button onClick={this.onCollapse} className="trigger" type="link">
           <Icon type="menu" style={{ fontSize: '16px' }}></Icon>

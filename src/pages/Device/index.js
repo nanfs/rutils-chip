@@ -23,10 +23,11 @@ export default class Device extends React.Component {
   action = {
     title: () => <span title="操作">操作</span>,
     dataIndex: 'opration',
+    className: 'opration-btn',
     width: 120,
     render: (text, record) => {
       return (
-        <span className="opration-btn">
+        <span>
           <a onClick={() => this.editDev(record, record.name)}>编辑</a>
           <a
             disabled={record.boundTcNum !== 0}

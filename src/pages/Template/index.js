@@ -37,10 +37,11 @@ export default class Template extends React.Component {
   action = {
     title: '操作',
     dataIndex: 'opration',
+    className: 'opration-btn',
     width: 200,
     render: (text, record) => {
       return (
-        <span className="opration-btn">
+        <span>
           <a onClick={() => this.editTem(record.name, record)}>编辑</a>
           <a onClick={() => this.exportModal.pop(record, true)}>导出</a>
           <a

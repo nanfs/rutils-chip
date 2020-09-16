@@ -15,10 +15,11 @@ export default class Task extends React.Component {
   options = {
     title: '操作',
     dataIndex: 'opration',
+    className: 'opration-btn',
     width: 180,
     render: (text, record) => {
       return (
-        <span className="opration-btn">
+        <span>
           <a
             onClick={() =>
               this.addVm({ groupId: record.id, groupName: record.name })

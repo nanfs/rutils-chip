@@ -18,11 +18,9 @@ export default class Sider extends React.Component {
         this.forceUpdate()
       }
       if (element.children) {
-        console.log('element :>> ', element)
         element.children.forEach(item => {
           if (this.props.path === item.path) {
             this.openKeys = [element.path, item.path]
-            console.log('element :>> ', this.openKeys)
             this.forceUpdate()
           }
         })
@@ -104,7 +102,6 @@ export default class Sider extends React.Component {
     const collapsed = getItemFromLocal('isFolded')
     const defaultProps = { openKeys, selectedKeys: openKeys }
     // 为了解决antd menu收缩时二级菜单不跟随的问题。
-    console.log('open :>> ', openKeys)
     return (
       <Layout.Sider
         width={200}

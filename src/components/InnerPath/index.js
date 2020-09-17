@@ -3,13 +3,16 @@ import { Button } from 'antd'
 import './index.less'
 
 export default function InnerPath(props) {
-  const { inner, location, onBack, children } = props
+  const { inner, location, onBack, children, description } = props
   if (!inner) {
     return (
-      <div className="inner-path">
-        {location}
-        {children}
-      </div>
+      <>
+        <div className="inner-path">
+          {location}
+          {children}
+        </div>
+        {description && <h3 className="col-description">{description}</h3>}
+      </>
     )
   }
   return (

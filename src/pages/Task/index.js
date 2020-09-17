@@ -247,11 +247,13 @@ export default class Task extends React.Component {
           location="计划任务"
           inner={this.state.inner}
           onBack={this.onBack}
-        >
-          {!this.state.inner && (
+          description={
+            '计划任务是为指定桌面集合在一定时间段内执行开机、关机、重启等操作进行自动任务配置。支持按周、按天配置特定时间段执行策略，运用计划任务策略可以大大提高对资源的管理效率，用户使用体验和运维效率。'
+          }
+        />
+        {/* {!this.state.inner && (
             <Reminder tips="为指定桌面集合在一定时间段内执行开机、关机、重启等操作进行自动任务配置。支持按周、按天配置特定时间段执行策略。"></Reminder>
-          )}
-        </InnerPath>
+          )} */}
         <TableWrap>
           <ToolBar>
             <BarLeft>

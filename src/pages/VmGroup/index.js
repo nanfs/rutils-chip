@@ -155,6 +155,9 @@ export default class Task extends React.Component {
         <InnerPath
           location="桌面组管理"
           inner={this.state.inner}
+          description={
+            '桌面组是对多个桌面资源对象进行开机、关机、断电、重启等操作集中管理的组策略。运用桌面组策略可以帮助您更加高效、快捷地对桌面资源进行分类管理。大大提高运维效率。'
+          }
           onBack={this.onBack}
         />
         <TableWrap>

@@ -1,6 +1,6 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
-import { Menu, Icon, Layout, Button } from 'antd'
+import { Menu, Icon, Layout, Button, Tooltip } from 'antd'
 import { MyIcon } from '@/components'
 import menuConfig from '*/menu'
 import { checkAuth } from '@/utils/checkPermissions'
@@ -49,26 +49,40 @@ export default class Sider extends React.Component {
     this.forceUpdate()
   }
 
-  renderMenuItem(item) {
+  renderMenuItem(item, grade) {
     if (!checkAuth(item.authority)) {
       return
     }
     return (
       <Menu.Item key={item.path}>
-        <NavLink to={item.path}>
-          {item.iconComonpent ? (
-            <MyIcon type={item.icon} />
-          ) : (
-            <Icon type={item.icon} />
-          )}
-          <span className="text">{item.title}</span>
-        </NavLink>
+        {grade === 1 && (
+          <Tooltip title={item.title} placement="right">
+            <NavLink to={item.path}>
+              {item.iconComonpent ? (
+                <MyIcon type={item.icon} />
+              ) : (
+                <Icon type={item.icon} />
+              )}
+              <span className="text">{item.title}</span>
+            </NavLink>
+          </Tooltip>
+        )}
+        {grade > 1 && (
+          <NavLink to={item.path}>
+            {item.iconComonpent ? (
+              <MyIcon type={item.icon} />
+            ) : (
+              <Icon type={item.icon} />
+            )}
+            <span className="text">{item.title}</span>
+          </NavLink>
+        )}
       </Menu.Item>
     )
   }
 
-  // 暂时两级
-  renderSubMenu(subMenu) {
+  // 暂时两级 grade
+  renderSubMenu(subMenu, grade) {
     const { openKeys } = this
     const defaultProps = { openKeys, selectedKeys: openKeys }
     if (!checkAuth(subMenu.authority)) {
@@ -84,13 +98,13 @@ export default class Sider extends React.Component {
           )}
           <span className="text">{subMenu.title}</span>
         </span>
-        <Menu className="submenu-1" {...defaultProps}>
+        <Menu className={`submenu-${grade}`} {...defaultProps}>
           <h3>{subMenu.title}</h3>
           {subMenu.children.map(item => {
             if (item.children) {
-              return this.renderSubMenu(item)
+              return this.renderSubMenu(item, grade + 1)
             }
-            return this.renderMenuItem(item)
+            return this.renderMenuItem(item, grade + 1)
           })}
         </Menu>
       </Menu.Item>
@@ -118,9 +132,9 @@ export default class Sider extends React.Component {
         <Menu mode="inline" {...defaultProps}>
           {menuConfig.map(item => {
             if (item.children) {
-              return this.renderSubMenu(item)
+              return this.renderSubMenu(item, 1)
             }
-            return this.renderMenuItem(item)
+            return this.renderMenuItem(item, 1)
           })}
         </Menu>
       </Layout.Sider>

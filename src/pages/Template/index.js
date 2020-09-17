@@ -150,10 +150,13 @@ export default class Template extends React.Component {
           location="模板管理"
           inner={this.state.inner}
           onBack={this.onBack}
+          description={
+            '桌面模板是对桌面资源的标准化、固定化管理策略。运用桌面模板可以快捷、高效管理桌面资源配置，大大提高批量创建桌面效率。'
+          }
         >
-          {!this.state.inner && (
-            <Reminder tips="基于桌面创建模板，通过模板批量分发和回收桌面，大量缩短桌面的上线时间，提高管理员的运维效率。"></Reminder>
-          )}
+          {/* {!this.state.inner && (
+            <Reminder tips="基于，通过模板批量分发和回收桌面，大量缩短桌面的上线时间，提高管理员的运维效率。"></Reminder>
+          )} */}
         </InnerPath>
         <TableWrap>
           <ToolBar>

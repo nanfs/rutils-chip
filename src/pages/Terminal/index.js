@@ -503,11 +503,13 @@ export default class Terminal extends React.Component {
           location="终端管理"
           inner={this.state.inner}
           onBack={this.onBack}
-        >
-          {!this.state.inner && (
+          description={
+            '云终端(Cloud terminal) 提供云桌面服务的载体。功耗小，寿命长，一个用户可在云终端运行多种多个云桌面，而且本地无数据存储，提供更安全的工作环境，且零维护。'
+          }
+        />
+        {/* {!this.state.inner && (
             <Reminder tips="平台通过向终端提供统一的接口，能够同时管理多款国产化安全云终端。"></Reminder>
-          )}
-        </InnerPath>
+          )} */}
         <TableWrap>
           <ToolBar>
             <BarLeft>

@@ -358,6 +358,9 @@ export default class Desktop extends React.Component {
           location="桌面管理"
           inner={this.state.inner}
           onBack={this.onBack}
+          description={
+            '云桌面 (Cloud Desktop)，是一种便捷、安全的云上虚拟桌面服务。支持快速便捷的桌面环境创建、部署、统一管控与运维。无需前期传统硬件投资，帮您快速构建安全、高性能、低成本的桌面办公体系。'
+          }
         />
         <TableWrap>
           <ToolBar>

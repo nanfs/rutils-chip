@@ -3,9 +3,14 @@ import { Button } from 'antd'
 import './index.less'
 
 export default function InnerPath(props) {
-  const { inner, location, onBack } = props
+  const { inner, location, onBack, children } = props
   if (!inner) {
-    return <div className="inner-path">{location}</div>
+    return (
+      <div className="inner-path">
+        {location}
+        {children}
+      </div>
+    )
   }
   return (
     <div className="inner-path has-inner">

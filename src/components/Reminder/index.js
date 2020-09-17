@@ -34,4 +34,4 @@ function Reminder(props) {
   )
 }
 
-export { Reminder }
+export default Reminder

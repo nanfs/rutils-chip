@@ -167,6 +167,7 @@ const webpackConfigBase = {
           options: {
             javascriptEnabled: true,
             modifyVars: {
+              'border-color-base': '#eff0f5',
               'primary-color': '#4a7bff',
               'border-radius-base': '2px'
             }

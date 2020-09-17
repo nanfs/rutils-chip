@@ -44,7 +44,7 @@
   .ant-pagination.mini .ant-pagination-prev .ant-pagination-item-link,
   .ant-pagination.mini .ant-pagination-item:not(.ant-pagination-item-active) {
     background-color: #fff;
-    border: 1px solid #d9d9d9;
+    border: 1px solid #eff0f5;
     border-radius: 4px;
   }
   .ant-pagination.mini .ant-pagination-next,
@@ -155,10 +155,34 @@
     margin-left: -6px;
     margin-right: 0px !important;
   }
+  .table-title {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    position: relative;
+    padding-left: 10px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eff0f5;
+    margin-bottom: 20px;
+    i {
+      display: none;
+    }
+    &::after {
+      content: '';
+      width: 3px;
+      height: 14px;
+      background: #4a7bff;
+      display: block;
+      left: 0;
+      top: 4px;
+      position: absolute;
+    }
+  }
 }
 .table-tool {
   padding: 10px 0px 15px 0px;
   .ant-btn {
+    padding: 0;
     width: 88px;
     height: 32px;
     line-height: 32px;
@@ -182,7 +206,7 @@
       border-radius: 2px;
       width: 330px;
       text-align: left;
-      border: 1px solid #d9d9d9;
+      border: 1px solid #eff0f5;
     }
   }
 
@@ -192,7 +216,7 @@
     height: 35px;
     display: flex;
     border-radius: 2px;
-    border: 1px solid #d9d9d9;
+    border: 1px solid #eff0f5;
     display: inline-flex !important;
     &:focus-within {
       background: #349dffad;
@@ -218,7 +242,7 @@
       border: none;
       border-radius: 0;
       height: 33px;
-      border-right: 1px solid #d9d9d9;
+      border-right: 1px solid #eff0f5;
       &__rendered {
         line-height: 35px;
         padding-right: 10px;

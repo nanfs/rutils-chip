@@ -29,7 +29,7 @@ function Title(props) {
 function TitleInfo(props) {
   const { slot, more, url, style } = props
   return (
-    <p style={{ ...style, fontSize: '18px', fontWeight: 'bold' }}>
+    <p style={{ ...style }} className="table-title">
       <MyIcon
         type="sd"
         component="svg"

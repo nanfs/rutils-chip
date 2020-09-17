@@ -86,11 +86,11 @@ export default class Resource extends React.Component {
           <Icon type="swap" style={{ color: '#1990ff' }} />
           切换视图
         </span> */}
-        <InnerPath
+        {/* <InnerPath
           location="资源概览"
           inner={this.state.inner}
           onBack={this.onBack}
-        />
+        /> */}
         <TableWrap>
           {this.state.viewType ? (
             <div>

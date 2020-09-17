@@ -503,10 +503,11 @@ export default class Terminal extends React.Component {
           location="终端管理"
           inner={this.state.inner}
           onBack={this.onBack}
-        />
-        {!this.state.inner && (
-          <Reminder tips="平台通过向终端提供统一的接口，能够同时管理多款国产化安全云终端。"></Reminder>
-        )}
+        >
+          {!this.state.inner && (
+            <Reminder tips="平台通过向终端提供统一的接口，能够同时管理多款国产化安全云终端。"></Reminder>
+          )}
+        </InnerPath>
         <TableWrap>
           <ToolBar>
             <BarLeft>

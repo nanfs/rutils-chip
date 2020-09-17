@@ -38,7 +38,8 @@ class Drawerx extends React.Component {
     document.body.style.maxHeight = '100vh'
     document.body.style.overflowY = 'hidden'
     if (document.querySelector('.table-wrap')) {
-      document.querySelector('.table-wrap').style.height = 'calc(100vh - 105px)'
+      document.querySelector('.main-wrap').style.padding = '0px'
+      document.querySelector('.table-wrap').style.height = 'calc(100vh - 150px)'
       document.querySelector('.table-wrap').style.overflow = 'hidden'
     }
     if (document.querySelector('.ant-drawer-body .ant-form')) {
@@ -57,6 +58,7 @@ class Drawerx extends React.Component {
     })
     document.body.style = ''
     if (document.querySelector('.table-wrap')) {
+      document.querySelector('.main-wrap').style.padding = '20px'
       document.querySelector('.table-wrap').style = ''
     }
     if (document.querySelector('.ant-drawer-body .ant-form')) {

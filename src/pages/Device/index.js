@@ -177,21 +177,22 @@ export default class Device extends React.Component {
           location="外设控制"
           inner={this.state?.inner}
           onBack={this.onBack}
-        />
-        {!this.state?.inner && (
-          <Reminder
-            tips={
-              <div>
-                <p>
-                  外设控制用于管理外设设备是否允许连入终端，可以在终端管理中可以对终端设置外设控制。
-                </p>
-                <p>
-                  白名单中的外设设备允许连入终端，黑名单中的外设设备禁止连入终端。
-                </p>
-              </div>
-            }
-          ></Reminder>
-        )}
+        >
+          {!this.state?.inner && (
+            <Reminder
+              tips={
+                <div>
+                  <p>
+                    外设控制用于管理外设设备是否允许连入终端，可以在终端管理中可以对终端设置外设控制。
+                  </p>
+                  <p>
+                    白名单中的外设设备允许连入终端，黑名单中的外设设备禁止连入终端。
+                  </p>
+                </div>
+              }
+            ></Reminder>
+          )}
+        </InnerPath>
         <TableWrap>
           <ToolBar>
             <BarLeft>

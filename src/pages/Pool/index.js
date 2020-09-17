@@ -137,13 +137,14 @@ export default class Pool extends React.Component {
           location="桌面池管理"
           inner={this.state.inner}
           onBack={this.onBack}
-        />
-        {!this.state.inner && (
-          <span style={{ marginBottom: '20px' }}>
-            支持桌面的池模式，桌面池是一组可以被用户使用的、具有相同配置一类桌面。
-          </span>
-          // <Reminder tips="支持桌面的池模式，桌面池是一组可以被用户使用的、具有相同配置一类桌面。"></Reminder>
-        )}
+        >
+          {!this.state.inner && (
+            <span style={{ marginBottom: '20px' }}>
+              支持桌面的池模式，桌面池是一组可以被用户使用的、具有相同配置一类桌面。
+            </span>
+            // <Reminder tips="支持桌面的池模式，桌面池是一组可以被用户使用的、具有相同配置一类桌面。"></Reminder>
+          )}
+        </InnerPath>
         <TableWrap>
           <ToolBar>
             <BarLeft>

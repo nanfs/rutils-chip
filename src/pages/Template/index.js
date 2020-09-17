@@ -150,10 +150,11 @@ export default class Template extends React.Component {
           location="模板管理"
           inner={this.state.inner}
           onBack={this.onBack}
-        />
-        {!this.state.inner && (
-          <Reminder tips="基于桌面创建模板，通过模板批量分发和回收桌面，大量缩短桌面的上线时间，提高管理员的运维效率。"></Reminder>
-        )}
+        >
+          {!this.state.inner && (
+            <Reminder tips="基于桌面创建模板，通过模板批量分发和回收桌面，大量缩短桌面的上线时间，提高管理员的运维效率。"></Reminder>
+          )}
+        </InnerPath>
         <TableWrap>
           <ToolBar>
             <BarLeft>

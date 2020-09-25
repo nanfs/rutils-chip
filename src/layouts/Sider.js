@@ -1,10 +1,11 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
-import { Menu, Icon, Layout, Button, Tooltip } from 'antd'
+import { Menu, Icon, Layout, Button, Tooltip, Dropdown } from 'antd'
 import { MyIcon } from '@/components'
 import menuConfig from '*/menu'
 import { checkAuth } from '@/utils/checkPermissions'
 import { getItemFromLocal, setItemToLocal } from '@/utils/storage'
+import StaticMenu from './StaticMenu'
 
 export default class Sider extends React.Component {
   constructor(props) {
@@ -27,19 +28,6 @@ export default class Sider extends React.Component {
       }
     })
   }
-
-  // componentDidMount() {
-  //   menuConfig.forEach(element => {
-  //     if (element.children) {
-  //       element.children.forEach(item => {
-  //         if (this.props.path === item.path) {
-  //           this.openKeys = [element.path, item.path]
-  //           this.forceUpdate()
-  //         }
-  //       })
-  //     }
-  //   })
-  // }
 
   openKeys = []
 
@@ -113,22 +101,21 @@ export default class Sider extends React.Component {
 
   render() {
     const { openKeys } = this
-    // TODO 关闭展开
-    // const collapsed = getItemFromLocal('isFolded')
     const defaultProps = { openKeys, selectedKeys: openKeys }
     // 为了解决antd menu收缩时二级菜单不跟随的问题。
     return (
       <Layout.Sider
-        // width={200}
         collapsedWidth={46}
         className="sider"
         collapsible
         trigger={null}
         collapsed={true}
       >
-        <Button onClick={this.onCollapse} className="trigger" type="link">
-          <Icon type="menu" style={{ fontSize: '16px' }}></Icon>
-        </Button>
+        <Dropdown overlay={<StaticMenu />}>
+          <Button onClick={this.onCollapse} className="trigger" type="link">
+            <Icon type="menu" style={{ fontSize: '16px' }}></Icon>
+          </Button>
+        </Dropdown>
         <Menu mode="inline" {...defaultProps}>
           {menuConfig.map(item => {
             if (item.children) {

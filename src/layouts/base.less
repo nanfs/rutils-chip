@@ -155,17 +155,21 @@ body {
   & + .ant-layout {
     .ant-layout-content {
       margin-left: 46px;
+      &.has-submenu {
+        margin-left: 226px;
+      }
     }
   }
 }
 .sider {
-  z-index: 9999;
+  z-index: 3;
   position: fixed;
   background: #f7f8fa;
   // 适配IE菜单背景颜色缺失
   min-height: 100%;
   padding-bottom: 9000px;
   margin-bottom: -9000px;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 4px 0px;
   .ant-btn {
     padding: 0px;
     color: inherit;
@@ -178,6 +182,10 @@ body {
     border-bottom: 1px solid #eeeff0;
     line-height: 46px;
     height: 46px;
+<<<<<<< Updated upstream
+=======
+    // display: none;
+>>>>>>> Stashed changes
   }
   .ant-menu {
     background: transparent;
@@ -216,6 +224,11 @@ body {
       &:hover {
         background: #4675f2;
         border-bottom-color: #4675f2;
+      }
+      &-selected {
+        .submenu-1 {
+          display: block !important;
+        }
       }
 
       // 二级目录
@@ -272,6 +285,7 @@ body {
           color: white;
         }
         .submenu-1 {
+          z-index: 9999;
           display: block;
         }
       }

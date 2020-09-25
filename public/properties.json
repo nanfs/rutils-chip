@@ -1,5 +1,97 @@
 {
   "hasPin": false,
   "hasEncode": true,
-  "version": "1.5.0"
+  "version": "1.5.0",
+  "staticsMenu": [
+    {
+      "name": "服务器虚拟化",
+      "child": [
+        {
+          "name": "仪表板",
+          "link": "https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main "
+        },
+        {
+          "name": "仪表板",
+          "link": "https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main "
+        },
+        {
+          "name": "仪表板",
+          "link": "https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main "
+        },
+        {
+          "name": "仪表板",
+          "link": "https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main "
+        },
+        {
+          "name": "仪表板",
+          "link": "https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main "
+        },
+        {
+          "name": "仪表板",
+          "link": "https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main "
+        },
+        {
+          "name": "仪表板",
+          "link": "https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main "
+        },
+        {
+          "name": "仪表板",
+          "link": "https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main "
+        },
+        {
+          "name": "仪表板",
+          "link": "https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main "
+        }
+      ]
+    },
+    {
+      "name": "安全云桌面管理系统",
+      "child": [
+        {
+          "name": "仪表板",
+          "link": "https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main "
+        },
+        {
+          "name": "仪表板",
+          "link": "https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main "
+        },
+        {
+          "name": "仪表板",
+          "link": "https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main "
+        },
+        {
+          "name": "仪表板",
+          "link": "https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main "
+        },
+        {
+          "name": "仪表板",
+          "link": "https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main "
+        },
+        {
+          "name": "仪表板",
+          "link": "https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main "
+        },
+        {
+          "name": "仪表板",
+          "link": "https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main "
+        },
+        {
+          "name": "仪表板",
+          "link": "https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main "
+        },
+        {
+          "name": "仪表板",
+          "link": "https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main "
+        },
+        {
+          "name": "仪表板",
+          "link": "https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main "
+        },
+        {
+          "name": "仪表板",
+          "link": "https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main "
+        }
+      ]
+    }
+  ]
 }

@@ -139,385 +139,289 @@ const subMenu = menu
 
 const staticsMenu = [
   {
-    name: '服务器虚拟化',
+    name: '弹性计算',
     child: [
       {
-        name: '仪表板1',
+        name: '云服务器',
         link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
       },
       {
-        name: '仪表板2',
+        name: '计算节点',
         link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
       },
       {
-        name: '仪表板3',
+        name: '实力规格',
         link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
       },
       {
-        name: '仪表板4',
+        name: '镜像服务',
         link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
       },
       {
-        name: '仪表板5',
+        name: '安全组',
         link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
       },
       {
-        name: '仪表板6',
+        name: '集群',
         link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
       },
       {
-        name: '仪表板',
-        link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
-      },
-      {
-        name: '仪表板',
-        link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
-      },
-      {
-        name: '仪表板',
+        name: '裸金属服务',
         link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
       }
     ]
   },
   {
-    name: '安全云桌面管理系统',
+    name: '存储',
     child: [
       {
-        name: '仪表板',
+        name: '云硬盘',
         link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
       },
       {
-        name: '仪表板',
+        name: '对象存储',
         link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
       },
       {
-        name: '仪表板',
-        link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
-      },
-      {
-        name: '仪表板',
-        link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
-      },
-      {
-        name: '仪表板',
-        link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
-      },
-      {
-        name: '仪表板',
-        link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
-      },
-      {
-        name: '仪表板',
-        link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
-      },
-      {
-        name: '仪表板',
-        link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
-      },
-      {
-        name: '仪表板',
-        link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
-      },
-      {
-        name: '仪表板',
-        link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
-      },
-      {
-        name: '仪表板',
+        name: '磁盘类型',
         link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
       }
     ]
   },
   {
-    name: '安全云桌面管理系统',
+    name: '物理硬件',
     child: [
       {
-        name: '仪表板',
-        link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
-      },
-      {
-        name: '仪表板',
-        link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
-      },
-      {
-        name: '仪表板',
-        link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
-      },
-      {
-        name: '仪表板',
-        link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
-      },
-      {
-        name: '仪表板',
-        link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
-      },
-      {
-        name: '仪表板',
-        link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
-      },
-      {
-        name: '仪表板',
-        link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
-      },
-      {
-        name: '仪表板',
-        link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
-      },
-      {
-        name: '仪表板',
-        link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
-      },
-      {
-        name: '仪表板',
-        link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
-      },
-      {
-        name: '仪表板',
+        name: '物理机管理',
         link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
       }
     ]
   },
   {
-    name: '安全云桌面管理系统',
+    name: 'DevOps',
     child: [
       {
-        name: '仪表板',
+        name: '系统概览',
         link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
       },
       {
-        name: '仪表板',
+        name: '项目管理',
         link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
       },
       {
-        name: '仪表板',
+        name: '代码管理',
         link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
       },
       {
-        name: '仪表板',
+        name: '应用私服管理',
         link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
       },
       {
-        name: '仪表板',
+        name: '应用管理',
         link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
       },
       {
-        name: '仪表板',
+        name: '蓝图',
         link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
       },
       {
-        name: '仪表板',
+        name: '组件管理',
         link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
       },
       {
-        name: '仪表板',
+        name: '定时任务',
         link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
       },
       {
-        name: '仪表板',
+        name: '软件仓库',
         link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
       },
       {
-        name: '仪表板',
+        name: '镜像仓库',
         link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
       },
       {
-        name: '仪表板',
+        name: '操作审计',
         link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
       }
     ]
   },
   {
-    name: '安全云桌面管理系统',
+    name: '容器',
     child: [
       {
-        name: '仪表板',
-        link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
-      },
-      {
-        name: '仪表板',
-        link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
-      },
-      {
-        name: '仪表板',
-        link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
-      },
-      {
-        name: '仪表板',
-        link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
-      },
-      {
-        name: '仪表板',
-        link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
-      },
-      {
-        name: '仪表板',
-        link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
-      },
-      {
-        name: '仪表板',
-        link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
-      },
-      {
-        name: '仪表板',
-        link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
-      },
-      {
-        name: '仪表板',
-        link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
-      },
-      {
-        name: '仪表板',
-        link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
-      },
-      {
-        name: '仪表板',
+        name: 'Kubernetes集群',
         link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
       }
     ]
   },
   {
-    name: '安全云桌面管理系统',
+    name: 'AIOps',
     child: [
       {
-        name: '仪表板',
-        link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
-      },
-      {
-        name: '仪表板',
-        link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
-      },
-      {
-        name: '仪表板',
-        link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
-      },
-      {
-        name: '仪表板',
-        link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
-      },
-      {
-        name: '仪表板',
-        link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
-      },
-      {
-        name: '仪表板',
-        link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
-      },
-      {
-        name: '仪表板',
-        link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
-      },
-      {
-        name: '仪表板',
-        link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
-      },
-      {
-        name: '仪表板',
-        link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
-      },
-      {
-        name: '仪表板',
-        link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
-      },
-      {
-        name: '仪表板',
+        name: '异常点检测',
         link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
       }
     ]
   },
   {
-    name: '安全云桌面管理系统',
+    name: '网络',
     child: [
       {
-        name: '仪表板',
+        name: '网络拓扑',
         link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
       },
       {
-        name: '仪表板',
+        name: '外部网络',
         link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
       },
       {
-        name: '仪表板',
+        name: '虚拟机私有云(VPC)',
         link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
       },
       {
-        name: '仪表板',
+        name: '虚拟网卡',
         link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
       },
       {
-        name: '仪表板',
+        name: '弹性IP',
         link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
       },
       {
-        name: '仪表板',
+        name: '弹性负载均衡',
         link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
       },
       {
-        name: '仪表板',
+        name: '虚拟专用网络(VPN)',
         link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
       },
       {
-        name: '仪表板',
-        link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
-      },
-      {
-        name: '仪表板',
-        link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
-      },
-      {
-        name: '仪表板',
-        link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
-      },
-      {
-        name: '仪表板',
+        name: '防火墙',
         link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
       }
     ]
   },
   {
-    name: '安全云桌面管理系统',
+    name: '系统管理',
     child: [
       {
-        name: '仪表板',
+        name: '云管理域',
         link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
       },
       {
-        name: '仪表板',
+        name: '用户管理',
         link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
       },
       {
-        name: '仪表板',
+        name: '项目管理',
         link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
       },
       {
-        name: '仪表板',
+        name: '角色管理',
         link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
       },
       {
-        name: '仪表板',
+        name: '日志管理',
         link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
       },
       {
-        name: '仪表板',
+        name: '门户配置',
         link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
       },
       {
-        name: '仪表板',
+        name: '平台资源概览',
+        link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
+      }
+    ]
+  },
+  {
+    name: '业务管理',
+    child: [
+      {
+        name: '申请单',
         link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
       },
       {
-        name: '仪表板',
+        name: '代办',
         link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
       },
       {
-        name: '仪表板',
+        name: '工单管理',
         link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
       },
       {
-        name: '仪表板',
+        name: '消息管理',
         link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
       },
       {
-        name: '仪表板',
+        name: '产品管理',
+        link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
+      },
+      {
+        name: '用户产品',
+        link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
+      }
+    ]
+  },
+  {
+    name: '云监控',
+    child: [
+      {
+        name: '监控总览',
+        link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
+      },
+      {
+        name: '资源管理',
+        link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
+      },
+      {
+        name: '告警管理',
+        link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
+      },
+      {
+        name: '拓扑',
+        link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
+      },
+      {
+        name: '巡检',
+        link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
+      },
+      {
+        name: '报表',
+        link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
+      },
+      {
+        name: '系统管理',
+        link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
+      }
+    ]
+  },
+  {
+    name: '工作协同',
+    child: [
+      {
+        name: '工作协同',
+        link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
+      }
+    ]
+  },
+  {
+    name: '应用性能监控',
+    child: [
+      {
+        name: '总览',
+        link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
+      },
+      {
+        name: '报表',
+        link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
+      },
+      {
+        name: '探针',
+        link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
+      },
+      {
+        name: '授权',
         link: 'https://182.150.63.26:20001/ccsvm/webadmin/#dashboard-main '
       }
     ]

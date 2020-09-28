@@ -12,12 +12,12 @@
   overflow: auto;
   &-wrap {
     position: fixed;
-    width: 100vw;
-    height: 100vh;
+    width: calc(100vw - 50px);
+    height: calc(100vh - 50px);
     background-color: rgba(0, 0, 0, 0.2);
     // top: 50px;
     // left: 53px;
-    transform: translate(46px, -46px);
+    transform: translate(50px, -50px);
     z-index: 9999;
     overflow: hidden;
     transition: height 0.25s cubic-bezier(0, 0, 0.2, 1) 0s;

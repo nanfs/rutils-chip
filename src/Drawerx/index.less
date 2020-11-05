@@ -1,0 +1,130 @@
+.ant-drawer {
+  &-open {
+    width: 100% !important;
+    // height: calc(100vh - 130px) !important;
+    .ant-drawer-mask {
+      background-color: white;
+    }
+  }
+  &-body {
+    padding: 0px;
+    // padding: 0px 24px 90px 24px;
+    overflow-x: hidden;
+    .no-position {
+      position: static;
+      > .ant-spin-container {
+        position: static;
+      }
+    }
+  }
+  &-content {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    &-wrapper {
+      overflow-y: hidden;
+      box-shadow: none;
+      // height: calc(100vh - 105px) !important;
+      min-height: 80vh;
+    }
+  }
+  .option-wrap {
+    background: #f3f6ff;
+    position: absolute;
+    z-index: 99;
+    width: 100%;
+    right: 0;
+    bottom: 0;
+    height: 60px;
+    line-height: 60px;
+    border-top: 1px solid #99ccfe;
+    text-align: right;
+    .ant-btn {
+      margin-right: 20px;
+      padding: 0px 20px;
+      height: 35px;
+    }
+  }
+}
+.drawerx {
+  .ant-drawer-body {
+    padding: 0px 20px 10px;
+    // 操作栏高度
+    padding-bottom: 70px;
+    .ant-tag {
+      padding: 1px 10px;
+      margin-bottom: 10px;
+      width: auto;
+      padding-bottom: 27px;
+      display: inline-block;
+      .anticon-close {
+        position: absolute;
+        right: 9px;
+        top: 9px;
+        color: #ee1c3a;
+      }
+    }
+    .tag-wdith200,
+    .tag-app {
+      position: relative;
+      margin: 0 10px 10px;
+      width: 200px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .tag-wdith200 {
+      padding-right: 20px;
+    }
+    /* .ant-tabs {
+      padding: 0px 25px 10px;
+    } */
+
+    .ant-alert {
+      margin-top: 15px;
+    }
+    .table-wrap {
+      margin: 0;
+      padding: 0;
+    }
+    .pt15 {
+      padding-top: 15px;
+    }
+  }
+  .dynamic-button {
+    cursor: pointer;
+    position: relative;
+    font-size: 24px;
+    color: #999;
+    transition: all 0.3s;
+    border: none;
+    background: transparent;
+  }
+  .dynamic-button:hover {
+    color: #777;
+    background: transparent;
+  }
+  .dynamic-button[disabled] {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+  .drawer-set-tips {
+    display: inline-block;
+    padding-left: 10px;
+    vertical-align: middle;
+    color: rgb(238, 28, 58);
+  }
+
+  .drawer-set-selected {
+    display: flex;
+    margin-bottom: 15px;
+
+    .drawer-set-selected-type {
+      min-width: 130px;
+      line-height: 26px;
+      text-align: right;
+      margin-right: 10px;
+    }
+  }
+}

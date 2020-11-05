@@ -1,0 +1,312 @@
+.pagination-wrapper {
+  height: 44px;
+  font-size: 14px;
+  padding-top: 8px;
+  text-align: right;
+  background: #f0f6fe;
+  border: 1px solid #e0e8ef;
+  border-top: none;
+  .replace {
+    &-button {
+      width: 24px;
+      height: 24px;
+      vertical-align: super;
+      margin-right: 5px;
+      display: inline-block;
+      top: 2px;
+      .anticon {
+        transform: scale(0.6);
+        vertical-align: initial;
+      }
+    }
+    &-select {
+      display: inline-block;
+      vertical-align: top;
+      margin-right: 10px;
+      top: 2px;
+    }
+  }
+  .ant-pagination {
+    display: inline-block;
+  }
+  .ant-pagination-item {
+    border-radius: 4px;
+    margin: 0 3px !important;
+    &-active {
+      border-color: #4a7bff;
+      background: #4a7bff;
+      a {
+        color: white;
+      }
+    }
+  }
+  .ant-pagination.mini .ant-pagination-next .ant-pagination-item-link,
+  .ant-pagination.mini .ant-pagination-prev .ant-pagination-item-link,
+  .ant-pagination.mini .ant-pagination-item:not(.ant-pagination-item-active) {
+    background-color: #fff;
+    border: 1px solid #eff0f5;
+    border-radius: 4px;
+  }
+  .ant-pagination.mini .ant-pagination-next,
+  .ant-pagination.mini .ant-pagination-prev {
+    margin: 0 3px !important;
+  }
+  .ant-btn,
+  .ant-select-sm .ant-select-selection--single {
+    border-radius: 4px;
+  }
+}
+
+.ant-table {
+  border: 1px solid #e0e8ef;
+  border-bottom: none;
+  &-thead > tr > th {
+    background-color: #f0f6fe;
+    color: #434b53;
+    font-size: 14px;
+    padding: 0.6vw 0.6vw;
+    user-select: none;
+    height: 44px;
+  }
+  &-tbody {
+    tr td,
+    tr th {
+      padding: 0vw 0.5vw;
+      height: 44px;
+      border-bottom: 1px solid #e0e8ef;
+    }
+  }
+  tr:hover td,
+  tr:hover th {
+    background-color: #e2e9f5 !important;
+  }
+}
+.table-wrap {
+  //   overflow-y: hidden; // 适配IE多出滚动条问题
+  background: white;
+  position: relative;
+  //   overflow-x: auto;
+  margin-bottom: 20px;
+
+  .ant-table .ant-table-thead > tr:first-child > th:first-child,
+  .ant-table-thead > tr:first-child > th:last-child {
+    border-radius: 0;
+  }
+  .ant-table-thead > tr:first-child > th:last-child {
+    border-right: none;
+  }
+  .ant-table-tbody > tr:nth-child(2n) {
+    background-color: #fafcff;
+  }
+
+  .table-icon {
+    &-success {
+      color: #52c41a;
+    }
+    &-info {
+      color: #1890ff;
+    }
+    &-msg {
+      color: #faad14;
+    }
+    &-warn {
+      color: #f56a00;
+    }
+    &-alert {
+      color: #f5222d;
+    }
+  }
+  .ant-popover-title {
+    padding: 3px 8px 0;
+    min-height: 0;
+    border: none;
+  }
+
+  .ant-popover-inner-content {
+    padding: 3px 8px;
+    font-size: 12px;
+  }
+  .ant-tag {
+    width: 54px;
+    // background-color: #758b9e;
+    // color: #1890ff;
+    // background: #e6f7ff;
+    // border-color: #91d5ff;
+    border-radius: 5px;
+    text-align: center;
+    max-height: 26px;
+    line-height: 26px;
+  }
+  .detail-link {
+    // text-decoration: underline;
+    color: #40a9ff;
+  }
+  .vt-bottom {
+    .v-icon {
+      vertical-align: text-bottom;
+    }
+  }
+  td .v-icon {
+    vertical-align: middle;
+  }
+  td .myicon-fix {
+    font-size: 26px;
+    margin-left: -6px;
+    margin-right: 0px !important;
+  }
+  .table-title {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    position: relative;
+    padding-left: 10px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eff0f5;
+    margin-bottom: 20px;
+    i {
+      display: none;
+    }
+    &::after {
+      content: '';
+      width: 3px;
+      height: 14px;
+      background: #4a7bff;
+      display: block;
+      left: 0;
+      top: 4px;
+      position: absolute;
+    }
+  }
+}
+.table-tool {
+  padding: 10px 0px 15px 0px;
+  .ant-btn {
+    padding: 0;
+    width: 88px;
+    height: 32px;
+    line-height: 32px;
+    border-radius: 2px;
+    margin-right: 8px;
+    margin-bottom: 4px;
+  }
+  .ant-btn-primary {
+    &[disabled] {
+      background-color: #e4e6e9;
+    }
+  }
+  .ant-input-search-button {
+    margin-right: 0;
+    margin-bottom: 0;
+  }
+  .ant-calendar-picker {
+    margin-right: 15px;
+    .ant-calendar-picker-input {
+      height: 35px;
+      border-radius: 2px;
+      width: 330px;
+      text-align: left;
+      border: 1px solid #eff0f5;
+    }
+  }
+
+  .select-search {
+    max-width: 400px;
+    min-width: 300px;
+    height: 35px;
+    display: flex;
+    border-radius: 2px;
+    border: 1px solid #eff0f5;
+    display: inline-flex !important;
+    &:focus-within {
+      background: #349dffad;
+      border-color: #1890ff;
+      box-shadow: 0px 0px 4px 2px rgba(24, 144, 255, 0.2);
+      transition: all ease-in-out 0.3s;
+      .ant-input-group-addon {
+        background: #1890ff;
+        color: white;
+      }
+      .anticon-search {
+        color: white;
+      }
+    }
+    .ant-input:focus {
+      box-shadow: none;
+    }
+    .ant-input-group-wrapper {
+      top: 0px;
+    }
+    .ant-input,
+    .ant-select-selection {
+      border: none;
+      border-radius: 0;
+      height: 33px;
+      border-right: 1px solid #eff0f5;
+      &__rendered {
+        line-height: 35px;
+        padding-right: 10px;
+      }
+      &--single {
+        height: 33px;
+        width: 105px;
+      }
+    }
+    .ant-select {
+      flex: 1;
+    }
+    .ant-input-search {
+      flex: auto;
+      overflow: hidden;
+      &-button {
+        height: 33px;
+      }
+    }
+    .ant-btn {
+      border: none;
+      width: 60px;
+      background: #4a7bff;
+      color: white;
+      font-size: 1.3em;
+      &:hover {
+        background: #4a75f2;
+      }
+    }
+  }
+}
+
+.bar-right {
+  display: flex;
+  justify-content: flex-end;
+  text-align: right;
+  align-items: center;
+}
+.table-action {
+  text-align: center;
+}
+.opration-btn {
+  text-align: center !important;
+  a {
+    margin-right: 16px;
+    &:last-of-type {
+      margin-right: 0;
+    }
+  }
+}
+
+.setUserForm .table-tool .select-search .ant-input--single,
+.setUserForm .table-tool .select-search .ant-select-selection--single {
+  width: 150px;
+}
+.react-resizable {
+  position: relative;
+  background-clip: padding-box;
+}
+.react-resizable-handle {
+  position: absolute;
+  width: 10px;
+  height: 100%;
+  bottom: 0;
+  right: -5px;
+  cursor: col-resize;
+  z-index: 1;
+}

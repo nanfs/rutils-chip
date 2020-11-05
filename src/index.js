@@ -1,25 +1,20 @@
-import createApp from '../mint'
-import axios from 'axios'
+export { default as Checkboxx } from './Checkboxx'
+export { default as Drawerx } from './Drawerx'
+export { default as Formx } from './Formx'
 
-import 'rxjs/add/observable/of'
-import 'rxjs/add/operator/delay'
-import 'rxjs/add/operator/do'
-import 'rxjs/add/operator/mapTo'
-import 'rxjs/add/operator/map'
-import 'rxjs/add/operator/filter'
-import 'rxjs/add/operator/catch'
+export { default as InnerPath } from './InnerPath'
+export { default as Modalx } from './Modalx'
+export { default as MyIcon } from './MyIcon'
+export { default as Radiox } from './Radiox'
+export { default as Uploadx } from './Uploadx'
+export { default as SelectSearch } from './SelectSearch'
 
-import globalModel from './models/global'
-import router from './router'
-// const app = createApp({
-//   extraReducers: {
-//     form: reduxFormReducer
-//   }
-// })
-const app = createApp()
-app.model(globalModel)
-app.router(router)
-axios.defaults.withCredentials = true
-
-app.start('app')
-export default app._store
+export { default as Selectx } from './Selectx'
+export { default as SliderNumberx } from './SliderNumberx'
+export { default as Switchx } from './Switchx'
+export { default as Tablex } from './Tablex'
+export { default as TreeSelectx } from './TreeSelectx'
+export { default as Treex } from './Treex'
+export { default as Tabsx } from './Tabsx'
+export { TitleInfo, Diliver, Title } from './Title'
+export { default as Reminder } from './Reminder'

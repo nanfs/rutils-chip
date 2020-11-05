@@ -32,14 +32,6 @@ const webpackConfigProd = {
   },
   plugins: [
     new CleanWebpackPlugin(),
-    new HtmlWebpackPlugin({
-      title: 'Prod',
-      template: cfgPaths.appHtml,
-      favicon: cfgPaths.favicon,
-      hash: true,
-      dlls: ['./vendor.dll.js']
-    }),
-    // new BundleAnalyzerPlugin({ analyzerMode: 'static' }),
     new Copy([{ from: './scripts/dll', to: './' }]),
     new CompressionWebpackPlugin({
       asset: '[path].gz[query]',

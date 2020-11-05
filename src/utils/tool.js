@@ -35,13 +35,7 @@ export function dataToOptions(objArr) {
   }
   return options
 }
-// arrToTree
-// arr 格式[{ id: 'department1', title: '用户组', parentId: null },
-// {
-//   id: 'department2',
-//   title: '成都研发中心',
-//   parentId: 'department1'
-// }],
+
 export function nodes2Tree(nodes, parentId = 'parentId') {
   if (!Array.isArray(nodes) || !Object.keys(nodes[0]).includes(parentId)) {
     console.warn('数据格式不符合')

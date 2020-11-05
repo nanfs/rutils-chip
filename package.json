@@ -10,6 +10,7 @@
     "dll": "webpack --config ./scripts/webpack.config.dll.js",
     "build": "webpack --config ./scripts/webpack.config.dll.js && webpack --config ./scripts/webpack.config.prod.js",
     "mock": "nodemon mock/server.js",
+    "compile":"npx babel src --out-dir lib",
     "lint": "eslint --fix --ext .js,.jsx src"
   },
   "dependencies": {

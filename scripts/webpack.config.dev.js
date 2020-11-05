@@ -35,12 +35,6 @@ const webpackConfigDev = {
   plugins: [
     // 定义环境变量为开发环境
     new webpack.HotModuleReplacementPlugin(),
-    // 将打包后的资源注入到html文件内
-    new HtmlWebpackPlugin({
-      title: 'Dev',
-      template: cfgPaths.appHtml,
-      dlls: ['./vendor.dll.js']
-    }),
     new OpenBrowserPlugin({
       url: `http://localhost:${port}/`
     }),
